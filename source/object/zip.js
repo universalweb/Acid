@@ -17,11 +17,11 @@ import { eachObject } from './each';
   * // => { 'a': 1, 'b': 2 }
 */
 export const zipObject = (properties, values) => {
-  const zipedObject = {};
-  eachArray(properties, (item, key) => {
-    zipedObject[item] = values[key];
-  });
-  return zipedObject;
+	const zipedObject = {};
+	eachArray(properties, (item, key) => {
+		zipedObject[item] = values[key];
+	});
+	return zipedObject;
 };
 /**
   * Takes an array of grouped elements and creates an array regrouping the elements to their pre-zip object configuration.
@@ -36,15 +36,15 @@ export const zipObject = (properties, values) => {
   * // => [['a', 'b'], [1, 2]]
 */
 export const unZipObject = (object) => {
-  const keys = [];
-  const values = [];
-  eachObject(object, (item, key) => {
-    keys.push(key);
-    values.push(item);
-  });
-  return [keys, values];
+	const unZippedKeys = [];
+	const values = [];
+	eachObject(object, (item, key) => {
+		unZippedKeys.push(key);
+		values.push(item);
+	});
+	return [unZippedKeys, values];
 };
 assign(acid, {
-  unZipObject,
-  zipObject,
+	unZipObject,
+	zipObject,
 });

@@ -1,11 +1,12 @@
 (function(global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ?
-		(module.exports = factory()) :
-		typeof define === 'function' && define.amd ?
-			define(factory) :
-			((global = global || self), (global.$ = factory()));
-})(this, () => {
+	typeof exports === 'object' && typeof module !== 'undefined'
+		? (module.exports = factory())
+		: typeof define === 'function' && define.amd
+		? define(factory)
+		: ((global = typeof globalThis !== 'undefined' ? globalThis : global || self), (global.$ = factory()));
+})(this, function() {
 	'use strict';
+
 	let cacheSuper;
 	/**
 	 * Acid Object accessible through $ default method is model.
@@ -45,6 +46,7 @@
 		cacheSuper = callable;
 	};
 	$.superMethod = superMethod;
+
 	const objectNative = Object;
 	/**
 	 * Get object's keys.
@@ -158,6 +160,7 @@
 		keys,
 		objectSize
 	});
+
 	const arrayNative = Array;
 	/**
 	 * Takes an array like object and creates a new Array from it.
@@ -175,6 +178,7 @@
 	assign($, {
 		toArray
 	});
+
 	/**
 	 * Calls a target function with arguments as specified.
 	 *
@@ -193,6 +197,7 @@
 	assign($, {
 		apply
 	});
+
 	/**
 	 * Checks if the value is undefined.
 	 *
@@ -556,6 +561,7 @@
 		isString,
 		isUndefined
 	});
+
 	/**
 	 * Iterates through the given array.
 	 *
@@ -787,6 +793,7 @@
 		mapWhile,
 		whileArray
 	});
+
 	const objectStringGenerate = (objectName) => {
 		return `[object ${objectName}]`;
 	};
@@ -972,6 +979,7 @@
 			return hasValue(value) ? value.constructor.name === item : false;
 		};
 	});
+
 	/**
 	 * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
 	 *
@@ -1015,6 +1023,7 @@
 	assign($, {
 		asyncEach
 	});
+
 	/**
 	 * Ensures the object is an array. If not wraps in array.
 	 *
@@ -1038,6 +1047,7 @@
 	assign($, {
 		ensureArray
 	});
+
 	/**
 	 * Flattens an array up to the provided level.
 	 *
@@ -1081,6 +1091,7 @@
 		flatten,
 		flattenDeep
 	});
+
 	/**
 	 * Removes all occurrences of the passed in items from the array and returns the array. This mutates the given array. Clone the array if you desire to avoid mutation.
 	 *
@@ -1138,6 +1149,7 @@
 		remove,
 		removeBy
 	});
+
 	/**
 	 * Chunks an array according to a user defined number.
 	 *
@@ -1169,6 +1181,7 @@
 	assign($, {
 		chunk
 	});
+
 	/**
 	 * Extracts all items in array except the first and last item.
 	 *
@@ -1188,6 +1201,7 @@
 	assign($, {
 		rest
 	});
+
 	/**
 	 * Clears the values out of an array.
 	 *
@@ -1208,6 +1222,7 @@
 	assign($, {
 		clear
 	});
+
 	/**
 	 * Get the item at the supplied index starting at the end of the array.
 	 *
@@ -1227,6 +1242,7 @@
 	assign($, {
 		right
 	});
+
 	/**
 	 * Clears the values out of an array.
 	 *
@@ -1246,6 +1262,7 @@
 	assign($, {
 		cloneArray
 	});
+
 	const mathNative = Math;
 	const floorMethod = mathNative.floor;
 	const randomMethod = mathNative.random;
@@ -1263,7 +1280,7 @@
 	 * add(1, 1);
 	 * // => 2
 	 */
-	const add = (number, value) => {
+	const add$1 = (number, value) => {
 		return number + value;
 	};
 	/**
@@ -1411,7 +1428,7 @@
 		return floorMethod(randomMethod() * (max - min)) + min;
 	};
 	assign($, {
-		add,
+		add: add$1,
 		deduct,
 		divide,
 		increment,
@@ -1421,6 +1438,7 @@
 		randomInt,
 		remainder
 	});
+
 	/**
 	 * Shuffle an array and return a new array.
 	 *
@@ -1459,6 +1477,7 @@
 	assign($, {
 		shuffle
 	});
+
 	/**
 	 * Produce a random sample from the list. Pass a number to return n random elements from the list. Otherwise a single random item will be returned.
 	 *
@@ -1505,6 +1524,7 @@
 	assign($, {
 		sample
 	});
+
 	/**
 	 * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
 	 *
@@ -1526,6 +1546,7 @@
 	assign($, {
 		compact
 	});
+
 	/**
 	 * Takes all but the last item in the array.
 	 *
@@ -1545,6 +1566,7 @@
 	assign($, {
 		initial
 	});
+
 	const mathNativeMin = Math.min;
 	/**
 	 * Plucks the smallest value from an array.
@@ -1565,6 +1587,7 @@
 	assign($, {
 		smallest
 	});
+
 	const rangeUp = (start, end, increment) => {
 		const rangeArray = [];
 		let position = start;
@@ -1608,6 +1631,7 @@
 	assign($, {
 		range
 	});
+
 	/**
 	 * Returns an new array that is the [set intersection](http://en.wikipedia.org/wiki/Intersection_(set_theory))
 	 * of the array and the input array(s).
@@ -1638,6 +1662,7 @@
 	assign($, {
 		intersect
 	});
+
 	/**
 	 * Checks for differences between arrays, then creates an array based on those differences.
 	 *
@@ -1663,6 +1688,7 @@
 	assign($, {
 		difference
 	});
+
 	/**
 	 * Removes all items from an array after a specified index.
 	 *
@@ -1703,6 +1729,7 @@
 		drop,
 		dropRight
 	});
+
 	/**
 	 * Performs a shallow strict comparison between two objects.
 	 *
@@ -1728,6 +1755,7 @@
 	assign($, {
 		isMatchArray
 	});
+
 	/**
 	 * Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
 	 *
@@ -1757,6 +1785,7 @@
 	assign($, {
 		sortedIndex
 	});
+
 	const mathNativeMax = Math.max;
 	/**
 	 * Plucks the largest value from an array.
@@ -1777,6 +1806,7 @@
 	assign($, {
 		largest
 	});
+
 	/**
 	 * Reduces the values in an array into a single number.
 	 *
@@ -1798,6 +1828,7 @@
 	assign($, {
 		sum
 	});
+
 	/**
 	 * Asynchronously Iterates through the given array. Each async function is awaited as to ensure synchronous order.
 	 *
@@ -1870,6 +1901,7 @@
 		eachAsync,
 		eachAsyncRight
 	});
+
 	/**
 	 * Extracts item(s) from an array starting from the last item in the array.
 	 *
@@ -1894,6 +1926,7 @@
 	assign($, {
 		last
 	});
+
 	/**
 	 * Returns a shallow copy of the array up to an amount.
 	 *
@@ -1931,6 +1964,7 @@
 		take,
 		takeRight
 	});
+
 	/**
 	 * Asynchronously iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
 	 *
@@ -1959,6 +1993,7 @@
 	assign($, {
 		mapAsync
 	});
+
 	const onlyUnique = (value, index, array) => {
 		return array.indexOf(value) === index;
 	};
@@ -1987,6 +2022,7 @@
 	assign($, {
 		unique
 	});
+
 	/**
 	 * Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
 	 *
@@ -2006,6 +2042,7 @@
 	assign($, {
 		union
 	});
+
 	/**
 	 * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
 	 *
@@ -2035,6 +2072,7 @@
 	assign($, {
 		compactMapAsync
 	});
+
 	const numericalCompare = (a, b) => {
 		return a - b;
 	};
@@ -2057,6 +2095,7 @@
 	assign($, {
 		numSort
 	});
+
 	/**
 	 * Takes all but the last item in the array.
 	 *
@@ -2081,6 +2120,7 @@
 	assign($, {
 		arrayToObject
 	});
+
 	/**
 	 * Returns a copy of the array with all instances of the values removed.
 	 *
@@ -2103,6 +2143,7 @@
 	assign($, {
 		without
 	});
+
 	/**
 	 * Split array into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
 	 *
@@ -2139,6 +2180,7 @@
 	assign($, {
 		partition
 	});
+
 	/**
 	 * Creates an array that is the symmetric difference of the provided arrays.
 	 *
@@ -2169,6 +2211,7 @@
 	assign($, {
 		xor
 	});
+
 	/**
 	 * Merges together the values of each of the arrays with the values at the corresponding position.
 	 *
@@ -2213,6 +2256,7 @@
 		unZip,
 		zip
 	});
+
 	/**
 	 * Takes the first or multiple items from an array.
 	 *
@@ -2236,6 +2280,7 @@
 	assign($, {
 		first
 	});
+
 	const numericalCompareReverse = (a, b) => {
 		return b - a;
 	};
@@ -2257,6 +2302,7 @@
 	assign($, {
 		rNumSort
 	});
+
 	/**
 	 * Iterates based on a start index and an end index. The loop ends when the start index is equal to the end index.
 	 *
@@ -2330,6 +2376,7 @@
 		times,
 		timesMap
 	});
+
 	/**
 	 * Checks to see of the browser agent has a string.
 	 *
@@ -2357,6 +2404,7 @@
 	assign($, {
 		isAgent
 	});
+
 	/**
 	 * Attaches an event listener to a node.
 	 *
@@ -2403,6 +2451,7 @@
 		eventAdd,
 		eventRemove
 	});
+
 	/**
 	 * Checks if the keycode of the event is strictly equal to 13.
 	 *
@@ -2423,6 +2472,7 @@
 	assign($, {
 		isEnter
 	});
+
 	/**
 	 * Create a document fragment.
 	 *
@@ -2433,7 +2483,8 @@
 	 * @ignore
 	 * @returns {Fragment} Returns a new document fragment.
 	 */
-	const createFragment = document.createDocumentFragment.bind(document);
+	document.createDocumentFragment.bind(document);
+
 	/**
 	 * Append a DOM node.
 	 *
@@ -2450,6 +2501,7 @@
 		parentNode.appendChild(child);
 		return child;
 	};
+
 	/**
 	 * Iterates through the given object.
 	 *
@@ -2589,6 +2641,7 @@
 		mapObject,
 		whileObject
 	});
+
 	/**
 	 * Creates an object from two arrays, one of property identifiers and one of corresponding values.
 	 *
@@ -2623,18 +2676,19 @@
 	 * // => [['a', 'b'], [1, 2]]
 	 */
 	const unZipObject = (object) => {
-		const keys = [];
+		const unZippedKeys = [];
 		const values = [];
 		eachObject(object, (item, key) => {
-			keys.push(key);
+			unZippedKeys.push(key);
 			values.push(item);
 		});
-		return [keys, values];
+		return [unZippedKeys, values];
 	};
 	assign($, {
 		unZipObject,
 		zipObject
 	});
+
 	/**
 	 * Assign attributes to a DOM node.
 	 *
@@ -2667,6 +2721,7 @@
 	assign($, {
 		nodeAttribute
 	});
+
 	/**
 	 * A wrapper around the promise constructor.
 	 *
@@ -2694,6 +2749,7 @@
 	assign($, {
 		promise
 	});
+
 	/**
 	 * Inserts text into a string at a given position.
 	 *
@@ -2796,6 +2852,7 @@
 		restString,
 		rightString
 	});
+
 	const dotString = '.';
 	const poundString = '#';
 	const classTest = /^.[\w_-]+$/;
@@ -2863,20 +2920,20 @@
 	const selector = (select) => {
 		const firstLetter = select[0];
 		switch (firstLetter) {
-		case poundString:
-			if (!regexSpace.test(select)) {
-				return getById(restString(select));
-			}
-			break;
-		case dotString:
-			if (classTest.test(select)) {
-				return getByClass(restString(select));
-			}
-			break;
-		default:
-			if (tagTest.test(select)) {
-				return getByTag(select);
-			}
+			case poundString:
+				if (!regexSpace.test(select)) {
+					return getById(restString(select));
+				}
+				break;
+			case dotString:
+				if (classTest.test(select)) {
+					return getByClass(restString(select));
+				}
+				break;
+			default:
+				if (tagTest.test(select)) {
+					return getByTag(select);
+				}
 		}
 		return querySelectorAll(select);
 	};
@@ -2888,6 +2945,7 @@
 		querySelectorAll,
 		selector
 	});
+
 	const createTag = document.createElement.bind(document);
 	const nodeAttachLoadingEvents = (node) => {
 		return promise((accept, reject) => {
@@ -2919,6 +2977,7 @@
 	assign($, {
 		importjs
 	});
+
 	/**
 	 * Runs a function if the document has finished loading. If not, add an eventlistener.
 	 *
@@ -2950,6 +3009,7 @@
 	isDocumentReady(() => {
 		importjs('/index');
 	});
+
 	const protocol = location.protocol;
 	const protocolSocket = protocol === 'http:' ? 'ws' : 'wss';
 	const hostname = location.hostname;
@@ -2975,6 +3035,7 @@
 	assign($, {
 		info
 	});
+
 	const saveDimensions = () => {
 		assign(info, {
 			bodyHeight: document.body.offsetHeight,
@@ -3005,6 +3066,7 @@
 		saveDimensions,
 		updateDimensions
 	});
+
 	/**
 	 * Checks if the given method is a function. If it is then it invokes it with the given arguments.
 	 *
@@ -3030,6 +3092,7 @@
 	assign($, {
 		ifInvoke
 	});
+
 	let batchCancelFrame;
 	const batchChanges = [];
 	const batchLoop = () => {
@@ -3060,6 +3123,7 @@
 	assign($, {
 		batch
 	});
+
 	const jsonNative = JSON;
 	/**
 	 * Parses JSON string.
@@ -3093,6 +3157,7 @@
 		jsonParse,
 		stringify
 	});
+
 	const generateTheme = (color, bg) => {
 		return `color:${color};background:${bg};`;
 	};
@@ -3143,6 +3208,7 @@
 		cnsl,
 		cnslTheme
 	});
+
 	/**
 	 * Checks if value is a plain DOM Node.
 	 *
@@ -3189,6 +3255,7 @@
 	 * isNodeList(document.querySelectorAll('.test'));
 	 * // => true
 	 */
+
 	/**
 	 * Sorts an array in place using a key from newest to oldest.
 	 *
@@ -3240,6 +3307,7 @@
 		getNewest,
 		sortNewest
 	});
+
 	/**
 	 * Sorts an array in place using a key from oldest to newest.
 	 *
@@ -3291,6 +3359,7 @@
 		getOldest,
 		sortOldest
 	});
+
 	/**
 	 * Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
 	 * The order of grouped values is determined by the order they occur in collection.
@@ -3321,6 +3390,7 @@
 	assign($, {
 		groupBy
 	});
+
 	/**
 	 * Creates an object composed of keys generated from the results of running each element of collection through iteratee.
 	 *
@@ -3398,6 +3468,7 @@
 		countKey,
 		countWithoutKey
 	});
+
 	/**
 	 * Given a list, and an iteratee function that returns a key for each element in the list (or a property name), returns an object with an index of each item. Just like groupBy, but for when you know the keys are unique.
 	 *
@@ -3422,6 +3493,7 @@
 	assign($, {
 		indexBy
 	});
+
 	/**
 	 * Returns an array of the plucked values from the collection.
 	 *
@@ -3445,6 +3517,7 @@
 	assign($, {
 		pluck
 	});
+
 	/**
 	 * Returns an array of the plucked values from the object. Values are plucked in the order given by the array.
 	 *
@@ -3467,6 +3540,7 @@
 	assign($, {
 		pluckObject
 	});
+
 	/**
 	 * Returns an array of the arrays of plucked values from the collection.
 	 *
@@ -3489,6 +3563,7 @@
 	assign($, {
 		pluckValues
 	});
+
 	/**
 	 * Invokes a function on the provided property name in each object in the collection.
 	 *
@@ -3512,6 +3587,7 @@
 	assign($, {
 		invoke
 	});
+
 	/**
 	 * Asynchronously awaits & invokes a function on the provided property name in each object in the collection.
 	 *
@@ -3542,6 +3618,7 @@
 	assign($, {
 		invokeAsync
 	});
+
 	const findIndexCache = (element, index, array, indexMatch, propertyName) => {
 		if (element[propertyName] === indexMatch) {
 			return true;
@@ -3593,6 +3670,7 @@
 		findIndex,
 		findItem
 	});
+
 	/**
 	 * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
 	 *
@@ -3621,6 +3699,7 @@
 	assign($, {
 		sortAlphabetical
 	});
+
 	/**
 	 * Creates a function that invokes callable, with up to n arguments, ignoring any additional arguments.
 	 *
@@ -3643,6 +3722,7 @@
 	assign($, {
 		ary
 	});
+
 	/**
 	 * Creates a function that accepts arguments of method and either invokes method returning its result, if at least arity number of arguments have been provided, or returns a function that accepts the remaining method arguments, and so on. The arity of method may be specified if method length is not sufficient.
 	 *
@@ -3704,6 +3784,7 @@
 		curry,
 		curryRight
 	});
+
 	/**
 	 * Creates a function that is restricted to execute method once. Repeat calls to the function will return the value of the first call. The method is executed with the this binding of the created function.
 	 *
@@ -3819,6 +3900,7 @@
 		before,
 		once
 	});
+
 	/**
 	 * This method returns a new empty object.
 	 *
@@ -3917,6 +3999,7 @@
 		stubString,
 		stubTrue
 	});
+
 	const forEachWrap = (object, callback) => {
 		return object.forEach(callback);
 	};
@@ -4041,6 +4124,7 @@
 		filter,
 		map
 	});
+
 	/**
 	 * Loops through an object or an array and binds the given object to all functions encountered.
 	 *
@@ -4066,6 +4150,7 @@
 	assign($, {
 		bindAll
 	});
+
 	/**
 	 * Creates a function that negates the result of the predicate callable.
 	 *
@@ -4087,6 +4172,7 @@
 	assign($, {
 		negate
 	});
+
 	/**
 	 * Checks if predicate returns truthy for all elements of collection. Iteration is stopped once predicate returns falsey. The predicate is invoked with three arguments: (value, index|key, collection).
 	 *
@@ -4105,6 +4191,7 @@
 	assign($, {
 		every
 	});
+
 	/**
 	 * Creates a function that invokes iteratees with the arguments it receives and returns their results.
 	 *
@@ -4152,6 +4239,7 @@
 		over,
 		overEvery
 	});
+
 	/**
 	 * Timer wrapper.
 	 *
@@ -4304,7 +4392,8 @@
 		throttle,
 		timer
 	});
-	const add$1 = (link, methods) => {
+
+	const add = (link, methods) => {
 		each(methods, (item, key) => {
 			link.methods[key] = (...args) => {
 				item(link.value, ...args);
@@ -4342,7 +4431,7 @@
 		};
 		assign(link, {
 			add(addToChain) {
-				return add$1(link, addToChain);
+				return add(link, addToChain);
 			},
 			done() {
 				const value = link.value;
@@ -4357,6 +4446,7 @@
 	assign($, {
 		chain
 	});
+
 	/**
 	 * Invoke an array of functions.
 	 *
@@ -4418,6 +4508,7 @@
 		inAsync,
 		inSync
 	});
+
 	/**
 	 * Creates a function that gets the argument at index n. If n is negative, the nth argument from the end is returned.
 	 *
@@ -4439,6 +4530,7 @@
 	assign($, {
 		nthArg
 	});
+
 	/**
 	 * Creates a function that invokes method with arguments arranged according to the specified indexes where the argument value at the first index is provided as the first argument, the argument value at the second index is provided as the second argument, and so on.
 	 *
@@ -4467,6 +4559,7 @@
 	assign($, {
 		reArg
 	});
+
 	/**
 	 * Creates a function that provides value to wrapper as its first argument. The wrapper function is given two arguments the value and the provided argument from the newly created function.
 	 *
@@ -4491,6 +4584,7 @@
 	assign($, {
 		wrap
 	});
+
 	/**
 	 * Strictly checks if a number is zero.
 	 *
@@ -4556,6 +4650,7 @@
 		isNumberInRange,
 		isZero
 	});
+
 	/**
 	 * Checks to see if an object has all of the given property names.
 	 *
@@ -4609,6 +4704,7 @@
 		hasAnyKeys,
 		hasKeys
 	});
+
 	/**
 	 * Returns a clone of the source object with the plucked properties.
 	 *
@@ -4633,6 +4729,7 @@
 	assign($, {
 		pick
 	});
+
 	/**
 	 * Extracts all keys from an object whose values are not falsey. The values false, null, 0, "", undefined, and NaN are falsey.
 	 *
@@ -4653,17 +4750,18 @@
 	 * // => ['Lucy', 'John']
 	 */
 	const compactKeys = (object) => {
-		const keys = [];
+		const compactedKeys = [];
 		eachObject(object, (item, key) => {
 			if (item) {
-				keys.push(key);
+				compactedKeys.push(key);
 			}
 		});
-		return keys;
+		return compactedKeys;
 	};
 	assign($, {
 		compactKeys
 	});
+
 	/**
 	 * Performs a shallow strict comparison between two objects.
 	 *
@@ -4690,6 +4788,7 @@
 	assign($, {
 		isMatchObject
 	});
+
 	/**
 	 * Creates an inverted version of a given object by switching it's keys and values.
 	 *
@@ -4713,6 +4812,7 @@
 	assign($, {
 		invert
 	});
+
 	/**
 	 * Returns a clone of the given object without the given properties.
 	 *
@@ -4735,6 +4835,7 @@
 	assign($, {
 		omit
 	});
+
 	/**
 	 * Asynchronously iterates through the given object.
 	 *
@@ -4770,6 +4871,7 @@
 	assign($, {
 		eachObjectAsync
 	});
+
 	/**
 	 * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
 	 *
@@ -4839,8 +4941,9 @@
 		compactMapObjectAsync,
 		mapObjectAsync
 	});
+
 	const normalizeCase = /[-_]/g;
-	const spaceFirstLetter = / (.)/g;
+	const spaceFirstLetter$1 = / (.)/g;
 	/**
 	 * Converts a string and converts it entirely into uppercase.
 	 *
@@ -4874,7 +4977,7 @@
 	 * // => 'camelCase'
 	 */
 	const camelCase = (string) => {
-		return string.toLowerCase().replace(spaceFirstLetter, (match) => {
+		return string.toLowerCase().replace(spaceFirstLetter$1, (match) => {
 			return match.toUpperCase().replace(/ /g, '');
 		});
 	};
@@ -4896,7 +4999,7 @@
 			.replace(normalizeCase, ' ')
 			.trim()
 			.toLowerCase()
-			.replace(spaceFirstLetter, '-$1');
+			.replace(spaceFirstLetter$1, '-$1');
 	};
 	/**
 	 * Converts a string into snake case format.
@@ -4916,7 +5019,7 @@
 			.replace(normalizeCase, ' ')
 			.trim()
 			.toLowerCase()
-			.replace(spaceFirstLetter, '_$1');
+			.replace(spaceFirstLetter$1, '_$1');
 	};
 	assign($, {
 		camelCase,
@@ -4924,6 +5027,7 @@
 		snakeCase,
 		upperCase
 	});
+
 	/**
 	 * Replaces all occurrences of strings in an array with a value.
 	 *
@@ -4940,11 +5044,12 @@
 	 * // => 'Her name was Lucy.'
 	 */
 	const replaceList = (string, words, value) => {
-		return string.replace(new RegExp(`\\b${words.join('|')}\\b`, 'gi'), value);
+		return string.replace(new RegExp('\\b' + words.join('|') + '\\b', 'gi'), value);
 	};
 	assign($, {
 		replaceList
 	});
+
 	const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
 	const andRegex = /&/g;
 	const lessThanRegex = /</g;
@@ -5011,6 +5116,7 @@
 		rawURLDecode,
 		sanitize
 	});
+
 	const tokenizeRegEx = /\S+/g;
 	const wordsRegEx = /\w+/g;
 	/**
@@ -5048,6 +5154,7 @@
 		tokenize,
 		words
 	});
+
 	const truncateDown = (string, maxLength, stringLength) => {
 		const breakAll = string.split('');
 		const breakAllLength = breakAll.length;
@@ -5114,7 +5221,8 @@
 		truncate,
 		truncateRight
 	});
-	const spaceFirstLetter$1 = / (.)/g;
+
+	const spaceFirstLetter = / (.)/g;
 	/**
 	 * Returns the first letter capitalized.
 	 *
@@ -5161,7 +5269,7 @@
 	 * // => 'Lucy Is Next Up.'
 	 */
 	const upperFirstAll = (string) => {
-		return string.replace(spaceFirstLetter$1, (match) => {
+		return string.replace(spaceFirstLetter, (match) => {
 			return match.toUpperCase();
 		});
 	};
@@ -5195,7 +5303,7 @@
 	 * // => 'Lysergic Acid Diethylamide'
 	 */
 	const upperFirstOnlyAll = (string) => {
-		return upperFirstOnly(string.toLowerCase()).replace(spaceFirstLetter$1, (match) => {
+		return upperFirstOnly(string.toLowerCase()).replace(spaceFirstLetter, (match) => {
 			return match.toUpperCase();
 		});
 	};
@@ -5206,6 +5314,7 @@
 		upperFirstOnly,
 		upperFirstOnlyAll
 	});
+
 	/**
 	 * Creates new object with deeply assigned values from another object/array.
 	 *
@@ -5236,6 +5345,7 @@
 	assign($, {
 		assignDeep
 	});
+
 	const functionPrototype = Function.prototype;
 	/**
 	 * Caches a prototype method.
@@ -5256,6 +5366,7 @@
 	assign($, {
 		cacheNativeMethod
 	});
+
 	/**
 	 * Checks if a property on an object has a value. If not, it will assign a value.
 	 *
@@ -5280,6 +5391,7 @@
 	assign($, {
 		ifNotEqual
 	});
+
 	/**
 	 * Performs a deep comparison between two objects.
 	 *
@@ -5318,6 +5430,7 @@
 	assign($, {
 		isEqual
 	});
+
 	/**
 	 * Using a deep comparison it checks if properties of two objects using an array are equal.
 	 *
@@ -5346,6 +5459,7 @@
 	assign($, {
 		propertyMatch
 	});
+
 	const regexToPath = /\.|\[/;
 	const regexCloseBracket = /]/g;
 	const emptyString = '';
@@ -5368,8 +5482,10 @@
 	assign($, {
 		toPath
 	});
+
 	let count = 0;
 	const uidFree = [];
+	const uidClosed = {};
 	/**
 	 * Creates a numerical unique ID and recycles old ones. UID numerically ascends however freed UIDs are later reused.
 	 *
@@ -5394,6 +5510,7 @@
 		let result = uidFree.shift(uidFree);
 		if (!hasValue(result)) {
 			result = count;
+			uidClosed[result] = true;
 			count++;
 		}
 		return result;
@@ -5429,12 +5546,14 @@
 	 * // => 0
 	 */
 	const free = (id) => {
+		uidClosed[id] = null;
 		uidFree.push(id);
 	};
 	uid.free = free;
 	assign($, {
 		uid
 	});
+
 	/**
 	 * Returns property on an object.
 	 *
@@ -5464,6 +5583,7 @@
 	assign($, {
 		get
 	});
+
 	/**
 	 * Set & Get a model.
 	 *
@@ -5488,6 +5608,7 @@
 	assign($, {
 		model
 	});
+
 	/**
 	 * Performs a toggle between 2 values using a deep or strict comparison.
 	 *
@@ -5509,7 +5630,8 @@
 	assign($, {
 		toggle
 	});
-	const returnFlow = (callable) => {
+
+	const returnFlow$1 = (callable) => {
 		return (...methods) => {
 			return (arg) => {
 				let value = arg;
@@ -5533,7 +5655,7 @@
 	 * flow(increment, increment, deduct)(0);
 	 * // => 1
 	 */
-	const flow = returnFlow(eachArray);
+	const flow = returnFlow$1(eachArray);
 	/**
 	 * This method is like flow except that it creates a function that invokes the given functions from right to left.
 	 *
@@ -5547,12 +5669,13 @@
 	 * flowRight(increment, increment, deduct)(0);
 	 * // => 1
 	 */
-	const flowRight = returnFlow(eachArrayRight);
+	const flowRight = returnFlow$1(eachArrayRight);
 	assign($, {
 		flow,
 		flowRight
 	});
-	const returnFlow$1 = (callable) => {
+
+	const returnFlow = (callable) => {
 		return (...methods) => {
 			return async (arg) => {
 				let value = arg;
@@ -5577,7 +5700,7 @@
 	 * flowAsync(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
 	 * // => 2
 	 */
-	const flowAsync = returnFlow$1(eachAsync);
+	const flowAsync = returnFlow(eachAsync);
 	/**
 	 * This method is like flow except that it creates a function that invokes the given functions from right to left.
 	 *
@@ -5592,10 +5715,11 @@
 	 * flowAsyncRight(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
 	 * // => 2
 	 */
-	const flowAsyncRight = returnFlow$1(eachAsyncRight);
+	const flowAsyncRight = returnFlow(eachAsyncRight);
 	assign($, {
 		flowAsync,
 		flowAsyncRight
 	});
+
 	return $;
 });

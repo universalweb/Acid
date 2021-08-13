@@ -21,14 +21,14 @@ import { eachObject } from '../object/each';
   * // => ['Lucy', 'John']
 */
 export const compactKeys = (object) => {
-  const keys = [];
-  eachObject(object, (item, key) => {
-    if (item) {
-      keys.push(key);
-    }
-  });
-  return keys;
+	const compactedKeys = [];
+	eachObject(object, (item, key) => {
+		if (item) {
+			compactedKeys.push(key);
+		}
+	});
+	return compactedKeys;
 };
 assign(acid, {
-  compactKeys
+	compactKeys
 });
