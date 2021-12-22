@@ -40,6 +40,9 @@ const beautify = () => {
 	const eslintConfig = JSON.parse(fs.readFileSync('./.eslintrc').toString());
 	const formattedCode = format({
 		eslintConfig,
+		prettierOptions: {
+			parser: 'babel',
+		},
 		text,
 	});
 	fs.writeFileSync('./build/bundle.js', formattedCode, 'utf8');
@@ -57,7 +60,7 @@ const build = async () => {
 		file: './build/bundle.js',
 		format: 'umd',
 		name: '$',
-		sourceMap: true
+		sourcemap: true
 	});
 	beautify();
 	const production = await rollup({
@@ -70,7 +73,7 @@ const build = async () => {
 		file: './build/index.js',
 		format: 'umd',
 		name: '$',
-		sourceMap: true
+		sourcemap: true
 	});
 	copyFile('./build/bundle.js', './docs/bundle.js');
 	copyFile('./build/index.js', './docs/bundle.min.js');

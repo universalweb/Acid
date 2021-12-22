@@ -13,7 +13,7 @@ import { assign, objectSize } from './object';
  * // => true
 */
 export const isUndefined = function(value) {
-  return value === undefined;
+	return value === undefined;
 };
 /**
  * Checks if the value is null.
@@ -28,7 +28,7 @@ export const isUndefined = function(value) {
  * // => true
 */
 export const isNull = (value) => {
-  return value === null;
+	return value === null;
 };
 /**
  * Checks if the value is not null or undefined.
@@ -43,12 +43,12 @@ export const isNull = (value) => {
  * // => true
 */
 export const hasValue = (value) => {
-  return !isUndefined(value) && !isNull(value);
+	return !isUndefined(value) && !isNull(value);
 };
 export const isConstructor = (nativeObject) => {
-  return (obj) => {
-    return (hasValue(obj)) ? obj.constructor === nativeObject : false;
-  };
+	return (obj) => {
+		return (hasValue(obj)) ? obj.constructor === nativeObject : false;
+	};
 };
 export const decimalCheck = /\.|\+/;
 /**
@@ -64,7 +64,7 @@ export const decimalCheck = /\.|\+/;
  * // => true
 */
 export const isDecimal = (value) => {
-  return decimalCheck.test(value.toString());
+	return decimalCheck.test(value.toString());
 };
 /**
  * Checks if the value is an array.
@@ -118,11 +118,11 @@ export const isNumber = isConstructor(Number);
  * // => true
 */
 export const isPlainObject = (value) => {
-  if (hasValue(value)) {
-    return value.constructor.toString().trim()
-      .slice(9, 16) === 'Object(';
-  }
-  return false;
+	if (hasValue(value)) {
+		return value.constructor.toString().trim()
+			.slice(9, 16) === 'Object(';
+	}
+	return false;
 };
 /**
  * Checks if the value is a plain object.
@@ -137,7 +137,7 @@ export const isPlainObject = (value) => {
  * // => true
 */
 export const isFunction = (value) => {
-  return (hasValue(value)) ? value instanceof Function : false;
+	return (hasValue(value)) ? value instanceof Function : false;
 };
 /**
  * Checks if the value includes something.
@@ -153,7 +153,7 @@ export const isFunction = (value) => {
  * // => true
 */
 export const has = (value, ...search) => {
-  return value.includes(...search);
+	return value.includes(...search);
 };
 /**
  * Checks if the value has length greater than 0.
@@ -168,7 +168,7 @@ export const has = (value, ...search) => {
  * // => true
 */
 export const hasLength = (value) => {
-  return Boolean(value.length);
+	return Boolean(value.length);
 };
 /**
  * Checks if the value is empty.
@@ -183,17 +183,17 @@ export const hasLength = (value) => {
  * // => true
 */
 export const isEmpty = (obj) => {
-  if (isString(obj) || isArray(obj)) {
-    return !hasLength(obj);
-  } else if (isPlainObject(obj)) {
-    return !objectSize(obj);
-  }
-  return !hasValue(obj);
+	if (isString(obj) || isArray(obj)) {
+		return !hasLength(obj);
+	} else if (isPlainObject(obj)) {
+		return !objectSize(obj);
+	}
+	return !hasValue(obj);
 };
 export const regexGenerator = (regexType) => {
-  return (item) => {
-    return (hasValue(item)) ? regexType.test(item) : false;
-  };
+	return (item) => {
+		return (hasValue(item)) ? regexType.test(item) : false;
+	};
 };
 /**
  * Checks if the string has a .css extension.
@@ -274,10 +274,10 @@ export const getExtensionRegex = /\.([0-9a-z]+)/;
  * // => 'js'
 */
 export const getFileExtension = (string) => {
-  const match = string.match(getExtensionRegex);
-  if (match) {
-    return match[1];
-  }
+	const match = string.match(getExtensionRegex);
+	if (match) {
+		return match[1];
+	}
 };
 /**
  * Checks if the value is a RegExp.
@@ -292,7 +292,7 @@ export const getFileExtension = (string) => {
  * // => true
 */
 const isRegExp = (value) => {
-  return value instanceof RegExp;
+	return value instanceof RegExp;
 };
 /**
  * Checks if the value is an Arguments object.
@@ -318,8 +318,8 @@ const isRegExp = (value) => {
  * isBoolean(true);
  * // => true
 */
-const isBoolean = (value) => {
-  return value.constructor.name === 'Boolean';
+export const isBoolean = (value) => {
+	return value.constructor.name === 'Boolean';
 };
 /**
  * Checks if the value is a Date.
@@ -334,28 +334,28 @@ const isBoolean = (value) => {
  * // => true
 */
 const isDate = (value) => {
-  return value instanceof Date;
+	return value instanceof Date;
 };
 assign(acid, {
-  getFileExtension,
-  has,
-  hasDot,
-  hasLength,
-  hasValue,
-  isArray,
-  isBoolean,
-  isDate,
-  isDecimal,
-  isEmpty,
-  isFileCSS,
-  isFileHTML,
-  isFileJS,
-  isFileJSON,
-  isFunction,
-  isNull,
-  isNumber,
-  isPlainObject,
-  isRegExp,
-  isString,
-  isUndefined,
+	getFileExtension,
+	has,
+	hasDot,
+	hasLength,
+	hasValue,
+	isArray,
+	isBoolean,
+	isDate,
+	isDecimal,
+	isEmpty,
+	isFileCSS,
+	isFileHTML,
+	isFileJS,
+	isFileJSON,
+	isFunction,
+	isNull,
+	isNumber,
+	isPlainObject,
+	isRegExp,
+	isString,
+	isUndefined,
 });

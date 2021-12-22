@@ -28,10 +28,10 @@ import { eachArray, whileArray } from '../array/each';
   * // => {a: 1, b: 2, c: 3}
 */
 export const eachObject = (thisObject, iteratee) => {
-  const objectKeys = keys(thisObject);
-  eachArray(objectKeys, (key, index, array, propertyCount) => {
-    iteratee(thisObject[key], key, thisObject, propertyCount, objectKeys);
-  });
+	const objectKeys = keys(thisObject);
+	eachArray(objectKeys, (key, index, array, propertyCount) => {
+		iteratee(thisObject[key], key, thisObject, propertyCount, objectKeys);
+	});
 };
 /**
   * Iterates through the given object while the iteratee returns true.
@@ -55,10 +55,10 @@ export const eachObject = (thisObject, iteratee) => {
   * // => true
 */
 export const whileObject = (callingObject, iteratee) => {
-  const objectKeys = keys(callingObject);
-  return whileArray(objectKeys, (key, index, callingArray, propertyCount) => {
-    return iteratee(callingObject[key], key, callingObject, propertyCount, callingArray);
-  });
+	const objectKeys = keys(callingObject);
+	return whileArray(objectKeys, (key, index, callingArray, propertyCount) => {
+		return iteratee(callingObject[key], key, callingObject, propertyCount, callingArray);
+	});
 };
 /**
   * Iterates through the calling object and creates an object with all elements that pass the test implemented by the iteratee.
@@ -78,12 +78,12 @@ export const whileObject = (callingObject, iteratee) => {
   * // => {b: true, c: true}
 */
 export const filterObject = (object, iteratee, results = {}) => {
-  eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
-    if (iteratee(item, key, results, thisObject, propertyCount, objectKeys) === true) {
-      results[key] = item;
-    }
-  });
-  return results;
+	eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
+		if (iteratee(item, key, results, thisObject, propertyCount, objectKeys) === true) {
+			results[key] = item;
+		}
+	});
+	return results;
 };
 /**
   * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
@@ -103,10 +103,10 @@ export const filterObject = (object, iteratee, results = {}) => {
   * // => {a: 2, b: 4, c: 6}
 */
 export const mapObject = (object, iteratee, results = {}) => {
-  eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
-    results[key] = iteratee(item, key, results, thisObject, propertyCount, objectKeys);
-  });
-  return results;
+	eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
+		results[key] = iteratee(item, key, results, thisObject, propertyCount, objectKeys);
+	});
+	return results;
 };
 /**
   * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
@@ -126,18 +126,18 @@ export const mapObject = (object, iteratee, results = {}) => {
   * // => {b: 2, c: 3}
 */
 export const compactMapObject = (object, iteratee, results = {}) => {
-  eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
-    const result = iteratee(item, key, results, propertyCount, objectKeys);
-    if (hasValue(result)) {
-      results[key] = result;
-    }
-  });
-  return results;
+	eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
+		const result = iteratee(item, key, results, propertyCount, objectKeys);
+		if (hasValue(result)) {
+			results[key] = result;
+		}
+	});
+	return results;
 };
 assign(acid, {
-  compactMapObject,
-  eachObject,
-  filterObject,
-  mapObject,
-  whileObject,
+	compactMapObject,
+	eachObject,
+	filterObject,
+	mapObject,
+	whileObject,
 });

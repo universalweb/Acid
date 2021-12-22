@@ -13,15 +13,15 @@ const hostname = location.hostname;
   * @type {Object}
 */
 export const info = {
-  hardware: {
-    cores: navigator.hardwareConcurrency
-  },
-  host: {
-    name: hostname,
-    protocol,
-    protocolSocket,
-  }
+	hardware: {
+		cores: navigator.hardwareConcurrency
+	},
+	host: {
+		name: hostname,
+		protocol,
+		protocolSocket,
+	}
 };
 assign(acid, {
-  info
+	info
 });

@@ -2378,131 +2378,6 @@
 	});
 
 	/**
-	 * Checks to see of the browser agent has a string.
-	 *
-	 * @function isAgent
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @param {string} value - The string to search for.
-	 * @returns {boolean} Returns true or false.
-	 * @ignoreTest
-	 * @example
-	 * isAgent('mobile');
-	 * // => false
-	 */
-	const isAgent = (value) => {
-		return value ? isAgent[value] : keys(isAgent);
-	};
-	let userAgentNormalized = navigator.userAgent.toLowerCase();
-	userAgentNormalized = userAgentNormalized.replace(/_/g, '.');
-	userAgentNormalized = userAgentNormalized.replace(/[#_,;()]/g, '');
-	const userAgentSplit = userAgentNormalized.split(/ |\//);
-	eachArray(userAgentSplit, (item) => {
-		isAgent[item] = true;
-	});
-	assign($, {
-		isAgent
-	});
-
-	/**
-	 * Attaches an event listener to a node.
-	 *
-	 * @function eventAdd
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @param {Node} node - Given node.
-	 * @param {string} type - A string representing the event type.
-	 * @param {Object|Function} listener - The object which receives a notification when an event of the specified type occurs.
-	 * @param {Object} options - An options object that specifies characteristics about the event listener.
-	 * @returns {Node} - Returns given node.
-	 *
-	 * @example
-	 * eventAdd(document.body, 'click', () => {console.log('CLICKED');});
-	 * // = > document.body
-	 */
-	const eventAdd = (node, ...args) => {
-		node.addEventListener(...args);
-		return node;
-	};
-	/**
-	 * Attaches an event listener to a node.
-	 *
-	 * @function eventRemove
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @param {Node} node - Given node.
-	 * @param {string} type - A string representing the event type.
-	 * @param {Object|Function} listener - An object|function representing the listener.
-	 * @param {Object} options - An options object that specifies characteristics about the event listener.
-	 * @returns {undefined} - Undefined.
-	 *
-	 * @example
-	 * eventRemove(document.body, () => {console.log('CLICKED');});
-	 * // = > Undefined
-	 */
-	const eventRemove = (node, ...args) => {
-		node.removeEventListener(...args);
-		return node;
-	};
-	assign($, {
-		eventAdd,
-		eventRemove
-	});
-
-	/**
-	 * Checks if the keycode of the event is strictly equal to 13.
-	 *
-	 * @function isEnter
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @param {Object} eventObject - Object to be checked.
-	 * @returns {boolean} Returns true if the keycode property of the object equals 13.
-	 *
-	 * @example
-	 * isEnter('click');
-	 * // => false
-	 */
-	const isEnter = (eventObject) => {
-		return eventObject.keyCode === 13;
-	};
-	assign($, {
-		isEnter
-	});
-
-	/**
-	 * Create a document fragment.
-	 *
-	 * @function createFragment
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @ignore
-	 * @returns {Fragment} Returns a new document fragment.
-	 */
-	document.createDocumentFragment.bind(document);
-
-	/**
-	 * Append a DOM node.
-	 *
-	 * @function append
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @ignore
-	 * @param {Node} parentNode - The parent node.
-	 * @param {Node} child - The node to be appended.
-	 * @returns {undefined} Returns the child.
-	 */
-	const append = (parentNode, child) => {
-		parentNode.appendChild(child);
-		return child;
-	};
-
-	/**
 	 * Iterates through the given object.
 	 *
 	 * @function eachObject
@@ -2641,6 +2516,133 @@
 		mapObject,
 		whileObject
 	});
+
+	/**
+	 * Checks to see of the browser agent has a string.
+	 *
+	 * @function isAgent
+	 * @category browser
+	 * @ignoreTest
+	 * @type {Function}
+	 * @param {string} value - The string to search for.
+	 * @returns {boolean} Returns true or false.
+	 * @ignoreTest
+	 * @example
+	 * isAgent('mobile');
+	 * // => false
+	 */
+	const isAgent = (value) => {
+		return value ? isAgent[value] : keys(isAgent);
+	};
+	const userAgent = navigator.userAgentData();
+	eachObject(userAgent, (value, key) => {
+		if (isBoolean(value) && value) {
+			isAgent[key] = value;
+		}
+	});
+	eachArray(userAgent.brands, (value) => {
+		isAgent[value.brand] = value.version;
+	});
+	assign($, {
+		isAgent
+	});
+
+	/**
+	 * Attaches an event listener to a node.
+	 *
+	 * @function eventAdd
+	 * @category browser
+	 * @ignoreTest
+	 * @type {Function}
+	 * @param {Node} node - Given node.
+	 * @param {string} type - A string representing the event type.
+	 * @param {Object|Function} listener - The object which receives a notification when an event of the specified type occurs.
+	 * @param {Object} options - An options object that specifies characteristics about the event listener.
+	 * @returns {Node} - Returns given node.
+	 *
+	 * @example
+	 * eventAdd(document.body, 'click', () => {console.log('CLICKED');});
+	 * // = > document.body
+	 */
+	const eventAdd = (node, ...args) => {
+		node.addEventListener(...args);
+		return node;
+	};
+	/**
+	 * Attaches an event listener to a node.
+	 *
+	 * @function eventRemove
+	 * @category browser
+	 * @ignoreTest
+	 * @type {Function}
+	 * @param {Node} node - Given node.
+	 * @param {string} type - A string representing the event type.
+	 * @param {Object|Function} listener - An object|function representing the listener.
+	 * @param {Object} options - An options object that specifies characteristics about the event listener.
+	 * @returns {undefined} - Undefined.
+	 *
+	 * @example
+	 * eventRemove(document.body, () => {console.log('CLICKED');});
+	 * // = > Undefined
+	 */
+	const eventRemove = (node, ...args) => {
+		node.removeEventListener(...args);
+		return node;
+	};
+	assign($, {
+		eventAdd,
+		eventRemove
+	});
+
+	/**
+	 * Checks if the keycode of the event is strictly equal to 13.
+	 *
+	 * @function isEnter
+	 * @category browser
+	 * @ignoreTest
+	 * @type {Function}
+	 * @param {Object} eventObject - Object to be checked.
+	 * @returns {boolean} Returns true if the keycode property of the object equals 13.
+	 *
+	 * @example
+	 * isEnter('click');
+	 * // => false
+	 */
+	const isEnter = (eventObject) => {
+		return eventObject.keyCode === 13;
+	};
+	assign($, {
+		isEnter
+	});
+
+	/**
+	 * Create a document fragment.
+	 *
+	 * @function createFragment
+	 * @category browser
+	 * @ignoreTest
+	 * @type {Function}
+	 * @ignore
+	 * @returns {Fragment} Returns a new document fragment.
+	 */
+	document.createDocumentFragment.bind(document);
+
+	/**
+	 * Append a DOM node.
+	 *
+	 * @function append
+	 * @category browser
+	 * @ignoreTest
+	 * @type {Function}
+	 * @ignore
+	 * @param {Node} parentNode - The parent node.
+	 * @param {Node} child - The node to be appended.
+	 * @returns {undefined} Returns the child.
+	 */
+	const append = (parentNode, child) => {
+		parentNode.appendChild(child);
+		return child;
+	};
 
 	/**
 	 * Creates an object from two arrays, one of property identifiers and one of corresponding values.
@@ -5723,3 +5725,4 @@
 
 	return $;
 });
+//# sourceMappingURL=bundle.js.map

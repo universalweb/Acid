@@ -15,11 +15,11 @@ import { isSameObjectGenerator, objectStringGenerate } from '../internal/isGener
  * // => true
 */
 export const isDom = (value) => {
-  return value && value.nodeType !== 9;
+	return value && value.nodeType !== 9;
 };
 acid.isDom = isDom;
 eachArray(['HTMLCollection', 'NodeList'], (item) => {
-  acid[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
+	acid[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
 });
 /**
  * Checks if the value is a HTMLCollection.

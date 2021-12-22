@@ -1,51 +1,51 @@
 {
-	"name": "Acid",
-	"company": "Universal Web, Inc",
-	"version": "2.3.3",
-	"description": "A modern, performant, robust, asynchronous, and compact utility library. https://acidjs.com",
-	"bugs": {
-		"url": "https://github.com/universalweb/Acid/issues"
-	},
-	"homepage": "https://acidjs.com",
-	"directories": {
-		"doc": "docs",
-		"source": "source",
-		"build": "build",
-		"test": "tests"
-	},
-	"readme": "README.md",
-	"keywords": [
-		"Acid",
-		"utility",
-		"Lucy",
-		"Universal Web"
-	],
-	"license": "ISC",
-	"main": "index.js",
-	"maintainers": [
-		{
-			"email": "tommarchi@protonmail.com",
-			"name": "Tom Marchi"
-		}
-	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/universalweb/Acid.git"
-	},
-	"devDependencies": {
-		"body-parser": "*",
-		"connect-livereload": "*",
-		"docredux": "^2.1.2",
-		"eslint": "^7.16.0",
-		"express": "*",
-		"magic-string": "*",
-		"node-watch": "^0.7.1",
-		"rollup": "^2.35.1",
-		"rollup-plugin-terser": "^7.0.2",
-		"testatron": "^2.1.0",
-		"tiny-lr": "^2.0.0"
-	},
-	"scripts": {
-		"build": "node index.js"
-	}
+    "name": "Acid",
+    "company": "Universal Web, Inc",
+    "version": "2.3.4",
+    "description": "A modern, performant, robust, asynchronous, and compact utility library. https://acidjs.com",
+    "bugs": {
+        "url": "https://github.com/universalweb/Acid/issues"
+    },
+    "homepage": "https://acidjs.com",
+    "directories": {
+        "doc": "docs",
+        "source": "source",
+        "build": "build",
+        "test": "tests"
+    },
+    "readme": "README.md",
+    "keywords": [
+        "Acid",
+        "utility",
+        "Lucy",
+        "Universal Web"
+    ],
+    "license": "ISC",
+    "main": "index.js",
+    "maintainers": [
+        {
+            "email": "tommarchi@protonmail.com",
+            "name": "Tom Marchi"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/universalweb/Acid.git"
+    },
+    "devDependencies": {
+        "body-parser": "*",
+        "connect-livereload": "*",
+        "docredux": "^2.1.2",
+        "eslint": "^8.5.0",
+        "express": "*",
+        "magic-string": "*",
+        "node-watch": "^0.7.2",
+        "rollup": "^2.61.1",
+        "rollup-plugin-terser": "^7.0.2",
+        "testatron": "^2.1.0",
+        "tiny-lr": "^2.0.0"
+    },
+    "scripts": {
+        "build": "node index.js"
+    }
 }
