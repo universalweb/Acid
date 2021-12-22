@@ -20,7 +20,7 @@ import { assign, keys } from '../internal/object';
 export const isAgent = (value) => {
 	return (value) ? isAgent[value] : keys(isAgent);
 };
-const userAgent = navigator.userAgentData();
+const userAgent = navigator.userAgentData;
 eachObject(userAgent, (value, key) => {
 	if (isBoolean(value) && value) {
 		isAgent[key] = value;

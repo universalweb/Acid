@@ -38,20 +38,27 @@
           <div class="card contentWrap" id="{{this.name}}">
             <h5>{{this.name}}</h5> <br />
             <span class="smallTitle">Description</span>
+            <br />
             <p>
               {{description}}
-            </p> <hr />
-            <div class="full">
-              {{#params}}
-                <div class="full param">{{{this.source}}}</div>
-              {{/}}
-            </div>
+            </p>
+            <hr />
             {{#params && params.length}}
+              <span class="smallTitle">Parameters</span>
+              <div class="full">
+                {{#params}}
+                  <p class="full param">{{{this.source}}}</p>
+                {{/}}
+              </div>
               <hr />
             {{/}}
             {{#returns}}
-              <div class="full param">{{{this.source}}}</div>
+              <span class="smallTitle">Returns</span>
+              <div class="full">
+                    <p class="full param">{{{this.source}}}</p>
+              </div>
             {{/}}
+            <hr />
             <h6>Examples</h6>
             <div class="full">
               {{#examples}}
