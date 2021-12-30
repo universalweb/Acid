@@ -21,14 +21,25 @@ export const isAgent = (value) => {
 	return (value) ? isAgent[value] : keys(isAgent);
 };
 const userAgent = navigator.userAgentData;
-eachObject(userAgent, (value, key) => {
-	if (isBoolean(value) && value) {
-		isAgent[key] = value;
-	}
-});
-eachArray(userAgent.brands, (value) => {
-	isAgent[value.brand] = value.version;
-});
+if (userAgent) {
+	eachObject(userAgent, (value, key) => {
+		if (isBoolean(value) && value) {
+			isAgent[key] = value;
+		}
+	});
+	eachArray(userAgent.brands, (value) => {
+		isAgent[value.brand] = value.version;
+	});
+}
+if (navigator.userAgent) {
+	let userAgentNormalized = navigator.userAgent.toLowerCase();
+	userAgentNormalized = userAgentNormalized.replace(/_/g, '.');
+	userAgentNormalized = userAgentNormalized.replace(/[#_,;()]/g, '');
+	const userAgentSplit = userAgentNormalized.split(/ |\//);
+	eachArray(userAgentSplit, (item) => {
+		isAgent[item] = true;
+	});
+}
 assign(acid, {
 	isAgent
 });
