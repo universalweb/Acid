@@ -1,0 +1,5 @@
+.eslintignore
+**.min.js
+.eslintrc.js
+/build/**
+bundle.js

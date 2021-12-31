@@ -17,12 +17,12 @@ import { assign } from '../internal/object';
   * // => [2, 3, 1]
 */
 export const reArg = (callable, indexes) => {
-  return (...args) => {
-    return callable(...indexes.map((item) => {
-      return args[item];
-    }));
-  };
+	return (...args) => {
+		return callable(...indexes.map((item) => {
+			return args[item];
+		}));
+	};
 };
 assign(acid, {
-  reArg
+	reArg
 });

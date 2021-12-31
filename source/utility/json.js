@@ -30,6 +30,6 @@ export const jsonParse = jsonNative.parse;
  */
 export const stringify = jsonNative.stringify;
 assign(acid, {
-  jsonParse,
-  stringify
+	jsonParse,
+	stringify
 });

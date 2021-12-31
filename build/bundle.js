@@ -2470,11 +2470,9 @@
 	 *
 	 * @function isAgent
 	 * @category browser
-	 * @ignoreTest
 	 * @type {Function}
 	 * @param {string} value - The string to search for.
 	 * @returns {boolean} Returns true or false.
-	 * @ignoreTest
 	 * @example
 	 * isAgent('mobile');
 	 * // => false
@@ -2556,7 +2554,6 @@
 	 *
 	 * @function isEnter
 	 * @category browser
-	 * @ignoreTest
 	 * @type {Function}
 	 * @param {Object} eventObject - Object to be checked.
 	 * @returns {boolean} Returns true if the keycode property of the object equals 13.
@@ -4166,7 +4163,6 @@
 	 *
 	 * @function timer
 	 * @category function
-	 * @ignoreTest
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
 	 * @param {number} time - The time in milliseconds.
@@ -4184,7 +4180,6 @@
 	 *
 	 * @function interval
 	 * @category function
-	 * @ignoreTest
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
 	 * @param {number} time - The time in milliseconds.
@@ -4213,7 +4208,6 @@
 	 *
 	 * @function clearTimers
 	 * @category function
-	 * @ignoreTest
 	 * @returns {undefined} Returns undefined.
 	 *
 	 * @example
@@ -4226,7 +4220,6 @@
 	 *
 	 * @function clearIntervals
 	 * @category function
-	 * @ignoreTest
 	 * @returns {undefined} Returns undefined.
 	 *
 	 * @example
@@ -4239,7 +4232,6 @@
 	 *
 	 * @function debounce
 	 * @category function
-	 * @ignoreTest
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
 	 * @param {number} time - The time in milliseconds.
@@ -4273,7 +4265,6 @@
 	 *
 	 * @function throttle
 	 * @category function
-	 * @ignoreTest
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
 	 * @param {number} time - The time in milliseconds.

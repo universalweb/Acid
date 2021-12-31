@@ -6,7 +6,6 @@ import { times } from '../array/times';
   *
   * @function timer
   * @category function
-  * @ignoreTest
   * @type {Function}
   * @param {Function} callable - The function to be invoked.
   * @param {number} time - The time in milliseconds.
@@ -17,14 +16,13 @@ import { times } from '../array/times';
   * // => 0
 */
 export const timer = (callable, time) => {
-  return setTimeout(callable, time);
+	return setTimeout(callable, time);
 };
 /**
   * Interval wrapper.
   *
   * @function interval
   * @category function
-  * @ignoreTest
   * @type {Function}
   * @param {Function} callable - The function to be invoked.
   * @param {number} time - The time in milliseconds.
@@ -35,21 +33,20 @@ export const timer = (callable, time) => {
   * // => 0
 */
 export const interval = (callable, time) => {
-  return setInterval(callable, time);
+	return setInterval(callable, time);
 };
 const generateClear = (callable, clearMethod) => {
-  return () => {
-    times(0, callable(() => {}, 0), (index) => {
-      clearMethod(index);
-    });
-  };
+	return () => {
+		times(0, callable(() => {}, 0), (index) => {
+			clearMethod(index);
+		});
+	};
 };
 /**
   * Clear all active timers.
   *
   * @function clearTimers
   * @category function
-  * @ignoreTest
   * @returns {undefined} Returns undefined.
   *
   * @example
@@ -62,7 +59,6 @@ export const clearTimers = generateClear(timer, clearTimeout);
   *
   * @function clearIntervals
   * @category function
-  * @ignoreTest
   * @returns {undefined} Returns undefined.
   *
   * @example
@@ -75,7 +71,6 @@ export const clearIntervals = generateClear(interval, clearInterval);
   *
   * @function debounce
   * @category function
-  * @ignoreTest
   * @type {Function}
   * @param {Function} callable - The function to be invoked.
   * @param {number} time - The time in milliseconds.
@@ -86,30 +81,29 @@ export const clearIntervals = generateClear(interval, clearInterval);
   * // 'debounced'
 */
 export const debounce = (callable, time) => {
-  let timeout = false;
-  const debounced = (...args) => {
-    if (timeout !== false) {
-      clearTimeout(timeout);
-    }
-    timeout = timer(() => {
-      callable(...args);
-      timeout = false;
-    }, time);
-  };
-  debounced.clear = () => {
-    if (timeout) {
-      clearTimeout(timeout);
-      timeout = false;
-    }
-  };
-  return debounced;
+	let timeout = false;
+	const debounced = (...args) => {
+		if (timeout !== false) {
+			clearTimeout(timeout);
+		}
+		timeout = timer(() => {
+			callable(...args);
+			timeout = false;
+		}, time);
+	};
+	debounced.clear = () => {
+		if (timeout) {
+			clearTimeout(timeout);
+			timeout = false;
+		}
+	};
+	return debounced;
 };
 /**
   * Creates a throttled function that only invokes callable at most once per every wait milliseconds. The throttle function has a clear method to cancel the timer.
   *
   * @function throttle
   * @category function
-  * @ignoreTest
   * @type {Function}
   * @param {Function} callable - The function to be invoked.
   * @param {number} time - The time in milliseconds.
@@ -120,32 +114,32 @@ export const debounce = (callable, time) => {
   * // 'throttle'
 */
 export const throttle = (callable, time) => {
-  let timeout = false;
-  let shouldThrottle;
-  const throttled = (...args) => {
-    if (timeout) {
-      shouldThrottle = true;
-      return;
-    }
-    callable(...args);
-    timeout = timer(() => {
-      if (shouldThrottle) {
-        callable(...args);
-      }
-      timeout = false;
-    }, time);
-  };
-  throttled.clear = () => {
-    clearTimeout(timeout);
-    timeout = false;
-  };
-  return throttled;
+	let timeout = false;
+	let shouldThrottle;
+	const throttled = (...args) => {
+		if (timeout) {
+			shouldThrottle = true;
+			return;
+		}
+		callable(...args);
+		timeout = timer(() => {
+			if (shouldThrottle) {
+				callable(...args);
+			}
+			timeout = false;
+		}, time);
+	};
+	throttled.clear = () => {
+		clearTimeout(timeout);
+		timeout = false;
+	};
+	return throttled;
 };
 assign(acid, {
-  clearIntervals,
-  clearTimers,
-  debounce,
-  interval,
-  throttle,
-  timer,
+	clearIntervals,
+	clearTimers,
+	debounce,
+	interval,
+	throttle,
+	timer,
 });
