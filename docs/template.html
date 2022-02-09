@@ -1,73 +1,76 @@
-<div id="container" class="scroll absolute sidebar left">
-  <div class="padded">
-    <h4>{{libraryName}}</h4>
-    <small>Total Methods: {{methodCount}}</small>
-    <input value="{{searchFilter}}" type="text" placeholder="Search"/>
-    {{#searchFilter}}
-      {{#categories}}
-        <div class="item full">
-          {{#this.items}}
-            {{#this.includes(searchFilter)}}
-              <div class="item full">
-                <a href="#{{this}}">{{this}}</a>
-              </div>
-            {{/}}
-          {{/}}
-        </div>
-      {{/}}
-    {{/}}
-    {{#!searchFilter}}
-      {{#categories}}
-        <h6>{{$.upperFirst(this.categoryName)}}</h6>
-        <div class="item full">
-          {{#this.items}}
-            <div class="item full">
-              <a href="#{{this}}">{{this}}</a>
-            </div>
-          {{/}}
-        </div>
-      {{/}}
-    {{/}}
-  </div>
-</div>
-<div class="scroll absolute contentWrapMain right">
-  <div class="marginAuto w960 contentWrap">
-    {{#categories}}
-      {{#this.items}}
-        {{#getDocItem(this)}}
-          <div class="card contentWrap" id="{{this.name}}">
-            <h5>{{this.name}}</h5> <br />
-            <span class="smallTitle">Description</span>
-            <br />
-            <p>
-              {{description}}
-            </p>
-            <hr />
-            {{#params && params.length}}
-              <span class="smallTitle">Parameters</span>
-              <div class="full">
-                {{#params}}
-                  <p class="full param">{{{this.source}}}</p>
-                {{/}}
-              </div>
-              <hr />
-            {{/}}
-            {{#returns}}
-              <span class="smallTitle">Returns</span>
-              <div class="full">
-                    <p class="full param">{{{this.source}}}</p>
-              </div>
-            {{/}}
-            <hr />
-            <h6>Examples</h6>
-            <div class="full">
-              {{#examples}}
-                <code class="prettyprint full">{{this.source}}</code>
+
+<div class="uk-grid-collapse uk-width-1-1 uk-height-1-1 uk-position-absolute uk-overflow-hidden uk-background-muted">
+  <div class="uk-grid-collapse uk-container-xlarge uk-height-1-1 uk-margin-auto uk-overflow-hidden uk-position-relative" uk-grid>
+      <div class="uk-overflow-auto uk-padding scroll light uk-position-absolute uk-position-left uk-height-1-1 uk-container uk-tile-secondary uk-light uk-width-1-4">
+        <div class="uk-padding-small">
+          <h4>{{libraryName}}</h4>
+          <small>Total Methods: {{methodCount}}</small>
+          <form>
+            <fieldset class="uk-fieldset">
+              <input class="uk-input" value="{{searchFilter}}" type="text" placeholder="Search"/>
+            </fieldset>
+          </form>
+          {{#searchFilter}}
+            <div>
+              {{#filter(items, searchFilter).length}}
+                <ul class="uk-list uk-link-text uk-width-1-1">
+                  {{#filter(items, searchFilter)}}
+                      <li><a href="#{{this}}">{{this}}</a></li>
+                  {{/}}
+                </ul>
               {{/}}
             </div>
-          </div>
-        {{/}}
-      {{/}}
-    {{/}}
-  </div>
+          {{/}}
+          {{#categories}}
+            <h4 class="uk-heading-line uk-text-center"><span>{{$.upperFirst(this.categoryName)}}</span></h4>
+            <ul class="uk-list uk-link-text uk-width-1-1">
+              {{#this.items}}
+                <li class="item uk-width-1-1">
+                  <a href="#{{this}}">{{this}}</a>
+                </li>
+              {{/}}
+            </ul>
+          {{/}}
+        </div>
+      </div>
+      <div class="uk-position-right scroll uk-overflow-auto uk-width-3-4 uk-container uk-position-absolute uk-height-1-1">
+        <div class="uk-container-xsmall uk-margin-auto uk-padding">
+          {{#categories}}
+            {{#this.items}}
+              {{#getDocItem(this)}}
+                <article class="uk-article uk-card-hover uk-card-small uk-card uk-card-default uk-padding-small uk-border-rounded" id="{{this.name}}">
+                <h3 class="uk-article-title">{{this.name}}</h3>
+                  <br />
+                  <p class="uk-text-lead">
+                    {{description}}
+                  </p>
+                  <hr />
+                  {{#params && params.length}}
+                    <span class="smallTitle">Parameters</span>
+                    <div class="uk-width-1-1">
+                      {{#params}}
+                        <p class="uk-width-1-1 param">{{{this.source}}}</p>
+                      {{/}}
+                    </div>
+                    <hr />
+                  {{/}}
+                  {{#returns}}
+                    <div class="uk-width-1-1">
+                          <p class="uk-width-1-1 param">{{{this.source}}}</p>
+                    </div>
+                  {{/}}
+                  <hr />
+                  <h6>Examples</h6>
+                  <div class="uk-width-1-1">
+                    {{#examples}}
+                    <pre><code class="prettyprint uk-width-1-1">{{this.source}}</code></pre>
+                    {{/}}
+                  </div>
+                </article>
+              {{/}}
+            {{/}}
+          {{/}}
+        </div>
+      </div>
+    </div>
 </div>

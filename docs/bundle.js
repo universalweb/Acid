@@ -312,8 +312,7 @@
 	 */
 	const isPlainObject = (value) => {
 		if (hasValue(value)) {
-			return value.constructor.toString().trim()
-				.slice(9, 16) === 'Object(';
+			return value.constructor.toString().trim().slice(9, 16) === 'Object(';
 		}
 		return false;
 	};
@@ -4855,8 +4854,7 @@
 	 * // => 'UPPER CASE'
 	 */
 	const upperCase = (string) => {
-		return string.replace(normalizeCase, ' ').trim()
-			.toUpperCase();
+		return string.replace(normalizeCase, ' ').trim().toUpperCase();
 	};
 	/**
 	 * Converts a string into Camel case format.
@@ -4890,9 +4888,7 @@
 	 * // => 'kebab-case'
 	 */
 	const kebabCase = (string) => {
-		return string.replace(normalizeCase, ' ').trim()
-			.toLowerCase()
-			.replace(spaceFirstLetter$1, '-$1');
+		return string.replace(normalizeCase, ' ').trim().toLowerCase().replace(spaceFirstLetter$1, '-$1');
 	};
 	/**
 	 * Converts a string into snake case format.
@@ -4908,9 +4904,7 @@
 	 * // => 'snake_case'
 	 */
 	const snakeCase = (string) => {
-		return string.replace(normalizeCase, ' ').trim()
-			.toLowerCase()
-			.replace(spaceFirstLetter$1, '_$1');
+		return string.replace(normalizeCase, ' ').trim().toLowerCase().replace(spaceFirstLetter$1, '_$1');
 	};
 	assign($, {
 		camelCase,
@@ -4978,9 +4972,7 @@
 	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 	 */
 	const htmlEntities = (string) => {
-		return string.replace(andRegex, '&amp;').replace(lessThanRegex, '&lt;')
-			.replace(moreThanRegex, '&gt;')
-			.replace(doubleQuoteRegex, '&quot;');
+		return string.replace(andRegex, '&amp;').replace(lessThanRegex, '&lt;').replace(moreThanRegex, '&gt;').replace(doubleQuoteRegex, '&quot;');
 	};
 	/**
 	 * Executes rawURLDecode followd by htmlEntities methods on a string.
@@ -5213,17 +5205,17 @@
 	 * assignDeep({a:1}, {b:2})
 	 * // => {a:1, b:2}
 	 */
-	const assignDeep = (object, otherObject, mergeArrays = true) => {
-		each(otherObject, (item, key) => {
-			if (isPlainObject(item) && isPlainObject(object[key])) {
-				assignDeep(object[key], item, mergeArrays);
-			} else if (mergeArrays && isArray(item) && isArray(object[key])) {
-				object[key].push(...item);
+	const assignDeep = (target, source, mergeArrays = true) => {
+		each(source, (item, key) => {
+			if (isPlainObject(item) && isPlainObject(target[key])) {
+				assignDeep(target[key], item, mergeArrays);
+			} else if (mergeArrays && isArray(item) && isArray(target[key])) {
+				target[key].push(...item);
 			} else {
-				object[key] = item;
+				target[key] = item;
 			}
 		});
-		return object;
+		return target;
 	};
 	assign($, {
 		assignDeep
@@ -5489,16 +5481,17 @@
 	 * @function toggle
 	 * @type {Function}
 	 * @category utility
-	 * @param  {string|number|Object|Array} value - Strictly compared against the on argument.
-	 * @param {string|number|Object|Array} on -  Strictly compared against the value argument.
-	 * @param {string|number|Object|Array} off -  Value to be returned.
-	 * @returns {string|number|Object|Array} - The opposing value to the current.
+	 * @param  {(string|number|Object|Array)} value - Strictly compared against the on argument.
+	 * @param {(string|number|Object|Array)} on -  Strictly compared against the value argument.
+	 * @param {(string|number|Object|Array)} off -  Value to be returned.
+	 * @returns {(string|number|Object|Array)} - The opposing value to the current.
 	 *
 	 * @example
-	 * toggle(1, 2, 3);
-	 * // => 2
+	 * let toggleMe = true;
+	 * toggleMe = toggle(toggleMe, true, false);
+	 * // => false
 	 */
-	const toggle = (value, on, off) => {
+	const toggle = (value, on = true, off = false) => {
 		return isEqual(on, value) ? off : on;
 	};
 	assign($, {

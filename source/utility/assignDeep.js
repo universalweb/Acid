@@ -17,18 +17,18 @@ import { isArray, isPlainObject } from '../internal/is';
   * assignDeep({a:1}, {b:2})
   * // => {a:1, b:2}
 */
-export const assignDeep = (object, otherObject, mergeArrays = true) => {
-  each(otherObject, (item, key) => {
-    if (isPlainObject(item) && isPlainObject(object[key])) {
-      assignDeep(object[key], item, mergeArrays);
-    } else if (mergeArrays && isArray(item) && isArray(object[key])) {
-      object[key].push(...item);
-    } else {
-      object[key] = item;
-    }
-  });
-  return object;
+export const assignDeep = (target, source, mergeArrays = true) => {
+	each(source, (item, key) => {
+		if (isPlainObject(item) && isPlainObject(target[key])) {
+			assignDeep(target[key], item, mergeArrays);
+		} else if (mergeArrays && isArray(item) && isArray(target[key])) {
+			target[key].push(...item);
+		} else {
+			target[key] = item;
+		}
+	});
+	return target;
 };
 assign(acid, {
-  assignDeep
+	assignDeep
 });
