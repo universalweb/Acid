@@ -199,7 +199,7 @@
 	 * @function isUndefined
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isUndefined(undefined);
@@ -214,7 +214,7 @@
 	 * @function isNull
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isNull(null);
@@ -229,7 +229,7 @@
 	 * @function hasValue
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * hasValue(1);
@@ -250,7 +250,7 @@
 	 * @function isDecimal
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isDecimal(1.01);
@@ -265,7 +265,7 @@
 	 * @function isArray
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isArray([]);
@@ -278,7 +278,7 @@
 	 * @function isString
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isString('Lucy');
@@ -291,7 +291,7 @@
 	 * @function isNumber
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isNumber(1);
@@ -304,7 +304,7 @@
 	 * @function isPlainObject
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isPlainObject({});
@@ -322,7 +322,7 @@
 	 * @function isFunction
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFunction(() => {});
@@ -338,7 +338,7 @@
 	 * @category utility
 	 * @param {Array|String} value - Object to be checked.
 	 * @param {*} search - Object that is being searched for.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * has('My name is Acidjs', 'Acidjs');
@@ -353,7 +353,7 @@
 	 * @function hasLength
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * hasLength([1]);
@@ -368,7 +368,7 @@
 	 * @function isEmpty
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isEmpty([]);
@@ -393,7 +393,7 @@
 	 * @function isFileCSS
 	 * @category utility
 	 * @param {string} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFileCSS('test.css');
@@ -406,7 +406,7 @@
 	 * @function isFileJSON
 	 * @category utility
 	 * @param {string} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFileJSON('test.json');
@@ -419,7 +419,7 @@
 	 * @function isFileJS
 	 * @category utility
 	 * @param {string} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFileJS('test.js');
@@ -432,7 +432,7 @@
 	 * @function isFileHTML
 	 * @category utility
 	 * @param {string} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFileHTML('test.html');
@@ -445,7 +445,7 @@
 	 * @function hasDot
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * hasDot('test.js');
@@ -477,7 +477,7 @@
 	 * @function isRegExp
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isRegExp(/test/);
@@ -492,7 +492,7 @@
 	 * @function isArguments
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isArguments([]);
@@ -504,7 +504,7 @@
 	 * @function isBoolean
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isBoolean(true);
@@ -519,7 +519,7 @@
 	 * @function isDate
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isDate(new Date());
@@ -796,7 +796,7 @@
 	 * @function isMap
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isMap(new Map());
@@ -808,7 +808,7 @@
 	 * @function isSet
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isSet(new Set());
@@ -820,7 +820,7 @@
 	 * @function isWeakMap
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isWeakMap(new WeakMap());
@@ -832,7 +832,7 @@
 	 * @function isArrayBuffer
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isArrayBuffer(new ArrayBuffer());
@@ -844,7 +844,7 @@
 	 * @function isFloat32Array
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFloat32Array(new Float32Array());
@@ -856,7 +856,7 @@
 	 * @function isFloat64Array
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFloat64Array(new Float64Array());
@@ -868,7 +868,7 @@
 	 * @function isInt8Array
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isInt8Array(new Int8Array());
@@ -880,7 +880,7 @@
 	 * @function isInt16Array
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isInt16Array(new Int16Array());
@@ -892,7 +892,7 @@
 	 * @function isInt32Array
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isInt32Array(new Int32Array());
@@ -904,7 +904,7 @@
 	 * @function isUint8Array
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isUint8Array(new Uint8Array());
@@ -916,7 +916,7 @@
 	 * @function isUint8ClampedArray
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isUint8ClampedArray(new Uint8ClampedArray());
@@ -928,7 +928,7 @@
 	 * @function isUint16Array
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isUint16Array(new Uint16Array());
@@ -940,7 +940,7 @@
 	 * @function isUint32Array
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isUint32Array(new Uint32Array());
@@ -2471,7 +2471,7 @@
 	 * @category browser
 	 * @type {Function}
 	 * @param {string} value - The string to search for.
-	 * @returns {boolean} Returns true or false.
+	 * @returns {boolean} - Returns true or false.
 	 * @example
 	 * isAgent('mobile');
 	 * // => false
@@ -3155,7 +3155,7 @@
 	 * @category browser
 	 * @ignoreTest
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isDom(document.querySelectorAll('.test'));
@@ -3175,7 +3175,7 @@
 	 * @category browser
 	 * @ignoreTest
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isHTMLCollection(document.getElementsByClassName('test'));
@@ -3188,7 +3188,7 @@
 	 * @category browser
 	 * @ignoreTest
 	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} True or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isNodeList(document.querySelectorAll('.test'));
@@ -4497,7 +4497,7 @@
 	 * @category number
 	 * @type {Function}
 	 * @param {number} item - Number to be checked.
-	 * @returns {boolean} True or False.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isZero(0);
@@ -4517,7 +4517,7 @@
 	 * @type {Function}
 	 * @param {number} item - Number to be checked against num.
 	 * @param {number} num - Number to be checked against item.
-	 * @returns {boolean} True or False.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isNumberEqual(0, 0);
@@ -4538,7 +4538,7 @@
 	 * @param {number} num - Number to be checked.
 	 * @param {number} start - Beginning of range.
 	 * @param {number} end - End of range.
-	 * @returns {boolean} True or False.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isNumberInRange(1, 0, 2);

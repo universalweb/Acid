@@ -15,7 +15,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isMap
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isMap(new Map());
@@ -27,7 +27,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isSet
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isSet(new Set());
@@ -39,7 +39,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isWeakMap
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isWeakMap(new WeakMap());
@@ -51,7 +51,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isArrayBuffer
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isArrayBuffer(new ArrayBuffer());
@@ -63,7 +63,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isFloat32Array
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isFloat32Array(new Float32Array());
@@ -75,7 +75,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isFloat64Array
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isFloat64Array(new Float64Array());
@@ -87,7 +87,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isInt8Array
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isInt8Array(new Int8Array());
@@ -99,7 +99,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isInt16Array
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isInt16Array(new Int16Array());
@@ -111,7 +111,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isInt32Array
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isInt32Array(new Int32Array());
@@ -123,7 +123,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isUint8Array
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isUint8Array(new Uint8Array());
@@ -135,7 +135,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isUint8ClampedArray
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isUint8ClampedArray(new Uint8ClampedArray());
@@ -147,7 +147,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isUint16Array
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isUint16Array(new Uint16Array());
@@ -159,7 +159,7 @@ export const isSameObjectGenerator = (type) => {
  * @function isUint32Array
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isUint32Array(new Uint32Array());

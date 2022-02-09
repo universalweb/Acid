@@ -3,11 +3,18 @@
   <div class="uk-grid-collapse uk-container-xlarge uk-height-1-1 uk-margin-auto uk-overflow-hidden uk-position-relative" uk-grid>
       <div class="uk-overflow-auto uk-padding scroll light uk-position-absolute uk-position-left uk-height-1-1 uk-container uk-tile-secondary uk-light uk-width-1-4">
         <div class="uk-padding-small">
-          <h4>{{libraryName}}</h4>
-          <small>Total Methods: {{methodCount}}</small>
-          <form>
+          <h2 class="uk-heading-line uk-text-center  uk-margin-remove-bottom"><span>{{libraryName}}</span></h2>
+          <h6 class="uk-text-center uk-margin-bottom uk-margin-remove-top">Total Methods: {{methodCount}}</h6>
+          <hr class="uk-divider-icon">
+          <h4 class="uk-text-center"><span>Search</span></h4>
+          <form class="uk-margin-bottom">
             <fieldset class="uk-fieldset">
-              <input class="uk-input" value="{{searchFilter}}" type="text" placeholder="Search"/>
+              <div class="uk-margin">
+                  <form class="uk-search uk-search-default uk-width-1-1">
+                      <span uk-search-icon></span>
+                      <input class="uk-search-input uk-width-1-1" value="{{searchFilter}}" type="search" placeholder="Search">
+                  </form>
+              </div>
             </fieldset>
           </form>
           {{#searchFilter}}
@@ -15,7 +22,7 @@
               {{#filter(items, searchFilter).length}}
                 <ul class="uk-list uk-link-text uk-width-1-1">
                   {{#filter(items, searchFilter)}}
-                      <li><a href="#{{this}}">{{this}}</a></li>
+                      <li><a href="#{{this}}" on-click="@.fire('goTo', @context, this)">{{this}}</a></li>
                   {{/}}
                 </ul>
               {{/}}
@@ -26,23 +33,23 @@
             <ul class="uk-list uk-link-text uk-width-1-1">
               {{#this.items}}
                 <li class="item uk-width-1-1">
-                  <a href="#{{this}}">{{this}}</a>
+                  <a href="#{{this}}" on-click="@.fire('goTo', @context, this)">{{this}}</a>
                 </li>
               {{/}}
             </ul>
           {{/}}
         </div>
       </div>
-      <div class="uk-position-right scroll uk-overflow-auto uk-width-3-4 uk-container uk-position-absolute uk-height-1-1">
+      <div class="uk-position-right scroll uk-overflow-auto uk-width-3-4 uk-container uk-position-absolute uk-height-1-1 uk-background-muted">
         <div class="uk-container-xsmall uk-margin-auto uk-padding">
           {{#categories}}
             {{#this.items}}
               {{#getDocItem(this)}}
-                <article class="uk-article uk-card-hover uk-card-small uk-card uk-card-default uk-padding-small uk-border-rounded" id="{{this.name}}">
+                <article class="uk-article uk-card-hover uk-card-small uk-card uk-card-default uk-padding-small uk-border-rounded animate" id="{{this.name}}">
                 <h3 class="uk-article-title">{{this.name}}</h3>
                   <br />
                   <p class="uk-text-lead">
-                    {{description}}
+                    {{{description}}}
                   </p>
                   <hr />
                   {{#params && params.length}}
@@ -54,16 +61,19 @@
                     </div>
                     <hr />
                   {{/}}
-                  {{#returns}}
-                    <div class="uk-width-1-1">
-                          <p class="uk-width-1-1 param">{{{this.source}}}</p>
-                    </div>
-                  {{/}}
+                  {{#if returns}}
+                    <span class="smallTitle">Returns</span>
+                    {{#returns}}
+                      <div class="uk-width-1-1">
+                            <p class="uk-width-1-1 param">{{{this.source}}}</p>
+                      </div>
+                    {{/}}
+                  {{/if}}
                   <hr />
                   <h6>Examples</h6>
                   <div class="uk-width-1-1">
                     {{#examples}}
-                    <pre><code class="prettyprint uk-width-1-1">{{this.source}}</code></pre>
+                    <pre><div class="language-javascript uk-width-1-1">{{{this.source}}}</div></pre>
                     {{/}}
                   </div>
                 </article>

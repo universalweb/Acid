@@ -8,7 +8,7 @@ import { isSameObjectGenerator, objectStringGenerate } from '../internal/isGener
  * @category browser
  * @ignoreTest
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isDom(document.querySelectorAll('.test'));
@@ -28,7 +28,7 @@ eachArray(['HTMLCollection', 'NodeList'], (item) => {
  * @category browser
  * @ignoreTest
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isHTMLCollection(document.getElementsByClassName('test'));
@@ -41,7 +41,7 @@ eachArray(['HTMLCollection', 'NodeList'], (item) => {
  * @category browser
  * @ignoreTest
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isNodeList(document.querySelectorAll('.test'));

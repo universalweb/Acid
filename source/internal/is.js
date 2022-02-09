@@ -6,7 +6,7 @@ import { assign, objectSize } from './object';
  * @function isUndefined
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isUndefined(undefined);
@@ -21,7 +21,7 @@ export const isUndefined = function(value) {
  * @function isNull
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isNull(null);
@@ -36,7 +36,7 @@ export const isNull = (value) => {
  * @function hasValue
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * hasValue(1);
@@ -57,7 +57,7 @@ export const decimalCheck = /\.|\+/;
  * @function isDecimal
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isDecimal(1.01);
@@ -72,7 +72,7 @@ export const isDecimal = (value) => {
  * @function isArray
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isArray([]);
@@ -85,7 +85,7 @@ export const isArray = Array.isArray;
  * @function isString
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isString('Lucy');
@@ -98,7 +98,7 @@ export const isString = isConstructor(String);
  * @function isNumber
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isNumber(1);
@@ -111,7 +111,7 @@ export const isNumber = isConstructor(Number);
  * @function isPlainObject
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isPlainObject({});
@@ -130,7 +130,7 @@ export const isPlainObject = (value) => {
  * @function isFunction
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isFunction(() => {});
@@ -146,7 +146,7 @@ export const isFunction = (value) => {
  * @category utility
  * @param {Array|String} value - Object to be checked.
  * @param {*} search - Object that is being searched for.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * has('My name is Acidjs', 'Acidjs');
@@ -161,7 +161,7 @@ export const has = (value, ...search) => {
  * @function hasLength
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * hasLength([1]);
@@ -176,7 +176,7 @@ export const hasLength = (value) => {
  * @function isEmpty
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isEmpty([]);
@@ -201,7 +201,7 @@ export const regexGenerator = (regexType) => {
  * @function isFileCSS
  * @category utility
  * @param {string} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isFileCSS('test.css');
@@ -214,7 +214,7 @@ export const isFileCSS = regexGenerator(/\.css$/);
  * @function isFileJSON
  * @category utility
  * @param {string} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isFileJSON('test.json');
@@ -227,7 +227,7 @@ export const isFileJSON = regexGenerator(/\.json$/);
  * @function isFileJS
  * @category utility
  * @param {string} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isFileJS('test.js');
@@ -240,7 +240,7 @@ export const isFileJS = regexGenerator(/\.js$/);
  * @function isFileHTML
  * @category utility
  * @param {string} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isFileHTML('test.html');
@@ -253,7 +253,7 @@ export const isFileHTML = regexGenerator(/\.html$/);
  * @function hasDot
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * hasDot('test.js');
@@ -285,7 +285,7 @@ export const getFileExtension = (string) => {
  * @function isRegExp
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isRegExp(/test/);
@@ -300,7 +300,7 @@ const isRegExp = (value) => {
  * @function isArguments
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isArguments([]);
@@ -312,7 +312,7 @@ const isRegExp = (value) => {
  * @function isBoolean
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isBoolean(true);
@@ -327,7 +327,7 @@ export const isBoolean = (value) => {
  * @function isDate
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {boolean} True or false.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
  * isDate(new Date());

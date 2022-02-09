@@ -10,7 +10,7 @@ import { assign, keys } from '../internal/object';
   * @category browser
   * @type {Function}
   * @param {string} value - The string to search for.
-  * @returns {boolean} Returns true or false.
+  * @returns {boolean} - Returns true or false.
   * @example
   * isAgent('mobile');
   * // => false

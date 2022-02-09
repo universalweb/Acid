@@ -7,7 +7,7 @@ import { assign } from '../internal/object';
   * @category number
   * @type {Function}
   * @param {number} item - Number to be checked.
-  * @returns {boolean} True or False.
+  * @returns {boolean} - Returns true or false.
   *
   * @example
   * isZero(0);
@@ -27,7 +27,7 @@ export const isZero = (item) => {
   * @type {Function}
   * @param {number} item - Number to be checked against num.
   * @param {number} num - Number to be checked against item.
-  * @returns {boolean} True or False.
+  * @returns {boolean} - Returns true or false.
   *
   * @example
   * isNumberEqual(0, 0);
@@ -48,7 +48,7 @@ export const isNumberEqual = (item, num) => {
   * @param {number} num - Number to be checked.
   * @param {number} start - Beginning of range.
   * @param {number} end - End of range.
-  * @returns {boolean} True or False.
+  * @returns {boolean} - Returns true or false.
   *
   * @example
   * isNumberInRange(1, 0, 2);
