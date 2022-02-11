@@ -745,6 +745,7 @@ code {
   font-weight: bold;
 }
 
+.paramcallingArray,
 .paramArray {
   color: #5754ad;
 }
@@ -761,8 +762,9 @@ code {
   color: #cb95a3;
 }
 
+.paramobject,
 .paramObject {
-  color: #81537a;
+  color: #bb147b;
 }
 
 .paramnumber {
@@ -792,4 +794,8 @@ code {
 .animate.uk-article {
   transition: all 0.3s ease;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
 }

@@ -54,20 +54,37 @@
                   <hr />
                   {{#params && params.length}}
                     <span class="smallTitle">Parameters</span>
-                    <div class="uk-width-1-1">
-                      {{#params}}
-                        <p class="uk-width-1-1 param">{{{this.source}}}</p>
-                      {{/}}
-                    </div>
+                      <table class="uk-table-striped uk-table-hover uk-table uk-table-small uk-table-divider">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {{#params}}
+                            {{{this.source}}}
+                          {{/}}
+                        </tbody>
+                    </table>
                     <hr />
                   {{/}}
                   {{#if returns}}
                     <span class="smallTitle">Returns</span>
-                    {{#returns}}
-                      <div class="uk-width-1-1">
-                            <p class="uk-width-1-1 param">{{{this.source}}}</p>
-                      </div>
-                    {{/}}
+                    <table class="uk-table-striped uk-table-hover uk-table uk-table-small uk-table-divider">
+                      <thead>
+                        <tr>
+                          <th>Type(s)</th>
+                          <th>Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#returns}}
+                          {{{this.source}}}
+                        {{/}}
+                      </tbody>
+                    </table>
                   {{/if}}
                   <hr />
                   <h6>Examples</h6>

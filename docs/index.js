@@ -16,44 +16,21 @@
 	const colorize = (description, itemName, type) => {
 		const compiledTypes = ensureArray(type.split('|')).map((objType) => {
 			return `<span class="param${(objType === '*') ? 'anything' : objType.replace('...', 'rest')}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
-		})
-			.join(` | `);
-		return `<table class="uk-table-striped uk-table-hover uk-table uk-table-small uk-table-divider">
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Type</th>
-							<th>Description</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="param${itemName}">${upperFirst(itemName)}</td>
-							<td>${compiledTypes}</td>
-							<td>${upperFirst(description)}</td>
-						</tr>
-					</tbody>
-				</table>`;
+		}).join(` | `);
+		return `<tr>
+				<td class="param${upperFirst(itemName)} paramName">${upperFirst(itemName)}</td>
+				<td>${compiledTypes}</td>
+				<td>${upperFirst(description)}</td>
+			</tr>`;
 	};
 	const colorizeReturn = (description, type) => {
 		const compiledTypes = ensureArray(type.split('|')).map((objType) => {
 			return `<span class="param${(objType === '*') ? 'anything' : objType}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
-		})
-			.join(` | `);
-		return `<table class="uk-table">
-					<thead>
-						<tr>
-							<th>Type(s)</th>
-							<th>Description</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>${compiledTypes}</td>
-							<td>${upperFirst(description)}</td>
-						</tr>
-					</tbody>
-				</table>`;
+		}).join(` | `);
+		return `<tr>
+					<td>${compiledTypes}</td>
+					<td>${upperFirst(description)}</td>
+				</tr>`;
 	};
 	eachObject(items, (item) => {
 		if (item.params) {
