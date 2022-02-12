@@ -3240,7 +3240,7 @@
 				return item;
 			}
 			if (!hasValue(item) && $.hasLocal) {
-				return this.localStore.getItem(key);
+				return this.local.getItem(key);
 			}
 		}
 		clear() {

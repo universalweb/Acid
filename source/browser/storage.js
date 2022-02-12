@@ -202,7 +202,7 @@ class Crate {
       return item;
     }
     if (!hasValue(item) && acid.hasLocal) {
-      return this.localStore.getItem(key);
+      return this.local.getItem(key);
     }
 	}
   clear() {
