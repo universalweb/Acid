@@ -9,7 +9,7 @@ import { isFunction } from '../internal/is';
   * @type {Function}
   * @param {Function} callable - The function to be invoked if possible.
   * @param {...Array} args - Arguments to pass to the method.
-  * @returns {*} Returns the method invoked or undefined.
+  * @returns {*} - Returns the method invoked or undefined.
   *
   * @example
   * ifInvoke((...args) => { return args;}, 1, 2);

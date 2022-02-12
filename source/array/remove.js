@@ -7,7 +7,7 @@ import { assign } from '../internal/object';
   * @category array
   * @param {Array} array - Array to be mutated.
   * @param {string|Array} removeThese - Items to remove from the array.
-  * @returns {Array} The array this method was called on.
+  * @returns {Array} - The array this method was called on.
   *
   * @example
   * remove([1, 2, 3, 3, 4, 3, 5], 1);
@@ -35,7 +35,7 @@ export const remove = (array, removeThese) => {
   * @category array
   * @param {Array} array - Array to be mutated.
   * @param {Function} method - Function used to check object. Return true to remove the value.
-  * @returns {Array} The array this method was called on.
+  * @returns {Array} - The array this method was called on.
   *
   * @example
   * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);});

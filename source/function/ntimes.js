@@ -8,7 +8,7 @@ import { hasValue } from '../internal/is';
   * @category function
   * @type {Function}
   * @param {Function} callable - The function to be called.
-  * @returns {Function} Returns the new pass-thru function.
+  * @returns {Function} - Returns the new pass-thru function.
   *
   * @test
   * (async () => {
@@ -40,7 +40,7 @@ export const once = (callable) => {
   * @type {Function}
   * @param {Function} callable - The function to be called.
   * @param {number} amount - The number of calls until method is invoked.
-  * @returns {Function} Returns the new pass-thru function.
+  * @returns {Function} - Returns the new pass-thru function.
   *
   * @test
   * (async () => {
@@ -78,7 +78,7 @@ const after = (amount, callable) => {
   * @type {Function}
   * @param {Function} callable - The function to be called.
   * @param {number} amount - The number of calls before n.
-  * @returns {Function} Returns the new pass-thru function.
+  * @returns {Function} - Returns the new pass-thru function.
   *
   * @test
   * (async () => {

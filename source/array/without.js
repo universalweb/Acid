@@ -8,7 +8,7 @@ import { assign } from '../internal/object';
   * @category array
   * @param {Array} array - The array to be filtered.
   * @param {Array} removeThese - Items to be removed.
-  * @returns {Array} The filtered array.
+  * @returns {Array} - The filtered array.
   *
   * @example
   * without([1, 2, 2, 4], [4]);

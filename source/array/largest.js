@@ -8,7 +8,7 @@ const mathNativeMax = Math.max;
   * @type {Function}
   * @category array
   * @param {Array} array - Array from which largest number is taken.
-  * @returns {number} The largest number.
+  * @returns {number} - The largest number.
   *
   * @example
   * largest([1,2,3]);

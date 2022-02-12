@@ -10,7 +10,7 @@ import { hasValue } from '../internal/is';
   * @category utility
   * @param {string} modelName - Name of the model.
   * @property {Object} - The model object.
-  * @returns {*} Returns the associated model.
+  * @returns {*} - Returns the associated model.
   *
   * @example
   * model('test', {a: 1}) && model('test');

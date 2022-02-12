@@ -9,7 +9,7 @@ import { eachArray } from '../array/each';
   * @type {Function}
   * @param {Array} collection - Array of objects.
   * @param {Function} iteratee - The iteratee to transform keys.
-  * @returns {Object} Returns the composed aggregate object.
+  * @returns {Object} - Returns the composed aggregate object.
   *
   * @example
   * countBy([{a:1}, {a:3}], (item) => { return 'a';});
@@ -35,7 +35,7 @@ export const countBy = (collection, iteratee) => {
   * @type {Function}
   * @param {Array} collection - Array of objects.
   * @param {Function} property - The name of the key.
-  * @returns {number} The count.
+  * @returns {number} - The count.
   *
   * @example
   * countKey([{a:1}, {a:3}], 'a');
@@ -58,7 +58,7 @@ export const countKey = (array, property) => {
   * @type {Function}
   * @param {Array} collection - Array of objects.
   * @param {string} property - The name of the key.
-  * @returns {number} The count.
+  * @returns {number} - The count.
   *
   * @example
   * countWithoutKey([{a:1}, {a:3}], 'b');

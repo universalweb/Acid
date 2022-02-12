@@ -8,7 +8,7 @@ import { shuffle } from './shuffle';
   * @function sample
   * @category array
   * @param {Array} array - Array to pull sample(s).
-  * @returns {Array} An array of randomly pulled samples.
+  * @returns {Array} - An array of randomly pulled samples.
   *
   * @test
   * (async () => {

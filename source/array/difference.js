@@ -10,7 +10,7 @@ import { flattenDeep } from './flatten';
   * @type {Function}
   * @param {Array} array - Source array.
   * @param {Array} compare - Array source array is compared against.
-  * @returns {Array} An array which contains the differences between the source and compare array.
+  * @returns {Array} - An array which contains the differences between the source and compare array.
   *
   * @example
   * difference([1, 2, 3], [1, 2]);

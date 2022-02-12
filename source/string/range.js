@@ -63,7 +63,7 @@ export const chunkString = (string, size) => {
   * @type {Function}
   * @param {string} string - String to extract the initial letters from.
   * @param {number} [index=1] - Starting point from the right.
-  * @returns {string} A string with the characters before the index starting from the right.
+  * @returns {string} - A string with the characters before the index starting from the right.
   *
   * @example
   * initialString('initialString');

@@ -8,7 +8,7 @@ import { isString } from '../internal/is';
   * @category Array
   * @type {Function}
   * @param {Array} array - Array to be compacted.
-  * @returns {Array} The new array of filtered values.
+  * @returns {Array} - The new array of filtered values.
   *
   * @example
   * compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]);

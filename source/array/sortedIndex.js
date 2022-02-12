@@ -9,7 +9,7 @@ import { whileArray } from './each';
    * @type {Function}
    * @param {Array} array - Array to be sorted.
    * @param {number} insertThis - Number to be inserted.
-   * @returns {number} The index at which to insert.
+   * @returns {number} - The index at which to insert.
    *
    * @example
    * sortedIndex([30, 50], 40);

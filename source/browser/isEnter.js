@@ -7,7 +7,7 @@ import { assign } from '../internal/object';
   * @category browser
   * @type {Function}
   * @param {Object} eventObject - Object to be checked.
-  * @returns {boolean} Returns true if the keycode property of the object equals 13.
+  * @returns {boolean} - Returns true if the keycode property of the object equals 13.
   *
   * @example
   * isEnter('click');

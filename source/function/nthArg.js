@@ -7,7 +7,7 @@ import { assign } from '../internal/object';
   * @category function
   * @type {Function}
   * @param {number} [index = 0] - The index of the argument to return.
-  * @returns {Function} Returns the new pass-thru function.
+  * @returns {Function} - Returns the new pass-thru function.
   *
   * @example
   * nthArg(1)('a', 'b');

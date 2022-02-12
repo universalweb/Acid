@@ -20,7 +20,7 @@ const returnFlow = (callable) => {
   * @type {Function}
   * @async
   * @param {Array} collection - Methods to invoke.
-  * @returns {Function} Returns the new composite function.
+  * @returns {Function} - Returns the new composite function.
   *
   * @example
   * flowAsync(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
@@ -35,7 +35,7 @@ export const flowAsync = returnFlow(eachAsync);
   * @type {Function}
   * @async
   * @param {Array} collection - Methods to invoke.
-  * @returns {Function} Returns the new composite function.
+  * @returns {Function} - Returns the new composite function.
   *
   * @example
   * flowAsyncRight(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);

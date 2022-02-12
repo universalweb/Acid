@@ -9,7 +9,7 @@ import { unique } from './unique';
   * @category array
   * @type {Function}
   * @param {...Array} arrays - The arrays to be evaluated.
-  * @returns {Array} The aggregated array.
+  * @returns {Array} - The aggregated array.
   *
   * @example
   * union([1,2,4], [1,2,3]);

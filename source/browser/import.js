@@ -21,7 +21,7 @@ const nodeAttachLoadingEvents = (node) => {
   * @ignoreTest
   * @type {Function}
   * @async
-  * @returns {Promise} Returns a promise.
+  * @returns {Promise} - Returns a promise.
   *
   * @example
   * importjs('core.js');

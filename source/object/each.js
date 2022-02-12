@@ -10,7 +10,7 @@ import { eachArray, whileArray } from '../array/each';
   * @type {Function}
   * @param {Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-  * @returns {Object|Function} Returns the calling object.
+  * @returns {Object|Function} - Returns the calling object.
   *
   * @test
   * (async () => {
@@ -41,7 +41,7 @@ export const eachObject = (thisObject, iteratee) => {
   * @type {Function}
   * @param {Object} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-  * @returns {boolean} Returns the true if all values returned are true or false if one value returns false.
+  * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
   *
   * @example
   * whileObject({a: false, b: true, c: true}, (item) => {
@@ -69,7 +69,7 @@ export const whileObject = (callingObject, iteratee) => {
   * @param {Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Object|Function} An object with properties that passed the test.
+  * @returns {Object|Function} - An object with properties that passed the test.
   *
   * @example
   * filterObject({a: false, b: true, c: true}, (item) => {
@@ -94,7 +94,7 @@ export const filterObject = (object, iteratee, results = {}) => {
   * @param {Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Object|Function} An object of the same calling object's type.
+  * @returns {Object|Function} - An object of the same calling object's type.
   *
   * @example
   * mapObject({a: 1, b: 2, c: 3}, (item) => {
@@ -117,7 +117,7 @@ export const mapObject = (object, iteratee, results = {}) => {
   * @param {Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Object|Function} An object with mapped properties that are not null or undefined.
+  * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
   *
   * @example
   * compactMapObject({a: undefined, b: 2, c: 3}, (item) => {

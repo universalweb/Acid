@@ -30,7 +30,7 @@ export const rawURLDecode = (string) => {
   * @category string
   * @type {Function}
   * @param {string} string - String to be replaced.
-  * @returns {string} Replaced string.
+  * @returns {string} - Replaced string.
   *
   * @example
   * htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`);
@@ -49,7 +49,7 @@ export const htmlEntities = (string) => {
   * @category string
   * @type {Function}
   * @param {string} string - String to be replaced.
-  * @returns {string} Replaced string.
+  * @returns {string} - Replaced string.
   *
   * @example
   * sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`);

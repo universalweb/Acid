@@ -6,7 +6,7 @@ const objectNative = Object;
  * @function keys
  * @category object
  * @param {*} object - Object to pull keys from.
- * @returns {Array} Array of keys.
+ * @returns {Array} - Array of keys.
  *
  * @example
  * keys({a: 1, b: 2});
@@ -20,7 +20,7 @@ export const keys = objectNative.keys;
  * @category object
  * @param {*} object - Value to compare to.
  * @param {*} object - A value to compare.
- * @returns {Boolean} A Boolean indicating whether or not the two arguments are the same value.
+ * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
  *
  * @example
  * is('foo', 'foo');
@@ -34,7 +34,7 @@ export const is = objectNative.is;
  * @category object
  * @param {Object} target - The target object.
  * @param {Object} sources - The source object(s).
- * @returns {Object} Returns the target object.
+ * @returns {Object} - Returns the target object.
  *
  * @example
  * assign({b: 2}, {a: 1});
@@ -48,7 +48,7 @@ export const assign = objectNative.assign;
  * @category object
  * @param {Object} obj - The target object.
  * @param {String} property - The name of the property whose description is to be retrieved.
- * @returns {Object} A property descriptor of the given property if it exists on the object, undefined otherwise.
+ * @returns {Object} - A property descriptor of the given property if it exists on the object, undefined otherwise.
  *
  * @example
  * getOwnPropertyDescriptor({ bar: 42 }, 'bar');
@@ -63,7 +63,7 @@ export const getOwnPropertyDescriptor = objectNative.getOwnPropertyDescriptor;
  * @param {Object} obj - The object on which to define the property.
  * @param {String} property - The name of the property whose description is to be retrieved.
  * @param {Object} descriptor - The descriptor for the property being defined or modified.
- * @returns {Object} The object that was passed to the function.
+ * @returns {Object} - The object that was passed to the function.
  *
  * @example
  * defineProperty({}, 'key', {
@@ -81,7 +81,7 @@ export const defineProperty = objectNative.defineProperty;
  * @function getOwnPropertyNames
  * @category object
  * @param {Object} obj - The object whose enumerable and non-enumerable own properties are to be returned.
- * @returns {Object} An array of strings that correspond to the properties found directly upon the given object.
+ * @returns {Object} - An array of strings that correspond to the properties found directly upon the given object.
  *
  * @example
  * getOwnPropertyNames({ 0: 'a', 1: 'b', 2: 'c' });
@@ -94,7 +94,7 @@ export const getOwnPropertyNames = objectNative.getOwnPropertyNames;
  * @function objectSize
  * @category object
  * @param {Object} obj - The target object.
- * @returns {number} The amount of keys.
+ * @returns {number} - The amount of keys.
  *
  * @example
  * objectSize({ 0: 'a', 1: 'b', 2: 'c' });

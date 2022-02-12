@@ -7,7 +7,7 @@ const arrayNative = Array;
  * @function toArray
  * @category array
  * @param {*} arrayLike - Array like object.
- * @returns {*} new array.
+ * @returns {*} - new array.
  *
  * @example
  * toArray([1, 2, 3]);

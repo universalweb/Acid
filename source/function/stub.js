@@ -6,7 +6,7 @@ import { assign } from '../internal/object';
   * @function stubObject
   * @category function
   * @type {Function}
-  * @returns {Object} Returns the new empty object.
+  * @returns {Object} - Returns the new empty object.
   *
   * @example
   * stubObject();
@@ -21,7 +21,7 @@ export const stubObject = () => {
   * @function stubArray
   * @category function
   * @type {Function}
-  * @returns {Array} Returns the new empty array.
+  * @returns {Array} - Returns the new empty array.
   *
   * @example
   * stubArray();
@@ -36,7 +36,7 @@ export const stubArray = () => {
   * @function stubString
   * @category function
   * @type {Function}
-  * @returns {string} Returns the new empty string.
+  * @returns {string} - Returns the new empty string.
   *
   * @example
   * stubString();
@@ -51,7 +51,7 @@ export const stubString = () => {
   * @function stubFalse
   * @category function
   * @type {Function}
-  * @returns {boolean} Returns false.
+  * @returns {boolean} - Returns false.
   *
   * @example
   * stubFalse();
@@ -66,7 +66,7 @@ export const stubFalse = () => {
   * @function stubTrue
   * @category function
   * @type {Function}
-  * @returns {boolean} Returns true.
+  * @returns {boolean} - Returns true.
   *
   * @example
   * stubTrue();
@@ -81,7 +81,7 @@ export const stubTrue = () => {
   * @function noop
   * @category function
   * @type {Function}
-  * @returns {undefined} Returns undefined.
+  * @returns {undefined} - Returns undefined.
   *
   * @example
   * noop();

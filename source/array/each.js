@@ -9,7 +9,7 @@ import { hasValue } from '../internal/is';
   * @type {Function}
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-  * @returns {Object} The originally given array.
+  * @returns {Object} - The originally given array.
   *
   * @test
   * (async () => {
@@ -41,7 +41,7 @@ export const eachArray = (callingArray, iteratee) => {
   * @type {Function}
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-  * @returns {Object} The originally given array.
+  * @returns {Object} - The originally given array.
   *
   * @test
   * (async () => {
@@ -73,7 +73,7 @@ export const eachArrayRight = (callingArray, iteratee) => {
   * @type {Function}
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-  * @returns {boolean} Returns the true if all values returned are true or false if one value returns false.
+  * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
   *
   * @example
   * whileArray([true, true, false], (item) => {
@@ -100,7 +100,7 @@ export const whileArray = (callingArray, iteratee) => {
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
-  * @returns {Object} An array with properties that passed the test.
+  * @returns {Object} - An array with properties that passed the test.
   *
   * @example
   * filterArray([false, true, true], (item) => {
@@ -133,7 +133,7 @@ const generateMap = (callable) => {
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
-  * @returns {Object} An array of the same calling array's type.
+  * @returns {Object} - An array of the same calling array's type.
   *
   * @example
   * mapArray([1, 2, 3], (item) => {
@@ -151,7 +151,7 @@ export const mapArray = generateMap(eachArray);
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
-  * @returns {Object} An array of the same calling array's type.
+  * @returns {Object} - An array of the same calling array's type.
   *
   * @example
   * mapArrayRight([1, 2, 3], (item) => {
@@ -177,7 +177,7 @@ export const mapArrayRight = (callingArray, iteratee, results = []) => {
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
-  * @returns {Object} An array with mapped properties that are not null or undefined.
+  * @returns {Object} - An array with mapped properties that are not null or undefined.
   *
   * @example
   * compactMapArray([null, 2, 3], (item) => {
@@ -203,7 +203,7 @@ export const compactMapArray = (callingArray, iteratee, results = []) => {
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
-  * @returns {Array} An array with properties that passed the test.
+  * @returns {Array} - An array with properties that passed the test.
   *
   * @example
   * mapWhile([true, true, false], (item) => {

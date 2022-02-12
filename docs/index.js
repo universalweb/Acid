@@ -10,7 +10,8 @@
 		keys,
 		filter,
 		compactKeys,
-		map
+		map,
+		isEnter
 	} = $;
 	const regexComplexLink = /\[([\w\s\d]+)\]\(((https|http)?:\/\/[\w\d./()_?=#]+)\)/igm;
 	const colorize = (description, itemName, type) => {
@@ -18,14 +19,14 @@
 			return `<span class="param${(objType === '*') ? 'anything' : objType.replace('...', 'rest')}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
 		}).join(` | `);
 		return `<tr>
-				<td class="param${upperFirst(itemName)} paramName">${upperFirst(itemName)}</td>
+				<td class="param${upperFirst(itemName.replace(/([^a-z*])/ig, ''))} paramName">${upperFirst(itemName)}</td>
 				<td>${compiledTypes}</td>
 				<td>${upperFirst(description)}</td>
 			</tr>`;
 	};
 	const colorizeReturn = (description, type) => {
 		const compiledTypes = ensureArray(type.split('|')).map((objType) => {
-			return `<span class="param${(objType === '*') ? 'anything' : objType}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
+			return `<span class="param${(objType === '*') ? 'anything' : objType.replace(/([^a-z*])/ig, '')}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
 		}).join(` | `);
 		return `<tr>
 					<td>${compiledTypes}</td>
@@ -94,6 +95,28 @@
 				block: 'center',
 				inline: 'center'
 			});
+		},
+		search(context) {
+			const {
+				original
+			} = context;
+			const {
+				searchFilter,
+			} = context.get();
+			if (isEnter(original)) {
+				original.stopPropagation();
+				original.preventDefault();
+				original.stopImmediatePropagation();
+				const findDiv = document.getElementById(searchFilter);
+				if (findDiv) {
+					findDiv.scrollIntoView({
+						behavior: 'auto',
+						block: 'center',
+						inline: 'center'
+					});
+					history.pushState(undefined, '', `/#${searchFilter}`);
+				}
+			}
 		}
 	});
 })();

@@ -8,7 +8,7 @@ import { eachWhile, map } from '../utility/each';
   * @category function
   * @type {Function}
   * @param {Array|Object} iteratees - The iteratees to invoke.
-  * @returns {Function} Returns the new function.
+  * @returns {Function} - Returns the new function.
   *
   * @example
   * over([Math.max, Math.min])(1, 2, 3, 4);
@@ -28,7 +28,7 @@ export const over = (iteratees) => {
   * @category function
   * @type {Function}
   * @param {Array|Object} predicates -  The predicates to check.
-  * @returns {Function} Returns the new function.
+  * @returns {Function} - Returns the new function.
   *
   * @example
   * overEvery([Boolean, isFinite])('1');

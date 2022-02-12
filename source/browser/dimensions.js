@@ -18,13 +18,13 @@ export const saveDimensions = () => {
   * @category browser
   * @ignoreTest
   * @type {Function}
-  * @returns {undefined} Returns undefined.
+  * @returns {undefined} - Returns undefined.
   *
   * @example
   * updateDimensions();
 */
 export const updateDimensions = () => {
-  requestAnimationFrame(saveDimensions);
+  saveDimensions();
 };
 isDocumentReady(updateDimensions);
 eventAdd(window, 'load', updateDimensions, true);

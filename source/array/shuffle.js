@@ -8,7 +8,7 @@ import { toArray } from '../internal/array';
   * @function shuffle
   * @category array
   * @param {Array} array - Array to be shuffled.
-  * @returns {Array} An array with the shuffled results.
+  * @returns {Array} - An array with the shuffled results.
   *
   * @test
   * (async () => {

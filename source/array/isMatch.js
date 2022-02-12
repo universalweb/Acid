@@ -9,7 +9,7 @@ import { whileArray } from './each';
    * @category array
    * @param {Array} source - Source object.
    * @param {Array} compareArray - Object to compare to source.
-   * @returns {boolean} Returns the true or false.
+   * @returns {boolean} - Returns the true or false.
    *
    * @example
    * isMatchArray([1, 2, 3], [1, 2, 3]);

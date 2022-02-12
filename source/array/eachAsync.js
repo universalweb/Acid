@@ -9,7 +9,7 @@ import { assign } from '../internal/object';
   * @async
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-  * @returns {Object} The originally given array.
+  * @returns {Object} - The originally given array.
   *
   * @test
   * (async () => {
@@ -43,7 +43,7 @@ export const eachAsync = async (callingArray, iteratee) => {
   * @async
   * @param {Array} callingArray - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-  * @returns {Object} The originally given array.
+  * @returns {Object} - The originally given array.
   *
   * @test
   * (async () => {

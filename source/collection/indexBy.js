@@ -9,7 +9,7 @@ import { eachArray } from '../array/each';
   * @type {Function}
   * @param {Array} collection - Array of objects.
   * @param {string} key - The property name to index by.
-  * @returns {Object} Returns the composed aggregate object.
+  * @returns {Object} - Returns the composed aggregate object.
   *
   * @example
   * indexBy([{name: 'Lucy', id: 0}, {name: 'Erick', id: 1}], 'id');

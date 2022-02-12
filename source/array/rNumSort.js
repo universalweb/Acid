@@ -9,7 +9,7 @@ export const numericalCompareReverse = (a, b) => {
   * @function rNumSort
   * @category array
   * @param {Array} numberList - Array of numbers.
-  * @returns {Array} The array this method was called on.
+  * @returns {Array} - The array this method was called on.
   *
   * @example
   * rNumSort([10, 0, 2, 1]);

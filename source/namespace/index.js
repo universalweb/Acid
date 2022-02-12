@@ -4,7 +4,7 @@ let cacheSuper;
  *
  * @function $
  * @category main
- * @returns {*} The return value of the superMethod. The default superMethod is model.
+ * @returns {*} - The return value of the superMethod. The default superMethod is model.
  *
  * @example
  * $('modelName', {example: 1});

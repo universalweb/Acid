@@ -6,6 +6,6 @@
   * @ignoreTest
   * @type {Function}
   * @ignore
-  * @returns {Fragment} Returns a new document fragment.
+  * @returns {Fragment} - Returns a new document fragment.
 */
 export const createFragment = document.createDocumentFragment.bind(document);

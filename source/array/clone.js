@@ -7,7 +7,7 @@ import { assign } from '../internal/object';
   * @category Array
   * @type {Function}
   * @param {Array} array - Takes an array to be cloned.
-  * @returns {Array} The originally given array.
+  * @returns {Array} - The originally given array.
   *
   * @example
   * cloneArray([1,'B', 'Cat']);

@@ -8,7 +8,7 @@ import { assign } from '../internal/object';
   * @type {Function}
   * @param {*} value - The value to wrap.
   * @param {Function} wrapper - The wrapper function.
-  * @returns {Function} The new function.
+  * @returns {Function} - The new function.
   *
   * @example
   * wrap('Lucy', (firstName, lastName) => {

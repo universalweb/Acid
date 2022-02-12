@@ -11,7 +11,7 @@ import { hasValue } from '../internal/is';
   * @async
   * @param {Array} array - Array to be compacted.
   * @param {Function} iteratee - Iteratee to be performed on array.
-  * @returns {Array} Array values after being put through an iterator.
+  * @returns {Array} - Array values after being put through an iterator.
   *
   * @example
   * compactMapAsync([1, 2, 3, null], async (item) => {return item;});

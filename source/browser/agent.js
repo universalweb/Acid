@@ -28,8 +28,7 @@ if (userAgent) {
 	eachArray(userAgent.brands, (value) => {
 		isAgent[value.brand] = value.version;
 	});
-}
-if (navigator.userAgent) {
+} else if (navigator.userAgent) {
 	let userAgentNormalized = navigator.userAgent.toLowerCase();
 	userAgentNormalized = userAgentNormalized.replace(/_/g, '.');
 	userAgentNormalized = userAgentNormalized.replace(/[#_,;()]/g, '');

@@ -19,7 +19,7 @@ const returnFlow = (callable) => {
   * @category utility
   * @type {Function}
   * @param {Array} collection - Methods to invoke.
-  * @returns {Function} Returns the new composite function.
+  * @returns {Function} - Returns the new composite function.
   *
   * @example
   * flow(increment, increment, deduct)(0);
@@ -33,7 +33,7 @@ export const flow = returnFlow(eachArray);
   * @category utility
   * @type {Function}
   * @param {Array} collection - Methods to invoke.
-  * @returns {Function} Returns the new composite function.
+  * @returns {Function} - Returns the new composite function.
   *
   * @example
   * flowRight(increment, increment, deduct)(0);

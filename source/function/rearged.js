@@ -8,7 +8,7 @@ import { assign } from '../internal/object';
   * @type {Function}
   * @param {Function} callable - The function to be invoked.
   * @param {Array} indexes - The arranged argument indexes.
-  * @returns {Function} Returns the new function.
+  * @returns {Function} - Returns the new function.
   *
   * @example
   * reArg((a, b, c) => {

@@ -7,7 +7,7 @@ import { assign } from '../internal/object';
    * @category collection
    * @type {Function}
    * @param {Array} array - Array to be sorted.
-   * @returns {Array} The sorted array.
+   * @returns {Array} - The sorted array.
    *
    * @example
    * sortAlphabetical([{letter:'a'}, {letter:'f'}, {letter:'c'}], 'letter');

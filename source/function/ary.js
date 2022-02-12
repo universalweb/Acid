@@ -8,7 +8,7 @@ import { assign } from '../internal/object';
   * @type {Function}
   * @param {Function} callable - The function to cap arguments for.
   * @param {number} amount - The arity cap.
-  * @returns {Object} Returns the new capped function.
+  * @returns {Object} - Returns the new capped function.
   *
   * @example
   * ary((...args) => { return args;}, 2)(1, 2, 3);

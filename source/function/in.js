@@ -10,7 +10,7 @@ import { eachAsync } from '../array/eachAsync';
   * @type {Function}
   * @param {Array|Object|Function} collection - The functions to be invoked.
   * @param {*} arg - The object passed as an argument to each method.
-  * @returns {undefined} Returns undefined.
+  * @returns {undefined} - Returns undefined.
   *
   * @test
   * (async () => {
@@ -39,7 +39,7 @@ export const inSync = (collection, value) => {
   * @async
   * @param {Array|Object|Function} collection - The functions to be invoked.
   * @param {*} arg - The object passed as an argument to each method.
-  * @returns {undefined} Returns undefined.
+  * @returns {undefined} - Returns undefined.
   *
   * @test
   * (async () => {

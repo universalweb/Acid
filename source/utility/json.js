@@ -8,7 +8,7 @@ const jsonNative = JSON;
    * @category utility
    * @type {Function}
    * @param {string} string - String to be parsed.
-   * @returns {Object} Returns the parsed object.
+   * @returns {Object} - Returns the parsed object.
    *
    * @example
    * jsonParse('{}');
@@ -22,7 +22,7 @@ export const jsonParse = jsonNative.parse;
    * @category utility
    * @type {Function}
    * @param {Object} object - Object to Stringify.
-   * @returns {string} Returns the object as a valid JSON string.
+   * @returns {string} - Returns the object as a valid JSON string.
    *
    * @example
    * stringify({});

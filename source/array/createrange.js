@@ -27,7 +27,7 @@ const rangeDown = (start, end, incrementArg) => {
   * @param {number} start - Value which determines the start of the range.
   * @param {number} end - Value which determines the end of the range.
   * @param {number} increment - Value used to step between integers.
-  * @returns {Array} An array of integers.
+  * @returns {Array} - An array of integers.
   *
   * @example
   * range(0, 30, 5);

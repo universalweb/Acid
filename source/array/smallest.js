@@ -8,7 +8,7 @@ const mathNativeMin = Math.min;
    * @category array
    * @type {Function}
    * @param {Array} array - Array from which smallest number is taken.
-   * @returns {number} The smallest number.
+   * @returns {number} - The smallest number.
    *
    * @example
    * smallest([1,2,3]);

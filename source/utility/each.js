@@ -31,7 +31,7 @@ const generateCheckLoops = (arrayLoop, objectLoop) => {
   * @type {Function}
   * @param {Object|Array|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-  * @returns {boolean} Returns the true if all values returned are true or false if one value returns false.
+  * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
   *
   * @example
   * eachWhile({a: false, b: true, c: true}, (item) => {
@@ -48,7 +48,7 @@ export const eachWhile = generateCheckLoops(whileArray, whileObject);
   * @type {Function}
   * @param {Array|Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-  * @returns {Array|Object|Function} The originally given object.
+  * @returns {Array|Object|Function} - The originally given object.
   *
   * @test
   * (async () => {
@@ -93,7 +93,7 @@ export const filter = generateCheckLoops(filterArray, filterObject);
   * @param {Array|Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Array|Object|Function} A new object of the same calling object's type.
+  * @returns {Array|Object|Function} - A new object of the same calling object's type.
   *
   * @example
   * map({a: 1, b: 2, c: 3}, (item) => {
@@ -111,7 +111,7 @@ export const map = generateCheckLoops(mapArray, mapObject);
   * @param {Array|Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Array|Object|Function} A new object of the same calling object's type.
+  * @returns {Array|Object|Function} - A new object of the same calling object's type.
   *
   * @example
   * compactMap({a: null, b: 2, c: 3}, (item) => {

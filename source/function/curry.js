@@ -9,7 +9,7 @@ import { clear } from '../array/clear';
   * @type {Function}
   * @param {Function} callable - The function to curry.
   * @param {number} arity - The arity of method.
-  * @returns {*} Returns the new curried function.
+  * @returns {*} - Returns the new curried function.
   *
   * @example
   * curry((a, b, c) => {
@@ -37,7 +37,7 @@ export const curry = (callable, arity = callable.length) => {
   * @type {Function}
   * @param {Function} callable - The function to curry.
   * @param {number} arity - The arity of method.
-  * @returns {*} Returns the new curried function.
+  * @returns {*} - Returns the new curried function.
   *
   * @example
   * curryRight((a, b, c) => {

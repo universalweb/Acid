@@ -10,7 +10,7 @@ export const numericalCompare = (a, b) => {
   * @category array
   * @type {Function}
   * @param {Array} numberList - Array of numbers.
-  * @returns {Array} The array this method was called on.
+  * @returns {Array} - The array this method was called on.
   *
   * @example
   * numSort([10, 0, 2, 1]);

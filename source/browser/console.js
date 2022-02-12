@@ -20,7 +20,7 @@ const themes = {
   * @type {Function}
   * @param {Object} value - The value to be logged.
   * @param {string} themeName - The theme to be used.
-  * @returns {undefined} Returns undefined.
+  * @returns {undefined} - Returns undefined.
   *
   * @example
   * cnsl('Lucy', 'notify');
@@ -40,7 +40,7 @@ const cnsl = (value, themeName) => {
   * @param {string} themeName - The name of the theme.
   * @param {string} color - The text color.
   * @param {string} background - The background color of the block.
-  * @returns {undefined} Returns undefined.
+  * @returns {undefined} - Returns undefined.
   *
   * @example
   * cnslTheme('BlackNWhite', '#fff', '#000');

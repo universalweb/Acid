@@ -7,7 +7,7 @@ import { assign } from '../internal/object';
   * @category array
   * @type {Function}
   * @param {Array} array - The array to be evaluated.
-  * @returns {Array} The aggregated array.
+  * @returns {Array} - The aggregated array.
   *
   * @example
   * take([1,2,3], 2);
@@ -23,7 +23,7 @@ export const take = (array, amount = 1) => {
   * @category array
   * @type {Function}
   * @param {Array} array - The array to be evaluated.
-  * @returns {Array} The aggregated array.
+  * @returns {Array} - The aggregated array.
   *
   * @example
   * takeRight([1,2,3], 2);

@@ -13,7 +13,7 @@ const sortUnique = (item, index, array) => {
   * @category array
   * @type {Function}
   * @param {Array} array - The array to be filtered.
-  * @returns {Array} The filtered array.
+  * @returns {Array} - The filtered array.
   *
   * @example
   * unique([1, 2, 2, 4]);

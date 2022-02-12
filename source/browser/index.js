@@ -7,7 +7,7 @@ import './import';
 import './ready';
 import './attribute';
 import './dimensions';
-import './batch';
+import './storage';
 import './info';
 import './selector';
 import './console';

@@ -11,7 +11,6 @@
 		"globalThis": false,
 		"window": false,
 		"top": false,
-		"Ractive": false
 	},
 	"parserOptions": {
 		"sourceType": "module",

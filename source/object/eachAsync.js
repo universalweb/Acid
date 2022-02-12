@@ -9,7 +9,7 @@ import { assign, keys } from '../internal/object';
   * @type {Function}
   * @param {Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-  * @returns {Object|Function} Returns the calling object.
+  * @returns {Object|Function} - Returns the calling object.
   *
   * @test
   * (async () => {

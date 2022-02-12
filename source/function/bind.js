@@ -10,7 +10,7 @@ import { map } from '../utility/each';
   * @type {Function}
   * @param {Object|Function|Array} collection - The functions to bind.
   * @param {*} bindThis - Object to be bound to functions.
-  * @returns {Object|Function|Array} Returns the method invoked or undefined.
+  * @returns {Object|Function|Array} - Returns the method invoked or undefined.
   *
   * @example
   * bindAll([function () { return this;}], 'Lucy')[0]().toString();

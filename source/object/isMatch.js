@@ -10,7 +10,7 @@ import { assign, keys } from '../internal/object';
    * @category object
    * @param {Object} source - Source object.
    * @param {Object} compareObject - Object to compare to source.
-   * @returns {boolean} Returns the true or false.
+   * @returns {boolean} - Returns the true or false.
    *
    * @example
    * isMatchObject({a: 1}, {a: 1});

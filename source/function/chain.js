@@ -17,7 +17,7 @@ const add = (link, methods) => {
   * @category function
   * @type {Function}
   * @param {Array|Object} methods - The object to take methods from.
-  * @returns {*} Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
+  * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
   *
   * @test
   * (async () => {

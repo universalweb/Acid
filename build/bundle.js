@@ -12,7 +12,7 @@
 	 *
 	 * @function $
 	 * @category main
-	 * @returns {*} The return value of the superMethod. The default superMethod is model.
+	 * @returns {*} - The return value of the superMethod. The default superMethod is model.
 	 *
 	 * @example
 	 * $('modelName', {example: 1});
@@ -52,7 +52,7 @@
 	 * @function keys
 	 * @category object
 	 * @param {*} object - Object to pull keys from.
-	 * @returns {Array} Array of keys.
+	 * @returns {Array} - Array of keys.
 	 *
 	 * @example
 	 * keys({a: 1, b: 2});
@@ -66,7 +66,7 @@
 	 * @category object
 	 * @param {*} object - Value to compare to.
 	 * @param {*} object - A value to compare.
-	 * @returns {Boolean} A Boolean indicating whether or not the two arguments are the same value.
+	 * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
 	 *
 	 * @example
 	 * is('foo', 'foo');
@@ -80,7 +80,7 @@
 	 * @category object
 	 * @param {Object} target - The target object.
 	 * @param {Object} sources - The source object(s).
-	 * @returns {Object} Returns the target object.
+	 * @returns {Object} - Returns the target object.
 	 *
 	 * @example
 	 * assign({b: 2}, {a: 1});
@@ -94,7 +94,7 @@
 	 * @category object
 	 * @param {Object} obj - The target object.
 	 * @param {String} property - The name of the property whose description is to be retrieved.
-	 * @returns {Object} A property descriptor of the given property if it exists on the object, undefined otherwise.
+	 * @returns {Object} - A property descriptor of the given property if it exists on the object, undefined otherwise.
 	 *
 	 * @example
 	 * getOwnPropertyDescriptor({ bar: 42 }, 'bar');
@@ -109,7 +109,7 @@
 	 * @param {Object} obj - The object on which to define the property.
 	 * @param {String} property - The name of the property whose description is to be retrieved.
 	 * @param {Object} descriptor - The descriptor for the property being defined or modified.
-	 * @returns {Object} The object that was passed to the function.
+	 * @returns {Object} - The object that was passed to the function.
 	 *
 	 * @example
 	 * defineProperty({}, 'key', {
@@ -127,7 +127,7 @@
 	 * @function getOwnPropertyNames
 	 * @category object
 	 * @param {Object} obj - The object whose enumerable and non-enumerable own properties are to be returned.
-	 * @returns {Object} An array of strings that correspond to the properties found directly upon the given object.
+	 * @returns {Object} - An array of strings that correspond to the properties found directly upon the given object.
 	 *
 	 * @example
 	 * getOwnPropertyNames({ 0: 'a', 1: 'b', 2: 'c' });
@@ -140,7 +140,7 @@
 	 * @function objectSize
 	 * @category object
 	 * @param {Object} obj - The target object.
-	 * @returns {number} The amount of keys.
+	 * @returns {number} - The amount of keys.
 	 *
 	 * @example
 	 * objectSize({ 0: 'a', 1: 'b', 2: 'c' });
@@ -165,7 +165,7 @@
 	 * @function toArray
 	 * @category array
 	 * @param {*} arrayLike - Array like object.
-	 * @returns {*} new array.
+	 * @returns {*} - new array.
 	 *
 	 * @example
 	 * toArray([1, 2, 3]);
@@ -183,7 +183,7 @@
 	 * @param {Function} target - The target function to call.
 	 * @param {*} thisArgument - Array like object.
 	 * @param {Array} argumentsList - An array-like object specifying the arguments with which target should be called.
-	 * @returns {*} The result of calling the given target function with the specified this value and arguments.
+	 * @returns {*} - The result of calling the given target function with the specified this value and arguments.
 	 *
 	 * @example
 	 * apply(function (a) {return a;}, undefined, [2]);
@@ -459,7 +459,7 @@
 	 * @function getFileExtension
 	 * @category utility
 	 * @param {*} value - Object to be checked.
-	 * @returns {string} Returns the extension.
+	 * @returns {string} - Returns the extension.
 	 *
 	 * @example
 	 * getFileExtension('test.js');
@@ -559,7 +559,7 @@
 	 * @type {Function}
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @returns {Object} The originally given array.
+	 * @returns {Object} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -591,7 +591,7 @@
 	 * @type {Function}
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @returns {Object} The originally given array.
+	 * @returns {Object} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -623,7 +623,7 @@
 	 * @type {Function}
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} Returns the true if all values returned are true or false if one value returns false.
+	 * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * whileArray([true, true, false], (item) => {
@@ -650,7 +650,7 @@
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Object} An array with properties that passed the test.
+	 * @returns {Object} - An array with properties that passed the test.
 	 *
 	 * @example
 	 * filterArray([false, true, true], (item) => {
@@ -683,7 +683,7 @@
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Object} An array of the same calling array's type.
+	 * @returns {Object} - An array of the same calling array's type.
 	 *
 	 * @example
 	 * mapArray([1, 2, 3], (item) => {
@@ -701,7 +701,7 @@
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Object} An array of the same calling array's type.
+	 * @returns {Object} - An array of the same calling array's type.
 	 *
 	 * @example
 	 * mapArrayRight([1, 2, 3], (item) => {
@@ -727,7 +727,7 @@
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Object} An array with mapped properties that are not null or undefined.
+	 * @returns {Object} - An array with mapped properties that are not null or undefined.
 	 *
 	 * @example
 	 * compactMapArray([null, 2, 3], (item) => {
@@ -753,7 +753,7 @@
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Array} An array with properties that passed the test.
+	 * @returns {Array} - An array with properties that passed the test.
 	 *
 	 * @example
 	 * mapWhile([true, true, false], (item) => {
@@ -977,7 +977,7 @@
 	 * @param {Array} callingArray - Array of async functions that will be looped through.
 	 * Functions are given the supplied object, index, the calling array, and the array length.
 	 * @param {*} object - The first argument given to each function.
-	 * @returns {Object} The originally given array.
+	 * @returns {Object} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -1083,7 +1083,7 @@
 	 * @category array
 	 * @param {Array} array - Array to be mutated.
 	 * @param {string|Array} removeThese - Items to remove from the array.
-	 * @returns {Array} The array this method was called on.
+	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
 	 * remove([1, 2, 3, 3, 4, 3, 5], 1);
@@ -1111,7 +1111,7 @@
 	 * @category array
 	 * @param {Array} array - Array to be mutated.
 	 * @param {Function} method - Function used to check object. Return true to remove the value.
-	 * @returns {Array} The array this method was called on.
+	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
 	 * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);});
@@ -1190,7 +1190,7 @@
 	 * @category Array
 	 * @type {Function}
 	 * @param {Array} array - Takes an array to be emptied.
-	 * @returns {Array} The originally given array.
+	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
 	 * clear([1,'B', 'Cat']);
@@ -1229,7 +1229,7 @@
 	 * @category Array
 	 * @type {Function}
 	 * @param {Array} array - Takes an array to be cloned.
-	 * @returns {Array} The originally given array.
+	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
 	 * cloneArray([1,'B', 'Cat']);
@@ -1422,7 +1422,7 @@
 	 * @function shuffle
 	 * @category array
 	 * @param {Array} array - Array to be shuffled.
-	 * @returns {Array} An array with the shuffled results.
+	 * @returns {Array} - An array with the shuffled results.
 	 *
 	 * @test
 	 * (async () => {
@@ -1460,7 +1460,7 @@
 	 * @function sample
 	 * @category array
 	 * @param {Array} array - Array to pull sample(s).
-	 * @returns {Array} An array of randomly pulled samples.
+	 * @returns {Array} - An array of randomly pulled samples.
 	 *
 	 * @test
 	 * (async () => {
@@ -1507,7 +1507,7 @@
 	 * @category Array
 	 * @type {Function}
 	 * @param {Array} array - Array to be compacted.
-	 * @returns {Array} The new array of filtered values.
+	 * @returns {Array} - The new array of filtered values.
 	 *
 	 * @example
 	 * compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]);
@@ -1548,7 +1548,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} array - Array from which smallest number is taken.
-	 * @returns {number} The smallest number.
+	 * @returns {number} - The smallest number.
 	 *
 	 * @example
 	 * smallest([1,2,3]);
@@ -1587,7 +1587,7 @@
 	 * @param {number} start - Value which determines the start of the range.
 	 * @param {number} end - Value which determines the end of the range.
 	 * @param {number} increment - Value used to step between integers.
-	 * @returns {Array} An array of integers.
+	 * @returns {Array} - An array of integers.
 	 *
 	 * @example
 	 * range(0, 30, 5);
@@ -1611,7 +1611,7 @@
 	 * @param {Array} array - Array to compare other arrays to.
 	 * @param {...Array} arrays - A variable number of arrays.
 	 * @category array
-	 * @returns {Array} The new array of unique values shared by all of the arrays.
+	 * @returns {Array} - The new array of unique values shared by all of the arrays.
 	 *
 	 * @example
 	 * intersect([1, 2, 3], [2, 3, 4]);
@@ -1641,7 +1641,7 @@
 	 * @type {Function}
 	 * @param {Array} array - Source array.
 	 * @param {Array} compare - Array source array is compared against.
-	 * @returns {Array} An array which contains the differences between the source and compare array.
+	 * @returns {Array} - An array which contains the differences between the source and compare array.
 	 *
 	 * @example
 	 * difference([1, 2, 3], [1, 2]);
@@ -1667,7 +1667,7 @@
 	 * @param {Array} array - Source array.
 	 * @param {number} amount - Amount of items to drop from the array.
 	 * @param {number} [upTo = array.length] - Index to stop at.
-	 * @returns {Array} An array with all values removed after a user defined index.
+	 * @returns {Array} - An array with all values removed after a user defined index.
 	 *
 	 * @example
 	 * drop([1, 2, 3], 1);
@@ -1685,7 +1685,7 @@
 	 * @param {Array} array - Source array.
 	 * @param {number} amount - Amount of items to drop from the array.
 	 * @param {number} [upTo = array.length] - Index to stop at.
-	 * @returns {Array} An array with all values removed before a user defined index.
+	 * @returns {Array} - An array with all values removed before a user defined index.
 	 *
 	 * @example
 	 * dropRight([1, 2, 3], 1);
@@ -1706,7 +1706,7 @@
 	 * @category array
 	 * @param {Array} source - Source object.
 	 * @param {Array} compareArray - Object to compare to source.
-	 * @returns {boolean} Returns the true or false.
+	 * @returns {boolean} - Returns the true or false.
 	 *
 	 * @example
 	 * isMatchArray([1, 2, 3], [1, 2, 3]);
@@ -1731,7 +1731,7 @@
 	 * @type {Function}
 	 * @param {Array} array - Array to be sorted.
 	 * @param {number} insertThis - Number to be inserted.
-	 * @returns {number} The index at which to insert.
+	 * @returns {number} - The index at which to insert.
 	 *
 	 * @example
 	 * sortedIndex([30, 50], 40);
@@ -1760,7 +1760,7 @@
 	 * @type {Function}
 	 * @category array
 	 * @param {Array} array - Array from which largest number is taken.
-	 * @returns {number} The largest number.
+	 * @returns {number} - The largest number.
 	 *
 	 * @example
 	 * largest([1,2,3]);
@@ -1802,7 +1802,7 @@
 	 * @async
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @returns {Object} The originally given array.
+	 * @returns {Object} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -1836,7 +1836,7 @@
 	 * @async
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @returns {Object} The originally given array.
+	 * @returns {Object} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -1873,7 +1873,7 @@
 	 * @category array
 	 * @param {Array} array - Array to have items extracted from.
 	 * @param {number} [indexFrom = 0] - Value which determines how many items are extracted from the array.
-	 * @returns {Array} Items from the array.
+	 * @returns {Array} - Items from the array.
 	 *
 	 * @example
 	 * last([1, 2, 3, 4, 5] , 2);
@@ -1896,7 +1896,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} array - The array to be evaluated.
-	 * @returns {Array} The aggregated array.
+	 * @returns {Array} - The aggregated array.
 	 *
 	 * @example
 	 * take([1,2,3], 2);
@@ -1912,7 +1912,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} array - The array to be evaluated.
-	 * @returns {Array} The aggregated array.
+	 * @returns {Array} - The aggregated array.
 	 *
 	 * @example
 	 * takeRight([1,2,3], 2);
@@ -1936,7 +1936,7 @@
 	 * @param {Array} callingArray - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Array} An array of the same calling array's type.
+	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
 	 * mapAsync([1, 2, 3], (item) => {
@@ -1967,7 +1967,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} array - The array to be filtered.
-	 * @returns {Array} The filtered array.
+	 * @returns {Array} - The filtered array.
 	 *
 	 * @example
 	 * unique([1, 2, 2, 4]);
@@ -1989,7 +1989,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {...Array} arrays - The arrays to be evaluated.
-	 * @returns {Array} The aggregated array.
+	 * @returns {Array} - The aggregated array.
 	 *
 	 * @example
 	 * union([1,2,4], [1,2,3]);
@@ -2010,7 +2010,7 @@
 	 * @async
 	 * @param {Array} array - Array to be compacted.
 	 * @param {Function} iteratee - Iteratee to be performed on array.
-	 * @returns {Array} Array values after being put through an iterator.
+	 * @returns {Array} - Array values after being put through an iterator.
 	 *
 	 * @example
 	 * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
@@ -2040,7 +2040,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} numberList - Array of numbers.
-	 * @returns {Array} The array this method was called on.
+	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
 	 * numSort([10, 0, 2, 1]);
@@ -2084,7 +2084,7 @@
 	 * @category array
 	 * @param {Array} array - The array to be filtered.
 	 * @param {Array} removeThese - Items to be removed.
-	 * @returns {Array} The filtered array.
+	 * @returns {Array} - The filtered array.
 	 *
 	 * @example
 	 * without([1, 2, 2, 4], [4]);
@@ -2142,7 +2142,7 @@
 	 * @type {Function}
 	 * @param {Array} array - The array to be filtered.
 	 * @param {Array} removeThese - Items to be removed.
-	 * @returns {Array} The filtered array.
+	 * @returns {Array} - The filtered array.
 	 *
 	 * @example
 	 * xor([2, 1], [2, 3]);
@@ -2240,7 +2240,7 @@
 	 * @function rNumSort
 	 * @category array
 	 * @param {Array} numberList - Array of numbers.
-	 * @returns {Array} The array this method was called on.
+	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
 	 * rNumSort([10, 0, 2, 1]);
@@ -2261,7 +2261,7 @@
 	 * @param {number} startIndex - The number to start loop from.
 	 * @param {number} endIndex - The number to stop at the loop.
 	 * @param {Function} iteratee - Transformation function which is passed position, start, and end.
-	 * @returns {undefined} Nothing.
+	 * @returns {undefined} - Nothing.
 	 *
 	 * @test
 	 * (async () => {
@@ -2300,7 +2300,7 @@
 	 * @param {number} endIndex - The number to stop at the loop.
 	 * @param {Function} iteratee - Transformation function which is passed position, start, and end.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Object} An array with iteratee's returned values.
+	 * @returns {Object} - An array with iteratee's returned values.
 	 *
 	 * @example
 	 * timesMap(0, 3, (item) => {
@@ -2333,7 +2333,7 @@
 	 * @type {Function}
 	 * @param {Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-	 * @returns {Object|Function} Returns the calling object.
+	 * @returns {Object|Function} - Returns the calling object.
 	 *
 	 * @test
 	 * (async () => {
@@ -2364,7 +2364,7 @@
 	 * @type {Function}
 	 * @param {Object} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} Returns the true if all values returned are true or false if one value returns false.
+	 * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * whileObject({a: false, b: true, c: true}, (item) => {
@@ -2392,7 +2392,7 @@
 	 * @param {Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} An object with properties that passed the test.
+	 * @returns {Object|Function} - An object with properties that passed the test.
 	 *
 	 * @example
 	 * filterObject({a: false, b: true, c: true}, (item) => {
@@ -2417,7 +2417,7 @@
 	 * @param {Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} An object of the same calling object's type.
+	 * @returns {Object|Function} - An object of the same calling object's type.
 	 *
 	 * @example
 	 * mapObject({a: 1, b: 2, c: 3}, (item) => {
@@ -2440,7 +2440,7 @@
 	 * @param {Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} An object with mapped properties that are not null or undefined.
+	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
 	 *
 	 * @example
 	 * compactMapObject({a: undefined, b: 2, c: 3}, (item) => {
@@ -2489,8 +2489,7 @@
 		eachArray(userAgent.brands, (value) => {
 			isAgent[value.brand] = value.version;
 		});
-	}
-	if (navigator.userAgent) {
+	} else if (navigator.userAgent) {
 		let userAgentNormalized = navigator.userAgent.toLowerCase();
 		userAgentNormalized = userAgentNormalized.replace(/_/g, '.');
 		userAgentNormalized = userAgentNormalized.replace(/[#_,;()]/g, '');
@@ -2555,7 +2554,7 @@
 	 * @category browser
 	 * @type {Function}
 	 * @param {Object} eventObject - Object to be checked.
-	 * @returns {boolean} Returns true if the keycode property of the object equals 13.
+	 * @returns {boolean} - Returns true if the keycode property of the object equals 13.
 	 *
 	 * @example
 	 * isEnter('click');
@@ -2575,7 +2574,7 @@
 	 * @ignoreTest
 	 * @type {Function}
 	 * @ignore
-	 * @returns {Fragment} Returns a new document fragment.
+	 * @returns {Fragment} - Returns a new document fragment.
 	 */
 	document.createDocumentFragment.bind(document);
 	/**
@@ -2588,7 +2587,7 @@
 	 * @ignore
 	 * @param {Node} parentNode - The parent node.
 	 * @param {Node} child - The node to be appended.
-	 * @returns {undefined} Returns the child.
+	 * @returns {undefined} - Returns the child.
 	 */
 	const append = (parentNode, child) => {
 		parentNode.appendChild(child);
@@ -2650,7 +2649,7 @@
 	 * @async
 	 * @param {Node} node - The DOM node.
 	 * @param {Object|Array} object - Object with key being the attribute name and the value being the attribute value. If an array is given it will get the values corresponding to the array items.
-	 * @returns {Object|Node} If using an array this returns an object of attribute names as keys and their values as the property value. If using an object this will return the provided node.
+	 * @returns {Object|Node} - If using an array this returns an object of attribute names as keys and their values as the property value. If using an object this will return the provided node.
 	 *
 	 * @example
 	 * nodeAttribute(document.body, { 'data-example': 'test'});
@@ -2762,7 +2761,7 @@
 	 * @type {Function}
 	 * @param {string} string - String to extract the initial letters from.
 	 * @param {number} [index=1] - Starting point from the right.
-	 * @returns {string} A string with the characters before the index starting from the right.
+	 * @returns {string} - A string with the characters before the index starting from the right.
 	 *
 	 * @example
 	 * initialString('initialString');
@@ -2909,7 +2908,7 @@
 	 * @ignoreTest
 	 * @type {Function}
 	 * @async
-	 * @returns {Promise} Returns a promise.
+	 * @returns {Promise} - Returns a promise.
 	 *
 	 * @example
 	 * importjs('core.js');
@@ -2995,13 +2994,13 @@
 	 * @category browser
 	 * @ignoreTest
 	 * @type {Function}
-	 * @returns {undefined} Returns undefined.
+	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
 	 * updateDimensions();
 	 */
 	const updateDimensions = () => {
-		requestAnimationFrame(saveDimensions);
+		saveDimensions();
 	};
 	isDocumentReady(updateDimensions);
 	eventAdd(window, 'load', updateDimensions, true);
@@ -3009,61 +3008,6 @@
 	assign($, {
 		saveDimensions,
 		updateDimensions
-	});
-	/**
-	 * Checks if the given method is a function. If it is then it invokes it with the given arguments.
-	 *
-	 * @function ifInvoke
-	 * @category function
-	 * @type {Function}
-	 * @param {Function} callable - The function to be invoked if possible.
-	 * @param {...Array} args - Arguments to pass to the method.
-	 * @returns {*} Returns the method invoked or undefined.
-	 *
-	 * @example
-	 * ifInvoke((...args) => { return args;}, 1, 2);
-	 * // => [1, 2]
-	 * @example
-	 * ifInvoke(undefined, 1, 2);
-	 * // => undefined
-	 */
-	const ifInvoke = (callable, ...args) => {
-		if (isFunction(callable)) {
-			return callable(...args);
-		}
-	};
-	assign($, {
-		ifInvoke
-	});
-	let batchCancelFrame;
-	const batchChanges = [];
-	const batchLoop = () => {
-		eachArray(batchChanges, ifInvoke);
-		clear(batchChanges);
-		batchCancelFrame = false;
-	};
-	/**
-	 * Batch processing using requestAnimationFrame.
-	 *
-	 * @function batch
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @param {...Function} items - The functions to add to the current batch.
-	 * @returns {undefined} Returns undefined.
-	 *
-	 * @example
-	 * batch(() => {});
-	 * // => undefined
-	 */
-	const batch = (...items) => {
-		batchChanges.push(...items);
-		if (!batchCancelFrame) {
-			batchCancelFrame = requestAnimationFrame(batchLoop);
-		}
-	};
-	assign($, {
-		batch
 	});
 	const jsonNative = JSON;
 	/**
@@ -3073,7 +3017,7 @@
 	 * @category utility
 	 * @type {Function}
 	 * @param {string} string - String to be parsed.
-	 * @returns {Object} Returns the parsed object.
+	 * @returns {Object} - Returns the parsed object.
 	 *
 	 * @example
 	 * jsonParse('{}');
@@ -3087,7 +3031,7 @@
 	 * @category utility
 	 * @type {Function}
 	 * @param {Object} object - Object to Stringify.
-	 * @returns {string} Returns the object as a valid JSON string.
+	 * @returns {string} - Returns the object as a valid JSON string.
 	 *
 	 * @example
 	 * stringify({});
@@ -3097,6 +3041,227 @@
 	assign($, {
 		jsonParse,
 		stringify
+	});
+	/**
+	 * A virtual storage & drop in replacement for localStorage.
+	 *
+	 * @function virtualStorage
+	 * @category browser
+	 * @type {Function}
+	 * @returns {*} - Returns a new VirtualStorage Object.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * // => New Crate Object
+	 */
+	/**
+	 * Save an item to a virtual storage object.
+	 *
+	 * @function virtualStorage.setItem
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to store the data.
+	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * myVirtualStorage.setItem('key', 'value');
+	 * // => undefined
+	 */
+	/**
+	 * Get an item from a virtual storage object.
+	 *
+	 * @function virtualStorage.getItem
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to store the data.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * myVirtualStorage.setItem('key', 'value');
+	 * myVirtualStorage.getItem('key');
+	 * // => 'value'
+	 */
+	/**
+	 * Remove an item from a virtual storage object.
+	 *
+	 * @function virtualStorage.removeItem
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to remove data.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * myVirtualStorage.setItem('key', 'value');
+	 * myVirtualStorage.removeItem('key');
+	 * myVirtualStorage.getItem('key');
+	 * // => undefined
+	 */
+	/**
+	 * Clears all data from the virtual storage object by replacing with a new object.
+	 *
+	 * @function virtualStorage.clear
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to remove data.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * myVirtualStorage.setItem('key', 'value');
+	 * myVirtualStorage.clear();
+	 * myVirtualStorage.getItem('key');
+	 * // => undefined
+	 */
+	class VirtualStorage {
+		constructor() {
+			this.items = {};
+		}
+		getItem(key) {
+			return this.items[key];
+		}
+		setItem(key, value) {
+			this.items[key] = value;
+		}
+		clear() {
+			this.storage.items = {};
+		}
+		removeItem(key) {
+			this.items[key] = null;
+		}
+	}
+	function virtualCrate() {
+		return new VirtualStorage();
+	}
+	function hasStorage(storeCheck) {
+		try {
+			storeCheck().removeItem('TESTING');
+			$.hasLocal = true;
+		} catch (e) {
+			$.hasLocal = false;
+		}
+	}
+	hasStorage(() => {
+		return localStorage;
+	});
+	/**
+	 * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
+	 *
+	 * @function crate
+	 * @category browser
+	 * @type {Function}
+	 * @returns {*} - Returns a new Crate Object.
+	 *
+	 * @example
+	 * const storageCrate = crate();
+	 * // => New Crate Object
+	 */
+	/**
+	 * Save an item to a crate.
+	 *
+	 * @function crate.setItem
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to store the data.
+	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const storageCrate = crate();
+	 * storageCrate.setItem('key', 'value');
+	 * // => undefined
+	 */
+	/**
+	 * Get an item from a crate.
+	 *
+	 * @function crate.getItem
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to store the data.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const storageCrate = crate();
+	 * storageCrate.setItem('key', 'value');
+	 * storageCrate.getItem('key');
+	 * // => 'value'
+	 */
+	/**
+	 * Remove an item from a crate.
+	 *
+	 * @function crate.removeItem
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to remove data.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const storageCrate = crate();
+	 * storageCrate.setItem('key', 'value');
+	 * storageCrate.removeItem('key');
+	 * storageCrate.getItem('key');
+	 * // => undefined
+	 */
+	/**
+	 * Clears all data for the crate including all of localStorage if supported.
+	 *
+	 * @function crate.clear
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to remove data.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const storageCrate = crate();
+	 * storageCrate.setItem('key', 'value');
+	 * storageCrate.clear();
+	 * storageCrate.getItem('key');
+	 * // => undefined
+	 */
+	class Crate {
+		constructor() {
+			if ($.hasLocal) {
+				this.local = localStorage;
+			}
+			this.storage = virtualCrate();
+		}
+		setItem(key, value) {
+			if ($.hasLocal) {
+				this.local.setItem(key, isString(value) ? value : stringify(value));
+			}
+			return this.storage.setItem(key, value);
+		}
+		getItem(key) {
+			const item = this.storage.getItem(key);
+			if (hasValue(item)) {
+				return item;
+			}
+			if (!hasValue(item) && $.hasLocal) {
+				return this.localStore.getItem(key);
+			}
+		}
+		clear() {
+			if ($.hasLocal) {
+				this.local.clear();
+			}
+			this.storage.clear();
+		}
+		removeItem(key) {
+			if ($.hasLocal) {
+				this.local.removeItem(key);
+			}
+			this.storage.removeItem(key);
+		}
+	}
+	function crate(virtualFlag) {
+		return new Crate(virtualFlag);
+	}
+	assign($, {
+		crate,
+		virtualCrate
 	});
 	const generateTheme = (color, bg) => {
 		return `color:${color};background:${bg};`;
@@ -3116,7 +3281,7 @@
 	 * @type {Function}
 	 * @param {Object} value - The value to be logged.
 	 * @param {string} themeName - The theme to be used.
-	 * @returns {undefined} Returns undefined.
+	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
 	 * cnsl('Lucy', 'notify');
@@ -3136,7 +3301,7 @@
 	 * @param {string} themeName - The name of the theme.
 	 * @param {string} color - The text color.
 	 * @param {string} background - The background color of the block.
-	 * @returns {undefined} Returns undefined.
+	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
 	 * cnslTheme('BlackNWhite', '#fff', '#000');
@@ -3203,7 +3368,7 @@
 	 * @param {Array} collection - Collection to be sorted.
 	 * @param {string} key - The property name to sort by based on it's value.
 	 * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
-	 * @returns {Array} The sorted array and or a clone of the array sorted.
+	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
 	 * @example
 	 * sortNewest([{id: 1}, {id: 0}], 'id');
@@ -3232,7 +3397,7 @@
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
 	 * @param {string} key - The property name to sort by based on it's value.
-	 * @returns {Object} The newest object in the collection.
+	 * @returns {Object} - The newest object in the collection.
 	 *
 	 * @example
 	 * getNewest([{id: 1}, {id: 0}], 'id');
@@ -3254,7 +3419,7 @@
 	 * @param {Array} collection - Collection to be sorted.
 	 * @param {string} key - The property name to sort by based on it's value.
 	 * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
-	 * @returns {Array} The sorted array and or a clone of the array sorted.
+	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
 	 * @example
 	 * sortOldest([{id: 1}, {id: 0}], 'id');
@@ -3283,7 +3448,7 @@
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
 	 * @param {string} key - The property name to sort by based on it's value.
-	 * @returns {Object} The newest object in the collection.
+	 * @returns {Object} - The newest object in the collection.
 	 *
 	 * @example
 	 * getOldest([{id: 1}, {id: 0}], 'id');
@@ -3306,7 +3471,7 @@
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
 	 * @param {Function} iteratee - The iteratee to transform keys.
-	 * @returns {Object} Returns the composed aggregate object.
+	 * @returns {Object} - Returns the composed aggregate object.
 	 *
 	 * @example
 	 * groupBy([6.1, 4.2, 6.3], Math.floor);
@@ -3334,7 +3499,7 @@
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
 	 * @param {Function} iteratee - The iteratee to transform keys.
-	 * @returns {Object} Returns the composed aggregate object.
+	 * @returns {Object} - Returns the composed aggregate object.
 	 *
 	 * @example
 	 * countBy([{a:1}, {a:3}], (item) => { return 'a';});
@@ -3360,7 +3525,7 @@
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
 	 * @param {Function} property - The name of the key.
-	 * @returns {number} The count.
+	 * @returns {number} - The count.
 	 *
 	 * @example
 	 * countKey([{a:1}, {a:3}], 'a');
@@ -3383,7 +3548,7 @@
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
 	 * @param {string} property - The name of the key.
-	 * @returns {number} The count.
+	 * @returns {number} - The count.
 	 *
 	 * @example
 	 * countWithoutKey([{a:1}, {a:3}], 'b');
@@ -3411,7 +3576,7 @@
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
 	 * @param {string} key - The property name to index by.
-	 * @returns {Object} Returns the composed aggregate object.
+	 * @returns {Object} - Returns the composed aggregate object.
 	 *
 	 * @example
 	 * indexBy([{name: 'Lucy', id: 0}, {name: 'Erick', id: 1}], 'id');
@@ -3605,7 +3770,7 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} array - Array to be sorted.
-	 * @returns {Array} The sorted array.
+	 * @returns {Array} - The sorted array.
 	 *
 	 * @example
 	 * sortAlphabetical([{letter:'a'}, {letter:'f'}, {letter:'c'}], 'letter');
@@ -3634,7 +3799,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to cap arguments for.
 	 * @param {number} amount - The arity cap.
-	 * @returns {Object} Returns the new capped function.
+	 * @returns {Object} - Returns the new capped function.
 	 *
 	 * @example
 	 * ary((...args) => { return args;}, 2)(1, 2, 3);
@@ -3656,7 +3821,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to curry.
 	 * @param {number} arity - The arity of method.
-	 * @returns {*} Returns the new curried function.
+	 * @returns {*} - Returns the new curried function.
 	 *
 	 * @example
 	 * curry((a, b, c) => {
@@ -3684,7 +3849,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to curry.
 	 * @param {number} arity - The arity of method.
-	 * @returns {*} Returns the new curried function.
+	 * @returns {*} - Returns the new curried function.
 	 *
 	 * @example
 	 * curryRight((a, b, c) => {
@@ -3716,7 +3881,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Function} callable - The function to be called.
-	 * @returns {Function} Returns the new pass-thru function.
+	 * @returns {Function} - Returns the new pass-thru function.
 	 *
 	 * @test
 	 * (async () => {
@@ -3748,7 +3913,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to be called.
 	 * @param {number} amount - The number of calls until method is invoked.
-	 * @returns {Function} Returns the new pass-thru function.
+	 * @returns {Function} - Returns the new pass-thru function.
 	 *
 	 * @test
 	 * (async () => {
@@ -3786,7 +3951,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to be called.
 	 * @param {number} amount - The number of calls before n.
-	 * @returns {Function} Returns the new pass-thru function.
+	 * @returns {Function} - Returns the new pass-thru function.
 	 *
 	 * @test
 	 * (async () => {
@@ -3830,7 +3995,7 @@
 	 * @function stubObject
 	 * @category function
 	 * @type {Function}
-	 * @returns {Object} Returns the new empty object.
+	 * @returns {Object} - Returns the new empty object.
 	 *
 	 * @example
 	 * stubObject();
@@ -3845,7 +4010,7 @@
 	 * @function stubArray
 	 * @category function
 	 * @type {Function}
-	 * @returns {Array} Returns the new empty array.
+	 * @returns {Array} - Returns the new empty array.
 	 *
 	 * @example
 	 * stubArray();
@@ -3860,7 +4025,7 @@
 	 * @function stubString
 	 * @category function
 	 * @type {Function}
-	 * @returns {string} Returns the new empty string.
+	 * @returns {string} - Returns the new empty string.
 	 *
 	 * @example
 	 * stubString();
@@ -3875,7 +4040,7 @@
 	 * @function stubFalse
 	 * @category function
 	 * @type {Function}
-	 * @returns {boolean} Returns false.
+	 * @returns {boolean} - Returns false.
 	 *
 	 * @example
 	 * stubFalse();
@@ -3890,7 +4055,7 @@
 	 * @function stubTrue
 	 * @category function
 	 * @type {Function}
-	 * @returns {boolean} Returns true.
+	 * @returns {boolean} - Returns true.
 	 *
 	 * @example
 	 * stubTrue();
@@ -3905,7 +4070,7 @@
 	 * @function noop
 	 * @category function
 	 * @type {Function}
-	 * @returns {undefined} Returns undefined.
+	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
 	 * noop();
@@ -3950,7 +4115,7 @@
 	 * @type {Function}
 	 * @param {Object|Array|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} Returns the true if all values returned are true or false if one value returns false.
+	 * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * eachWhile({a: false, b: true, c: true}, (item) => {
@@ -3967,7 +4132,7 @@
 	 * @type {Function}
 	 * @param {Array|Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @returns {Array|Object|Function} The originally given object.
+	 * @returns {Array|Object|Function} - The originally given object.
 	 *
 	 * @test
 	 * (async () => {
@@ -4012,7 +4177,7 @@
 	 * @param {Array|Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Array|Object|Function} A new object of the same calling object's type.
+	 * @returns {Array|Object|Function} - A new object of the same calling object's type.
 	 *
 	 * @example
 	 * map({a: 1, b: 2, c: 3}, (item) => {
@@ -4030,7 +4195,7 @@
 	 * @param {Array|Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Array|Object|Function} A new object of the same calling object's type.
+	 * @returns {Array|Object|Function} - A new object of the same calling object's type.
 	 *
 	 * @example
 	 * compactMap({a: null, b: 2, c: 3}, (item) => {
@@ -4054,7 +4219,7 @@
 	 * @type {Function}
 	 * @param {Object|Function|Array} collection - The functions to bind.
 	 * @param {*} bindThis - Object to be bound to functions.
-	 * @returns {Object|Function|Array} Returns the method invoked or undefined.
+	 * @returns {Object|Function|Array} - Returns the method invoked or undefined.
 	 *
 	 * @example
 	 * bindAll([function () { return this;}], 'Lucy')[0]().toString();
@@ -4072,13 +4237,38 @@
 		bindAll
 	});
 	/**
+	 * Checks if the given method is a function. If it is then it invokes it with the given arguments.
+	 *
+	 * @function ifInvoke
+	 * @category function
+	 * @type {Function}
+	 * @param {Function} callable - The function to be invoked if possible.
+	 * @param {...Array} args - Arguments to pass to the method.
+	 * @returns {*} - Returns the method invoked or undefined.
+	 *
+	 * @example
+	 * ifInvoke((...args) => { return args;}, 1, 2);
+	 * // => [1, 2]
+	 * @example
+	 * ifInvoke(undefined, 1, 2);
+	 * // => undefined
+	 */
+	const ifInvoke = (callable, ...args) => {
+		if (isFunction(callable)) {
+			return callable(...args);
+		}
+	};
+	assign($, {
+		ifInvoke
+	});
+	/**
 	 * Creates a function that negates the result of the predicate callable.
 	 *
 	 * @function negate
 	 * @category function
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
-	 * @returns {*} Returns the given methods result.
+	 * @returns {*} - Returns the given methods result.
 	 *
 	 * @example
 	 * negate(() => { return false;})();
@@ -4100,7 +4290,7 @@
 	 * @type {Function}
 	 * @param {Array|Object} collection - The collection to iterate over.
 	 * @param {Function} predicate - The function invoked per iteration.
-	 * @returns {boolean} Returns true if all elements pass the predicate check, else false.
+	 * @returns {boolean} - Returns true if all elements pass the predicate check, else false.
 	 *
 	 * @example
 	 * every([[], true, 1, null, 'string'], Boolean);
@@ -4117,7 +4307,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Array|Object} iteratees - The iteratees to invoke.
-	 * @returns {Function} Returns the new function.
+	 * @returns {Function} - Returns the new function.
 	 *
 	 * @example
 	 * over([Math.max, Math.min])(1, 2, 3, 4);
@@ -4137,7 +4327,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Array|Object} predicates -  The predicates to check.
-	 * @returns {Function} Returns the new function.
+	 * @returns {Function} - Returns the new function.
 	 *
 	 * @example
 	 * overEvery([Boolean, isFinite])('1');
@@ -4165,7 +4355,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
 	 * @param {number} time - The time in milliseconds.
-	 * @returns {Object} Returns setTimeout ID.
+	 * @returns {Object} - Returns setTimeout ID.
 	 *
 	 * @example
 	 * timer(() => {}, 100);
@@ -4182,7 +4372,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
 	 * @param {number} time - The time in milliseconds.
-	 * @returns {Object} Returns setInterval ID.
+	 * @returns {Object} - Returns setInterval ID.
 	 *
 	 * @example
 	 * interval(() => {}, 100);
@@ -4207,7 +4397,7 @@
 	 *
 	 * @function clearTimers
 	 * @category function
-	 * @returns {undefined} Returns undefined.
+	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
 	 * clearTimers();
@@ -4219,7 +4409,7 @@
 	 *
 	 * @function clearIntervals
 	 * @category function
-	 * @returns {undefined} Returns undefined.
+	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
 	 * clearIntervals();
@@ -4234,7 +4424,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
 	 * @param {number} time - The time in milliseconds.
-	 * @returns {Function} The debounced function.
+	 * @returns {Function} - The debounced function.
 	 *
 	 * @example
 	 * debounce(() => { console.log('debounced'); }, 0)();
@@ -4267,7 +4457,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
 	 * @param {number} time - The time in milliseconds.
-	 * @returns {Function} The throttled function.
+	 * @returns {Function} - The throttled function.
 	 *
 	 * @example
 	 * throttle(() => { console.log('throttle'); }, 0)();
@@ -4319,7 +4509,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Array|Object} methods - The object to take methods from.
-	 * @returns {*} Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
+	 * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
 	 *
 	 * @test
 	 * (async () => {
@@ -4364,7 +4554,7 @@
 	 * @type {Function}
 	 * @param {Array|Object|Function} collection - The functions to be invoked.
 	 * @param {*} arg - The object passed as an argument to each method.
-	 * @returns {undefined} Returns undefined.
+	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @test
 	 * (async () => {
@@ -4393,7 +4583,7 @@
 	 * @async
 	 * @param {Array|Object|Function} collection - The functions to be invoked.
 	 * @param {*} arg - The object passed as an argument to each method.
-	 * @returns {undefined} Returns undefined.
+	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @test
 	 * (async () => {
@@ -4424,7 +4614,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {number} [index = 0] - The index of the argument to return.
-	 * @returns {Function} Returns the new pass-thru function.
+	 * @returns {Function} - Returns the new pass-thru function.
 	 *
 	 * @example
 	 * nthArg(1)('a', 'b');
@@ -4446,7 +4636,7 @@
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
 	 * @param {Array} indexes - The arranged argument indexes.
-	 * @returns {Function} Returns the new function.
+	 * @returns {Function} - Returns the new function.
 	 *
 	 * @example
 	 * reArg((a, b, c) => {
@@ -4474,7 +4664,7 @@
 	 * @type {Function}
 	 * @param {*} value - The value to wrap.
 	 * @param {Function} wrapper - The wrapper function.
-	 * @returns {Function} The new function.
+	 * @returns {Function} - The new function.
 	 *
 	 * @example
 	 * wrap('Lucy', (firstName, lastName) => {
@@ -4671,7 +4861,7 @@
 	 * @category object
 	 * @param {Object} source - Source object.
 	 * @param {Object} compareObject - Object to compare to source.
-	 * @returns {boolean} Returns the true or false.
+	 * @returns {boolean} - Returns the true or false.
 	 *
 	 * @example
 	 * isMatchObject({a: 1}, {a: 1});
@@ -4742,7 +4932,7 @@
 	 * @type {Function}
 	 * @param {Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-	 * @returns {Object|Function} Returns the calling object.
+	 * @returns {Object|Function} - Returns the calling object.
 	 *
 	 * @test
 	 * (async () => {
@@ -4778,7 +4968,7 @@
 	 * @param {Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} An object of the same calling object's type.
+	 * @returns {Object|Function} - An object of the same calling object's type.
 	 *
 	 * @test
 	 * (async () => {
@@ -4809,7 +4999,7 @@
 	 * @param {Object|Function} callingObject - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} An object with mapped properties that are not null or undefined.
+	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
 	 *
 	 * @test
 	 * (async () => {
@@ -4965,7 +5155,7 @@
 	 * @category string
 	 * @type {Function}
 	 * @param {string} string - String to be replaced.
-	 * @returns {string} Replaced string.
+	 * @returns {string} - Replaced string.
 	 *
 	 * @example
 	 * htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`);
@@ -4981,7 +5171,7 @@
 	 * @category string
 	 * @type {Function}
 	 * @param {string} string - String to be replaced.
-	 * @returns {string} Replaced string.
+	 * @returns {string} - Replaced string.
 	 *
 	 * @example
 	 * sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`);
@@ -5272,7 +5462,7 @@
 	 * @category utility
 	 * @param {Object} source - Source object.
 	 * @param {Object} compareObject - Object to compare to source.
-	 * @returns {boolean} Returns the true or false.
+	 * @returns {boolean} - Returns the true or false.
 	 *
 	 * @example
 	 * isEqual({a: [1,2,3]}, {a: [1,2,3]});
@@ -5459,7 +5649,7 @@
 	 * @category utility
 	 * @param {string} modelName - Name of the model.
 	 * @property {Object} - The model object.
-	 * @returns {*} Returns the associated model.
+	 * @returns {*} - Returns the associated model.
 	 *
 	 * @example
 	 * model('test', {a: 1}) && model('test');
@@ -5515,7 +5705,7 @@
 	 * @category utility
 	 * @type {Function}
 	 * @param {Array} collection - Methods to invoke.
-	 * @returns {Function} Returns the new composite function.
+	 * @returns {Function} - Returns the new composite function.
 	 *
 	 * @example
 	 * flow(increment, increment, deduct)(0);
@@ -5529,7 +5719,7 @@
 	 * @category utility
 	 * @type {Function}
 	 * @param {Array} collection - Methods to invoke.
-	 * @returns {Function} Returns the new composite function.
+	 * @returns {Function} - Returns the new composite function.
 	 *
 	 * @example
 	 * flowRight(increment, increment, deduct)(0);
@@ -5559,7 +5749,7 @@
 	 * @type {Function}
 	 * @async
 	 * @param {Array} collection - Methods to invoke.
-	 * @returns {Function} Returns the new composite function.
+	 * @returns {Function} - Returns the new composite function.
 	 *
 	 * @example
 	 * flowAsync(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
@@ -5574,7 +5764,7 @@
 	 * @type {Function}
 	 * @async
 	 * @param {Array} collection - Methods to invoke.
-	 * @returns {Function} Returns the new composite function.
+	 * @returns {Function} - Returns the new composite function.
 	 *
 	 * @example
 	 * flowAsyncRight(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);

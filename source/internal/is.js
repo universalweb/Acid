@@ -267,7 +267,7 @@ export const getExtensionRegex = /\.([0-9a-z]+)/;
  * @function getFileExtension
  * @category utility
  * @param {*} value - Object to be checked.
- * @returns {string} Returns the extension.
+ * @returns {string} - Returns the extension.
  *
  * @example
  * getFileExtension('test.js');

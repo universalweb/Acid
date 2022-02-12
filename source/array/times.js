@@ -10,7 +10,7 @@ import { hasValue } from '../internal/is';
   * @param {number} startIndex - The number to start loop from.
   * @param {number} endIndex - The number to stop at the loop.
   * @param {Function} iteratee - Transformation function which is passed position, start, and end.
-  * @returns {undefined} Nothing.
+  * @returns {undefined} - Nothing.
   *
   * @test
   * (async () => {
@@ -49,7 +49,7 @@ export const times = (startIndex, endIndex, iteratee) => {
   * @param {number} endIndex - The number to stop at the loop.
   * @param {Function} iteratee - Transformation function which is passed position, start, and end.
   * @param {Array} [results = []] - Array that will be used to assign results.
-  * @returns {Object} An array with iteratee's returned values.
+  * @returns {Object} - An array with iteratee's returned values.
   *
   * @example
   * timesMap(0, 3, (item) => {

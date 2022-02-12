@@ -11,7 +11,7 @@ import { eachArray } from '../array/each';
   * @type {Function}
   * @param {Array} collection - Array of objects.
   * @param {Function} iteratee - The iteratee to transform keys.
-  * @returns {Object} Returns the composed aggregate object.
+  * @returns {Object} - Returns the composed aggregate object.
   *
   * @example
   * groupBy([6.1, 4.2, 6.3], Math.floor);

@@ -11,7 +11,7 @@ import { isArray, isPlainObject } from '../internal/is';
    * @category utility
    * @param {Object} source - Source object.
    * @param {Object} compareObject - Object to compare to source.
-   * @returns {boolean} Returns the true or false.
+   * @returns {boolean} - Returns the true or false.
    *
    * @example
    * isEqual({a: [1,2,3]}, {a: [1,2,3]});

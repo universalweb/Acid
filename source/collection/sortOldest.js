@@ -9,7 +9,7 @@ import { assign } from '../internal/object';
   * @param {Array} collection - Collection to be sorted.
   * @param {string} key - The property name to sort by based on it's value.
   * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
-  * @returns {Array} The sorted array and or a clone of the array sorted.
+  * @returns {Array} - The sorted array and or a clone of the array sorted.
   *
   * @example
   * sortOldest([{id: 1}, {id: 0}], 'id');
@@ -38,7 +38,7 @@ export const sortOldest = (collection, key = 'id', pureMode = true) => {
   * @type {Function}
   * @param {Array} collection - Collection to be sorted.
   * @param {string} key - The property name to sort by based on it's value.
-  * @returns {Object} The newest object in the collection.
+  * @returns {Object} - The newest object in the collection.
   *
   * @example
   * getOldest([{id: 1}, {id: 0}], 'id');

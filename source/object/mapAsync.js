@@ -11,7 +11,7 @@ import { hasValue } from '../internal/is';
   * @param {Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Object|Function} An object of the same calling object's type.
+  * @returns {Object|Function} - An object of the same calling object's type.
   *
   * @test
   * (async () => {
@@ -42,7 +42,7 @@ export const mapObjectAsync = async (object, iteratee, results = {}) => {
   * @param {Object|Function} callingObject - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Object|Function} An object with mapped properties that are not null or undefined.
+  * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
   *
   * @test
   * (async () => {

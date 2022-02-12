@@ -7,7 +7,7 @@ import { assign } from '../internal/object';
   * @category function
   * @type {Function}
   * @param {Function} callable - The function to be invoked.
-  * @returns {*} Returns the given methods result.
+  * @returns {*} - Returns the given methods result.
   *
   * @example
   * negate(() => { return false;})();

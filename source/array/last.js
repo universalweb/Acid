@@ -8,7 +8,7 @@ import { assign } from '../internal/object';
   * @category array
   * @param {Array} array - Array to have items extracted from.
   * @param {number} [indexFrom = 0] - Value which determines how many items are extracted from the array.
-  * @returns {Array} Items from the array.
+  * @returns {Array} - Items from the array.
   *
   * @example
   * last([1, 2, 3, 4, 5] , 2);

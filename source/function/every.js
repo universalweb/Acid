@@ -9,7 +9,7 @@ import { eachWhile } from '../utility/each';
   * @type {Function}
   * @param {Array|Object} collection - The collection to iterate over.
   * @param {Function} predicate - The function invoked per iteration.
-  * @returns {boolean} Returns true if all elements pass the predicate check, else false.
+  * @returns {boolean} - Returns true if all elements pass the predicate check, else false.
   *
   * @example
   * every([[], true, 1, null, 'string'], Boolean);
