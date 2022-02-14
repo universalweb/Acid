@@ -24,7 +24,7 @@ const uidClosed = {};
   * uid();
   * // => 1
 */
-export const uid = () => {
+export function uid() {
   let result = uidFree.shift(uidFree);
   if (!hasValue(result)) {
     result = count;
@@ -36,8 +36,8 @@ export const uid = () => {
 /**
   * Frees an UID so that it may be recycled for later use.
   *
-  * @function free
-  * @memberof uid
+  * @function uid.free
+  * @category utility
   * @type {Function}
   * @param {number} id - Number to be freed.
   * @returns {undefined} - Nothing is returned.
@@ -53,21 +53,17 @@ export const uid = () => {
   * @example
   * uid();
   * // => 0
-  * @example
   * uid();
   * // => 1
-  * @example
   * uid.free(0);
   * // => undefined
-  * @example
   * uid();
   * // => 0
 */
-const free = (id) => {
+uid.free = (id) => {
   uidClosed[id] = null;
   uidFree.push(id);
 };
-uid.free = free;
 assign(acid, {
   uid,
 });

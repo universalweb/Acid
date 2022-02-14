@@ -51,8 +51,9 @@
 		}
 		if (item.examples) {
 			item.examples = map(item.examples, (exampleCode) => {
+				exampleCode.sourceOld = exampleCode.source;
 				exampleCode.source = window.hljs.highlight(window.js_beautify(exampleCode.source), {
-					language: 'javascript'
+					language: 'javascript',
 				}).value;
 				return exampleCode;
 			});
