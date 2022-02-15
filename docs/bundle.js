@@ -3044,6 +3044,8 @@
 	});
 	/**
 	 * A virtual storage & drop in replacement for localStorage.
+	 * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
+	 * Direct class/constructor access is named VirtualStorage.
 	 *
 	 * @function virtualStorage
 	 * @category browser
@@ -3117,8 +3119,8 @@
 	 * // => undefined
 	 */
 	class VirtualStorage {
-		constructor() {
-			this.items = {};
+		constructor(initialObject = {}) {
+			this.items = initialObject;
 		}
 		getItem(key) {
 			return this.items[key];
@@ -3133,7 +3135,7 @@
 			this.items[key] = null;
 		}
 	}
-	function virtualCrate() {
+	function virtualStorage() {
 		return new VirtualStorage();
 	}
 	function hasStorage(storeCheck) {
@@ -3149,6 +3151,8 @@
 	});
 	/**
 	 * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
+	 * The crate function is a factory which wraps the Crate constructor & returns it.
+	 * Direct class/constructor access is named Crate.
 	 *
 	 * @function crate
 	 * @category browser
@@ -3222,11 +3226,11 @@
 	 * // => undefined
 	 */
 	class Crate {
-		constructor() {
+		constructor(initialObject) {
 			if ($.hasLocal) {
 				this.local = localStorage;
 			}
-			this.storage = virtualCrate();
+			this.storage = virtualCrate(initialObject);
 		}
 		setItem(key, value) {
 			if ($.hasLocal) {
@@ -3260,8 +3264,10 @@
 		return new Crate(virtualFlag);
 	}
 	assign($, {
+		VirtualStorage,
+		Crate,
 		crate,
-		virtualCrate
+		virtualStorage
 	});
 	const generateTheme = (color, bg) => {
 		return `color:${color};background:${bg};`;

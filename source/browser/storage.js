@@ -3,7 +3,9 @@ import { isString, hasValue } from '../internal/is';
 import {stringify} from '../utility/json';
 import { assign } from '../internal/object';
 /**
-  * A virtual storage & drop in replacement for localStorage.
+  * A virtual storage & drop in replacement for localStorage. 
+  * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it. 
+  * Direct class/constructor access is named VirtualStorage.
   *
   * @function virtualStorage
   * @category browser
@@ -78,8 +80,8 @@ import { assign } from '../internal/object';
   * // => undefined
 */
 class VirtualStorage {
-  constructor () {
-    this.items = {};
+  constructor (initialObject = {}) {
+    this.items = initialObject;
   }
 	getItem(key) {
 		return this.items[key];
@@ -94,8 +96,7 @@ class VirtualStorage {
 		this.items[key] = null;
 	}
 }
-
-export function virtualCrate() {
+export function virtualStorage() {
   return new VirtualStorage();
 }
 function hasStorage(storeCheck) {
@@ -111,6 +112,8 @@ hasStorage(() => {
 });
 /**
   * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
+  * The crate function is a factory which wraps the Crate constructor & returns it. 
+  * Direct class/constructor access is named Crate.
   *
   * @function crate
   * @category browser
@@ -184,11 +187,11 @@ hasStorage(() => {
   * // => undefined
 */
 class Crate {
-  constructor () {
+  constructor (initialObject) {
     if (acid.hasLocal) {
       this.local = localStorage;
     }
-    this.storage = virtualCrate();
+    this.storage = virtualCrate(initialObject);
 	}
   setItem(key, value) {
     if (acid.hasLocal) {
@@ -224,6 +227,8 @@ export function crate(virtualFlag) {
 }
 
 assign(acid, {
+  VirtualStorage,
+  Crate,
   crate,
-  virtualCrate
+  virtualStorage
 });
