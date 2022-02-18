@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { get } from './get';
 import { hasValue } from '../internal/is';
@@ -9,20 +9,20 @@ import { hasValue } from '../internal/is';
   * @type {Function}
   * @category utility
   * @param {string} modelName - Name of the model.
-  * @property {Object} - The model object.
+  * @param {Object} modelObject - The model object.
   * @returns {*} - Returns the associated model.
   *
   * @example
   * model('test', {a: 1}) && model('test');
   * // => {a: 1}
 */
-export const model = (modelName, object) => {
-  if (hasValue(object)) {
-    model[modelName] = object;
-  }
-  return get(modelName, model);
+export const model = (modelName, modelObject) => {
+	if (hasValue(modelObject)) {
+		model[modelName] = modelObject;
+	}
+	return get(modelName, model);
 };
-acid.superMethod(model);
-assign(acid, {
-  model
+namespace.superMethod(model);
+assign(namespace, {
+	model
 });

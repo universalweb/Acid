@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { times } from '../array/times';
 /**
@@ -135,7 +135,7 @@ export const throttle = (callable, time) => {
 	};
 	return throttled;
 };
-assign(acid, {
+assign(namespace, {
 	clearIntervals,
 	clearTimers,
 	debounce,

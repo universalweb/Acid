@@ -11,6 +11,6 @@
   * @returns {undefined} - Returns the child.
 */
 export const append = (parentNode, child) => {
-  parentNode.appendChild(child);
-  return child;
+	parentNode.appendChild(child);
+	return child;
 };

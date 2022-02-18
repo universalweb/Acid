@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 /**
@@ -7,7 +7,7 @@ import { hasValue } from '../internal/is';
   * @function eachArray
   * @category array
   * @type {Function}
-  * @param {Array} callingArray - Array that will be looped through.
+  * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
   * @returns {Object} - The originally given array.
   *
@@ -26,12 +26,12 @@ import { hasValue } from '../internal/is';
   * });
   * // => [1, 2, 3]
 */
-export const eachArray = (callingArray, iteratee) => {
-  const arrayLength = callingArray.length;
-  for (let index = 0; index < arrayLength; index++) {
-    iteratee(callingArray[index], index, callingArray, arrayLength);
-  }
-  return callingArray;
+export const eachArray = (source, iteratee) => {
+	const arrayLength = source.length;
+	for (let index = 0; index < arrayLength; index++) {
+		iteratee(source[index], index, source, arrayLength);
+	}
+	return source;
 };
 /**
   * Iterates through the given array in reverse.
@@ -39,7 +39,7 @@ export const eachArray = (callingArray, iteratee) => {
   * @function eachArrayRight
   * @category array
   * @type {Function}
-  * @param {Array} callingArray - Array that will be looped through.
+  * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
   * @returns {Object} - The originally given array.
   *
@@ -58,12 +58,12 @@ export const eachArray = (callingArray, iteratee) => {
   * });
   * // => [1, 2, 3]
 */
-export const eachArrayRight = (callingArray, iteratee) => {
-  const arrayLength = callingArray.length;
-  for (let index = arrayLength - 1; index >= 0; index--) {
-    iteratee(callingArray[index], index, callingArray, arrayLength);
-  }
-  return callingArray;
+export const eachArrayRight = (source, iteratee) => {
+	const arrayLength = source.length;
+	for (let index = arrayLength - 1; index >= 0; index--) {
+		iteratee(source[index], index, source, arrayLength);
+	}
+	return source;
 };
 /**
   * Iterates through the given array while the iteratee returns true.
@@ -71,9 +71,9 @@ export const eachArrayRight = (callingArray, iteratee) => {
   * @function whileArray
   * @category array
   * @type {Function}
-  * @param {Array} callingArray - Array that will be looped through.
+  * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-  * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
+  * @returns {boolean} - Returns true if all returns are true or false if one value returns false.
   *
   * @example
   * whileArray([true, true, false], (item) => {
@@ -81,14 +81,14 @@ export const eachArrayRight = (callingArray, iteratee) => {
   * });
   * // => false
 */
-export const whileArray = (callingArray, iteratee) => {
-  const arrayLength = callingArray.length;
-  for (let index = 0; index < arrayLength; index++) {
-    if (iteratee(callingArray[index], index, callingArray, arrayLength) === false) {
-      return false;
-    }
-  }
-  return true;
+export const whileArray = (source, iteratee) => {
+	const arrayLength = source.length;
+	for (let index = 0; index < arrayLength; index++) {
+		if (iteratee(source[index], index, source, arrayLength) === false) {
+			return false;
+		}
+	}
+	return true;
 };
 /**
   * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
@@ -97,7 +97,7 @@ export const whileArray = (callingArray, iteratee) => {
   * @category array
   * @type {Function}
   * @category array
-  * @param {Array} callingArray - Array that will be looped through.
+  * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
   * @returns {Object} - An array with properties that passed the test.
@@ -108,21 +108,21 @@ export const whileArray = (callingArray, iteratee) => {
   * });
   * // => [true, true]
 */
-export const filterArray = (callingArray, iteratee, results = []) => {
-  eachArray(callingArray, (item, index, arrayOriginal, arrayLength) => {
-    if (iteratee(item, index, results, arrayOriginal, arrayLength) === true) {
-      results.push(item);
-    }
-  });
-  return results;
+export const filterArray = (source, iteratee, results = []) => {
+	eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+		if (iteratee(item, index, results, arrayOriginal, arrayLength) === true) {
+			results.push(item);
+		}
+	});
+	return results;
 };
 const generateMap = (callable) => {
-  return (callingArray, iteratee, results = []) => {
-    callable(callingArray, (item, index, arrayOriginal, arrayLength) => {
-      results[index] = iteratee(item, index, results, arrayOriginal, arrayLength);
-    });
-    return results;
-  };
+	return (source, iteratee, results = []) => {
+		callable(source, (item, index, arrayOriginal, arrayLength) => {
+			results[index] = iteratee(item, index, results, arrayOriginal, arrayLength);
+		});
+		return results;
+	};
 };
 /**
   * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
@@ -130,7 +130,7 @@ const generateMap = (callable) => {
   * @function mapArray
   * @category array
   * @type {Function}
-  * @param {Array} callingArray - Array that will be looped through.
+  * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
   * @returns {Object} - An array of the same calling array's type.
@@ -148,7 +148,7 @@ export const mapArray = generateMap(eachArray);
   * @function mapArrayRight
   * @category array
   * @type {Function}
-  * @param {Array} callingArray - Array that will be looped through.
+  * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
   * @returns {Object} - An array of the same calling array's type.
@@ -159,14 +159,14 @@ export const mapArray = generateMap(eachArray);
   * });
   * // => [6, 4, 2]
 */
-export const mapArrayRight = (callingArray, iteratee, results = []) => {
-  let trueIndex = 0;
-  const arrayLength = callingArray.length;
-  for (let index = arrayLength - 1; index >= 0; index--) {
-    results[trueIndex] = iteratee(callingArray[index], index, callingArray, arrayLength);
-    trueIndex++;
-  }
-  return results;
+export const mapArrayRight = (source, iteratee, results = []) => {
+	let trueIndex = 0;
+	const arrayLength = source.length;
+	for (let index = arrayLength - 1; index >= 0; index--) {
+		results[trueIndex] = iteratee(source[index], index, source, arrayLength);
+		trueIndex++;
+	}
+	return results;
 };
 /**
   * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
@@ -174,7 +174,7 @@ export const mapArrayRight = (callingArray, iteratee, results = []) => {
   * @function compactMapArray
   * @category array
   * @type {Function}
-  * @param {Array} callingArray - Array that will be looped through.
+  * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
   * @returns {Object} - An array with mapped properties that are not null or undefined.
@@ -185,14 +185,14 @@ export const mapArrayRight = (callingArray, iteratee, results = []) => {
   * });
   * // => [2, 3]
 */
-export const compactMapArray = (callingArray, iteratee, results = []) => {
-  eachArray(callingArray, (item, index, arrayOriginal, arrayLength) => {
-    const returned = iteratee(item, index, results, arrayOriginal, arrayLength);
-    if (hasValue(returned)) {
-      results.push(returned);
-    }
-  });
-  return results;
+export const compactMapArray = (source, iteratee, results = []) => {
+	eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+		const returned = iteratee(item, index, results, arrayOriginal, arrayLength);
+		if (hasValue(returned)) {
+			results.push(returned);
+		}
+	});
+	return results;
 };
 /**
   * Iterates through the given and creates an object with all elements that pass the test implemented by the iteratee.
@@ -200,7 +200,7 @@ export const compactMapArray = (callingArray, iteratee, results = []) => {
   * @function mapWhile
   * @category array
   * @type {Function}
-  * @param {Array} callingArray - Array that will be looped through.
+  * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
   * @returns {Array} - An array with properties that passed the test.
@@ -211,24 +211,134 @@ export const compactMapArray = (callingArray, iteratee, results = []) => {
   * });
   * // => [true, true]
 */
-export const mapWhile = (callingArray, iteratee, results = []) => {
-  const arrayLength = callingArray.length;
-  for (let index = 0; index < arrayLength; index++) {
-    const returned = iteratee(callingArray[index], index, results, callingArray, arrayLength);
-    if (returned === false) {
-      break;
-    }
-    results[index] = returned;
-  }
-  return results;
+export const mapWhile = (source, iteratee, results = []) => {
+	const arrayLength = source.length;
+	for (let index = 0; index < arrayLength; index++) {
+		const returned = iteratee(source[index], index, results, source, arrayLength);
+		if (returned === false) {
+			break;
+		}
+		results[index] = returned;
+	}
+	return results;
 };
-assign(acid, {
-  compactMapArray,
-  eachArray,
-  eachArrayRight,
-  filterArray,
-  mapArray,
-  mapArrayRight,
-  mapWhile,
-  whileArray,
+/**
+  * Iterates through the given array but re-checks the length each loop. Usefull while mutating the same array being looped over.
+  *
+  * @function whileEachArray
+  * @category array
+  * @type {Function}
+  * @param {Array} source - Array that will be looped through.
+  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+  * @returns {Object} - The originally given array.
+  *
+  * @test
+  * (async () => {
+  *   const tempList = [];
+  *   whileEachArray([1, 2, 3], (item) => {
+  *     tempList.push(item);
+  *   });
+  *   return assert(tempList, [1, 2, 3]);
+  * });
+  *
+  * @example
+  * whileEachArray([1, 2, 3], (item) => {
+  *   console.log(item);
+  * });
+  * // => [1, 2, 3]
+*/
+export const whileEachArray = (source, iteratee) => {
+	let index = 0;
+	while (index < source.length) {
+		iteratee(source[index], index, source, source.length);
+		index++;
+	}
+	return source;
+};
+/**
+  * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
+  * Re-checks the length each loop.
+  *
+  * @function whileMapArray
+  * @category array
+  * @type {Function}
+  * @param {Array} source - Array that will be looped through.
+  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+  * @param {Array} [results = []] - Array that will be used to assign results.
+  * @returns {Object} - The originally given array.
+  *
+  * @test
+  * (async () => {
+  *   const tempList = [];
+  *   whileMapArray([1, 2, 3, false, null], (item) => {
+  *     tempList.push(item);
+  *   });
+  *   return assert(tempList, [1, 2, 3, false, null]);
+  * });
+  *
+  * @example
+  * whileMapArray([1, 2, 3, false, null], (item) => {
+  *   return item;
+  * });
+  * // => [1, 2, 3, false, null]
+*/
+export const whileMapArray = (source, iteratee, results = []) => {
+	let index = 0;
+	while (index < source.length) {
+		results.push(iteratee(source[index], index, source, source.length));
+		index++;
+	}
+	return source;
+};
+/**
+  * Iterates through the calling object and creates a new object based on the calling object's type with the results,
+  * (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+  * Re-checks the length each loop.
+  *
+  * @function whileCompactMap
+  * @category array
+  * @type {Function}
+  * @param {Array} source - Array that will be looped through.
+  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+  * @param {Array} [results = []] - Array that will be used to assign results.
+  * @returns {Object} - The originally given array.
+  *
+  * @test
+  * (async () => {
+  *   const tempList = [];
+  *   whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
+  *     return item;
+  *   });
+  *   return assert(tempList, [1, 2, 3, false]);
+  * });
+  *
+  * @example
+  * whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
+  *   return item;
+  * });
+  * // => [1, 2, 3, false]
+*/
+export const whileCompactMap = (source, iteratee, results = []) => {
+	let index = 0;
+	while (index < source.length) {
+		const result = results.push(iteratee(source[index], index, source, source.length));
+		index++;
+		if (hasValue(result)) {
+			results.push(result);
+		}
+	}
+	return source;
+};
+assign(namespace, {
+	compactMapArray,
+	eachArray,
+	eachArrayRight,
+	filterArray,
+	mapArray,
+	mapArrayRight,
+	mapWhile,
+	whileArray,
+	whileEachArray,
+	whileMapArray,
+	whileCompactMap
 });

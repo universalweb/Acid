@@ -1,4 +1,4 @@
-import acid from './namespace/index';
+import namespace from './namespace/index';
 import './internal/index';
 import './array/index';
 import './browser/index';
@@ -8,4 +8,4 @@ import './number/index';
 import './object/index';
 import './string/index';
 import './utility/index';
-export default acid;
+export default namespace;

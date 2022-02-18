@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Creates a function that negates the result of the predicate callable.
@@ -14,10 +14,10 @@ import { assign } from '../internal/object';
   * // => true
 */
 export const negate = (callable) => {
-  return (...args) => {
-    return !callable(...args);
-  };
+	return (...args) => {
+		return !callable(...args);
+	};
 };
-assign(acid, {
-  negate
+assign(namespace, {
+	negate
 });

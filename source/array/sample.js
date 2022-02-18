@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { randomInt } from '../number/math';
 import { shuffle } from './shuffle';
@@ -21,30 +21,30 @@ import { shuffle } from './shuffle';
   * // => [1, 3]
 */
 export const sample = (array, amount = 1) => {
-  if (!array) {
-    return false;
-  }
-  const arrayLength = array.length;
-  if (arrayLength === amount || amount > arrayLength) {
-    return shuffle(array);
-  }
-  if (amount === 1) {
-    return [array[randomInt(arrayLength - 1, 0)]];
-  }
-  const sampleArray = [];
-  const used = {};
-  let count = 0;
-  let index;
-  while (count < amount) {
-    index = randomInt(array.length - 1, 0);
-    if (!used[index]) {
-      sampleArray.push(array[index]);
-      used[index] = true;
-      count++;
-    }
-  }
-  return sampleArray;
+	if (!array) {
+		return false;
+	}
+	const arrayLength = array.length;
+	if (arrayLength === amount || amount > arrayLength) {
+		return shuffle(array);
+	}
+	if (amount === 1) {
+		return [array[randomInt(arrayLength - 1, 0)]];
+	}
+	const sampleArray = [];
+	const used = {};
+	let count = 0;
+	let index;
+	while (count < amount) {
+		index = randomInt(array.length - 1, 0);
+		if (!used[index]) {
+			sampleArray.push(array[index]);
+			used[index] = true;
+			count++;
+		}
+	}
+	return sampleArray;
 };
-assign(acid, {
-  sample
+assign(namespace, {
+	sample
 });

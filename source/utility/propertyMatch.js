@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { isEqual } from './isEqual';
 import { whileArray } from '../array/each';
 import { assign, keys } from '../internal/object';
@@ -8,9 +8,10 @@ import { assign, keys } from '../internal/object';
   * @function propertyMatch
   * @type {Function}
   * @category utility
-  * @property {Object} - takes an object.
-  * @property {Object} - takes an object.
-  * @property {Array} - takes in an array of properties.
+  * @param {Object} source - The source object to compare.
+  * @param {Object} compared - Object to be compared to source.
+  * @param {Array} properties - List of properties to compare defaults to keys(source).
+  * @returns {Array} - Returns an array of properties.
   *
   * @example
   * propertyMatch({
@@ -22,11 +23,11 @@ import { assign, keys } from '../internal/object';
   * }, ['a', 'b']);
   * // => true
 */
-export const propertyMatch = (object, compareObject, properties = keys(object)) => {
-  return whileArray(properties, (property) => {
-    return isEqual(object[property], compareObject[property]);
-  });
+export const propertyMatch = (source, compared, properties = keys(source)) => {
+	return whileArray(properties, (property) => {
+		return isEqual(source[property], compared[property]);
+	});
 };
-assign(acid, {
-  propertyMatch,
+assign(namespace, {
+	propertyMatch,
 });

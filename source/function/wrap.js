@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Creates a function that provides value to wrapper as its first argument. The wrapper function is given two arguments the value and the provided argument from the newly created function.
@@ -17,10 +17,10 @@ import { assign } from '../internal/object';
   * // => 'My name is Lucy Diamonds.'
 */
 export const wrap = (value, wrapper) => {
-  return (...arg) => {
-    return wrapper(value, ...arg);
-  };
+	return (...arg) => {
+		return wrapper(value, ...arg);
+	};
 };
-assign(acid, {
-  wrap,
+assign(namespace, {
+	wrap,
 });

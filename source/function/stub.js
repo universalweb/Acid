@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * This method returns a new empty object.
@@ -13,7 +13,7 @@ import { assign } from '../internal/object';
   * // => {}
 */
 export const stubObject = () => {
-  return {};
+	return {};
 };
 /**
   * This method returns a new empty array.
@@ -28,7 +28,7 @@ export const stubObject = () => {
   * // => []
 */
 export const stubArray = () => {
-  return [];
+	return [];
 };
 /**
   * This method returns a new empty string.
@@ -43,7 +43,7 @@ export const stubArray = () => {
   * // => ''
 */
 export const stubString = () => {
-  return '';
+	return '';
 };
 /**
   * This method returns false.
@@ -58,7 +58,7 @@ export const stubString = () => {
   * // => false
 */
 export const stubFalse = () => {
-  return false;
+	return false;
 };
 /**
   * This method returns true.
@@ -73,7 +73,7 @@ export const stubFalse = () => {
   * // => true
 */
 export const stubTrue = () => {
-  return true;
+	return true;
 };
 /**
   * This method returns undefined.
@@ -88,13 +88,13 @@ export const stubTrue = () => {
   * // => undefined
 */
 export const noop = () => {
-  return undefined;
+	return undefined;
 };
-assign(acid, {
-  noop,
-  stubArray,
-  stubFalse,
-  stubObject,
-  stubString,
-  stubTrue,
+assign(namespace, {
+	noop,
+	stubArray,
+	stubFalse,
+	stubObject,
+	stubString,
+	stubTrue,
 });

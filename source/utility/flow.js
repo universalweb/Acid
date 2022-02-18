@@ -1,16 +1,16 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachArray, eachArrayRight } from '../array/each';
 const returnFlow = (callable) => {
-  return (...methods) => {
-    return (arg) => {
-      let value = arg;
-      callable(methods, (item) => {
-        value = item(value);
-      });
-      return value;
-    };
-  };
+	return (...methods) => {
+		return (arg) => {
+			let value = arg;
+			callable(methods, (item) => {
+				value = item(value);
+			});
+			return value;
+		};
+	};
 };
 /**
   * Creates a function that returns the result of invoking the given functions, where each successive invocation is supplied the return value of the previous.
@@ -40,7 +40,7 @@ export const flow = returnFlow(eachArray);
   * // => 1
 */
 export const flowRight = returnFlow(eachArrayRight);
-assign(acid, {
-  flow,
-  flowRight,
+assign(namespace, {
+	flow,
+	flowRight,
 });

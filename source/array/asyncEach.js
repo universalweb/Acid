@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
@@ -33,13 +33,13 @@ import { assign } from '../internal/object';
   * // {a:1} 1
 */
 export const asyncEach = async (callingArray, value) => {
-  const arrayLength = callingArray.length;
-  for (let index = 0; index < arrayLength; index++) {
-    const item = callingArray[index];
-    await item(value, index, callingArray, arrayLength);
-  }
-  return callingArray;
+	const arrayLength = callingArray.length;
+	for (let index = 0; index < arrayLength; index++) {
+		const item = callingArray[index];
+		await item(value, index, callingArray, arrayLength);
+	}
+	return callingArray;
 };
-assign(acid, {
-  asyncEach,
+assign(namespace, {
+	asyncEach,
 });

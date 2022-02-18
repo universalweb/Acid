@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { compactMapArray } from './each';
 /**
@@ -23,17 +23,17 @@ import { compactMapArray } from './each';
   *   {"user":"pebbles","age":1,"active":false}]]
 */
 export const partition = (array, funct) => {
-  const failed = [];
-  return [
-    compactMapArray(array, (item) => {
-      if (funct(item)) {
-        return item;
-      }
-      failed.push(item);
-    }),
-    failed
-  ];
+	const failed = [];
+	return [
+		compactMapArray(array, (item) => {
+			if (funct(item)) {
+				return item;
+			}
+			failed.push(item);
+		}),
+		failed
+	];
 };
-assign(acid, {
-  partition
+assign(namespace, {
+	partition
 });

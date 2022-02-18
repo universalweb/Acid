@@ -1,10 +1,10 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const onlyUnique = (value, index, array) => {
-  return array.indexOf(value) === index;
+	return array.indexOf(value) === index;
 };
 const sortUnique = (item, index, array) => {
-  return item !== array[index - 1];
+	return item !== array[index - 1];
 };
 /**
   * Filters the array down to unique elements.
@@ -20,11 +20,11 @@ const sortUnique = (item, index, array) => {
   * // => [1, 2, 4]
 */
 export const unique = (array, isSorted) => {
-  if (isSorted) {
-    return array.filter(sortUnique);
-  }
-  return array.filter(onlyUnique);
+	if (isSorted) {
+		return array.filter(sortUnique);
+	}
+	return array.filter(onlyUnique);
 };
-assign(acid, {
-  unique
+assign(namespace, {
+	unique
 });

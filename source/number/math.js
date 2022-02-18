@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const mathNative = Math;
 const floorMethod = mathNative.floor;
@@ -18,7 +18,7 @@ const randomMethod = mathNative.random;
   * // => 2
 */
 export const add = (number, value) => {
-  return number + value;
+	return number + value;
 };
 /**
   * Subtracts two numbers.
@@ -35,7 +35,7 @@ export const add = (number, value) => {
   * // => 0
 */
 export const minus = (number, value) => {
-  return number - value;
+	return number - value;
 };
 /**
   * Divides two numbers.
@@ -52,7 +52,7 @@ export const minus = (number, value) => {
   * // => 2
 */
 export const divide = (number, value) => {
-  return number / value;
+	return number / value;
 };
 /**
   * Multiplies two numbers.
@@ -69,7 +69,7 @@ export const divide = (number, value) => {
   * // => 50
 */
 export const multiply = (number, value) => {
-  return number * value;
+	return number * value;
 };
 /**
   *  Extracts the remainder between two numbers.
@@ -86,7 +86,7 @@ export const multiply = (number, value) => {
   * // => 4
 */
 export const remainder = (number, value) => {
-  return number % value;
+	return number % value;
 };
 /**
   *  Increments a number.
@@ -102,7 +102,7 @@ export const remainder = (number, value) => {
   * // => 11
 */
 export const increment = (number) => {
-  return number + 1;
+	return number + 1;
 };
 /**
   *  Decrements a number.
@@ -118,7 +118,7 @@ export const increment = (number) => {
   * // => 9
 */
 export const deduct = (number) => {
-  return number - 1;
+	return number - 1;
 };
 /**
   *  Produces a random number between min (included) and max (excluded).
@@ -140,7 +140,7 @@ export const deduct = (number) => {
   * // => 9.1
 */
 export const randomArbitrary = (max, min = 0) => {
-  return randomMethod() * (max - min) + min;
+	return randomMethod() * (max - min) + min;
 };
 /**
   *  Produces a random integer between min (included) and max (excluded).
@@ -162,16 +162,16 @@ export const randomArbitrary = (max, min = 0) => {
   * // => 9
 */
 export const randomInt = (max, min = 0) => {
-  return floorMethod(randomMethod() * (max - min)) + min;
+	return floorMethod(randomMethod() * (max - min)) + min;
 };
-assign(acid, {
-  add,
-  deduct,
-  divide,
-  increment,
-  minus,
-  multiply,
-  randomArbitrary,
-  randomInt,
-  remainder,
+assign(namespace, {
+	add,
+	deduct,
+	divide,
+	increment,
+	minus,
+	multiply,
+	randomArbitrary,
+	randomInt,
+	remainder,
 });

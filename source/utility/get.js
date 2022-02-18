@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 import { toPath } from '../utility/toPath';
@@ -21,14 +21,14 @@ import { whileArray } from '../array/each';
   * });
   * // => 'c'
 */
-export const get = (propertyString, objectChain = acid) => {
-  let link = objectChain;
-  whileArray(toPath(propertyString), (item) => {
-    link = link[item];
-    return hasValue(link);
-  });
-  return link;
+export const get = (propertyString, objectChain = namespace) => {
+	let link = objectChain;
+	whileArray(toPath(propertyString), (item) => {
+		link = link[item];
+		return hasValue(link);
+	});
+	return link;
 };
-assign(acid, {
-  get
+assign(namespace, {
+	get
 });

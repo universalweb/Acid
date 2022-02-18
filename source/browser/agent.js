@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { eachArray } from '../array/each';
 import { eachObject } from '../object/each';
 import { isBoolean } from '../internal/is';
@@ -37,6 +37,6 @@ if (userAgent) {
 		isAgent[item] = true;
 	});
 }
-assign(acid, {
+assign(namespace, {
 	isAgent
 });

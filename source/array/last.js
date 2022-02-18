@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Extracts item(s) from an array starting from the last item in the array.
@@ -18,9 +18,9 @@ import { assign } from '../internal/object';
   * // => 5
 */
 export const last = (array, indexFrom) => {
-  const arrayLength = array.length;
-  return (indexFrom) ? array.slice(arrayLength - indexFrom, arrayLength) : array[arrayLength - 1];
+	const arrayLength = array.length;
+	return (indexFrom) ? array.slice(arrayLength - indexFrom, arrayLength) : array[arrayLength - 1];
 };
-assign(acid, {
-  last
+assign(namespace, {
+	last
 });

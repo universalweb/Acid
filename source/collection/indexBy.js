@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachArray } from '../array/each';
 /**
@@ -8,20 +8,20 @@ import { eachArray } from '../array/each';
   * @category collection
   * @type {Function}
   * @param {Array} collection - Array of objects.
-  * @param {string} key - The property name to index by.
+  * @param {string} propertyName - The property name to index by.
   * @returns {Object} - Returns the composed aggregate object.
   *
   * @example
   * indexBy([{name: 'Lucy', id: 0}, {name: 'Erick', id: 1}], 'id');
   * // => { "0": {name: 'Lucy', id: 0}, "1": {name: 'Erick', id: 1}}
 */
-export const indexBy = (array, key = 'id') => {
-  const sortedObject = {};
-  eachArray(array, (item) => {
-    sortedObject[item[key]] = item;
-  });
-  return sortedObject;
+export const indexBy = (collection, propertyName = 'id') => {
+	const sortedObject = {};
+	eachArray(collection, (item) => {
+		sortedObject[item[propertyName]] = item;
+	});
+	return sortedObject;
 };
-assign(acid, {
-  indexBy
+assign(namespace, {
+	indexBy
 });

@@ -1,5 +1,6 @@
 const docredux = require('docredux');
 const buildDocs = () => {
+	'';
 	return docredux.build.json({
 		destination: `${__dirname}/docs/`,
 		source: `${__dirname}/docs/bundle.js`,

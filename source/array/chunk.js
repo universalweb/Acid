@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Chunks an array according to a user defined number.
@@ -15,19 +15,19 @@ import { assign } from '../internal/object';
   * // => [[1],[2],[3]]
 */
 export const chunk = (array, size = 1) => {
-  const chunked = [];
-  let index = 0;
-  array.forEach((item, key) => {
-    if (!(key % size)) {
-      chunked.push([]);
-      if (key) {
-        index++;
-      }
-    }
-    chunked[index].push(item);
-  });
-  return chunked;
+	const chunked = [];
+	let index = 0;
+	array.forEach((item, key) => {
+		if (!(key % size)) {
+			chunked.push([]);
+			if (key) {
+				index++;
+			}
+		}
+		chunked[index].push(item);
+	});
+	return chunked;
 };
-assign(acid, {
-  chunk,
+assign(namespace, {
+	chunk,
 });

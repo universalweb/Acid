@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachArray } from '../array/each';
 import { eachObject } from './each';
@@ -44,7 +44,7 @@ export const unZipObject = (object) => {
 	});
 	return [unZippedKeys, values];
 };
-assign(acid, {
+assign(namespace, {
 	unZipObject,
 	zipObject,
 });

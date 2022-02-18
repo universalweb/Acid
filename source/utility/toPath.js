@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const regexToPath = /\.|\[/;
 const regexCloseBracket = /]/g;
@@ -17,8 +17,8 @@ const emptyString = '';
   * // => ['post', 'like', '2']
 */
 export const toPath = (string) => {
-  return string.replace(regexCloseBracket, emptyString).split(regexToPath);
+	return string.replace(regexCloseBracket, emptyString).split(regexToPath);
 };
-assign(acid, {
-  toPath,
+assign(namespace, {
+	toPath,
 });

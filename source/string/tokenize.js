@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const tokenizeRegEx = /\S+/g;
 const wordsRegEx = /\w+/g;
@@ -16,7 +16,7 @@ const wordsRegEx = /\w+/g;
   * // => ["I", "am", "Lucy!"]
 */
 export const tokenize = (string) => {
-  return string.match(tokenizeRegEx) || [];
+	return string.match(tokenizeRegEx) || [];
 };
 /**
   * Break string into word matches.
@@ -31,9 +31,9 @@ export const tokenize = (string) => {
   * // => ["I", "am", "Lucy"]
 */
 export const words = (string) => {
-  return string.match(wordsRegEx) || [];
+	return string.match(wordsRegEx) || [];
 };
-assign(acid, {
-  tokenize,
-  words
+assign(namespace, {
+	tokenize,
+	words
 });

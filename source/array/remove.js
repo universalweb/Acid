@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Removes all occurrences of the passed in items from the array and returns the array. This mutates the given array. Clone the array if you desire to avoid mutation.
@@ -17,16 +17,16 @@ import { assign } from '../internal/object';
   * // => [5]
 */
 export const remove = (array, removeThese) => {
-  let arrayLength = array.length;
-  for (let index = 0; index < arrayLength; index++) {
-    const item = array[index];
-    if (removeThese.includes(item)) {
-      array.splice(index, 1);
-      index--;
-      arrayLength--;
-    }
-  }
-  return array;
+	let arrayLength = array.length;
+	for (let index = 0; index < arrayLength; index++) {
+		const item = array[index];
+		if (removeThese.includes(item)) {
+			array.splice(index, 1);
+			index--;
+			arrayLength--;
+		}
+	}
+	return array;
 };
 /**
   * Removes items that pass the method's test. This mutates the given array. Clone the array if you desire to avoid mutation.
@@ -42,18 +42,18 @@ export const remove = (array, removeThese) => {
   * // => [2, 4]
 */
 export const removeBy = (array, iteratee) => {
-  let arrayLength = array.length;
-  for (let index = 0; index < arrayLength; index++) {
-    const item = array[index];
-    if (iteratee(item, index)) {
-      array.splice(index, 1);
-      index--;
-      arrayLength--;
-    }
-  }
-  return array;
+	let arrayLength = array.length;
+	for (let index = 0; index < arrayLength; index++) {
+		const item = array[index];
+		if (iteratee(item, index)) {
+			array.splice(index, 1);
+			index--;
+			arrayLength--;
+		}
+	}
+	return array;
 };
-assign(acid, {
-  remove,
-  removeBy
+assign(namespace, {
+	remove,
+	removeBy
 });

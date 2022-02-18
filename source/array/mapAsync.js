@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachAsync } from './eachAsync';
 /**
@@ -20,12 +20,12 @@ import { eachAsync } from './eachAsync';
   * // => [2, 4, 6]
 */
 export const mapAsync = async (array, iteratee) => {
-  const results = [];
-  await eachAsync(array, async (item, index, arrayLength) => {
-    results[index] = await iteratee(item, index, arrayLength);
-  });
-  return results;
+	const results = [];
+	await eachAsync(array, async (item, index, arrayLength) => {
+		results[index] = await iteratee(item, index, arrayLength);
+	});
+	return results;
 };
-assign(acid, {
-  mapAsync,
+assign(namespace, {
+	mapAsync,
 });

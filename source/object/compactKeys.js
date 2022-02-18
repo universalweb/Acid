@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachObject } from '../object/each';
 /**
@@ -29,6 +29,6 @@ export const compactKeys = (object) => {
 	});
 	return compactedKeys;
 };
-assign(acid, {
+assign(namespace, {
 	compactKeys
 });

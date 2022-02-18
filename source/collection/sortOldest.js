@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Sorts an array in place using a key from oldest to newest.
@@ -16,19 +16,19 @@ import { assign } from '../internal/object';
   * // => [{id: 0}, {id: 1}]
 */
 export const sortOldest = (collection, key = 'id', pureMode = true) => {
-  const array = (pureMode) ? collection : [...collection];
-  return array.sort((previous, next) => {
-    if (!next[key]) {
-      return 1;
-    } else if (!previous[key]) {
-      return -1;
-    } else if (previous[key] < next[key]) {
-      return -1;
-    } else if (previous[key] > next[key]) {
-      return 1;
-    }
-    return 0;
-  });
+	const array = (pureMode) ? collection : [...collection];
+	return array.sort((previous, next) => {
+		if (!next[key]) {
+			return 1;
+		} else if (!previous[key]) {
+			return -1;
+		} else if (previous[key] < next[key]) {
+			return -1;
+		} else if (previous[key] > next[key]) {
+			return 1;
+		}
+		return 0;
+	});
 };
 /**
   * Sorts an array in place using a key from oldest to newest and returns the oldest. Does not mutate the array.
@@ -45,9 +45,9 @@ export const sortOldest = (collection, key = 'id', pureMode = true) => {
   * // => {id: 0}
 */
 export const getOldest = (collection, key = 'id') => {
-  return sortOldest(collection, key)[0];
+	return sortOldest(collection, key)[0];
 };
-assign(acid, {
-  getOldest,
-  sortOldest,
+assign(namespace, {
+	getOldest,
+	sortOldest,
 });

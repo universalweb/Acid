@@ -1,7 +1,7 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 export const numericalCompare = (a, b) => {
-  return a - b;
+	return a - b;
 };
 /**
   * Sorts an array in place using a numerical comparison algorithm from lowest to highest.
@@ -17,8 +17,8 @@ export const numericalCompare = (a, b) => {
   * // => [0, 1, 2, 10]
 */
 export const numSort = (numberList) => {
-  return numberList.sort(numericalCompare);
+	return numberList.sort(numericalCompare);
 };
-assign(acid, {
-  numSort
+assign(namespace, {
+	numSort
 });

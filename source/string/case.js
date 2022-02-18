@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const normalizeCase = /[-_]/g;
 const spaceFirstLetter = / (.)/g;
@@ -16,9 +16,9 @@ const spaceFirstLetter = / (.)/g;
   * // => 'UPPER CASE'
 */
 export const upperCase = (string) => {
-  return string.replace(normalizeCase, ' ')
-    .trim()
-    .toUpperCase();
+	return string.replace(normalizeCase, ' ')
+		.trim()
+		.toUpperCase();
 };
 /**
   * Converts a string into Camel case format.
@@ -34,10 +34,10 @@ export const upperCase = (string) => {
   * // => 'camelCase'
 */
 export const camelCase = (string) => {
-  return string.toLowerCase()
-    .replace(spaceFirstLetter, (match) => {
-      return match.toUpperCase().replace(/ /g, '');
-    });
+	return string.toLowerCase()
+		.replace(spaceFirstLetter, (match) => {
+			return match.toUpperCase().replace(/ /g, '');
+		});
 };
 /**
   * Converts a string into Kebab case format.
@@ -53,10 +53,10 @@ export const camelCase = (string) => {
   * // => 'kebab-case'
 */
 export const kebabCase = (string) => {
-  return string.replace(normalizeCase, ' ')
-    .trim()
-    .toLowerCase()
-    .replace(spaceFirstLetter, '-$1');
+	return string.replace(normalizeCase, ' ')
+		.trim()
+		.toLowerCase()
+		.replace(spaceFirstLetter, '-$1');
 };
 /**
   * Converts a string into snake case format.
@@ -72,14 +72,14 @@ export const kebabCase = (string) => {
   * // => 'snake_case'
 */
 export const snakeCase = (string) => {
-  return string.replace(normalizeCase, ' ')
-    .trim()
-    .toLowerCase()
-    .replace(spaceFirstLetter, '_$1');
+	return string.replace(normalizeCase, ' ')
+		.trim()
+		.toLowerCase()
+		.replace(spaceFirstLetter, '_$1');
 };
-assign(acid, {
-  camelCase,
-  kebabCase,
-  snakeCase,
-  upperCase,
+assign(namespace, {
+	camelCase,
+	kebabCase,
+	snakeCase,
+	upperCase,
 });

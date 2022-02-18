@@ -1,9 +1,9 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const findIndexCache = (element, index, array, indexMatch, propertyName) => {
-  if (element[propertyName] === indexMatch) {
-    return true;
-  }
+	if (element[propertyName] === indexMatch) {
+		return true;
+	}
 };
 /**
   * Finds an object in a collection by the given id and property name.
@@ -21,10 +21,10 @@ const findIndexCache = (element, index, array, indexMatch, propertyName) => {
   * // => {id: 1}
 */
 export const findItem = (collection, id, propertyName = 'id') => {
-  const result = collection.find((element, index) => {
-    return findIndexCache(element, index, collection, id, propertyName);
-  });
-  return (result === -1) ? false : result;
+	const result = collection.find((element, index) => {
+		return findIndexCache(element, index, collection, id, propertyName);
+	});
+	return (result === -1) ? false : result;
 };
 /**
   * Finds an object in a collection by the given id and property name and returns the array index of the object.
@@ -42,12 +42,12 @@ export const findItem = (collection, id, propertyName = 'id') => {
   * // => 0
 */
 export const findIndex = (collection, id, propertyName = 'id') => {
-  const result = collection.findIndex((element, index) => {
-    return findIndexCache(element, index, collection, id, propertyName);
-  });
-  return (result === -1) ? false : result;
+	const result = collection.findIndex((element, index) => {
+		return findIndexCache(element, index, collection, id, propertyName);
+	});
+	return (result === -1) ? false : result;
 };
-assign(acid, {
-  findIndex,
-  findItem,
+assign(namespace, {
+	findIndex,
+	findItem,
 });

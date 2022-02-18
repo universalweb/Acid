@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { each } from '../utility/each';
 import { eachAsync } from '../array/eachAsync';
@@ -9,7 +9,7 @@ import { eachAsync } from '../array/eachAsync';
   * @category function
   * @type {Function}
   * @param {Array|Object|Function} collection - The functions to be invoked.
-  * @param {*} arg - The object passed as an argument to each method.
+  * @param {*} value - The object passed as an argument to each method.
   * @returns {undefined} - Returns undefined.
   *
   * @test
@@ -26,9 +26,9 @@ import { eachAsync } from '../array/eachAsync';
   * // => undefined
 */
 export const inSync = (collection, value) => {
-  return each(collection, (item) => {
-    item(value);
-  });
+	return each(collection, (item) => {
+		item(value);
+	});
 };
 /**
   * Invoke an array of functions asynchronously. Each function is awaited to ensure execution order.
@@ -38,7 +38,7 @@ export const inSync = (collection, value) => {
   * @type {Function}
   * @async
   * @param {Array|Object|Function} collection - The functions to be invoked.
-  * @param {*} arg - The object passed as an argument to each method.
+  * @param {*} value - The object passed as an argument to each method.
   * @returns {undefined} - Returns undefined.
   *
   * @test
@@ -55,11 +55,11 @@ export const inSync = (collection, value) => {
   * // => undefined
 */
 export const inAsync = async (collection, value) => {
-  return eachAsync(collection, async (item) => {
-    await item(value);
-  });
+	return eachAsync(collection, async (item) => {
+		await item(value);
+	});
 };
-assign(acid, {
-  inAsync,
-  inSync,
+assign(namespace, {
+	inAsync,
+	inSync,
 });

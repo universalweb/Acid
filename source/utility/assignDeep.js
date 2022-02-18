@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { each } from './each';
 import { isArray, isPlainObject } from '../internal/is';
@@ -8,8 +8,8 @@ import { isArray, isPlainObject } from '../internal/is';
   * @function assignDeep
   * @category utility
   * @type {Function}
-  * @param {Object} object - Object to be assigned new properties.
-  * @param {Object} otherObject - Object from which properties are extracted.
+  * @param {Object} target - Object to be assigned new properties.
+  * @param {Object} source - Object from which properties are extracted.
   * @param {boolean} [mergeArrays = true] - Array from which items are assigned to the new object.
   * @returns {Object} - Returns object with the newly assigned properties.
   *
@@ -29,6 +29,6 @@ export const assignDeep = (target, source, mergeArrays = true) => {
 	});
 	return target;
 };
-assign(acid, {
+assign(namespace, {
 	assignDeep
 });

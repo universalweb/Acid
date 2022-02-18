@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * A wrapper around the promise constructor.
@@ -22,8 +22,8 @@ import { assign } from '../internal/object';
   * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
 */
 export const promise = (callback) => {
-  return new Promise(callback);
+	return new Promise(callback);
 };
-assign(acid, {
-  promise
+assign(namespace, {
+	promise
 });

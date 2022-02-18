@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from './object';
 /**
  * Calls a target function with arguments as specified.
@@ -15,6 +15,6 @@ import { assign } from './object';
  * // => 2
 */
 export const apply = Reflect.apply;
-assign(acid, {
-  apply
+assign(namespace, {
+	apply
 });

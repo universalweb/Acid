@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { whileArray } from './each';
 /**
@@ -9,20 +9,20 @@ import { whileArray } from './each';
    * @category array
    * @param {Array} source - Source object.
    * @param {Array} compareArray - Object to compare to source.
-   * @returns {boolean} - Returns the true or false.
+   * @returns {boolean} - Returns true or false.
    *
    * @example
    * isMatchArray([1, 2, 3], [1, 2, 3]);
    * // => true
  */
 export const isMatchArray = (source, compareArray) => {
-  if (source.length === compareArray.length) {
-    return whileArray(source, (item, index) => {
-      return compareArray[index] === item;
-    });
-  }
-  return false;
+	if (source.length === compareArray.length) {
+		return whileArray(source, (item, index) => {
+			return compareArray[index] === item;
+		});
+	}
+	return false;
 };
-assign(acid, {
-  isMatchArray,
+assign(namespace, {
+	isMatchArray,
 });

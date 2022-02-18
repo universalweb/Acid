@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const jsonNative = JSON;
 /**
@@ -29,7 +29,7 @@ export const jsonParse = jsonNative.parse;
    * // => '{}'
  */
 export const stringify = jsonNative.stringify;
-assign(acid, {
+assign(namespace, {
 	jsonParse,
 	stringify
 });

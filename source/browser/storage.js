@@ -1,10 +1,10 @@
-import acid from '../namespace/index';
-import { isString, hasValue } from '../internal/is';
-import {stringify} from '../utility/json';
+import namespace from '../namespace/index';
+import { hasValue, isString } from '../internal/is';
+import { stringify } from '../utility/json';
 import { assign } from '../internal/object';
 /**
-  * A virtual storage & drop in replacement for localStorage. 
-  * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it. 
+  * A virtual storage & drop in replacement for localStorage.
+  * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
   * Direct class/constructor access is named VirtualStorage.
   *
   * @function virtualStorage
@@ -16,7 +16,6 @@ import { assign } from '../internal/object';
   * const myVirtualStorage = virtualStorage();
   * // => New Crate Object
 */
-
 /**
   * Save an item to a virtual storage object.
   *
@@ -80,9 +79,9 @@ import { assign } from '../internal/object';
   * // => undefined
 */
 class VirtualStorage {
-  constructor (initialObject = {}) {
-    this.items = initialObject;
-  }
+	constructor(initialObject = {}) {
+		this.items = initialObject;
+	}
 	getItem(key) {
 		return this.items[key];
 	}
@@ -90,29 +89,18 @@ class VirtualStorage {
 		this.items[key] = value;
 	}
 	clear() {
-		this.storage.items = {};
+		this.items = {};
 	}
 	removeItem(key) {
 		this.items[key] = null;
 	}
 }
 export function virtualStorage() {
-  return new VirtualStorage();
+	return new VirtualStorage();
 }
-function hasStorage(storeCheck) {
-	try {
-		storeCheck().removeItem('TESTING');
-		acid.hasLocal = true;
-	} catch (e) {
-		acid.hasLocal = false;
-	}
-}
-hasStorage(() => {
-	return localStorage;
-});
 /**
   * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
-  * The crate function is a factory which wraps the Crate constructor & returns it. 
+  * The crate function is a factory which wraps the Crate constructor & returns it.
   * Direct class/constructor access is named Crate.
   *
   * @function crate
@@ -186,49 +174,61 @@ hasStorage(() => {
   * storageCrate.getItem('key');
   * // => undefined
 */
-class Crate {
-  constructor (initialObject) {
-    if (acid.hasLocal) {
-      this.local = localStorage;
-    }
-    this.storage = virtualCrate(initialObject);
+let hasLocal;
+function hasStorage(storeCheck) {
+	try {
+		storeCheck().removeItem('TESTING');
+		hasLocal = true;
+	} catch (e) {
+		hasLocal = false;
 	}
-  setItem(key, value) {
-    if (acid.hasLocal) {
-      this.local.setItem(key, (isString(value)) ? value : stringify(value));
-    }
+}
+hasStorage(() => {
+	return localStorage;
+});
+class Crate {
+	constructor(initialObject) {
+		if (this.hasLocal) {
+			this.local = localStorage;
+		}
+		this.storage = virtualStorage(initialObject);
+	}
+	hasLocal = hasLocal;
+	setItem(key, value) {
+		if (this.hasLocal) {
+			this.local.setItem(key, (isString(value)) ? value : stringify(value));
+		}
 		return this.storage.setItem(key, value);
 	}
-  getItem(key) {
-    let item = this.storage.getItem(key);
-    if (hasValue(item)) {
-      return item;
-    }
-    if (!hasValue(item) && acid.hasLocal) {
-      return this.local.getItem(key);
-    }
+	getItem(key) {
+		const item = this.storage.getItem(key);
+		if (hasValue(item)) {
+			return item;
+		}
+		if (!hasValue(item) && this.hasLocal) {
+			return this.local.getItem(key);
+		}
 	}
-  clear() {
-    if (acid.hasLocal) {
-      this.local.clear();
-    }
+	clear() {
+		if (this.hasLocal) {
+			this.local.clear();
+		}
 		this.storage.clear();
 	}
-  removeItem(key) {
-    if (acid.hasLocal) {
-      this.local.removeItem(key);
-    }
+	removeItem(key) {
+		if (this.hasLocal) {
+			this.local.removeItem(key);
+		}
 		this.storage.removeItem(key);
 	}
 }
-
 export function crate(virtualFlag) {
-  return new Crate(virtualFlag);
+	return new Crate(virtualFlag);
 }
-
-assign(acid, {
-  VirtualStorage,
-  Crate,
-  crate,
-  virtualStorage
+assign(namespace, {
+	VirtualStorage,
+	Crate,
+	crate,
+	virtualStorage,
+	hasLocal
 });

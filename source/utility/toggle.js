@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { isEqual } from './isEqual';
 /**
@@ -20,6 +20,6 @@ import { isEqual } from './isEqual';
 export const toggle = (value, on = true, off = false) => {
 	return (isEqual(on, value)) ? off : on;
 };
-assign(acid, {
+assign(namespace, {
 	toggle
 });

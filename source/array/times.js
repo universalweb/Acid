@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 /**
@@ -32,12 +32,12 @@ import { hasValue } from '../internal/is';
   * // => undefined
 */
 export const times = (startIndex, endIndex, iteratee) => {
-  const start = (iteratee) ? startIndex : 0;
-  const end = (iteratee) ? endIndex : startIndex;
-  const iterateeMethod = iteratee || endIndex;
-  for (let position = start; position < end; position++) {
-    iterateeMethod(position, start, end);
-  }
+	const start = (iteratee) ? startIndex : 0;
+	const end = (iteratee) ? endIndex : startIndex;
+	const iterateeMethod = iteratee || endIndex;
+	for (let position = start; position < end; position++) {
+		iterateeMethod(position, start, end);
+	}
 };
 /**
   * Iterates based on a start index and end index. Creates an array with the results of the iteratee on every element in the calling array. The loop ends when the start index is equal to the end index.
@@ -58,19 +58,19 @@ export const times = (startIndex, endIndex, iteratee) => {
   * // => [0, 1, 2]
 */
 export const timesMap = (startIndex, endIndex, iteratee, results = []) => {
-  const start = (iteratee) ? startIndex : 0;
-  const end = (iteratee) ? endIndex : startIndex;
-  const iterateeMethod = iteratee || endIndex;
-  let result;
-  times(start, end, (position) => {
-    result = iterateeMethod(position, start, end, results);
-    if (hasValue(result)) {
-      results.push(result);
-    }
-  });
-  return results;
+	const start = (iteratee) ? startIndex : 0;
+	const end = (iteratee) ? endIndex : startIndex;
+	const iterateeMethod = iteratee || endIndex;
+	let result;
+	times(start, end, (position) => {
+		result = iterateeMethod(position, start, end, results);
+		if (hasValue(result)) {
+			results.push(result);
+		}
+	});
+	return results;
 };
-assign(acid, {
-  times,
-  timesMap,
+assign(namespace, {
+	times,
+	timesMap,
 });

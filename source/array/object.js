@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachArray } from './each';
 /**
@@ -16,12 +16,12 @@ import { eachArray } from './each';
   * // => {i:1, love:2, lucy: 3}
 */
 export const arrayToObject = (values, properties) => {
-  const sortedObject = {};
-  eachArray(values, (item, key) => {
-    sortedObject[properties[key]] = item;
-  });
-  return sortedObject;
+	const sortedObject = {};
+	eachArray(values, (item, key) => {
+		sortedObject[properties[key]] = item;
+	});
+	return sortedObject;
 };
-assign(acid, {
-  arrayToObject
+assign(namespace, {
+	arrayToObject
 });

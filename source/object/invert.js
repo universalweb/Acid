@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachObject } from './each';
 /**
@@ -16,11 +16,11 @@ import { eachObject } from './each';
   * // => {1:'a'}
 */
 export const invert = (thisObject, invertedObject = {}) => {
-  eachObject(thisObject, (item, key) => {
-    invertedObject[item] = key;
-  });
-  return invertedObject;
+	eachObject(thisObject, (item, key) => {
+		invertedObject[item] = key;
+	});
+	return invertedObject;
 };
-assign(acid, {
-  invert,
+assign(namespace, {
+	invert,
 });

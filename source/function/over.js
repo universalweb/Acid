@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachWhile, map } from '../utility/each';
 /**
@@ -15,11 +15,11 @@ import { eachWhile, map } from '../utility/each';
   * // => [4, 1]
 */
 export const over = (iteratees) => {
-  return (...args) => {
-    return map(iteratees, (item) => {
-      return item(...args);
-    });
-  };
+	return (...args) => {
+		return map(iteratees, (item) => {
+			return item(...args);
+		});
+	};
 };
 /**
   * Creates a function that checks if all of the predicates return truthy when invoked with the arguments it receives.
@@ -38,13 +38,13 @@ export const over = (iteratees) => {
   * // => false
 */
 export const overEvery = (predicates) => {
-  return (...args) => {
-    return eachWhile(predicates, (item) => {
-      return item(...args);
-    });
-  };
+	return (...args) => {
+		return eachWhile(predicates, (item) => {
+			return item(...args);
+		});
+	};
 };
-assign(acid, {
-  over,
-  overEvery
+assign(namespace, {
+	over,
+	overEvery
 });

@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { eachAsync } from '../array/eachAsync';
 import { assign, keys } from '../internal/object';
 /**
@@ -7,9 +7,9 @@ import { assign, keys } from '../internal/object';
   * @function eachObjectAsync
   * @category object
   * @type {Function}
-  * @param {Object|Function} callingObject - Object that will be looped through.
+  * @param {Object|Function} source - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-  * @returns {Object|Function} - Returns the calling object.
+  * @returns {Object|Function} - Returns source.
   *
   * @test
   * (async () => {
@@ -26,13 +26,13 @@ import { assign, keys } from '../internal/object';
   * });
   * // => {a: 1, b: 2, c: 3}
 */
-export const eachObjectAsync = async (thisObject, iteratee) => {
-  const objectKeys = keys(thisObject);
-  await eachAsync(objectKeys, (key, index, array, propertyCount) => {
-    return iteratee(thisObject[key], key, thisObject, propertyCount, objectKeys);
-  });
-  return thisObject;
+export const eachObjectAsync = async (source, iteratee) => {
+	const objectKeys = keys(source);
+	await eachAsync(objectKeys, (key, index, array, propertyCount) => {
+		return iteratee(source[key], key, source, propertyCount, objectKeys);
+	});
+	return source;
 };
-assign(acid, {
-  eachObjectAsync,
+assign(namespace, {
+	eachObjectAsync,
 });

@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Returns a shallow copy of the array up to an amount.
@@ -14,7 +14,7 @@ import { assign } from '../internal/object';
   * // => [1, 2]
 */
 export const take = (array, amount = 1) => {
-  return array.slice(0, amount);
+	return array.slice(0, amount);
 };
 /**
   * Returns a shallow copy of the array up to an amount starting from the right.
@@ -30,10 +30,10 @@ export const take = (array, amount = 1) => {
   * // => [2, 3]
 */
 export const takeRight = (array, amount = 1) => {
-  const arrayLength = array.length;
-  return array.slice(arrayLength - amount, arrayLength);
+	const arrayLength = array.length;
+	return array.slice(arrayLength - amount, arrayLength);
 };
-assign(acid, {
-  take,
-  takeRight
+assign(namespace, {
+	take,
+	takeRight
 });

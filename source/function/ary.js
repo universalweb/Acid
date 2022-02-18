@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Creates a function that invokes callable, with up to n arguments, ignoring any additional arguments.
@@ -15,10 +15,10 @@ import { assign } from '../internal/object';
   * // => [1, 2]
 */
 export const ary = (callable, amount) => {
-  return (...args) => {
-    return callable(...args.splice(0, amount));
-  };
+	return (...args) => {
+		return callable(...args.splice(0, amount));
+	};
 };
-assign(acid, {
-  ary
+assign(namespace, {
+	ary
 });

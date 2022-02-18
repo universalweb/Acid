@@ -12,10 +12,12 @@
 		compactKeys,
 		map,
 		isEnter
-	} = $;
+	} = window.$;
 	const regexComplexLink = /\[([\w\s\d]+)\]\(((https|http)?:\/\/[\w\d./()_?=#]+)\)/igm;
 	const colorize = (description, itemName, type) => {
+		// console.log(itemName, description);
 		const compiledTypes = ensureArray(type.split('|')).map((objType) => {
+			// console.log(objType);
 			return `<span class="param${(objType === '*') ? 'anything' : objType.replace('...', 'rest')}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
 		}).join(` | `);
 		return `<tr>

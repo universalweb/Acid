@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { mapArray } from '../array/each';
 /**
@@ -17,10 +17,10 @@ import { mapArray } from '../array/each';
   * // => [['Arity LLC', 0], ['Arity LLC', 1]]
 */
 const invoke = (collection, property, value) => {
-  return mapArray(collection, (item, index) => {
-    return item[property](value, index);
-  });
+	return mapArray(collection, (item, index) => {
+		return item[property](value, index);
+	});
 };
-assign(acid, {
-  invoke
+assign(namespace, {
+	invoke
 });

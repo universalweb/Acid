@@ -1,5 +1,6 @@
 {
 	"extends": "eslint:recommended",
+	"parser": "@babel/eslint-parser",
 	"env": {
 		"browser": true,
 		"node": true,
@@ -8,13 +9,14 @@
 		"worker": true
 	},
 	"globals": {
-		"globalThis": false,
-		"window": false,
-		"top": false,
+		"globalThis": "readonly",
+		"window": "readonly",
+		"top": "readonly",
+		"$": "writable"
 	},
 	"parserOptions": {
 		"sourceType": "module",
-		"ecmaVersion": 12
+		"ecmaVersion": "latest"
 	},
 	"rules": {
 		"no-setter-return": "error",
@@ -29,12 +31,15 @@
 				},
 				"ObjectPattern": {
 					"multiline": true,
-					"minProperties": 1
+					"minProperties": 2
 				},
-				"ImportDeclaration": "never",
+				"ImportDeclaration": {
+					"multiline": true,
+					"minProperties": 5
+				},
 				"ExportDeclaration": {
 					"multiline": true,
-					"minProperties": 3
+					"minProperties": 5
 				}
 			}
 		],
@@ -77,7 +82,7 @@
 		"no-unexpected-multiline": "error",
 		"no-unreachable": "error",
 		"use-isnan": "error",
-		"valid-jsdoc": "off",
+		"valid-jsdoc": 1,
 		"valid-typeof": "error",
 		"accessor-pairs": "error",
 		"array-callback-return": "error",
@@ -335,7 +340,7 @@
 			"always"
 		],
 		"semi-spacing": "off",
-		"sort-vars": "error",
+		"sort-vars": "off",
 		"space-before-blocks": [
 			"error",
 			"always"
@@ -418,19 +423,7 @@
 		"prefer-template": "error",
 		"require-yield": "error",
 		"sort-keys": "off",
-		"sort-imports": [
-			"error",
-			{
-				"ignoreCase": true,
-				"ignoreMemberSort": false,
-				"memberSyntaxSortOrder": [
-					"single",
-					"multiple",
-					"all",
-					"none"
-				]
-			}
-		],
+		"sort-imports":"off",
 		"template-curly-spacing": [
 			"error",
 			"never"

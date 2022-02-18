@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Checks if the keycode of the event is strictly equal to 13.
@@ -14,8 +14,8 @@ import { assign } from '../internal/object';
   * // => false
 */
 export const isEnter = (eventObject) => {
-  return eventObject.keyCode === 13;
+	return eventObject.keyCode === 13;
 };
-assign(acid, {
-  isEnter
+assign(namespace, {
+	isEnter
 });

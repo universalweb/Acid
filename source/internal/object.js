@@ -1,11 +1,11 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 const objectNative = Object;
 /**
  * Get object's keys.
  *
  * @function keys
  * @category object
- * @param {*} object - Object to pull keys from.
+ * @param {*} source - The source object to pull keys from.
  * @returns {Array} - Array of keys.
  *
  * @example
@@ -18,8 +18,8 @@ export const keys = objectNative.keys;
  *
  * @function is
  * @category object
- * @param {*} object - Value to compare to.
- * @param {*} object - A value to compare.
+ * @param {*} source - Value to compare to.
+ * @param {*} target - A value to compare.
  * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
  *
  * @example
@@ -33,7 +33,7 @@ export const is = objectNative.is;
  * @function assign
  * @category object
  * @param {Object} target - The target object.
- * @param {Object} sources - The source object(s).
+ * @param {...Object} sources - The source object(s).
  * @returns {Object} - Returns the target object.
  *
  * @example
@@ -46,7 +46,7 @@ export const assign = objectNative.assign;
  *
  * @function getOwnPropertyDescriptor
  * @category object
- * @param {Object} obj - The target object.
+ * @param {Object} target - The target object.
  * @param {String} property - The name of the property whose description is to be retrieved.
  * @returns {Object} - A property descriptor of the given property if it exists on the object, undefined otherwise.
  *
@@ -60,7 +60,7 @@ export const getOwnPropertyDescriptor = objectNative.getOwnPropertyDescriptor;
  *
  * @function defineProperty
  * @category object
- * @param {Object} obj - The object on which to define the property.
+ * @param {Object} target - The object on which to define the property.
  * @param {String} property - The name of the property whose description is to be retrieved.
  * @param {Object} descriptor - The descriptor for the property being defined or modified.
  * @returns {Object} - The object that was passed to the function.
@@ -80,7 +80,7 @@ export const defineProperty = objectNative.defineProperty;
  *
  * @function getOwnPropertyNames
  * @category object
- * @param {Object} obj - The object whose enumerable and non-enumerable own properties are to be returned.
+ * @param {Object} source - The object whose enumerable and non-enumerable own properties are to be returned.
  * @returns {Object} - An array of strings that correspond to the properties found directly upon the given object.
  *
  * @example
@@ -93,7 +93,7 @@ export const getOwnPropertyNames = objectNative.getOwnPropertyNames;
  *
  * @function objectSize
  * @category object
- * @param {Object} obj - The target object.
+ * @param {Object} source - The target object.
  * @returns {number} - The amount of keys.
  *
  * @example
@@ -101,14 +101,14 @@ export const getOwnPropertyNames = objectNative.getOwnPropertyNames;
  * // => 3
 */
 export const objectSize = (target) => {
-  return keys(target).length;
+	return keys(target).length;
 };
-assign(acid, {
-  assign,
-  defineProperty,
-  getOwnPropertyDescriptor,
-  getOwnPropertyNames,
-  is,
-  keys,
-  objectSize
+assign(namespace, {
+	assign,
+	defineProperty,
+	getOwnPropertyDescriptor,
+	getOwnPropertyNames,
+	is,
+	keys,
+	objectSize
 });

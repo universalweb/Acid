@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachObject } from '../object/each';
 import { isArray } from '../internal/is';
@@ -20,16 +20,16 @@ import { zipObject } from '../object/zip';
   * nodeAttribute(document.body, { 'data-example': 'test'});
 */
 export const nodeAttribute = (node, object) => {
-  if (isArray(object)) {
-    return zipObject(object, mapArray(object, (item) => {
-      return node.getAttribute(item);
-    }));
-  }
-  eachObject(object, (item, key) => {
-    node.setAttribute(key, item);
-  });
-  return node;
+	if (isArray(object)) {
+		return zipObject(object, mapArray(object, (item) => {
+			return node.getAttribute(item);
+		}));
+	}
+	eachObject(object, (item, key) => {
+		node.setAttribute(key, item);
+	});
+	return node;
 };
-assign(acid, {
-  nodeAttribute
+assign(namespace, {
+	nodeAttribute
 });

@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
 const andRegex = /&/g;
@@ -19,9 +19,9 @@ const doubleQuoteRegex = /"/g;
   * // => 'Lucy saw diamonds in the sky.'
 */
 export const rawURLDecode = (string) => {
-  return decodeURIComponent(string.replace(rawURLDecodeRegex, () => {
-    return '%25';
-  }));
+	return decodeURIComponent(string.replace(rawURLDecodeRegex, () => {
+		return '%25';
+	}));
 };
 /**
   * Replaced sensitive characters with their matching html entity.
@@ -37,10 +37,10 @@ export const rawURLDecode = (string) => {
   * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 */
 export const htmlEntities = (string) => {
-  return string.replace(andRegex, '&amp;')
-    .replace(lessThanRegex, '&lt;')
-    .replace(moreThanRegex, '&gt;')
-    .replace(doubleQuoteRegex, '&quot;');
+	return string.replace(andRegex, '&amp;')
+		.replace(lessThanRegex, '&lt;')
+		.replace(moreThanRegex, '&gt;')
+		.replace(doubleQuoteRegex, '&quot;');
 };
 /**
   * Executes rawURLDecode followd by htmlEntities methods on a string.
@@ -56,10 +56,10 @@ export const htmlEntities = (string) => {
   * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 */
 export const sanitize = (string) => {
-  return htmlEntities(rawURLDecode(string));
+	return htmlEntities(rawURLDecode(string));
 };
-assign(acid, {
-  htmlEntities,
-  rawURLDecode,
-  sanitize
+assign(namespace, {
+	htmlEntities,
+	rawURLDecode,
+	sanitize
 });

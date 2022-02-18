@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachObjectAsync } from './eachAsync';
 import { hasValue } from '../internal/is';
@@ -8,7 +8,7 @@ import { hasValue } from '../internal/is';
   * @function mapObjectAsync
   * @category object
   * @type {Function}
-  * @param {Object|Function} callingObject - Object that will be looped through.
+  * @param {Object|Function} source - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
   * @returns {Object|Function} - An object of the same calling object's type.
@@ -27,11 +27,11 @@ import { hasValue } from '../internal/is';
   * });
   * // => {a: 2, b: 4, c: 6}
 */
-export const mapObjectAsync = async (object, iteratee, results = {}) => {
-  await eachObjectAsync(object, async (item, key, thisObject, propertyCount, objectKeys) => {
-    results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
-  });
-  return results;
+export const mapObjectAsync = async (source, iteratee, results = {}) => {
+	await eachObjectAsync(source, async (item, key, thisObject, propertyCount, objectKeys) => {
+		results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
+	});
+	return results;
 };
 /**
   * Asynchronously iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
@@ -39,7 +39,7 @@ export const mapObjectAsync = async (object, iteratee, results = {}) => {
   * @function compactMapObjectAsync
   * @category object
   * @type {Function}
-  * @param {Object|Function} callingObject - Object that will be looped through.
+  * @param {Object|Function} source - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
   * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
@@ -58,16 +58,16 @@ export const mapObjectAsync = async (object, iteratee, results = {}) => {
   * });
   * // => {b: 2, c: 3}
 */
-export const compactMapObjectAsync = async (object, iteratee, results = {}) => {
-  await eachObjectAsync(object, async (item, key, thisObject, propertyCount, objectKeys) => {
-    const result = await iteratee(item, key, results, propertyCount, objectKeys);
-    if (hasValue(result)) {
-      results[key] = result;
-    }
-  });
-  return results;
+export const compactMapObjectAsync = async (source, iteratee, results = {}) => {
+	await eachObjectAsync(source, async (item, key, thisObject, propertyCount, objectKeys) => {
+		const result = await iteratee(item, key, results, propertyCount, objectKeys);
+		if (hasValue(result)) {
+			results[key] = result;
+		}
+	});
+	return results;
 };
-assign(acid, {
-  compactMapObjectAsync,
-  mapObjectAsync,
+assign(namespace, {
+	compactMapObjectAsync,
+	mapObjectAsync,
 });

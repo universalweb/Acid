@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachWhile } from '../utility/each';
 /**
@@ -16,6 +16,6 @@ import { eachWhile } from '../utility/each';
   * // => false
 */
 export const every = eachWhile;
-assign(acid, {
-  every,
+assign(namespace, {
+	every,
 });

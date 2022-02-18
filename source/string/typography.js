@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { restString } from './range';
 const spaceFirstLetter = / (.)/g;
@@ -16,7 +16,7 @@ const spaceFirstLetter = / (.)/g;
   * // => "U"
 */
 export const upperFirstLetter = (string) => {
-  return string[0].toUpperCase();
+	return string[0].toUpperCase();
 };
 /**
   * Capitalizes the first letter.
@@ -32,7 +32,7 @@ export const upperFirstLetter = (string) => {
   * // => 'Upper'
 */
 export const upperFirst = (string) => {
-  return upperFirstLetter(string) + restString(string);
+	return upperFirstLetter(string) + restString(string);
 };
 /**
   * Capitalize all first letters.
@@ -48,9 +48,9 @@ export const upperFirst = (string) => {
   * // => 'Lucy Is Next Up.'
 */
 export const upperFirstAll = (string) => {
-  return string.replace(spaceFirstLetter, (match) => {
-    return match.toUpperCase();
-  });
+	return string.replace(spaceFirstLetter, (match) => {
+		return match.toUpperCase();
+	});
 };
 /**
   * Capitalize first letter and lower case the rest.
@@ -63,10 +63,10 @@ export const upperFirstAll = (string) => {
   *
   * @example
   * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
-  * // => 'Lysergic acid diethylamide'
+  * // => 'Lysergic namespace diethylamide'
 */
 export const upperFirstOnly = (string) => {
-  return upperFirstLetter(string) + restString(string).toLowerCase();
+	return upperFirstLetter(string) + restString(string).toLowerCase();
 };
 /**
   * Capitalize all first letters and lower case the rest.
@@ -82,14 +82,14 @@ export const upperFirstOnly = (string) => {
   * // => 'Lysergic Acid Diethylamide'
 */
 export const upperFirstOnlyAll = (string) => {
-  return upperFirstOnly(string.toLowerCase()).replace(spaceFirstLetter, (match) => {
-    return match.toUpperCase();
-  });
+	return upperFirstOnly(string.toLowerCase()).replace(spaceFirstLetter, (match) => {
+		return match.toUpperCase();
+	});
 };
-assign(acid, {
-  upperFirst,
-  upperFirstAll,
-  upperFirstLetter,
-  upperFirstOnly,
-  upperFirstOnlyAll,
+assign(namespace, {
+	upperFirst,
+	upperFirstAll,
+	upperFirstLetter,
+	upperFirstOnly,
+	upperFirstOnlyAll,
 });

@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign, objectSize } from './object';
 /**
  * Checks if the value is undefined.
@@ -336,7 +336,7 @@ export const isBoolean = (value) => {
 const isDate = (value) => {
 	return value instanceof Date;
 };
-assign(acid, {
+assign(namespace, {
 	getFileExtension,
 	has,
 	hasDot,

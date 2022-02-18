@@ -10,8 +10,8 @@ let cacheSuper;
  * $('modelName', {example: 1});
  * // => {example: 1}
  */
-const $ = (...args) => {
-  return cacheSuper(...args);
+const namespace = (...args) => {
+	return cacheSuper(...args);
 };
 /**
  * Re-assigns the main method for $.
@@ -20,7 +20,7 @@ const $ = (...args) => {
  * @category main
  * @memberof $
  * @param {Function} callable - The function that will become the main object's subroutine.
- * @returns {undefined} - Returns nothing.
+ * @returns {any} - Returns nothing.
  *
  * @test
  * (async () => {
@@ -34,7 +34,7 @@ const $ = (...args) => {
  * // => $.flow
  */
 const superMethod = (callable) => {
-  cacheSuper = callable;
+	cacheSuper = callable;
 };
-$.superMethod = superMethod;
-export default $;
+namespace.superMethod = superMethod;
+export default namespace;

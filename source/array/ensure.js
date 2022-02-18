@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { isArray } from '../internal/is';
 /**
@@ -19,8 +19,8 @@ import { isArray } from '../internal/is';
   * // => [{a:1, b:2}]
 */
 export const ensureArray = (object) => {
-  return (isArray(object)) ? object : [object];
+	return (isArray(object)) ? object : [object];
 };
-assign(acid, {
-  ensureArray
+assign(namespace, {
+	ensureArray
 });

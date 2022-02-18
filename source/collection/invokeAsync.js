@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { mapAsync } from '../array/mapAsync';
 /**
@@ -24,10 +24,10 @@ import { mapAsync } from '../array/mapAsync';
   * // => [['Arity LLC', 0], ['Arity LLC', 1]]
 */
 const invokeAsync = (collection, property, value) => {
-  return mapAsync(collection, async (item, index) => {
-    return item[property](value, index);
-  });
+	return mapAsync(collection, async (item, index) => {
+		return item[property](value, index);
+	});
 };
-assign(acid, {
-  invokeAsync
+assign(namespace, {
+	invokeAsync
 });

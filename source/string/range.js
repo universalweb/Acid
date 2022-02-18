@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Inserts text into a string at a given position.
@@ -16,7 +16,7 @@ import { assign } from '../internal/object';
   * // => 'A tab from Lucy.'
 */
 export const insertInRange = (string, index, text) => {
-  return string.slice(0, index) + text + string.slice(index, string.length);
+	return string.slice(0, index) + text + string.slice(index, string.length);
 };
 /**
   * Plucks a letter using the index starting from the right.
@@ -36,7 +36,7 @@ export const insertInRange = (string, index, text) => {
   * // => 'n'
 */
 export const rightString = (string, index = 1) => {
-  return string[string.length - index];
+	return string[string.length - index];
 };
 /**
   * Splits up a string into chunks.
@@ -53,7 +53,7 @@ export const rightString = (string, index = 1) => {
   * // => ['ch', 'un', 'k']
 */
 export const chunkString = (string, size) => {
-  return string.match(new RegExp(`(.|[\r\n]){1,${size}}`, 'g'));
+	return string.match(new RegExp(`(.|[\r\n]){1,${size}}`, 'g'));
 };
 /**
   * Truncates everything before the index starting from the right.
@@ -73,7 +73,7 @@ export const chunkString = (string, size) => {
   * // => 'initialStri'
 */
 export const initialString = (string, index = 1) => {
-  return string.slice(0, index * -1);
+	return string.slice(0, index * -1);
 };
 /**
   * Truncates everything after a index.
@@ -93,12 +93,12 @@ export const initialString = (string, index = 1) => {
   * // => 'stString'
 */
 export const restString = (string, index = 1) => {
-  return string.substr(index);
+	return string.substr(index);
 };
-assign(acid, {
-  chunkString,
-  initialString,
-  insertInRange,
-  restString,
-  rightString,
+assign(namespace, {
+	chunkString,
+	initialString,
+	insertInRange,
+	restString,
+	rightString,
 });

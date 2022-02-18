@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { hasValue } from '../internal/is';
 import { assign, keys } from '../internal/object';
 import { eachArray, whileArray } from '../array/each';
@@ -8,7 +8,7 @@ import { eachArray, whileArray } from '../array/each';
   * @function eachObject
   * @category object
   * @type {Function}
-  * @param {Object|Function} callingObject - Object that will be looped through.
+  * @param {Object|Function} source - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
   * @returns {Object|Function} - Returns the calling object.
   *
@@ -27,10 +27,10 @@ import { eachArray, whileArray } from '../array/each';
   * });
   * // => {a: 1, b: 2, c: 3}
 */
-export const eachObject = (thisObject, iteratee) => {
-	const objectKeys = keys(thisObject);
-	eachArray(objectKeys, (key, index, array, propertyCount) => {
-		iteratee(thisObject[key], key, thisObject, propertyCount, objectKeys);
+export const eachObject = (source, iteratee) => {
+	const objectKeys = keys(source);
+	eachArray(objectKeys, (key, index, original, propertyCount) => {
+		iteratee(source[key], key, source, propertyCount, original);
 	});
 };
 /**
@@ -39,9 +39,9 @@ export const eachObject = (thisObject, iteratee) => {
   * @function whileObject
   * @category object
   * @type {Function}
-  * @param {Object} callingObject - Object that will be looped through.
+  * @param {Object} source - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-  * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
+  * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
   *
   * @example
   * whileObject({a: false, b: true, c: true}, (item) => {
@@ -54,10 +54,10 @@ export const eachObject = (thisObject, iteratee) => {
   * });
   * // => true
 */
-export const whileObject = (callingObject, iteratee) => {
-	const objectKeys = keys(callingObject);
-	return whileArray(objectKeys, (key, index, callingArray, propertyCount) => {
-		return iteratee(callingObject[key], key, callingObject, propertyCount, callingArray);
+export const whileObject = (source, iteratee) => {
+	const objectKeys = keys(source);
+	return whileArray(objectKeys, (key, index, original, propertyCount) => {
+		return iteratee(source[key], key, source, propertyCount, original);
 	});
 };
 /**
@@ -66,7 +66,7 @@ export const whileObject = (callingObject, iteratee) => {
   * @function filterObject
   * @category object
   * @type {Function}
-  * @param {Object|Function} callingObject - Object that will be looped through.
+  * @param {Object|Function} source - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
   * @returns {Object|Function} - An object with properties that passed the test.
@@ -77,9 +77,9 @@ export const whileObject = (callingObject, iteratee) => {
   * });
   * // => {b: true, c: true}
 */
-export const filterObject = (object, iteratee, results = {}) => {
-	eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
-		if (iteratee(item, key, results, thisObject, propertyCount, objectKeys) === true) {
+export const filterObject = (source, iteratee, results = {}) => {
+	eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+		if (iteratee(item, key, results, original, propertyCount, objectKeys) === true) {
 			results[key] = item;
 		}
 	});
@@ -91,7 +91,7 @@ export const filterObject = (object, iteratee, results = {}) => {
   * @function mapObject
   * @category object
   * @type {Function}
-  * @param {Object|Function} callingObject - Object that will be looped through.
+  * @param {Object|Function} source - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
   * @returns {Object|Function} - An object of the same calling object's type.
@@ -102,9 +102,9 @@ export const filterObject = (object, iteratee, results = {}) => {
   * });
   * // => {a: 2, b: 4, c: 6}
 */
-export const mapObject = (object, iteratee, results = {}) => {
-	eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
-		results[key] = iteratee(item, key, results, thisObject, propertyCount, objectKeys);
+export const mapObject = (source, iteratee, results = {}) => {
+	eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+		results[key] = iteratee(item, key, results, original, propertyCount, objectKeys);
 	});
 	return results;
 };
@@ -114,7 +114,7 @@ export const mapObject = (object, iteratee, results = {}) => {
   * @function compactMapObject
   * @category object
   * @type {Function}
-  * @param {Object|Function} callingObject - Object that will be looped through.
+  * @param {Object|Function} source - Object that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
   * @param {Object|Function} [results = {}] - Object that will be used to assign results.
   * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
@@ -125,16 +125,16 @@ export const mapObject = (object, iteratee, results = {}) => {
   * });
   * // => {b: 2, c: 3}
 */
-export const compactMapObject = (object, iteratee, results = {}) => {
-	eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
-		const result = iteratee(item, key, results, propertyCount, objectKeys);
+export const compactMapObject = (source, iteratee, results = {}) => {
+	eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+		const result = iteratee(item, key, results, original, propertyCount, objectKeys);
 		if (hasValue(result)) {
 			results[key] = result;
 		}
 	});
 	return results;
 };
-assign(acid, {
+assign(namespace, {
 	compactMapObject,
 	eachObject,
 	filterObject,

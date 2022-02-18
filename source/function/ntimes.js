@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 /**
@@ -23,14 +23,14 @@ import { hasValue } from '../internal/is';
   * // => 5
 */
 export const once = (callable) => {
-  let value;
-  const onlyOnce = (...args) => {
-    if (!hasValue(value)) {
-      value = callable(...args);
-    }
-    return value;
-  };
-  return onlyOnce;
+	let value;
+	const onlyOnce = (...args) => {
+		if (!hasValue(value)) {
+			value = callable(...args);
+		}
+		return value;
+	};
+	return onlyOnce;
 };
 /**
   * Creates a function that executes callable, only after being called n times.
@@ -38,8 +38,8 @@ export const once = (callable) => {
   * @function after
   * @category function
   * @type {Function}
-  * @param {Function} callable - The function to be called.
   * @param {number} amount - The number of calls until method is invoked.
+  * @param {Function} callable - The function to be called.
   * @returns {Function} - Returns the new pass-thru function.
   *
   * @test
@@ -56,19 +56,19 @@ export const once = (callable) => {
   * // => 2
 */
 const after = (amount, callable) => {
-  let point = amount;
-  let value;
-  const onlyAfter = (...args) => {
-    if (point !== null) {
-      point--;
-    }
-    if (point <= 0) {
-      value = callable(...args);
-      point = null;
-    }
-    return value;
-  };
-  return onlyAfter;
+	let point = amount;
+	let value;
+	const onlyAfter = (...args) => {
+		if (point !== null) {
+			point--;
+		}
+		if (point <= 0) {
+			value = callable(...args);
+			point = null;
+		}
+		return value;
+	};
+	return onlyAfter;
 };
 /**
   * Creates a function that executes callable, only before n times.
@@ -76,8 +76,8 @@ const after = (amount, callable) => {
   * @function before
   * @category function
   * @type {Function}
-  * @param {Function} callable - The function to be called.
   * @param {number} amount - The number of calls before n.
+  * @param {Function} callable - The function to be called.
   * @returns {Function} - Returns the new pass-thru function.
   *
   * @test
@@ -96,23 +96,23 @@ const after = (amount, callable) => {
   * // => 2
 */
 const before = (amount, callable) => {
-  let point = amount;
-  let value;
-  const onlyBefore = (...args) => {
-    if (point !== null) {
-      point--;
-    }
-    if (point >= 1) {
-      value = callable(...args);
-    } else {
-      point = null;
-    }
-    return value;
-  };
-  return onlyBefore;
+	let point = amount;
+	let value;
+	const onlyBefore = (...args) => {
+		if (point !== null) {
+			point--;
+		}
+		if (point >= 1) {
+			value = callable(...args);
+		} else {
+			point = null;
+		}
+		return value;
+	};
+	return onlyBefore;
 };
-assign(acid, {
-  after,
-  before,
-  once
+assign(namespace, {
+	after,
+	before,
+	once
 });

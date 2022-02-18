@@ -1,10 +1,6 @@
-import acid from '../namespace/index';
-import {
-	assign
-} from '../internal/object';
-import {
-	ensureArray
-} from '../array/ensure';
+import namespace from '../namespace/index';
+import { assign } from '../internal/object';
+import { ensureArray } from '../array/ensure';
 /**
   * Flattens an array up to the provided level.
   *
@@ -44,7 +40,7 @@ export const flatten = (arrayArg, level = 1) => {
 export const flattenDeep = (arrayToFlatten) => {
 	return arrayToFlatten.flat(Infinity);
 };
-assign(acid, {
+assign(namespace, {
 	flatten,
 	flattenDeep,
 });

@@ -1,30 +1,30 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const truncateDown = (string, maxLength, stringLength) => {
-  const breakAll = string.split('');
-  const breakAllLength = breakAll.length;
-  let item;
-  let index = stringLength - maxLength;
-  for (; index < breakAllLength && index >= 0; index--) {
-    item = breakAll[index];
-    if (item === ' ') {
-      break;
-    }
-  }
-  return string.slice(0, index).trim();
+	const breakAll = string.split('');
+	const breakAllLength = breakAll.length;
+	let item;
+	let index = stringLength - maxLength;
+	for (; index < breakAllLength && index >= 0; index--) {
+		item = breakAll[index];
+		if (item === ' ') {
+			break;
+		}
+	}
+	return string.slice(0, index).trim();
 };
 const truncateUp = (string, maxLength, stringLength) => {
-  const breakAll = string.split('');
-  const breakAllLength = breakAll.length;
-  let item;
-  let index = maxLength;
-  for (; index < breakAllLength && index > 0; index++) {
-    item = breakAll[index];
-    if (item === ' ') {
-      break;
-    }
-  }
-  return string.substr(index, stringLength).trim();
+	const breakAll = string.split('');
+	const breakAllLength = breakAll.length;
+	let item;
+	let index = maxLength;
+	for (; index < breakAllLength && index > 0; index++) {
+		item = breakAll[index];
+		if (item === ' ') {
+			break;
+		}
+	}
+	return string.substr(index, stringLength).trim();
 };
 /**
   * Truncates the string, accounting for word placement and character count.
@@ -41,8 +41,8 @@ const truncateUp = (string, maxLength, stringLength) => {
   * // => 'Where is'
 */
 export const truncate = (string, maxLength) => {
-  const stringLength = string.length;
-  return (stringLength > maxLength) ? truncateDown(string, maxLength, stringLength) : string;
+	const stringLength = string.length;
+	return (stringLength > maxLength) ? truncateDown(string, maxLength, stringLength) : string;
 };
 /**
   * Truncates the string, accounting for word placement and character count from the right.
@@ -59,10 +59,10 @@ export const truncate = (string, maxLength) => {
   * // => 'Lucy?'
 */
 export const truncateRight = (string, maxLength) => {
-  const stringLength = string.length;
-  return (stringLength > maxLength) ? truncateUp(string, maxLength, stringLength) : string;
+	const stringLength = string.length;
+	return (stringLength > maxLength) ? truncateUp(string, maxLength, stringLength) : string;
 };
-assign(acid, {
-  truncate,
-  truncateRight,
+assign(namespace, {
+	truncate,
+	truncateRight,
 });

@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eventAdd } from './event';
 import { importjs } from './import';
@@ -17,19 +17,19 @@ import { importjs } from './import';
   * // => 1
 */
 export const isDocumentReady = (callable) => {
-  const state = document.readyState;
-  const checkStatus = state === 'interactive' || state === 'completed' || state === 'complete';
-  if (checkStatus) {
-    return (callable) ? callable() : true;
-  }
-  if (callable) {
-    eventAdd(document, 'DOMContentLoaded', callable);
-  }
-  return false;
+	const state = document.readyState;
+	const checkStatus = state === 'interactive' || state === 'completed' || state === 'complete';
+	if (checkStatus) {
+		return (callable) ? callable() : true;
+	}
+	if (callable) {
+		eventAdd(document, 'DOMContentLoaded', callable);
+	}
+	return false;
 };
-assign(acid, {
-  isDocumentReady
+assign(namespace, {
+	isDocumentReady
 });
 isDocumentReady(() => {
-  importjs('/index');
+	importjs('/index');
 });

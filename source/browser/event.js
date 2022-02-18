@@ -1,13 +1,10 @@
-import acid from '../namespace/index';
-import {
-	assign
-} from '../internal/object';
+import namespace from '../namespace/index';
+import { assign } from '../internal/object';
 /**
   * Attaches an event listener to a node.
   *
   * @function eventAdd
   * @category browser
-  * @ignoreTest
   * @type {Function}
   * @param {Node} node - Given node.
   * @param {string} type - A string representing the event type.
@@ -28,7 +25,6 @@ export const eventAdd = (node, ...args) => {
   *
   * @function eventRemove
   * @category browser
-  * @ignoreTest
   * @type {Function}
   * @param {Node} node - Given node.
   * @param {string} type - A string representing the event type.
@@ -44,7 +40,7 @@ export const eventRemove = (node, ...args) => {
 	node.removeEventListener(...args);
 	return node;
 };
-assign(acid, {
+assign(namespace, {
 	eventAdd,
 	eventRemove,
 });

@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 /**
@@ -17,11 +17,11 @@ import { hasValue } from '../internal/is';
    * // => {a:1}
  */
 export const ifNotEqual = (rootObject, property, equalThis) => {
-  if (property && !hasValue(rootObject[property])) {
-    rootObject[property] = equalThis;
-  }
-  return rootObject;
+	if (property && !hasValue(rootObject[property])) {
+		rootObject[property] = equalThis;
+	}
+	return rootObject;
 };
-assign(acid, {
-  ifNotEqual,
+assign(namespace, {
+	ifNotEqual,
 });

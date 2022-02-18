@@ -1,7 +1,7 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 export const numericalCompareReverse = (a, b) => {
-  return b - a;
+	return b - a;
 };
 /**
   * Sorts an array in place using a reverse numerical comparison algorithm from highest to lowest.
@@ -16,8 +16,8 @@ export const numericalCompareReverse = (a, b) => {
   * // => [10, 2, 1, 0]
 */
 export const rNumSort = (numberList) => {
-  return numberList.sort(numericalCompareReverse);
+	return numberList.sort(numericalCompareReverse);
 };
-assign(acid, {
-  rNumSort
+assign(namespace, {
+	rNumSort
 });

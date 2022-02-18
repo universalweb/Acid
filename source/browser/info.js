@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 const protocol = location.protocol;
 const protocolSocket = (protocol === 'http:') ? 'ws' : 'wss';
@@ -22,6 +22,6 @@ export const info = {
 		protocolSocket,
 	}
 };
-assign(acid, {
+assign(namespace, {
 	info
 });

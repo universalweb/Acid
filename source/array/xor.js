@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachArray } from './each';
 import { unique } from './unique';
@@ -17,18 +17,18 @@ import { unique } from './unique';
   * // => [1, 3]
 */
 export const xor = (...arrays) => {
-  const xored = [];
-  eachArray(arrays, (array) => {
-    eachArray(unique(array), (item) => {
-      if (xored.includes(item)) {
-        xored.splice(xored.indexOf(item), 1);
-      } else {
-        xored.push(item);
-      }
-    });
-  });
-  return xored;
+	const xored = [];
+	eachArray(arrays, (array) => {
+		eachArray(unique(array), (item) => {
+			if (xored.includes(item)) {
+				xored.splice(xored.indexOf(item), 1);
+			} else {
+				xored.push(item);
+			}
+		});
+	});
+	return xored;
 };
-assign(acid, {
-  xor
+assign(namespace, {
+	xor
 });

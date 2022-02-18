@@ -1,14 +1,14 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { each } from '../utility/each';
 const add = (link, methods) => {
-  each(methods, (item, key) => {
-    link.methods[key] = (...args) => {
-      item(link.value, ...args);
-      return link.methods;
-    };
-  });
-  return link;
+	each(methods, (item, key) => {
+		link.methods[key] = (...args) => {
+			item(link.value, ...args);
+			return link.methods;
+		};
+	});
+	return link;
 };
 /**
   * Creates a chainable set of functions.
@@ -33,24 +33,24 @@ const add = (link, methods) => {
   * // => 'Acid'
 */
 export const chain = (methods) => {
-  const link = (value) => {
-    link.value = value;
-    return link.methods;
-  };
-  assign(link, {
-    add(addToChain) {
-      return add(link, addToChain);
-    },
-    done() {
-      const value = link.value;
-      link.value = null;
-      return value;
-    },
-    methods: {},
-  });
-  link.add(methods);
-  return link;
+	const link = (value) => {
+		link.value = value;
+		return link.methods;
+	};
+	assign(link, {
+		add(addToChain) {
+			return add(link, addToChain);
+		},
+		done() {
+			const value = link.value;
+			link.value = null;
+			return value;
+		},
+		methods: {},
+	});
+	link.add(methods);
+	return link;
 };
-assign(acid, {
-  chain
+assign(namespace, {
+	chain
 });

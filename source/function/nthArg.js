@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Creates a function that gets the argument at index n. If n is negative, the nth argument from the end is returned.
@@ -14,10 +14,10 @@ import { assign } from '../internal/object';
   * // => 'b'
 */
 export const nthArg = (index = 0) => {
-  return (...args) => {
-    return args[index];
-  };
+	return (...args) => {
+		return args[index];
+	};
 };
-assign(acid, {
-  nthArg
+assign(namespace, {
+	nthArg
 });

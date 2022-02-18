@@ -18,7 +18,7 @@
 	 * $('modelName', {example: 1});
 	 * // => {example: 1}
 	 */
-	const $ = (...args) => {
+	const namespace = (...args) => {
 		return cacheSuper(...args);
 	};
 	/**
@@ -28,7 +28,7 @@
 	 * @category main
 	 * @memberof $
 	 * @param {Function} callable - The function that will become the main object's subroutine.
-	 * @returns {undefined} - Returns nothing.
+	 * @returns {any} - Returns nothing.
 	 *
 	 * @test
 	 * (async () => {
@@ -44,14 +44,14 @@
 	const superMethod = (callable) => {
 		cacheSuper = callable;
 	};
-	$.superMethod = superMethod;
+	namespace.superMethod = superMethod;
 	const objectNative = Object;
 	/**
 	 * Get object's keys.
 	 *
 	 * @function keys
 	 * @category object
-	 * @param {*} object - Object to pull keys from.
+	 * @param {*} source - The source object to pull keys from.
 	 * @returns {Array} - Array of keys.
 	 *
 	 * @example
@@ -64,8 +64,8 @@
 	 *
 	 * @function is
 	 * @category object
-	 * @param {*} object - Value to compare to.
-	 * @param {*} object - A value to compare.
+	 * @param {*} source - Value to compare to.
+	 * @param {*} target - A value to compare.
 	 * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
 	 *
 	 * @example
@@ -79,7 +79,7 @@
 	 * @function assign
 	 * @category object
 	 * @param {Object} target - The target object.
-	 * @param {Object} sources - The source object(s).
+	 * @param {...Object} sources - The source object(s).
 	 * @returns {Object} - Returns the target object.
 	 *
 	 * @example
@@ -92,7 +92,7 @@
 	 *
 	 * @function getOwnPropertyDescriptor
 	 * @category object
-	 * @param {Object} obj - The target object.
+	 * @param {Object} target - The target object.
 	 * @param {String} property - The name of the property whose description is to be retrieved.
 	 * @returns {Object} - A property descriptor of the given property if it exists on the object, undefined otherwise.
 	 *
@@ -106,7 +106,7 @@
 	 *
 	 * @function defineProperty
 	 * @category object
-	 * @param {Object} obj - The object on which to define the property.
+	 * @param {Object} target - The object on which to define the property.
 	 * @param {String} property - The name of the property whose description is to be retrieved.
 	 * @param {Object} descriptor - The descriptor for the property being defined or modified.
 	 * @returns {Object} - The object that was passed to the function.
@@ -126,7 +126,7 @@
 	 *
 	 * @function getOwnPropertyNames
 	 * @category object
-	 * @param {Object} obj - The object whose enumerable and non-enumerable own properties are to be returned.
+	 * @param {Object} source - The object whose enumerable and non-enumerable own properties are to be returned.
 	 * @returns {Object} - An array of strings that correspond to the properties found directly upon the given object.
 	 *
 	 * @example
@@ -139,7 +139,7 @@
 	 *
 	 * @function objectSize
 	 * @category object
-	 * @param {Object} obj - The target object.
+	 * @param {Object} source - The target object.
 	 * @returns {number} - The amount of keys.
 	 *
 	 * @example
@@ -149,7 +149,7 @@
 	const objectSize = (target) => {
 		return keys(target).length;
 	};
-	assign($, {
+	assign(namespace, {
 		assign,
 		defineProperty,
 		getOwnPropertyDescriptor,
@@ -172,7 +172,7 @@
 	 * // => [1, 2, 3]
 	 */
 	const toArray = arrayNative.from;
-	assign($, {
+	assign(namespace, {
 		toArray
 	});
 	/**
@@ -190,7 +190,7 @@
 	 * // => 2
 	 */
 	const apply = Reflect.apply;
-	assign($, {
+	assign(namespace, {
 		apply
 	});
 	/**
@@ -528,7 +528,7 @@
 	const isDate = (value) => {
 		return value instanceof Date;
 	};
-	assign($, {
+	assign(namespace, {
 		getFileExtension,
 		has,
 		hasDot,
@@ -557,7 +557,7 @@
 	 * @function eachArray
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
 	 * @returns {Object} - The originally given array.
 	 *
@@ -576,12 +576,12 @@
 	 * });
 	 * // => [1, 2, 3]
 	 */
-	const eachArray = (callingArray, iteratee) => {
-		const arrayLength = callingArray.length;
+	const eachArray = (source, iteratee) => {
+		const arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
-			iteratee(callingArray[index], index, callingArray, arrayLength);
+			iteratee(source[index], index, source, arrayLength);
 		}
-		return callingArray;
+		return source;
 	};
 	/**
 	 * Iterates through the given array in reverse.
@@ -589,7 +589,7 @@
 	 * @function eachArrayRight
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
 	 * @returns {Object} - The originally given array.
 	 *
@@ -608,12 +608,12 @@
 	 * });
 	 * // => [1, 2, 3]
 	 */
-	const eachArrayRight = (callingArray, iteratee) => {
-		const arrayLength = callingArray.length;
+	const eachArrayRight = (source, iteratee) => {
+		const arrayLength = source.length;
 		for (let index = arrayLength - 1; index >= 0; index--) {
-			iteratee(callingArray[index], index, callingArray, arrayLength);
+			iteratee(source[index], index, source, arrayLength);
 		}
-		return callingArray;
+		return source;
 	};
 	/**
 	 * Iterates through the given array while the iteratee returns true.
@@ -621,9 +621,9 @@
 	 * @function whileArray
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
+	 * @returns {boolean} - Returns true if all returns are true or false if one value returns false.
 	 *
 	 * @example
 	 * whileArray([true, true, false], (item) => {
@@ -631,10 +631,10 @@
 	 * });
 	 * // => false
 	 */
-	const whileArray = (callingArray, iteratee) => {
-		const arrayLength = callingArray.length;
+	const whileArray = (source, iteratee) => {
+		const arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
-			if (iteratee(callingArray[index], index, callingArray, arrayLength) === false) {
+			if (iteratee(source[index], index, source, arrayLength) === false) {
 				return false;
 			}
 		}
@@ -647,7 +647,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @category array
-	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
 	 * @returns {Object} - An array with properties that passed the test.
@@ -658,8 +658,8 @@
 	 * });
 	 * // => [true, true]
 	 */
-	const filterArray = (callingArray, iteratee, results = []) => {
-		eachArray(callingArray, (item, index, arrayOriginal, arrayLength) => {
+	const filterArray = (source, iteratee, results = []) => {
+		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
 			if (iteratee(item, index, results, arrayOriginal, arrayLength) === true) {
 				results.push(item);
 			}
@@ -667,8 +667,8 @@
 		return results;
 	};
 	const generateMap = (callable) => {
-		return (callingArray, iteratee, results = []) => {
-			callable(callingArray, (item, index, arrayOriginal, arrayLength) => {
+		return (source, iteratee, results = []) => {
+			callable(source, (item, index, arrayOriginal, arrayLength) => {
 				results[index] = iteratee(item, index, results, arrayOriginal, arrayLength);
 			});
 			return results;
@@ -680,7 +680,7 @@
 	 * @function mapArray
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
 	 * @returns {Object} - An array of the same calling array's type.
@@ -698,7 +698,7 @@
 	 * @function mapArrayRight
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
 	 * @returns {Object} - An array of the same calling array's type.
@@ -709,11 +709,11 @@
 	 * });
 	 * // => [6, 4, 2]
 	 */
-	const mapArrayRight = (callingArray, iteratee, results = []) => {
+	const mapArrayRight = (source, iteratee, results = []) => {
 		let trueIndex = 0;
-		const arrayLength = callingArray.length;
+		const arrayLength = source.length;
 		for (let index = arrayLength - 1; index >= 0; index--) {
-			results[trueIndex] = iteratee(callingArray[index], index, callingArray, arrayLength);
+			results[trueIndex] = iteratee(source[index], index, source, arrayLength);
 			trueIndex++;
 		}
 		return results;
@@ -724,7 +724,7 @@
 	 * @function compactMapArray
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
 	 * @returns {Object} - An array with mapped properties that are not null or undefined.
@@ -735,8 +735,8 @@
 	 * });
 	 * // => [2, 3]
 	 */
-	const compactMapArray = (callingArray, iteratee, results = []) => {
-		eachArray(callingArray, (item, index, arrayOriginal, arrayLength) => {
+	const compactMapArray = (source, iteratee, results = []) => {
+		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
 			const returned = iteratee(item, index, results, arrayOriginal, arrayLength);
 			if (hasValue(returned)) {
 				results.push(returned);
@@ -750,7 +750,7 @@
 	 * @function mapWhile
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
 	 * @returns {Array} - An array with properties that passed the test.
@@ -761,10 +761,10 @@
 	 * });
 	 * // => [true, true]
 	 */
-	const mapWhile = (callingArray, iteratee, results = []) => {
-		const arrayLength = callingArray.length;
+	const mapWhile = (source, iteratee, results = []) => {
+		const arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
-			const returned = iteratee(callingArray[index], index, results, callingArray, arrayLength);
+			const returned = iteratee(source[index], index, results, source, arrayLength);
 			if (returned === false) {
 				break;
 			}
@@ -772,7 +772,114 @@
 		}
 		return results;
 	};
-	assign($, {
+	/**
+	 * Iterates through the given array but re-checks the length each loop. Usefull while mutating the same array being looped over.
+	 *
+	 * @function whileEachArray
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @returns {Object} - The originally given array.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const tempList = [];
+	 *   whileEachArray([1, 2, 3], (item) => {
+	 *     tempList.push(item);
+	 *   });
+	 *   return assert(tempList, [1, 2, 3]);
+	 * });
+	 *
+	 * @example
+	 * whileEachArray([1, 2, 3], (item) => {
+	 *   console.log(item);
+	 * });
+	 * // => [1, 2, 3]
+	 */
+	const whileEachArray = (source, iteratee) => {
+		let index = 0;
+		while (index < source.length) {
+			iteratee(source[index], index, source, source.length);
+			index++;
+		}
+		return source;
+	};
+	/**
+	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
+	 * Re-checks the length each loop.
+	 *
+	 * @function whileMapArray
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {Array} [results = []] - Array that will be used to assign results.
+	 * @returns {Object} - The originally given array.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const tempList = [];
+	 *   whileMapArray([1, 2, 3, false, null], (item) => {
+	 *     tempList.push(item);
+	 *   });
+	 *   return assert(tempList, [1, 2, 3, false, null]);
+	 * });
+	 *
+	 * @example
+	 * whileMapArray([1, 2, 3, false, null], (item) => {
+	 *   return item;
+	 * });
+	 * // => [1, 2, 3, false, null]
+	 */
+	const whileMapArray = (source, iteratee, results = []) => {
+		let index = 0;
+		while (index < source.length) {
+			results.push(iteratee(source[index], index, source, source.length));
+			index++;
+		}
+		return source;
+	};
+	/**
+	 * Iterates through the calling object and creates a new object based on the calling object's type with the results,
+	 * (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+	 * Re-checks the length each loop.
+	 *
+	 * @function whileCompactMap
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {Array} [results = []] - Array that will be used to assign results.
+	 * @returns {Object} - The originally given array.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const tempList = [];
+	 *   whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
+	 *     return item;
+	 *   });
+	 *   return assert(tempList, [1, 2, 3, false]);
+	 * });
+	 *
+	 * @example
+	 * whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
+	 *   return item;
+	 * });
+	 * // => [1, 2, 3, false]
+	 */
+	const whileCompactMap = (source, iteratee, results = []) => {
+		let index = 0;
+		while (index < source.length) {
+			const result = results.push(iteratee(source[index], index, source, source.length));
+			index++;
+			if (hasValue(result)) {
+				results.push(result);
+			}
+		}
+		return source;
+	};
+	assign(namespace, {
 		compactMapArray,
 		eachArray,
 		eachArrayRight,
@@ -780,7 +887,10 @@
 		mapArray,
 		mapArrayRight,
 		mapWhile,
-		whileArray
+		whileArray,
+		whileEachArray,
+		whileMapArray,
+		whileCompactMap
 	});
 	const objectStringGenerate = (objectName) => {
 		return `[object ${objectName}]`;
@@ -948,7 +1058,7 @@
 	 */
 	const nativeObjectNames = ['Arguments', 'Map', 'Set', 'WeakMap'];
 	eachArray(nativeObjectNames, (item) => {
-		$[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
+		namespace[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
 	});
 	const arrayLikeObjects = [
 		'ArrayBuffer',
@@ -963,7 +1073,7 @@
 		'Uint32Array'
 	];
 	eachArray(arrayLikeObjects, (item) => {
-		$[`is${item}`] = (value) => {
+		namespace[`is${item}`] = (value) => {
 			return hasValue(value) ? value.constructor.name === item : false;
 		};
 	});
@@ -1007,7 +1117,7 @@
 		}
 		return callingArray;
 	};
-	assign($, {
+	assign(namespace, {
 		asyncEach
 	});
 	/**
@@ -1030,7 +1140,7 @@
 	const ensureArray = (object) => {
 		return isArray(object) ? object : [object];
 	};
-	assign($, {
+	assign(namespace, {
 		ensureArray
 	});
 	/**
@@ -1072,7 +1182,7 @@
 	const flattenDeep = (arrayToFlatten) => {
 		return arrayToFlatten.flat(Infinity);
 	};
-	assign($, {
+	assign(namespace, {
 		flatten,
 		flattenDeep
 	});
@@ -1129,7 +1239,7 @@
 		}
 		return array;
 	};
-	assign($, {
+	assign(namespace, {
 		remove,
 		removeBy
 	});
@@ -1161,7 +1271,7 @@
 		});
 		return chunked;
 	};
-	assign($, {
+	assign(namespace, {
 		chunk
 	});
 	/**
@@ -1180,7 +1290,7 @@
 	const rest = (array) => {
 		return array.slice(1, array.length);
 	};
-	assign($, {
+	assign(namespace, {
 		rest
 	});
 	/**
@@ -1200,7 +1310,7 @@
 		array.length = 0;
 		return array;
 	};
-	assign($, {
+	assign(namespace, {
 		clear
 	});
 	/**
@@ -1219,7 +1329,7 @@
 	const right = (array, amount) => {
 		return array[array.length - 1 - amount];
 	};
-	assign($, {
+	assign(namespace, {
 		right
 	});
 	/**
@@ -1238,7 +1348,7 @@
 	const cloneArray = (array) => {
 		return array.slice();
 	};
-	assign($, {
+	assign(namespace, {
 		cloneArray
 	});
 	const mathNative = Math;
@@ -1405,7 +1515,7 @@
 	const randomInt = (max, min = 0) => {
 		return floorMethod(randomMethod() * (max - min)) + min;
 	};
-	assign($, {
+	assign(namespace, {
 		add: add$1,
 		deduct,
 		divide,
@@ -1451,7 +1561,7 @@
 		}
 		return shuffleArray;
 	};
-	assign($, {
+	assign(namespace, {
 		shuffle
 	});
 	/**
@@ -1497,7 +1607,7 @@
 		}
 		return sampleArray;
 	};
-	assign($, {
+	assign(namespace, {
 		sample
 	});
 	/**
@@ -1518,7 +1628,7 @@
 			return isString(item) && !item.length ? false : item;
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		compact
 	});
 	/**
@@ -1537,7 +1647,7 @@
 	const initial = (array) => {
 		return array.slice(0, array.length - 1);
 	};
-	assign($, {
+	assign(namespace, {
 		initial
 	});
 	const mathNativeMin = Math.min;
@@ -1557,7 +1667,7 @@
 	const smallest = (array) => {
 		return mathNativeMin(...array);
 	};
-	assign($, {
+	assign(namespace, {
 		smallest
 	});
 	const rangeUp = (start, end, increment) => {
@@ -1600,7 +1710,7 @@
 			return rangeDown(start, end, increment);
 		}
 	};
-	assign($, {
+	assign(namespace, {
 		range
 	});
 	/**
@@ -1630,7 +1740,7 @@
 			}
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		intersect
 	});
 	/**
@@ -1655,7 +1765,7 @@
 			}
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		difference
 	});
 	/**
@@ -1694,7 +1804,7 @@
 	const dropRight = (array, amount, upTo = array.length) => {
 		return drop(array, 0, upTo - amount);
 	};
-	assign($, {
+	assign(namespace, {
 		drop,
 		dropRight
 	});
@@ -1706,7 +1816,7 @@
 	 * @category array
 	 * @param {Array} source - Source object.
 	 * @param {Array} compareArray - Object to compare to source.
-	 * @returns {boolean} - Returns the true or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isMatchArray([1, 2, 3], [1, 2, 3]);
@@ -1720,7 +1830,7 @@
 		}
 		return false;
 	};
-	assign($, {
+	assign(namespace, {
 		isMatchArray
 	});
 	/**
@@ -1749,7 +1859,7 @@
 		});
 		return min;
 	};
-	assign($, {
+	assign(namespace, {
 		sortedIndex
 	});
 	const mathNativeMax = Math.max;
@@ -1769,7 +1879,7 @@
 	const largest = (array) => {
 		return mathNativeMax(...array);
 	};
-	assign($, {
+	assign(namespace, {
 		largest
 	});
 	/**
@@ -1790,7 +1900,7 @@
 			return a + b;
 		}, 0);
 	};
-	assign($, {
+	assign(namespace, {
 		sum
 	});
 	/**
@@ -1861,7 +1971,7 @@
 		}
 		return callingArray;
 	};
-	assign($, {
+	assign(namespace, {
 		eachAsync,
 		eachAsyncRight
 	});
@@ -1886,7 +1996,7 @@
 		const arrayLength = array.length;
 		return indexFrom ? array.slice(arrayLength - indexFrom, arrayLength) : array[arrayLength - 1];
 	};
-	assign($, {
+	assign(namespace, {
 		last
 	});
 	/**
@@ -1922,7 +2032,7 @@
 		const arrayLength = array.length;
 		return array.slice(arrayLength - amount, arrayLength);
 	};
-	assign($, {
+	assign(namespace, {
 		take,
 		takeRight
 	});
@@ -1951,7 +2061,7 @@
 		});
 		return results;
 	};
-	assign($, {
+	assign(namespace, {
 		mapAsync
 	});
 	const onlyUnique = (value, index, array) => {
@@ -1979,7 +2089,7 @@
 		}
 		return array.filter(onlyUnique);
 	};
-	assign($, {
+	assign(namespace, {
 		unique
 	});
 	/**
@@ -1998,7 +2108,7 @@
 	const union = (...arrays) => {
 		return unique(flattenDeep(arrays));
 	};
-	assign($, {
+	assign(namespace, {
 		union
 	});
 	/**
@@ -2027,7 +2137,7 @@
 		});
 		return results;
 	};
-	assign($, {
+	assign(namespace, {
 		compactMapAsync
 	});
 	const numericalCompare = (a, b) => {
@@ -2049,7 +2159,7 @@
 	const numSort = (numberList) => {
 		return numberList.sort(numericalCompare);
 	};
-	assign($, {
+	assign(namespace, {
 		numSort
 	});
 	/**
@@ -2073,7 +2183,7 @@
 		});
 		return sortedObject;
 	};
-	assign($, {
+	assign(namespace, {
 		arrayToObject
 	});
 	/**
@@ -2095,7 +2205,7 @@
 			return !removeThese.includes(item);
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		without
 	});
 	/**
@@ -2131,7 +2241,7 @@
 			failed
 		];
 	};
-	assign($, {
+	assign(namespace, {
 		partition
 	});
 	/**
@@ -2161,7 +2271,7 @@
 		});
 		return xored;
 	};
-	assign($, {
+	assign(namespace, {
 		xor
 	});
 	/**
@@ -2204,7 +2314,7 @@
 			});
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		unZip,
 		zip
 	});
@@ -2228,7 +2338,7 @@
 	const first = (array, upTo) => {
 		return upTo ? array.slice(0, upTo) : array[0];
 	};
-	assign($, {
+	assign(namespace, {
 		first
 	});
 	const numericalCompareReverse = (a, b) => {
@@ -2249,7 +2359,7 @@
 	const rNumSort = (numberList) => {
 		return numberList.sort(numericalCompareReverse);
 	};
-	assign($, {
+	assign(namespace, {
 		rNumSort
 	});
 	/**
@@ -2321,7 +2431,7 @@
 		});
 		return results;
 	};
-	assign($, {
+	assign(namespace, {
 		times,
 		timesMap
 	});
@@ -2331,7 +2441,7 @@
 	 * @function eachObject
 	 * @category object
 	 * @type {Function}
-	 * @param {Object|Function} callingObject - Object that will be looped through.
+	 * @param {Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
 	 * @returns {Object|Function} - Returns the calling object.
 	 *
@@ -2350,10 +2460,10 @@
 	 * });
 	 * // => {a: 1, b: 2, c: 3}
 	 */
-	const eachObject = (thisObject, iteratee) => {
-		const objectKeys = keys(thisObject);
-		eachArray(objectKeys, (key, index, array, propertyCount) => {
-			iteratee(thisObject[key], key, thisObject, propertyCount, objectKeys);
+	const eachObject = (source, iteratee) => {
+		const objectKeys = keys(source);
+		eachArray(objectKeys, (key, index, original, propertyCount) => {
+			iteratee(source[key], key, source, propertyCount, original);
 		});
 	};
 	/**
@@ -2362,9 +2472,9 @@
 	 * @function whileObject
 	 * @category object
 	 * @type {Function}
-	 * @param {Object} callingObject - Object that will be looped through.
+	 * @param {Object} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
+	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * whileObject({a: false, b: true, c: true}, (item) => {
@@ -2377,10 +2487,10 @@
 	 * });
 	 * // => true
 	 */
-	const whileObject = (callingObject, iteratee) => {
-		const objectKeys = keys(callingObject);
-		return whileArray(objectKeys, (key, index, callingArray, propertyCount) => {
-			return iteratee(callingObject[key], key, callingObject, propertyCount, callingArray);
+	const whileObject = (source, iteratee) => {
+		const objectKeys = keys(source);
+		return whileArray(objectKeys, (key, index, original, propertyCount) => {
+			return iteratee(source[key], key, source, propertyCount, original);
 		});
 	};
 	/**
@@ -2389,7 +2499,7 @@
 	 * @function filterObject
 	 * @category object
 	 * @type {Function}
-	 * @param {Object|Function} callingObject - Object that will be looped through.
+	 * @param {Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Object|Function} - An object with properties that passed the test.
@@ -2400,9 +2510,9 @@
 	 * });
 	 * // => {b: true, c: true}
 	 */
-	const filterObject = (object, iteratee, results = {}) => {
-		eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
-			if (iteratee(item, key, results, thisObject, propertyCount, objectKeys) === true) {
+	const filterObject = (source, iteratee, results = {}) => {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			if (iteratee(item, key, results, original, propertyCount, objectKeys) === true) {
 				results[key] = item;
 			}
 		});
@@ -2414,7 +2524,7 @@
 	 * @function mapObject
 	 * @category object
 	 * @type {Function}
-	 * @param {Object|Function} callingObject - Object that will be looped through.
+	 * @param {Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Object|Function} - An object of the same calling object's type.
@@ -2425,9 +2535,9 @@
 	 * });
 	 * // => {a: 2, b: 4, c: 6}
 	 */
-	const mapObject = (object, iteratee, results = {}) => {
-		eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
-			results[key] = iteratee(item, key, results, thisObject, propertyCount, objectKeys);
+	const mapObject = (source, iteratee, results = {}) => {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			results[key] = iteratee(item, key, results, original, propertyCount, objectKeys);
 		});
 		return results;
 	};
@@ -2437,7 +2547,7 @@
 	 * @function compactMapObject
 	 * @category object
 	 * @type {Function}
-	 * @param {Object|Function} callingObject - Object that will be looped through.
+	 * @param {Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
@@ -2448,16 +2558,16 @@
 	 * });
 	 * // => {b: 2, c: 3}
 	 */
-	const compactMapObject = (object, iteratee, results = {}) => {
-		eachObject(object, (item, key, thisObject, propertyCount, objectKeys) => {
-			const result = iteratee(item, key, results, propertyCount, objectKeys);
+	const compactMapObject = (source, iteratee, results = {}) => {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			const result = iteratee(item, key, results, original, propertyCount, objectKeys);
 			if (hasValue(result)) {
 				results[key] = result;
 			}
 		});
 		return results;
 	};
-	assign($, {
+	assign(namespace, {
 		compactMapObject,
 		eachObject,
 		filterObject,
@@ -2498,7 +2608,7 @@
 			isAgent[item] = true;
 		});
 	}
-	assign($, {
+	assign(namespace, {
 		isAgent
 	});
 	/**
@@ -2506,7 +2616,6 @@
 	 *
 	 * @function eventAdd
 	 * @category browser
-	 * @ignoreTest
 	 * @type {Function}
 	 * @param {Node} node - Given node.
 	 * @param {string} type - A string representing the event type.
@@ -2527,7 +2636,6 @@
 	 *
 	 * @function eventRemove
 	 * @category browser
-	 * @ignoreTest
 	 * @type {Function}
 	 * @param {Node} node - Given node.
 	 * @param {string} type - A string representing the event type.
@@ -2543,7 +2651,7 @@
 		node.removeEventListener(...args);
 		return node;
 	};
-	assign($, {
+	assign(namespace, {
 		eventAdd,
 		eventRemove
 	});
@@ -2563,7 +2671,7 @@
 	const isEnter = (eventObject) => {
 		return eventObject.keyCode === 13;
 	};
-	assign($, {
+	assign(namespace, {
 		isEnter
 	});
 	/**
@@ -2571,7 +2679,6 @@
 	 *
 	 * @function createFragment
 	 * @category browser
-	 * @ignoreTest
 	 * @type {Function}
 	 * @ignore
 	 * @returns {Fragment} - Returns a new document fragment.
@@ -2635,7 +2742,7 @@
 		});
 		return [unZippedKeys, values];
 	};
-	assign($, {
+	assign(namespace, {
 		unZipObject,
 		zipObject
 	});
@@ -2668,7 +2775,7 @@
 		});
 		return node;
 	};
-	assign($, {
+	assign(namespace, {
 		nodeAttribute
 	});
 	/**
@@ -2695,7 +2802,7 @@
 	const promise = (callback) => {
 		return new Promise(callback);
 	};
-	assign($, {
+	assign(namespace, {
 		promise
 	});
 	/**
@@ -2793,7 +2900,7 @@
 	const restString = (string, index = 1) => {
 		return string.substr(index);
 	};
-	assign($, {
+	assign(namespace, {
 		chunkString,
 		initialString,
 		insertInRange,
@@ -2884,7 +2991,7 @@
 		}
 		return querySelectorAll(select);
 	};
-	assign($, {
+	assign(namespace, {
 		getByClass,
 		getById,
 		getByTag,
@@ -2905,7 +3012,6 @@
 	 *
 	 * @function importjs
 	 * @category browser
-	 * @ignoreTest
 	 * @type {Function}
 	 * @async
 	 * @returns {Promise} - Returns a promise.
@@ -2920,7 +3026,7 @@
 		});
 		return nodeAttachLoadingEvents(node);
 	};
-	assign($, {
+	assign(namespace, {
 		importjs
 	});
 	/**
@@ -2948,7 +3054,7 @@
 		}
 		return false;
 	};
-	assign($, {
+	assign(namespace, {
 		isDocumentReady
 	});
 	isDocumentReady(() => {
@@ -2976,7 +3082,7 @@
 			protocolSocket
 		}
 	};
-	assign($, {
+	assign(namespace, {
 		info
 	});
 	const saveDimensions = () => {
@@ -3005,7 +3111,7 @@
 	isDocumentReady(updateDimensions);
 	eventAdd(window, 'load', updateDimensions, true);
 	eventAdd(window, 'resize', updateDimensions, true);
-	assign($, {
+	assign(namespace, {
 		saveDimensions,
 		updateDimensions
 	});
@@ -3038,7 +3144,7 @@
 	 * // => '{}'
 	 */
 	const stringify = jsonNative.stringify;
-	assign($, {
+	assign(namespace, {
 		jsonParse,
 		stringify
 	});
@@ -3129,7 +3235,7 @@
 			this.items[key] = value;
 		}
 		clear() {
-			this.storage.items = {};
+			this.items = {};
 		}
 		removeItem(key) {
 			this.items[key] = null;
@@ -3138,17 +3244,6 @@
 	function virtualStorage() {
 		return new VirtualStorage();
 	}
-	function hasStorage(storeCheck) {
-		try {
-			storeCheck().removeItem('TESTING');
-			$.hasLocal = true;
-		} catch (e) {
-			$.hasLocal = false;
-		}
-	}
-	hasStorage(() => {
-		return localStorage;
-	});
 	/**
 	 * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
 	 * The crate function is a factory which wraps the Crate constructor & returns it.
@@ -3225,15 +3320,28 @@
 	 * storageCrate.getItem('key');
 	 * // => undefined
 	 */
+	let hasLocal;
+	function hasStorage(storeCheck) {
+		try {
+			storeCheck().removeItem('TESTING');
+			hasLocal = true;
+		} catch (e) {
+			hasLocal = false;
+		}
+	}
+	hasStorage(() => {
+		return localStorage;
+	});
 	class Crate {
 		constructor(initialObject) {
-			if ($.hasLocal) {
+			if (this.hasLocal) {
 				this.local = localStorage;
 			}
-			this.storage = virtualCrate(initialObject);
+			this.storage = virtualStorage();
 		}
+		hasLocal = hasLocal;
 		setItem(key, value) {
-			if ($.hasLocal) {
+			if (this.hasLocal) {
 				this.local.setItem(key, isString(value) ? value : stringify(value));
 			}
 			return this.storage.setItem(key, value);
@@ -3243,18 +3351,18 @@
 			if (hasValue(item)) {
 				return item;
 			}
-			if (!hasValue(item) && $.hasLocal) {
+			if (!hasValue(item) && this.hasLocal) {
 				return this.local.getItem(key);
 			}
 		}
 		clear() {
-			if ($.hasLocal) {
+			if (this.hasLocal) {
 				this.local.clear();
 			}
 			this.storage.clear();
 		}
 		removeItem(key) {
-			if ($.hasLocal) {
+			if (this.hasLocal) {
 				this.local.removeItem(key);
 			}
 			this.storage.removeItem(key);
@@ -3263,11 +3371,12 @@
 	function crate(virtualFlag) {
 		return new Crate(virtualFlag);
 	}
-	assign($, {
+	assign(namespace, {
 		VirtualStorage,
 		Crate,
 		crate,
-		virtualStorage
+		virtualStorage,
+		hasLocal
 	});
 	const generateTheme = (color, bg) => {
 		return `color:${color};background:${bg};`;
@@ -3315,7 +3424,7 @@
 	const cnslTheme = (themeName, color, background) => {
 		themes[themeName] = generateTheme(color, background);
 	};
-	assign($, {
+	assign(namespace, {
 		cnsl,
 		cnslTheme
 	});
@@ -3335,9 +3444,9 @@
 	const isDom = (value) => {
 		return value && value.nodeType !== 9;
 	};
-	$.isDom = isDom;
+	namespace.isDom = isDom;
 	eachArray(['HTMLCollection', 'NodeList'], (item) => {
-		$[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
+		namespace[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
 	});
 	/**
 	 * Checks if the value is a HTMLCollection.
@@ -3372,7 +3481,7 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} key - The property name to sort by based on it's value.
+	 * @param {string} propertyName - The property name to sort by based on it's value.
 	 * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
 	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
@@ -3380,16 +3489,16 @@
 	 * sortNewest([{id: 1}, {id: 0}], 'id');
 	 * // => [{id: 1}, {id: 0}]
 	 */
-	const sortNewest = (collection, key, pureMode = true) => {
+	const sortNewest = (collection, propertyName, pureMode = true) => {
 		const array = pureMode ? collection : [...collection];
 		return array.sort((previous, next) => {
-			if (!next[key]) {
+			if (!next[propertyName]) {
 				return -1;
-			} else if (!previous[key]) {
+			} else if (!previous[propertyName]) {
 				return 1;
-			} else if (previous[key] < next[key]) {
+			} else if (previous[propertyName] < next[propertyName]) {
 				return 1;
-			} else if (previous[key] > next[key]) {
+			} else if (previous[propertyName] > next[propertyName]) {
 				return -1;
 			}
 			return 0;
@@ -3402,17 +3511,17 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} key - The property name to sort by based on it's value.
+	 * @param {string} propertyName - The property name to sort by based on it's value.
 	 * @returns {Object} - The newest object in the collection.
 	 *
 	 * @example
 	 * getNewest([{id: 1}, {id: 0}], 'id');
 	 * // => {id: 1}
 	 */
-	const getNewest = (collection, key) => {
-		return sortNewest(collection, key, false)[0];
+	const getNewest = (collection, propertyName) => {
+		return sortNewest(collection, propertyName, false)[0];
 	};
-	assign($, {
+	assign(namespace, {
 		getNewest,
 		sortNewest
 	});
@@ -3463,7 +3572,7 @@
 	const getOldest = (collection, key = 'id') => {
 		return sortOldest(collection, key)[0];
 	};
-	assign($, {
+	assign(namespace, {
 		getOldest,
 		sortOldest
 	});
@@ -3494,7 +3603,7 @@
 		});
 		return sortedObject;
 	};
-	assign($, {
+	assign(namespace, {
 		groupBy
 	});
 	/**
@@ -3524,52 +3633,52 @@
 		return object;
 	};
 	/**
-	 * Count the amount of times a key is present in a colleciton.
+	 * Count the amount of times a key is present in a collection.
 	 *
 	 * @function countKey
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
-	 * @param {Function} property - The name of the key.
+	 * @param {Function} propertyName - The name of the key.
 	 * @returns {number} - The count.
 	 *
 	 * @example
 	 * countKey([{a:1}, {a:3}], 'a');
 	 * // => 2
 	 */
-	const countKey = (array, property) => {
+	const countKey = (collection, propertyName) => {
 		let count = 0;
-		eachArray(array, (item) => {
-			if (item[property]) {
+		eachArray(collection, (item) => {
+			if (item[propertyName]) {
 				count++;
 			}
 		});
 		return count;
 	};
 	/**
-	 * Count the amount of times a key is not present in a colleciton.
+	 * Count the amount of times a key is not present in a collection.
 	 *
 	 * @function countWithoutKey
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
-	 * @param {string} property - The name of the key.
+	 * @param {string} propertyName - The name of the key.
 	 * @returns {number} - The count.
 	 *
 	 * @example
 	 * countWithoutKey([{a:1}, {a:3}], 'b');
 	 * // => 2
 	 */
-	const countWithoutKey = (array, keyName) => {
+	const countWithoutKey = (collection, propertyName) => {
 		let count = 0;
-		eachArray(array, (item) => {
-			if (!item[keyName]) {
+		eachArray(collection, (item) => {
+			if (!item[propertyName]) {
 				count++;
 			}
 		});
 		return count;
 	};
-	assign($, {
+	assign(namespace, {
 		countBy,
 		countKey,
 		countWithoutKey
@@ -3581,21 +3690,21 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
-	 * @param {string} key - The property name to index by.
+	 * @param {string} propertyName - The property name to index by.
 	 * @returns {Object} - Returns the composed aggregate object.
 	 *
 	 * @example
 	 * indexBy([{name: 'Lucy', id: 0}, {name: 'Erick', id: 1}], 'id');
 	 * // => { "0": {name: 'Lucy', id: 0}, "1": {name: 'Erick', id: 1}}
 	 */
-	const indexBy = (array, key = 'id') => {
+	const indexBy = (collection, propertyName = 'id') => {
 		const sortedObject = {};
-		eachArray(array, (item) => {
-			sortedObject[item[key]] = item;
+		eachArray(collection, (item) => {
+			sortedObject[item[propertyName]] = item;
 		});
 		return sortedObject;
 	};
-	assign($, {
+	assign(namespace, {
 		indexBy
 	});
 	/**
@@ -3618,7 +3727,7 @@
 			return result;
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		pluck
 	});
 	/**
@@ -3640,7 +3749,7 @@
 			return value[item];
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		pluckObject
 	});
 	/**
@@ -3662,7 +3771,7 @@
 			return pluckObject(item, pluckThese);
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		pluckValues
 	});
 	/**
@@ -3685,7 +3794,7 @@
 			return item[property](value, index);
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		invoke
 	});
 	/**
@@ -3715,7 +3824,7 @@
 			return item[property](value, index);
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		invokeAsync
 	});
 	const findIndexCache = (element, index, array, indexMatch, propertyName) => {
@@ -3765,7 +3874,7 @@
 		});
 		return result === -1 ? false : result;
 	};
-	assign($, {
+	assign(namespace, {
 		findIndex,
 		findItem
 	});
@@ -3775,17 +3884,18 @@
 	 * @function sortAlphabetical
 	 * @category collection
 	 * @type {Function}
-	 * @param {Array} array - Array to be sorted.
+	 * @param {Array} collection - Collection to be sorted.
+	 * @param {string} propertyName - Name of property to compare.
 	 * @returns {Array} - The sorted array.
 	 *
 	 * @example
 	 * sortAlphabetical([{letter:'a'}, {letter:'f'}, {letter:'c'}], 'letter');
 	 * // => [{"letter":"a"},{"letter":"c"},{"letter":"f"}]
 	 */
-	const sortAlphabetical = (collection, key) => {
+	const sortAlphabetical = (collection, propertyName) => {
 		return collection.sort((current, next) => {
-			const currentKey = current[key];
-			const nextKey = next[key];
+			const currentKey = current[propertyName];
+			const nextKey = next[propertyName];
 			if (currentKey < nextKey) {
 				return -1;
 			} else if (currentKey > nextKey) {
@@ -3794,7 +3904,7 @@
 			return 0;
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		sortAlphabetical
 	});
 	/**
@@ -3816,7 +3926,7 @@
 			return callable(...args.splice(0, amount));
 		};
 	};
-	assign($, {
+	assign(namespace, {
 		ary
 	});
 	/**
@@ -3876,7 +3986,7 @@
 		};
 		return curried;
 	};
-	assign($, {
+	assign(namespace, {
 		curry,
 		curryRight
 	});
@@ -3917,8 +4027,8 @@
 	 * @function after
 	 * @category function
 	 * @type {Function}
-	 * @param {Function} callable - The function to be called.
 	 * @param {number} amount - The number of calls until method is invoked.
+	 * @param {Function} callable - The function to be called.
 	 * @returns {Function} - Returns the new pass-thru function.
 	 *
 	 * @test
@@ -3955,8 +4065,8 @@
 	 * @function before
 	 * @category function
 	 * @type {Function}
-	 * @param {Function} callable - The function to be called.
 	 * @param {number} amount - The number of calls before n.
+	 * @param {Function} callable - The function to be called.
 	 * @returns {Function} - Returns the new pass-thru function.
 	 *
 	 * @test
@@ -3990,7 +4100,7 @@
 		};
 		return onlyBefore;
 	};
-	assign($, {
+	assign(namespace, {
 		after,
 		before,
 		once
@@ -4085,7 +4195,7 @@
 	const noop = () => {
 		return undefined;
 	};
-	assign($, {
+	assign(namespace, {
 		noop,
 		stubArray,
 		stubFalse,
@@ -4097,20 +4207,20 @@
 		return object.forEach(callback);
 	};
 	const generateCheckLoops = (arrayLoop, objectLoop) => {
-		return (callingObject, iteratee, results) => {
+		return (source, iteratee, results) => {
 			let returned;
-			if (!hasValue(callingObject)) {
+			if (!hasValue(source)) {
 				return;
-			} else if (isArray(callingObject)) {
+			} else if (isArray(source)) {
 				returned = arrayLoop;
-			} else if (isPlainObject(callingObject) || isFunction(callingObject)) {
+			} else if (isPlainObject(source) || isFunction(source)) {
 				returned = objectLoop;
-			} else if (callingObject.forEach) {
+			} else if (source.forEach) {
 				returned = forEachWrap;
 			} else {
 				returned = objectLoop;
 			}
-			return returned(callingObject, iteratee, results);
+			return returned(source, iteratee, results);
 		};
 	};
 	/**
@@ -4119,9 +4229,9 @@
 	 * @function eachWhile
 	 * @category utility
 	 * @type {Function}
-	 * @param {Object|Array|Function} callingObject - Object that will be looped through.
+	 * @param {Object|Array|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} - Returns the true if all values returned are true or false if one value returns false.
+	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * eachWhile({a: false, b: true, c: true}, (item) => {
@@ -4136,7 +4246,7 @@
 	 * @function each
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array|Object|Function} callingObject - Object that will be looped through.
+	 * @param {Array|Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
 	 * @returns {Array|Object|Function} - The originally given object.
 	 *
@@ -4162,7 +4272,7 @@
 	 * @function filter
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array|Object|Function} callingObject - Object that will be looped through.
+	 * @param {Array|Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Array|Object|Function} - A new object of the same calling object's type.
@@ -4180,7 +4290,7 @@
 	 * @function map
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array|Object|Function} callingObject - Object that will be looped through.
+	 * @param {Array|Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Array|Object|Function} - A new object of the same calling object's type.
@@ -4198,7 +4308,7 @@
 	 * @function compactMap
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array|Object|Function} callingObject - Object that will be looped through.
+	 * @param {Array|Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Array|Object|Function} - A new object of the same calling object's type.
@@ -4210,7 +4320,7 @@
 	 * // => {b: 2, c: 3}
 	 */
 	const compactMap = generateCheckLoops(compactMapArray, compactMapObject);
-	assign($, {
+	assign(namespace, {
 		compactMap,
 		each,
 		eachWhile,
@@ -4239,7 +4349,7 @@
 			return isFunction(item) ? item.bind(bindThis) : item;
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		bindAll
 	});
 	/**
@@ -4264,7 +4374,7 @@
 			return callable(...args);
 		}
 	};
-	assign($, {
+	assign(namespace, {
 		ifInvoke
 	});
 	/**
@@ -4285,7 +4395,7 @@
 			return !callable(...args);
 		};
 	};
-	assign($, {
+	assign(namespace, {
 		negate
 	});
 	/**
@@ -4303,7 +4413,7 @@
 	 * // => false
 	 */
 	const every = eachWhile;
-	assign($, {
+	assign(namespace, {
 		every
 	});
 	/**
@@ -4349,7 +4459,7 @@
 			});
 		};
 	};
-	assign($, {
+	assign(namespace, {
 		over,
 		overEvery
 	});
@@ -4491,7 +4601,7 @@
 		};
 		return throttled;
 	};
-	assign($, {
+	assign(namespace, {
 		clearIntervals,
 		clearTimers,
 		debounce,
@@ -4549,7 +4659,7 @@
 		link.add(methods);
 		return link;
 	};
-	assign($, {
+	assign(namespace, {
 		chain
 	});
 	/**
@@ -4559,7 +4669,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Array|Object|Function} collection - The functions to be invoked.
-	 * @param {*} arg - The object passed as an argument to each method.
+	 * @param {*} value - The object passed as an argument to each method.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @test
@@ -4588,7 +4698,7 @@
 	 * @type {Function}
 	 * @async
 	 * @param {Array|Object|Function} collection - The functions to be invoked.
-	 * @param {*} arg - The object passed as an argument to each method.
+	 * @param {*} value - The object passed as an argument to each method.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @test
@@ -4609,7 +4719,7 @@
 			await item(value);
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		inAsync,
 		inSync
 	});
@@ -4631,7 +4741,7 @@
 			return args[index];
 		};
 	};
-	assign($, {
+	assign(namespace, {
 		nthArg
 	});
 	/**
@@ -4659,7 +4769,7 @@
 			);
 		};
 	};
-	assign($, {
+	assign(namespace, {
 		reArg
 	});
 	/**
@@ -4683,7 +4793,7 @@
 			return wrapper(value, ...arg);
 		};
 	};
-	assign($, {
+	assign(namespace, {
 		wrap
 	});
 	/**
@@ -4746,7 +4856,7 @@
 	const isNumberInRange = (num, start, end) => {
 		return num > start && num < end;
 	};
-	assign($, {
+	assign(namespace, {
 		isNumberEqual,
 		isNumberInRange,
 		isZero
@@ -4800,7 +4910,7 @@
 			})
 		);
 	};
-	assign($, {
+	assign(namespace, {
 		hasAnyKeys,
 		hasKeys
 	});
@@ -4825,7 +4935,7 @@
 		});
 		return newObject;
 	};
-	assign($, {
+	assign(namespace, {
 		pick
 	});
 	/**
@@ -4856,7 +4966,7 @@
 		});
 		return compactedKeys;
 	};
-	assign($, {
+	assign(namespace, {
 		compactKeys
 	});
 	/**
@@ -4867,7 +4977,7 @@
 	 * @category object
 	 * @param {Object} source - Source object.
 	 * @param {Object} compareObject - Object to compare to source.
-	 * @returns {boolean} - Returns the true or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isMatchObject({a: 1}, {a: 1});
@@ -4882,7 +4992,7 @@
 		}
 		return false;
 	};
-	assign($, {
+	assign(namespace, {
 		isMatchObject
 	});
 	/**
@@ -4905,7 +5015,7 @@
 		});
 		return invertedObject;
 	};
-	assign($, {
+	assign(namespace, {
 		invert
 	});
 	/**
@@ -4927,7 +5037,7 @@
 			return !array.includes(key);
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		omit
 	});
 	/**
@@ -4936,9 +5046,9 @@
 	 * @function eachObjectAsync
 	 * @category object
 	 * @type {Function}
-	 * @param {Object|Function} callingObject - Object that will be looped through.
+	 * @param {Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-	 * @returns {Object|Function} - Returns the calling object.
+	 * @returns {Object|Function} - Returns source.
 	 *
 	 * @test
 	 * (async () => {
@@ -4955,14 +5065,14 @@
 	 * });
 	 * // => {a: 1, b: 2, c: 3}
 	 */
-	const eachObjectAsync = async (thisObject, iteratee) => {
-		const objectKeys = keys(thisObject);
+	const eachObjectAsync = async (source, iteratee) => {
+		const objectKeys = keys(source);
 		await eachAsync(objectKeys, (key, index, array, propertyCount) => {
-			return iteratee(thisObject[key], key, thisObject, propertyCount, objectKeys);
+			return iteratee(source[key], key, source, propertyCount, objectKeys);
 		});
-		return thisObject;
+		return source;
 	};
-	assign($, {
+	assign(namespace, {
 		eachObjectAsync
 	});
 	/**
@@ -4971,7 +5081,7 @@
 	 * @function mapObjectAsync
 	 * @category object
 	 * @type {Function}
-	 * @param {Object|Function} callingObject - Object that will be looped through.
+	 * @param {Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Object|Function} - An object of the same calling object's type.
@@ -4990,8 +5100,8 @@
 	 * });
 	 * // => {a: 2, b: 4, c: 6}
 	 */
-	const mapObjectAsync = async (object, iteratee, results = {}) => {
-		await eachObjectAsync(object, async (item, key, thisObject, propertyCount, objectKeys) => {
+	const mapObjectAsync = async (source, iteratee, results = {}) => {
+		await eachObjectAsync(source, async (item, key, thisObject, propertyCount, objectKeys) => {
 			results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
 		});
 		return results;
@@ -5002,7 +5112,7 @@
 	 * @function compactMapObjectAsync
 	 * @category object
 	 * @type {Function}
-	 * @param {Object|Function} callingObject - Object that will be looped through.
+	 * @param {Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
@@ -5021,8 +5131,8 @@
 	 * });
 	 * // => {b: 2, c: 3}
 	 */
-	const compactMapObjectAsync = async (object, iteratee, results = {}) => {
-		await eachObjectAsync(object, async (item, key, thisObject, propertyCount, objectKeys) => {
+	const compactMapObjectAsync = async (source, iteratee, results = {}) => {
+		await eachObjectAsync(source, async (item, key, thisObject, propertyCount, objectKeys) => {
 			const result = await iteratee(item, key, results, propertyCount, objectKeys);
 			if (hasValue(result)) {
 				results[key] = result;
@@ -5030,7 +5140,7 @@
 		});
 		return results;
 	};
-	assign($, {
+	assign(namespace, {
 		compactMapObjectAsync,
 		mapObjectAsync
 	});
@@ -5102,7 +5212,7 @@
 	const snakeCase = (string) => {
 		return string.replace(normalizeCase, ' ').trim().toLowerCase().replace(spaceFirstLetter$1, '_$1');
 	};
-	assign($, {
+	assign(namespace, {
 		camelCase,
 		kebabCase,
 		snakeCase,
@@ -5126,7 +5236,7 @@
 	const replaceList = (string, words, value) => {
 		return string.replace(new RegExp(`\\b${words.join('|')}\\b`, 'gi'), value);
 	};
-	assign($, {
+	assign(namespace, {
 		replaceList
 	});
 	const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
@@ -5186,7 +5296,7 @@
 	const sanitize = (string) => {
 		return htmlEntities(rawURLDecode(string));
 	};
-	assign($, {
+	assign(namespace, {
 		htmlEntities,
 		rawURLDecode,
 		sanitize
@@ -5224,7 +5334,7 @@
 	const words = (string) => {
 		return string.match(wordsRegEx) || [];
 	};
-	assign($, {
+	assign(namespace, {
 		tokenize,
 		words
 	});
@@ -5290,7 +5400,7 @@
 		const stringLength = string.length;
 		return stringLength > maxLength ? truncateUp(string, maxLength, stringLength) : string;
 	};
-	assign($, {
+	assign(namespace, {
 		truncate,
 		truncateRight
 	});
@@ -5356,7 +5466,7 @@
 	 *
 	 * @example
 	 * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
-	 * // => 'Lysergic acid diethylamide'
+	 * // => 'Lysergic namespace diethylamide'
 	 */
 	const upperFirstOnly = (string) => {
 		return upperFirstLetter(string) + restString(string).toLowerCase();
@@ -5379,7 +5489,7 @@
 			return match.toUpperCase();
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		upperFirst,
 		upperFirstAll,
 		upperFirstLetter,
@@ -5392,8 +5502,8 @@
 	 * @function assignDeep
 	 * @category utility
 	 * @type {Function}
-	 * @param {Object} object - Object to be assigned new properties.
-	 * @param {Object} otherObject - Object from which properties are extracted.
+	 * @param {Object} target - Object to be assigned new properties.
+	 * @param {Object} source - Object from which properties are extracted.
 	 * @param {boolean} [mergeArrays = true] - Array from which items are assigned to the new object.
 	 * @returns {Object} - Returns object with the newly assigned properties.
 	 *
@@ -5413,7 +5523,7 @@
 		});
 		return target;
 	};
-	assign($, {
+	assign(namespace, {
 		assignDeep
 	});
 	const functionPrototype = Function.prototype;
@@ -5433,7 +5543,7 @@
 	function cacheNativeMethod(method) {
 		return functionPrototype.call.bind(method);
 	}
-	assign($, {
+	assign(namespace, {
 		cacheNativeMethod
 	});
 	/**
@@ -5457,7 +5567,7 @@
 		}
 		return rootObject;
 	};
-	assign($, {
+	assign(namespace, {
 		ifNotEqual
 	});
 	/**
@@ -5468,26 +5578,26 @@
 	 * @category utility
 	 * @param {Object} source - Source object.
 	 * @param {Object} compareObject - Object to compare to source.
-	 * @returns {boolean} - Returns the true or false.
+	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isEqual({a: [1,2,3]}, {a: [1,2,3]});
 	 * // => true
 	 */
-	const isEqual = (object, compareObject) => {
-		if (object === compareObject) {
+	const isEqual = (source, compareObject) => {
+		if (source === compareObject) {
 			return true;
-		} else if (object.toString() === compareObject.toString()) {
-			if (isPlainObject(object)) {
-				const sourceProperties = keys(object);
+		} else if (source.toString() === compareObject.toString()) {
+			if (isPlainObject(source)) {
+				const sourceProperties = keys(source);
 				if (hasKeys(compareObject, sourceProperties)) {
 					return whileArray(sourceProperties, (key) => {
-						return isEqual(object[key], compareObject[key]);
+						return isEqual(source[key], compareObject[key]);
 					});
 				}
-			} else if (isArray(object)) {
-				if (object.length === compareObject.length) {
-					return whileArray(object, (item, index) => {
+			} else if (isArray(source)) {
+				if (source.length === compareObject.length) {
+					return whileArray(source, (item, index) => {
 						return isEqual(item, compareObject[index]);
 					});
 				}
@@ -5495,7 +5605,7 @@
 		}
 		return false;
 	};
-	assign($, {
+	assign(namespace, {
 		isEqual
 	});
 	/**
@@ -5504,9 +5614,10 @@
 	 * @function propertyMatch
 	 * @type {Function}
 	 * @category utility
-	 * @property {Object} - takes an object.
-	 * @property {Object} - takes an object.
-	 * @property {Array} - takes in an array of properties.
+	 * @param {Object} source - The source object to compare.
+	 * @param {Object} compared - Object to be compared to source.
+	 * @param {Array} properties - List of properties to compare defaults to keys(source).
+	 * @returns {Array} - Returns an array of properties.
 	 *
 	 * @example
 	 * propertyMatch({
@@ -5518,12 +5629,12 @@
 	 * }, ['a', 'b']);
 	 * // => true
 	 */
-	const propertyMatch = (object, compareObject, properties = keys(object)) => {
+	const propertyMatch = (source, compared, properties = keys(source)) => {
 		return whileArray(properties, (property) => {
-			return isEqual(object[property], compareObject[property]);
+			return isEqual(source[property], compared[property]);
 		});
 	};
-	assign($, {
+	assign(namespace, {
 		propertyMatch
 	});
 	const regexToPath = /\.|\[/;
@@ -5545,7 +5656,7 @@
 	const toPath = (string) => {
 		return string.replace(regexCloseBracket, emptyString).split(regexToPath);
 	};
-	assign($, {
+	assign(namespace, {
 		toPath
 	});
 	let count = 0;
@@ -5606,11 +5717,12 @@
 	 * // => undefined
 	 * uid();
 	 * // => 0
-	 */ uid.free = (id) => {
+	 */
+	uid.free = (id) => {
 		uidClosed[id] = null;
 		uidFree.push(id);
 	};
-	assign($, {
+	assign(namespace, {
 		uid
 	});
 	/**
@@ -5631,7 +5743,7 @@
 	 * });
 	 * // => 'c'
 	 */
-	const get = (propertyString, objectChain = $) => {
+	const get = (propertyString, objectChain = namespace) => {
 		let link = objectChain;
 		whileArray(toPath(propertyString), (item) => {
 			link = link[item];
@@ -5639,7 +5751,7 @@
 		});
 		return link;
 	};
-	assign($, {
+	assign(namespace, {
 		get
 	});
 	/**
@@ -5649,21 +5761,21 @@
 	 * @type {Function}
 	 * @category utility
 	 * @param {string} modelName - Name of the model.
-	 * @property {Object} - The model object.
+	 * @param {Object} modelObject - The model object.
 	 * @returns {*} - Returns the associated model.
 	 *
 	 * @example
 	 * model('test', {a: 1}) && model('test');
 	 * // => {a: 1}
 	 */
-	const model = (modelName, object) => {
-		if (hasValue(object)) {
-			model[modelName] = object;
+	const model = (modelName, modelObject) => {
+		if (hasValue(modelObject)) {
+			model[modelName] = modelObject;
 		}
 		return get(modelName, model);
 	};
-	$.superMethod(model);
-	assign($, {
+	namespace.superMethod(model);
+	assign(namespace, {
 		model
 	});
 	/**
@@ -5685,7 +5797,7 @@
 	const toggle = (value, on = true, off = false) => {
 		return isEqual(on, value) ? off : on;
 	};
-	assign($, {
+	assign(namespace, {
 		toggle
 	});
 	const returnFlow$1 = (callable) => {
@@ -5727,7 +5839,7 @@
 	 * // => 1
 	 */
 	const flowRight = returnFlow$1(eachArrayRight);
-	assign($, {
+	assign(namespace, {
 		flow,
 		flowRight
 	});
@@ -5772,10 +5884,10 @@
 	 * // => 2
 	 */
 	const flowAsyncRight = returnFlow(eachAsyncRight);
-	assign($, {
+	assign(namespace, {
 		flowAsync,
 		flowAsyncRight
 	});
-	return $;
+	return namespace;
 });
 // # sourceMappingURL=bundle.js.map

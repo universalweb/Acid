@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachArray } from '../array/each';
 /**
@@ -18,16 +18,16 @@ import { eachArray } from '../array/each';
   * // => { '4': [4.2], '6': [6.1, 6.3] }
 */
 export const groupBy = (array, iteratee) => {
-  const sortedObject = {};
-  eachArray(array, (item) => {
-    const results = iteratee(item);
-    if (!sortedObject[results]) {
-      sortedObject[results] = [];
-    }
-    sortedObject[results].push(item);
-  });
-  return sortedObject;
+	const sortedObject = {};
+	eachArray(array, (item) => {
+		const results = iteratee(item);
+		if (!sortedObject[results]) {
+			sortedObject[results] = [];
+		}
+		sortedObject[results].push(item);
+	});
+	return sortedObject;
 };
-assign(acid, {
-  groupBy
+assign(namespace, {
+	groupBy
 });

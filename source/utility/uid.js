@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 let count = 0;
@@ -25,14 +25,14 @@ const uidClosed = {};
   * // => 1
 */
 export function uid() {
-  let result = uidFree.shift(uidFree);
-  if (!hasValue(result)) {
-    result = count;
-    uidClosed[result] = true;
-    count++;
-  }
-  return result;
-};
+	let result = uidFree.shift(uidFree);
+	if (!hasValue(result)) {
+		result = count;
+		uidClosed[result] = true;
+		count++;
+	}
+	return result;
+}
 /**
   * Frees an UID so that it may be recycled for later use.
   *
@@ -61,9 +61,9 @@ export function uid() {
   * // => 0
 */
 uid.free = (id) => {
-  uidClosed[id] = null;
-  uidFree.push(id);
+	uidClosed[id] = null;
+	uidFree.push(id);
 };
-assign(acid, {
-  uid,
+assign(namespace, {
+	uid,
 });

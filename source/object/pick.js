@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachArray } from '../array/each';
 /**
@@ -17,11 +17,11 @@ import { eachArray } from '../array/each';
   * // => {a:1, b:2}
 */
 const pick = (source, array, newObject = {}) => {
-  eachArray(array, (item) => {
-    newObject[item] = source[item];
-  });
-  return newObject;
+	eachArray(array, (item) => {
+		newObject[item] = source[item];
+	});
+	return newObject;
 };
-assign(acid, {
-  pick
+assign(namespace, {
+	pick
 });

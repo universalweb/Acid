@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { hasKeys } from '../object/hasKeys.js';
 import { whileArray } from '../array/each';
 import { assign, keys } from '../internal/object';
@@ -11,33 +11,33 @@ import { isArray, isPlainObject } from '../internal/is';
    * @category utility
    * @param {Object} source - Source object.
    * @param {Object} compareObject - Object to compare to source.
-   * @returns {boolean} - Returns the true or false.
+   * @returns {boolean} - Returns true or false.
    *
    * @example
    * isEqual({a: [1,2,3]}, {a: [1,2,3]});
    * // => true
  */
-export const isEqual = (object, compareObject) => {
-  if (object === compareObject) {
-    return true;
-  } else if (object.toString() === compareObject.toString()) {
-    if (isPlainObject(object)) {
-      const sourceProperties = keys(object);
-      if (hasKeys(compareObject, sourceProperties)) {
-        return whileArray(sourceProperties, (key) => {
-          return isEqual(object[key], compareObject[key]);
-        });
-      }
-    } else if (isArray(object)) {
-      if (object.length === compareObject.length) {
-        return whileArray(object, (item, index) => {
-          return isEqual(item, compareObject[index]);
-        });
-      }
-    }
-  }
-  return false;
+export const isEqual = (source, compareObject) => {
+	if (source === compareObject) {
+		return true;
+	} else if (source.toString() === compareObject.toString()) {
+		if (isPlainObject(source)) {
+			const sourceProperties = keys(source);
+			if (hasKeys(compareObject, sourceProperties)) {
+				return whileArray(sourceProperties, (key) => {
+					return isEqual(source[key], compareObject[key]);
+				});
+			}
+		} else if (isArray(source)) {
+			if (source.length === compareObject.length) {
+				return whileArray(source, (item, index) => {
+					return isEqual(item, compareObject[index]);
+				});
+			}
+		}
+	}
+	return false;
 };
-assign(acid, {
-  isEqual,
+assign(namespace, {
+	isEqual,
 });

@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { isString } from '../internal/is';
 /**
@@ -15,10 +15,10 @@ import { isString } from '../internal/is';
   * // => [1, 'B', 'Cat']
 */
 export const compact = (array) => {
-  return array.filter((item) => {
-    return isString(item) && !item.length ? false : item;
-  });
+	return array.filter((item) => {
+		return isString(item) && !item.length ? false : item;
+	});
 };
-assign(acid, {
-  compact,
+assign(namespace, {
+	compact,
 });

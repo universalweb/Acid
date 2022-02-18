@@ -1,16 +1,16 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eachAsync, eachAsyncRight } from '../array/eachAsync';
 const returnFlow = (callable) => {
-  return (...methods) => {
-    return async (arg) => {
-      let value = arg;
-      await callable(methods, async (item) => {
-        value = await item(value);
-      });
-      return value;
-    };
-  };
+	return (...methods) => {
+		return async (arg) => {
+			let value = arg;
+			await callable(methods, async (item) => {
+				value = await item(value);
+			});
+			return value;
+		};
+	};
 };
 /**
   * Creates a function that returns the result of invoking the given functions, where each successive invocation is supplied the return value of the previous.
@@ -42,7 +42,7 @@ export const flowAsync = returnFlow(eachAsync);
   * // => 2
 */
 export const flowAsyncRight = returnFlow(eachAsyncRight);
-assign(acid, {
-  flowAsync,
-  flowAsyncRight,
+assign(namespace, {
+	flowAsync,
+	flowAsyncRight,
 });

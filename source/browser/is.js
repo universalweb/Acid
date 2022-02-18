@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { eachArray } from '../array/each';
 import { isSameObjectGenerator, objectStringGenerate } from '../internal/isGenerate';
 /**
@@ -17,9 +17,9 @@ import { isSameObjectGenerator, objectStringGenerate } from '../internal/isGener
 export const isDom = (value) => {
 	return value && value.nodeType !== 9;
 };
-acid.isDom = isDom;
+namespace.isDom = isDom;
 eachArray(['HTMLCollection', 'NodeList'], (item) => {
-	acid[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
+	namespace[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
 });
 /**
  * Checks if the value is a HTMLCollection.

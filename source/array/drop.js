@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Removes all items from an array after a specified index.
@@ -16,7 +16,7 @@ import { assign } from '../internal/object';
   * // => [2, 3]
 */
 export const drop = (array, amount, upTo = array.length) => {
-  return array.splice(amount, upTo);
+	return array.splice(amount, upTo);
 };
 /**
   * Removes all items from an array before a specified index.
@@ -34,9 +34,9 @@ export const drop = (array, amount, upTo = array.length) => {
   * // => [1, 2]
 */
 export const dropRight = (array, amount, upTo = array.length) => {
-  return drop(array, 0, upTo - amount);
+	return drop(array, 0, upTo - amount);
 };
-assign(acid, {
-  drop,
-  dropRight
+assign(namespace, {
+	drop,
+	dropRight
 });

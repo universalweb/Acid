@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Takes all but the last item in the array.
@@ -14,8 +14,8 @@ import { assign } from '../internal/object';
   * // => [1, 2, 3, 4]
 */
 export const initial = (array) => {
-  return array.slice(0, array.length - 1);
+	return array.slice(0, array.length - 1);
 };
-assign(acid, {
-  initial
+assign(namespace, {
+	initial
 });

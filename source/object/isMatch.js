@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { isMatchArray } from '../array/isMatch';
 import { whileArray } from '../array/each';
 import { assign, keys } from '../internal/object';
@@ -10,21 +10,21 @@ import { assign, keys } from '../internal/object';
    * @category object
    * @param {Object} source - Source object.
    * @param {Object} compareObject - Object to compare to source.
-   * @returns {boolean} - Returns the true or false.
+   * @returns {boolean} - Returns true or false.
    *
    * @example
    * isMatchObject({a: 1}, {a: 1});
    * // => true
  */
 export const isMatchObject = (source, compareObject) => {
-  const sourceProperties = keys(source);
-  if (isMatchArray(sourceProperties, keys(compareObject))) {
-    return whileArray(sourceProperties, (key) => {
-      return source[key] === compareObject[key];
-    });
-  }
-  return false;
+	const sourceProperties = keys(source);
+	if (isMatchArray(sourceProperties, keys(compareObject))) {
+		return whileArray(sourceProperties, (key) => {
+			return source[key] === compareObject[key];
+		});
+	}
+	return false;
 };
-assign(acid, {
-  isMatchObject,
+assign(namespace, {
+	isMatchObject,
 });

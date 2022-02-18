@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Strictly checks if a number is zero.
@@ -17,7 +17,7 @@ import { assign } from '../internal/object';
   * // => false
 */
 export const isZero = (item) => {
-  return item === 0;
+	return item === 0;
 };
 /**
   * Strictly checks if a number equal to another number.
@@ -37,7 +37,7 @@ export const isZero = (item) => {
   * // => false
 */
 export const isNumberEqual = (item, num) => {
-  return item === num;
+	return item === num;
 };
 /**
   * Checks if a number is within a range.
@@ -58,10 +58,10 @@ export const isNumberEqual = (item, num) => {
   * // => false
 */
 export const isNumberInRange = (num, start, end) => {
-  return num > start && num < end;
+	return num > start && num < end;
 };
-assign(acid, {
-  isNumberEqual,
-  isNumberInRange,
-  isZero
+assign(namespace, {
+	isNumberEqual,
+	isNumberInRange,
+	isZero
 });

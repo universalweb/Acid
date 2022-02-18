@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { whileArray } from '../array/each';
 import { assign, keys } from '../internal/object';
 /**
@@ -20,10 +20,10 @@ import { assign, keys } from '../internal/object';
   * // => false
 */
 export const hasKeys = (object, properties) => {
-  const objectKeys = keys(object);
-  return whileArray(properties, (item) => {
-    return objectKeys.includes(item);
-  });
+	const objectKeys = keys(object);
+	return whileArray(properties, (item) => {
+		return objectKeys.includes(item);
+	});
 };
 /**
   * Checks to see if an object has any of the given property names.
@@ -43,12 +43,12 @@ export const hasKeys = (object, properties) => {
   * // => false
 */
 export const hasAnyKeys = (object, properties) => {
-  const objectKeys = keys(object);
-  return Boolean(properties.find((item) => {
-    return objectKeys.includes(item);
-  }));
+	const objectKeys = keys(object);
+	return Boolean(properties.find((item) => {
+		return objectKeys.includes(item);
+	}));
 };
-assign(acid, {
-  hasAnyKeys,
-  hasKeys,
+assign(namespace, {
+	hasAnyKeys,
+	hasKeys,
 });

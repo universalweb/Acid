@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 /**
   * Clears the values out of an array.
@@ -14,8 +14,8 @@ import { assign } from '../internal/object';
   * // => [1, 'B', 'Cat']
 */
 export const cloneArray = (array) => {
-  return array.slice();
+	return array.slice();
 };
-assign(acid, {
-  cloneArray
+assign(namespace, {
+	cloneArray
 });

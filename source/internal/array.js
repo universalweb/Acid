@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from './object';
 const arrayNative = Array;
 /**
@@ -14,6 +14,6 @@ const arrayNative = Array;
  * // => [1, 2, 3]
 */
 export const toArray = arrayNative.from;
-assign(acid, {
-  toArray,
+assign(namespace, {
+	toArray,
 });

@@ -1,4 +1,4 @@
-import acid from '../namespace/index';
+import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { compactMapArray, whileArray } from './each';
 /**
@@ -19,15 +19,15 @@ import { compactMapArray, whileArray } from './each';
  * // => [1, 2]
  */
 export const intersect = (array, ...arrays) => {
-  return compactMapArray(array, (item) => {
-    const shouldReturn = whileArray(arrays, (otherItem) => {
-      return otherItem.includes(item);
-    });
-    if (shouldReturn) {
-      return item;
-    }
-  });
+	return compactMapArray(array, (item) => {
+		const shouldReturn = whileArray(arrays, (otherItem) => {
+			return otherItem.includes(item);
+		});
+		if (shouldReturn) {
+			return item;
+		}
+	});
 };
-assign(acid, {
-  intersect
+assign(namespace, {
+	intersect
 });
