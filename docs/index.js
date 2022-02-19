@@ -11,7 +11,7 @@
 		filter,
 		compactKeys,
 		map,
-		isEnter
+		isEnter,
 	} = window.$;
 	const regexComplexLink = /\[([\w\s\d]+)\]\(((https|http)?:\/\/[\w\d./()_?=#]+)\)/igm;
 	const colorize = (description, itemName, type) => {
@@ -67,11 +67,6 @@
 				libraryName: 'Acid',
 				search: '',
 				$: window.$,
-				filter(docItems, searchFilter) {
-					return compactKeys(filter(docItems, (docItem, docKey) => {
-						return (`${docItem.catergoryName} ${docKey}`).includes(searchFilter);
-					})).sort();
-				},
 				categories: window.docMap.categories,
 				getDocItem(item) {
 					return items[item];
@@ -98,6 +93,7 @@
 				block: 'center',
 				inline: 'center'
 			});
+			history.pushState(null, '', `/#${id}`);
 		},
 		search(context) {
 			const {
@@ -106,6 +102,9 @@
 			const {
 				searchFilter,
 			} = context.get();
+			this.set('searchItems', compactKeys(filter(items, (docItem, docKey) => {
+				return new RegExp(`${searchFilter}`, 'i').test(`${docItem.catergoryName} ${docKey}`);
+			})).sort());
 			if (isEnter(original)) {
 				original.stopPropagation();
 				original.preventDefault();
@@ -117,7 +116,7 @@
 						block: 'center',
 						inline: 'center'
 					});
-					history.pushState(undefined, '', `/#${searchFilter}`);
+					history.pushState(null, '', `/#${searchFilter}`);
 				}
 			}
 		}

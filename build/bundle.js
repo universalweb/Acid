@@ -2726,6 +2726,7 @@
 	 *
 	 * @function unZipObject
 	 * @type {Function}
+	 * @category object
 	 * @param {Object} object - The object to process.
 	 * @returns {Array} - Returns two arrays one of keys and the other of values inside a single array.
 	 *
@@ -5784,9 +5785,9 @@
 	 * @function toggle
 	 * @type {Function}
 	 * @category utility
-	 * @param  {(string|number|Object|Array)} value - Strictly compared against the on argument.
-	 * @param {(string|number|Object|Array)} on -  Strictly compared against the value argument.
-	 * @param {(string|number|Object|Array)} off -  Value to be returned.
+	 * @param  {(string|number|Object|Array)} value - Strictly compared against on & off arguments.
+	 * @param {(string|number|Object|Array)} on -  The first object to be compared to.
+	 * @param {(string|number|Object|Array)} off - The second object to be compared to.
 	 * @returns {(string|number|Object|Array)} - The opposing value to the current.
 	 *
 	 * @example

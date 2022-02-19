@@ -19,9 +19,9 @@
           </form>
           {{#searchFilter}}
             <div>
-              {{#filter(items, searchFilter).length}}
+              {{#searchItems.length}}
                 <ul class="uk-list uk-link-text uk-width-1-1">
-                  {{#filter(items, searchFilter)}}
+                  {{#searchItems}}
                       <li><a href="#{{this}}" on-click="@.fire('goTo', @context, this)">{{this}}</a></li>
                   {{/}}
                 </ul>

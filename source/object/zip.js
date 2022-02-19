@@ -28,6 +28,7 @@ export const zipObject = (properties, values) => {
   *
   * @function unZipObject
   * @type {Function}
+  * @category object
   * @param {Object} object - The object to process.
   * @returns {Array} - Returns two arrays one of keys and the other of values inside a single array.
   *
