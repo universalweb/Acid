@@ -336,7 +336,72 @@ export const isBoolean = (value) => {
 const isDate = (value) => {
 	return value instanceof Date;
 };
+/**
+ * Checks if an object is a promise.
+ *
+ * @function isPromise
+ * @category utility
+ * @param {*} value - Object to be checked.
+ * @returns {boolean} - True or false.
+ *
+ * @example
+ * isPromise(new Promise(() => {}));
+ * // => true
+*/
+const isPromise = (value) => {
+	return value instanceof Promise;
+};
+/**
+ * Checks if an object is an async function.
+ *
+ * @function isAsync
+ * @category utility
+ * @param {*} value - Object to be checked.
+ * @returns {boolean} - True or false.
+ *
+ * @example
+ * isAsync(async() => {});
+ * // => true
+*/
+const isAsync = (value) => {
+	return value.constructor.name === 'AsyncFunction';
+};
+/**
+ * Checks if an object is an async function or promise.
+ *
+ * @function isKindAsync
+ * @category utility
+ * @param {*} value - Object to be checked.
+ * @returns {boolean} - True or false.
+ *
+ * @example
+ * isKindAsync(async() => {});
+ * // => true
+ * isKindAsync(new Promise(() => {}));
+ * // => true
+*/
+const isKindAsync = (value) => {
+	return isPromise(value) || isAsync(value);
+};
+/**
+ * Checks if an object is a primitive.
+ *
+ * @function isPrimitive
+ * @category utility
+ * @param {*} value - Object to be checked.
+ * @returns {boolean} - True or false.
+ *
+ * @example
+ * isPrimitive(1);
+ * // => true
+ * isPrimitive(() => {});
+ * // => false
+*/
+export const isPrimitive = (value) => {
+	return value !== '__proto__' && value !== 'constructor' && value !== 'prototype';
+};
 assign(namespace, {
+	isPrimitive,
 	getFileExtension,
 	has,
 	hasDot,
@@ -358,4 +423,7 @@ assign(namespace, {
 	isRegExp,
 	isString,
 	isUndefined,
+	isAsync,
+	isPromise,
+	isKindAsync
 });

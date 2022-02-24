@@ -18,7 +18,7 @@ import { assign, keys } from '../internal/object';
 export const isAgent = (value) => {
 	return (value) ? isAgent[value] : keys(isAgent);
 };
-const userAgent = navigator.userAgentData;
+const userAgent = globalThis.navigator.userAgentData;
 if (userAgent) {
 	eachObject(userAgent, (value, key) => {
 		if (isBoolean(value) && value) {
