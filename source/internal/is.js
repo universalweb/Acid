@@ -349,7 +349,10 @@ const isDate = (value) => {
  * // => true
 */
 const isPromise = (value) => {
-	return value instanceof Promise;
+	if (value) {
+		return value instanceof Promise;
+	}
+	return false;
 };
 /**
  * Checks if an object is an async function.
@@ -364,7 +367,10 @@ const isPromise = (value) => {
  * // => true
 */
 const isAsync = (value) => {
-	return value.constructor.name === 'AsyncFunction';
+	if (value) {
+		return value.constructor?.name === 'AsyncFunction';
+	}
+	return false;
 };
 /**
  * Checks if an object is an async function or promise.
@@ -381,7 +387,10 @@ const isAsync = (value) => {
  * // => true
 */
 const isKindAsync = (value) => {
-	return isPromise(value) || isAsync(value);
+	if (value) {
+		return isPromise(value) || isAsync(value);
+	}
+	return false;
 };
 /**
  * Checks if an object is a primitive.
