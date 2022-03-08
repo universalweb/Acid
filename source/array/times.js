@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 /**
   * Iterates based on a start index and an end index. The loop ends when the start index is equal to the end index.
@@ -70,7 +68,4 @@ export const timesMap = (startIndex, endIndex, iteratee, results = []) => {
 	});
 	return results;
 };
-assign(namespace, {
-	times,
-	timesMap,
-});
+

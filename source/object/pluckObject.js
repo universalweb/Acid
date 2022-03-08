@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { mapArray } from '../array/each';
 /**
   * Returns an array of the plucked values from the object. Values are plucked in the order given by the array.
@@ -20,6 +18,4 @@ export const pluckObject = (value, pluckThese) => {
 		return value[item];
 	});
 };
-assign(namespace, {
-	pluckObject
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * This method returns a new empty object.
   *
@@ -90,11 +88,4 @@ export const stubTrue = () => {
 export const noop = () => {
 	return undefined;
 };
-assign(namespace, {
-	noop,
-	stubArray,
-	stubFalse,
-	stubObject,
-	stubString,
-	stubTrue,
-});
+

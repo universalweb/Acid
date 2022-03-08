@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachArray } from './each';
 /**
   * Takes all but the last item in the array.
@@ -22,6 +20,4 @@ export const arrayToObject = (values, properties) => {
 	});
 	return sortedObject;
 };
-assign(namespace, {
-	arrayToObject
-});
+

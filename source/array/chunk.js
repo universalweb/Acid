@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Chunks an array according to a user defined number.
   *
@@ -28,6 +26,4 @@ export const chunk = (array, size = 1) => {
 	});
 	return chunked;
 };
-assign(namespace, {
-	chunk,
-});
+

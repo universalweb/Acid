@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { mapArray } from '../array/each';
 /**
   * Invokes a function on the provided property name in each object in the collection.
@@ -13,14 +11,12 @@ import { mapArray } from '../array/each';
   * @returns {Array} - Returns the results of the invoked method.
   *
   * @example
-  * invoke([{lucy(item, index) { return [item, index];}}, {lucy(item, index) { return [item, index];}}], 'lucy', 'Arity LLC');
-  * // => [['Arity LLC', 0], ['Arity LLC', 1]]
+  * invoke([{lucy(item, index) { return [item, index];}}, {lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
+  * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
 */
-const invoke = (collection, property, value) => {
+export const invoke = (collection, property, value) => {
 	return mapArray(collection, (item, index) => {
 		return item[property](value, index);
 	});
 };
-assign(namespace, {
-	invoke
-});
+

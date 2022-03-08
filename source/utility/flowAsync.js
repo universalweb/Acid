@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachAsync, eachAsyncRight } from '../array/eachAsync';
 const returnFlow = (callable) => {
 	return (...methods) => {
@@ -42,7 +40,4 @@ export const flowAsync = returnFlow(eachAsync);
   * // => 2
 */
 export const flowAsyncRight = returnFlow(eachAsyncRight);
-assign(namespace, {
-	flowAsync,
-	flowAsyncRight,
-});
+

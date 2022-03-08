@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { restString } from './range';
 const spaceFirstLetter = / (.)/g;
 /**
@@ -86,10 +84,4 @@ export const upperFirstOnlyAll = (string) => {
 		return match.toUpperCase();
 	});
 };
-assign(namespace, {
-	upperFirst,
-	upperFirstAll,
-	upperFirstLetter,
-	upperFirstOnly,
-	upperFirstOnlyAll,
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Attaches an event listener to a node.
   *
@@ -40,7 +38,4 @@ export const eventRemove = (node, ...args) => {
 	node.removeEventListener(...args);
 	return node;
 };
-assign(namespace, {
-	eventAdd,
-	eventRemove,
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Removes all items from an array after a specified index.
   *
@@ -36,7 +34,4 @@ export const drop = (array, amount, upTo = array.length) => {
 export const dropRight = (array, amount, upTo = array.length) => {
 	return drop(array, 0, upTo - amount);
 };
-assign(namespace, {
-	drop,
-	dropRight
-});
+

@@ -12,14 +12,15 @@
 		compactKeys,
 		map,
 		isEnter,
-	} = window.$;
+	} = $;
 	const regexComplexLink = /\[([\w\s\d]+)\]\(((https|http)?:\/\/[\w\d./()_?=#]+)\)/igm;
 	const colorize = (description, itemName, type) => {
 		// console.log(itemName, description);
 		const compiledTypes = ensureArray(type.split('|')).map((objType) => {
 			// console.log(objType);
 			return `<span class="param${(objType === '*') ? 'anything' : objType.replace('...', 'rest')}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
-		}).join(` | `);
+		})
+			.join(` | `);
 		return `<tr>
 				<td class="param${upperFirst(itemName.replace(/([^a-z*])/ig, ''))} paramName">${upperFirst(itemName)}</td>
 				<td>${compiledTypes}</td>
@@ -29,7 +30,8 @@
 	const colorizeReturn = (description, type) => {
 		const compiledTypes = ensureArray(type.split('|')).map((objType) => {
 			return `<span class="param${(objType === '*') ? 'anything' : objType.replace(/([^a-z*])/ig, '')}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
-		}).join(` | `);
+		})
+			.join(` | `);
 		return `<tr>
 					<td>${compiledTypes}</td>
 					<td>${upperFirst(description)}</td>
@@ -66,7 +68,7 @@
 			return {
 				libraryName: 'Acid',
 				search: '',
-				$: window.$,
+				$,
 				categories: window.docMap.categories,
 				getDocItem(item) {
 					return items[item];
@@ -96,12 +98,8 @@
 			history.pushState(null, '', `/#${id}`);
 		},
 		search(context) {
-			const {
-				original
-			} = context;
-			const {
-				searchFilter,
-			} = context.get();
+			const { original } = context;
+			const { searchFilter, } = context.get();
 			this.set('searchItems', compactKeys(filter(items, (docItem, docKey) => {
 				return new RegExp(`${searchFilter}`, 'i').test(`${docItem.catergoryName} ${docKey}`);
 			})).sort());

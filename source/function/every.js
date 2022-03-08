@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachWhile } from '../utility/each';
 /**
   * Checks if predicate returns truthy for all elements of collection. Iteration is stopped once predicate returns falsey. The predicate is invoked with three arguments: (value, index|key, collection).
@@ -16,6 +14,4 @@ import { eachWhile } from '../utility/each';
   * // => false
 */
 export const every = eachWhile;
-assign(namespace, {
-	every,
-});
+

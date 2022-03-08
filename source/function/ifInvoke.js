@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { isFunction } from '../internal/is';
 /**
   * Checks if the given method is a function. If it is then it invokes it with the given arguments.
@@ -23,6 +21,4 @@ export const ifInvoke = (callable, ...args) => {
 		return callable(...args);
 	}
 };
-assign(namespace, {
-	ifInvoke
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 const truncateDown = (string, maxLength, stringLength) => {
 	const breakAll = string.split('');
 	const breakAllLength = breakAll.length;
@@ -62,7 +60,4 @@ export const truncateRight = (string, maxLength) => {
 	const stringLength = string.length;
 	return (stringLength > maxLength) ? truncateUp(string, maxLength, stringLength) : string;
 };
-assign(namespace, {
-	truncate,
-	truncateRight,
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 const normalizeCase = /[-_]/g;
 const spaceFirstLetter = / (.)/g;
 /**
@@ -77,9 +75,4 @@ export const snakeCase = (string) => {
 		.toLowerCase()
 		.replace(spaceFirstLetter, '_$1');
 };
-assign(namespace, {
-	camelCase,
-	kebabCase,
-	snakeCase,
-	upperCase,
-});
+

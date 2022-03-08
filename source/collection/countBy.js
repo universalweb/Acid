@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachArray } from '../array/each';
 /**
   * Creates an object composed of keys generated from the results of running each element of collection through iteratee.
@@ -73,8 +71,4 @@ export const countWithoutKey = (collection, propertyName) => {
 	});
 	return count;
 };
-assign(namespace, {
-	countBy,
-	countKey,
-	countWithoutKey
-});
+

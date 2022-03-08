@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Asynchronously Iterates through the given array. Each async function is awaited as to ensure synchronous order.
   *
@@ -68,7 +66,4 @@ export const eachAsyncRight = async (callingArray, iteratee) => {
 	}
 	return callingArray;
 };
-assign(namespace, {
-	eachAsync,
-	eachAsyncRight,
-});
+

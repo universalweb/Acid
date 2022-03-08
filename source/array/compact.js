@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { isString } from '../internal/is';
 /**
   * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
@@ -19,6 +17,4 @@ export const compact = (array) => {
 		return isString(item) && !item.length ? false : item;
 	});
 };
-assign(namespace, {
-	compact,
-});
+

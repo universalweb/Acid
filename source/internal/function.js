@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from './object';
 /**
  * Calls a target function with arguments as specified.
  *
@@ -15,6 +13,4 @@ import { assign } from './object';
  * // => 2
 */
 export const apply = Reflect.apply;
-assign(namespace, {
-	apply
-});
+

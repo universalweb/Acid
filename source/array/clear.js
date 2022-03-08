@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Clears the values out of an array.
   *
@@ -17,6 +15,4 @@ export const clear = (array) => {
 	array.length = 0;
 	return array;
 };
-assign(namespace, {
-	clear,
-});
+

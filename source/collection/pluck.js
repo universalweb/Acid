@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { mapArray } from '../array/each';
 /**
   * Returns an array of the plucked values from the collection.
@@ -21,6 +19,4 @@ export const pluck = (collection, pluckThis) => {
 		return result;
 	});
 };
-assign(namespace, {
-	pluck
-});
+

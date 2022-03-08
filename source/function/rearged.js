@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Creates a function that invokes method with arguments arranged according to the specified indexes where the argument value at the first index is provided as the first argument, the argument value at the second index is provided as the second argument, and so on.
   *
@@ -23,6 +21,4 @@ export const reArg = (callable, indexes) => {
 		}));
 	};
 };
-assign(namespace, {
-	reArg
-});
+

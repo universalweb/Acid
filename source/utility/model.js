@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { get } from './get';
 import { hasValue } from '../internal/is';
 /**
@@ -22,7 +20,4 @@ export const model = (modelName, modelObject) => {
 	}
 	return get(modelName, model);
 };
-namespace.superMethod(model);
-assign(namespace, {
-	model
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachObject } from '../object/each';
 /**
   * Extracts all keys from an object whose values are not falsey. The values false, null, 0, "", undefined, and NaN are falsey.
@@ -29,6 +27,4 @@ export const compactKeys = (object) => {
 	});
 	return compactedKeys;
 };
-assign(namespace, {
-	compactKeys
-});
+

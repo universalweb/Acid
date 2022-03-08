@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 let count = 0;
 const uidFree = [];
@@ -64,6 +62,4 @@ uid.free = (id) => {
 	uidClosed[id] = null;
 	uidFree.push(id);
 };
-assign(namespace, {
-	uid,
-});
+

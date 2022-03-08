@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 const rangeUp = (start, end, increment) => {
 	const rangeArray = [];
 	let position = start;
@@ -40,6 +38,4 @@ export const range = (start, end, increment = 1) => {
 		return rangeDown(start, end, increment);
 	}
 };
-assign(namespace, {
-	range
-});
+

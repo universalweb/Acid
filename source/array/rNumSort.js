@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 export const numericalCompareReverse = (a, b) => {
 	return b - a;
 };
@@ -18,6 +16,4 @@ export const numericalCompareReverse = (a, b) => {
 export const rNumSort = (numberList) => {
 	return numberList.sort(numericalCompareReverse);
 };
-assign(namespace, {
-	rNumSort
-});
+

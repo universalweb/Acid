@@ -1,4 +1,3 @@
-import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { eventAdd } from './event';
 import { info } from './info';
@@ -29,7 +28,4 @@ export const updateDimensions = () => {
 isDocumentReady(updateDimensions);
 eventAdd(window, 'load', updateDimensions, true);
 eventAdd(window, 'resize', updateDimensions, true);
-assign(namespace, {
-	saveDimensions,
-	updateDimensions
-});
+

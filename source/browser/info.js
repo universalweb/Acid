@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 const protocol = location.protocol;
 const protocolSocket = (protocol === 'http:') ? 'ws' : 'wss';
 const hostname = location.hostname;
@@ -22,6 +20,4 @@ export const info = {
 		protocolSocket,
 	}
 };
-assign(namespace, {
-	info
-});
+

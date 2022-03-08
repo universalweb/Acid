@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { isEqual } from './isEqual';
 /**
   * Performs a toggle between 2 values using a deep or strict comparison.
@@ -20,6 +18,4 @@ import { isEqual } from './isEqual';
 export const toggle = (value, on = true, off = false) => {
 	return (isEqual(on, value)) ? off : on;
 };
-assign(namespace, {
-	toggle
-});
+

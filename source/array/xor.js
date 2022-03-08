@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachArray } from './each';
 import { unique } from './unique';
 /**
@@ -29,6 +27,4 @@ export const xor = (...arrays) => {
 	});
 	return xored;
 };
-assign(namespace, {
-	xor
-});
+

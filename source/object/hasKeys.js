@@ -1,6 +1,5 @@
-import namespace from '../namespace/index';
 import { whileArray } from '../array/each';
-import { assign, keys } from '../internal/object';
+import { keys } from '../internal/object';
 /**
   * Checks to see if an object has all of the given property names.
   *
@@ -48,7 +47,4 @@ export const hasAnyKeys = (object, properties) => {
 		return objectKeys.includes(item);
 	}));
 };
-assign(namespace, {
-	hasAnyKeys,
-	hasKeys,
-});
+

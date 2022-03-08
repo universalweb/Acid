@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachObject } from './each';
 /**
   * Creates an inverted version of a given object by switching it's keys and values.
@@ -21,6 +19,4 @@ export const invert = (thisObject, invertedObject = {}) => {
 	});
 	return invertedObject;
 };
-assign(namespace, {
-	invert,
-});
+

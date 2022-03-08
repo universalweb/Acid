@@ -1,50 +1,40 @@
 (function(global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ?
-		(module.exports = factory()) :
+		factory(exports) :
 		typeof define === 'function' && define.amd ?
-			define(factory) :
-			((global = typeof globalThis !== 'undefined' ? globalThis : global || self), (global.$ = factory()));
-})(this, () => {
+			define(['exports'], factory) :
+			((global = typeof globalThis !== 'undefined' ? globalThis : global || self), factory((global.$ = {})));
+})(this, (exports) => {
 	'use strict';
-	let cacheSuper;
+	const arrayNative = Array;
 	/**
-	 * Acid Object accessible through $ default method is model.
+	 * Takes an array like object and creates a new Array from it.
 	 *
-	 * @function $
-	 * @category main
-	 * @returns {*} - The return value of the superMethod. The default superMethod is model.
+	 * @function toArray
+	 * @category array
+	 * @param {*} arrayLike - Array like object.
+	 * @returns {*} - new array.
 	 *
 	 * @example
-	 * $('modelName', {example: 1});
-	 * // => {example: 1}
+	 * toArray([1, 2, 3]);
+	 * // => [1, 2, 3]
 	 */
-	const namespace = (...args) => {
-		return cacheSuper(...args);
-	};
+	const toArray = arrayNative.from;
 	/**
-	 * Re-assigns the main method for $.
+	 * Calls a target function with arguments as specified.
 	 *
-	 * @function superMethod
-	 * @category main
-	 * @memberof $
-	 * @param {Function} callable - The function that will become the main object's subroutine.
-	 * @returns {any} - Returns nothing.
-	 *
-	 * @test
-	 * (async () => {
-	 *  superMethod($.get);
-	 *  return assert($('flow', $), $.flow);
-	 * });
+	 * @function apply
+	 * @category function
+	 * @param {Function} target - The target function to call.
+	 * @param {*} thisArgument - Array like object.
+	 * @param {Array} argumentsList - An array-like object specifying the arguments with which target should be called.
+	 * @returns {*} - The result of calling the given target function with the specified this value and arguments.
 	 *
 	 * @example
-	 * superMethod($.get);
-	 * $('flow', $);
-	 * // => $.flow
+	 * apply(function (a) {return a;}, undefined, [2]);
+	 * // => 2
 	 */
-	const superMethod = (callable) => {
-		cacheSuper = callable;
-	};
-	namespace.superMethod = superMethod;
+	const apply = Reflect.apply;
 	const objectNative = Object;
 	/**
 	 * Get object's keys.
@@ -149,50 +139,6 @@
 	const objectSize = (target) => {
 		return keys(target).length;
 	};
-	assign(namespace, {
-		assign,
-		defineProperty,
-		getOwnPropertyDescriptor,
-		getOwnPropertyNames,
-		is,
-		keys,
-		objectSize
-	});
-	const arrayNative = Array;
-	/**
-	 * Takes an array like object and creates a new Array from it.
-	 *
-	 * @function toArray
-	 * @category array
-	 * @param {*} arrayLike - Array like object.
-	 * @returns {*} - new array.
-	 *
-	 * @example
-	 * toArray([1, 2, 3]);
-	 * // => [1, 2, 3]
-	 */
-	const toArray = arrayNative.from;
-	assign(namespace, {
-		toArray
-	});
-	/**
-	 * Calls a target function with arguments as specified.
-	 *
-	 * @function apply
-	 * @category function
-	 * @param {Function} target - The target function to call.
-	 * @param {*} thisArgument - Array like object.
-	 * @param {Array} argumentsList - An array-like object specifying the arguments with which target should be called.
-	 * @returns {*} - The result of calling the given target function with the specified this value and arguments.
-	 *
-	 * @example
-	 * apply(function (a) {return a;}, undefined, [2]);
-	 * // => 2
-	 */
-	const apply = Reflect.apply;
-	assign(namespace, {
-		apply
-	});
 	/**
 	 * Checks if the value is undefined.
 	 *
@@ -205,9 +151,9 @@
 	 * isUndefined(undefined);
 	 * // => true
 	 */
-	const isUndefined = function(value) {
+	function isUndefined(value) {
 		return value === undefined;
-	};
+	}
 	/**
 	 * Checks if the value is null.
 	 *
@@ -220,9 +166,9 @@
 	 * isNull(null);
 	 * // => true
 	 */
-	const isNull = (value) => {
+	function isNull(value) {
 		return value === null;
-	};
+	}
 	/**
 	 * Checks if the value is not null or undefined.
 	 *
@@ -235,14 +181,14 @@
 	 * hasValue(1);
 	 * // => true
 	 */
-	const hasValue = (value) => {
+	function hasValue(value) {
 		return !isUndefined(value) && !isNull(value);
-	};
-	const isConstructor = (nativeObject) => {
+	}
+	function isConstructor(nativeObject) {
 		return (obj) => {
 			return hasValue(obj) ? obj.constructor === nativeObject : false;
 		};
-	};
+	}
 	const decimalCheck = /\.|\+/;
 	/**
 	 * Checks if the value is a decimal.
@@ -312,7 +258,8 @@
 	 */
 	const isPlainObject = (value) => {
 		if (hasValue(value)) {
-			return value.constructor.toString().trim().slice(9, 16) === 'Object(';
+			return value.constructor.toString().trim()
+				.slice(9, 16) === 'Object(';
 		}
 		return false;
 	};
@@ -601,33 +548,786 @@
 	const isPrimitive = (value) => {
 		return value !== '__proto__' && value !== 'constructor' && value !== 'prototype';
 	};
-	assign(namespace, {
-		isPrimitive,
-		getFileExtension,
-		has,
-		hasDot,
-		hasLength,
-		hasValue,
-		isArray,
-		isBoolean,
-		isDate,
-		isDecimal,
-		isEmpty,
-		isFileCSS,
-		isFileHTML,
-		isFileJS,
-		isFileJSON,
-		isFunction,
-		isNull,
-		isNumber,
-		isPlainObject,
-		isRegExp,
-		isString,
-		isUndefined,
-		isAsync,
-		isPromise,
-		isKindAsync
-	});
+	/**
+	 * Checks if the source is a Map.
+	 *
+	 * @function isMap
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isMap(new Map());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Set.
+	 *
+	 * @function isSet
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isSet(new Set());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a WeakMap.
+	 *
+	 * @function isWeakMap
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isWeakMap(new WeakMap());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a ArrayBuffer.
+	 *
+	 * @function isArrayBuffer
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isArrayBuffer(new ArrayBuffer());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Float32Array.
+	 *
+	 * @function isFloat32Array
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isFloat32Array(new Float32Array());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Float64Array.
+	 *
+	 * @function isFloat64Array
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isFloat64Array(new Float64Array());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Int8Array.
+	 *
+	 * @function isInt8Array
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isInt8Array(new Int8Array());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Int16Array.
+	 *
+	 * @function isInt16Array
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isInt16Array(new Int16Array());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Int32Array.
+	 *
+	 * @function isInt32Array
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isInt32Array(new Int32Array());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Uint8Array.
+	 *
+	 * @function isUint8Array
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isUint8Array(new Uint8Array());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Uint8ClampedArray.
+	 *
+	 * @function isUint8ClampedArray
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isUint8ClampedArray(new Uint8ClampedArray());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Uint16Array.
+	 *
+	 * @function isUint16Array
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isUint16Array(new Uint16Array());
+	 * // => true
+	 */
+	/**
+	 * Checks if the source is a Uint32Array.
+	 *
+	 * @function isUint32Array
+	 * @category utility
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isUint32Array(new Uint32Array());
+	 * // => true
+	 */
+	const objectArguments = '[object Arguments]';
+	function isArguments(source) {
+		return hasValue(source) ? source.toString() === objectArguments : false;
+	}
+	const objectMap = '[object Map]';
+	function isMap(source) {
+		return hasValue(source) ? source.toString() === objectMap : false;
+	}
+	const objectSet = '[object Set]';
+	function isSet(source) {
+		return hasValue(source) ? source.toString() === objectSet : false;
+	}
+	const objectWeakMap = '[object WeakMap]';
+	function isWeakMap(source) {
+		return hasValue(source) ? source.toString() === objectWeakMap : false;
+	}
+	function isBuffer(source) {
+		return hasValue(source) ? source.constructor?.name === 'ArrayBuffer' : false;
+	}
+	function isFloat32(source) {
+		return hasValue(source) ? source.constructor?.name === 'Float32Array' : false;
+	}
+	function isFloat64(source) {
+		return hasValue(source) ? source.constructor?.name === 'Float64Array' : false;
+	}
+	function isInt8(source) {
+		return hasValue(source) ? source.constructor?.name === 'Int8Array' : false;
+	}
+	function isInt16(source) {
+		return hasValue(source) ? source.constructor?.name === 'Int16Array' : false;
+	}
+	function isInt32(source) {
+		return hasValue(source) ? source.constructor?.name === 'Int32Array' : false;
+	}
+	function isUint8(source) {
+		return hasValue(source) ? source.constructor?.name === 'Uint8Array' : false;
+	}
+	function isUint8Clamped(source) {
+		return hasValue(source) ? source.constructor?.name === 'Uint8ClampedArray' : false;
+	}
+	function isUint16(source) {
+		return hasValue(source) ? source.constructor?.name === 'Uint16Array' : false;
+	}
+	function isUint32(source) {
+		return hasValue(source) ? source.constructor?.name === 'Uint32Array' : false;
+	}
+	/**
+	 * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
+	 *
+	 * @function asyncEach
+	 * @type {Function}
+	 * @category Array
+	 * @async
+	 * @param {Array} source - Array of async functions that will be looped through.
+	 * Functions are given the supplied object, index, the calling array, and the array length.
+	 * @param {*} firstArgument - The first argument given to each function.
+	 * @returns {Object} - The originally given array.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const tempList = [];
+	 *   await asyncEach([async (item, index) => {
+	 *     tempList.push(index);
+	 *   }, async (item, index) => {
+	 *     tempList.push(index);
+	 *   }], {a:1});
+	 *   return assert(tempList, [0, 1]);
+	 * });
+	 *
+	 * @example
+	 * asyncEach([async (item, index) =>{
+	 *  console.log(item, index);
+	 * }, async (item) =>{
+	 *  console.log(item, index);
+	 * }], {a:1});
+	 * // {a:1} 0
+	 * // {a:1} 1
+	 */
+	const asyncEach = async (source, firstArgument) => {
+		const arrayLength = source.length;
+		for (let index = 0; index < arrayLength; index++) {
+			const item = source[index];
+			await item(firstArgument, index, source, arrayLength);
+		}
+		return source;
+	};
+	/**
+	 * Ensures the object is an array. If not wraps in array.
+	 *
+	 * @function ensureArray
+	 * @category array
+	 * @type {Function}
+	 * @param {*} object - Data to be checked.
+	 * @returns {Array} - Returns an array.
+	 *
+	 * @example
+	 * ensureArray('Hello');
+	 * // => ['Hello']
+	 *
+	 * @example
+	 * ensureArray({a:1, b:2})
+	 * // => [{a:1, b:2}]
+	 */
+	const ensureArray = (object) => {
+		return isArray(object) ? object : [object];
+	};
+	/**
+	 * Flattens an array up to the provided level.
+	 *
+	 * @function flatten
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} array - Array to flatten.
+	 * @param {number} [level = 1] - Number which determines how deep the array nest can be.
+	 * @returns {Array} - Returns an array.
+	 *
+	 * @example
+	 * flatten([1, [2, [3, [4]], 5]]);
+	 *  // => [1, 2, [3, [4]], 5]
+	 */
+	const flatten = (arrayArg, level = 1) => {
+		let array = arrayArg;
+		for (let i = 0; i < level; i++) {
+			array = array.reduce((previousValue, currentValue) => {
+				return previousValue.concat(ensureArray(currentValue));
+			}, []);
+		}
+		return array;
+	};
+	/**
+	 * Flattens an array to a single level.
+	 *
+	 * @function flattenDeep
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} array - Array to flatten.
+	 * @returns {Array} - Returns a completely flattened array.
+	 *
+	 * @example
+	 * flattenDeep([1, [2, [3, [4]], 5]]);
+	 * // => [1, 2, 3, 4, 5]
+	 */
+	const flattenDeep = (arrayToFlatten) => {
+		return arrayToFlatten.flat(Infinity);
+	};
+	/**
+	 * Removes all occurrences of the passed in items from the array and returns the array. This mutates the given array. Clone the array if you desire to avoid mutation.
+	 *
+	 * @function remove
+	 * @category array
+	 * @param {Array} array - Array to be mutated.
+	 * @param {string|Array} removeThese - Items to remove from the array.
+	 * @returns {Array} - The array this method was called on.
+	 *
+	 * @example
+	 * remove([1, 2, 3, 3, 4, 3, 5], 1);
+	 * // => [2, 3, 3, 4, 3, 5]
+	 * @example
+	 * remove([3, 3, 4, 5], 3, 4);
+	 * // => [5]
+	 */
+	const remove = (array, removeThese) => {
+		let arrayLength = array.length;
+		for (let index = 0; index < arrayLength; index++) {
+			const item = array[index];
+			if (removeThese.includes(item)) {
+				array.splice(index, 1);
+				index--;
+				arrayLength--;
+			}
+		}
+		return array;
+	};
+	/**
+	 * Removes items that pass the method's test. This mutates the given array. Clone the array if you desire to avoid mutation.
+	 *
+	 * @function removeBy
+	 * @category array
+	 * @param {Array} array - Array to be mutated.
+	 * @param {Function} method - Function used to check object. Return true to remove the value.
+	 * @returns {Array} - The array this method was called on.
+	 *
+	 * @example
+	 * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);});
+	 * // => [2, 4]
+	 */
+	const removeBy = (array, iteratee) => {
+		let arrayLength = array.length;
+		for (let index = 0; index < arrayLength; index++) {
+			const item = array[index];
+			if (iteratee(item, index)) {
+				array.splice(index, 1);
+				index--;
+				arrayLength--;
+			}
+		}
+		return array;
+	};
+	/**
+	 * Chunks an array according to a user defined number.
+	 *
+	 * @function chunk
+	 * @category Array
+	 * @type {Function}
+	 * @param {Array} array - Array to be chunked.
+	 * @param {number} size - Number which determines the size of each chunk.
+	 * @returns {Array} - A chunked version of the source array.
+	 *
+	 * @example
+	 *  chunk([1,2,3], 1);
+	 * // => [[1],[2],[3]]
+	 */
+	const chunk = (array, size = 1) => {
+		const chunked = [];
+		let index = 0;
+		array.forEach((item, key) => {
+			if (!(key % size)) {
+				chunked.push([]);
+				if (key) {
+					index++;
+				}
+			}
+			chunked[index].push(item);
+		});
+		return chunked;
+	};
+	/**
+	 * Extracts all items in array except the first and last item.
+	 *
+	 * @function rest
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} array - Array to be sliced.
+	 * @returns {Array} - Returns the aggregated array.
+	 *
+	 * @example
+	 * rest([1, 2, 3, 4, 5]);
+	 * // => [2, 3, 4, 5]
+	 */
+	const rest = (array) => {
+		return array.slice(1, array.length);
+	};
+	/**
+	 * Clears the values out of an array.
+	 *
+	 * @function clear
+	 * @category Array
+	 * @type {Function}
+	 * @param {Array} array - Takes an array to be emptied.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * clear([1,'B', 'Cat']);
+	 * // => []
+	 */
+	const clear = (array) => {
+		array.length = 0;
+		return array;
+	};
+	/**
+	 * Get the item at the supplied index starting at the end of the array.
+	 *
+	 * @function right
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} array - Array to be sliced.
+	 * @returns {*} - Returns the object at the evaluated position.
+	 *
+	 * @example
+	 * right([1, 2, 3, 4, 5] , 1);
+	 * // => 4
+	 */
+	const right = (array, amount) => {
+		return array[array.length - 1 - amount];
+	};
+	/**
+	 * Clears the values out of an array.
+	 *
+	 * @function cloneArray
+	 * @category Array
+	 * @type {Function}
+	 * @param {Array} array - Takes an array to be cloned.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * cloneArray([1,'B', 'Cat']);
+	 * // => [1, 'B', 'Cat']
+	 */
+	const cloneArray = (array) => {
+		return array.slice();
+	};
+	const mathNative = Math;
+	const floorMethod = mathNative.floor;
+	const randomMethod = mathNative.random;
+	/**
+	 * Adds two numbers.
+	 *
+	 * @function add
+	 * @category number
+	 * @type {Function}
+	 * @param {number} number - First number.
+	 * @param {number} value - Second number.
+	 * @returns {number} - Returns the sum of the arguments.
+	 *
+	 * @example
+	 * add(1, 1);
+	 * // => 2
+	 */
+	const add$1 = (number, value) => {
+		return number + value;
+	};
+	/**
+	 * Subtracts two numbers.
+	 *
+	 * @function minus
+	 * @category number
+	 * @type {Function}
+	 * @param {number} number - First number.
+	 * @param {number} value - Second number.
+	 * @returns {number} - Returns the difference of the arguments.
+	 *
+	 * @example
+	 * minus(1, 1);
+	 * // => 0
+	 */
+	const minus = (number, value) => {
+		return number - value;
+	};
+	/**
+	 * Divides two numbers.
+	 *
+	 * @function divide
+	 * @category number
+	 * @type {Function}
+	 * @param {number} number - First number.
+	 * @param {number} value - Second number.
+	 * @returns {number} - Returns the quotient of the arguments.
+	 *
+	 * @example
+	 * divide(10, 5);
+	 * // => 2
+	 */
+	const divide = (number, value) => {
+		return number / value;
+	};
+	/**
+	 * Multiplies two numbers.
+	 *
+	 * @function multiply
+	 * @category number
+	 * @type {Function}
+	 * @param {number} number - First number.
+	 * @param {number} value - Second number.
+	 * @returns {number} - Returns the product of the arguments.
+	 *
+	 * @example
+	 * multiply(10, 5);
+	 * // => 50
+	 */
+	const multiply = (number, value) => {
+		return number * value;
+	};
+	/**
+	 *  Extracts the remainder between two numbers.
+	 *
+	 * @function remainder
+	 * @category number
+	 * @type {Function}
+	 * @param {number} number - First number.
+	 * @param {number} value - Second number.
+	 * @returns {number} - Returns the remainder of the arguments.
+	 *
+	 * @example
+	 * remainder(10, 6);
+	 * // => 4
+	 */
+	const remainder = (number, value) => {
+		return number % value;
+	};
+	/**
+	 *  Increments a number.
+	 *
+	 * @function increment
+	 * @category number
+	 * @type {Function}
+	 * @param {number} number - First number.
+	 * @returns {number} - Returns an incremented version of the number.
+	 *
+	 * @example
+	 * increment(10);
+	 * // => 11
+	 */
+	const increment = (number) => {
+		return number + 1;
+	};
+	/**
+	 *  Decrements a number.
+	 *
+	 * @function deduct
+	 * @category number
+	 * @type {Function}
+	 * @param {number} number - First number.
+	 * @returns {number} - Returns a decremented version of the number.
+	 *
+	 * @example
+	 * deduct(10);
+	 * // => 9
+	 */
+	const deduct = (number) => {
+		return number - 1;
+	};
+	/**
+	 *  Produces a random number between min (included) and max (excluded).
+	 *
+	 * @function randomArbitrary
+	 * @category number
+	 * @type {Function}
+	 * @param {number} max - Establishes highest possible value for the random number.
+	 * @param {number} [min = 0] - Establishes lowest possible value for the random number.
+	 * @returns {number} - Returns random integer between the max and min range.
+	 *
+	 * @test
+	 * (async () => {
+	 *   return assert(isNumber(randomArbitrary(10)), true);
+	 * });
+	 *
+	 * @example
+	 * randomArbitrary(10);
+	 * // => 9.1
+	 */
+	const randomArbitrary = (max, min = 0) => {
+		return randomMethod() * (max - min) + min;
+	};
+	/**
+	 *  Produces a random integer between min (included) and max (excluded).
+	 *
+	 * @function randomInt
+	 * @category number
+	 * @type {Function}
+	 * @param {number} max - Establishes highest possible value for the random number.
+	 * @param {number} [min = 0] - Establishes lowest possible value for the random number.
+	 * @returns {number} - Returns random integer between the max and min range.
+	 *
+	 * @test
+	 * (async () => {
+	 *   return assert(isNumber(randomInt(10)), true);
+	 * });
+	 *
+	 * @example
+	 * randomInt(10);
+	 * // => 9
+	 */
+	const randomInt = (max, min = 0) => {
+		return floorMethod(randomMethod() * (max - min)) + min;
+	};
+	/**
+	 * Shuffle an array and return a new array.
+	 *
+	 * @function shuffle
+	 * @category array
+	 * @param {Array} target - Target Array to be shuffled.
+	 * @returns {Array} - An array with the shuffled results.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const tempResult = shuffle([1, 2]);
+	 *   return assert(tempResult.includes(1) && tempResult.includes(2), true);
+	 * });
+	 *
+	 * @example
+	 * shuffle([1, 2, 3, 4]);
+	 * // => [3, 4, 2, 1]
+	 */
+	const shuffle = (target, amount = target.length) => {
+		if (target.length <= 1) {
+			return toArray(target);
+		}
+		const shuffleArray = toArray(target);
+		let count = 0;
+		let index;
+		let value;
+		while (count < amount) {
+			index = randomInt(shuffleArray.length - 1, 0);
+			value = shuffleArray[count];
+			shuffleArray[count] = shuffleArray[index];
+			shuffleArray[index] = value;
+			count++;
+		}
+		return shuffleArray;
+	};
+	/**
+	 * Produce a random sample from the list. Pass a number to return n random elements from the list. Otherwise a single random item will be returned.
+	 *
+	 * @function sample
+	 * @category array
+	 * @param {Array} array - Array to pull sample(s).
+	 * @returns {Array} - An array of randomly pulled samples.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const tempResult = sample([1, 2] , 2);
+	 *   return assert(tempResult.includes(1) && tempResult.includes(2), true);
+	 * });
+	 *
+	 * @example
+	 * sample([1, 2, 3, 4] , 2);
+	 * // => [1, 3]
+	 */
+	const sample = (array, amount = 1) => {
+		if (!array) {
+			return false;
+		}
+		const arrayLength = array.length;
+		if (arrayLength === amount || amount > arrayLength) {
+			return shuffle(array);
+		}
+		if (amount === 1) {
+			return [array[randomInt(arrayLength - 1, 0)]];
+		}
+		const sampleArray = [];
+		const used = {};
+		let count = 0;
+		let index;
+		while (count < amount) {
+			index = randomInt(array.length - 1, 0);
+			if (!used[index]) {
+				sampleArray.push(array[index]);
+				used[index] = true;
+				count++;
+			}
+		}
+		return sampleArray;
+	};
+	/**
+	 * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
+	 *
+	 * @function compact
+	 * @category Array
+	 * @type {Function}
+	 * @param {Array} array - Array to be compacted.
+	 * @returns {Array} - The new array of filtered values.
+	 *
+	 * @example
+	 * compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]);
+	 * // => [1, 'B', 'Cat']
+	 */
+	const compact = (array) => {
+		return array.filter((item) => {
+			return isString(item) && !item.length ? false : item;
+		});
+	};
+	/**
+	 * Takes all but the last item in the array.
+	 *
+	 * @function initial
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} array - Array to have items extracted from.
+	 * @returns {Array} - Returns a completely flattened array.
+	 *
+	 * @example
+	 * initial([1, 2, 3, 4, 5]);
+	 * // => [1, 2, 3, 4]
+	 */
+	const initial = (array) => {
+		return array.slice(0, array.length - 1);
+	};
+	const mathNativeMin = Math.min;
+	/**
+	 * Plucks the smallest value from an array.
+	 *
+	 * @function smallest
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} array - Array from which smallest number is taken.
+	 * @returns {number} - The smallest number.
+	 *
+	 * @example
+	 * smallest([1,2,3]);
+	 * // => 1
+	 */
+	const smallest = (array) => {
+		return mathNativeMin(...array);
+	};
+	const rangeUp = (start, end, increment) => {
+		const rangeArray = [];
+		let position = start;
+		while (position < end) {
+			rangeArray.push(position);
+			position += increment;
+		}
+		return rangeArray;
+	};
+	const rangeDown = (start, end, incrementArg) => {
+		const increment = incrementArg < 0 ? incrementArg * -1 : incrementArg;
+		const rangeArray = [];
+		let position = start;
+		while (position > end) {
+			rangeArray.push(position);
+			position -= increment;
+		}
+		return rangeArray;
+	};
+	/**
+	 * Create a numbered list of integers.
+	 *
+	 * @type {Function} range
+	 * @category array
+	 * @param {number} start - Value which determines the start of the range.
+	 * @param {number} end - Value which determines the end of the range.
+	 * @param {number} increment - Value used to step between integers.
+	 * @returns {Array} - An array of integers.
+	 *
+	 * @example
+	 * range(0, 30, 5);
+	 * // => [0, 5, 10, 15, 20, 25]
+	 */
+	const range = (start, end, increment = 1) => {
+		if (start < end) {
+			return rangeUp(start, end, increment);
+		} else {
+			return rangeDown(start, end, increment);
+		}
+	};
 	/**
 	 * Iterates through the given array.
 	 *
@@ -957,840 +1657,6 @@
 		}
 		return source;
 	};
-	assign(namespace, {
-		compactMapArray,
-		eachArray,
-		eachArrayRight,
-		filterArray,
-		mapArray,
-		mapArrayRight,
-		mapWhile,
-		whileArray,
-		whileEachArray,
-		whileMapArray,
-		whileCompactMap
-	});
-	const objectStringGenerate = (objectName) => {
-		return `[object ${objectName}]`;
-	};
-	const isSameObjectGenerator = (type) => {
-		return (obj) => {
-			return hasValue(obj) ? obj.toString() === type : false;
-		};
-	};
-	/**
-	 * Checks if the value is a Map.
-	 *
-	 * @function isMap
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isMap(new Map());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Set.
-	 *
-	 * @function isSet
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isSet(new Set());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a WeakMap.
-	 *
-	 * @function isWeakMap
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isWeakMap(new WeakMap());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a ArrayBuffer.
-	 *
-	 * @function isArrayBuffer
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isArrayBuffer(new ArrayBuffer());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Float32Array.
-	 *
-	 * @function isFloat32Array
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isFloat32Array(new Float32Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Float64Array.
-	 *
-	 * @function isFloat64Array
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isFloat64Array(new Float64Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Int8Array.
-	 *
-	 * @function isInt8Array
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isInt8Array(new Int8Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Int16Array.
-	 *
-	 * @function isInt16Array
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isInt16Array(new Int16Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Int32Array.
-	 *
-	 * @function isInt32Array
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isInt32Array(new Int32Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Uint8Array.
-	 *
-	 * @function isUint8Array
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isUint8Array(new Uint8Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Uint8ClampedArray.
-	 *
-	 * @function isUint8ClampedArray
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isUint8ClampedArray(new Uint8ClampedArray());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Uint16Array.
-	 *
-	 * @function isUint16Array
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isUint16Array(new Uint16Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the value is a Uint32Array.
-	 *
-	 * @function isUint32Array
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isUint32Array(new Uint32Array());
-	 * // => true
-	 */
-	const nativeObjectNames = ['Arguments', 'Map', 'Set', 'WeakMap'];
-	eachArray(nativeObjectNames, (item) => {
-		namespace[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
-	});
-	const arrayLikeObjects = [
-		'ArrayBuffer',
-		'Float32Array',
-		'Float64Array',
-		'Int8Array',
-		'Int16Array',
-		'Int32Array',
-		'Uint8Array',
-		'Uint8ClampedArray',
-		'Uint16Array',
-		'Uint32Array'
-	];
-	eachArray(arrayLikeObjects, (item) => {
-		namespace[`is${item}`] = (value) => {
-			return hasValue(value) ? value.constructor.name === item : false;
-		};
-	});
-	/**
-	 * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
-	 *
-	 * @function asyncEach
-	 * @type {Function}
-	 * @category Array
-	 * @async
-	 * @param {Array} callingArray - Array of async functions that will be looped through.
-	 * Functions are given the supplied object, index, the calling array, and the array length.
-	 * @param {*} object - The first argument given to each function.
-	 * @returns {Object} - The originally given array.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   await asyncEach([async (item, index) => {
-	 *     tempList.push(index);
-	 *   }, async (item, index) => {
-	 *     tempList.push(index);
-	 *   }], {a:1});
-	 *   return assert(tempList, [0, 1]);
-	 * });
-	 *
-	 * @example
-	 * asyncEach([async (item, index) =>{
-	 *  console.log(item, index);
-	 * }, async (item) =>{
-	 *  console.log(item, index);
-	 * }], {a:1});
-	 * // {a:1} 0
-	 * // {a:1} 1
-	 */
-	const asyncEach = async (callingArray, value) => {
-		const arrayLength = callingArray.length;
-		for (let index = 0; index < arrayLength; index++) {
-			const item = callingArray[index];
-			await item(value, index, callingArray, arrayLength);
-		}
-		return callingArray;
-	};
-	assign(namespace, {
-		asyncEach
-	});
-	/**
-	 * Ensures the object is an array. If not wraps in array.
-	 *
-	 * @function ensureArray
-	 * @category array
-	 * @type {Function}
-	 * @param {*} object - Data to be checked.
-	 * @returns {Array} - Returns an array.
-	 *
-	 * @example
-	 * ensureArray('Hello');
-	 * // => ['Hello']
-	 *
-	 * @example
-	 * ensureArray({a:1, b:2})
-	 * // => [{a:1, b:2}]
-	 */
-	const ensureArray = (object) => {
-		return isArray(object) ? object : [object];
-	};
-	assign(namespace, {
-		ensureArray
-	});
-	/**
-	 * Flattens an array up to the provided level.
-	 *
-	 * @function flatten
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} array - Array to flatten.
-	 * @param {number} [level = 1] - Number which determines how deep the array nest can be.
-	 * @returns {Array} - Returns an array.
-	 *
-	 * @example
-	 * flatten([1, [2, [3, [4]], 5]]);
-	 *  // => [1, 2, [3, [4]], 5]
-	 */
-	const flatten = (arrayArg, level = 1) => {
-		let array = arrayArg;
-		for (let i = 0; i < level; i++) {
-			array = array.reduce((previousValue, currentValue) => {
-				return previousValue.concat(ensureArray(currentValue));
-			}, []);
-		}
-		return array;
-	};
-	/**
-	 * Flattens an array to a single level.
-	 *
-	 * @function flattenDeep
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} array - Array to flatten.
-	 * @returns {Array} - Returns a completely flattened array.
-	 *
-	 * @example
-	 * flattenDeep([1, [2, [3, [4]], 5]]);
-	 * // => [1, 2, 3, 4, 5]
-	 */
-	const flattenDeep = (arrayToFlatten) => {
-		return arrayToFlatten.flat(Infinity);
-	};
-	assign(namespace, {
-		flatten,
-		flattenDeep
-	});
-	/**
-	 * Removes all occurrences of the passed in items from the array and returns the array. This mutates the given array. Clone the array if you desire to avoid mutation.
-	 *
-	 * @function remove
-	 * @category array
-	 * @param {Array} array - Array to be mutated.
-	 * @param {string|Array} removeThese - Items to remove from the array.
-	 * @returns {Array} - The array this method was called on.
-	 *
-	 * @example
-	 * remove([1, 2, 3, 3, 4, 3, 5], 1);
-	 * // => [2, 3, 3, 4, 3, 5]
-	 * @example
-	 * remove([3, 3, 4, 5], 3, 4);
-	 * // => [5]
-	 */
-	const remove = (array, removeThese) => {
-		let arrayLength = array.length;
-		for (let index = 0; index < arrayLength; index++) {
-			const item = array[index];
-			if (removeThese.includes(item)) {
-				array.splice(index, 1);
-				index--;
-				arrayLength--;
-			}
-		}
-		return array;
-	};
-	/**
-	 * Removes items that pass the method's test. This mutates the given array. Clone the array if you desire to avoid mutation.
-	 *
-	 * @function removeBy
-	 * @category array
-	 * @param {Array} array - Array to be mutated.
-	 * @param {Function} method - Function used to check object. Return true to remove the value.
-	 * @returns {Array} - The array this method was called on.
-	 *
-	 * @example
-	 * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);});
-	 * // => [2, 4]
-	 */
-	const removeBy = (array, iteratee) => {
-		let arrayLength = array.length;
-		for (let index = 0; index < arrayLength; index++) {
-			const item = array[index];
-			if (iteratee(item, index)) {
-				array.splice(index, 1);
-				index--;
-				arrayLength--;
-			}
-		}
-		return array;
-	};
-	assign(namespace, {
-		remove,
-		removeBy
-	});
-	/**
-	 * Chunks an array according to a user defined number.
-	 *
-	 * @function chunk
-	 * @category Array
-	 * @type {Function}
-	 * @param {Array} array - Array to be chunked.
-	 * @param {number} size - Number which determines the size of each chunk.
-	 * @returns {Array} - A chunked version of the source array.
-	 *
-	 * @example
-	 *  chunk([1,2,3], 1);
-	 * // => [[1],[2],[3]]
-	 */
-	const chunk = (array, size = 1) => {
-		const chunked = [];
-		let index = 0;
-		array.forEach((item, key) => {
-			if (!(key % size)) {
-				chunked.push([]);
-				if (key) {
-					index++;
-				}
-			}
-			chunked[index].push(item);
-		});
-		return chunked;
-	};
-	assign(namespace, {
-		chunk
-	});
-	/**
-	 * Extracts all items in array except the first and last item.
-	 *
-	 * @function rest
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} array - Array to be sliced.
-	 * @returns {Array} - Returns the aggregated array.
-	 *
-	 * @example
-	 * rest([1, 2, 3, 4, 5]);
-	 * // => [2, 3, 4, 5]
-	 */
-	const rest = (array) => {
-		return array.slice(1, array.length);
-	};
-	assign(namespace, {
-		rest
-	});
-	/**
-	 * Clears the values out of an array.
-	 *
-	 * @function clear
-	 * @category Array
-	 * @type {Function}
-	 * @param {Array} array - Takes an array to be emptied.
-	 * @returns {Array} - The originally given array.
-	 *
-	 * @example
-	 * clear([1,'B', 'Cat']);
-	 * // => []
-	 */
-	const clear = (array) => {
-		array.length = 0;
-		return array;
-	};
-	assign(namespace, {
-		clear
-	});
-	/**
-	 * Get the item at the supplied index starting at the end of the array.
-	 *
-	 * @function right
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} array - Array to be sliced.
-	 * @returns {*} - Returns the object at the evaluated position.
-	 *
-	 * @example
-	 * right([1, 2, 3, 4, 5] , 1);
-	 * // => 4
-	 */
-	const right = (array, amount) => {
-		return array[array.length - 1 - amount];
-	};
-	assign(namespace, {
-		right
-	});
-	/**
-	 * Clears the values out of an array.
-	 *
-	 * @function cloneArray
-	 * @category Array
-	 * @type {Function}
-	 * @param {Array} array - Takes an array to be cloned.
-	 * @returns {Array} - The originally given array.
-	 *
-	 * @example
-	 * cloneArray([1,'B', 'Cat']);
-	 * // => [1, 'B', 'Cat']
-	 */
-	const cloneArray = (array) => {
-		return array.slice();
-	};
-	assign(namespace, {
-		cloneArray
-	});
-	const mathNative = Math;
-	const floorMethod = mathNative.floor;
-	const randomMethod = mathNative.random;
-	/**
-	 * Adds two numbers.
-	 *
-	 * @function add
-	 * @category number
-	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @param {number} value - Second number.
-	 * @returns {number} - Returns the sum of the arguments.
-	 *
-	 * @example
-	 * add(1, 1);
-	 * // => 2
-	 */
-	const add$1 = (number, value) => {
-		return number + value;
-	};
-	/**
-	 * Subtracts two numbers.
-	 *
-	 * @function minus
-	 * @category number
-	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @param {number} value - Second number.
-	 * @returns {number} - Returns the difference of the arguments.
-	 *
-	 * @example
-	 * minus(1, 1);
-	 * // => 0
-	 */
-	const minus = (number, value) => {
-		return number - value;
-	};
-	/**
-	 * Divides two numbers.
-	 *
-	 * @function divide
-	 * @category number
-	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @param {number} value - Second number.
-	 * @returns {number} - Returns the quotient of the arguments.
-	 *
-	 * @example
-	 * divide(10, 5);
-	 * // => 2
-	 */
-	const divide = (number, value) => {
-		return number / value;
-	};
-	/**
-	 * Multiplies two numbers.
-	 *
-	 * @function multiply
-	 * @category number
-	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @param {number} value - Second number.
-	 * @returns {number} - Returns the product of the arguments.
-	 *
-	 * @example
-	 * multiply(10, 5);
-	 * // => 50
-	 */
-	const multiply = (number, value) => {
-		return number * value;
-	};
-	/**
-	 *  Extracts the remainder between two numbers.
-	 *
-	 * @function remainder
-	 * @category number
-	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @param {number} value - Second number.
-	 * @returns {number} - Returns the remainder of the arguments.
-	 *
-	 * @example
-	 * remainder(10, 6);
-	 * // => 4
-	 */
-	const remainder = (number, value) => {
-		return number % value;
-	};
-	/**
-	 *  Increments a number.
-	 *
-	 * @function increment
-	 * @category number
-	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @returns {number} - Returns an incremented version of the number.
-	 *
-	 * @example
-	 * increment(10);
-	 * // => 11
-	 */
-	const increment = (number) => {
-		return number + 1;
-	};
-	/**
-	 *  Decrements a number.
-	 *
-	 * @function deduct
-	 * @category number
-	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @returns {number} - Returns a decremented version of the number.
-	 *
-	 * @example
-	 * deduct(10);
-	 * // => 9
-	 */
-	const deduct = (number) => {
-		return number - 1;
-	};
-	/**
-	 *  Produces a random number between min (included) and max (excluded).
-	 *
-	 * @function randomArbitrary
-	 * @category number
-	 * @type {Function}
-	 * @param {number} max - Establishes highest possible value for the random number.
-	 * @param {number} [min = 0] - Establishes lowest possible value for the random number.
-	 * @returns {number} - Returns random integer between the max and min range.
-	 *
-	 * @test
-	 * (async () => {
-	 *   return assert(isNumber(randomArbitrary(10)), true);
-	 * });
-	 *
-	 * @example
-	 * randomArbitrary(10);
-	 * // => 9.1
-	 */
-	const randomArbitrary = (max, min = 0) => {
-		return randomMethod() * (max - min) + min;
-	};
-	/**
-	 *  Produces a random integer between min (included) and max (excluded).
-	 *
-	 * @function randomInt
-	 * @category number
-	 * @type {Function}
-	 * @param {number} max - Establishes highest possible value for the random number.
-	 * @param {number} [min = 0] - Establishes lowest possible value for the random number.
-	 * @returns {number} - Returns random integer between the max and min range.
-	 *
-	 * @test
-	 * (async () => {
-	 *   return assert(isNumber(randomInt(10)), true);
-	 * });
-	 *
-	 * @example
-	 * randomInt(10);
-	 * // => 9
-	 */
-	const randomInt = (max, min = 0) => {
-		return floorMethod(randomMethod() * (max - min)) + min;
-	};
-	assign(namespace, {
-		add: add$1,
-		deduct,
-		divide,
-		increment,
-		minus,
-		multiply,
-		randomArbitrary,
-		randomInt,
-		remainder
-	});
-	/**
-	 * Shuffle an array and return a new array.
-	 *
-	 * @function shuffle
-	 * @category array
-	 * @param {Array} array - Array to be shuffled.
-	 * @returns {Array} - An array with the shuffled results.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempResult = shuffle([1, 2]);
-	 *   return assert(tempResult.includes(1) && tempResult.includes(2), true);
-	 * });
-	 *
-	 * @example
-	 * shuffle([1, 2, 3, 4]);
-	 * // => [3, 4, 2, 1]
-	 */
-	const shuffle = (array, amount = array.length) => {
-		if (array.length <= 1) {
-			return toArray(array);
-		}
-		const shuffleArray = toArray(array);
-		let count = 0;
-		let index;
-		let value;
-		while (count < amount) {
-			index = randomInt(shuffleArray.length - 1, 0);
-			value = shuffleArray[count];
-			shuffleArray[count] = shuffleArray[index];
-			shuffleArray[index] = value;
-			count++;
-		}
-		return shuffleArray;
-	};
-	assign(namespace, {
-		shuffle
-	});
-	/**
-	 * Produce a random sample from the list. Pass a number to return n random elements from the list. Otherwise a single random item will be returned.
-	 *
-	 * @function sample
-	 * @category array
-	 * @param {Array} array - Array to pull sample(s).
-	 * @returns {Array} - An array of randomly pulled samples.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempResult = sample([1, 2] , 2);
-	 *   return assert(tempResult.includes(1) && tempResult.includes(2), true);
-	 * });
-	 *
-	 * @example
-	 * sample([1, 2, 3, 4] , 2);
-	 * // => [1, 3]
-	 */
-	const sample = (array, amount = 1) => {
-		if (!array) {
-			return false;
-		}
-		const arrayLength = array.length;
-		if (arrayLength === amount || amount > arrayLength) {
-			return shuffle(array);
-		}
-		if (amount === 1) {
-			return [array[randomInt(arrayLength - 1, 0)]];
-		}
-		const sampleArray = [];
-		const used = {};
-		let count = 0;
-		let index;
-		while (count < amount) {
-			index = randomInt(array.length - 1, 0);
-			if (!used[index]) {
-				sampleArray.push(array[index]);
-				used[index] = true;
-				count++;
-			}
-		}
-		return sampleArray;
-	};
-	assign(namespace, {
-		sample
-	});
-	/**
-	 * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
-	 *
-	 * @function compact
-	 * @category Array
-	 * @type {Function}
-	 * @param {Array} array - Array to be compacted.
-	 * @returns {Array} - The new array of filtered values.
-	 *
-	 * @example
-	 * compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]);
-	 * // => [1, 'B', 'Cat']
-	 */
-	const compact = (array) => {
-		return array.filter((item) => {
-			return isString(item) && !item.length ? false : item;
-		});
-	};
-	assign(namespace, {
-		compact
-	});
-	/**
-	 * Takes all but the last item in the array.
-	 *
-	 * @function initial
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} array - Array to have items extracted from.
-	 * @returns {Array} - Returns a completely flattened array.
-	 *
-	 * @example
-	 * initial([1, 2, 3, 4, 5]);
-	 * // => [1, 2, 3, 4]
-	 */
-	const initial = (array) => {
-		return array.slice(0, array.length - 1);
-	};
-	assign(namespace, {
-		initial
-	});
-	const mathNativeMin = Math.min;
-	/**
-	 * Plucks the smallest value from an array.
-	 *
-	 * @function smallest
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} array - Array from which smallest number is taken.
-	 * @returns {number} - The smallest number.
-	 *
-	 * @example
-	 * smallest([1,2,3]);
-	 * // => 1
-	 */
-	const smallest = (array) => {
-		return mathNativeMin(...array);
-	};
-	assign(namespace, {
-		smallest
-	});
-	const rangeUp = (start, end, increment) => {
-		const rangeArray = [];
-		let position = start;
-		while (position < end) {
-			rangeArray.push(position);
-			position += increment;
-		}
-		return rangeArray;
-	};
-	const rangeDown = (start, end, incrementArg) => {
-		const increment = incrementArg < 0 ? incrementArg * -1 : incrementArg;
-		const rangeArray = [];
-		let position = start;
-		while (position > end) {
-			rangeArray.push(position);
-			position -= increment;
-		}
-		return rangeArray;
-	};
-	/**
-	 * Create a numbered list of integers.
-	 *
-	 * @type {Function} range
-	 * @category array
-	 * @param {number} start - Value which determines the start of the range.
-	 * @param {number} end - Value which determines the end of the range.
-	 * @param {number} increment - Value used to step between integers.
-	 * @returns {Array} - An array of integers.
-	 *
-	 * @example
-	 * range(0, 30, 5);
-	 * // => [0, 5, 10, 15, 20, 25]
-	 */
-	const range = (start, end, increment = 1) => {
-		if (start < end) {
-			return rangeUp(start, end, increment);
-		} else {
-			return rangeDown(start, end, increment);
-		}
-	};
-	assign(namespace, {
-		range
-	});
 	/**
 	 * Returns an new array that is the [set intersection](http://en.wikipedia.org/wiki/Intersection_(set_theory))
 	 * of the array and the input array(s).
@@ -1818,9 +1684,6 @@
 			}
 		});
 	};
-	assign(namespace, {
-		intersect
-	});
 	/**
 	 * Checks for differences between arrays, then creates an array based on those differences.
 	 *
@@ -1843,9 +1706,6 @@
 			}
 		});
 	};
-	assign(namespace, {
-		difference
-	});
 	/**
 	 * Removes all items from an array after a specified index.
 	 *
@@ -1882,10 +1742,6 @@
 	const dropRight = (array, amount, upTo = array.length) => {
 		return drop(array, 0, upTo - amount);
 	};
-	assign(namespace, {
-		drop,
-		dropRight
-	});
 	/**
 	 * Performs a shallow strict comparison between two objects.
 	 *
@@ -1908,9 +1764,6 @@
 		}
 		return false;
 	};
-	assign(namespace, {
-		isMatchArray
-	});
 	/**
 	 * Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
 	 *
@@ -1937,9 +1790,6 @@
 		});
 		return min;
 	};
-	assign(namespace, {
-		sortedIndex
-	});
 	const mathNativeMax = Math.max;
 	/**
 	 * Plucks the largest value from an array.
@@ -1957,9 +1807,6 @@
 	const largest = (array) => {
 		return mathNativeMax(...array);
 	};
-	assign(namespace, {
-		largest
-	});
 	/**
 	 * Reduces the values in an array into a single number.
 	 *
@@ -1978,9 +1825,6 @@
 			return a + b;
 		}, 0);
 	};
-	assign(namespace, {
-		sum
-	});
 	/**
 	 * Asynchronously Iterates through the given array. Each async function is awaited as to ensure synchronous order.
 	 *
@@ -2049,10 +1893,6 @@
 		}
 		return callingArray;
 	};
-	assign(namespace, {
-		eachAsync,
-		eachAsyncRight
-	});
 	/**
 	 * Extracts item(s) from an array starting from the last item in the array.
 	 *
@@ -2074,24 +1914,22 @@
 		const arrayLength = array.length;
 		return indexFrom ? array.slice(arrayLength - indexFrom, arrayLength) : array[arrayLength - 1];
 	};
-	assign(namespace, {
-		last
-	});
 	/**
 	 * Returns a shallow copy of the array up to an amount.
 	 *
 	 * @function take
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} array - The array to be evaluated.
+	 * @param {Array} source - The source array to take from.
+	 * @param {Array} [end = 1] - Zero-based index before which to end extraction.
 	 * @returns {Array} - The aggregated array.
 	 *
 	 * @example
 	 * take([1,2,3], 2);
 	 * // => [1, 2]
 	 */
-	const take = (array, amount = 1) => {
-		return array.slice(0, amount);
+	const take = (source, end = 1) => {
+		return source.slice(0, end);
 	};
 	/**
 	 * Returns a shallow copy of the array up to an amount starting from the right.
@@ -2099,21 +1937,18 @@
 	 * @function takeRight
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} array - The array to be evaluated.
+	 * @param {Array} source - The source array to take right from.
+	 * @param {Array} [end = 1] - Zero-based index before which to end extraction.
 	 * @returns {Array} - The aggregated array.
 	 *
 	 * @example
 	 * takeRight([1,2,3], 2);
 	 * // => [2, 3]
 	 */
-	const takeRight = (array, amount = 1) => {
-		const arrayLength = array.length;
-		return array.slice(arrayLength - amount, arrayLength);
+	const takeRight = (source, amount = 1) => {
+		const arrayLength = source.length;
+		return source.slice(arrayLength - amount, arrayLength);
 	};
-	assign(namespace, {
-		take,
-		takeRight
-	});
 	/**
 	 * Asynchronously iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
 	 *
@@ -2139,9 +1974,6 @@
 		});
 		return results;
 	};
-	assign(namespace, {
-		mapAsync
-	});
 	const onlyUnique = (value, index, array) => {
 		return array.indexOf(value) === index;
 	};
@@ -2167,9 +1999,6 @@
 		}
 		return array.filter(onlyUnique);
 	};
-	assign(namespace, {
-		unique
-	});
 	/**
 	 * Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
 	 *
@@ -2186,9 +2015,6 @@
 	const union = (...arrays) => {
 		return unique(flattenDeep(arrays));
 	};
-	assign(namespace, {
-		union
-	});
 	/**
 	 * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
 	 *
@@ -2215,9 +2041,6 @@
 		});
 		return results;
 	};
-	assign(namespace, {
-		compactMapAsync
-	});
 	const numericalCompare = (a, b) => {
 		return a - b;
 	};
@@ -2237,9 +2060,6 @@
 	const numSort = (numberList) => {
 		return numberList.sort(numericalCompare);
 	};
-	assign(namespace, {
-		numSort
-	});
 	/**
 	 * Takes all but the last item in the array.
 	 *
@@ -2261,31 +2081,25 @@
 		});
 		return sortedObject;
 	};
-	assign(namespace, {
-		arrayToObject
-	});
 	/**
 	 * Returns a copy of the array with all instances of the values removed.
 	 *
 	 * @function without
 	 * @type {Function}
 	 * @category array
-	 * @param {Array} array - The array to be filtered.
+	 * @param {Array} target - The target array to be filtered.
 	 * @param {Array} removeThese - Items to be removed.
-	 * @returns {Array} - The filtered array.
+	 * @returns {Array} - The target array filtered.
 	 *
 	 * @example
 	 * without([1, 2, 2, 4], [4]);
 	 * // => [1, 2, 2]
 	 */
-	const without = (array, removeThese) => {
-		return array.filter((item) => {
+	const without = (target, removeThese) => {
+		return target.filter((item) => {
 			return !removeThese.includes(item);
 		});
 	};
-	assign(namespace, {
-		without
-	});
 	/**
 	 * Split array into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
 	 *
@@ -2319,9 +2133,6 @@
 			failed
 		];
 	};
-	assign(namespace, {
-		partition
-	});
 	/**
 	 * Creates an array that is the symmetric difference of the provided arrays.
 	 *
@@ -2349,9 +2160,6 @@
 		});
 		return xored;
 	};
-	assign(namespace, {
-		xor
-	});
 	/**
 	 * Merges together the values of each of the arrays with the values at the corresponding position.
 	 *
@@ -2392,10 +2200,6 @@
 			});
 		});
 	};
-	assign(namespace, {
-		unZip,
-		zip
-	});
 	/**
 	 * Takes the first or multiple items from an array.
 	 *
@@ -2416,9 +2220,6 @@
 	const first = (array, upTo) => {
 		return upTo ? array.slice(0, upTo) : array[0];
 	};
-	assign(namespace, {
-		first
-	});
 	const numericalCompareReverse = (a, b) => {
 		return b - a;
 	};
@@ -2437,9 +2238,6 @@
 	const rNumSort = (numberList) => {
 		return numberList.sort(numericalCompareReverse);
 	};
-	assign(namespace, {
-		rNumSort
-	});
 	/**
 	 * Iterates based on a start index and an end index. The loop ends when the start index is equal to the end index.
 	 *
@@ -2509,10 +2307,6 @@
 		});
 		return results;
 	};
-	assign(namespace, {
-		times,
-		timesMap
-	});
 	/**
 	 * Iterates through the given object.
 	 *
@@ -2645,13 +2439,6 @@
 		});
 		return results;
 	};
-	assign(namespace, {
-		compactMapObject,
-		eachObject,
-		filterObject,
-		mapObject,
-		whileObject
-	});
 	/**
 	 * Checks to see of the browser agent has a string.
 	 *
@@ -2667,7 +2454,7 @@
 	const isAgent = (value) => {
 		return value ? isAgent[value] : keys(isAgent);
 	};
-	const userAgent = globalThis.navigator.userAgentData;
+	const userAgent = globalThis.navigator?.userAgentData;
 	if (userAgent) {
 		eachObject(userAgent, (value, key) => {
 			if (isBoolean(value) && value) {
@@ -2686,9 +2473,6 @@
 			isAgent[item] = true;
 		});
 	}
-	assign(namespace, {
-		isAgent
-	});
 	/**
 	 * Attaches an event listener to a node.
 	 *
@@ -2729,10 +2513,6 @@
 		node.removeEventListener(...args);
 		return node;
 	};
-	assign(namespace, {
-		eventAdd,
-		eventRemove
-	});
 	/**
 	 * Checks if the keycode of the event is strictly equal to 13.
 	 *
@@ -2749,9 +2529,6 @@
 	const isEnter = (eventObject) => {
 		return eventObject.keyCode === 13;
 	};
-	assign(namespace, {
-		isEnter
-	});
 	/**
 	 * Create a document fragment.
 	 *
@@ -2761,7 +2538,7 @@
 	 * @ignore
 	 * @returns {Fragment} - Returns a new document fragment.
 	 */
-	document.createDocumentFragment.bind(document);
+	const createFragment = document.createDocumentFragment.bind(document);
 	/**
 	 * Append a DOM node.
 	 *
@@ -2821,10 +2598,6 @@
 		});
 		return [unZippedKeys, values];
 	};
-	assign(namespace, {
-		unZipObject,
-		zipObject
-	});
 	/**
 	 * Assign attributes to a DOM node.
 	 *
@@ -2854,9 +2627,6 @@
 		});
 		return node;
 	};
-	assign(namespace, {
-		nodeAttribute
-	});
 	/**
 	 * A wrapper around the promise constructor.
 	 *
@@ -2881,9 +2651,6 @@
 	const promise = (callback) => {
 		return new Promise(callback);
 	};
-	assign(namespace, {
-		promise
-	});
 	/**
 	 * Inserts text into a string at a given position.
 	 *
@@ -2979,13 +2746,6 @@
 	const restString = (string, index = 1) => {
 		return string.substr(index);
 	};
-	assign(namespace, {
-		chunkString,
-		initialString,
-		insertInRange,
-		restString,
-		rightString
-	});
 	const dotString = '.';
 	const poundString = '#';
 	const classTest = /^.[\w_-]+$/;
@@ -3070,14 +2830,6 @@
 		}
 		return querySelectorAll(select);
 	};
-	assign(namespace, {
-		getByClass,
-		getById,
-		getByTag,
-		querySelector,
-		querySelectorAll,
-		selector
-	});
 	const createTag = document.createElement.bind(document);
 	const nodeAttachLoadingEvents = (node) => {
 		return promise((accept, reject) => {
@@ -3105,9 +2857,6 @@
 		});
 		return nodeAttachLoadingEvents(node);
 	};
-	assign(namespace, {
-		importjs
-	});
 	/**
 	 * Runs a function if the document has finished loading. If not, add an eventlistener.
 	 *
@@ -3133,9 +2882,6 @@
 		}
 		return false;
 	};
-	assign(namespace, {
-		isDocumentReady
-	});
 	isDocumentReady(() => {
 		importjs('/index');
 	});
@@ -3161,9 +2907,6 @@
 			protocolSocket
 		}
 	};
-	assign(namespace, {
-		info
-	});
 	const saveDimensions = () => {
 		assign(info, {
 			bodyHeight: document.body.offsetHeight,
@@ -3190,10 +2933,6 @@
 	isDocumentReady(updateDimensions);
 	eventAdd(window, 'load', updateDimensions, true);
 	eventAdd(window, 'resize', updateDimensions, true);
-	assign(namespace, {
-		saveDimensions,
-		updateDimensions
-	});
 	const jsonNative = JSON;
 	/**
 	 * Parses JSON string.
@@ -3223,10 +2962,6 @@
 	 * // => '{}'
 	 */
 	const stringify = jsonNative.stringify;
-	assign(namespace, {
-		jsonParse,
-		stringify
-	});
 	/**
 	 * A virtual storage & drop in replacement for localStorage.
 	 * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
@@ -3399,13 +3134,13 @@
 	 * storageCrate.getItem('key');
 	 * // => undefined
 	 */
-	let hasLocal;
+	exports.hasLocal = void 0;
 	function hasStorage(storeCheck) {
 		try {
 			storeCheck().removeItem('TESTING');
-			hasLocal = true;
+			exports.hasLocal = true;
 		} catch (e) {
-			hasLocal = false;
+			exports.hasLocal = false;
 		}
 	}
 	hasStorage(() => {
@@ -3418,7 +3153,7 @@
 			}
 			this.storage = virtualStorage();
 		}
-		hasLocal = hasLocal;
+		hasLocal = exports.hasLocal;
 		setItem(key, value) {
 			if (this.hasLocal) {
 				this.local.setItem(key, isString(value) ? value : stringify(value));
@@ -3450,13 +3185,6 @@
 	function crate(virtualFlag) {
 		return new Crate(virtualFlag);
 	}
-	assign(namespace, {
-		VirtualStorage,
-		Crate,
-		crate,
-		virtualStorage,
-		hasLocal
-	});
 	const generateTheme = (color, bg) => {
 		return `color:${color};background:${bg};`;
 	};
@@ -3474,7 +3202,7 @@
 	 * @ignoreTest
 	 * @type {Function}
 	 * @param {Object} value - The value to be logged.
-	 * @param {string} themeName - The theme to be used.
+	 * @param {string} themeName - The name of the theme to be used.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
@@ -3483,6 +3211,9 @@
 	 */
 	const cnsl = (value, themeName) => {
 		const data = isString(value) ? value : stringify(value);
+		if (themeName === 'alert' || themeName === 'warning') {
+			return console.trace(`%c${data}`, `${themes[themeName]}font-size:13px;padding:2px 5px;border-radius:2px;`);
+		}
 		console.log(`%c${data}`, `${themes[themeName]}font-size:13px;padding:2px 5px;border-radius:2px;`);
 	};
 	/**
@@ -3503,10 +3234,6 @@
 	const cnslTheme = (themeName, color, background) => {
 		themes[themeName] = generateTheme(color, background);
 	};
-	assign(namespace, {
-		cnsl,
-		cnslTheme
-	});
 	/**
 	 * Checks if value is a plain DOM Node.
 	 *
@@ -3523,10 +3250,6 @@
 	const isDom = (value) => {
 		return value && value.nodeType !== 9;
 	};
-	namespace.isDom = isDom;
-	eachArray(['HTMLCollection', 'NodeList'], (item) => {
-		namespace[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
-	});
 	/**
 	 * Checks if the value is a HTMLCollection.
 	 *
@@ -3540,6 +3263,10 @@
 	 * isHTMLCollection(document.getElementsByClassName('test'));
 	 * // => true
 	 */
+	const objectHTMLCollection = '[object HTMLCollection]';
+	function isHTMLCollection(source) {
+		return hasValue(source) ? source.toString() === objectHTMLCollection : false;
+	}
 	/**
 	 * Checks if the value is a NodeList.
 	 *
@@ -3553,6 +3280,10 @@
 	 * isNodeList(document.querySelectorAll('.test'));
 	 * // => true
 	 */
+	const objectNodeList = '[object NodeList]';
+	function isNodeList(source) {
+		return hasValue(source) ? source.toString() === objectNodeList : false;
+	}
 	/**
 	 * Sorts an array in place using a key from newest to oldest.
 	 *
@@ -3600,10 +3331,6 @@
 	const getNewest = (collection, propertyName) => {
 		return sortNewest(collection, propertyName, false)[0];
 	};
-	assign(namespace, {
-		getNewest,
-		sortNewest
-	});
 	/**
 	 * Sorts an array in place using a key from oldest to newest.
 	 *
@@ -3651,10 +3378,6 @@
 	const getOldest = (collection, key = 'id') => {
 		return sortOldest(collection, key)[0];
 	};
-	assign(namespace, {
-		getOldest,
-		sortOldest
-	});
 	/**
 	 * Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
 	 * The order of grouped values is determined by the order they occur in collection.
@@ -3682,9 +3405,6 @@
 		});
 		return sortedObject;
 	};
-	assign(namespace, {
-		groupBy
-	});
 	/**
 	 * Creates an object composed of keys generated from the results of running each element of collection through iteratee.
 	 *
@@ -3757,11 +3477,6 @@
 		});
 		return count;
 	};
-	assign(namespace, {
-		countBy,
-		countKey,
-		countWithoutKey
-	});
 	/**
 	 * Given a list, and an iteratee function that returns a key for each element in the list (or a property name), returns an object with an index of each item. Just like groupBy, but for when you know the keys are unique.
 	 *
@@ -3783,9 +3498,6 @@
 		});
 		return sortedObject;
 	};
-	assign(namespace, {
-		indexBy
-	});
 	/**
 	 * Returns an array of the plucked values from the collection.
 	 *
@@ -3806,9 +3518,6 @@
 			return result;
 		});
 	};
-	assign(namespace, {
-		pluck
-	});
 	/**
 	 * Returns an array of the plucked values from the object. Values are plucked in the order given by the array.
 	 *
@@ -3828,9 +3537,6 @@
 			return value[item];
 		});
 	};
-	assign(namespace, {
-		pluckObject
-	});
 	/**
 	 * Returns an array of the arrays of plucked values from the collection.
 	 *
@@ -3850,9 +3556,6 @@
 			return pluckObject(item, pluckThese);
 		});
 	};
-	assign(namespace, {
-		pluckValues
-	});
 	/**
 	 * Invokes a function on the provided property name in each object in the collection.
 	 *
@@ -3865,17 +3568,14 @@
 	 * @returns {Array} - Returns the results of the invoked method.
 	 *
 	 * @example
-	 * invoke([{lucy(item, index) { return [item, index];}}, {lucy(item, index) { return [item, index];}}], 'lucy', 'Arity LLC');
-	 * // => [['Arity LLC', 0], ['Arity LLC', 1]]
+	 * invoke([{lucy(item, index) { return [item, index];}}, {lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
+	 * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
 	 */
 	const invoke = (collection, property, value) => {
 		return mapArray(collection, (item, index) => {
 			return item[property](value, index);
 		});
 	};
-	assign(namespace, {
-		invoke
-	});
 	/**
 	 * Asynchronously awaits & invokes a function on the provided property name in each object in the collection.
 	 *
@@ -3890,22 +3590,19 @@
 	 *
 	 * @test
 	 * (async () => {
-	 *   const result = await invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'Arity LLC');
-	 *   return assert(result, [['Arity LLC', 0], ['Arity LLC', 1]]);
+	 *   const result = await invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
+	 *   return assert(result, [['EXAMPLE', 0], ['EXAMPLE', 1]]);
 	 * });
 	 *
 	 * @example
-	 * invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'Arity LLC');
-	 * // => [['Arity LLC', 0], ['Arity LLC', 1]]
+	 * invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
+	 * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
 	 */
 	const invokeAsync = (collection, property, value) => {
 		return mapAsync(collection, async (item, index) => {
 			return item[property](value, index);
 		});
 	};
-	assign(namespace, {
-		invokeAsync
-	});
 	const findIndexCache = (element, index, array, indexMatch, propertyName) => {
 		if (element[propertyName] === indexMatch) {
 			return true;
@@ -3953,10 +3650,6 @@
 		});
 		return result === -1 ? false : result;
 	};
-	assign(namespace, {
-		findIndex,
-		findItem
-	});
 	/**
 	 * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
 	 *
@@ -3983,9 +3676,6 @@
 			return 0;
 		});
 	};
-	assign(namespace, {
-		sortAlphabetical
-	});
 	/**
 	 * Creates a function that invokes callable, with up to n arguments, ignoring any additional arguments.
 	 *
@@ -4005,9 +3695,6 @@
 			return callable(...args.splice(0, amount));
 		};
 	};
-	assign(namespace, {
-		ary
-	});
 	/**
 	 * Creates a function that accepts arguments of method and either invokes method returning its result, if at least arity number of arguments have been provided, or returns a function that accepts the remaining method arguments, and so on. The arity of method may be specified if method length is not sufficient.
 	 *
@@ -4065,10 +3752,6 @@
 		};
 		return curried;
 	};
-	assign(namespace, {
-		curry,
-		curryRight
-	});
 	/**
 	 * Creates a function that is restricted to execute method once. Repeat calls to the function will return the value of the first call. The method is executed with the this binding of the created function.
 	 *
@@ -4179,11 +3862,6 @@
 		};
 		return onlyBefore;
 	};
-	assign(namespace, {
-		after,
-		before,
-		once
-	});
 	/**
 	 * This method returns a new empty object.
 	 *
@@ -4274,14 +3952,6 @@
 	const noop = () => {
 		return undefined;
 	};
-	assign(namespace, {
-		noop,
-		stubArray,
-		stubFalse,
-		stubObject,
-		stubString,
-		stubTrue
-	});
 	const forEachWrap = (object, callback) => {
 		return object.forEach(callback);
 	};
@@ -4399,13 +4069,6 @@
 	 * // => {b: 2, c: 3}
 	 */
 	const compactMap = generateCheckLoops(compactMapArray, compactMapObject);
-	assign(namespace, {
-		compactMap,
-		each,
-		eachWhile,
-		filter,
-		map
-	});
 	/**
 	 * Loops through an object or an array and binds the given object to all functions encountered.
 	 *
@@ -4428,9 +4091,6 @@
 			return isFunction(item) ? item.bind(bindThis) : item;
 		});
 	};
-	assign(namespace, {
-		bindAll
-	});
 	/**
 	 * Checks if the given method is a function. If it is then it invokes it with the given arguments.
 	 *
@@ -4453,9 +4113,6 @@
 			return callable(...args);
 		}
 	};
-	assign(namespace, {
-		ifInvoke
-	});
 	/**
 	 * Creates a function that negates the result of the predicate callable.
 	 *
@@ -4474,9 +4131,6 @@
 			return !callable(...args);
 		};
 	};
-	assign(namespace, {
-		negate
-	});
 	/**
 	 * Checks if predicate returns truthy for all elements of collection. Iteration is stopped once predicate returns falsey. The predicate is invoked with three arguments: (value, index|key, collection).
 	 *
@@ -4492,9 +4146,6 @@
 	 * // => false
 	 */
 	const every = eachWhile;
-	assign(namespace, {
-		every
-	});
 	/**
 	 * Creates a function that invokes iteratees with the arguments it receives and returns their results.
 	 *
@@ -4538,10 +4189,6 @@
 			});
 		};
 	};
-	assign(namespace, {
-		over,
-		overEvery
-	});
 	/**
 	 * Timer wrapper.
 	 *
@@ -4680,14 +4327,6 @@
 		};
 		return throttled;
 	};
-	assign(namespace, {
-		clearIntervals,
-		clearTimers,
-		debounce,
-		interval,
-		throttle,
-		timer
-	});
 	const add = (link, methods) => {
 		each(methods, (item, key) => {
 			link.methods[key] = (...args) => {
@@ -4738,9 +4377,6 @@
 		link.add(methods);
 		return link;
 	};
-	assign(namespace, {
-		chain
-	});
 	/**
 	 * Invoke an array of functions.
 	 *
@@ -4798,10 +4434,6 @@
 			await item(value);
 		});
 	};
-	assign(namespace, {
-		inAsync,
-		inSync
-	});
 	/**
 	 * Creates a function that gets the argument at index n. If n is negative, the nth argument from the end is returned.
 	 *
@@ -4820,9 +4452,6 @@
 			return args[index];
 		};
 	};
-	assign(namespace, {
-		nthArg
-	});
 	/**
 	 * Creates a function that invokes method with arguments arranged according to the specified indexes where the argument value at the first index is provided as the first argument, the argument value at the second index is provided as the second argument, and so on.
 	 *
@@ -4848,9 +4477,6 @@
 			);
 		};
 	};
-	assign(namespace, {
-		reArg
-	});
 	/**
 	 * Creates a function that provides value to wrapper as its first argument. The wrapper function is given two arguments the value and the provided argument from the newly created function.
 	 *
@@ -4872,9 +4498,6 @@
 			return wrapper(value, ...arg);
 		};
 	};
-	assign(namespace, {
-		wrap
-	});
 	/**
 	 * Strictly checks if a number is zero.
 	 *
@@ -4935,11 +4558,6 @@
 	const isNumberInRange = (num, start, end) => {
 		return num > start && num < end;
 	};
-	assign(namespace, {
-		isNumberEqual,
-		isNumberInRange,
-		isZero
-	});
 	/**
 	 * Checks to see if an object has all of the given property names.
 	 *
@@ -4989,10 +4607,6 @@
 			})
 		);
 	};
-	assign(namespace, {
-		hasAnyKeys,
-		hasKeys
-	});
 	/**
 	 * Returns a clone of the source object with the plucked properties.
 	 *
@@ -5014,9 +4628,6 @@
 		});
 		return newObject;
 	};
-	assign(namespace, {
-		pick
-	});
 	/**
 	 * Extracts all keys from an object whose values are not falsey. The values false, null, 0, "", undefined, and NaN are falsey.
 	 *
@@ -5045,9 +4656,6 @@
 		});
 		return compactedKeys;
 	};
-	assign(namespace, {
-		compactKeys
-	});
 	/**
 	 * Performs a shallow strict comparison between two objects.
 	 *
@@ -5071,9 +4679,6 @@
 		}
 		return false;
 	};
-	assign(namespace, {
-		isMatchObject
-	});
 	/**
 	 * Creates an inverted version of a given object by switching it's keys and values.
 	 *
@@ -5094,9 +4699,6 @@
 		});
 		return invertedObject;
 	};
-	assign(namespace, {
-		invert
-	});
 	/**
 	 * Returns a clone of the given object without the given properties.
 	 *
@@ -5116,9 +4718,6 @@
 			return !array.includes(key);
 		});
 	};
-	assign(namespace, {
-		omit
-	});
 	/**
 	 * Asynchronously iterates through the given object.
 	 *
@@ -5151,9 +4750,6 @@
 		});
 		return source;
 	};
-	assign(namespace, {
-		eachObjectAsync
-	});
 	/**
 	 * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
 	 *
@@ -5219,10 +4815,6 @@
 		});
 		return results;
 	};
-	assign(namespace, {
-		compactMapObjectAsync,
-		mapObjectAsync
-	});
 	const normalizeCase = /[-_]/g;
 	const spaceFirstLetter$1 = / (.)/g;
 	/**
@@ -5239,7 +4831,8 @@
 	 * // => 'UPPER CASE'
 	 */
 	const upperCase = (string) => {
-		return string.replace(normalizeCase, ' ').trim().toUpperCase();
+		return string.replace(normalizeCase, ' ').trim()
+			.toUpperCase();
 	};
 	/**
 	 * Converts a string into Camel case format.
@@ -5273,7 +4866,9 @@
 	 * // => 'kebab-case'
 	 */
 	const kebabCase = (string) => {
-		return string.replace(normalizeCase, ' ').trim().toLowerCase().replace(spaceFirstLetter$1, '-$1');
+		return string.replace(normalizeCase, ' ').trim()
+			.toLowerCase()
+			.replace(spaceFirstLetter$1, '-$1');
 	};
 	/**
 	 * Converts a string into snake case format.
@@ -5289,14 +4884,10 @@
 	 * // => 'snake_case'
 	 */
 	const snakeCase = (string) => {
-		return string.replace(normalizeCase, ' ').trim().toLowerCase().replace(spaceFirstLetter$1, '_$1');
+		return string.replace(normalizeCase, ' ').trim()
+			.toLowerCase()
+			.replace(spaceFirstLetter$1, '_$1');
 	};
-	assign(namespace, {
-		camelCase,
-		kebabCase,
-		snakeCase,
-		upperCase
-	});
 	/**
 	 * Replaces all occurrences of strings in an array with a value.
 	 *
@@ -5315,9 +4906,6 @@
 	const replaceList = (string, words, value) => {
 		return string.replace(new RegExp(`\\b${words.join('|')}\\b`, 'gi'), value);
 	};
-	assign(namespace, {
-		replaceList
-	});
 	const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
 	const andRegex = /&/g;
 	const lessThanRegex = /</g;
@@ -5357,7 +4945,9 @@
 	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 	 */
 	const htmlEntities = (string) => {
-		return string.replace(andRegex, '&amp;').replace(lessThanRegex, '&lt;').replace(moreThanRegex, '&gt;').replace(doubleQuoteRegex, '&quot;');
+		return string.replace(andRegex, '&amp;').replace(lessThanRegex, '&lt;')
+			.replace(moreThanRegex, '&gt;')
+			.replace(doubleQuoteRegex, '&quot;');
 	};
 	/**
 	 * Executes rawURLDecode followd by htmlEntities methods on a string.
@@ -5375,11 +4965,6 @@
 	const sanitize = (string) => {
 		return htmlEntities(rawURLDecode(string));
 	};
-	assign(namespace, {
-		htmlEntities,
-		rawURLDecode,
-		sanitize
-	});
 	const tokenizeRegEx = /\S+/g;
 	const wordsRegEx = /\w+/g;
 	/**
@@ -5413,10 +4998,6 @@
 	const words = (string) => {
 		return string.match(wordsRegEx) || [];
 	};
-	assign(namespace, {
-		tokenize,
-		words
-	});
 	const truncateDown = (string, maxLength, stringLength) => {
 		const breakAll = string.split('');
 		const breakAllLength = breakAll.length;
@@ -5479,10 +5060,6 @@
 		const stringLength = string.length;
 		return stringLength > maxLength ? truncateUp(string, maxLength, stringLength) : string;
 	};
-	assign(namespace, {
-		truncate,
-		truncateRight
-	});
 	const spaceFirstLetter = / (.)/g;
 	/**
 	 * Returns the first letter capitalized.
@@ -5568,13 +5145,6 @@
 			return match.toUpperCase();
 		});
 	};
-	assign(namespace, {
-		upperFirst,
-		upperFirstAll,
-		upperFirstLetter,
-		upperFirstOnly,
-		upperFirstOnlyAll
-	});
 	const objectCreate = Object.create;
 	/**
 	 * Creates new object with deeply assigned values from another object.
@@ -5665,13 +5235,13 @@
 	 * // => {a:1, b:2}
 	 */
 	const structuredCloneSafe = globalThis.structuredClone;
-	let clone;
+	exports.clone = void 0;
 	if (structuredCloneSafe) {
-		clone = (item) => {
+		exports.clone = (item) => {
 			return globalThis.structuredClone(item);
 		};
 	} else {
-		clone = (item) => {
+		exports.clone = (item) => {
 			if (isPlainObject(item)) {
 				return assignDeep({}, item);
 			} else if (isArray(item)) {
@@ -5680,10 +5250,6 @@
 			return objectCreate(item);
 		};
 	}
-	assign(namespace, {
-		assignDeep,
-		clone
-	});
 	const functionPrototype = Function.prototype;
 	/**
 	 * Caches a prototype method.
@@ -5701,9 +5267,6 @@
 	function cacheNativeMethod(method) {
 		return functionPrototype.call.bind(method);
 	}
-	assign(namespace, {
-		cacheNativeMethod
-	});
 	/**
 	 * Checks if a property on an object has a value. If not, it will assign a value.
 	 *
@@ -5725,9 +5288,6 @@
 		}
 		return rootObject;
 	};
-	assign(namespace, {
-		ifNotEqual
-	});
 	/**
 	 * Performs a deep comparison between two objects.
 	 *
@@ -5763,9 +5323,6 @@
 		}
 		return false;
 	};
-	assign(namespace, {
-		isEqual
-	});
 	/**
 	 * Using a deep comparison it checks if properties of two objects using an array are equal.
 	 *
@@ -5792,9 +5349,6 @@
 			return isEqual(source[property], compared[property]);
 		});
 	};
-	assign(namespace, {
-		propertyMatch
-	});
 	const regexToPath = /\.|\[/;
 	const regexCloseBracket = /]/g;
 	const emptyString = '';
@@ -5814,9 +5368,6 @@
 	const toPath = (string) => {
 		return string.replace(regexCloseBracket, emptyString).split(regexToPath);
 	};
-	assign(namespace, {
-		toPath
-	});
 	let count = 0;
 	const uidFree = [];
 	const uidClosed = {};
@@ -5880,9 +5431,6 @@
 		uidClosed[id] = null;
 		uidFree.push(id);
 	};
-	assign(namespace, {
-		uid
-	});
 	/**
 	 * Returns property on an object.
 	 *
@@ -5901,7 +5449,7 @@
 	 * });
 	 * // => 'c'
 	 */
-	const get = (propertyString, objectChain = namespace) => {
+	const get = (propertyString, objectChain) => {
 		let link = objectChain;
 		whileArray(toPath(propertyString), (item) => {
 			link = link[item];
@@ -5909,9 +5457,6 @@
 		});
 		return link;
 	};
-	assign(namespace, {
-		get
-	});
 	/**
 	 * Set & Get a model.
 	 *
@@ -5932,10 +5477,6 @@
 		}
 		return get(modelName, model);
 	};
-	namespace.superMethod(model);
-	assign(namespace, {
-		model
-	});
 	/**
 	 * Performs a toggle between 2 values using a deep or strict comparison.
 	 *
@@ -5955,9 +5496,6 @@
 	const toggle = (value, on = true, off = false) => {
 		return isEqual(on, value) ? off : on;
 	};
-	assign(namespace, {
-		toggle
-	});
 	const returnFlow$1 = (callable) => {
 		return (...methods) => {
 			return (arg) => {
@@ -5997,10 +5535,6 @@
 	 * // => 1
 	 */
 	const flowRight = returnFlow$1(eachArrayRight);
-	assign(namespace, {
-		flow,
-		flowRight
-	});
 	const returnFlow = (callable) => {
 		return (...methods) => {
 			return async (arg) => {
@@ -6042,10 +5576,267 @@
 	 * // => 2
 	 */
 	const flowAsyncRight = returnFlow(eachAsyncRight);
-	assign(namespace, {
-		flowAsync,
-		flowAsyncRight
+	exports.Crate = Crate;
+	exports.VirtualStorage = VirtualStorage;
+	exports.add = add$1;
+	exports.after = after;
+	exports.append = append;
+	exports.apply = apply;
+	exports.arrayToObject = arrayToObject;
+	exports.ary = ary;
+	exports.assign = assign;
+	exports.assignDeep = assignDeep;
+	exports.asyncEach = asyncEach;
+	exports.before = before;
+	exports.bindAll = bindAll;
+	exports.cacheNativeMethod = cacheNativeMethod;
+	exports.camelCase = camelCase;
+	exports.chain = chain;
+	exports.chunk = chunk;
+	exports.chunkString = chunkString;
+	exports.clear = clear;
+	exports.clearIntervals = clearIntervals;
+	exports.clearTimers = clearTimers;
+	exports.cloneArray = cloneArray;
+	exports.cnsl = cnsl;
+	exports.cnslTheme = cnslTheme;
+	exports.compact = compact;
+	exports.compactKeys = compactKeys;
+	exports.compactMap = compactMap;
+	exports.compactMapArray = compactMapArray;
+	exports.compactMapAsync = compactMapAsync;
+	exports.compactMapObject = compactMapObject;
+	exports.compactMapObjectAsync = compactMapObjectAsync;
+	exports.countBy = countBy;
+	exports.countKey = countKey;
+	exports.countWithoutKey = countWithoutKey;
+	exports.crate = crate;
+	exports.createFragment = createFragment;
+	exports.curry = curry;
+	exports.curryRight = curryRight;
+	exports.debounce = debounce;
+	exports.decimalCheck = decimalCheck;
+	exports.deduct = deduct;
+	exports.defineProperty = defineProperty;
+	exports.difference = difference;
+	exports.divide = divide;
+	exports.drop = drop;
+	exports.dropRight = dropRight;
+	exports.each = each;
+	exports.eachArray = eachArray;
+	exports.eachArrayRight = eachArrayRight;
+	exports.eachAsync = eachAsync;
+	exports.eachAsyncRight = eachAsyncRight;
+	exports.eachObject = eachObject;
+	exports.eachObjectAsync = eachObjectAsync;
+	exports.eachWhile = eachWhile;
+	exports.ensureArray = ensureArray;
+	exports.eventAdd = eventAdd;
+	exports.eventRemove = eventRemove;
+	exports.every = every;
+	exports.filter = filter;
+	exports.filterArray = filterArray;
+	exports.filterObject = filterObject;
+	exports.findIndex = findIndex;
+	exports.findItem = findItem;
+	exports.first = first;
+	exports.flatten = flatten;
+	exports.flattenDeep = flattenDeep;
+	exports.flow = flow;
+	exports.flowAsync = flowAsync;
+	exports.flowAsyncRight = flowAsyncRight;
+	exports.flowRight = flowRight;
+	exports.get = get;
+	exports.getByClass = getByClass;
+	exports.getById = getById;
+	exports.getByTag = getByTag;
+	exports.getExtensionRegex = getExtensionRegex;
+	exports.getFileExtension = getFileExtension;
+	exports.getNewest = getNewest;
+	exports.getOldest = getOldest;
+	exports.getOwnPropertyDescriptor = getOwnPropertyDescriptor;
+	exports.getOwnPropertyNames = getOwnPropertyNames;
+	exports.groupBy = groupBy;
+	exports.has = has;
+	exports.hasAnyKeys = hasAnyKeys;
+	exports.hasDot = hasDot;
+	exports.hasKeys = hasKeys;
+	exports.hasLength = hasLength;
+	exports.hasValue = hasValue;
+	exports.htmlEntities = htmlEntities;
+	exports.ifInvoke = ifInvoke;
+	exports.ifNotEqual = ifNotEqual;
+	exports.importjs = importjs;
+	exports.inAsync = inAsync;
+	exports.inSync = inSync;
+	exports.increment = increment;
+	exports.indexBy = indexBy;
+	exports.info = info;
+	exports.initial = initial;
+	exports.initialString = initialString;
+	exports.insertInRange = insertInRange;
+	exports.intersect = intersect;
+	exports.interval = interval;
+	exports.invert = invert;
+	exports.invoke = invoke;
+	exports.invokeAsync = invokeAsync;
+	exports.is = is;
+	exports.isAgent = isAgent;
+	exports.isArguments = isArguments;
+	exports.isArray = isArray;
+	exports.isAsync = isAsync;
+	exports.isBoolean = isBoolean;
+	exports.isBuffer = isBuffer;
+	exports.isConstructor = isConstructor;
+	exports.isDate = isDate;
+	exports.isDecimal = isDecimal;
+	exports.isDocumentReady = isDocumentReady;
+	exports.isDom = isDom;
+	exports.isEmpty = isEmpty;
+	exports.isEnter = isEnter;
+	exports.isEqual = isEqual;
+	exports.isFileCSS = isFileCSS;
+	exports.isFileHTML = isFileHTML;
+	exports.isFileJS = isFileJS;
+	exports.isFileJSON = isFileJSON;
+	exports.isFloat32 = isFloat32;
+	exports.isFloat64 = isFloat64;
+	exports.isFunction = isFunction;
+	exports.isHTMLCollection = isHTMLCollection;
+	exports.isInt16 = isInt16;
+	exports.isInt32 = isInt32;
+	exports.isInt8 = isInt8;
+	exports.isKindAsync = isKindAsync;
+	exports.isMap = isMap;
+	exports.isMatchArray = isMatchArray;
+	exports.isMatchObject = isMatchObject;
+	exports.isNodeList = isNodeList;
+	exports.isNull = isNull;
+	exports.isNumber = isNumber;
+	exports.isNumberEqual = isNumberEqual;
+	exports.isNumberInRange = isNumberInRange;
+	exports.isPlainObject = isPlainObject;
+	exports.isPrimitive = isPrimitive;
+	exports.isPromise = isPromise;
+	exports.isRegExp = isRegExp;
+	exports.isSet = isSet;
+	exports.isString = isString;
+	exports.isUint16 = isUint16;
+	exports.isUint32 = isUint32;
+	exports.isUint8 = isUint8;
+	exports.isUint8Clamped = isUint8Clamped;
+	exports.isUndefined = isUndefined;
+	exports.isWeakMap = isWeakMap;
+	exports.isZero = isZero;
+	exports.jsonParse = jsonParse;
+	exports.kebabCase = kebabCase;
+	exports.keys = keys;
+	exports.largest = largest;
+	exports.last = last;
+	exports.map = map;
+	exports.mapArray = mapArray;
+	exports.mapArrayRight = mapArrayRight;
+	exports.mapAsync = mapAsync;
+	exports.mapObject = mapObject;
+	exports.mapObjectAsync = mapObjectAsync;
+	exports.mapWhile = mapWhile;
+	exports.minus = minus;
+	exports.model = model;
+	exports.multiply = multiply;
+	exports.negate = negate;
+	exports.nodeAttribute = nodeAttribute;
+	exports.noop = noop;
+	exports.nthArg = nthArg;
+	exports.numSort = numSort;
+	exports.numericalCompare = numericalCompare;
+	exports.numericalCompareReverse = numericalCompareReverse;
+	exports.objectCreate = objectCreate;
+	exports.objectSize = objectSize;
+	exports.omit = omit;
+	exports.once = once;
+	exports.over = over;
+	exports.overEvery = overEvery;
+	exports.partition = partition;
+	exports.pick = pick;
+	exports.pluck = pluck;
+	exports.pluckObject = pluckObject;
+	exports.pluckValues = pluckValues;
+	exports.promise = promise;
+	exports.propertyMatch = propertyMatch;
+	exports.querySelector = querySelector;
+	exports.querySelectorAll = querySelectorAll;
+	exports.rNumSort = rNumSort;
+	exports.randomArbitrary = randomArbitrary;
+	exports.randomInt = randomInt;
+	exports.range = range;
+	exports.rawURLDecode = rawURLDecode;
+	exports.reArg = reArg;
+	exports.regexGenerator = regexGenerator;
+	exports.remainder = remainder;
+	exports.remove = remove;
+	exports.removeBy = removeBy;
+	exports.replaceList = replaceList;
+	exports.rest = rest;
+	exports.restString = restString;
+	exports.right = right;
+	exports.rightString = rightString;
+	exports.sample = sample;
+	exports.sanitize = sanitize;
+	exports.saveDimensions = saveDimensions;
+	exports.selector = selector;
+	exports.shuffle = shuffle;
+	exports.smallest = smallest;
+	exports.snakeCase = snakeCase;
+	exports.sortAlphabetical = sortAlphabetical;
+	exports.sortNewest = sortNewest;
+	exports.sortOldest = sortOldest;
+	exports.sortedIndex = sortedIndex;
+	exports.stringify = stringify;
+	exports.stubArray = stubArray;
+	exports.stubFalse = stubFalse;
+	exports.stubObject = stubObject;
+	exports.stubString = stubString;
+	exports.stubTrue = stubTrue;
+	exports.sum = sum;
+	exports.take = take;
+	exports.takeRight = takeRight;
+	exports.themes = themes;
+	exports.throttle = throttle;
+	exports.timer = timer;
+	exports.times = times;
+	exports.timesMap = timesMap;
+	exports.toArray = toArray;
+	exports.toPath = toPath;
+	exports.toggle = toggle;
+	exports.tokenize = tokenize;
+	exports.truncate = truncate;
+	exports.truncateRight = truncateRight;
+	exports.uid = uid;
+	exports.unZip = unZip;
+	exports.unZipObject = unZipObject;
+	exports.union = union;
+	exports.unique = unique;
+	exports.updateDimensions = updateDimensions;
+	exports.upperCase = upperCase;
+	exports.upperFirst = upperFirst;
+	exports.upperFirstAll = upperFirstAll;
+	exports.upperFirstLetter = upperFirstLetter;
+	exports.upperFirstOnly = upperFirstOnly;
+	exports.upperFirstOnlyAll = upperFirstOnlyAll;
+	exports.virtualStorage = virtualStorage;
+	exports.whileArray = whileArray;
+	exports.whileCompactMap = whileCompactMap;
+	exports.whileEachArray = whileEachArray;
+	exports.whileMapArray = whileMapArray;
+	exports.whileObject = whileObject;
+	exports.without = without;
+	exports.words = words;
+	exports.wrap = wrap;
+	exports.xor = xor;
+	exports.zip = zip;
+	exports.zipObject = zipObject;
+	Object.defineProperty(exports, '__esModule', {
+		value: true
 	});
-	return namespace;
 });
 // # sourceMappingURL=bundle.js.map

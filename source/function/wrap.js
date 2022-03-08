@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Creates a function that provides value to wrapper as its first argument. The wrapper function is given two arguments the value and the provided argument from the newly created function.
   *
@@ -21,6 +19,4 @@ export const wrap = (value, wrapper) => {
 		return wrapper(value, ...arg);
 	};
 };
-assign(namespace, {
-	wrap,
-});
+

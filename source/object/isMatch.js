@@ -1,7 +1,6 @@
-import namespace from '../namespace/index';
 import { isMatchArray } from '../array/isMatch';
 import { whileArray } from '../array/each';
-import { assign, keys } from '../internal/object';
+import { keys } from '../internal/object';
 /**
    * Performs a shallow strict comparison between two objects.
    *
@@ -25,6 +24,4 @@ export const isMatchObject = (source, compareObject) => {
 	}
 	return false;
 };
-assign(namespace, {
-	isMatchObject,
-});
+

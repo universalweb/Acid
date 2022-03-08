@@ -1,6 +1,5 @@
-import namespace from '../namespace/index';
 import { eachAsync } from '../array/eachAsync';
-import { assign, keys } from '../internal/object';
+import { keys } from '../internal/object';
 /**
   * Asynchronously iterates through the given object.
   *
@@ -33,6 +32,4 @@ export const eachObjectAsync = async (source, iteratee) => {
 	});
 	return source;
 };
-assign(namespace, {
-	eachObjectAsync,
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from './object';
 const arrayNative = Array;
 /**
  * Takes an array like object and creates a new Array from it.
@@ -14,6 +12,4 @@ const arrayNative = Array;
  * // => [1, 2, 3]
 */
 export const toArray = arrayNative.from;
-assign(namespace, {
-	toArray,
-});
+

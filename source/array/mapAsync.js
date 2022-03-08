@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachAsync } from './eachAsync';
 /**
   * Asynchronously iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
@@ -26,6 +24,4 @@ export const mapAsync = async (array, iteratee) => {
 	});
 	return results;
 };
-assign(namespace, {
-	mapAsync,
-});
+

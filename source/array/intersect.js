@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { compactMapArray, whileArray } from './each';
 /**
  * Returns an new array that is the [set intersection](http://en.wikipedia.org/wiki/Intersection_(set_theory))
@@ -28,6 +26,4 @@ export const intersect = (array, ...arrays) => {
 		}
 	});
 };
-assign(namespace, {
-	intersect
-});
+

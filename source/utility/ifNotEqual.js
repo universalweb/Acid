@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 /**
    * Checks if a property on an object has a value. If not, it will assign a value.
@@ -22,6 +20,4 @@ export const ifNotEqual = (rootObject, property, equalThis) => {
 	}
 	return rootObject;
 };
-assign(namespace, {
-	ifNotEqual,
-});
+

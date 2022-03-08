@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Takes all but the last item in the array.
   *
@@ -16,6 +14,4 @@ import { assign } from '../internal/object';
 export const initial = (array) => {
 	return array.slice(0, array.length - 1);
 };
-assign(namespace, {
-	initial
-});
+

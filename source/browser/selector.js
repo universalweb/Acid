@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { restString } from '../string/range';
 const dotString = '.';
 const poundString = '#';
@@ -85,11 +83,4 @@ export const selector = (select) => {
 	}
 	return querySelectorAll(select);
 };
-assign(namespace, {
-	getByClass,
-	getById,
-	getByTag,
-	querySelector,
-	querySelectorAll,
-	selector
-});
+

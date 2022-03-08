@@ -1,15 +1,12 @@
 const docredux = require('docredux');
 const buildDocs = () => {
-	'';
 	return docredux.build.json({
 		destination: `${__dirname}/docs/`,
 		source: `${__dirname}/docs/bundle.js`,
 	});
 };
 const rollup = require('rollup').rollup;
-const {
-	terser: minify
-} = require('rollup-plugin-terser');
+const { terser } = require('rollup-plugin-terser');
 const format = require('prettier-eslint');
 const tinyLR = require('tiny-lr')();
 const liveReload = require('connect-livereload');
@@ -67,7 +64,7 @@ const build = async () => {
 	const production = await rollup({
 		input: './source/index.js',
 		plugins: [
-			minify()
+			terser()
 		]
 	});
 	await production.write({

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { compactMapArray } from './each';
 import { flattenDeep } from './flatten';
 /**
@@ -24,6 +22,4 @@ export const difference = (array, ...compares) => {
 		}
 	});
 };
-assign(namespace, {
-	difference
-});
+

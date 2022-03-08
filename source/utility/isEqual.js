@@ -1,7 +1,6 @@
-import namespace from '../namespace/index';
 import { hasKeys } from '../object/hasKeys.js';
 import { whileArray } from '../array/each';
-import { assign, keys } from '../internal/object';
+import { keys } from '../internal/object';
 import { isArray, isPlainObject } from '../internal/is';
 /**
    * Performs a deep comparison between two objects.
@@ -38,6 +37,4 @@ export const isEqual = (source, compareObject) => {
 	}
 	return false;
 };
-assign(namespace, {
-	isEqual,
-});
+

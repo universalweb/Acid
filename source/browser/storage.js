@@ -1,7 +1,5 @@
-import namespace from '../namespace/index';
 import { hasValue, isString } from '../internal/is';
 import { stringify } from '../utility/json';
-import { assign } from '../internal/object';
 /**
   * A virtual storage & drop in replacement for localStorage.
   * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
@@ -78,7 +76,7 @@ import { assign } from '../internal/object';
   * myVirtualStorage.getItem('key');
   * // => undefined
 */
-class VirtualStorage {
+export class VirtualStorage {
 	constructor(initialObject = {}) {
 		this.items = initialObject;
 	}
@@ -174,7 +172,7 @@ export function virtualStorage() {
   * storageCrate.getItem('key');
   * // => undefined
 */
-let hasLocal;
+export let hasLocal;
 function hasStorage(storeCheck) {
 	try {
 		storeCheck().removeItem('TESTING');
@@ -186,7 +184,7 @@ function hasStorage(storeCheck) {
 hasStorage(() => {
 	return localStorage;
 });
-class Crate {
+export class Crate {
 	constructor(initialObject) {
 		if (this.hasLocal) {
 			this.local = localStorage;
@@ -225,10 +223,4 @@ class Crate {
 export function crate(virtualFlag) {
 	return new Crate(virtualFlag);
 }
-assign(namespace, {
-	VirtualStorage,
-	Crate,
-	crate,
-	virtualStorage,
-	hasLocal
-});
+

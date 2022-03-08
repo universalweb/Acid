@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { randomInt } from '../number/math';
 import { shuffle } from './shuffle';
 /**
@@ -45,6 +43,4 @@ export const sample = (array, amount = 1) => {
 	}
 	return sampleArray;
 };
-assign(namespace, {
-	sample
-});
+

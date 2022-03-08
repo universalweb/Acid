@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { isArray } from '../internal/is';
 /**
   * Ensures the object is an array. If not wraps in array.
@@ -21,6 +19,4 @@ import { isArray } from '../internal/is';
 export const ensureArray = (object) => {
 	return (isArray(object)) ? object : [object];
 };
-assign(namespace, {
-	ensureArray
-});
+

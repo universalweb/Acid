@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 const functionPrototype = Function.prototype;
 /**
   * Caches a prototype method.
@@ -17,6 +15,4 @@ const functionPrototype = Function.prototype;
 export function cacheNativeMethod(method) {
 	return functionPrototype.call.bind(method);
 }
-assign(namespace, {
-	cacheNativeMethod
-});
+

@@ -1,7 +1,6 @@
-import namespace from '../namespace/index';
-import { assign, keys } from '../internal/object';
-import { isArray, isPlainObject, isFunction } from '../internal/is';
-const objectCreate = Object.create;
+import { keys } from '../internal/object';
+import { isArray, isPlainObject } from '../internal/is';
+export const objectCreate = Object.create;
 /**
   * Creates new object with deeply assigned values from another object.
   *
@@ -107,7 +106,4 @@ if (structuredCloneSafe) {
 	};
 }
 export { clone };
-assign(namespace, {
-	assignDeep,
-	clone
-});
+

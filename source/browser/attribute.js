@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachObject } from '../object/each';
 import { isArray } from '../internal/is';
 import { mapArray } from '../array/each';
@@ -30,6 +28,4 @@ export const nodeAttribute = (node, object) => {
 	});
 	return node;
 };
-assign(namespace, {
-	nodeAttribute
-});
+

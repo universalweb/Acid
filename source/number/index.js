@@ -1,2 +1,2 @@
-import './is';
-import './math';
+export * from './is';
+export * from './math';

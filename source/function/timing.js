@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { times } from '../array/times';
 /**
   * Timer wrapper.
@@ -135,11 +133,4 @@ export const throttle = (callable, time) => {
 	};
 	return throttled;
 };
-assign(namespace, {
-	clearIntervals,
-	clearTimers,
-	debounce,
-	interval,
-	throttle,
-	timer,
-});
+

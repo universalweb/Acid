@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 const jsonNative = JSON;
 /**
    * Parses JSON string.
@@ -29,7 +27,4 @@ export const jsonParse = jsonNative.parse;
    * // => '{}'
  */
 export const stringify = jsonNative.stringify;
-assign(namespace, {
-	jsonParse,
-	stringify
-});
+

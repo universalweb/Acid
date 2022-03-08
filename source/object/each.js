@@ -1,6 +1,5 @@
-import namespace from '../namespace/index';
 import { hasValue } from '../internal/is';
-import { assign, keys } from '../internal/object';
+import { keys } from '../internal/object';
 import { eachArray, whileArray } from '../array/each';
 /**
   * Iterates through the given object.
@@ -134,10 +133,4 @@ export const compactMapObject = (source, iteratee, results = {}) => {
 	});
 	return results;
 };
-assign(namespace, {
-	compactMapObject,
-	eachObject,
-	filterObject,
-	mapObject,
-	whileObject,
-});
+

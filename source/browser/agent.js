@@ -1,8 +1,7 @@
-import namespace from '../namespace/index';
 import { eachArray } from '../array/each';
 import { eachObject } from '../object/each';
 import { isBoolean } from '../internal/is';
-import { assign, keys } from '../internal/object';
+import { keys } from '../internal/object';
 /**
   * Checks to see of the browser agent has a string.
   *
@@ -18,7 +17,7 @@ import { assign, keys } from '../internal/object';
 export const isAgent = (value) => {
 	return (value) ? isAgent[value] : keys(isAgent);
 };
-const userAgent = globalThis.navigator.userAgentData;
+const userAgent = globalThis.navigator?.userAgentData;
 if (userAgent) {
 	eachObject(userAgent, (value, key) => {
 		if (isBoolean(value) && value) {
@@ -37,6 +36,4 @@ if (userAgent) {
 		isAgent[item] = true;
 	});
 }
-assign(namespace, {
-	isAgent
-});
+

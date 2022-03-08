@@ -1,5 +1,4 @@
-import './array';
-import './function';
-import './is';
-import './isGenerate';
-import './object';
+export * from './array';
+export * from './function';
+export * from './is';
+export * from './object';

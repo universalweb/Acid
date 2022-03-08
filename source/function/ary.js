@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Creates a function that invokes callable, with up to n arguments, ignoring any additional arguments.
   *
@@ -19,6 +17,4 @@ export const ary = (callable, amount) => {
 		return callable(...args.splice(0, amount));
 	};
 };
-assign(namespace, {
-	ary
-});
+

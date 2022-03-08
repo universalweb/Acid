@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Get the item at the supplied index starting at the end of the array.
   *
@@ -16,6 +14,4 @@ import { assign } from '../internal/object';
 export const right = (array, amount) => {
 	return array[array.length - 1 - amount];
 };
-assign(namespace, {
-	right
-});
+

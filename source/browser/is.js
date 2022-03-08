@@ -1,6 +1,4 @@
-import namespace from '../namespace/index';
-import { eachArray } from '../array/each';
-import { isSameObjectGenerator, objectStringGenerate } from '../internal/isGenerate';
+import { hasValue } from '../internal/is';
 /**
  * Checks if value is a plain DOM Node.
  *
@@ -17,10 +15,6 @@ import { isSameObjectGenerator, objectStringGenerate } from '../internal/isGener
 export const isDom = (value) => {
 	return value && value.nodeType !== 9;
 };
-namespace.isDom = isDom;
-eachArray(['HTMLCollection', 'NodeList'], (item) => {
-	namespace[`is${item}`] = isSameObjectGenerator(objectStringGenerate(item));
-});
 /**
  * Checks if the value is a HTMLCollection.
  *
@@ -34,6 +28,10 @@ eachArray(['HTMLCollection', 'NodeList'], (item) => {
  * isHTMLCollection(document.getElementsByClassName('test'));
  * // => true
 */
+const objectHTMLCollection = '[object HTMLCollection]';
+export function isHTMLCollection(source) {
+	return (hasValue(source)) ? source.toString() === objectHTMLCollection : false;
+}
 /**
  * Checks if the value is a NodeList.
  *
@@ -47,3 +45,7 @@ eachArray(['HTMLCollection', 'NodeList'], (item) => {
  * isNodeList(document.querySelectorAll('.test'));
  * // => true
 */
+const objectNodeList = '[object NodeList]';
+export function isNodeList(source) {
+	return (hasValue(source)) ? source.toString() === objectNodeList : false;
+}

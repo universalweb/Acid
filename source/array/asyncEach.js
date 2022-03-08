@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
   *
@@ -7,9 +5,9 @@ import { assign } from '../internal/object';
   * @type {Function}
   * @category Array
   * @async
-  * @param {Array} callingArray - Array of async functions that will be looped through.
+  * @param {Array} source - Array of async functions that will be looped through.
   * Functions are given the supplied object, index, the calling array, and the array length.
-  * @param {*} object - The first argument given to each function.
+  * @param {*} firstArgument - The first argument given to each function.
   * @returns {Object} - The originally given array.
   *
   * @test
@@ -32,14 +30,12 @@ import { assign } from '../internal/object';
   * // {a:1} 0
   * // {a:1} 1
 */
-export const asyncEach = async (callingArray, value) => {
-	const arrayLength = callingArray.length;
+export const asyncEach = async (source, firstArgument) => {
+	const arrayLength = source.length;
 	for (let index = 0; index < arrayLength; index++) {
-		const item = callingArray[index];
-		await item(value, index, callingArray, arrayLength);
+		const item = source[index];
+		await item(firstArgument, index, source, arrayLength);
 	}
-	return callingArray;
+	return source;
 };
-assign(namespace, {
-	asyncEach,
-});
+

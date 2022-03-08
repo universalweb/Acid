@@ -1,4 +1,3 @@
-import namespace from '../namespace/index';
 import { assign } from '../internal/object';
 import { each } from '../utility/each';
 const add = (link, methods) => {
@@ -51,6 +50,4 @@ export const chain = (methods) => {
 	link.add(methods);
 	return link;
 };
-assign(namespace, {
-	chain
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachObjectAsync } from './eachAsync';
 import { hasValue } from '../internal/is';
 /**
@@ -67,7 +65,4 @@ export const compactMapObjectAsync = async (source, iteratee, results = {}) => {
 	});
 	return results;
 };
-assign(namespace, {
-	compactMapObjectAsync,
-	mapObjectAsync,
-});
+

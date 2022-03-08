@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 /**
   * Creates a function that is restricted to execute method once. Repeat calls to the function will return the value of the first call. The method is executed with the this binding of the created function.
@@ -55,7 +53,7 @@ export const once = (callable) => {
   * onlyAfter(2);
   * // => 2
 */
-const after = (amount, callable) => {
+export const after = (amount, callable) => {
 	let point = amount;
 	let value;
 	const onlyAfter = (...args) => {
@@ -95,7 +93,7 @@ const after = (amount, callable) => {
   * onlyBefore(3);
   * // => 2
 */
-const before = (amount, callable) => {
+export const before = (amount, callable) => {
 	let point = amount;
 	let value;
 	const onlyBefore = (...args) => {
@@ -111,8 +109,4 @@ const before = (amount, callable) => {
 	};
 	return onlyBefore;
 };
-assign(namespace, {
-	after,
-	before,
-	once
-});
+

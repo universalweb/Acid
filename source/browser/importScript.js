@@ -1,6 +1,4 @@
-import namespace from '../namespace/index';
 import { append } from './append';
-import { assign } from '../internal/object';
 import { eventAdd } from './event';
 import { nodeAttribute } from './attribute';
 import { promise } from '../utility/promise';
@@ -32,6 +30,4 @@ export const importjs = (url) => {
 	});
 	return nodeAttachLoadingEvents(node);
 };
-assign(namespace, {
-	importjs,
-});
+

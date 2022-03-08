@@ -1,11 +1,9 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { isString } from '../internal/is';
 import { stringify } from '../utility/json';
 const generateTheme = (color, bg) => {
 	return `color:${color};background:${bg};`;
 };
-const themes = {
+export const themes = {
 	alert: generateTheme('#fff', '#f44336'),
 	important: generateTheme('#fff', '#E91E63'),
 	notify: generateTheme('#fff', '#651FFF'),
@@ -19,15 +17,18 @@ const themes = {
   * @ignoreTest
   * @type {Function}
   * @param {Object} value - The value to be logged.
-  * @param {string} themeName - The theme to be used.
+  * @param {string} themeName - The name of the theme to be used.
   * @returns {undefined} - Returns undefined.
   *
   * @example
   * cnsl('Lucy', 'notify');
   * // 'Lucy'
 */
-const cnsl = (value, themeName) => {
+export const cnsl = (value, themeName) => {
 	const data = isString(value) ? value : stringify(value);
+	if (themeName === 'alert' || themeName === 'warning') {
+		return console.trace(`%c${data}`, `${themes[themeName]}font-size:13px;padding:2px 5px;border-radius:2px;`);
+	}
 	console.log(`%c${data}`, `${themes[themeName]}font-size:13px;padding:2px 5px;border-radius:2px;`);
 };
 /**
@@ -45,10 +46,7 @@ const cnsl = (value, themeName) => {
   * @example
   * cnslTheme('BlackNWhite', '#fff', '#000');
 */
-const cnslTheme = (themeName, color, background) => {
+export const cnslTheme = (themeName, color, background) => {
 	themes[themeName] = generateTheme(color, background);
 };
-assign(namespace, {
-	cnsl,
-	cnslTheme,
-});
+

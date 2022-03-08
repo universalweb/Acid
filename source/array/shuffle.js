@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { randomInt } from '../number/math';
 import { toArray } from '../internal/array';
 /**
@@ -7,7 +5,7 @@ import { toArray } from '../internal/array';
   *
   * @function shuffle
   * @category array
-  * @param {Array} array - Array to be shuffled.
+  * @param {Array} target - Target Array to be shuffled.
   * @returns {Array} - An array with the shuffled results.
   *
   * @test
@@ -20,11 +18,11 @@ import { toArray } from '../internal/array';
   * shuffle([1, 2, 3, 4]);
   * // => [3, 4, 2, 1]
 */
-export const shuffle = (array, amount = array.length) => {
-	if (array.length <= 1) {
-		return toArray(array);
+export const shuffle = (target, amount = target.length) => {
+	if (target.length <= 1) {
+		return toArray(target);
 	}
-	const shuffleArray = toArray(array);
+	const shuffleArray = toArray(target);
 	let count = 0;
 	let index;
 	let value;
@@ -37,6 +35,4 @@ export const shuffle = (array, amount = array.length) => {
 	}
 	return shuffleArray;
 };
-assign(namespace, {
-	shuffle
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Replaces all occurrences of strings in an array with a value.
   *
@@ -18,6 +16,4 @@ import { assign } from '../internal/object';
 export const replaceList = (string, words, value) => {
 	return string.replace(new RegExp(`\\b${words.join('|')}\\b`, 'gi'), value);
 };
-assign(namespace, {
-	replaceList
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 const mathNativeMin = Math.min;
 /**
    * Plucks the smallest value from an array.
@@ -17,6 +15,4 @@ const mathNativeMin = Math.min;
 export const smallest = (array) => {
 	return mathNativeMin(...array);
 };
-assign(namespace, {
-	smallest
-});
+

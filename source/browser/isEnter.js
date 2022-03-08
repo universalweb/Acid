@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Checks if the keycode of the event is strictly equal to 13.
   *
@@ -16,6 +14,4 @@ import { assign } from '../internal/object';
 export const isEnter = (eventObject) => {
 	return eventObject.keyCode === 13;
 };
-assign(namespace, {
-	isEnter
-});
+

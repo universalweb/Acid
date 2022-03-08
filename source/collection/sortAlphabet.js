@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
    * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
    *
@@ -26,6 +24,4 @@ export const sortAlphabetical = (collection, propertyName) => {
 		return 0;
 	});
 };
-assign(namespace, {
-	sortAlphabetical
-});
+

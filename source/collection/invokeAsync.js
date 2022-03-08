@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { mapAsync } from '../array/mapAsync';
 /**
   * Asynchronously awaits & invokes a function on the provided property name in each object in the collection.
@@ -15,19 +13,17 @@ import { mapAsync } from '../array/mapAsync';
   *
   * @test
   * (async () => {
-  *   const result = await invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'Arity LLC');
-  *   return assert(result, [['Arity LLC', 0], ['Arity LLC', 1]]);
+  *   const result = await invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
+  *   return assert(result, [['EXAMPLE', 0], ['EXAMPLE', 1]]);
   * });
   *
   * @example
-  * invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'Arity LLC');
-  * // => [['Arity LLC', 0], ['Arity LLC', 1]]
+  * invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
+  * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
 */
-const invokeAsync = (collection, property, value) => {
+export const invokeAsync = (collection, property, value) => {
 	return mapAsync(collection, async (item, index) => {
 		return item[property](value, index);
 	});
 };
-assign(namespace, {
-	invokeAsync
-});
+

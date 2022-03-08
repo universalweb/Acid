@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachArray } from '../array/each';
 /**
   * Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
@@ -28,6 +26,4 @@ export const groupBy = (array, iteratee) => {
 	});
 	return sortedObject;
 };
-assign(namespace, {
-	groupBy
-});
+

@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { whileArray } from './each';
 /**
    * Performs a shallow strict comparison between two objects.
@@ -23,6 +21,4 @@ export const isMatchArray = (source, compareArray) => {
 	}
 	return false;
 };
-assign(namespace, {
-	isMatchArray,
-});
+

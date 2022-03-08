@@ -1,5 +1,4 @@
-import namespace from '../namespace/index';
-import { assign, objectSize } from './object';
+import { objectSize } from './object';
 /**
  * Checks if the value is undefined.
  *
@@ -12,9 +11,9 @@ import { assign, objectSize } from './object';
  * isUndefined(undefined);
  * // => true
 */
-export const isUndefined = function(value) {
+export function isUndefined(value) {
 	return value === undefined;
-};
+}
 /**
  * Checks if the value is null.
  *
@@ -27,9 +26,9 @@ export const isUndefined = function(value) {
  * isNull(null);
  * // => true
 */
-export const isNull = (value) => {
+export function isNull(value) {
 	return value === null;
-};
+}
 /**
  * Checks if the value is not null or undefined.
  *
@@ -42,14 +41,14 @@ export const isNull = (value) => {
  * hasValue(1);
  * // => true
 */
-export const hasValue = (value) => {
+export function hasValue(value) {
 	return !isUndefined(value) && !isNull(value);
-};
-export const isConstructor = (nativeObject) => {
+}
+export function isConstructor(nativeObject) {
 	return (obj) => {
 		return (hasValue(obj)) ? obj.constructor === nativeObject : false;
 	};
-};
+}
 export const decimalCheck = /\.|\+/;
 /**
  * Checks if the value is a decimal.
@@ -291,7 +290,7 @@ export const getFileExtension = (string) => {
  * isRegExp(/test/);
  * // => true
 */
-const isRegExp = (value) => {
+export const isRegExp = (value) => {
 	return value instanceof RegExp;
 };
 /**
@@ -333,7 +332,7 @@ export const isBoolean = (value) => {
  * isDate(new Date());
  * // => true
 */
-const isDate = (value) => {
+export const isDate = (value) => {
 	return value instanceof Date;
 };
 /**
@@ -348,7 +347,7 @@ const isDate = (value) => {
  * isPromise(new Promise(() => {}));
  * // => true
 */
-const isPromise = (value) => {
+export const isPromise = (value) => {
 	if (value) {
 		return value instanceof Promise;
 	}
@@ -366,7 +365,7 @@ const isPromise = (value) => {
  * isAsync(async() => {});
  * // => true
 */
-const isAsync = (value) => {
+export const isAsync = (value) => {
 	if (value) {
 		return value.constructor?.name === 'AsyncFunction';
 	}
@@ -386,7 +385,7 @@ const isAsync = (value) => {
  * isKindAsync(new Promise(() => {}));
  * // => true
 */
-const isKindAsync = (value) => {
+export const isKindAsync = (value) => {
 	if (value) {
 		return isPromise(value) || isAsync(value);
 	}
@@ -409,30 +408,206 @@ const isKindAsync = (value) => {
 export const isPrimitive = (value) => {
 	return value !== '__proto__' && value !== 'constructor' && value !== 'prototype';
 };
-assign(namespace, {
-	isPrimitive,
-	getFileExtension,
-	has,
-	hasDot,
-	hasLength,
-	hasValue,
-	isArray,
-	isBoolean,
-	isDate,
-	isDecimal,
-	isEmpty,
-	isFileCSS,
-	isFileHTML,
-	isFileJS,
-	isFileJSON,
-	isFunction,
-	isNull,
-	isNumber,
-	isPlainObject,
-	isRegExp,
-	isString,
-	isUndefined,
-	isAsync,
-	isPromise,
-	isKindAsync
-});
+/**
+ * Checks if the source is a Map.
+ *
+ * @function isMap
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isMap(new Map());
+ * // => true
+*/
+/**
+ * Checks if the source is a Set.
+ *
+ * @function isSet
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isSet(new Set());
+ * // => true
+*/
+/**
+ * Checks if the source is a WeakMap.
+ *
+ * @function isWeakMap
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isWeakMap(new WeakMap());
+ * // => true
+*/
+/**
+ * Checks if the source is a ArrayBuffer.
+ *
+ * @function isArrayBuffer
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isArrayBuffer(new ArrayBuffer());
+ * // => true
+*/
+/**
+ * Checks if the source is a Float32Array.
+ *
+ * @function isFloat32Array
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isFloat32Array(new Float32Array());
+ * // => true
+*/
+/**
+ * Checks if the source is a Float64Array.
+ *
+ * @function isFloat64Array
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isFloat64Array(new Float64Array());
+ * // => true
+*/
+/**
+ * Checks if the source is a Int8Array.
+ *
+ * @function isInt8Array
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isInt8Array(new Int8Array());
+ * // => true
+*/
+/**
+ * Checks if the source is a Int16Array.
+ *
+ * @function isInt16Array
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isInt16Array(new Int16Array());
+ * // => true
+*/
+/**
+ * Checks if the source is a Int32Array.
+ *
+ * @function isInt32Array
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isInt32Array(new Int32Array());
+ * // => true
+*/
+/**
+ * Checks if the source is a Uint8Array.
+ *
+ * @function isUint8Array
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isUint8Array(new Uint8Array());
+ * // => true
+*/
+/**
+ * Checks if the source is a Uint8ClampedArray.
+ *
+ * @function isUint8ClampedArray
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isUint8ClampedArray(new Uint8ClampedArray());
+ * // => true
+*/
+/**
+ * Checks if the source is a Uint16Array.
+ *
+ * @function isUint16Array
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isUint16Array(new Uint16Array());
+ * // => true
+*/
+/**
+ * Checks if the source is a Uint32Array.
+ *
+ * @function isUint32Array
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * isUint32Array(new Uint32Array());
+ * // => true
+*/
+const objectArguments = '[object Arguments]';
+export function isArguments(source) {
+	return (hasValue(source)) ? source.toString() === objectArguments : false;
+}
+const objectMap = '[object Map]';
+export function isMap(source) {
+	return (hasValue(source)) ? source.toString() === objectMap : false;
+}
+const objectSet = '[object Set]';
+export function isSet(source) {
+	return (hasValue(source)) ? source.toString() === objectSet : false;
+}
+const objectWeakMap = '[object WeakMap]';
+export function isWeakMap(source) {
+	return (hasValue(source)) ? source.toString() === objectWeakMap : false;
+}
+export function isBuffer(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'ArrayBuffer' : false;
+}
+export function isFloat32(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'Float32Array' : false;
+}
+export function isFloat64(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'Float64Array' : false;
+}
+export function isInt8(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'Int8Array' : false;
+}
+export function isInt16(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'Int16Array' : false;
+}
+export function isInt32(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'Int32Array' : false;
+}
+export function isUint8(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'Uint8Array' : false;
+}
+export function isUint8Clamped(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'Uint8ClampedArray' : false;
+}
+export function isUint16(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'Uint16Array' : false;
+}
+export function isUint32(source) {
+	return (hasValue(source)) ? source.constructor?.name === 'Uint32Array' : false;
+}
+

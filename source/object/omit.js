@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { filterObject } from './each';
 /**
   * Returns a clone of the given object without the given properties.
@@ -20,6 +18,4 @@ export const omit = (originalObject, array) => {
 		return !array.includes(key);
 	});
 };
-assign(namespace, {
-	omit
-});
+

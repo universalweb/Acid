@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 import { toPath } from '../utility/toPath';
 import { whileArray } from '../array/each';
@@ -21,7 +19,7 @@ import { whileArray } from '../array/each';
   * });
   * // => 'c'
 */
-export const get = (propertyString, objectChain = namespace) => {
+export const get = (propertyString, objectChain) => {
 	let link = objectChain;
 	whileArray(toPath(propertyString), (item) => {
 		link = link[item];
@@ -29,6 +27,4 @@ export const get = (propertyString, objectChain = namespace) => {
 	});
 	return link;
 };
-assign(namespace, {
-	get
-});
+

@@ -1,20 +1,19 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Returns a shallow copy of the array up to an amount.
   *
   * @function take
   * @category array
   * @type {Function}
-  * @param {Array} array - The array to be evaluated.
+  * @param {Array} source - The source array to take from.
+  * @param {Array} [end = 1] - Zero-based index before which to end extraction.
   * @returns {Array} - The aggregated array.
   *
   * @example
   * take([1,2,3], 2);
   * // => [1, 2]
 */
-export const take = (array, amount = 1) => {
-	return array.slice(0, amount);
+export const take = (source, end = 1) => {
+	return source.slice(0, end);
 };
 /**
   * Returns a shallow copy of the array up to an amount starting from the right.
@@ -22,18 +21,16 @@ export const take = (array, amount = 1) => {
   * @function takeRight
   * @category array
   * @type {Function}
-  * @param {Array} array - The array to be evaluated.
+  * @param {Array} source - The source array to take right from.
+  * @param {Array} [end = 1] - Zero-based index before which to end extraction.
   * @returns {Array} - The aggregated array.
   *
   * @example
   * takeRight([1,2,3], 2);
   * // => [2, 3]
 */
-export const takeRight = (array, amount = 1) => {
-	const arrayLength = array.length;
-	return array.slice(arrayLength - amount, arrayLength);
+export const takeRight = (source, amount = 1) => {
+	const arrayLength = source.length;
+	return source.slice(arrayLength - amount, arrayLength);
 };
-assign(namespace, {
-	take,
-	takeRight
-});
+

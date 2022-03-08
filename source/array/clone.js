@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Clears the values out of an array.
   *
@@ -16,6 +14,4 @@ import { assign } from '../internal/object';
 export const cloneArray = (array) => {
 	return array.slice();
 };
-assign(namespace, {
-	cloneArray
-});
+

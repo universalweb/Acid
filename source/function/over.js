@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eachWhile, map } from '../utility/each';
 /**
   * Creates a function that invokes iteratees with the arguments it receives and returns their results.
@@ -44,7 +42,4 @@ export const overEvery = (predicates) => {
 		});
 	};
 };
-assign(namespace, {
-	over,
-	overEvery
-});
+

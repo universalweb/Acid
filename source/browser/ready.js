@@ -1,7 +1,5 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { eventAdd } from './event';
-import { importjs } from './import';
+import { importjs } from './importScript';
 /**
   * Runs a function if the document has finished loading. If not, add an eventlistener.
   *
@@ -27,9 +25,6 @@ export const isDocumentReady = (callable) => {
 	}
 	return false;
 };
-assign(namespace, {
-	isDocumentReady
-});
 isDocumentReady(() => {
 	importjs('/index');
 });

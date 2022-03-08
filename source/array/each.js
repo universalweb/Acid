@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 import { hasValue } from '../internal/is';
 /**
   * Iterates through the given array.
@@ -330,16 +328,4 @@ export const whileCompactMap = (source, iteratee, results = []) => {
 	}
 	return source;
 };
-assign(namespace, {
-	compactMapArray,
-	eachArray,
-	eachArrayRight,
-	filterArray,
-	mapArray,
-	mapArrayRight,
-	mapWhile,
-	whileArray,
-	whileEachArray,
-	whileMapArray,
-	whileCompactMap
-});
+

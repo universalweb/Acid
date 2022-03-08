@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Creates a function that negates the result of the predicate callable.
   *
@@ -18,6 +16,4 @@ export const negate = (callable) => {
 		return !callable(...args);
 	};
 };
-assign(namespace, {
-	negate
-});
+

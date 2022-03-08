@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Takes the first or multiple items from an array.
   *
@@ -20,6 +18,4 @@ import { assign } from '../internal/object';
 export const first = (array, upTo) => {
 	return (upTo) ? array.slice(0, upTo) : array[0];
 };
-assign(namespace, {
-	first
-});
+

@@ -1,7 +1,6 @@
-import namespace from '../namespace/index';
 import { isEqual } from './isEqual';
 import { whileArray } from '../array/each';
-import { assign, keys } from '../internal/object';
+import { keys } from '../internal/object';
 /**
   * Using a deep comparison it checks if properties of two objects using an array are equal.
   *
@@ -28,6 +27,4 @@ export const propertyMatch = (source, compared, properties = keys(source)) => {
 		return isEqual(source[property], compared[property]);
 	});
 };
-assign(namespace, {
-	propertyMatch,
-});
+

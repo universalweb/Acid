@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * Sorts an array in place using a key from newest to oldest.
   *
@@ -47,7 +45,4 @@ export const sortNewest = (collection, propertyName, pureMode = true) => {
 export const getNewest = (collection, propertyName) => {
 	return sortNewest(collection, propertyName, false)[0];
 };
-assign(namespace, {
-	getNewest,
-	sortNewest,
-});
+

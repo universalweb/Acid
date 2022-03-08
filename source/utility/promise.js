@@ -1,5 +1,3 @@
-import namespace from '../namespace/index';
-import { assign } from '../internal/object';
 /**
   * A wrapper around the promise constructor.
   *
@@ -24,6 +22,4 @@ import { assign } from '../internal/object';
 export const promise = (callback) => {
 	return new Promise(callback);
 };
-assign(namespace, {
-	promise
-});
+
