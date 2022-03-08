@@ -1,10 +1,13 @@
-
 <div class="uk-grid-collapse uk-width-1-1 uk-height-1-1 uk-position-absolute uk-overflow-hidden uk-background-muted">
   <div class="uk-grid-collapse uk-container-xlarge uk-height-1-1 uk-margin-auto uk-overflow-hidden uk-position-relative" uk-grid>
-      <div class="uk-overflow-auto uk-padding scroll light uk-position-absolute uk-position-left uk-height-1-1 uk-container uk-tile-secondary uk-light uk-width-1-4">
+      <div class="uk-overflow-scroll uk-padding scroll light uk-position-absolute uk-position-left uk-height-1-1 uk-container uk-tile-secondary uk-light uk-width-1-4">
         <div class="uk-padding-small">
           <h2 class="uk-heading-line uk-text-center  uk-margin-remove-bottom"><span>{{libraryName}}</span></h2>
           <h6 class="uk-text-center uk-margin-bottom uk-margin-remove-top">Total Methods: {{methodCount}}</h6>
+          <p class="uk-text uk-text-center">{{description}}</p>
+          Case Sensitive
+          <code class="uk-width-1-1 uk-text-center uk-margin-bottom">npm install {{npmName}}</code>
+          <h6 class="uk-text-center uk-margin-bottom"><a href="{{github}}">GITHUB</a> | <a href="{{npm}}">NPM</a></h6>
           <hr class="uk-divider-icon">
           <h4 class="uk-text-center"><span>Search</span></h4>
           <form class="uk-margin-bottom">
