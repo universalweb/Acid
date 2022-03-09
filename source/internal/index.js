@@ -1,4 +1,4 @@
 export * from './array';
-export * from './function';
+export * from './apply';
 export * from './is';
 export * from './object';

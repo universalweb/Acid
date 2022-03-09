@@ -13,4 +13,3 @@
  * // => 2
 */
 export const apply = Reflect.apply;
-

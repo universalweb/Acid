@@ -1,4 +1,4 @@
-import { isArray } from '../internal/is';
+import { isArray, hasValue } from '../internal/is';
 /**
   * Ensures the object is an array. If not wraps in array.
   *
@@ -17,6 +17,6 @@ import { isArray } from '../internal/is';
   * // => [{a:1, b:2}]
 */
 export const ensureArray = (object) => {
-	return (isArray(object)) ? object : [object];
+	return (isArray(object) && object) || (hasValue(object) && [object]) || [];
 };
 

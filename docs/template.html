@@ -5,7 +5,7 @@
           <h2 class="uk-heading-line uk-text-center  uk-margin-remove-bottom"><span>{{libraryName}}</span></h2>
           <h6 class="uk-text-center uk-margin-bottom uk-margin-remove-top">Total Methods: {{methodCount}}</h6>
           <p class="uk-text uk-text-center">{{description}}</p>
-          Case Sensitive
+          Case sensitive NPM name
           <code class="uk-width-1-1 uk-text-center uk-margin-bottom">npm install {{npmName}}</code>
           <h6 class="uk-text-center uk-margin-bottom"><a href="{{github}}">GITHUB</a> | <a href="{{npm}}">NPM</a></h6>
           <hr class="uk-divider-icon">
@@ -49,9 +49,15 @@
             {{#this.items}}
               {{#getDocItem(this)}}
                 <article class="uk-article uk-card-hover uk-card-small uk-card uk-card-default uk-padding-small uk-border-rounded animate" id="{{this.name}}">
-                <h3 class="uk-article-title">{{this.name}}</h3>
-                  <br />
-                  <p class="uk-text-lead">
+                <h3 class="uk-heading-line uk-text-center">
+                    <span>
+                      {{this.name}}
+                      <span class="uk-label">
+                        {{this.category.name}}
+                      </span>
+                    </span>
+                  </h3>
+                  <p class="uk-text-emphasis">
                     {{{description}}}
                   </p>
                   <hr />

@@ -1,5 +1,6 @@
 import { eventAdd } from './event';
 import { importjs } from './importScript';
+import { getById } from './selector.js';
 /**
   * Runs a function if the document has finished loading. If not, add an eventlistener.
   *
@@ -26,5 +27,7 @@ export const isDocumentReady = (callable) => {
 	return false;
 };
 isDocumentReady(() => {
-	importjs('/index');
+	const scriptTag = getById('AcidLib');
+	const scriptName = (scriptTag && scriptTag.getAttribute('data-index')) || '/index';
+	importjs(scriptName);
 });

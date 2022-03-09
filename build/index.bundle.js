@@ -808,7 +808,7 @@
 	 * // => [{a:1, b:2}]
 	 */
 	const ensureArray = (object) => {
-		return isArray(object) ? object : [object];
+		return (isArray(object) && object) || (hasValue(object) && [object]) || [];
 	};
 	/**
 	 * Flattens an array up to the provided level.
@@ -1353,13 +1353,13 @@
 	 * });
 	 * // => [1, 2, 3]
 	 */
-	const eachArray = (source, iteratee) => {
+	function eachArray(source, iteratee, thisBind) {
 		const arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
-			iteratee(source[index], index, source, arrayLength);
+			iteratee(source[index], index, source, arrayLength, thisBind);
 		}
 		return source;
-	};
+	}
 	/**
 	 * Iterates through the given array in reverse.
 	 *
@@ -1385,13 +1385,13 @@
 	 * });
 	 * // => [1, 2, 3]
 	 */
-	const eachArrayRight = (source, iteratee) => {
+	function eachArrayRight(source, iteratee, thisBind) {
 		const arrayLength = source.length;
 		for (let index = arrayLength - 1; index >= 0; index--) {
-			iteratee(source[index], index, source, arrayLength);
+			iteratee(source[index], index, source, arrayLength, thisBind);
 		}
 		return source;
-	};
+	}
 	/**
 	 * Iterates through the given array while the iteratee returns true.
 	 *
@@ -1408,15 +1408,15 @@
 	 * });
 	 * // => false
 	 */
-	const whileArray = (source, iteratee) => {
+	function whileArray(source, iteratee, thisBind) {
 		const arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
-			if (iteratee(source[index], index, source, arrayLength) === false) {
+			if (iteratee(source[index], index, source, arrayLength, thisBind) === false) {
 				return false;
 			}
 		}
 		return true;
-	};
+	}
 	/**
 	 * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
 	 *
@@ -1435,22 +1435,14 @@
 	 * });
 	 * // => [true, true]
 	 */
-	const filterArray = (source, iteratee, results = []) => {
+	function filterArray(source, iteratee, results = [], thisBind) {
 		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
-			if (iteratee(item, index, results, arrayOriginal, arrayLength) === true) {
+			if (iteratee(item, index, results, arrayOriginal, arrayLength, thisBind) === true) {
 				results.push(item);
 			}
 		});
 		return results;
-	};
-	const generateMap = (callable) => {
-		return (source, iteratee, results = []) => {
-			callable(source, (item, index, arrayOriginal, arrayLength) => {
-				results[index] = iteratee(item, index, results, arrayOriginal, arrayLength);
-			});
-			return results;
-		};
-	};
+	}
 	/**
 	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
 	 *
@@ -1468,7 +1460,12 @@
 	 * });
 	 * // => [2, 4, 6]
 	 */
-	const mapArray = generateMap(eachArray);
+	function mapArray(source, iteratee, results = [], thisBind) {
+		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+			results[index] = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
+		});
+		return results;
+	}
 	/**
 	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array in reverse.
 	 *
@@ -1477,7 +1474,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results.
+	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
 	 * @returns {Object} - An array of the same calling array's type.
 	 *
 	 * @example
@@ -1486,15 +1483,15 @@
 	 * });
 	 * // => [6, 4, 2]
 	 */
-	const mapArrayRight = (source, iteratee, results = []) => {
+	function mapArrayRight(source, iteratee, results = [], thisBind) {
 		let trueIndex = 0;
 		const arrayLength = source.length;
 		for (let index = arrayLength - 1; index >= 0; index--) {
-			results[trueIndex] = iteratee(source[index], index, source, arrayLength);
+			results[trueIndex] = iteratee(source[index], index, source, arrayLength, thisBind);
 			trueIndex++;
 		}
 		return results;
-	};
+	}
 	/**
 	 * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
 	 *
@@ -1503,7 +1500,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results.
+	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
 	 * @returns {Object} - An array with mapped properties that are not null or undefined.
 	 *
 	 * @example
@@ -1512,15 +1509,15 @@
 	 * });
 	 * // => [2, 3]
 	 */
-	const compactMapArray = (source, iteratee, results = []) => {
+	function compactMapArray(source, iteratee, results = [], thisBind) {
 		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
-			const returned = iteratee(item, index, results, arrayOriginal, arrayLength);
+			const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
 			if (hasValue(returned)) {
 				results.push(returned);
 			}
 		});
 		return results;
-	};
+	}
 	/**
 	 * Iterates through the given and creates an object with all elements that pass the test implemented by the iteratee.
 	 *
@@ -1529,7 +1526,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results.
+	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
 	 * @returns {Array} - An array with properties that passed the test.
 	 *
 	 * @example
@@ -1538,18 +1535,18 @@
 	 * });
 	 * // => [true, true]
 	 */
-	const mapWhile = (source, iteratee, results = []) => {
+	function mapWhile(source, iteratee, results = [], thisBind) {
 		const arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
 			const item = source[index];
-			const returned = iteratee(item, index, results, source, arrayLength);
+			const returned = iteratee(item, index, results, source, arrayLength, thisBind);
 			if (returned === false) {
 				break;
 			}
 			results[index] = item;
 		}
 		return results;
-	};
+	}
 	/**
 	 * Iterates through the given array but re-checks the length each loop. Usefull while mutating the same array being looped over.
 	 *
@@ -1575,14 +1572,14 @@
 	 * });
 	 * // => [1, 2, 3]
 	 */
-	const whileEachArray = (source, iteratee) => {
+	function whileEachArray(source, iteratee, thisBind) {
 		let index = 0;
 		while (index < source.length) {
-			iteratee(source[index], index, source, source.length);
+			iteratee(source[index], index, source, source.length, thisBind);
 			index++;
 		}
 		return source;
-	};
+	}
 	/**
 	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
 	 * Re-checks the length each loop.
@@ -1592,7 +1589,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results.
+	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
 	 * @returns {Object} - The originally given array.
 	 *
 	 * @test
@@ -1610,14 +1607,14 @@
 	 * });
 	 * // => [1, 2, 3, false, null]
 	 */
-	const whileMapArray = (source, iteratee, results = []) => {
+	function whileMapArray(source, iteratee, results = [], thisBind) {
 		let index = 0;
 		while (index < source.length) {
-			results.push(iteratee(source[index], index, source, source.length));
+			results.push(iteratee(source[index], index, source, source.length, thisBind));
 			index++;
 		}
 		return source;
-	};
+	}
 	/**
 	 * Iterates through the calling object and creates a new object based on the calling object's type with the results,
 	 * (excludes results which are null or undefined), of the iteratee on every element in the calling object.
@@ -1628,7 +1625,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results.
+	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
 	 * @returns {Object} - The originally given array.
 	 *
 	 * @test
@@ -1646,17 +1643,17 @@
 	 * });
 	 * // => [1, 2, 3, false]
 	 */
-	const whileCompactMap = (source, iteratee, results = []) => {
+	function whileCompactMap(source, iteratee, results = [], thisBind) {
 		let index = 0;
 		while (index < source.length) {
-			const result = results.push(iteratee(source[index], index, source, source.length));
+			const result = results.push(iteratee(source[index], index, source, source.length, thisBind));
 			index++;
 			if (hasValue(result)) {
 				results.push(result);
 			}
 		}
 		return source;
-	};
+	}
 	/**
 	 * Returns an new array that is the [set intersection](http://en.wikipedia.org/wiki/Intersection_(set_theory))
 	 * of the array and the input array(s).
@@ -2307,983 +2304,6 @@
 		});
 		return results;
 	};
-	/**
-	 * Iterates through the given object.
-	 *
-	 * @function eachObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-	 * @returns {Object|Function} - Returns the calling object.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempList = {};
-	 *   eachObject({a: 1, b: 2, c: 3}, (item, key) => {
-	 *     tempList[key] = item;
-	 *   });
-	 *   return assert(tempList, {a: 1, b: 2, c: 3});
-	 * });
-	 *
-	 * @example
-	 * eachObject({a: 1, b: 2, c: 3}, (item) => {
-	 *   console.log(item);
-	 * });
-	 * // => {a: 1, b: 2, c: 3}
-	 */
-	const eachObject = (source, iteratee) => {
-		const objectKeys = keys(source);
-		eachArray(objectKeys, (key, index, original, propertyCount) => {
-			iteratee(source[key], key, source, propertyCount, original);
-		});
-	};
-	/**
-	 * Iterates through the given object while the iteratee returns true.
-	 *
-	 * @function whileObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
-	 *
-	 * @example
-	 * whileObject({a: false, b: true, c: true}, (item) => {
-	 *   return item;
-	 * });
-	 * // => false
-	 * @example
-	 * whileObject({a: true, b: true, c: true}, (item) => {
-	 *   return item;
-	 * });
-	 * // => true
-	 */
-	const whileObject = (source, iteratee) => {
-		const objectKeys = keys(source);
-		return whileArray(objectKeys, (key, index, original, propertyCount) => {
-			return iteratee(source[key], key, source, propertyCount, original);
-		});
-	};
-	/**
-	 * Iterates through the calling object and creates an object with all elements that pass the test implemented by the iteratee.
-	 *
-	 * @function filterObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} - An object with properties that passed the test.
-	 *
-	 * @example
-	 * filterObject({a: false, b: true, c: true}, (item) => {
-	 *   return item;
-	 * });
-	 * // => {b: true, c: true}
-	 */
-	const filterObject = (source, iteratee, results = {}) => {
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			if (iteratee(item, key, results, original, propertyCount, objectKeys) === true) {
-				results[key] = item;
-			}
-		});
-		return results;
-	};
-	/**
-	 * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
-	 *
-	 * @function mapObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} - An object of the same calling object's type.
-	 *
-	 * @example
-	 * mapObject({a: 1, b: 2, c: 3}, (item) => {
-	 *   return item * 2;
-	 * });
-	 * // => {a: 2, b: 4, c: 6}
-	 */
-	const mapObject = (source, iteratee, results = {}) => {
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			results[key] = iteratee(item, key, results, original, propertyCount, objectKeys);
-		});
-		return results;
-	};
-	/**
-	 * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
-	 *
-	 * @function compactMapObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
-	 *
-	 * @example
-	 * compactMapObject({a: undefined, b: 2, c: 3}, (item) => {
-	 *   return item;
-	 * });
-	 * // => {b: 2, c: 3}
-	 */
-	const compactMapObject = (source, iteratee, results = {}) => {
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			const result = iteratee(item, key, results, original, propertyCount, objectKeys);
-			if (hasValue(result)) {
-				results[key] = result;
-			}
-		});
-		return results;
-	};
-	/**
-	 * Checks to see of the browser agent has a string.
-	 *
-	 * @function isAgent
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} value - The string to search for.
-	 * @returns {boolean} - Returns true or false.
-	 * @example
-	 * isAgent('mobile');
-	 * // => false
-	 */
-	const isAgent = (value) => {
-		return value ? isAgent[value] : keys(isAgent);
-	};
-	const userAgent = globalThis.navigator?.userAgentData;
-	if (userAgent) {
-		eachObject(userAgent, (value, key) => {
-			if (isBoolean(value) && value) {
-				isAgent[key] = value;
-			}
-		});
-		eachArray(userAgent.brands, (value) => {
-			isAgent[value.brand] = value.version;
-		});
-	} else if (navigator.userAgent) {
-		let userAgentNormalized = navigator.userAgent.toLowerCase();
-		userAgentNormalized = userAgentNormalized.replace(/_/g, '.');
-		userAgentNormalized = userAgentNormalized.replace(/[#_,;()]/g, '');
-		const userAgentSplit = userAgentNormalized.split(/ |\//);
-		eachArray(userAgentSplit, (item) => {
-			isAgent[item] = true;
-		});
-	}
-	/**
-	 * Attaches an event listener to a node.
-	 *
-	 * @function eventAdd
-	 * @category browser
-	 * @type {Function}
-	 * @param {Node} node - Given node.
-	 * @param {string} type - A string representing the event type.
-	 * @param {Object|Function} listener - The object which receives a notification when an event of the specified type occurs.
-	 * @param {Object} options - An options object that specifies characteristics about the event listener.
-	 * @returns {Node} - Returns given node.
-	 *
-	 * @example
-	 * eventAdd(document.body, 'click', () => {console.log('CLICKED');});
-	 * // = > document.body
-	 */
-	const eventAdd = (node, ...args) => {
-		node.addEventListener(...args);
-		return node;
-	};
-	/**
-	 * Attaches an event listener to a node.
-	 *
-	 * @function eventRemove
-	 * @category browser
-	 * @type {Function}
-	 * @param {Node} node - Given node.
-	 * @param {string} type - A string representing the event type.
-	 * @param {Object|Function} listener - An object|function representing the listener.
-	 * @param {Object} options - An options object that specifies characteristics about the event listener.
-	 * @returns {undefined} - Undefined.
-	 *
-	 * @example
-	 * eventRemove(document.body, () => {console.log('CLICKED');});
-	 * // = > Undefined
-	 */
-	const eventRemove = (node, ...args) => {
-		node.removeEventListener(...args);
-		return node;
-	};
-	/**
-	 * Checks if the keycode of the event is strictly equal to 13.
-	 *
-	 * @function isEnter
-	 * @category browser
-	 * @type {Function}
-	 * @param {Object} eventObject - Object to be checked.
-	 * @returns {boolean} - Returns true if the keycode property of the object equals 13.
-	 *
-	 * @example
-	 * isEnter('click');
-	 * // => false
-	 */
-	const isEnter = (eventObject) => {
-		return eventObject.keyCode === 13;
-	};
-	/**
-	 * Create a document fragment.
-	 *
-	 * @function createFragment
-	 * @category browser
-	 * @type {Function}
-	 * @ignore
-	 * @returns {Fragment} - Returns a new document fragment.
-	 */
-	const createFragment = document.createDocumentFragment.bind(document);
-	/**
-	 * Append a DOM node.
-	 *
-	 * @function append
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @ignore
-	 * @param {Node} parentNode - The parent node.
-	 * @param {Node} child - The node to be appended.
-	 * @returns {undefined} - Returns the child.
-	 */
-	const append = (parentNode, child) => {
-		parentNode.appendChild(child);
-		return child;
-	};
-	/**
-	 * Creates an object from two arrays, one of property identifiers and one of corresponding values.
-	 *
-	 * @function zipObject
-	 * @type {Function}
-	 * @category object
-	 * @param {Array} properties - The property identifiers.
-	 * @param {Array} values - The property values.
-	 * @returns {Object} - Returns the new object.
-	 *
-	 * @example
-	 * zipObject(['a', 'b'], [1, 2]);
-	 * // => { 'a': 1, 'b': 2 }
-	 */
-	const zipObject = (properties, values) => {
-		const zipedObject = {};
-		eachArray(properties, (item, key) => {
-			zipedObject[item] = values[key];
-		});
-		return zipedObject;
-	};
-	/**
-	 * Takes an array of grouped elements and creates an array regrouping the elements to their pre-zip object configuration.
-	 *
-	 * @function unZipObject
-	 * @type {Function}
-	 * @category object
-	 * @param {Object} object - The object to process.
-	 * @returns {Array} - Returns two arrays one of keys and the other of values inside a single array.
-	 *
-	 * @example
-	 * unZipObject({ 'a': 1, 'b': 2 });
-	 * // => [['a', 'b'], [1, 2]]
-	 */
-	const unZipObject = (object) => {
-		const unZippedKeys = [];
-		const values = [];
-		eachObject(object, (item, key) => {
-			unZippedKeys.push(key);
-			values.push(item);
-		});
-		return [unZippedKeys, values];
-	};
-	/**
-	 * Assign attributes to a DOM node.
-	 *
-	 * @function nodeAttribute
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @async
-	 * @param {Node} node - The DOM node.
-	 * @param {Object|Array} object - Object with key being the attribute name and the value being the attribute value. If an array is given it will get the values corresponding to the array items.
-	 * @returns {Object|Node} - If using an array this returns an object of attribute names as keys and their values as the property value. If using an object this will return the provided node.
-	 *
-	 * @example
-	 * nodeAttribute(document.body, { 'data-example': 'test'});
-	 */
-	const nodeAttribute = (node, object) => {
-		if (isArray(object)) {
-			return zipObject(
-				object,
-				mapArray(object, (item) => {
-					return node.getAttribute(item);
-				})
-			);
-		}
-		eachObject(object, (item, key) => {
-			node.setAttribute(key, item);
-		});
-		return node;
-	};
-	/**
-	 * A wrapper around the promise constructor.
-	 *
-	 * @function promise
-	 * @type {Function}
-	 * @category utility
-	 * @param {Function} callback - Function to be called back.
-	 * @returns {Object} - A constructor with a callback function.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const result = await promise((accept) => {
-	 *     accept(true);
-	 *   });
-	 *   return assert(result, true);
-	 * });
-	 *
-	 * @example
-	 * promise((a) => {});
-	 * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
-	 */
-	const promise = (callback) => {
-		return new Promise(callback);
-	};
-	/**
-	 * Inserts text into a string at a given position.
-	 *
-	 * @function insertInRange
-	 * @category string
-	 * @type {Function}
-	 * @param {string} string - String to insert the text into.
-	 * @param {number} index - Point of insertion.
-	 * @param {string} text - The string to be inserted.
-	 * @returns {string} - The string with the text inserted at the given point.
-	 *
-	 * @example
-	 * insertInRange('A from Lucy.', 1, ' tab');
-	 * // => 'A tab from Lucy.'
-	 */
-	const insertInRange = (string, index, text) => {
-		return string.slice(0, index) + text + string.slice(index, string.length);
-	};
-	/**
-	 * Plucks a letter using the index starting from the right.
-	 *
-	 * @function rightString
-	 * @category string
-	 * @type {Function}
-	 * @param {string} string - String to extract the letter from.
-	 * @param {number} [index=1] - The starting position.
-	 * @returns {string} - A letter at the given index.
-	 *
-	 * @example
-	 * rightString('rightString');
-	 * // => 'g'
-	 * @example
-	 * rightString('rightString', 2);
-	 * // => 'n'
-	 */
-	const rightString = (string, index = 1) => {
-		return string[string.length - index];
-	};
-	/**
-	 * Splits up a string into chunks.
-	 *
-	 * @function chunkString
-	 * @category string
-	 * @type {Function}
-	 * @param {string} string - String to chunked.
-	 * @param {number} [size] - The max string length per chunk.
-	 * @returns {Array} - An array with strings that are <= size parameter.
-	 *
-	 * @example
-	 * chunkString('chunk', 2);
-	 * // => ['ch', 'un', 'k']
-	 */
-	const chunkString = (string, size) => {
-		return string.match(new RegExp(`(.|[\r\n]){1,${size}}`, 'g'));
-	};
-	/**
-	 * Truncates everything before the index starting from the right.
-	 *
-	 * @function initialString
-	 * @category string
-	 * @type {Function}
-	 * @param {string} string - String to extract the initial letters from.
-	 * @param {number} [index=1] - Starting point from the right.
-	 * @returns {string} - A string with the characters before the index starting from the right.
-	 *
-	 * @example
-	 * initialString('initialString');
-	 * // => 'initialStrin'
-	 * @example
-	 * initialString('initialString', 2);
-	 * // => 'initialStri'
-	 */
-	const initialString = (string, index = 1) => {
-		return string.slice(0, index * -1);
-	};
-	/**
-	 * Truncates everything after a index.
-	 *
-	 * @function restString
-	 * @category string
-	 * @type {Function}
-	 * @param {string} string - String to extract the rest of the letters from.
-	 * @param {number} [index=1] - Starting point.
-	 * @returns {string} - A string without the characters up-to to the index.
-	 *
-	 * @example
-	 * restString('restString');
-	 * // => 'estString'
-	 * @example
-	 * restString('restString', 2);
-	 * // => 'stString'
-	 */
-	const restString = (string, index = 1) => {
-		return string.substr(index);
-	};
-	const dotString = '.';
-	const poundString = '#';
-	const classTest = /^.[\w_-]+$/;
-	const tagTest = /^[A-Za-z]+$/;
-	const regexSpace = /\s/;
-	/**
-	 * Wrapper around getElementsByClassName.
-	 *
-	 * @function getByClass
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 */
-	const getByClass = document.getElementsByClassName.bind(document);
-	/**
-	 * Wrapper around getElementsByTagName.
-	 *
-	 * @function getByTag
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 */
-	const getByTag = document.getElementsByTagName.bind(document);
-	/**
-	 * Wrapper around getElementsByIdName.
-	 *
-	 * @function getById
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 */
-	const getById = document.getElementById.bind(document);
-	/**
-	 * Wrapper around querySelector.
-	 *
-	 * @function querySelector
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 */
-	const querySelector = document.querySelector.bind(document);
-	/**
-	 * Wrapper around querySelectorAll.
-	 *
-	 * @function querySelectorAll
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 */
-	const querySelectorAll = document.querySelectorAll.bind(document);
-	/**
-	 * Returns relevant DOM node.
-	 *
-	 * @function selector
-	 * @category browser
-	 * @ignoreTest
-	 * @param {string} select - String to be evaluated.
-	 * @type {Function}
-	 * @returns {Node} - Returns a DOM node.
-	 *
-	 * @example
-	 * selector('#node');
-	 * // => <div id="node"></div>
-	 */
-	const selector = (select) => {
-		const firstLetter = select[0];
-		switch (firstLetter) {
-		case poundString:
-			if (!regexSpace.test(select)) {
-				return getById(restString(select));
-			}
-			break;
-		case dotString:
-			if (classTest.test(select)) {
-				return getByClass(restString(select));
-			}
-			break;
-		default:
-			if (tagTest.test(select)) {
-				return getByTag(select);
-			}
-		}
-		return querySelectorAll(select);
-	};
-	const createTag = document.createElement.bind(document);
-	const nodeAttachLoadingEvents = (node) => {
-		return promise((accept, reject) => {
-			eventAdd(node, 'load', accept, true);
-			eventAdd(node, 'error', reject, true);
-			append(querySelector('head'), node);
-		});
-	};
-	/**
-	 * Asynchronously import a js file and append it to the head node.
-	 *
-	 * @function importjs
-	 * @category browser
-	 * @type {Function}
-	 * @async
-	 * @returns {Promise} - Returns a promise.
-	 *
-	 * @example
-	 * importjs('core.js');
-	 */
-	const importjs = (url) => {
-		const node = nodeAttribute(createTag('script'), {
-			async: '',
-			src: `${url}.js`
-		});
-		return nodeAttachLoadingEvents(node);
-	};
-	/**
-	 * Runs a function if the document has finished loading. If not, add an eventlistener.
-	 *
-	 * @function isDocumentReady
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @param {Function} callable - Function to be run.
-	 * @returns {Boolean|Function} - If the document is ready, returns a function. If not, return false.
-	 *
-	 * @example
-	 * isDocumentReady(() => {return 1});
-	 * // => 1
-	 */
-	const isDocumentReady = (callable) => {
-		const state = document.readyState;
-		const checkStatus = state === 'interactive' || state === 'completed' || state === 'complete';
-		if (checkStatus) {
-			return callable ? callable() : true;
-		}
-		if (callable) {
-			eventAdd(document, 'DOMContentLoaded', callable);
-		}
-		return false;
-	};
-	isDocumentReady(() => {
-		importjs('/index');
-	});
-	const protocol = location.protocol;
-	const protocolSocket = protocol === 'http:' ? 'ws' : 'wss';
-	const hostname = location.hostname;
-	/**
-	 * Holds client hardware, browser, and host info.
-	 *
-	 * @memberof $
-	 * @category browser
-	 * @ignoreTest
-	 * @property info
-	 * @type {Object}
-	 */
-	const info = {
-		hardware: {
-			cores: navigator.hardwareConcurrency
-		},
-		host: {
-			name: hostname,
-			protocol,
-			protocolSocket
-		}
-	};
-	const saveDimensions = () => {
-		assign(info, {
-			bodyHeight: document.body.offsetHeight,
-			bodyWidth: document.body.offsetWidth,
-			windowHeight: window.innerHeight,
-			windowWidth: window.innerWidth
-		});
-	};
-	/**
-	 * Save current document & window dimensions to the info property.
-	 *
-	 * @function updateDimensions
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * updateDimensions();
-	 */
-	const updateDimensions = () => {
-		saveDimensions();
-	};
-	isDocumentReady(updateDimensions);
-	eventAdd(window, 'load', updateDimensions, true);
-	eventAdd(window, 'resize', updateDimensions, true);
-	const jsonNative = JSON;
-	/**
-	 * Parses JSON string.
-	 *
-	 * @function jsonParse
-	 * @category utility
-	 * @type {Function}
-	 * @param {string} string - String to be parsed.
-	 * @returns {Object} - Returns the parsed object.
-	 *
-	 * @example
-	 * jsonParse('{}');
-	 * // => {}
-	 */
-	const jsonParse = jsonNative.parse;
-	/**
-	 * Stringify an object into a JSON string.
-	 *
-	 * @function stringify
-	 * @category utility
-	 * @type {Function}
-	 * @param {Object} object - Object to Stringify.
-	 * @returns {string} - Returns the object as a valid JSON string.
-	 *
-	 * @example
-	 * stringify({});
-	 * // => '{}'
-	 */
-	const stringify = jsonNative.stringify;
-	/**
-	 * A virtual storage & drop in replacement for localStorage.
-	 * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
-	 * Direct class/constructor access is named VirtualStorage.
-	 *
-	 * @function virtualStorage
-	 * @category browser
-	 * @type {Function}
-	 * @returns {*} - Returns a new VirtualStorage Object.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * // => New Crate Object
-	 */
-	/**
-	 * Save an item to a virtual storage object.
-	 *
-	 * @function virtualStorage.setItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * // => undefined
-	 */
-	/**
-	 * Get an item from a virtual storage object.
-	 *
-	 * @function virtualStorage.getItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.getItem('key');
-	 * // => 'value'
-	 */
-	/**
-	 * Remove an item from a virtual storage object.
-	 *
-	 * @function virtualStorage.removeItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.removeItem('key');
-	 * myVirtualStorage.getItem('key');
-	 * // => undefined
-	 */
-	/**
-	 * Clears all data from the virtual storage object by replacing with a new object.
-	 *
-	 * @function virtualStorage.clear
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.clear();
-	 * myVirtualStorage.getItem('key');
-	 * // => undefined
-	 */
-	class VirtualStorage {
-		constructor(initialObject = {}) {
-			this.items = initialObject;
-		}
-		getItem(key) {
-			return this.items[key];
-		}
-		setItem(key, value) {
-			this.items[key] = value;
-		}
-		clear() {
-			this.items = {};
-		}
-		removeItem(key) {
-			this.items[key] = null;
-		}
-	}
-	function virtualStorage() {
-		return new VirtualStorage();
-	}
-	/**
-	 * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
-	 * The crate function is a factory which wraps the Crate constructor & returns it.
-	 * Direct class/constructor access is named Crate.
-	 *
-	 * @function crate
-	 * @category browser
-	 * @type {Function}
-	 * @returns {*} - Returns a new Crate Object.
-	 *
-	 * @example
-	 * const storageCrate = crate();
-	 * // => New Crate Object
-	 */
-	/**
-	 * Save an item to a crate.
-	 *
-	 * @function crate.setItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const storageCrate = crate();
-	 * storageCrate.setItem('key', 'value');
-	 * // => undefined
-	 */
-	/**
-	 * Get an item from a crate.
-	 *
-	 * @function crate.getItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const storageCrate = crate();
-	 * storageCrate.setItem('key', 'value');
-	 * storageCrate.getItem('key');
-	 * // => 'value'
-	 */
-	/**
-	 * Remove an item from a crate.
-	 *
-	 * @function crate.removeItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const storageCrate = crate();
-	 * storageCrate.setItem('key', 'value');
-	 * storageCrate.removeItem('key');
-	 * storageCrate.getItem('key');
-	 * // => undefined
-	 */
-	/**
-	 * Clears all data for the crate including all of localStorage if supported.
-	 *
-	 * @function crate.clear
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const storageCrate = crate();
-	 * storageCrate.setItem('key', 'value');
-	 * storageCrate.clear();
-	 * storageCrate.getItem('key');
-	 * // => undefined
-	 */
-	exports.hasLocal = void 0;
-	function hasStorage(storeCheck) {
-		try {
-			storeCheck().removeItem('TESTING');
-			exports.hasLocal = true;
-		} catch (e) {
-			exports.hasLocal = false;
-		}
-	}
-	hasStorage(() => {
-		return localStorage;
-	});
-	class Crate {
-		constructor(initialObject) {
-			if (this.hasLocal) {
-				this.local = localStorage;
-			}
-			this.storage = virtualStorage();
-		}
-		hasLocal = exports.hasLocal;
-		setItem(key, value) {
-			if (this.hasLocal) {
-				this.local.setItem(key, isString(value) ? value : stringify(value));
-			}
-			return this.storage.setItem(key, value);
-		}
-		getItem(key) {
-			const item = this.storage.getItem(key);
-			if (hasValue(item)) {
-				return item;
-			}
-			if (!hasValue(item) && this.hasLocal) {
-				return this.local.getItem(key);
-			}
-		}
-		clear() {
-			if (this.hasLocal) {
-				this.local.clear();
-			}
-			this.storage.clear();
-		}
-		removeItem(key) {
-			if (this.hasLocal) {
-				this.local.removeItem(key);
-			}
-			this.storage.removeItem(key);
-		}
-	}
-	function crate(virtualFlag) {
-		return new Crate(virtualFlag);
-	}
-	const generateTheme = (color, bg) => {
-		return `color:${color};background:${bg};`;
-	};
-	const themes = {
-		alert: generateTheme('#fff', '#f44336'),
-		important: generateTheme('#fff', '#E91E63'),
-		notify: generateTheme('#fff', '#651FFF'),
-		warning: generateTheme('#000', '#FFEA00')
-	};
-	/**
-	 * Console.trace wrapper with theme support.
-	 *
-	 * @function cnsl
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @param {Object} value - The value to be logged.
-	 * @param {string} themeName - The name of the theme to be used.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * cnsl('Lucy', 'notify');
-	 * // 'Lucy'
-	 */
-	const cnsl = (value, themeName) => {
-		const data = isString(value) ? value : stringify(value);
-		if (themeName === 'alert' || themeName === 'warning') {
-			return console.trace(`%c${data}`, `${themes[themeName]}font-size:13px;padding:2px 5px;border-radius:2px;`);
-		}
-		console.log(`%c${data}`, `${themes[themeName]}font-size:13px;padding:2px 5px;border-radius:2px;`);
-	};
-	/**
-	 * Create color themes for cnsl method.
-	 *
-	 * @function cnslTheme
-	 * @category browser
-	 * @ignoreTest
-	 * @type {Function}
-	 * @param {string} themeName - The name of the theme.
-	 * @param {string} color - The text color.
-	 * @param {string} background - The background color of the block.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * cnslTheme('BlackNWhite', '#fff', '#000');
-	 */
-	const cnslTheme = (themeName, color, background) => {
-		themes[themeName] = generateTheme(color, background);
-	};
-	/**
-	 * Checks if value is a plain DOM Node.
-	 *
-	 * @function isDom
-	 * @category browser
-	 * @ignoreTest
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isDom(document.querySelectorAll('.test'));
-	 * // => true
-	 */
-	const isDom = (value) => {
-		return value && value.nodeType !== 9;
-	};
-	/**
-	 * Checks if the value is a HTMLCollection.
-	 *
-	 * @function isHTMLCollection
-	 * @category browser
-	 * @ignoreTest
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isHTMLCollection(document.getElementsByClassName('test'));
-	 * // => true
-	 */
-	const objectHTMLCollection = '[object HTMLCollection]';
-	function isHTMLCollection(source) {
-		return hasValue(source) ? source.toString() === objectHTMLCollection : false;
-	}
-	/**
-	 * Checks if the value is a NodeList.
-	 *
-	 * @function isNodeList
-	 * @category browser
-	 * @ignoreTest
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isNodeList(document.querySelectorAll('.test'));
-	 * // => true
-	 */
-	const objectNodeList = '[object NodeList]';
-	function isNodeList(source) {
-		return hasValue(source) ? source.toString() === objectNodeList : false;
-	}
 	/**
 	 * Sorts an array in place using a key from newest to oldest.
 	 *
@@ -3951,6 +2971,138 @@
 	 */
 	const noop = () => {
 		return undefined;
+	};
+	/**
+	 * Iterates through the given object.
+	 *
+	 * @function eachObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
+	 * @returns {Object|Function} - Returns the calling object.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const tempList = {};
+	 *   eachObject({a: 1, b: 2, c: 3}, (item, key) => {
+	 *     tempList[key] = item;
+	 *   });
+	 *   return assert(tempList, {a: 1, b: 2, c: 3});
+	 * });
+	 *
+	 * @example
+	 * eachObject({a: 1, b: 2, c: 3}, (item) => {
+	 *   console.log(item);
+	 * });
+	 * // => {a: 1, b: 2, c: 3}
+	 */
+	const eachObject = (source, iteratee) => {
+		const objectKeys = keys(source);
+		eachArray(objectKeys, (key, index, original, propertyCount) => {
+			iteratee(source[key], key, source, propertyCount, original);
+		});
+	};
+	/**
+	 * Iterates through the given object while the iteratee returns true.
+	 *
+	 * @function whileObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+	 *
+	 * @example
+	 * whileObject({a: false, b: true, c: true}, (item) => {
+	 *   return item;
+	 * });
+	 * // => false
+	 * @example
+	 * whileObject({a: true, b: true, c: true}, (item) => {
+	 *   return item;
+	 * });
+	 * // => true
+	 */
+	const whileObject = (source, iteratee) => {
+		const objectKeys = keys(source);
+		return whileArray(objectKeys, (key, index, original, propertyCount) => {
+			return iteratee(source[key], key, source, propertyCount, original);
+		});
+	};
+	/**
+	 * Iterates through the calling object and creates an object with all elements that pass the test implemented by the iteratee.
+	 *
+	 * @function filterObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Object|Function} - An object with properties that passed the test.
+	 *
+	 * @example
+	 * filterObject({a: false, b: true, c: true}, (item) => {
+	 *   return item;
+	 * });
+	 * // => {b: true, c: true}
+	 */
+	const filterObject = (source, iteratee, results = {}) => {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			if (iteratee(item, key, results, original, propertyCount, objectKeys) === true) {
+				results[key] = item;
+			}
+		});
+		return results;
+	};
+	/**
+	 * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
+	 *
+	 * @function mapObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Object|Function} - An object of the same calling object's type.
+	 *
+	 * @example
+	 * mapObject({a: 1, b: 2, c: 3}, (item) => {
+	 *   return item * 2;
+	 * });
+	 * // => {a: 2, b: 4, c: 6}
+	 */
+	const mapObject = (source, iteratee, results = {}) => {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			results[key] = iteratee(item, key, results, original, propertyCount, objectKeys);
+		});
+		return results;
+	};
+	/**
+	 * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+	 *
+	 * @function compactMapObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
+	 *
+	 * @example
+	 * compactMapObject({a: undefined, b: 2, c: 3}, (item) => {
+	 *   return item;
+	 * });
+	 * // => {b: 2, c: 3}
+	 */
+	const compactMapObject = (source, iteratee, results = {}) => {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			const result = iteratee(item, key, results, original, propertyCount, objectKeys);
+			if (hasValue(result)) {
+				results[key] = result;
+			}
+		});
+		return results;
 	};
 	const forEachWrap = (object, callback) => {
 		return object.forEach(callback);
@@ -4680,6 +3832,49 @@
 		return false;
 	};
 	/**
+	 * Creates an object from two arrays, one of property identifiers and one of corresponding values.
+	 *
+	 * @function zipObject
+	 * @type {Function}
+	 * @category object
+	 * @param {Array} properties - The property identifiers.
+	 * @param {Array} values - The property values.
+	 * @returns {Object} - Returns the new object.
+	 *
+	 * @example
+	 * zipObject(['a', 'b'], [1, 2]);
+	 * // => { 'a': 1, 'b': 2 }
+	 */
+	const zipObject = (properties, values) => {
+		const zipedObject = {};
+		eachArray(properties, (item, key) => {
+			zipedObject[item] = values[key];
+		});
+		return zipedObject;
+	};
+	/**
+	 * Takes an array of grouped elements and creates an array regrouping the elements to their pre-zip object configuration.
+	 *
+	 * @function unZipObject
+	 * @type {Function}
+	 * @category object
+	 * @param {Object} object - The object to process.
+	 * @returns {Array} - Returns two arrays one of keys and the other of values inside a single array.
+	 *
+	 * @example
+	 * unZipObject({ 'a': 1, 'b': 2 });
+	 * // => [['a', 'b'], [1, 2]]
+	 */
+	const unZipObject = (object) => {
+		const unZippedKeys = [];
+		const values = [];
+		eachObject(object, (item, key) => {
+			unZippedKeys.push(key);
+			values.push(item);
+		});
+		return [unZippedKeys, values];
+	};
+	/**
 	 * Creates an inverted version of a given object by switching it's keys and values.
 	 *
 	 * @function invert
@@ -4887,6 +4082,101 @@
 		return string.replace(normalizeCase, ' ').trim()
 			.toLowerCase()
 			.replace(spaceFirstLetter$1, '_$1');
+	};
+	/**
+	 * Inserts text into a string at a given position.
+	 *
+	 * @function insertInRange
+	 * @category string
+	 * @type {Function}
+	 * @param {string} string - String to insert the text into.
+	 * @param {number} index - Point of insertion.
+	 * @param {string} text - The string to be inserted.
+	 * @returns {string} - The string with the text inserted at the given point.
+	 *
+	 * @example
+	 * insertInRange('A from Lucy.', 1, ' tab');
+	 * // => 'A tab from Lucy.'
+	 */
+	const insertInRange = (string, index, text) => {
+		return string.slice(0, index) + text + string.slice(index, string.length);
+	};
+	/**
+	 * Plucks a letter using the index starting from the right.
+	 *
+	 * @function rightString
+	 * @category string
+	 * @type {Function}
+	 * @param {string} string - String to extract the letter from.
+	 * @param {number} [index=1] - The starting position.
+	 * @returns {string} - A letter at the given index.
+	 *
+	 * @example
+	 * rightString('rightString');
+	 * // => 'g'
+	 * @example
+	 * rightString('rightString', 2);
+	 * // => 'n'
+	 */
+	const rightString = (string, index = 1) => {
+		return string[string.length - index];
+	};
+	/**
+	 * Splits up a string into chunks.
+	 *
+	 * @function chunkString
+	 * @category string
+	 * @type {Function}
+	 * @param {string} string - String to chunked.
+	 * @param {number} [size] - The max string length per chunk.
+	 * @returns {Array} - An array with strings that are <= size parameter.
+	 *
+	 * @example
+	 * chunkString('chunk', 2);
+	 * // => ['ch', 'un', 'k']
+	 */
+	const chunkString = (string, size) => {
+		return string.match(new RegExp(`(.|[\r\n]){1,${size}}`, 'g'));
+	};
+	/**
+	 * Truncates everything before the index starting from the right.
+	 *
+	 * @function initialString
+	 * @category string
+	 * @type {Function}
+	 * @param {string} string - String to extract the initial letters from.
+	 * @param {number} [index=1] - Starting point from the right.
+	 * @returns {string} - A string with the characters before the index starting from the right.
+	 *
+	 * @example
+	 * initialString('initialString');
+	 * // => 'initialStrin'
+	 * @example
+	 * initialString('initialString', 2);
+	 * // => 'initialStri'
+	 */
+	const initialString = (string, index = 1) => {
+		return string.slice(0, index * -1);
+	};
+	/**
+	 * Truncates everything after a index.
+	 *
+	 * @function restString
+	 * @category string
+	 * @type {Function}
+	 * @param {string} string - String to extract the rest of the letters from.
+	 * @param {number} [index=1] - Starting point.
+	 * @returns {string} - A string without the characters up-to to the index.
+	 *
+	 * @example
+	 * restString('restString');
+	 * // => 'estString'
+	 * @example
+	 * restString('restString', 2);
+	 * // => 'stString'
+	 */
+	const restString = (string, index = 1) => {
+		return string.substr(index);
 	};
 	/**
 	 * Replaces all occurrences of strings in an array with a value.
@@ -5145,6 +4435,28 @@
 			return match.toUpperCase();
 		});
 	};
+	/**
+	 * A function which acts like the "new" operator and can pass arguments. This is a safe version of the original which will error if given undefined
+	 * This is useful when working with classes and prefering to avoid the new operator and it's potential side effects.
+	 *
+	 * @function construct
+	 * @category class
+	 * @param {Function} target - The target function or class.
+	 * @param {Array} [argumentsList =[]] - An array-like object specifying the arguments with which target should be called. Default value is a new empty array.
+	 * @param {Array} newTarget - The constructor whose prototype should be used. See also the new.target operator. If newTarget is not present, its value defaults to target.
+	 * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
+	 *
+	 * @example
+	 * const newClass = construct(function (a) {return a;}, []);
+	 * // => 2
+	 */
+	const reflectConstruct = Reflect.construct;
+	function construct(target, argumentsList = [], newTarget) {
+		if (newTarget) {
+			return reflectConstruct(target, argumentsList, newTarget);
+		}
+		return reflectConstruct(target, argumentsList);
+	}
 	const objectCreate = Object.create;
 	/**
 	 * Creates new object with deeply assigned values from another object.
@@ -5457,6 +4769,35 @@
 		});
 		return link;
 	};
+	const jsonNative = JSON;
+	/**
+	 * Parses JSON string.
+	 *
+	 * @function jsonParse
+	 * @category utility
+	 * @type {Function}
+	 * @param {string} string - String to be parsed.
+	 * @returns {Object} - Returns the parsed object.
+	 *
+	 * @example
+	 * jsonParse('{}');
+	 * // => {}
+	 */
+	const jsonParse = jsonNative.parse;
+	/**
+	 * Stringify an object into a JSON string.
+	 *
+	 * @function stringify
+	 * @category utility
+	 * @type {Function}
+	 * @param {Object} object - Object to Stringify.
+	 * @returns {string} - Returns the object as a valid JSON string.
+	 *
+	 * @example
+	 * stringify({});
+	 * // => '{}'
+	 */
+	const stringify = jsonNative.stringify;
 	/**
 	 * Set & Get a model.
 	 *
@@ -5476,6 +4817,30 @@
 			model[modelName] = modelObject;
 		}
 		return get(modelName, model);
+	};
+	/**
+	 * A wrapper around the promise constructor.
+	 *
+	 * @function promise
+	 * @type {Function}
+	 * @category utility
+	 * @param {Function} callback - Function to be called back.
+	 * @returns {Object} - A constructor with a callback function.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const result = await promise((accept) => {
+	 *     accept(true);
+	 *   });
+	 *   return assert(result, true);
+	 * });
+	 *
+	 * @example
+	 * promise((a) => {});
+	 * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
+	 */
+	const promise = (callback) => {
+		return new Promise(callback);
 	};
 	/**
 	 * Performs a toggle between 2 values using a deep or strict comparison.
@@ -5576,11 +4941,8 @@
 	 * // => 2
 	 */
 	const flowAsyncRight = returnFlow(eachAsyncRight);
-	exports.Crate = Crate;
-	exports.VirtualStorage = VirtualStorage;
 	exports.add = add$1;
 	exports.after = after;
-	exports.append = append;
 	exports.apply = apply;
 	exports.arrayToObject = arrayToObject;
 	exports.ary = ary;
@@ -5598,8 +4960,6 @@
 	exports.clearIntervals = clearIntervals;
 	exports.clearTimers = clearTimers;
 	exports.cloneArray = cloneArray;
-	exports.cnsl = cnsl;
-	exports.cnslTheme = cnslTheme;
 	exports.compact = compact;
 	exports.compactKeys = compactKeys;
 	exports.compactMap = compactMap;
@@ -5607,11 +4967,10 @@
 	exports.compactMapAsync = compactMapAsync;
 	exports.compactMapObject = compactMapObject;
 	exports.compactMapObjectAsync = compactMapObjectAsync;
+	exports.construct = construct;
 	exports.countBy = countBy;
 	exports.countKey = countKey;
 	exports.countWithoutKey = countWithoutKey;
-	exports.crate = crate;
-	exports.createFragment = createFragment;
 	exports.curry = curry;
 	exports.curryRight = curryRight;
 	exports.debounce = debounce;
@@ -5631,8 +4990,6 @@
 	exports.eachObjectAsync = eachObjectAsync;
 	exports.eachWhile = eachWhile;
 	exports.ensureArray = ensureArray;
-	exports.eventAdd = eventAdd;
-	exports.eventRemove = eventRemove;
 	exports.every = every;
 	exports.filter = filter;
 	exports.filterArray = filterArray;
@@ -5647,9 +5004,6 @@
 	exports.flowAsyncRight = flowAsyncRight;
 	exports.flowRight = flowRight;
 	exports.get = get;
-	exports.getByClass = getByClass;
-	exports.getById = getById;
-	exports.getByTag = getByTag;
 	exports.getExtensionRegex = getExtensionRegex;
 	exports.getFileExtension = getFileExtension;
 	exports.getNewest = getNewest;
@@ -5666,12 +5020,10 @@
 	exports.htmlEntities = htmlEntities;
 	exports.ifInvoke = ifInvoke;
 	exports.ifNotEqual = ifNotEqual;
-	exports.importjs = importjs;
 	exports.inAsync = inAsync;
 	exports.inSync = inSync;
 	exports.increment = increment;
 	exports.indexBy = indexBy;
-	exports.info = info;
 	exports.initial = initial;
 	exports.initialString = initialString;
 	exports.insertInRange = insertInRange;
@@ -5681,7 +5033,6 @@
 	exports.invoke = invoke;
 	exports.invokeAsync = invokeAsync;
 	exports.is = is;
-	exports.isAgent = isAgent;
 	exports.isArguments = isArguments;
 	exports.isArray = isArray;
 	exports.isAsync = isAsync;
@@ -5690,10 +5041,7 @@
 	exports.isConstructor = isConstructor;
 	exports.isDate = isDate;
 	exports.isDecimal = isDecimal;
-	exports.isDocumentReady = isDocumentReady;
-	exports.isDom = isDom;
 	exports.isEmpty = isEmpty;
-	exports.isEnter = isEnter;
 	exports.isEqual = isEqual;
 	exports.isFileCSS = isFileCSS;
 	exports.isFileHTML = isFileHTML;
@@ -5702,7 +5050,6 @@
 	exports.isFloat32 = isFloat32;
 	exports.isFloat64 = isFloat64;
 	exports.isFunction = isFunction;
-	exports.isHTMLCollection = isHTMLCollection;
 	exports.isInt16 = isInt16;
 	exports.isInt32 = isInt32;
 	exports.isInt8 = isInt8;
@@ -5710,7 +5057,6 @@
 	exports.isMap = isMap;
 	exports.isMatchArray = isMatchArray;
 	exports.isMatchObject = isMatchObject;
-	exports.isNodeList = isNodeList;
 	exports.isNull = isNull;
 	exports.isNumber = isNumber;
 	exports.isNumberEqual = isNumberEqual;
@@ -5744,7 +5090,6 @@
 	exports.model = model;
 	exports.multiply = multiply;
 	exports.negate = negate;
-	exports.nodeAttribute = nodeAttribute;
 	exports.noop = noop;
 	exports.nthArg = nthArg;
 	exports.numSort = numSort;
@@ -5763,8 +5108,6 @@
 	exports.pluckValues = pluckValues;
 	exports.promise = promise;
 	exports.propertyMatch = propertyMatch;
-	exports.querySelector = querySelector;
-	exports.querySelectorAll = querySelectorAll;
 	exports.rNumSort = rNumSort;
 	exports.randomArbitrary = randomArbitrary;
 	exports.randomInt = randomInt;
@@ -5782,8 +5125,6 @@
 	exports.rightString = rightString;
 	exports.sample = sample;
 	exports.sanitize = sanitize;
-	exports.saveDimensions = saveDimensions;
-	exports.selector = selector;
 	exports.shuffle = shuffle;
 	exports.smallest = smallest;
 	exports.snakeCase = snakeCase;
@@ -5800,7 +5141,6 @@
 	exports.sum = sum;
 	exports.take = take;
 	exports.takeRight = takeRight;
-	exports.themes = themes;
 	exports.throttle = throttle;
 	exports.timer = timer;
 	exports.times = times;
@@ -5816,14 +5156,12 @@
 	exports.unZipObject = unZipObject;
 	exports.union = union;
 	exports.unique = unique;
-	exports.updateDimensions = updateDimensions;
 	exports.upperCase = upperCase;
 	exports.upperFirst = upperFirst;
 	exports.upperFirstAll = upperFirstAll;
 	exports.upperFirstLetter = upperFirstLetter;
 	exports.upperFirstOnly = upperFirstOnly;
 	exports.upperFirstOnlyAll = upperFirstOnlyAll;
-	exports.virtualStorage = virtualStorage;
 	exports.whileArray = whileArray;
 	exports.whileCompactMap = whileCompactMap;
 	exports.whileEachArray = whileEachArray;
@@ -5839,4 +5177,4 @@
 		value: true
 	});
 });
-// # sourceMappingURL=bundle.js.map
+// # sourceMappingURL=index.bundle.js.map

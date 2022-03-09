@@ -1,6 +1,5 @@
 export * from './internal/index';
 export * from './array/index';
-export * from './browser/index';
 export * from './collection/index';
 export * from './function/index';
 export * from './number/index';
