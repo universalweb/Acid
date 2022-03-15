@@ -542,11 +542,13 @@
 	 * @example
 	 * isPrimitive(1);
 	 * // => true
+	 * @example
 	 * isPrimitive(() => {});
 	 * // => false
 	 */
 	const isPrimitive = (value) => {
-		return value !== '__proto__' && value !== 'constructor' && value !== 'prototype';
+		const type = typeof value;
+		return value === null || value === undefined || (type !== 'object' && type !== 'function');
 	};
 	/**
 	 * Checks if the source is a Map.
@@ -4805,19 +4807,31 @@
 	 * @type {Function}
 	 * @category utility
 	 * @param {string} modelName - Name of the model.
-	 * @param {Object} modelObject - The model object.
+	 * @param {Object} modelValue - The model object.
 	 * @returns {*} - Returns the associated model.
 	 *
 	 * @example
 	 * model('test', {a: 1}) && model('test');
 	 * // => {a: 1}
 	 */
-	const model = (modelName, modelObject) => {
-		if (hasValue(modelObject)) {
-			model[modelName] = modelObject;
+	class Model {
+		static models = {};
+		constructor(modelName, modelValue) {
+			if (hasValue(modelValue)) {
+				assign(this, modelValue);
+				this.modelName = modelName;
+				Model.models.set(modelName, modelValue);
+			} else {
+				assign(this, modelName);
+			}
 		}
-		return get(modelName, model);
-	};
+	}
+	function model(modelName, modelValue) {
+		if (hasValue(modelValue)) {
+			return construct(Model, [modelName, modelValue]);
+		}
+		return get(modelName, Model.models);
+	}
 	/**
 	 * A wrapper around the promise constructor.
 	 *
@@ -5602,6 +5616,7 @@
 		return hasValue(source) ? source.toString() === objectNodeList : false;
 	}
 	exports.Crate = Crate;
+	exports.Model = Model;
 	exports.VirtualStorage = VirtualStorage;
 	exports.add = add$1;
 	exports.after = after;

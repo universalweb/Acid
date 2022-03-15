@@ -537,11 +537,13 @@ const isKindAsync = (value) => {
  * @example
  * isPrimitive(1);
  * // => true
+ * @example
  * isPrimitive(() => {});
  * // => false
 */
 const isPrimitive = (value) => {
-	return value !== '__proto__' && value !== 'constructor' && value !== 'prototype';
+	const type = typeof value;
+	return value === null || value === undefined || (type !== 'object' && type !== 'function');
 };
 /**
  * Checks if the source is a Map.
@@ -4892,19 +4894,31 @@ const stringify = jsonNative.stringify;
   * @type {Function}
   * @category utility
   * @param {string} modelName - Name of the model.
-  * @param {Object} modelObject - The model object.
+  * @param {Object} modelValue - The model object.
   * @returns {*} - Returns the associated model.
   *
   * @example
   * model('test', {a: 1}) && model('test');
   * // => {a: 1}
 */
-const model = (modelName, modelObject) => {
-	if (hasValue(modelObject)) {
-		model[modelName] = modelObject;
+class Model {
+	static models = {};
+	constructor(modelName, modelValue) {
+		if (hasValue(modelValue)) {
+			assign(this, modelValue);
+			this.modelName = modelName;
+			Model.models.set(modelName, modelValue);
+		} else {
+			assign(this, modelName);
+		}
 	}
-	return get(modelName, model);
-};
+}
+function model(modelName, modelValue) {
+	if (hasValue(modelValue)) {
+		return construct(Model, [modelName, modelValue]);
+	}
+	return get(modelName, Model.models);
+}
 
 /**
   * A wrapper around the promise constructor.
@@ -5704,5 +5718,5 @@ function isNodeList(source) {
 	return (hasValue(source)) ? source.toString() === objectNodeList : false;
 }
 
-export { Crate, VirtualStorage, add$1 as add, after, append, apply, arrayToObject, ary, assign, assignDeep, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, eventAdd, eventRemove, every, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasValue, htmlEntities, ifInvoke, ifNotEqual, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, is, isAgent, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isHTMLCollection, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, nodeAttribute, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, saveDimensions, selector, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, themes, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truncate, truncateRight, uid, unZip, unZipObject, union, unique, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
+export { Crate, Model, VirtualStorage, add$1 as add, after, append, apply, arrayToObject, ary, assign, assignDeep, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, eventAdd, eventRemove, every, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasValue, htmlEntities, ifInvoke, ifNotEqual, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, is, isAgent, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isHTMLCollection, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, nodeAttribute, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, saveDimensions, selector, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, themes, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truncate, truncateRight, uid, unZip, unZipObject, union, unique, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=browser.bundle.es.js.map

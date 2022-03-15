@@ -1,7 +1,7 @@
 {
     "name": "Acid",
     "company": "Universal Web, Inc",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "Acid is a robust, modern, modular, & async focused Javascript utility library for client (Browsers) & server (Node,Worker) like environments.",
     "bugs": {
         "url": "https://github.com/universalweb/Acid/issues"
@@ -36,18 +36,18 @@
         "directory": "npm"
     },
     "devDependencies": {
-        "@babel/core": "^7.17.5",
+        "@babel/core": "^7.17.7",
         "@babel/eslint-parser": "^7.17.0",
         "@babel/preset-env": "^7.16.11",
         "body-parser": "*",
         "connect-livereload": "*",
         "docredux": "*",
-        "eslint": "^8.10.0",
+        "eslint": "^8.11.0",
         "eslint-plugin-unused-imports": "^2.0.0",
         "express": "*",
         "magic-string": "*",
         "node-watch": "^0.7.3",
-        "rollup": "^2.70.0",
+        "rollup": "^2.70.1",
         "rollup-plugin-terser": "^7.0.2",
         "testatron": "^2.1.0",
         "tiny-lr": "^2.0.0"

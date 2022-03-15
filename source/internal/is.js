@@ -402,11 +402,13 @@ export const isKindAsync = (value) => {
  * @example
  * isPrimitive(1);
  * // => true
+ * @example
  * isPrimitive(() => {});
  * // => false
 */
 export const isPrimitive = (value) => {
-	return value !== '__proto__' && value !== 'constructor' && value !== 'prototype';
+	const type = typeof value;
+	return value === null || value === undefined || (type !== 'object' && type !== 'function');
 };
 /**
  * Checks if the source is a Map.

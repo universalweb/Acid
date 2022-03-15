@@ -1,5 +1,7 @@
 import { get } from './get';
 import { hasValue } from '../internal/is';
+import { assign } from '../internal/object';
+import { construct } from '../class/construct';
 /**
   * Set & Get a model.
   *
@@ -7,17 +9,29 @@ import { hasValue } from '../internal/is';
   * @type {Function}
   * @category utility
   * @param {string} modelName - Name of the model.
-  * @param {Object} modelObject - The model object.
+  * @param {Object} modelValue - The model object.
   * @returns {*} - Returns the associated model.
   *
   * @example
   * model('test', {a: 1}) && model('test');
   * // => {a: 1}
 */
-export const model = (modelName, modelObject) => {
-	if (hasValue(modelObject)) {
-		model[modelName] = modelObject;
+export class Model {
+	static models = {};
+	constructor(modelName, modelValue) {
+		if (hasValue(modelValue)) {
+			assign(this, modelValue);
+			this.modelName = modelName;
+			Model.models.set(modelName, modelValue);
+		} else {
+			assign(this, modelName);
+		}
 	}
-	return get(modelName, model);
-};
+}
+export function model(modelName, modelValue) {
+	if (hasValue(modelValue)) {
+		return construct(Model, [modelName, modelValue]);
+	}
+	return get(modelName, Model.models);
+}
 
