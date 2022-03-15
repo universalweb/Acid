@@ -5048,6 +5048,103 @@ const flowAsync = returnFlow(eachAsync);
 const flowAsyncRight = returnFlow(eachAsyncRight);
 
 /**
+  * A virtual storage & drop in replacement for localStorage.
+  * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
+  * Direct class/constructor access is named VirtualStorage.
+  *
+  * @function virtualStorage
+  * @category browser
+  * @type {Function}
+  * @returns {*} - Returns a new VirtualStorage Object.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * // => New Crate Object
+*/
+/**
+  * Save an item to a virtual storage object.
+  *
+  * @function virtualStorage.setItem
+  * @category browser
+  * @type {Function}
+  * @param {string} key - The key used to store the data.
+  * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
+  * @returns {undefined} - Returns undefined.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * myVirtualStorage.setItem('key', 'value');
+  * // => undefined
+*/
+/**
+  * Get an item from a virtual storage object.
+  *
+  * @function virtualStorage.getItem
+  * @category browser
+  * @type {Function}
+  * @param {string} key - The key used to store the data.
+  * @returns {undefined} - Returns undefined.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * myVirtualStorage.setItem('key', 'value');
+  * myVirtualStorage.getItem('key');
+  * // => 'value'
+*/
+/**
+  * Remove an item from a virtual storage object.
+  *
+  * @function virtualStorage.removeItem
+  * @category browser
+  * @type {Function}
+  * @param {string} key - The key used to remove data.
+  * @returns {undefined} - Returns undefined.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * myVirtualStorage.setItem('key', 'value');
+  * myVirtualStorage.removeItem('key');
+  * myVirtualStorage.getItem('key');
+  * // => undefined
+*/
+/**
+  * Clears all data from the virtual storage object by replacing with a new object.
+  *
+  * @function virtualStorage.clear
+  * @category browser
+  * @type {Function}
+  * @param {string} key - The key used to remove data.
+  * @returns {undefined} - Returns undefined.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * myVirtualStorage.setItem('key', 'value');
+  * myVirtualStorage.clear();
+  * myVirtualStorage.getItem('key');
+  * // => undefined
+*/
+class VirtualStorage {
+	constructor(initialObject = {}) {
+		this.items = initialObject;
+	}
+	getItem(key) {
+		return this.items[key];
+	}
+	setItem(key, value) {
+		this.items[key] = value;
+	}
+	clear() {
+		this.items = {};
+	}
+	removeItem(key) {
+		this.items[key] = null;
+	}
+}
+function virtualStorage() {
+	return new VirtualStorage();
+}
+
+/**
   * Checks to see of the browser agent has a string.
   *
   * @function isAgent
@@ -5394,103 +5491,6 @@ eventAdd(window, 'load', updateDimensions, true);
 eventAdd(window, 'resize', updateDimensions, true);
 
 /**
-  * A virtual storage & drop in replacement for localStorage.
-  * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
-  * Direct class/constructor access is named VirtualStorage.
-  *
-  * @function virtualStorage
-  * @category browser
-  * @type {Function}
-  * @returns {*} - Returns a new VirtualStorage Object.
-  *
-  * @example
-  * const myVirtualStorage = virtualStorage();
-  * // => New Crate Object
-*/
-/**
-  * Save an item to a virtual storage object.
-  *
-  * @function virtualStorage.setItem
-  * @category browser
-  * @type {Function}
-  * @param {string} key - The key used to store the data.
-  * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * const myVirtualStorage = virtualStorage();
-  * myVirtualStorage.setItem('key', 'value');
-  * // => undefined
-*/
-/**
-  * Get an item from a virtual storage object.
-  *
-  * @function virtualStorage.getItem
-  * @category browser
-  * @type {Function}
-  * @param {string} key - The key used to store the data.
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * const myVirtualStorage = virtualStorage();
-  * myVirtualStorage.setItem('key', 'value');
-  * myVirtualStorage.getItem('key');
-  * // => 'value'
-*/
-/**
-  * Remove an item from a virtual storage object.
-  *
-  * @function virtualStorage.removeItem
-  * @category browser
-  * @type {Function}
-  * @param {string} key - The key used to remove data.
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * const myVirtualStorage = virtualStorage();
-  * myVirtualStorage.setItem('key', 'value');
-  * myVirtualStorage.removeItem('key');
-  * myVirtualStorage.getItem('key');
-  * // => undefined
-*/
-/**
-  * Clears all data from the virtual storage object by replacing with a new object.
-  *
-  * @function virtualStorage.clear
-  * @category browser
-  * @type {Function}
-  * @param {string} key - The key used to remove data.
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * const myVirtualStorage = virtualStorage();
-  * myVirtualStorage.setItem('key', 'value');
-  * myVirtualStorage.clear();
-  * myVirtualStorage.getItem('key');
-  * // => undefined
-*/
-class VirtualStorage {
-	constructor(initialObject = {}) {
-		this.items = initialObject;
-	}
-	getItem(key) {
-		return this.items[key];
-	}
-	setItem(key, value) {
-		this.items[key] = value;
-	}
-	clear() {
-		this.items = {};
-	}
-	removeItem(key) {
-		this.items[key] = null;
-	}
-}
-function virtualStorage() {
-	return new VirtualStorage();
-}
-
-/**
   * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
   * The crate function is a factory which wraps the Crate constructor & returns it.
   * Direct class/constructor access is named Crate.
@@ -5719,5 +5719,5 @@ function isNodeList(source) {
 	return (hasValue(source)) ? source.toString() === objectNodeList : false;
 }
 
-export { Crate, Model, add$1 as add, after, append, apply, arrayToObject, ary, assign, assignDeep, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, eventAdd, eventRemove, every, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasValue, htmlEntities, ifInvoke, ifNotEqual, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, is, isAgent, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isHTMLCollection, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, nodeAttribute, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, saveDimensions, selector, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, themes, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truncate, truncateRight, uid, unZip, unZipObject, union, unique, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
+export { Crate, Model, VirtualStorage, add$1 as add, after, append, apply, arrayToObject, ary, assign, assignDeep, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, eventAdd, eventRemove, every, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasValue, htmlEntities, ifInvoke, ifNotEqual, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, is, isAgent, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isHTMLCollection, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, nodeAttribute, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, saveDimensions, selector, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, themes, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truncate, truncateRight, uid, unZip, unZipObject, union, unique, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=browser.bundle.es.js.map

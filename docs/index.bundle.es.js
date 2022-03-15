@@ -5047,5 +5047,102 @@ const flowAsync = returnFlow(eachAsync);
 */
 const flowAsyncRight = returnFlow(eachAsyncRight);
 
-export { Model, add$1 as add, after, apply, arrayToObject, ary, assign, assignDeep, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, every, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, is, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isEmpty, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truncate, truncateRight, uid, unZip, unZipObject, union, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
+/**
+  * A virtual storage & drop in replacement for localStorage.
+  * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
+  * Direct class/constructor access is named VirtualStorage.
+  *
+  * @function virtualStorage
+  * @category browser
+  * @type {Function}
+  * @returns {*} - Returns a new VirtualStorage Object.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * // => New Crate Object
+*/
+/**
+  * Save an item to a virtual storage object.
+  *
+  * @function virtualStorage.setItem
+  * @category browser
+  * @type {Function}
+  * @param {string} key - The key used to store the data.
+  * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
+  * @returns {undefined} - Returns undefined.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * myVirtualStorage.setItem('key', 'value');
+  * // => undefined
+*/
+/**
+  * Get an item from a virtual storage object.
+  *
+  * @function virtualStorage.getItem
+  * @category browser
+  * @type {Function}
+  * @param {string} key - The key used to store the data.
+  * @returns {undefined} - Returns undefined.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * myVirtualStorage.setItem('key', 'value');
+  * myVirtualStorage.getItem('key');
+  * // => 'value'
+*/
+/**
+  * Remove an item from a virtual storage object.
+  *
+  * @function virtualStorage.removeItem
+  * @category browser
+  * @type {Function}
+  * @param {string} key - The key used to remove data.
+  * @returns {undefined} - Returns undefined.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * myVirtualStorage.setItem('key', 'value');
+  * myVirtualStorage.removeItem('key');
+  * myVirtualStorage.getItem('key');
+  * // => undefined
+*/
+/**
+  * Clears all data from the virtual storage object by replacing with a new object.
+  *
+  * @function virtualStorage.clear
+  * @category browser
+  * @type {Function}
+  * @param {string} key - The key used to remove data.
+  * @returns {undefined} - Returns undefined.
+  *
+  * @example
+  * const myVirtualStorage = virtualStorage();
+  * myVirtualStorage.setItem('key', 'value');
+  * myVirtualStorage.clear();
+  * myVirtualStorage.getItem('key');
+  * // => undefined
+*/
+class VirtualStorage {
+	constructor(initialObject = {}) {
+		this.items = initialObject;
+	}
+	getItem(key) {
+		return this.items[key];
+	}
+	setItem(key, value) {
+		this.items[key] = value;
+	}
+	clear() {
+		this.items = {};
+	}
+	removeItem(key) {
+		this.items[key] = null;
+	}
+}
+function virtualStorage() {
+	return new VirtualStorage();
+}
+
+export { Model, VirtualStorage, add$1 as add, after, apply, arrayToObject, ary, assign, assignDeep, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, every, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, is, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isEmpty, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truncate, truncateRight, uid, unZip, unZipObject, union, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=index.bundle.es.js.map

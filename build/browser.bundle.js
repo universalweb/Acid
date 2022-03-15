@@ -4956,6 +4956,102 @@
 	 */
 	const flowAsyncRight = returnFlow(eachAsyncRight);
 	/**
+	 * A virtual storage & drop in replacement for localStorage.
+	 * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
+	 * Direct class/constructor access is named VirtualStorage.
+	 *
+	 * @function virtualStorage
+	 * @category browser
+	 * @type {Function}
+	 * @returns {*} - Returns a new VirtualStorage Object.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * // => New Crate Object
+	 */
+	/**
+	 * Save an item to a virtual storage object.
+	 *
+	 * @function virtualStorage.setItem
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to store the data.
+	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * myVirtualStorage.setItem('key', 'value');
+	 * // => undefined
+	 */
+	/**
+	 * Get an item from a virtual storage object.
+	 *
+	 * @function virtualStorage.getItem
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to store the data.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * myVirtualStorage.setItem('key', 'value');
+	 * myVirtualStorage.getItem('key');
+	 * // => 'value'
+	 */
+	/**
+	 * Remove an item from a virtual storage object.
+	 *
+	 * @function virtualStorage.removeItem
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to remove data.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * myVirtualStorage.setItem('key', 'value');
+	 * myVirtualStorage.removeItem('key');
+	 * myVirtualStorage.getItem('key');
+	 * // => undefined
+	 */
+	/**
+	 * Clears all data from the virtual storage object by replacing with a new object.
+	 *
+	 * @function virtualStorage.clear
+	 * @category browser
+	 * @type {Function}
+	 * @param {string} key - The key used to remove data.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * const myVirtualStorage = virtualStorage();
+	 * myVirtualStorage.setItem('key', 'value');
+	 * myVirtualStorage.clear();
+	 * myVirtualStorage.getItem('key');
+	 * // => undefined
+	 */
+	class VirtualStorage {
+		constructor(initialObject = {}) {
+			this.items = initialObject;
+		}
+		getItem(key) {
+			return this.items[key];
+		}
+		setItem(key, value) {
+			this.items[key] = value;
+		}
+		clear() {
+			this.items = {};
+		}
+		removeItem(key) {
+			this.items[key] = null;
+		}
+	}
+	function virtualStorage() {
+		return new VirtualStorage();
+	}
+	/**
 	 * Checks to see of the browser agent has a string.
 	 *
 	 * @function isAgent
@@ -5294,102 +5390,6 @@
 	eventAdd(window, 'load', updateDimensions, true);
 	eventAdd(window, 'resize', updateDimensions, true);
 	/**
-	 * A virtual storage & drop in replacement for localStorage.
-	 * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
-	 * Direct class/constructor access is named VirtualStorage.
-	 *
-	 * @function virtualStorage
-	 * @category browser
-	 * @type {Function}
-	 * @returns {*} - Returns a new VirtualStorage Object.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * // => New Crate Object
-	 */
-	/**
-	 * Save an item to a virtual storage object.
-	 *
-	 * @function virtualStorage.setItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * // => undefined
-	 */
-	/**
-	 * Get an item from a virtual storage object.
-	 *
-	 * @function virtualStorage.getItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.getItem('key');
-	 * // => 'value'
-	 */
-	/**
-	 * Remove an item from a virtual storage object.
-	 *
-	 * @function virtualStorage.removeItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.removeItem('key');
-	 * myVirtualStorage.getItem('key');
-	 * // => undefined
-	 */
-	/**
-	 * Clears all data from the virtual storage object by replacing with a new object.
-	 *
-	 * @function virtualStorage.clear
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.clear();
-	 * myVirtualStorage.getItem('key');
-	 * // => undefined
-	 */
-	class VirtualStorage {
-		constructor(initialObject = {}) {
-			this.items = initialObject;
-		}
-		getItem(key) {
-			return this.items[key];
-		}
-		setItem(key, value) {
-			this.items[key] = value;
-		}
-		clear() {
-			this.items = {};
-		}
-		removeItem(key) {
-			this.items[key] = null;
-		}
-	}
-	function virtualStorage() {
-		return new VirtualStorage();
-	}
-	/**
 	 * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
 	 * The crate function is a factory which wraps the Crate constructor & returns it.
 	 * Direct class/constructor access is named Crate.
@@ -5617,6 +5617,7 @@
 	}
 	exports.Crate = Crate;
 	exports.Model = Model;
+	exports.VirtualStorage = VirtualStorage;
 	exports.add = add$1;
 	exports.after = after;
 	exports.append = append;
@@ -5863,6 +5864,7 @@
 	exports.upperFirstLetter = upperFirstLetter;
 	exports.upperFirstOnly = upperFirstOnly;
 	exports.upperFirstOnlyAll = upperFirstOnlyAll;
+	exports.virtualStorage = virtualStorage;
 	exports.whileArray = whileArray;
 	exports.whileCompactMap = whileCompactMap;
 	exports.whileEachArray = whileEachArray;
