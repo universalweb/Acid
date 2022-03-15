@@ -5617,7 +5617,6 @@
 	}
 	exports.Crate = Crate;
 	exports.Model = Model;
-	exports.VirtualStorage = VirtualStorage;
 	exports.add = add$1;
 	exports.after = after;
 	exports.append = append;
@@ -5864,7 +5863,6 @@
 	exports.upperFirstLetter = upperFirstLetter;
 	exports.upperFirstOnly = upperFirstOnly;
 	exports.upperFirstOnlyAll = upperFirstOnlyAll;
-	exports.virtualStorage = virtualStorage;
 	exports.whileArray = whileArray;
 	exports.whileCompactMap = whileCompactMap;
 	exports.whileEachArray = whileEachArray;
