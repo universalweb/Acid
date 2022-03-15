@@ -4,7 +4,7 @@
   * Direct class/constructor access is named VirtualStorage.
   *
   * @function virtualStorage
-  * @category browser
+  * @category utility
   * @type {Function}
   * @returns {*} - Returns a new VirtualStorage Object.
   *
@@ -16,7 +16,7 @@
   * Save an item to a virtual storage object.
   *
   * @function virtualStorage.setItem
-  * @category browser
+  * @category utility
   * @type {Function}
   * @param {string} key - The key used to store the data.
   * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
@@ -31,7 +31,7 @@
   * Get an item from a virtual storage object.
   *
   * @function virtualStorage.getItem
-  * @category browser
+  * @category utility
   * @type {Function}
   * @param {string} key - The key used to store the data.
   * @returns {undefined} - Returns undefined.
@@ -46,7 +46,7 @@
   * Remove an item from a virtual storage object.
   *
   * @function virtualStorage.removeItem
-  * @category browser
+  * @category utility
   * @type {Function}
   * @param {string} key - The key used to remove data.
   * @returns {undefined} - Returns undefined.
@@ -62,7 +62,7 @@
   * Clears all data from the virtual storage object by replacing with a new object.
   *
   * @function virtualStorage.clear
-  * @category browser
+  * @category utility
   * @type {Function}
   * @param {string} key - The key used to remove data.
   * @returns {undefined} - Returns undefined.
