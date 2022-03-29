@@ -124,7 +124,12 @@ export const mapObject = (source, iteratee, results = {}) => {
   * });
   * // => {b: 2, c: 3}
 */
-export const compactMapObject = (source, iteratee, results = {}) => {
+function removeNoValue(item) {
+	if (hasValue(item)) {
+		return item;
+	}
+}
+export const compactMapObject = (source, iteratee = removeNoValue, results = {}) => {
 	eachObject(source, (item, key, original, propertyCount, objectKeys) => {
 		const result = iteratee(item, key, results, original, propertyCount, objectKeys);
 		if (hasValue(result)) {

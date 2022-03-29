@@ -1240,24 +1240,6 @@
 		return sampleArray;
 	};
 	/**
-	 * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
-	 *
-	 * @function compact
-	 * @category Array
-	 * @type {Function}
-	 * @param {Array} array - Array to be compacted.
-	 * @returns {Array} - The new array of filtered values.
-	 *
-	 * @example
-	 * compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]);
-	 * // => [1, 'B', 'Cat']
-	 */
-	const compact = (array) => {
-		return array.filter((item) => {
-			return isString(item) && !item.length ? false : item;
-		});
-	};
-	/**
 	 * Takes all but the last item in the array.
 	 *
 	 * @function initial
@@ -1338,7 +1320,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @returns {Object} - The originally given array.
+	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -1370,7 +1352,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @returns {Object} - The originally given array.
+	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -1429,7 +1411,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Object} - An array with properties that passed the test.
+	 * @returns {Array} - An array with properties that passed the test.
 	 *
 	 * @example
 	 * filterArray([false, true, true], (item) => {
@@ -1454,7 +1436,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Object} - An array of the same calling array's type.
+	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
 	 * mapArray([1, 2, 3], (item) => {
@@ -1477,7 +1459,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-	 * @returns {Object} - An array of the same calling array's type.
+	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
 	 * mapArrayRight([1, 2, 3], (item) => {
@@ -1503,7 +1485,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-	 * @returns {Object} - An array with mapped properties that are not null or undefined.
+	 * @returns {Array} - An array with mapped properties that are not null or undefined.
 	 *
 	 * @example
 	 * compactMapArray([null, 2, 3], (item) => {
@@ -1511,7 +1493,12 @@
 	 * });
 	 * // => [2, 3]
 	 */
-	function compactMapArray(source, iteratee, results = [], thisBind) {
+	function removeNoValue$2(item) {
+		if (hasValue(item)) {
+			return item;
+		}
+	}
+	function compactMapArray(source, iteratee = removeNoValue$2, results = [], thisBind) {
 		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
 			const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
 			if (hasValue(returned)) {
@@ -1557,7 +1544,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @returns {Object} - The originally given array.
+	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -1592,7 +1579,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-	 * @returns {Object} - The originally given array.
+	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -1628,7 +1615,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-	 * @returns {Object} - The originally given array.
+	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
 	 * (async () => {
@@ -2029,7 +2016,12 @@
 	 * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
 	 * // => [1, 2, 3]
 	 */
-	const compactMapAsync = async (array, iteratee) => {
+	function removeNoValue$1(item) {
+		if (hasValue(item)) {
+			return item;
+		}
+	}
+	const compactMapAsync = async (array, iteratee = removeNoValue$1) => {
 		const results = [];
 		let result;
 		await eachAsync(array, async (item, index, arrayLength) => {
@@ -3097,7 +3089,12 @@
 	 * });
 	 * // => {b: 2, c: 3}
 	 */
-	const compactMapObject = (source, iteratee, results = {}) => {
+	function removeNoValue(item) {
+		if (hasValue(item)) {
+			return item;
+		}
+	}
+	const compactMapObject = (source, iteratee = removeNoValue, results = {}) => {
 		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
 			const result = iteratee(item, key, results, original, propertyCount, objectKeys);
 			if (hasValue(result)) {
@@ -5052,6 +5049,78 @@
 		return new VirtualStorage();
 	}
 	/**
+	 * Check if a value is falsey which are false, null, 0, "", undefined, and NaN.
+	 *
+	 * @function falsey
+	 * @category Utility
+	 * @type {Function}
+	 * @param {*} source - Item to be falsey checked.
+	 * @param {*} returnIfTrue - Item to be returned if item is falsey.
+	 * @returns {boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
+	 *
+	 * @example
+	 * falsey(0);
+	 * // => true
+	 * @example
+	 * falsey(1);
+	 * // => false
+	 */
+	function falsey(source, returnIfTrue = true) {
+		return Boolean(source) === false && returnIfTrue;
+	}
+	/**
+	 * Check if a value is truey which is anything but false, null, 0, "", undefined, and NaN.
+	 *
+	 * @function truey
+	 * @category Utility
+	 * @type {Function}
+	 * @param {*} source - Item to be truey checked.
+	 * @param {*} returnIfTrue - Item to be returned if item is truey.
+	 * @returns {boolean|*} - Returns true if the item is truey or returnIfTrue if provided otherwise returns false.
+	 *
+	 * @example
+	 * truey(0);
+	 * // => false
+	 * @example
+	 * truey(1);
+	 * // => true
+	 */
+	function truey(source, returnIfTrue = true) {
+		return Boolean(source) && returnIfTrue;
+	}
+	/**
+	 * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
+	 *
+	 * @function compact
+	 * @category Utility
+	 * @type {Function}
+	 * @param {Array|Object} source - Array or Object to be compacted.
+	 * @returns {Array|Object} - A new object or array containing the filtered values.
+	 *
+	 * @example
+	 * compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]);
+	 * // => [1, 'B', 'Cat']
+	 */
+	function compact(source) {
+		if (isPlainObject(source)) {
+			const sourceKeys = keys(source);
+			const sourceKeysLength = sourceKeys.length;
+			const targetObject = {};
+			for (let i = 0; i < sourceKeysLength; i++) {
+				const keyName = sourceKeys[i];
+				const item = source[keyName];
+				const isTruey = truey(item);
+				if (isTruey) {
+					targetObject[keyName] = item;
+				}
+			}
+			return targetObject;
+		}
+		return source.filter((item) => {
+			return truey(item);
+		});
+	}
+	/**
 	 * Checks to see of the browser agent has a string.
 	 *
 	 * @function isAgent
@@ -5675,6 +5744,7 @@
 	exports.eventAdd = eventAdd;
 	exports.eventRemove = eventRemove;
 	exports.every = every;
+	exports.falsey = falsey;
 	exports.filter = filter;
 	exports.filterArray = filterArray;
 	exports.filterObject = filterObject;
@@ -5850,6 +5920,7 @@
 	exports.toPath = toPath;
 	exports.toggle = toggle;
 	exports.tokenize = tokenize;
+	exports.truey = truey;
 	exports.truncate = truncate;
 	exports.truncateRight = truncateRight;
 	exports.uid = uid;

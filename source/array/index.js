@@ -7,7 +7,6 @@ export * from './clear';
 export * from './right';
 export * from './clone';
 export * from './sample';
-export * from './compact';
 export * from './shuffle';
 export * from './initial';
 export * from './smallest';

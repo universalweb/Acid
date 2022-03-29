@@ -14,3 +14,4 @@ export * from './toggle';
 export * from './flow';
 export * from './flowAsync';
 export * from './storage';
+export * from './compact';

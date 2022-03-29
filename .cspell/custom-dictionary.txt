@@ -1,1 +1,4 @@
 # Custom Dictionary Words
+falsey
+truey
+Truey

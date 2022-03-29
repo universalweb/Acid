@@ -15,7 +15,12 @@ import { hasValue } from '../internal/is';
   * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
   * // => [1, 2, 3]
 */
-export const compactMapAsync = async (array, iteratee) => {
+function removeNoValue(item) {
+	if (hasValue(item)) {
+		return item;
+	}
+}
+export const compactMapAsync = async (array, iteratee = removeNoValue) => {
 	const results = [];
 	let result;
 	await eachAsync(array, async (item, index, arrayLength) => {
