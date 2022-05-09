@@ -77,9 +77,9 @@ export const assignDeep = (target, source, mergeArrays = false, indexArg, length
 	return target;
 };
 /**
-  * Creates a deep clone of an object.
+  * Creates a structuredClone clone of an object if no structuredClone then assignDeep is used.
   *
-  * @function assignDeep
+  * @function clone
   * @category utility
   * @type {Function}
   * @param {Object} source - Source object to clone.

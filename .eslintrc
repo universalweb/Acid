@@ -1,9 +1,6 @@
 {
 	"extends": "eslint:recommended",
 	"parser": "@babel/eslint-parser",
-	"plugins": [
-        "unused-imports"
-    ],
 	"env": {
 		"browser": true,
 		"node": true,
