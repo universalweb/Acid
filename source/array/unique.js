@@ -10,17 +10,18 @@ const sortUnique = (item, index, array) => {
   * @function unique
   * @category array
   * @type {Function}
-  * @param {Array} array - The array to be filtered.
+  * @param {Array} source - The array to be filtered.
+  * @param {Boolean} isSorted - Flag which means the array is already sorted.
   * @returns {Array} - The filtered array.
   *
   * @example
   * unique([1, 2, 2, 4]);
   * // => [1, 2, 4]
 */
-export const unique = (array, isSorted) => {
+export const unique = (source, isSorted) => {
 	if (isSorted) {
-		return array.filter(sortUnique);
+		return source.filter(sortUnique);
 	}
-	return array.filter(onlyUnique);
+	return source.filter(onlyUnique);
 };
 

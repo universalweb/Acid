@@ -129,15 +129,15 @@
 	 *
 	 * @function objectSize
 	 * @category object
-	 * @param {Object} source - The target object.
+	 * @param {Object} source - The source object.
 	 * @returns {number} - The amount of keys.
 	 *
 	 * @example
 	 * objectSize({ 0: 'a', 1: 'b', 2: 'c' });
 	 * // => 3
 	 */
-	const objectSize = (target) => {
-		return keys(target).length;
+	const objectSize = (source) => {
+		return keys(source).length;
 	};
 	/**
 	 * Checks if the value is undefined.
@@ -314,20 +314,20 @@
 	 *
 	 * @function isEmpty
 	 * @category utility
-	 * @param {*} value - Object to be checked.
+	 * @param {*} source - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isEmpty([]);
 	 * // => true
 	 */
-	const isEmpty = (obj) => {
-		if (isString(obj) || isArray(obj)) {
-			return !hasLength(obj);
-		} else if (isPlainObject(obj)) {
-			return !objectSize(obj);
+	const isEmpty = (source) => {
+		if (isString(source) || isArray(source)) {
+			return !hasLength(source);
+		} else if (isPlainObject(source)) {
+			return !objectSize(source);
 		}
-		return !hasValue(obj);
+		return !hasValue(source);
 	};
 	const regexGenerator = (regexType) => {
 		return (item) => {
@@ -405,15 +405,15 @@
 	 *
 	 * @function getFileExtension
 	 * @category utility
-	 * @param {*} value - Object to be checked.
+	 * @param {*} source - Object to be checked.
 	 * @returns {string} - Returns the extension.
 	 *
 	 * @example
 	 * getFileExtension('test.js');
 	 * // => 'js'
 	 */
-	const getFileExtension = (string) => {
-		const match = string.match(getExtensionRegex);
+	const getFileExtension = (source) => {
+		const match = source.match(getExtensionRegex);
 		if (match) {
 			return match[1];
 		}
@@ -818,7 +818,7 @@
 	 * @function flatten
 	 * @type {Function}
 	 * @category array
-	 * @param {Array} array - Array to flatten.
+	 * @param {Array} source - Array to flatten.
 	 * @param {number} [level = 1] - Number which determines how deep the array nest can be.
 	 * @returns {Array} - Returns an array.
 	 *
@@ -826,14 +826,14 @@
 	 * flatten([1, [2, [3, [4]], 5]]);
 	 *  // => [1, 2, [3, [4]], 5]
 	 */
-	const flatten = (arrayArg, level = 1) => {
-		let array = arrayArg;
+	const flatten = (source, level = 1) => {
+		let sourceArray = source;
 		for (let i = 0; i < level; i++) {
-			array = array.reduce((previousValue, currentValue) => {
+			sourceArray = sourceArray.reduce((previousValue, currentValue) => {
 				return previousValue.concat(ensureArray(currentValue));
 			}, []);
 		}
-		return array;
+		return sourceArray;
 	};
 	/**
 	 * Flattens an array to a single level.
@@ -841,15 +841,15 @@
 	 * @function flattenDeep
 	 * @type {Function}
 	 * @category array
-	 * @param {Array} array - Array to flatten.
+	 * @param {Array} source - Array to flatten.
 	 * @returns {Array} - Returns a completely flattened array.
 	 *
 	 * @example
 	 * flattenDeep([1, [2, [3, [4]], 5]]);
 	 * // => [1, 2, 3, 4, 5]
 	 */
-	const flattenDeep = (arrayToFlatten) => {
-		return arrayToFlatten.flat(Infinity);
+	const flattenDeep = (source) => {
+		return source.flat(Infinity);
 	};
 	/**
 	 * Removes all occurrences of the passed in items from the array and returns the array. This mutates the given array. Clone the array if you desire to avoid mutation.
@@ -884,25 +884,25 @@
 	 *
 	 * @function removeBy
 	 * @category array
-	 * @param {Array} array - Array to be mutated.
-	 * @param {Function} method - Function used to check object. Return true to remove the value.
+	 * @param {Array} source - Array to be mutated.
+	 * @param {Function} iteratee - Function used to check object. Return true to remove the value.
 	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
 	 * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);});
 	 * // => [2, 4]
 	 */
-	const removeBy = (array, iteratee) => {
-		let arrayLength = array.length;
+	const removeBy = (source, iteratee) => {
+		let arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
-			const item = array[index];
+			const item = source[index];
 			if (iteratee(item, index)) {
-				array.splice(index, 1);
+				source.splice(index, 1);
 				index--;
 				arrayLength--;
 			}
 		}
-		return array;
+		return source;
 	};
 	/**
 	 * Chunks an array according to a user defined number.
@@ -971,15 +971,16 @@
 	 * @function right
 	 * @type {Function}
 	 * @category array
-	 * @param {Array} array - Array to be sliced.
+	 * @param {Array} source - Array to be sliced.
+	 * @param {number} amount - Amount from the right.
 	 * @returns {*} - Returns the object at the evaluated position.
 	 *
 	 * @example
 	 * right([1, 2, 3, 4, 5] , 1);
 	 * // => 4
 	 */
-	const right = (array, amount) => {
-		return array[array.length - 1 - amount];
+	const right = (source, amount) => {
+		return source[source.length - 1 - amount];
 	};
 	/**
 	 * Clears the values out of an array.
@@ -1167,6 +1168,7 @@
 	 * @function shuffle
 	 * @category array
 	 * @param {Array} target - Target Array to be shuffled.
+	 * @param {number} amount - The amount of times to shuffle the array.
 	 * @returns {Array} - An array with the shuffled results.
 	 *
 	 * @test
@@ -1201,7 +1203,8 @@
 	 *
 	 * @function sample
 	 * @category array
-	 * @param {Array} array - Array to pull sample(s).
+	 * @param {Array} source - The array to pull sample(s) from.
+	 * @param {number} amount - The amount of samples to take.
 	 * @returns {Array} - An array of randomly pulled samples.
 	 *
 	 * @test
@@ -1214,25 +1217,25 @@
 	 * sample([1, 2, 3, 4] , 2);
 	 * // => [1, 3]
 	 */
-	const sample = (array, amount = 1) => {
-		if (!array) {
+	const sample = (source, amount = 1) => {
+		if (!source) {
 			return false;
 		}
-		const arrayLength = array.length;
+		const arrayLength = source.length;
 		if (arrayLength === amount || amount > arrayLength) {
-			return shuffle(array);
+			return shuffle(source);
 		}
 		if (amount === 1) {
-			return [array[randomInt(arrayLength - 1, 0)]];
+			return [source[randomInt(arrayLength - 1, 0)]];
 		}
 		const sampleArray = [];
 		const used = {};
 		let count = 0;
 		let index;
 		while (count < amount) {
-			index = randomInt(array.length - 1, 0);
+			index = randomInt(source.length - 1, 0);
 			if (!used[index]) {
-				sampleArray.push(array[index]);
+				sampleArray.push(source[index]);
 				used[index] = true;
 				count++;
 			}
@@ -1320,6 +1323,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
@@ -1352,6 +1356,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
@@ -1384,6 +1389,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {boolean} - Returns true if all returns are true or false if one value returns false.
 	 *
 	 * @example
@@ -1411,6 +1417,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - An array with properties that passed the test.
 	 *
 	 * @example
@@ -1436,6 +1443,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
@@ -1459,6 +1467,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
@@ -1476,6 +1485,11 @@
 		}
 		return results;
 	}
+	function removeNoValue$2(source) {
+		if (hasValue(source)) {
+			return source;
+		}
+	}
 	/**
 	 * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
 	 *
@@ -1485,19 +1499,15 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - An array with mapped properties that are not null or undefined.
 	 *
 	 * @example
-	 * compactMapArray([null, 2, 3], (item) => {
-	 *   return item;
+	 * compactMapArray([null, 2, 3], (source) => {
+	 *   return source;
 	 * });
 	 * // => [2, 3]
 	 */
-	function removeNoValue$2(item) {
-		if (hasValue(item)) {
-			return item;
-		}
-	}
 	function compactMapArray(source, iteratee = removeNoValue$2, results = [], thisBind) {
 		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
 			const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
@@ -1516,6 +1526,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - An array with properties that passed the test.
 	 *
 	 * @example
@@ -1544,6 +1555,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
@@ -1579,6 +1591,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
@@ -1615,6 +1628,7 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @test
@@ -1924,16 +1938,16 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} source - The source array to take right from.
-	 * @param {Array} [end = 1] - Zero-based index before which to end extraction.
+	 * @param {Array} [index = 1] - Zero-based index from the right to begin extraction.
 	 * @returns {Array} - The aggregated array.
 	 *
 	 * @example
 	 * takeRight([1,2,3], 2);
 	 * // => [2, 3]
 	 */
-	const takeRight = (source, amount = 1) => {
+	const takeRight = (source, index = 1) => {
 		const arrayLength = source.length;
-		return source.slice(arrayLength - amount, arrayLength);
+		return source.slice(arrayLength - index, arrayLength);
 	};
 	/**
 	 * Asynchronously iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
@@ -1942,7 +1956,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @async
-	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} [results = []] - Array that will be used to assign results.
 	 * @returns {Array} - An array of the same calling array's type.
@@ -1953,9 +1967,9 @@
 	 * });
 	 * // => [2, 4, 6]
 	 */
-	const mapAsync = async (array, iteratee) => {
+	const mapAsync = async (source, iteratee) => {
 		const results = [];
-		await eachAsync(array, async (item, index, arrayLength) => {
+		await eachAsync(source, async (item, index, arrayLength) => {
 			results[index] = await iteratee(item, index, arrayLength);
 		});
 		return results;
@@ -1972,18 +1986,19 @@
 	 * @function unique
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} array - The array to be filtered.
+	 * @param {Array} source - The array to be filtered.
+	 * @param {Boolean} isSorted - Flag which means the array is already sorted.
 	 * @returns {Array} - The filtered array.
 	 *
 	 * @example
 	 * unique([1, 2, 2, 4]);
 	 * // => [1, 2, 4]
 	 */
-	const unique = (array, isSorted) => {
+	const unique = (source, isSorted) => {
 		if (isSorted) {
-			return array.filter(sortUnique);
+			return source.filter(sortUnique);
 		}
-		return array.filter(onlyUnique);
+		return source.filter(onlyUnique);
 	};
 	/**
 	 * Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
@@ -2001,6 +2016,11 @@
 	const union = (...arrays) => {
 		return unique(flattenDeep(arrays));
 	};
+	function removeNoValue$1(source) {
+		if (hasValue(source)) {
+			return source;
+		}
+	}
 	/**
 	 * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
 	 *
@@ -2008,7 +2028,7 @@
 	 * @type {Function}
 	 * @category array
 	 * @async
-	 * @param {Array} array - Array to be compacted.
+	 * @param {Array} source - Array to be compacted.
 	 * @param {Function} iteratee - Iteratee to be performed on array.
 	 * @returns {Array} - Array values after being put through an iterator.
 	 *
@@ -2016,15 +2036,10 @@
 	 * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
 	 * // => [1, 2, 3]
 	 */
-	function removeNoValue$1(item) {
-		if (hasValue(item)) {
-			return item;
-		}
-	}
-	const compactMapAsync = async (array, iteratee = removeNoValue$1) => {
+	const compactMapAsync = async (source, iteratee = removeNoValue$1) => {
 		const results = [];
 		let result;
-		await eachAsync(array, async (item, index, arrayLength) => {
+		await eachAsync(source, async (item, index, arrayLength) => {
 			result = await iteratee(item, index, results, arrayLength);
 			if (hasValue(result)) {
 				results.push(result);
@@ -2057,7 +2072,7 @@
 	 * @function arrayToObject
 	 * @type {Function}
 	 * @category array
-	 * @param {Array} array - Array to have items extracted from.
+	 * @param {Array} source - Array to have items extracted from.
 	 * @param {Array} properties - Array to have items extracted from.
 	 * @returns {Array} - Returns a completely flattened array.
 	 *
@@ -2065,9 +2080,9 @@
 	 * arrayToObject([1, 2, 3], ['i', 'love', 'lucy']);
 	 * // => {i:1, love:2, lucy: 3}
 	 */
-	const arrayToObject = (values, properties) => {
+	const arrayToObject = (source, properties) => {
 		const sortedObject = {};
-		eachArray(values, (item, key) => {
+		eachArray(source, (item, key) => {
 			sortedObject[properties[key]] = item;
 		});
 		return sortedObject;
@@ -2177,16 +2192,16 @@
 	 * @function unZip
 	 * @type {Function}
 	 * @category array
-	 * @param {Array} properties - The array of grouped elements to process.
+	 * @param {Array} source - The array of grouped elements to process.
 	 * @returns {Array} - Returns the new array of regrouped elements.
 	 *
 	 * @example
 	 * unZip([['a', 1, true], ['b', 2, false]]);
 	 * // => [['a', 'b'], [1, 2], [true, false]]
 	 */
-	const unZip = (array) => {
-		return array[0].map((item, index) => {
-			return array.map((arraySet) => {
+	const unZip = (source) => {
+		return source[0].map((item, index) => {
+			return source.map((arraySet) => {
 				return arraySet[index];
 			});
 		});
@@ -2408,9 +2423,9 @@
 	 * groupBy([6.1, 4.2, 6.3], Math.floor);
 	 * // => { '4': [4.2], '6': [6.1, 6.3] }
 	 */
-	const groupBy = (array, iteratee) => {
+	const groupBy = (collection, iteratee) => {
 		const sortedObject = {};
-		eachArray(array, (item) => {
+		eachArray(collection, (item) => {
 			const results = iteratee(item);
 			if (!sortedObject[results]) {
 				sortedObject[results] = [];
@@ -3072,6 +3087,11 @@
 		});
 		return results;
 	};
+	function removeNoValue(source) {
+		if (hasValue(source)) {
+			return source;
+		}
+	}
 	/**
 	 * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
 	 *
@@ -3089,11 +3109,6 @@
 	 * });
 	 * // => {b: 2, c: 3}
 	 */
-	function removeNoValue(item) {
-		if (hasValue(item)) {
-			return item;
-		}
-	}
 	const compactMapObject = (source, iteratee = removeNoValue, results = {}) => {
 		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
 			const result = iteratee(item, key, results, original, propertyCount, objectKeys);
@@ -4457,29 +4472,14 @@
 		return reflectConstruct(target, argumentsList);
 	}
 	const objectCreate = Object.create;
-	/**
-	 * Creates new object with deeply assigned values from another object.
-	 *
-	 * @function assignDeep
-	 * @category utility
-	 * @type {Function}
-	 * @param {Object|Function|Class|Array} target - Object to be assigned new properties.
-	 * @param {Object|Function|Class|Array} source - Object from which properties are extracted.
-	 * @param {boolean} [mergeArrays = true] - Array from which items are assigned to the new object.
-	 * @returns {Object} - Returns object with the newly assigned properties.
-	 *
-	 * @example
-	 * assignDeep({a:1}, {b:2});
-	 * // => {a:1, b:2}
-	 */
-	const assignDeep = (target, source, mergeArrays = false, indexArg, lengthArg, objectKeysArg) => {
+	const assignDeepRecursion = (target, source, mergeArrays = false, indexArg, lengthArg, objectKeysArg) => {
 		if (hasValue(target)) {
 			if (objectKeysArg) {
 				const currentKey = objectKeysArg.pop();
 				if (currentKey) {
 					const sourceItem = source[currentKey];
 					console.log(currentKey, target[currentKey], sourceItem);
-					target[currentKey] = assignDeep(target[currentKey], sourceItem, mergeArrays);
+					target[currentKey] = assignDeepRecursion(target[currentKey], sourceItem, mergeArrays);
 					console.log(target[currentKey]);
 				} else if (!lengthArg) {
 					return target;
@@ -4488,10 +4488,10 @@
 					let index = indexArg || 0;
 					index++;
 					if (index < lengthArg) {
-						return assignDeep(target, source, mergeArrays, index, lengthArg, objectKeysArg);
+						return assignDeepRecursion(target, source, mergeArrays, index, lengthArg, objectKeysArg);
 					}
 				}
-				return assignDeep(target, source, mergeArrays, null, null, objectKeysArg);
+				return assignDeepRecursion(target, source, mergeArrays, null, null, objectKeysArg);
 			} else if (lengthArg) {
 				if (indexArg < lengthArg) {
 					let index = indexArg || 0;
@@ -4499,13 +4499,13 @@
 					if (hasValue(sourceItem)) {
 						const targetItem = target[index];
 						if (mergeArrays) {
-							target.push(assignDeep(targetItem, sourceItem, mergeArrays));
+							target.push(assignDeepRecursion(targetItem, sourceItem, mergeArrays));
 						} else {
-							target[index] = assignDeep(targetItem, sourceItem, mergeArrays);
+							target[index] = assignDeepRecursion(targetItem, sourceItem, mergeArrays);
 						}
 						index++;
 						if (index < lengthArg) {
-							return assignDeep(target, source, mergeArrays, index, lengthArg, objectKeysArg);
+							return assignDeepRecursion(target, source, mergeArrays, index, lengthArg, objectKeysArg);
 						}
 					}
 				}
@@ -4513,23 +4513,23 @@
 				if (lengthArg === 0) {
 					return target;
 				}
-				return assignDeep(target, source, mergeArrays, 0, source.length);
+				return assignDeepRecursion(target, source, mergeArrays, 0, source.length);
 			} else if (isPlainObject(source)) {
 				const objectKeys = keys(source);
-				return assignDeep(target, source, mergeArrays, null, null, objectKeys);
+				return assignDeepRecursion(target, source, mergeArrays, null, null, objectKeys);
 			} else {
 				return source;
 			}
 		} else if (isPlainObject(source)) {
 			if (objectKeysArg) {
-				return assignDeep({}, source, mergeArrays, null, null, objectKeysArg);
+				return assignDeepRecursion({}, source, mergeArrays, null, null, objectKeysArg);
 			}
-			return assignDeep({}, source, mergeArrays);
+			return assignDeepRecursion({}, source, mergeArrays);
 		} else if (isArray(source)) {
 			if (indexArg < lengthArg) {
-				return assignDeep([], source, mergeArrays, indexArg, lengthArg, objectKeysArg);
+				return assignDeepRecursion([], source, mergeArrays, indexArg, lengthArg, objectKeysArg);
 			}
-			return assignDeep([], source, mergeArrays);
+			return assignDeepRecursion([], source, mergeArrays);
 		}
 		if (!hasValue(target)) {
 			return source;
@@ -4558,9 +4558,9 @@
 	} else {
 		exports.clone = (item) => {
 			if (isPlainObject(item)) {
-				return assignDeep({}, item);
+				return assignDeepRecursion({}, item);
 			} else if (isArray(item)) {
-				return assignDeep([], item);
+				return assignDeepRecursion([], item);
 			}
 			return objectCreate(item);
 		};
@@ -5132,7 +5132,6 @@
 	exports.arrayToObject = arrayToObject;
 	exports.ary = ary;
 	exports.assign = assign;
-	exports.assignDeep = assignDeep;
 	exports.asyncEach = asyncEach;
 	exports.before = before;
 	exports.bindAll = bindAll;

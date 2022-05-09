@@ -15,9 +15,9 @@ import { eachArray } from '../array/each';
   * groupBy([6.1, 4.2, 6.3], Math.floor);
   * // => { '4': [4.2], '6': [6.1, 6.3] }
 */
-export const groupBy = (array, iteratee) => {
+export const groupBy = (collection, iteratee) => {
 	const sortedObject = {};
-	eachArray(array, (item) => {
+	eachArray(collection, (item) => {
 		const results = iteratee(item);
 		if (!sortedObject[results]) {
 			sortedObject[results] = [];

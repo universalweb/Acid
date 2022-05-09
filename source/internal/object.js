@@ -92,14 +92,14 @@ export const getOwnPropertyNames = objectNative.getOwnPropertyNames;
  *
  * @function objectSize
  * @category object
- * @param {Object} source - The target object.
+ * @param {Object} source - The source object.
  * @returns {number} - The amount of keys.
  *
  * @example
  * objectSize({ 0: 'a', 1: 'b', 2: 'c' });
  * // => 3
 */
-export const objectSize = (target) => {
-	return keys(target).length;
+export const objectSize = (source) => {
+	return keys(source).length;
 };
 

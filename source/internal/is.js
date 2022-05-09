@@ -174,20 +174,20 @@ export const hasLength = (value) => {
  *
  * @function isEmpty
  * @category utility
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
  * isEmpty([]);
  * // => true
 */
-export const isEmpty = (obj) => {
-	if (isString(obj) || isArray(obj)) {
-		return !hasLength(obj);
-	} else if (isPlainObject(obj)) {
-		return !objectSize(obj);
+export const isEmpty = (source) => {
+	if (isString(source) || isArray(source)) {
+		return !hasLength(source);
+	} else if (isPlainObject(source)) {
+		return !objectSize(source);
 	}
-	return !hasValue(obj);
+	return !hasValue(source);
 };
 export const regexGenerator = (regexType) => {
 	return (item) => {
@@ -265,15 +265,15 @@ export const getExtensionRegex = /\.([0-9a-z]+)/;
  *
  * @function getFileExtension
  * @category utility
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {string} - Returns the extension.
  *
  * @example
  * getFileExtension('test.js');
  * // => 'js'
 */
-export const getFileExtension = (string) => {
-	const match = string.match(getExtensionRegex);
+export const getFileExtension = (source) => {
+	const match = source.match(getExtensionRegex);
 	if (match) {
 		return match[1];
 	}

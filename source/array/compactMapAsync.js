@@ -1,5 +1,10 @@
 import { eachAsync } from './eachAsync';
 import { hasValue } from '../internal/is';
+function removeNoValue(source) {
+	if (hasValue(source)) {
+		return source;
+	}
+}
 /**
   * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
   *
@@ -7,7 +12,7 @@ import { hasValue } from '../internal/is';
   * @type {Function}
   * @category array
   * @async
-  * @param {Array} array - Array to be compacted.
+  * @param {Array} source - Array to be compacted.
   * @param {Function} iteratee - Iteratee to be performed on array.
   * @returns {Array} - Array values after being put through an iterator.
   *
@@ -15,15 +20,10 @@ import { hasValue } from '../internal/is';
   * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
   * // => [1, 2, 3]
 */
-function removeNoValue(item) {
-	if (hasValue(item)) {
-		return item;
-	}
-}
-export const compactMapAsync = async (array, iteratee = removeNoValue) => {
+export const compactMapAsync = async (source, iteratee = removeNoValue) => {
 	const results = [];
 	let result;
-	await eachAsync(array, async (item, index, arrayLength) => {
+	await eachAsync(source, async (item, index, arrayLength) => {
 		result = await iteratee(item, index, results, arrayLength);
 		if (hasValue(result)) {
 			results.push(result);

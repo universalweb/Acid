@@ -22,15 +22,15 @@ export const take = (source, end = 1) => {
   * @category array
   * @type {Function}
   * @param {Array} source - The source array to take right from.
-  * @param {Array} [end = 1] - Zero-based index before which to end extraction.
+  * @param {Array} [index = 1] - Zero-based index from the right to begin extraction.
   * @returns {Array} - The aggregated array.
   *
   * @example
   * takeRight([1,2,3], 2);
   * // => [2, 3]
 */
-export const takeRight = (source, amount = 1) => {
+export const takeRight = (source, index = 1) => {
 	const arrayLength = source.length;
-	return source.slice(arrayLength - amount, arrayLength);
+	return source.slice(arrayLength - index, arrayLength);
 };
 

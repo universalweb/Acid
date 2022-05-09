@@ -107,6 +107,11 @@ export const mapObject = (source, iteratee, results = {}) => {
 	});
 	return results;
 };
+function removeNoValue(source) {
+	if (hasValue(source)) {
+		return source;
+	}
+}
 /**
   * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
   *
@@ -124,11 +129,6 @@ export const mapObject = (source, iteratee, results = {}) => {
   * });
   * // => {b: 2, c: 3}
 */
-function removeNoValue(item) {
-	if (hasValue(item)) {
-		return item;
-	}
-}
 export const compactMapObject = (source, iteratee = removeNoValue, results = {}) => {
 	eachObject(source, (item, key, original, propertyCount, objectKeys) => {
 		const result = iteratee(item, key, results, original, propertyCount, objectKeys);

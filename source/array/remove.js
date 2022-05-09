@@ -31,24 +31,24 @@ export const remove = (array, removeThese) => {
   *
   * @function removeBy
   * @category array
-  * @param {Array} array - Array to be mutated.
-  * @param {Function} method - Function used to check object. Return true to remove the value.
+  * @param {Array} source - Array to be mutated.
+  * @param {Function} iteratee - Function used to check object. Return true to remove the value.
   * @returns {Array} - The array this method was called on.
   *
   * @example
   * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);});
   * // => [2, 4]
 */
-export const removeBy = (array, iteratee) => {
-	let arrayLength = array.length;
+export const removeBy = (source, iteratee) => {
+	let arrayLength = source.length;
 	for (let index = 0; index < arrayLength; index++) {
-		const item = array[index];
+		const item = source[index];
 		if (iteratee(item, index)) {
-			array.splice(index, 1);
+			source.splice(index, 1);
 			index--;
 			arrayLength--;
 		}
 	}
-	return array;
+	return source;
 };
 

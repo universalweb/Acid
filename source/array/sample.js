@@ -5,7 +5,8 @@ import { shuffle } from './shuffle';
   *
   * @function sample
   * @category array
-  * @param {Array} array - Array to pull sample(s).
+  * @param {Array} source - The array to pull sample(s) from.
+  * @param {number} amount - The amount of samples to take.
   * @returns {Array} - An array of randomly pulled samples.
   *
   * @test
@@ -18,25 +19,25 @@ import { shuffle } from './shuffle';
   * sample([1, 2, 3, 4] , 2);
   * // => [1, 3]
 */
-export const sample = (array, amount = 1) => {
-	if (!array) {
+export const sample = (source, amount = 1) => {
+	if (!source) {
 		return false;
 	}
-	const arrayLength = array.length;
+	const arrayLength = source.length;
 	if (arrayLength === amount || amount > arrayLength) {
-		return shuffle(array);
+		return shuffle(source);
 	}
 	if (amount === 1) {
-		return [array[randomInt(arrayLength - 1, 0)]];
+		return [source[randomInt(arrayLength - 1, 0)]];
 	}
 	const sampleArray = [];
 	const used = {};
 	let count = 0;
 	let index;
 	while (count < amount) {
-		index = randomInt(array.length - 1, 0);
+		index = randomInt(source.length - 1, 0);
 		if (!used[index]) {
-			sampleArray.push(array[index]);
+			sampleArray.push(source[index]);
 			used[index] = true;
 			count++;
 		}

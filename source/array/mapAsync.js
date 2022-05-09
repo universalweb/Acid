@@ -6,7 +6,7 @@ import { eachAsync } from './eachAsync';
   * @category array
   * @type {Function}
   * @async
-  * @param {Array} callingArray - Array that will be looped through.
+  * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
   * @returns {Array} - An array of the same calling array's type.
@@ -17,9 +17,9 @@ import { eachAsync } from './eachAsync';
   * });
   * // => [2, 4, 6]
 */
-export const mapAsync = async (array, iteratee) => {
+export const mapAsync = async (source, iteratee) => {
 	const results = [];
-	await eachAsync(array, async (item, index, arrayLength) => {
+	await eachAsync(source, async (item, index, arrayLength) => {
 		results[index] = await iteratee(item, index, arrayLength);
 	});
 	return results;

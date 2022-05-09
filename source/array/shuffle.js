@@ -6,6 +6,7 @@ import { toArray } from '../internal/array';
   * @function shuffle
   * @category array
   * @param {Array} target - Target Array to be shuffled.
+  * @param {number} amount - The amount of times to shuffle the array.
   * @returns {Array} - An array with the shuffled results.
   *
   * @test

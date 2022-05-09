@@ -5,7 +5,7 @@ import { eachArray } from './each';
   * @function arrayToObject
   * @type {Function}
   * @category array
-  * @param {Array} array - Array to have items extracted from.
+  * @param {Array} source - Array to have items extracted from.
   * @param {Array} properties - Array to have items extracted from.
   * @returns {Array} - Returns a completely flattened array.
   *
@@ -13,9 +13,9 @@ import { eachArray } from './each';
   * arrayToObject([1, 2, 3], ['i', 'love', 'lucy']);
   * // => {i:1, love:2, lucy: 3}
 */
-export const arrayToObject = (values, properties) => {
+export const arrayToObject = (source, properties) => {
 	const sortedObject = {};
-	eachArray(values, (item, key) => {
+	eachArray(source, (item, key) => {
 		sortedObject[properties[key]] = item;
 	});
 	return sortedObject;

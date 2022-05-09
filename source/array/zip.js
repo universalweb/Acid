@@ -24,16 +24,16 @@ export const zip = (...args) => {
   * @function unZip
   * @type {Function}
   * @category array
-  * @param {Array} properties - The array of grouped elements to process.
+  * @param {Array} source - The array of grouped elements to process.
   * @returns {Array} - Returns the new array of regrouped elements.
   *
   * @example
   * unZip([['a', 1, true], ['b', 2, false]]);
   * // => [['a', 'b'], [1, 2], [true, false]]
 */
-export const unZip = (array) => {
-	return array[0].map((item, index) => {
-		return array.map((arraySet) => {
+export const unZip = (source) => {
+	return source[0].map((item, index) => {
+		return source.map((arraySet) => {
 			return arraySet[index];
 		});
 	});

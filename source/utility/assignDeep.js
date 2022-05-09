@@ -1,6 +1,70 @@
 import { keys } from '../internal/object';
 import { isArray, isPlainObject, hasValue } from '../internal/is';
 export const objectCreate = Object.create;
+const assignDeepRecursion = (target, source, mergeArrays = false, indexArg, lengthArg, objectKeysArg) => {
+	if (hasValue(target)) {
+		if (objectKeysArg) {
+			const currentKey = objectKeysArg.pop();
+			if (currentKey) {
+				const sourceItem = source[currentKey];
+				console.log(currentKey, target[currentKey], sourceItem);
+				target[currentKey] = assignDeepRecursion(target[currentKey], sourceItem, mergeArrays);
+				console.log(target[currentKey]);
+			} else if (!lengthArg) {
+				return target;
+			}
+			if (lengthArg) {
+				let index = indexArg || 0;
+				index++;
+				if (index < lengthArg) {
+					return assignDeepRecursion(target, source, mergeArrays, index, lengthArg, objectKeysArg);
+				}
+			}
+			return assignDeepRecursion(target, source, mergeArrays, null, null, objectKeysArg);
+		} else if (lengthArg) {
+			if (indexArg < lengthArg) {
+				let index = indexArg || 0;
+				const sourceItem = source[index];
+				if (hasValue(sourceItem)) {
+					const targetItem = target[index];
+					if (mergeArrays) {
+						target.push(assignDeepRecursion(targetItem, sourceItem, mergeArrays));
+					} else {
+						target[index] = assignDeepRecursion(targetItem, sourceItem, mergeArrays);
+					}
+					index++;
+					if (index < lengthArg) {
+						return assignDeepRecursion(target, source, mergeArrays, index, lengthArg, objectKeysArg);
+					}
+				}
+			}
+		} else if (isArray(source)) {
+			if (lengthArg === 0) {
+				return target;
+			}
+			return assignDeepRecursion(target, source, mergeArrays, 0, source.length);
+		} else if (isPlainObject(source)) {
+			const objectKeys = keys(source);
+			return assignDeepRecursion(target, source, mergeArrays, null, null, objectKeys);
+		} else {
+			return source;
+		}
+	} else if (isPlainObject(source)) {
+		if (objectKeysArg) {
+			return assignDeepRecursion({}, source, mergeArrays, null, null, objectKeysArg);
+		}
+		return assignDeepRecursion({}, source, mergeArrays);
+	} else if (isArray(source)) {
+		if (indexArg < lengthArg) {
+			return assignDeepRecursion([], source, mergeArrays, indexArg, lengthArg, objectKeysArg);
+		}
+		return assignDeepRecursion([], source, mergeArrays);
+	}
+	if (!hasValue(target)) {
+		return source;
+	}
+	return target;
+};
 /**
   * Creates new object with deeply assigned values from another object.
   *
@@ -16,70 +80,9 @@ export const objectCreate = Object.create;
   * assignDeep({a:1}, {b:2});
   * // => {a:1, b:2}
 */
-export const assignDeep = (target, source, mergeArrays = false, indexArg, lengthArg, objectKeysArg) => {
-	if (hasValue(target)) {
-		if (objectKeysArg) {
-			const currentKey = objectKeysArg.pop();
-			if (currentKey) {
-				const sourceItem = source[currentKey];
-				console.log(currentKey, target[currentKey], sourceItem);
-				target[currentKey] = assignDeep(target[currentKey], sourceItem, mergeArrays);
-				console.log(target[currentKey]);
-			} else if (!lengthArg) {
-				return target;
-			}
-			if (lengthArg) {
-				let index = indexArg || 0;
-				index++;
-				if (index < lengthArg) {
-					return assignDeep(target, source, mergeArrays, index, lengthArg, objectKeysArg);
-				}
-			}
-			return assignDeep(target, source, mergeArrays, null, null, objectKeysArg);
-		} else if (lengthArg) {
-			if (indexArg < lengthArg) {
-				let index = indexArg || 0;
-				const sourceItem = source[index];
-				if (hasValue(sourceItem)) {
-					const targetItem = target[index];
-					if (mergeArrays) {
-						target.push(assignDeep(targetItem, sourceItem, mergeArrays));
-					} else {
-						target[index] = assignDeep(targetItem, sourceItem, mergeArrays);
-					}
-					index++;
-					if (index < lengthArg) {
-						return assignDeep(target, source, mergeArrays, index, lengthArg, objectKeysArg);
-					}
-				}
-			}
-		} else if (isArray(source)) {
-			if (lengthArg === 0) {
-				return target;
-			}
-			return assignDeep(target, source, mergeArrays, 0, source.length);
-		} else if (isPlainObject(source)) {
-			const objectKeys = keys(source);
-			return assignDeep(target, source, mergeArrays, null, null, objectKeys);
-		} else {
-			return source;
-		}
-	} else if (isPlainObject(source)) {
-		if (objectKeysArg) {
-			return assignDeep({}, source, mergeArrays, null, null, objectKeysArg);
-		}
-		return assignDeep({}, source, mergeArrays);
-	} else if (isArray(source)) {
-		if (indexArg < lengthArg) {
-			return assignDeep([], source, mergeArrays, indexArg, lengthArg, objectKeysArg);
-		}
-		return assignDeep([], source, mergeArrays);
-	}
-	if (!hasValue(target)) {
-		return source;
-	}
-	return target;
-};
+function assignDeep(target, source, mergeArrays = true) {
+	return assignDeepRecursion(target, source, mergeArrays);
+}
 /**
   * Creates a structuredClone clone of an object if no structuredClone then assignDeep is used.
   *
@@ -102,9 +105,9 @@ if (structuredCloneSafe) {
 } else {
 	clone = (item) => {
 		if (isPlainObject(item)) {
-			return assignDeep({}, item);
+			return assignDeepRecursion({}, item);
 		} else if (isArray(item)) {
-			return assignDeep([], item);
+			return assignDeepRecursion([], item);
 		}
 		return objectCreate(item);
 	};

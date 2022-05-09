@@ -1,9 +1,6 @@
 {
     "extends": "eslint:recommended",
     "parser": "@babel/eslint-parser",
-    "plugins": [
-        "unused-imports"
-    ],
     "env": {
         "browser": true,
         "node": true,
@@ -184,11 +181,6 @@
         "no-undef-init": "error",
         "no-undefined": "off",
         "no-unused-vars": "off",
-		"unused-imports/no-unused-imports": "error",
-		"unused-imports/no-unused-vars": [
-			"warn",
-			{ "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
-		],
         "no-use-before-define": "error",
         "callback-return": [
             "error",

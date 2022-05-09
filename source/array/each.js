@@ -7,6 +7,7 @@ import { hasValue } from '../internal/is';
   * @type {Function}
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - The originally given array.
   *
   * @test
@@ -39,6 +40,7 @@ export function eachArray(source, iteratee, thisBind) {
   * @type {Function}
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - The originally given array.
   *
   * @test
@@ -71,6 +73,7 @@ export function eachArrayRight(source, iteratee, thisBind) {
   * @type {Function}
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {boolean} - Returns true if all returns are true or false if one value returns false.
   *
   * @example
@@ -98,6 +101,7 @@ export function whileArray(source, iteratee, thisBind) {
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - An array with properties that passed the test.
   *
   * @example
@@ -123,6 +127,7 @@ export function filterArray(source, iteratee, results = [], thisBind) {
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - An array of the same calling array's type.
   *
   * @example
@@ -146,6 +151,7 @@ export function mapArray(source, iteratee, results = [], thisBind) {
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - An array of the same calling array's type.
   *
   * @example
@@ -163,6 +169,11 @@ export function mapArrayRight(source, iteratee, results = [], thisBind) {
 	}
 	return results;
 }
+function removeNoValue(source) {
+	if (hasValue(source)) {
+		return source;
+	}
+}
 /**
   * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
   *
@@ -172,19 +183,15 @@ export function mapArrayRight(source, iteratee, results = [], thisBind) {
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - An array with mapped properties that are not null or undefined.
   *
   * @example
-  * compactMapArray([null, 2, 3], (item) => {
-  *   return item;
+  * compactMapArray([null, 2, 3], (source) => {
+  *   return source;
   * });
   * // => [2, 3]
 */
-function removeNoValue(item) {
-	if (hasValue(item)) {
-		return item;
-	}
-}
 export function compactMapArray(source, iteratee = removeNoValue, results = [], thisBind) {
 	eachArray(source, (item, index, arrayOriginal, arrayLength) => {
 		const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
@@ -203,6 +210,7 @@ export function compactMapArray(source, iteratee = removeNoValue, results = [], 
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - An array with properties that passed the test.
   *
   * @example
@@ -231,6 +239,7 @@ export function mapWhile(source, iteratee, results = [], thisBind) {
   * @type {Function}
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - The originally given array.
   *
   * @test
@@ -266,6 +275,7 @@ export function whileEachArray(source, iteratee, thisBind) {
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - The originally given array.
   *
   * @test
@@ -302,6 +312,7 @@ export function whileMapArray(source, iteratee, results = [], thisBind) {
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
   * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
+  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
   * @returns {Array} - The originally given array.
   *
   * @test
