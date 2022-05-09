@@ -20,4 +20,3 @@ jobs:
           LINTER_RULES_PATH: /source/
           JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
           VALIDATE_CSS: false
-          VALIDATE_JAVASCRIPT_ES: true
