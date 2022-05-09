@@ -4473,12 +4473,14 @@
 	 * // => {a:1, b:2}
 	 */
 	const assignDeep = (target, source, mergeArrays = false, indexArg, lengthArg, objectKeysArg) => {
-		if (target) {
+		if (hasValue(target)) {
 			if (objectKeysArg) {
 				const currentKey = objectKeysArg.pop();
 				if (currentKey) {
 					const sourceItem = source[currentKey];
+					console.log(currentKey, target[currentKey], sourceItem);
 					target[currentKey] = assignDeep(target[currentKey], sourceItem, mergeArrays);
+					console.log(target[currentKey]);
 				} else if (!lengthArg) {
 					return target;
 				}
@@ -4494,7 +4496,7 @@
 				if (indexArg < lengthArg) {
 					let index = indexArg || 0;
 					const sourceItem = source[index];
-					if (sourceItem) {
+					if (hasValue(sourceItem)) {
 						const targetItem = target[index];
 						if (mergeArrays) {
 							target.push(assignDeep(targetItem, sourceItem, mergeArrays));
@@ -4515,6 +4517,8 @@
 			} else if (isPlainObject(source)) {
 				const objectKeys = keys(source);
 				return assignDeep(target, source, mergeArrays, null, null, objectKeys);
+			} else {
+				return source;
 			}
 		} else if (isPlainObject(source)) {
 			if (objectKeysArg) {
@@ -4527,7 +4531,7 @@
 			}
 			return assignDeep([], source, mergeArrays);
 		}
-		if (!target) {
+		if (!hasValue(target)) {
 			return source;
 		}
 		return target;

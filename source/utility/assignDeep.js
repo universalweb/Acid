@@ -1,5 +1,5 @@
 import { keys } from '../internal/object';
-import { isArray, isPlainObject } from '../internal/is';
+import { isArray, isPlainObject, hasValue } from '../internal/is';
 export const objectCreate = Object.create;
 /**
   * Creates new object with deeply assigned values from another object.
@@ -17,12 +17,14 @@ export const objectCreate = Object.create;
   * // => {a:1, b:2}
 */
 export const assignDeep = (target, source, mergeArrays = false, indexArg, lengthArg, objectKeysArg) => {
-	if (target) {
+	if (hasValue(target)) {
 		if (objectKeysArg) {
 			const currentKey = objectKeysArg.pop();
 			if (currentKey) {
 				const sourceItem = source[currentKey];
+				console.log(currentKey, target[currentKey], sourceItem);
 				target[currentKey] = assignDeep(target[currentKey], sourceItem, mergeArrays);
+				console.log(target[currentKey]);
 			} else if (!lengthArg) {
 				return target;
 			}
@@ -38,7 +40,7 @@ export const assignDeep = (target, source, mergeArrays = false, indexArg, length
 			if (indexArg < lengthArg) {
 				let index = indexArg || 0;
 				const sourceItem = source[index];
-				if (sourceItem) {
+				if (hasValue(sourceItem)) {
 					const targetItem = target[index];
 					if (mergeArrays) {
 						target.push(assignDeep(targetItem, sourceItem, mergeArrays));
@@ -59,6 +61,8 @@ export const assignDeep = (target, source, mergeArrays = false, indexArg, length
 		} else if (isPlainObject(source)) {
 			const objectKeys = keys(source);
 			return assignDeep(target, source, mergeArrays, null, null, objectKeys);
+		} else {
+			return source;
 		}
 	} else if (isPlainObject(source)) {
 		if (objectKeysArg) {
@@ -71,7 +75,7 @@ export const assignDeep = (target, source, mergeArrays = false, indexArg, length
 		}
 		return assignDeep([], source, mergeArrays);
 	}
-	if (!target) {
+	if (!hasValue(target)) {
 		return source;
 	}
 	return target;
