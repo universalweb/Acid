@@ -20,15 +20,19 @@ jobs:
 
       - name: Install ESLint
         run: |
-          npm install eslint@8.10.0
-          npm install @microsoft/eslint-formatter-sarif@2.1.7
+          npm install eslint
+          npm install @microsoft/eslint-formatter-sarif
+          npm install @babel/core
+          npm install @babel/eslint-parser
+          npm install @babel/preset-env
 
       - name: Run ESLint
         run: npx eslint .
-          --config .eslintrc.js
-          --ext .js,.jsx,.ts,.tsx
+          --config source/.eslintrc.js
+          --ext .js
           --format @microsoft/eslint-formatter-sarif 
           --output-file eslint-results.sarif
+          /source/
         continue-on-error: true
 
       - name: Upload analysis results to GitHub
