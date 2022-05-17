@@ -4504,6 +4504,24 @@
 		return target;
 	};
 	/**
+	 * Creates new object with deeply assigned values from another object.
+	 *
+	 * @function assignDeep
+	 * @category utility
+	 * @type {Function}
+	 * @param {Object|Function|Class|Array} target - Object to be assigned new properties.
+	 * @param {Object|Function|Class|Array} source - Object from which properties are extracted.
+	 * @param {boolean} [mergeArrays = true] - Array from which items are assigned to the new object.
+	 * @returns {Object} - Returns object with the newly assigned properties.
+	 *
+	 * @example
+	 * assignDeep({a:1}, {b:2});
+	 * // => {a:1, b:2}
+	 */
+	function assignDeep(target, source, mergeArrays = true) {
+		return assignDeepRecursion(target, source, mergeArrays);
+	}
+	/**
 	 * Creates a structuredClone clone of an object if no structuredClone then assignDeep is used.
 	 *
 	 * @function clone
@@ -5100,6 +5118,7 @@
 	exports.arrayToObject = arrayToObject;
 	exports.ary = ary;
 	exports.assign = assign;
+	exports.assignDeep = assignDeep;
 	exports.asyncEach = asyncEach;
 	exports.before = before;
 	exports.bindAll = bindAll;

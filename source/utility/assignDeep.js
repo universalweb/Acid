@@ -80,7 +80,7 @@ const assignDeepRecursion = (target, source, mergeArrays = false, indexArg, leng
   * assignDeep({a:1}, {b:2});
   * // => {a:1, b:2}
 */
-function assignDeep(target, source, mergeArrays = true) {
+export function assignDeep(target, source, mergeArrays = true) {
 	return assignDeepRecursion(target, source, mergeArrays);
 }
 /**

@@ -4581,6 +4581,24 @@ const assignDeepRecursion = (target, source, mergeArrays = false, indexArg, leng
 	return target;
 };
 /**
+  * Creates new object with deeply assigned values from another object.
+  *
+  * @function assignDeep
+  * @category utility
+  * @type {Function}
+  * @param {Object|Function|Class|Array} target - Object to be assigned new properties.
+  * @param {Object|Function|Class|Array} source - Object from which properties are extracted.
+  * @param {boolean} [mergeArrays = true] - Array from which items are assigned to the new object.
+  * @returns {Object} - Returns object with the newly assigned properties.
+  *
+  * @example
+  * assignDeep({a:1}, {b:2});
+  * // => {a:1, b:2}
+*/
+function assignDeep(target, source, mergeArrays = true) {
+	return assignDeepRecursion(target, source, mergeArrays);
+}
+/**
   * Creates a structuredClone clone of an object if no structuredClone then assignDeep is used.
   *
   * @function clone
@@ -5185,5 +5203,5 @@ function compact(source) {
 	});
 }
 
-export { Model, VirtualStorage, add$1 as add, after, apply, arrayToObject, ary, assign, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, every, falsey, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isEmpty, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSame, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, uid, unZip, unZipObject, union, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
+export { Model, VirtualStorage, add$1 as add, after, apply, arrayToObject, ary, assign, assignDeep, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, every, falsey, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isEmpty, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSame, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, uid, unZip, unZipObject, union, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map
