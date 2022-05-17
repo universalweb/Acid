@@ -6,8 +6,7 @@ import { unique } from './unique';
   * @function xor
   * @category array
   * @type {Function}
-  * @param {Array} array - The array to be filtered.
-  * @param {Array} removeThese - Items to be removed.
+  * @param {...Array} arrays - The array(s) to be filtered.
   * @returns {Array} - The filtered array.
   *
   * @example

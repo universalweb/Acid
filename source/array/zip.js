@@ -4,16 +4,16 @@
   * @function zip
   * @type {Function}
   * @category array
-  * @param {Array} properties - The arrays to process.
+  * @param {Array} arrays - The arrays to process.
   * @returns {Array} - Returns the new array of regrouped elements.
   *
   * @example
   * zip(['a', 'b'], [1, 2], [true, false]);
   * // => [['a', 1, true], ['b', 2, false]]
 */
-export const zip = (...args) => {
-	return args[0].map((item, index) => {
-		return args.map((array) => {
+export const zip = (...arrays) => {
+	return arrays[0].map((item, index) => {
+		return arrays.map((array) => {
 			return array[index];
 		});
 	});

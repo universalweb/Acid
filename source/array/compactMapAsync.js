@@ -6,20 +6,20 @@ function removeNoValue(source) {
 	}
 }
 /**
-  * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
-  *
-  * @function compactMapAsync
-  * @type {Function}
-  * @category array
-  * @async
-  * @param {Array} source - Array to be compacted.
-  * @param {Function} iteratee - Iteratee to be performed on array.
-  * @returns {Array} - Array values after being put through an iterator.
-  *
-  * @example
-  * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
-  * // => [1, 2, 3]
-*/
+ * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
+ *
+ * @function compactMapAsync
+ * @type {Function}
+ * @category array
+ * @async
+ * @param {Array} source - Array to be compacted.
+ * @param {Function} iteratee - Iteratee to be performed on array.
+ * @returns {Array} - Array values after being put through an iterator.
+ *
+ * @example
+ * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
+ * // => [1, 2, 3]
+ */
 export const compactMapAsync = async (source, iteratee = removeNoValue) => {
 	const results = [];
 	let result;

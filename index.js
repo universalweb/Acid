@@ -35,8 +35,10 @@ const notifyLiveReload = (evt, filename) => {
 const beautify = (source, destination) => {
 	console.log('Beautify');
 	const text = fs.readFileSync(source).toString();
-	const eslintConfigLocation = (source.includes('.es.js') && './source/.eslintrc') || './.eslintrc';
+	const eslintConfigLocation = (source.includes('/module/') && './source/.eslintrc') || './.eslintrc';
+	console.log('GET ESLINT CONFIG', source, eslintConfigLocation);
 	const eslintConfig = JSON.parse(fs.readFileSync(eslintConfigLocation).toString());
+	console.log('GOT ESLINT CONFIG');
 	const formattedCode = format({
 		eslintConfig,
 		prettierOptions: {
@@ -67,7 +69,7 @@ const build = async () => {
 		sourcemap: true
 	});
 	await browserBundle.write({
-		file: './build/browser.bundle.es.js',
+		file: './build/module/browser/bundle.js',
 		format: 'es',
 		name: '$',
 		sourcemap: true
@@ -79,14 +81,14 @@ const build = async () => {
 		sourcemap: true
 	});
 	await browserBundleProduction.write({
-		file: './build/browser.es.js',
+		file: './build/module/browser/index.js',
 		format: 'es',
 		name: '$',
 		sourcemap: true
 	});
 	beautify('./build/browser.bundle.js');
 	copyFile('./build/browser.bundle.js', './docs/browser.bundle.js');
-	copyFile('./build/browser.bundle.es.js', './docs/browser.bundle.es.js');
+	copyFile('./build/module/browser/bundle.js', './docs/browser.bundle.es.js');
 	copyFile('./build/browser.js', './docs/browser.js');
 	console.log('Build Client END');
 	console.log('Build Server START');
@@ -106,7 +108,7 @@ const build = async () => {
 		sourcemap: true
 	});
 	await index.write({
-		file: './build/index.bundle.es.js',
+		file: './build/module/bundle.js',
 		format: 'es',
 		name: '$',
 		sourcemap: true
@@ -118,28 +120,28 @@ const build = async () => {
 		sourcemap: true
 	});
 	await indexProduction.write({
-		file: './build/index.es.js',
+		file: './build/module/index.js',
 		format: 'es',
 		name: '$',
 		sourcemap: true
 	});
 	beautify('./build/index.bundle.js');
 	copyFile('./build/index.bundle.js', './docs/index.bundle.js');
-	copyFile('./build/index.bundle.es.js', './docs/index.bundle.es.js');
+	copyFile('./build/module/bundle.js', './docs/index.bundle.es.js');
 	copyFile('./build/index.js', './docs/index.js');
 	console.log('Build Server END');
 	console.log('Build Complete');
 	console.log('Docs Started');
 	await buildDocs();
 	console.log('Docs Complete');
-	console.log('NPM Started');
-	copyFile('./build/index.js', './npm/index.js');
-	copyFile('./build/index.es.js', './npm/index.es.js');
-	copyFile('./build/browser.js', './npm/browser.js');
-	copyFile('./build/browser.es.js', './npm/browser.es.js');
-	copyFile('./LICENSE', './npm/LICENSE');
-	copyFile('./README.md', './npm/README.md');
-	console.log('NPM Complete');
+	console.log('package Started');
+	copyFile('./build/index.js', './package/index.js');
+	copyFile('./build/module/index.js', './package/module/index.js');
+	copyFile('./build/browser.js', './package/browser.js');
+	copyFile('./build/module/browser/index.js', './package/module/browser/index.js');
+	copyFile('./LICENSE', './package/LICENSE');
+	copyFile('./README.md', './package/README.md');
+	console.log('package Complete');
 	console.log('Build Complete');
 };
 build();

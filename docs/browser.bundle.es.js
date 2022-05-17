@@ -5,7 +5,7 @@ const arrayNative = Array;
  * @function toArray
  * @category array
  * @param {*} arrayLike - Array like object.
- * @returns {*} - new array.
+ * @returns {*} - New array.
  *
  * @example
  * toArray([1, 2, 3]);
@@ -46,17 +46,17 @@ const keys = objectNative.keys;
 /**
  * Determines whether two values are the same value.
  *
- * @function is
+ * @function isSame
  * @category object
  * @param {*} source - Value to compare to.
  * @param {*} target - A value to compare.
  * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
  *
  * @example
- * is('foo', 'foo');
+ * isSame('foo', 'foo');
  * // => true
 */
-const is = objectNative.is;
+const isSame = objectNative.is;
 /**
  * Copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
  *
@@ -749,37 +749,35 @@ function isUint32(source) {
 }
 
 /**
-  * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
-  *
-  * @function asyncEach
-  * @type {Function}
-  * @category Array
-  * @async
-  * @param {Array} source - Array of async functions that will be looped through.
-  * Functions are given the supplied object, index, the calling array, and the array length.
-  * @param {*} firstArgument - The first argument given to each function.
-  * @returns {Object} - The originally given array.
-  *
-  * @test
-  * (async () => {
-  *   const tempList = [];
-  *   await asyncEach([async (item, index) => {
-  *     tempList.push(index);
-  *   }, async (item, index) => {
-  *     tempList.push(index);
-  *   }], {a:1});
-  *   return assert(tempList, [0, 1]);
-  * });
-  *
-  * @example
-  * asyncEach([async (item, index) =>{
-  *  console.log(item, index);
-  * }, async (item) =>{
-  *  console.log(item, index);
-  * }], {a:1});
-  * // {a:1} 0
-  * // {a:1} 1
-*/
+ * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
+ *
+ * @function asyncEach
+ * @type {Function}
+ * @category Array
+ * @async
+ * @param {Array} source - Array of async functions that will be looped through.
+ * Functions are given the supplied object, index, the calling array, and the array length.
+ * @param {*} firstArgument - The first argument given to each function.
+ * @returns {object} - The originally given array.
+ * @test
+ * (async () => {
+ *   const tempList = [];
+ *   await asyncEach([async (item, index) => {
+ *     tempList.push(index);
+ *   }, async (item, index) => {
+ *     tempList.push(index);
+ *   }], {a:1});
+ *   return assert(tempList, [0, 1]);
+ * });
+ * @example
+ * asyncEach([async (item, index) =>{
+ *  console.log(item, index);
+ * }, async (item) =>{
+ *  console.log(item, index);
+ * }], {a:1});
+ * // {a:1} 0
+ * // {a:1} 1
+ */
 const asyncEach = async (source, firstArgument) => {
 	const arrayLength = source.length;
 	for (let index = 0; index < arrayLength; index++) {
@@ -905,19 +903,19 @@ const removeBy = (source, iteratee) => {
 };
 
 /**
-  * Chunks an array according to a user defined number.
-  *
-  * @function chunk
-  * @category Array
-  * @type {Function}
-  * @param {Array} array - Array to be chunked.
-  * @param {number} size - Number which determines the size of each chunk.
-  * @returns {Array} - A chunked version of the source array.
-  *
-  * @example
-  *  chunk([1,2,3], 1);
-  * // => [[1],[2],[3]]
-*/
+ * Chunks an array according to a user defined number.
+ *
+ * @function chunk
+ * @category Array
+ * @type {Function}
+ * @param {Array} array - Array to be chunked.
+ * @param {number} size - Number which determines the size of each chunk.
+ * @returns {Array} - A chunked version of the source array.
+ *
+ * @example
+ *  chunk([1,2,3], 1);
+ * // => [[1],[2],[3]]
+ */
 const chunk = (array, size = 1) => {
 	const chunked = [];
 	let index = 0;
@@ -1285,12 +1283,12 @@ const smallest = (array) => {
 	return mathNativeMin(...array);
 };
 
-const rangeUp = (start, end, increment) => {
+const rangeUp = (start, end, incrementArg) => {
 	const rangeArray = [];
 	let position = start;
 	while (position < end) {
 		rangeArray.push(position);
-		position += increment;
+		position += incrementArg;
 	}
 	return rangeArray;
 };
@@ -1305,53 +1303,50 @@ const rangeDown = (start, end, incrementArg) => {
 	return rangeArray;
 };
 /**
-  * Create a numbered list of integers.
-  *
-  * @type {Function} range
-  * @category array
-  * @param {number} start - Value which determines the start of the range.
-  * @param {number} end - Value which determines the end of the range.
-  * @param {number} increment - Value used to step between integers.
-  * @returns {Array} - An array of integers.
-  *
-  * @example
-  * range(0, 30, 5);
-  * // => [0, 5, 10, 15, 20, 25]
-*/
-const range = (start, end, increment = 1) => {
+ * Create a numbered list of integers.
+ *
+ * @type {Function} range
+ * @category array
+ * @param {number} start - Value which determines the start of the range.
+ * @param {number} end - Value which determines the end of the range.
+ * @param {number} step - Value used to step between integers.
+ * @returns {Array} - An array of integers.
+ * @example
+ * range(0, 30, 5);
+ * // => [0, 5, 10, 15, 20, 25]
+ */
+const range = (start, end, step = 1) => {
 	if (start < end) {
-		return rangeUp(start, end, increment);
+		return rangeUp(start, end, step);
 	} else {
-		return rangeDown(start, end, increment);
+		return rangeDown(start, end, step);
 	}
 };
 
 /**
-  * Iterates through the given array.
-  *
-  * @function eachArray
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - The originally given array.
-  *
-  * @test
-  * (async () => {
-  *   const tempList = [];
-  *   eachArray([1, 2, 3], (item) => {
-  *     tempList.push(item);
-  *   });
-  *   return assert(tempList, [1, 2, 3]);
-  * });
-  *
-  * @example
-  * eachArray([1, 2, 3], (item) => {
-  *   console.log(item);
-  * });
-  * // => [1, 2, 3]
-*/
+ * Iterates through the given array.
+ *
+ * @function eachArray
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+ * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @returns {Array} - The originally given array.
+ * @test
+ * (async () => {
+ *   const tempList = [];
+ *   eachArray([1, 2, 3], (item) => {
+ *     tempList.push(item);
+ *   });
+ *   return assert(tempList, [1, 2, 3]);
+ * });
+ * @example
+ * eachArray([1, 2, 3], (item) => {
+ *   console.log(item);
+ * });
+ * // => [1, 2, 3]
+ */
 function eachArray(source, iteratee, thisBind) {
 	const arrayLength = source.length;
 	for (let index = 0;index < arrayLength;index++) {
@@ -1360,31 +1355,29 @@ function eachArray(source, iteratee, thisBind) {
 	return source;
 }
 /**
-  * Iterates through the given array in reverse.
-  *
-  * @function eachArrayRight
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - The originally given array.
-  *
-  * @test
-  * (async () => {
-  *   const tempList = [];
-  *   eachArrayRight([1, 2, 3], (item) => {
-  *     tempList.push(item);
-  *   });
-  *   return assert(tempList, [3, 2, 1]);
-  * });
-  *
-  * @example
-  * eachArrayRight([1, 2, 3], (item) => {
-  *   console.log(item);
-  * });
-  * // => [1, 2, 3]
-*/
+ * Iterates through the given array in reverse.
+ *
+ * @function eachArrayRight
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - The originally given array.
+ * @test
+ * (async () => {
+ *   const tempList = [];
+ *   eachArrayRight([1, 2, 3], (item) => {
+ *     tempList.push(item);
+ *   });
+ *   return assert(tempList, [3, 2, 1]);
+ * });
+ * @example
+ * eachArrayRight([1, 2, 3], (item) => {
+ *   console.log(item);
+ * });
+ * // => [1, 2, 3]
+ */
 function eachArrayRight(source, iteratee, thisBind) {
 	const arrayLength = source.length;
 	for (let index = arrayLength - 1;index >= 0;index--) {
@@ -1393,22 +1386,21 @@ function eachArrayRight(source, iteratee, thisBind) {
 	return source;
 }
 /**
-  * Iterates through the given array while the iteratee returns true.
-  *
-  * @function whileArray
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {boolean} - Returns true if all returns are true or false if one value returns false.
-  *
-  * @example
-  * whileArray([true, true, false], (item) => {
-  *   return item;
-  * });
-  * // => false
-*/
+ * Iterates through the given array while the iteratee returns true.
+ *
+ * @function whileArray
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - Returns true if all returns are true or false if one value returns false.
+ * @example
+ * whileArray([true, true, false], (item) => {
+ *   return item;
+ * });
+ * // => false
+ */
 function whileArray(source, iteratee, thisBind) {
 	const arrayLength = source.length;
 	for (let index = 0;index < arrayLength;index++) {
@@ -1419,24 +1411,23 @@ function whileArray(source, iteratee, thisBind) {
 	return true;
 }
 /**
-  * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
-  *
-  * @function filterArray
-  * @category array
-  * @type {Function}
-  * @category array
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
-  * @param {Array} [results = []] - Array that will be used to assign results.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - An array with properties that passed the test.
-  *
-  * @example
-  * filterArray([false, true, true], (item) => {
-  *   return item;
-  * });
-  * // => [true, true]
-*/
+ * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
+ *
+ * @function filterArray
+ * @category array
+ * @type {Function}
+ * @category array
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
+ * @param {Array} results - Array that will be used to assign results.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - An array with properties that passed the test.
+ * @example
+ * filterArray([false, true, true], (item) => {
+ *   return item;
+ * });
+ * // => [true, true]
+ */
 function filterArray(source, iteratee, results = [], thisBind) {
 	eachArray(source, (item, index, arrayOriginal, arrayLength) => {
 		if (iteratee(item, index, results, arrayOriginal, arrayLength, thisBind) === true) {
@@ -1446,23 +1437,22 @@ function filterArray(source, iteratee, results = [], thisBind) {
 	return results;
 }
 /**
-  * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
-  *
-  * @function mapArray
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-  * @param {Array} [results = []] - Array that will be used to assign results.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - An array of the same calling array's type.
-  *
-  * @example
-  * mapArray([1, 2, 3], (item) => {
-  *   return item * 2;
-  * });
-  * // => [2, 4, 6]
-*/
+ * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
+ *
+ * @function mapArray
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+ * @param {Array} results - Array that will be used to assign results.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - An array of the same calling array's type.
+ * @example
+ * mapArray([1, 2, 3], (item) => {
+ *   return item * 2;
+ * });
+ * // => [2, 4, 6]
+ */
 function mapArray(source, iteratee, results = [], thisBind) {
 	eachArray(source, (item, index, arrayOriginal, arrayLength) => {
 		results[index] = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
@@ -1470,23 +1460,22 @@ function mapArray(source, iteratee, results = [], thisBind) {
 	return results;
 }
 /**
-  * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array in reverse.
-  *
-  * @function mapArrayRight
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-  * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - An array of the same calling array's type.
-  *
-  * @example
-  * mapArrayRight([1, 2, 3], (item) => {
-  *   return item * 2;
-  * });
-  * // => [6, 4, 2]
-*/
+ * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array in reverse.
+ *
+ * @function mapArrayRight
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+ * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - An array of the same calling array's type.
+ * @example
+ * mapArrayRight([1, 2, 3], (item) => {
+ *   return item * 2;
+ * });
+ * // => [6, 4, 2]
+ */
 function mapArrayRight(source, iteratee, results = [], thisBind) {
 	let trueIndex = 0;
 	const arrayLength = source.length;
@@ -1502,23 +1491,22 @@ function removeNoValue$2(source) {
 	}
 }
 /**
-  * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
-  *
-  * @function compactMapArray
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-  * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - An array with mapped properties that are not null or undefined.
-  *
-  * @example
-  * compactMapArray([null, 2, 3], (source) => {
-  *   return source;
-  * });
-  * // => [2, 3]
-*/
+ * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
+ *
+ * @function compactMapArray
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+ * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - An array with mapped properties that are not null or undefined.
+ * @example
+ * compactMapArray([null, 2, 3], (source) => {
+ *   return source;
+ * });
+ * // => [2, 3]
+ */
 function compactMapArray(source, iteratee = removeNoValue$2, results = [], thisBind) {
 	eachArray(source, (item, index, arrayOriginal, arrayLength) => {
 		const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
@@ -1529,23 +1517,22 @@ function compactMapArray(source, iteratee = removeNoValue$2, results = [], thisB
 	return results;
 }
 /**
-  * Iterates through the given and creates an object with all elements that pass the test implemented by the iteratee.
-  *
-  * @function mapWhile
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-  * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - An array with properties that passed the test.
-  *
-  * @example
-  * mapWhile([true, true, false], (item) => {
-  *   return item;
-  * });
-  * // => [true, true]
-*/
+ * Iterates through the given and creates an object with all elements that pass the test implemented by the iteratee.
+ *
+ * @function mapWhile
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+ * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - An array with properties that passed the test.
+ * @example
+ * mapWhile([true, true, false], (item) => {
+ *   return item;
+ * });
+ * // => [true, true]
+ */
 function mapWhile(source, iteratee, results = [], thisBind) {
 	const arrayLength = source.length;
 	for (let index = 0;index < arrayLength;index++) {
@@ -1559,31 +1546,29 @@ function mapWhile(source, iteratee, results = [], thisBind) {
 	return results;
 }
 /**
-  * Iterates through the given array but re-checks the length each loop. Usefull while mutating the same array being looped over.
-  *
-  * @function whileEachArray
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - The originally given array.
-  *
-  * @test
-  * (async () => {
-  *   const tempList = [];
-  *   whileEachArray([1, 2, 3], (item) => {
-  *     tempList.push(item);
-  *   });
-  *   return assert(tempList, [1, 2, 3]);
-  * });
-  *
-  * @example
-  * whileEachArray([1, 2, 3], (item) => {
-  *   console.log(item);
-  * });
-  * // => [1, 2, 3]
-*/
+ * Iterates through the given array but re-checks the length each loop. Usefull while mutating the same array being looped over.
+ *
+ * @function whileEachArray
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - The originally given array.
+ * @test
+ * (async () => {
+ *   const tempList = [];
+ *   whileEachArray([1, 2, 3], (item) => {
+ *     tempList.push(item);
+ *   });
+ *   return assert(tempList, [1, 2, 3]);
+ * });
+ * @example
+ * whileEachArray([1, 2, 3], (item) => {
+ *   console.log(item);
+ * });
+ * // => [1, 2, 3]
+ */
 function whileEachArray(source, iteratee, thisBind) {
 	let index = 0;
 	while (index < source.length) {
@@ -1593,33 +1578,31 @@ function whileEachArray(source, iteratee, thisBind) {
 	return source;
 }
 /**
-  * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
-  * Re-checks the length each loop.
-  *
-  * @function whileMapArray
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-  * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - The originally given array.
-  *
-  * @test
-  * (async () => {
-  *   const tempList = [];
-  *   whileMapArray([1, 2, 3, false, null], (item) => {
-  *     tempList.push(item);
-  *   });
-  *   return assert(tempList, [1, 2, 3, false, null]);
-  * });
-  *
-  * @example
-  * whileMapArray([1, 2, 3, false, null], (item) => {
-  *   return item;
-  * });
-  * // => [1, 2, 3, false, null]
-*/
+ * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
+ * Re-checks the length each loop.
+ *
+ * @function whileMapArray
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+ * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - The originally given array.
+ * @test
+ * (async () => {
+ *   const tempList = [];
+ *   whileMapArray([1, 2, 3, false, null], (item) => {
+ *     tempList.push(item);
+ *   });
+ *   return assert(tempList, [1, 2, 3, false, null]);
+ * });
+ * @example
+ * whileMapArray([1, 2, 3, false, null], (item) => {
+ *   return item;
+ * });
+ * // => [1, 2, 3, false, null]
+ */
 function whileMapArray(source, iteratee, results = [], thisBind) {
 	let index = 0;
 	while (index < source.length) {
@@ -1629,34 +1612,32 @@ function whileMapArray(source, iteratee, results = [], thisBind) {
 	return source;
 }
 /**
-  * Iterates through the calling object and creates a new object based on the calling object's type with the results,
-  * (excludes results which are null or undefined), of the iteratee on every element in the calling object.
-  * Re-checks the length each loop.
-  *
-  * @function whileCompactMap
-  * @category array
-  * @type {Function}
-  * @param {Array} source - Array that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-  * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-  * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-  * @returns {Array} - The originally given array.
-  *
-  * @test
-  * (async () => {
-  *   const tempList = [];
-  *   whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
-  *     return item;
-  *   });
-  *   return assert(tempList, [1, 2, 3, false]);
-  * });
-  *
-  * @example
-  * whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
-  *   return item;
-  * });
-  * // => [1, 2, 3, false]
-*/
+ * Iterates through the calling object and creates a new object based on the calling object's type with the results,
+ * (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+ * Re-checks the length each loop.
+ *
+ * @function whileCompactMap
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+ * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+ * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @returns {Array} - The originally given array.
+ * @test
+ * (async () => {
+ *   const tempList = [];
+ *   whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
+ *     return item;
+ *   });
+ *   return assert(tempList, [1, 2, 3, false]);
+ * });
+ * @example
+ * whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
+ *   return item;
+ * });
+ * // => [1, 2, 3, false]
+ */
 function whileCompactMap(source, iteratee, results = [], thisBind) {
 	let index = 0;
 	while (index < source.length) {
@@ -1698,19 +1679,19 @@ const intersect = (array, ...arrays) => {
 };
 
 /**
-  * Checks for differences between arrays, then creates an array based on those differences.
-  *
-  * @function difference
-  * @category array
-  * @type {Function}
-  * @param {Array} array - Source array.
-  * @param {Array} compare - Array source array is compared against.
-  * @returns {Array} - An array which contains the differences between the source and compare array.
-  *
-  * @example
-  * difference([1, 2, 3], [1, 2]);
-  * // => [3]
-*/
+ * Checks for differences between arrays, then creates an array based on those differences.
+ *
+ * @function difference
+ * @category array
+ * @type {Function}
+ * @param {Array} array - Source array.
+ * @param {...Array} compares - Array(s) source array is compared against.
+ * @returns {Array} - An array which contains the differences between the source and compare array.
+ *
+ * @example
+ * difference([1, 2, 3], [1, 2]);
+ * // => [3]
+ */
 const difference = (array, ...compares) => {
 	const compare = flattenDeep(compares);
 	return compactMapArray(array, (item) => {
@@ -1980,7 +1961,6 @@ const takeRight = (source, index = 1) => {
   * @async
   * @param {Array} source - Array that will be looped through.
   * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-  * @param {Array} [results = []] - Array that will be used to assign results.
   * @returns {Array} - An array of the same calling array's type.
   *
   * @example
@@ -2047,20 +2027,20 @@ function removeNoValue$1(source) {
 	}
 }
 /**
-  * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
-  *
-  * @function compactMapAsync
-  * @type {Function}
-  * @category array
-  * @async
-  * @param {Array} source - Array to be compacted.
-  * @param {Function} iteratee - Iteratee to be performed on array.
-  * @returns {Array} - Array values after being put through an iterator.
-  *
-  * @example
-  * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
-  * // => [1, 2, 3]
-*/
+ * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
+ *
+ * @function compactMapAsync
+ * @type {Function}
+ * @category array
+ * @async
+ * @param {Array} source - Array to be compacted.
+ * @param {Function} iteratee - Iteratee to be performed on array.
+ * @returns {Array} - Array values after being put through an iterator.
+ *
+ * @example
+ * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
+ * // => [1, 2, 3]
+ */
 const compactMapAsync = async (source, iteratee = removeNoValue$1) => {
 	const results = [];
 	let result;
@@ -2175,8 +2155,7 @@ const partition = (array, funct) => {
   * @function xor
   * @category array
   * @type {Function}
-  * @param {Array} array - The array to be filtered.
-  * @param {Array} removeThese - Items to be removed.
+  * @param {...Array} arrays - The array(s) to be filtered.
   * @returns {Array} - The filtered array.
   *
   * @example
@@ -2203,16 +2182,16 @@ const xor = (...arrays) => {
   * @function zip
   * @type {Function}
   * @category array
-  * @param {Array} properties - The arrays to process.
+  * @param {Array} arrays - The arrays to process.
   * @returns {Array} - Returns the new array of regrouped elements.
   *
   * @example
   * zip(['a', 'b'], [1, 2], [true, false]);
   * // => [['a', 1, true], ['b', 2, false]]
 */
-const zip = (...args) => {
-	return args[0].map((item, index) => {
-		return args.map((array) => {
+const zip = (...arrays) => {
+	return arrays[0].map((item, index) => {
+		return arrays.map((array) => {
 			return array[index];
 		});
 	});
@@ -2942,92 +2921,86 @@ const before = (amount, callable) => {
 };
 
 /**
-  * This method returns a new empty object.
-  *
-  * @function stubObject
-  * @category function
-  * @type {Function}
-  * @returns {Object} - Returns the new empty object.
-  *
-  * @example
-  * stubObject();
-  * // => {}
-*/
+ * This method returns a new empty object.
+ *
+ * @function stubObject
+ * @category function
+ * @type {Function}
+ * @returns {Object} - Returns the new empty object.
+ * @example
+ * stubObject();
+ * // => {}
+ */
 const stubObject = () => {
 	return {};
 };
 /**
-  * This method returns a new empty array.
-  *
-  * @function stubArray
-  * @category function
-  * @type {Function}
-  * @returns {Array} - Returns the new empty array.
-  *
-  * @example
-  * stubArray();
-  * // => []
-*/
+ * This method returns a new empty array.
+ *
+ * @function stubArray
+ * @category function
+ * @type {Function}
+ * @returns {Array} - Returns the new empty array.
+ * @example
+ * stubArray();
+ * // => []
+ */
 const stubArray = () => {
 	return [];
 };
 /**
-  * This method returns a new empty string.
-  *
-  * @function stubString
-  * @category function
-  * @type {Function}
-  * @returns {string} - Returns the new empty string.
-  *
-  * @example
-  * stubString();
-  * // => ''
-*/
+ * This method returns a new empty string.
+ *
+ * @function stubString
+ * @category function
+ * @type {Function}
+ * @returns {string} - Returns the new empty string.
+ * @example
+ * stubString();
+ * // => ''
+ */
 const stubString = () => {
 	return '';
 };
 /**
-  * This method returns false.
-  *
-  * @function stubFalse
-  * @category function
-  * @type {Function}
-  * @returns {boolean} - Returns false.
-  *
-  * @example
-  * stubFalse();
-  * // => false
-*/
+ * This method returns false.
+ *
+ * @function stubFalse
+ * @category function
+ * @type {Function}
+ * @returns {boolean} - Returns false.
+ * @example
+ * stubFalse();
+ * // => false
+ */
 const stubFalse = () => {
 	return false;
 };
 /**
-  * This method returns true.
-  *
-  * @function stubTrue
-  * @category function
-  * @type {Function}
-  * @returns {boolean} - Returns true.
-  *
-  * @example
-  * stubTrue();
-  * // => true
-*/
+ * This method returns true.
+ *
+ * @function stubTrue
+ * @category function
+ * @type {Function}
+ * @returns {boolean} - Returns true.
+ * @example
+ * stubTrue();
+ * // => true
+ */
 const stubTrue = () => {
 	return true;
 };
 /**
-  * This method returns undefined.
-  *
-  * @function noop
-  * @category function
-  * @type {Function}
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * noop();
-  * // => undefined
-*/
+ * This method returns undefined.
+ *
+ * @function noop
+ * @category function
+ * @type {Function}
+ * @returns {undefined} - Returns undefined.
+ * @example
+ * noop();
+ * // => undefined
+ */
 const noop = () => {
 	return undefined;
 };
@@ -3059,7 +3032,7 @@ const noop = () => {
 */
 const eachObject = (source, iteratee) => {
 	const objectKeys = keys(source);
-	eachArray(objectKeys, (key, index, original, propertyCount) => {
+	return eachArray(objectKeys, (key, index, original, propertyCount) => {
 		iteratee(source[key], key, source, propertyCount, original);
 	});
 };
@@ -3191,101 +3164,95 @@ const generateCheckLoops = (arrayLoop, objectLoop) => {
 	};
 };
 /**
-  * Iterates through the given object while the iteratee returns true.
-  *
-  * @function eachWhile
-  * @category utility
-  * @type {Function}
-  * @param {Object|Array|Function} source - Object that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-  * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
-  *
-  * @example
-  * eachWhile({a: false, b: true, c: true}, (item) => {
-  *  return item;
-  * });
-  * // => false
-*/
+ * Iterates through the given object while the iteratee returns true.
+ *
+ * @function eachWhile
+ * @category utility
+ * @type {Function}
+ * @param {object | Array | Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+ * @example
+ * eachWhile({a: false, b: true, c: true}, (item) => {
+ *  return item;
+ * });
+ * // => false
+ */
 const eachWhile = generateCheckLoops(whileArray, whileObject);
 /**
-  * Iterates through the given object.
-  *
-  * @function each
-  * @category utility
-  * @type {Function}
-  * @param {Array|Object|Function} source - Object that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-  * @returns {Array|Object|Function} - The originally given object.
-  *
-  * @test
-  * (async () => {
-  *   const tempList = [];
-  *   each({a: 1, b: 2, c: 3}, (item) => {
-  *     tempList.push(item);
-  *   });
-  *   return assert(tempList, [1, 2, 3]);
-  * });
-  *
-  * @example
-  * each({a: 1, b: 2, c: 3}, (item) => {
-  *   console.log(item);
-  * });
-  * // => {a: 1, b: 2, c: 3}
-*/
+ * Iterates through the given object.
+ *
+ * @function each
+ * @category utility
+ * @type {Function}
+ * @param {Array | object | Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+ * @returns {Array | object | Function} - The originally given object.
+ * @test
+ * (async () => {
+ *   const tempList = [];
+ *   each({a: 1, b: 2, c: 3}, (item) => {
+ *     tempList.push(item);
+ *   });
+ *   return assert(tempList, [1, 2, 3]);
+ * });
+ * @example
+ * each({a: 1, b: 2, c: 3}, (item) => {
+ *   console.log(item);
+ * });
+ * // => {a: 1, b: 2, c: 3}
+ */
 const each = generateCheckLoops(eachArray, eachObject);
 /**
-  * Iterates through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
-  *
-  * @function filter
-  * @category utility
-  * @type {Function}
-  * @param {Array|Object|Function} source - Object that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-  * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Array|Object|Function} - A new object of the same calling object's type.
-  *
-  * @example
-  * filter({a: false, b: true, c: true}, (item) => {
-  *   return item;
-  * });
-  * // => {b: true, c: true}
-*/
+ * Iterates through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
+ *
+ * @function filter
+ * @category utility
+ * @type {Function}
+ * @param {Array | object | Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+ * @param {object | Function} [results = {}] - Object that will be used to assign results.
+ * @returns {Array | object | Function} - A new object of the same calling object's type.
+ * @example
+ * filter({a: false, b: true, c: true}, (item) => {
+ *   return item;
+ * });
+ * // => {b: true, c: true}
+ */
 const filter = generateCheckLoops(filterArray, filterObject);
 /**
-  * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
-  *
-  * @function map
-  * @category utility
-  * @type {Function}
-  * @param {Array|Object|Function} source - Object that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-  * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Array|Object|Function} - A new object of the same calling object's type.
-  *
-  * @example
-  * map({a: 1, b: 2, c: 3}, (item) => {
-  *   return item * 2;
-  * });
-  * // => {a: 2, b: 4, c: 6}
-*/
+ * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
+ *
+ * @function map
+ * @category utility
+ * @type {Function}
+ * @param {Array | object | Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+ * @param {object | Function} [results = {}] - Object that will be used to assign results.
+ * @returns {Array | object | Function} - A new object of the same calling object's type.
+ * @example
+ * map({a: 1, b: 2, c: 3}, (item) => {
+ *   return item * 2;
+ * });
+ * // => {a: 2, b: 4, c: 6}
+ */
 const map = generateCheckLoops(mapArray, mapObject);
 /**
-  * Iterates through the calling object and creates a new object based on the calling object's type with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
-  *
-  * @function compactMap
-  * @category utility
-  * @type {Function}
-  * @param {Array|Object|Function} source - Object that will be looped through.
-  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-  * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-  * @returns {Array|Object|Function} - A new object of the same calling object's type.
-  *
-  * @example
-  * compactMap({a: null, b: 2, c: 3}, (item) => {
-  *   return item;
-  * });
-  * // => {b: 2, c: 3}
-*/
+ * Iterates through the calling object and creates a new object based on the calling object's type with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+ *
+ * @function compactMap
+ * @category utility
+ * @type {Function}
+ * @param {Array | object | Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+ * @param {object | Function} [results = {}] - Object that will be used to assign results.
+ * @returns {Array | object | Function} - A new object of the same calling object's type.
+ * @example
+ * compactMap({a: null, b: 2, c: 3}, (item) => {
+ *   return item;
+ * });
+ * // => {b: 2, c: 3}
+ */
 const compactMap = generateCheckLoops(compactMapArray, compactMapObject);
 
 /**
@@ -4441,84 +4408,84 @@ const truncateRight = (string, maxLength) => {
 
 const spaceFirstLetter = / (.)/g;
 /**
-  * Returns the first letter capitalized.
-  *
-  * @function upperFirstLetter
-  * @type {Function}
-  * @category string
-  * @param {string} string - String to extract first letter from.
-  * @returns {string} - An upper case letter.
-  *
-  * @example
-  * upperFirstLetter('upper');
-  * // => "U"
-*/
+ * Returns the first letter capitalized.
+ *
+ * @function upperFirstLetter
+ * @type {Function}
+ * @category string
+ * @param {string} string - String to extract first letter from.
+ * @returns {string} - An upper case letter.
+ *
+ * @example
+ * upperFirstLetter('upper');
+ * // => "U"
+ */
 const upperFirstLetter = (string) => {
 	return string[0].toUpperCase();
 };
 /**
-  * Capitalizes the first letter.
-  *
-  * @function upperFirst
-  * @type {Function}
-  * @category string
-  * @param {string} string - String to be mutated.
-  * @returns {string} - String with first letter capitalized.
-  *
-  * @example
-  * upperFirst('upper');
-  * // => 'Upper'
-*/
+ * Capitalizes the first letter.
+ *
+ * @function upperFirst
+ * @type {Function}
+ * @category string
+ * @param {string} string - String to be mutated.
+ * @returns {string} - String with first letter capitalized.
+ *
+ * @example
+ * upperFirst('upper');
+ * // => 'Upper'
+ */
 const upperFirst = (string) => {
 	return upperFirstLetter(string) + restString(string);
 };
 /**
-  * Capitalize all first letters.
-  *
-  * @function upperFirstAll
-  * @type {Function}
-  * @category string
-  * @param {string} string - String to be mutated.
-  * @returns {string} - String with all first letters capitalized.
-  *
-  * @example
-  * upperFirstAll('Lucy is next up.');
-  * // => 'Lucy Is Next Up.'
-*/
+ * Capitalize all first letters.
+ *
+ * @function upperFirstAll
+ * @type {Function}
+ * @category string
+ * @param {string} string - String to be mutated.
+ * @returns {string} - String with all first letters capitalized.
+ *
+ * @example
+ * upperFirstAll('Lucy is next up.');
+ * // => 'Lucy Is Next Up.'
+ */
 const upperFirstAll = (string) => {
 	return string.replace(spaceFirstLetter, (match) => {
 		return match.toUpperCase();
 	});
 };
 /**
-  * Capitalize first letter and lower case the rest.
-  *
-  * @function upperFirstOnly
-  * @type {Function}
-  * @category string
-  * @param {string} string - String to be mutated.
-  * @returns {string} - String with first letter capitalized.
-  *
-  * @example
-  * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
-  * // => 'Lysergic namespace diethylamide'
-*/
+ * Capitalize first letter and lower case the rest.
+ *
+ * @function upperFirstOnly
+ * @type {Function}
+ * @category string
+ * @param {string} string - String to be mutated.
+ * @returns {string} - String with first letter capitalized.
+ *
+ * @example
+ * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
+ * // => 'Lysergic namespace diethylamide'
+ */
 const upperFirstOnly = (string) => {
 	return upperFirstLetter(string) + restString(string).toLowerCase();
 };
 /**
-  * Capitalize all first letters and lower case the rest.
-  *
-  * @function upperFirstOnlyAll
-  * @type {Function}
-  * @category string
-  * @param {string} string - String to be mutated.
-  * @returns {string} - String with all first letters capitalized.
-  *
-  * @example
-  * upperFirstOnlyAll('LYSERGIC ACID DIETHYLAMIDE');
-  * // => 'Lysergic Acid Diethylamide'
-*/
+ * Capitalize all first letters and lower case the rest.
+ *
+ * @function upperFirstOnlyAll
+ * @type {Function}
+ * @category string
+ * @param {string} string - String to be mutated.
+ * @returns {string} - String with all first letters capitalized.
+ *
+ * @example
+ * upperFirstOnlyAll('LYSERGIC ACID DIETHYLAMIDE');
+ * // => 'Lysergic Acid Diethylamide'
+ */
 const upperFirstOnlyAll = (string) => {
 	return upperFirstOnly(string.toLowerCase()).replace(spaceFirstLetter, (match) => {
 		return match.toUpperCase();
@@ -4768,7 +4735,6 @@ const toPath = (string) => {
 
 let count = 0;
 const uidFree = [];
-const uidClosed = {};
 /**
   * Creates a numerical unique ID and recycles old ones. UID numerically ascends however freed UIDs are later reused.
   *
@@ -4793,7 +4759,6 @@ function uid() {
 	let result = uidFree.shift(uidFree);
 	if (!hasValue(result)) {
 		result = count;
-		uidClosed[result] = true;
 		count++;
 	}
 	return result;
@@ -4826,7 +4791,6 @@ function uid() {
   * // => 0
 */
 uid.free = (id) => {
-	uidClosed[id] = null;
 	uidFree.push(id);
 };
 
@@ -4888,19 +4852,18 @@ const jsonParse = jsonNative.parse;
 const stringify = jsonNative.stringify;
 
 /**
-  * Set & Get a model.
-  *
-  * @function model
-  * @type {Function}
-  * @category utility
-  * @param {string} modelName - Name of the model.
-  * @param {Object} modelValue - The model object.
-  * @returns {*} - Returns the associated model.
-  *
-  * @example
-  * model('test', {a: 1}) && model('test');
-  * // => {a: 1}
-*/
+ * Set & Get a model.
+ *
+ * @function model
+ * @type {Function}
+ * @category utility
+ * @param {string} modelName - Name of the model.
+ * @param {object} modelValue - The model object.
+ * @returns {*} - Returns the associated model.
+ * @example
+ * model('test', {a: 1}) && model('test');
+ * // => {a: 1}
+ */
 class Model {
 	static models = {};
 	constructor(modelName, modelValue) {
@@ -4913,6 +4876,13 @@ class Model {
 		}
 	}
 }
+/**
+ * Returns the model with the given name.
+ *
+ * @param {string} modelName - The name of the model to return.
+ * @param {any} [modelValue] - The value of the model to return.
+ * @returns {Model} - The model with the given name.
+ */
 function model(modelName, modelValue) {
 	if (hasValue(modelValue)) {
 		return construct(Model, [modelName, modelValue]);
@@ -4921,26 +4891,24 @@ function model(modelName, modelValue) {
 }
 
 /**
-  * A wrapper around the promise constructor.
-  *
-  * @function promise
-  * @type {Function}
-  * @category utility
-  * @param {Function} callback - Function to be called back.
-  * @returns {Object} - A constructor with a callback function.
-  *
-  * @test
-  * (async () => {
-  *   const result = await promise((accept) => {
-  *     accept(true);
-  *   });
-  *   return assert(result, true);
-  * });
-  *
-  * @example
-  * promise((a) => {});
-  * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
-*/
+ * A wrapper around the promise constructor.
+ *
+ * @function promise
+ * @type {Function}
+ * @category utility
+ * @param {Function} callback - Function to be called back.
+ * @returns {Promise} - A constructor with a callback function.
+ * @test
+ * (async () => {
+ *   const result = await promise((accept) => {
+ *     accept(true);
+ *   });
+ *   return assert(result, true);
+ * });
+ * @example
+ * promise((a) => {});
+ * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
+ */
 const promise = (callback) => {
 	return new Promise(callback);
 };
@@ -5068,7 +5036,7 @@ const flowAsyncRight = returnFlow(eachAsyncRight);
   * @category utility
   * @type {Function}
   * @param {string} key - The key used to store the data.
-  * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
+  * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
   * @returns {undefined} - Returns undefined.
   *
   * @example
@@ -5259,17 +5227,17 @@ if (userAgent) {
   * @category browser
   * @type {Function}
   * @param {Node} node - Given node.
-  * @param {string} type - A string representing the event type.
-  * @param {Object|Function} listener - The object which receives a notification when an event of the specified type occurs.
-  * @param {Object} options - An options object that specifies characteristics about the event listener.
+  * @param {string} eventName - A string representing the event type.
+  * @param {Object|Function} callback - The object which receives a notification when an event of the specified type occurs.
+  * @param {Boolean} useCapture - The default value is false, which will use the bubbling propagation, when the value is set to true, the event uses the capturing propagation.
   * @returns {Node} - Returns given node.
   *
   * @example
   * eventAdd(document.body, 'click', () => {console.log('CLICKED');});
   * // = > document.body
 */
-const eventAdd = (node, ...args) => {
-	node.addEventListener(...args);
+const eventAdd = (node, eventName, callback, useCapture) => {
+	node.addEventListener(eventName, callback, useCapture);
 	return node;
 };
 /**
@@ -5279,17 +5247,17 @@ const eventAdd = (node, ...args) => {
   * @category browser
   * @type {Function}
   * @param {Node} node - Given node.
-  * @param {string} type - A string representing the event type.
-  * @param {Object|Function} listener - An object|function representing the listener.
-  * @param {Object} options - An options object that specifies characteristics about the event listener.
-  * @returns {undefined} - Undefined.
+  * @param {string} eventName - A string representing the event type.
+  * @param {Object|Function} callback - The object which receives a notification when an event of the specified type occurs.
+  * @param {Boolean} useCapture - The default value is false, which will use the bubbling propagation, when the value is set to true, the event uses the capturing propagation.
+  * @returns {Node} - Returns given node.
   *
   * @example
   * eventRemove(document.body, () => {console.log('CLICKED');});
   * // = > Undefined
 */
-const eventRemove = (node, ...args) => {
-	node.removeEventListener(...args);
+const eventRemove = (node, eventName, callback, useCapture) => {
+	node.removeEventListener(eventName, callback, useCapture);
 	return node;
 };
 
@@ -5517,14 +5485,14 @@ const protocol = location.protocol;
 const protocolSocket = (protocol === 'http:') ? 'ws' : 'wss';
 const hostname = location.hostname;
 /**
-  * Holds client hardware, browser, and host info.
-  *
-  * @memberof $
-  * @category browser
-  * @ignoreTest
-  * @property info
-  * @type {Object}
-*/
+ * Holds client hardware, browser, and host info.
+ *
+ * @memberof $
+ * @category browser
+ * @ignoreTest
+ * @property {object} info - Client hardware & host info.
+ * @type {object}
+ */
 const info = {
 	hardware: {
 		cores: navigator.hardwareConcurrency
@@ -5564,81 +5532,76 @@ eventAdd(window, 'load', updateDimensions, true);
 eventAdd(window, 'resize', updateDimensions, true);
 
 /**
-  * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
-  * The crate function is a factory which wraps the Crate constructor & returns it.
-  * Direct class/constructor access is named Crate.
-  *
-  * @function crate
-  * @category browser
-  * @type {Function}
-  * @returns {*} - Returns a new Crate Object.
-  *
-  * @example
-  * const storageCrate = crate();
-  * // => New Crate Object
-*/
+ * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
+ * The crate function is a factory which wraps the Crate constructor & returns it.
+ * Direct class/constructor access is named Crate.
+ *
+ * @function crate
+ * @category browser
+ * @type {Function}
+ * @returns {*} - Returns a new Crate Object.
+ * @example
+ * const storageCrate = crate();
+ * // => New Crate Object
+ */
 /**
-  * Save an item to a crate.
-  *
-  * @function crate.setItem
-  * @category browser
-  * @type {Function}
-  * @param {string} key - The key used to store the data.
-  * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * const storageCrate = crate();
-  * storageCrate.setItem('key', 'value');
-  * // => undefined
-*/
+ * Save an item to a crate.
+ *
+ * @function crate.setItem
+ * @category browser
+ * @type {Function}
+ * @param {string} key - The key used to store the data.
+ * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
+ * @returns {undefined} - Returns undefined.
+ * @example
+ * const storageCrate = crate();
+ * storageCrate.setItem('key', 'value');
+ * // => undefined
+ */
 /**
-  * Get an item from a crate.
-  *
-  * @function crate.getItem
-  * @category browser
-  * @type {Function}
-  * @param {string} key - The key used to store the data.
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * const storageCrate = crate();
-  * storageCrate.setItem('key', 'value');
-  * storageCrate.getItem('key');
-  * // => 'value'
-*/
+ * Get an item from a crate.
+ *
+ * @function crate.getItem
+ * @category browser
+ * @type {Function}
+ * @param {string} key - The key used to store the data.
+ * @returns {undefined} - Returns undefined.
+ * @example
+ * const storageCrate = crate();
+ * storageCrate.setItem('key', 'value');
+ * storageCrate.getItem('key');
+ * // => 'value'
+ */
 /**
-  * Remove an item from a crate.
-  *
-  * @function crate.removeItem
-  * @category browser
-  * @type {Function}
-  * @param {string} key - The key used to remove data.
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * const storageCrate = crate();
-  * storageCrate.setItem('key', 'value');
-  * storageCrate.removeItem('key');
-  * storageCrate.getItem('key');
-  * // => undefined
-*/
+ * Remove an item from a crate.
+ *
+ * @function crate.removeItem
+ * @category browser
+ * @type {Function}
+ * @param {string} key - The key used to remove data.
+ * @returns {undefined} - Returns undefined.
+ * @example
+ * const storageCrate = crate();
+ * storageCrate.setItem('key', 'value');
+ * storageCrate.removeItem('key');
+ * storageCrate.getItem('key');
+ * // => undefined
+ */
 /**
-  * Clears all data for the crate including all of localStorage if supported.
-  *
-  * @function crate.clear
-  * @category browser
-  * @type {Function}
-  * @param {string} key - The key used to remove data.
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * const storageCrate = crate();
-  * storageCrate.setItem('key', 'value');
-  * storageCrate.clear();
-  * storageCrate.getItem('key');
-  * // => undefined
-*/
+ * Clears all data for the crate including all of localStorage if supported.
+ *
+ * @function crate.clear
+ * @category browser
+ * @type {Function}
+ * @param {string} key - The key used to remove data.
+ * @returns {undefined} - Returns undefined.
+ * @example
+ * const storageCrate = crate();
+ * storageCrate.setItem('key', 'value');
+ * storageCrate.clear();
+ * storageCrate.getItem('key');
+ * // => undefined
+ */
 let hasLocal;
 function hasStorage(storeCheck) {
 	try {
@@ -5792,5 +5755,5 @@ function isNodeList(source) {
 	return (hasValue(source)) ? source.toString() === objectNodeList : false;
 }
 
-export { Crate, Model, VirtualStorage, add$1 as add, after, append, apply, arrayToObject, ary, assign, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, eventAdd, eventRemove, every, falsey, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasValue, htmlEntities, ifInvoke, ifNotEqual, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, is, isAgent, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isHTMLCollection, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, nodeAttribute, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, saveDimensions, selector, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, themes, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, uid, unZip, unZipObject, union, unique, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
-//# sourceMappingURL=browser.bundle.es.js.map
+export { Crate, Model, VirtualStorage, add$1 as add, after, append, apply, arrayToObject, ary, assign, asyncEach, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachArrayRight, eachAsync, eachAsyncRight, eachObject, eachObjectAsync, eachWhile, ensureArray, eventAdd, eventRemove, every, falsey, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasValue, htmlEntities, ifInvoke, ifNotEqual, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersect, interval, invert, invoke, invokeAsync, isAgent, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isDate, isDecimal, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat32, isFloat64, isFunction, isHTMLCollection, isInt16, isInt32, isInt8, isKindAsync, isMap, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSame, isSet, isString, isUint16, isUint32, isUint8, isUint8Clamped, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapArrayRight, mapAsync, mapObject, mapObjectAsync, mapWhile, minus, model, multiply, negate, nodeAttribute, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectCreate, objectSize, omit, once, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomArbitrary, randomInt, range, rawURLDecode, reArg, regexGenerator, remainder, remove, removeBy, replaceList, rest, restString, right, rightString, sample, sanitize, saveDimensions, selector, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, takeRight, themes, throttle, timer, times, timesMap, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, uid, unZip, unZipObject, union, unique, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileArray, whileCompactMap, whileEachArray, whileMapArray, whileObject, without, words, wrap, xor, zip, zipObject };
+//# sourceMappingURL=bundle.js.map

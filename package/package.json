@@ -1,7 +1,7 @@
 {
     "name": "Acid",
     "company": "Universal Web, Inc",
-    "version": "3.0.5",
+    "version": "3.0.6",
     "description": "Acid is a robust, modern, modular, & async focused Javascript utility library for client (Browsers) & server (Node,Worker) like environments.",
     "bugs": {
         "url": "https://github.com/universalweb/Acid/issues"
@@ -16,11 +16,18 @@
         "stdlib"
     ],
     "license": "ISC",
-    "main": "index.js",
-    "server": "index.js",
-    "worker": "index.js",
-    "browser": "browser.js",
-    "client": "browser.js",
+    "main": "./index.js",
+    "module": "./module/index.js",
+    "browser": "./browser.js",
+    "exports": {
+        ".": {
+            "node": {
+                "require": "./index.js",
+                "import": "./module/index.js"
+            },
+            "default": "./browser.js"
+        }
+    },
     "bin": {
         "Acid": "./index.js"
       },

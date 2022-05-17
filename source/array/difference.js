@@ -1,19 +1,19 @@
 import { compactMapArray } from './each';
 import { flattenDeep } from './flatten';
 /**
-  * Checks for differences between arrays, then creates an array based on those differences.
-  *
-  * @function difference
-  * @category array
-  * @type {Function}
-  * @param {Array} array - Source array.
-  * @param {Array} compare - Array source array is compared against.
-  * @returns {Array} - An array which contains the differences between the source and compare array.
-  *
-  * @example
-  * difference([1, 2, 3], [1, 2]);
-  * // => [3]
-*/
+ * Checks for differences between arrays, then creates an array based on those differences.
+ *
+ * @function difference
+ * @category array
+ * @type {Function}
+ * @param {Array} array - Source array.
+ * @param {...Array} compares - Array(s) source array is compared against.
+ * @returns {Array} - An array which contains the differences between the source and compare array.
+ *
+ * @example
+ * difference([1, 2, 3], [1, 2]);
+ * // => [3]
+ */
 export const difference = (array, ...compares) => {
 	const compare = flattenDeep(compares);
 	return compactMapArray(array, (item) => {

@@ -15,17 +15,17 @@ export const keys = objectNative.keys;
 /**
  * Determines whether two values are the same value.
  *
- * @function is
+ * @function isSame
  * @category object
  * @param {*} source - Value to compare to.
  * @param {*} target - A value to compare.
  * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
  *
  * @example
- * is('foo', 'foo');
+ * isSame('foo', 'foo');
  * // => true
 */
-export const is = objectNative.is;
+export const isSame = objectNative.is;
 /**
  * Copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
  *

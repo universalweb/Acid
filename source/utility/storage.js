@@ -19,7 +19,7 @@
   * @category utility
   * @type {Function}
   * @param {string} key - The key used to store the data.
-  * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
+  * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
   * @returns {undefined} - Returns undefined.
   *
   * @example

@@ -1,0 +1,679 @@
+{
+  "version": "2.1.0",
+  "$schema": "http://json.schemastore.org/sarif-2.1.0-rtm.5",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "ESLint",
+          "informationUri": "https://eslint.org",
+          "rules": [],
+          "version": "8.15.0"
+        }
+      },
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/asyncEach.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/chunk.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/clear.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/clone.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/compactMapAsync.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/createrange.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/difference.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/drop.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/each.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/eachAsync.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/ensure.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/first.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/flatten.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/initial.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/intersect.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/isMatch.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/largest.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/last.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/mapAsync.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/numSort.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/object.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/partition.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/rNumSort.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/remove.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/rest.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/right.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/sample.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/shuffle.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/smallest.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/sortedIndex.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/sum.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/take.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/times.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/union.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/unique.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/without.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/xor.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/array/zip.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/agent.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/append.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/attribute.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/console.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/dimensions.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/event.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/frag.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/importScript.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/info.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/is.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/isEnter.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/ready.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/selector.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/browser/storage.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/class/construct.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/class/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/countBy.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/findIndex.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/groupBy.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/indexBy.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/invoke.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/invokeAsync.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/pluck.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/pluckValues.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/sortAlphabet.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/sortNewest.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/collection/sortOldest.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/ary.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/bind.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/chain.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/curry.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/every.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/ifInvoke.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/in.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/negate.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/nthArg.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/ntimes.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/over.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/rearged.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/stub.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/timing.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/function/wrap.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/internal/apply.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/internal/array.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/internal/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/internal/is.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/internal/object.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/number/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/number/is.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/number/math.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/compactKeys.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/each.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/eachAsync.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/hasKeys.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/invert.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/isMatch.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/mapAsync.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/omit.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/pick.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/pluckObject.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/object/zip.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/string/case.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/string/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/string/range.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/string/replace.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/string/sanitize.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/string/tokenize.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/string/truncate.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/string/typography.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/assignDeep.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/cacheNativeMethod.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/compact.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/each.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/flow.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/flowAsync.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/get.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/ifNotEqual.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/index.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/isEqual.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/json.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/model.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/promise.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/propertyMatch.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/storage.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/toPath.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/toggle.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///Users/thomasmarchi/MEGA/Github/Acid/source/utility/uid.js"
+          }
+        }
+      ],
+      "results": []
+    }
+  ]
+}

@@ -28,7 +28,7 @@ import { eachArray, whileArray } from '../array/each';
 */
 export const eachObject = (source, iteratee) => {
 	const objectKeys = keys(source);
-	eachArray(objectKeys, (key, index, original, propertyCount) => {
+	return eachArray(objectKeys, (key, index, original, propertyCount) => {
 		iteratee(source[key], key, source, propertyCount, original);
 	});
 };

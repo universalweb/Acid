@@ -13,7 +13,7 @@
 	 * @function toArray
 	 * @category array
 	 * @param {*} arrayLike - Array like object.
-	 * @returns {*} - new array.
+	 * @returns {*} - New array.
 	 *
 	 * @example
 	 * toArray([1, 2, 3]);
@@ -52,17 +52,17 @@
 	/**
 	 * Determines whether two values are the same value.
 	 *
-	 * @function is
+	 * @function isSame
 	 * @category object
 	 * @param {*} source - Value to compare to.
 	 * @param {*} target - A value to compare.
 	 * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
 	 *
 	 * @example
-	 * is('foo', 'foo');
+	 * isSame('foo', 'foo');
 	 * // => true
 	 */
-	const is = objectNative.is;
+	const isSame = objectNative.is;
 	/**
 	 * Copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
 	 *
@@ -762,8 +762,7 @@
 	 * @param {Array} source - Array of async functions that will be looped through.
 	 * Functions are given the supplied object, index, the calling array, and the array length.
 	 * @param {*} firstArgument - The first argument given to each function.
-	 * @returns {Object} - The originally given array.
-	 *
+	 * @returns {object} - The originally given array.
 	 * @test
 	 * (async () => {
 	 *   const tempList = [];
@@ -774,7 +773,6 @@
 	 *   }], {a:1});
 	 *   return assert(tempList, [0, 1]);
 	 * });
-	 *
 	 * @example
 	 * asyncEach([async (item, index) =>{
 	 *  console.log(item, index);
@@ -1275,12 +1273,12 @@
 	const smallest = (array) => {
 		return mathNativeMin(...array);
 	};
-	const rangeUp = (start, end, increment) => {
+	const rangeUp = (start, end, incrementArg) => {
 		const rangeArray = [];
 		let position = start;
 		while (position < end) {
 			rangeArray.push(position);
-			position += increment;
+			position += incrementArg;
 		}
 		return rangeArray;
 	};
@@ -1301,18 +1299,17 @@
 	 * @category array
 	 * @param {number} start - Value which determines the start of the range.
 	 * @param {number} end - Value which determines the end of the range.
-	 * @param {number} increment - Value used to step between integers.
+	 * @param {number} step - Value used to step between integers.
 	 * @returns {Array} - An array of integers.
-	 *
 	 * @example
 	 * range(0, 30, 5);
 	 * // => [0, 5, 10, 15, 20, 25]
 	 */
-	const range = (start, end, increment = 1) => {
+	const range = (start, end, step = 1) => {
 		if (start < end) {
-			return rangeUp(start, end, increment);
+			return rangeUp(start, end, step);
 		} else {
-			return rangeDown(start, end, increment);
+			return rangeDown(start, end, step);
 		}
 	};
 	/**
@@ -1323,9 +1320,8 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {*} thisBind - An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
-	 *
 	 * @test
 	 * (async () => {
 	 *   const tempList = [];
@@ -1334,7 +1330,6 @@
 	 *   });
 	 *   return assert(tempList, [1, 2, 3]);
 	 * });
-	 *
 	 * @example
 	 * eachArray([1, 2, 3], (item) => {
 	 *   console.log(item);
@@ -1356,9 +1351,8 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
-	 *
 	 * @test
 	 * (async () => {
 	 *   const tempList = [];
@@ -1367,7 +1361,6 @@
 	 *   });
 	 *   return assert(tempList, [3, 2, 1]);
 	 * });
-	 *
 	 * @example
 	 * eachArrayRight([1, 2, 3], (item) => {
 	 *   console.log(item);
@@ -1389,9 +1382,8 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
-	 * @returns {boolean} - Returns true if all returns are true or false if one value returns false.
-	 *
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
+	 * @returns {Array} - Returns true if all returns are true or false if one value returns false.
 	 * @example
 	 * whileArray([true, true, false], (item) => {
 	 *   return item;
@@ -1416,10 +1408,9 @@
 	 * @category array
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {Array} results - Array that will be used to assign results.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - An array with properties that passed the test.
-	 *
 	 * @example
 	 * filterArray([false, true, true], (item) => {
 	 *   return item;
@@ -1442,10 +1433,9 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {Array} results - Array that will be used to assign results.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - An array of the same calling array's type.
-	 *
 	 * @example
 	 * mapArray([1, 2, 3], (item) => {
 	 *   return item * 2;
@@ -1466,10 +1456,9 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - An array of the same calling array's type.
-	 *
 	 * @example
 	 * mapArrayRight([1, 2, 3], (item) => {
 	 *   return item * 2;
@@ -1498,10 +1487,9 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - An array with mapped properties that are not null or undefined.
-	 *
 	 * @example
 	 * compactMapArray([null, 2, 3], (source) => {
 	 *   return source;
@@ -1525,10 +1513,9 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - An array with properties that passed the test.
-	 *
 	 * @example
 	 * mapWhile([true, true, false], (item) => {
 	 *   return item;
@@ -1555,9 +1542,8 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
-	 *
 	 * @test
 	 * (async () => {
 	 *   const tempList = [];
@@ -1566,7 +1552,6 @@
 	 *   });
 	 *   return assert(tempList, [1, 2, 3]);
 	 * });
-	 *
 	 * @example
 	 * whileEachArray([1, 2, 3], (item) => {
 	 *   console.log(item);
@@ -1590,10 +1575,9 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
-	 *
 	 * @test
 	 * (async () => {
 	 *   const tempList = [];
@@ -1602,7 +1586,6 @@
 	 *   });
 	 *   return assert(tempList, [1, 2, 3, false, null]);
 	 * });
-	 *
 	 * @example
 	 * whileMapArray([1, 2, 3, false, null], (item) => {
 	 *   return item;
@@ -1627,10 +1610,9 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {Object} [thisBind] - An object to be given each time to the iteratee.
+	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
-	 *
 	 * @test
 	 * (async () => {
 	 *   const tempList = [];
@@ -1639,7 +1621,6 @@
 	 *   });
 	 *   return assert(tempList, [1, 2, 3, false]);
 	 * });
-	 *
 	 * @example
 	 * whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
 	 *   return item;
@@ -1691,7 +1672,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} array - Source array.
-	 * @param {Array} compare - Array source array is compared against.
+	 * @param {...Array} compares - Array(s) source array is compared against.
 	 * @returns {Array} - An array which contains the differences between the source and compare array.
 	 *
 	 * @example
@@ -1958,7 +1939,6 @@
 	 * @async
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} [results = []] - Array that will be used to assign results.
 	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
@@ -2145,8 +2125,7 @@
 	 * @function xor
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} array - The array to be filtered.
-	 * @param {Array} removeThese - Items to be removed.
+	 * @param {...Array} arrays - The array(s) to be filtered.
 	 * @returns {Array} - The filtered array.
 	 *
 	 * @example
@@ -2172,16 +2151,16 @@
 	 * @function zip
 	 * @type {Function}
 	 * @category array
-	 * @param {Array} properties - The arrays to process.
+	 * @param {Array} arrays - The arrays to process.
 	 * @returns {Array} - Returns the new array of regrouped elements.
 	 *
 	 * @example
 	 * zip(['a', 'b'], [1, 2], [true, false]);
 	 * // => [['a', 1, true], ['b', 2, false]]
 	 */
-	const zip = (...args) => {
-		return args[0].map((item, index) => {
-			return args.map((array) => {
+	const zip = (...arrays) => {
+		return arrays[0].map((item, index) => {
+			return arrays.map((array) => {
 				return array[index];
 			});
 		});
@@ -2898,7 +2877,6 @@
 	 * @category function
 	 * @type {Function}
 	 * @returns {Object} - Returns the new empty object.
-	 *
 	 * @example
 	 * stubObject();
 	 * // => {}
@@ -2913,7 +2891,6 @@
 	 * @category function
 	 * @type {Function}
 	 * @returns {Array} - Returns the new empty array.
-	 *
 	 * @example
 	 * stubArray();
 	 * // => []
@@ -2928,7 +2905,6 @@
 	 * @category function
 	 * @type {Function}
 	 * @returns {string} - Returns the new empty string.
-	 *
 	 * @example
 	 * stubString();
 	 * // => ''
@@ -2943,7 +2919,6 @@
 	 * @category function
 	 * @type {Function}
 	 * @returns {boolean} - Returns false.
-	 *
 	 * @example
 	 * stubFalse();
 	 * // => false
@@ -2958,7 +2933,6 @@
 	 * @category function
 	 * @type {Function}
 	 * @returns {boolean} - Returns true.
-	 *
 	 * @example
 	 * stubTrue();
 	 * // => true
@@ -2973,7 +2947,6 @@
 	 * @category function
 	 * @type {Function}
 	 * @returns {undefined} - Returns undefined.
-	 *
 	 * @example
 	 * noop();
 	 * // => undefined
@@ -3008,7 +2981,7 @@
 	 */
 	const eachObject = (source, iteratee) => {
 		const objectKeys = keys(source);
-		eachArray(objectKeys, (key, index, original, propertyCount) => {
+		return eachArray(objectKeys, (key, index, original, propertyCount) => {
 			iteratee(source[key], key, source, propertyCount, original);
 		});
 	};
@@ -3144,10 +3117,9 @@
 	 * @function eachWhile
 	 * @category utility
 	 * @type {Function}
-	 * @param {Object|Array|Function} source - Object that will be looped through.
+	 * @param {object | Array | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
 	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
-	 *
 	 * @example
 	 * eachWhile({a: false, b: true, c: true}, (item) => {
 	 *  return item;
@@ -3161,10 +3133,9 @@
 	 * @function each
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array|Object|Function} source - Object that will be looped through.
+	 * @param {Array | object | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @returns {Array|Object|Function} - The originally given object.
-	 *
+	 * @returns {Array | object | Function} - The originally given object.
 	 * @test
 	 * (async () => {
 	 *   const tempList = [];
@@ -3173,7 +3144,6 @@
 	 *   });
 	 *   return assert(tempList, [1, 2, 3]);
 	 * });
-	 *
 	 * @example
 	 * each({a: 1, b: 2, c: 3}, (item) => {
 	 *   console.log(item);
@@ -3187,11 +3157,10 @@
 	 * @function filter
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array|Object|Function} source - Object that will be looped through.
+	 * @param {Array | object | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Array|Object|Function} - A new object of the same calling object's type.
-	 *
+	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Array | object | Function} - A new object of the same calling object's type.
 	 * @example
 	 * filter({a: false, b: true, c: true}, (item) => {
 	 *   return item;
@@ -3205,11 +3174,10 @@
 	 * @function map
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array|Object|Function} source - Object that will be looped through.
+	 * @param {Array | object | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Array|Object|Function} - A new object of the same calling object's type.
-	 *
+	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Array | object | Function} - A new object of the same calling object's type.
 	 * @example
 	 * map({a: 1, b: 2, c: 3}, (item) => {
 	 *   return item * 2;
@@ -3223,11 +3191,10 @@
 	 * @function compactMap
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array|Object|Function} source - Object that will be looped through.
+	 * @param {Array | object | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Array|Object|Function} - A new object of the same calling object's type.
-	 *
+	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Array | object | Function} - A new object of the same calling object's type.
 	 * @example
 	 * compactMap({a: null, b: 2, c: 3}, (item) => {
 	 *   return item;
@@ -4685,7 +4652,6 @@
 	};
 	let count = 0;
 	const uidFree = [];
-	const uidClosed = {};
 	/**
 	 * Creates a numerical unique ID and recycles old ones. UID numerically ascends however freed UIDs are later reused.
 	 *
@@ -4710,7 +4676,6 @@
 		let result = uidFree.shift(uidFree);
 		if (!hasValue(result)) {
 			result = count;
-			uidClosed[result] = true;
 			count++;
 		}
 		return result;
@@ -4743,7 +4708,6 @@
 	 * // => 0
 	 */
 	uid.free = (id) => {
-		uidClosed[id] = null;
 		uidFree.push(id);
 	};
 	/**
@@ -4808,9 +4772,8 @@
 	 * @type {Function}
 	 * @category utility
 	 * @param {string} modelName - Name of the model.
-	 * @param {Object} modelValue - The model object.
+	 * @param {object} modelValue - The model object.
 	 * @returns {*} - Returns the associated model.
-	 *
 	 * @example
 	 * model('test', {a: 1}) && model('test');
 	 * // => {a: 1}
@@ -4827,6 +4790,13 @@
 			}
 		}
 	}
+	/**
+	 * Returns the model with the given name.
+	 *
+	 * @param {string} modelName - The name of the model to return.
+	 * @param {any} [modelValue] - The value of the model to return.
+	 * @returns {Model} - The model with the given name.
+	 */
 	function model(modelName, modelValue) {
 		if (hasValue(modelValue)) {
 			return construct(Model, [modelName, modelValue]);
@@ -4840,8 +4810,7 @@
 	 * @type {Function}
 	 * @category utility
 	 * @param {Function} callback - Function to be called back.
-	 * @returns {Object} - A constructor with a callback function.
-	 *
+	 * @returns {Promise} - A constructor with a callback function.
 	 * @test
 	 * (async () => {
 	 *   const result = await promise((accept) => {
@@ -4849,7 +4818,6 @@
 	 *   });
 	 *   return assert(result, true);
 	 * });
-	 *
 	 * @example
 	 * promise((a) => {});
 	 * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
@@ -4977,7 +4945,7 @@
 	 * @category utility
 	 * @type {Function}
 	 * @param {string} key - The key used to store the data.
-	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
+	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
@@ -5165,17 +5133,17 @@
 	 * @category browser
 	 * @type {Function}
 	 * @param {Node} node - Given node.
-	 * @param {string} type - A string representing the event type.
-	 * @param {Object|Function} listener - The object which receives a notification when an event of the specified type occurs.
-	 * @param {Object} options - An options object that specifies characteristics about the event listener.
+	 * @param {string} eventName - A string representing the event type.
+	 * @param {Object|Function} callback - The object which receives a notification when an event of the specified type occurs.
+	 * @param {Boolean} useCapture - The default value is false, which will use the bubbling propagation, when the value is set to true, the event uses the capturing propagation.
 	 * @returns {Node} - Returns given node.
 	 *
 	 * @example
 	 * eventAdd(document.body, 'click', () => {console.log('CLICKED');});
 	 * // = > document.body
 	 */
-	const eventAdd = (node, ...args) => {
-		node.addEventListener(...args);
+	const eventAdd = (node, eventName, callback, useCapture) => {
+		node.addEventListener(eventName, callback, useCapture);
 		return node;
 	};
 	/**
@@ -5185,17 +5153,17 @@
 	 * @category browser
 	 * @type {Function}
 	 * @param {Node} node - Given node.
-	 * @param {string} type - A string representing the event type.
-	 * @param {Object|Function} listener - An object|function representing the listener.
-	 * @param {Object} options - An options object that specifies characteristics about the event listener.
-	 * @returns {undefined} - Undefined.
+	 * @param {string} eventName - A string representing the event type.
+	 * @param {Object|Function} callback - The object which receives a notification when an event of the specified type occurs.
+	 * @param {Boolean} useCapture - The default value is false, which will use the bubbling propagation, when the value is set to true, the event uses the capturing propagation.
+	 * @returns {Node} - Returns given node.
 	 *
 	 * @example
 	 * eventRemove(document.body, () => {console.log('CLICKED');});
 	 * // = > Undefined
 	 */
-	const eventRemove = (node, ...args) => {
-		node.removeEventListener(...args);
+	const eventRemove = (node, eventName, callback, useCapture) => {
+		node.removeEventListener(eventName, callback, useCapture);
 		return node;
 	};
 	/**
@@ -5423,8 +5391,8 @@
 	 * @memberof $
 	 * @category browser
 	 * @ignoreTest
-	 * @property info
-	 * @type {Object}
+	 * @property {object} info - Client hardware & host info.
+	 * @type {object}
 	 */
 	const info = {
 		hardware: {
@@ -5471,7 +5439,6 @@
 	 * @category browser
 	 * @type {Function}
 	 * @returns {*} - Returns a new Crate Object.
-	 *
 	 * @example
 	 * const storageCrate = crate();
 	 * // => New Crate Object
@@ -5483,9 +5450,8 @@
 	 * @category browser
 	 * @type {Function}
 	 * @param {string} key - The key used to store the data.
-	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify
+	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
 	 * @returns {undefined} - Returns undefined.
-	 *
 	 * @example
 	 * const storageCrate = crate();
 	 * storageCrate.setItem('key', 'value');
@@ -5499,7 +5465,6 @@
 	 * @type {Function}
 	 * @param {string} key - The key used to store the data.
 	 * @returns {undefined} - Returns undefined.
-	 *
 	 * @example
 	 * const storageCrate = crate();
 	 * storageCrate.setItem('key', 'value');
@@ -5514,7 +5479,6 @@
 	 * @type {Function}
 	 * @param {string} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
-	 *
 	 * @example
 	 * const storageCrate = crate();
 	 * storageCrate.setItem('key', 'value');
@@ -5530,7 +5494,6 @@
 	 * @type {Function}
 	 * @param {string} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
-	 *
 	 * @example
 	 * const storageCrate = crate();
 	 * storageCrate.setItem('key', 'value');
@@ -5794,7 +5757,6 @@
 	exports.invert = invert;
 	exports.invoke = invoke;
 	exports.invokeAsync = invokeAsync;
-	exports.is = is;
 	exports.isAgent = isAgent;
 	exports.isArguments = isArguments;
 	exports.isArray = isArray;
@@ -5833,6 +5795,7 @@
 	exports.isPrimitive = isPrimitive;
 	exports.isPromise = isPromise;
 	exports.isRegExp = isRegExp;
+	exports.isSame = isSame;
 	exports.isSet = isSet;
 	exports.isString = isString;
 	exports.isUint16 = isUint16;
