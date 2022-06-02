@@ -145,15 +145,17 @@ const build = async () => {
 	console.log('Build Complete');
 };
 build();
-liveReloadStart();
-watch('./source/', {
-	recursive: true
-}, async (evt, filename) => {
-	await build();
-	notifyLiveReload(evt, filename);
-});
-watch('./docs/', {
-	recursive: true
-}, async (evt, filename) => {
-	notifyLiveReload(evt, filename);
-});
+if (!process.env.production) {
+	liveReloadStart();
+	watch('./source/', {
+		recursive: true
+	}, async (evt, filename) => {
+		await build();
+		notifyLiveReload(evt, filename);
+	});
+	watch('./docs/', {
+		recursive: true
+	}, async (evt, filename) => {
+		notifyLiveReload(evt, filename);
+	});
+}
