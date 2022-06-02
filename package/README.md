@@ -1,7 +1,7 @@
 
 # What is Acid?
 
-**[Acid](https://acidjs.com) is a robust, modern, modular, & async focused Javascript utility library for browser based environments.**
+**[AcidJS](https://acidjs.com) is a robust, modern, modular, & async focused Javascript utility library for browser based environments.**
 
 Acid provides a large collection of utility functions with an emphasis on modern ECMAScript standards & async features.  
 New ECMAScript features are added or used to replace existing methods, when they provide value & have broad enough support.  
