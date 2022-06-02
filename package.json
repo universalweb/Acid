@@ -1,7 +1,7 @@
 {
     "name": "acidjs",
     "company": "Universal Web",
-    "version": "3.0.15",
+    "version": "3.0.16",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library for client (Browsers) & server (Node,Worker) like environments.",
     "bugs": {
         "url": "https://github.com/universalweb/Acid/issues"
