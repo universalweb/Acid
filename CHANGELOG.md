@@ -1,16 +1,18 @@
-<p align="center">
-
-```
-<!-- ----------------------------------------------------------------------- -->
-<!--                              | CHANGELOG |                              -->
-<!-- ----------------------------------------------------------------------- -->
-```
-[AcidJS.com](https://acidjs.com)
-</p>
+<pre align="center">
+<--------------------------------------------------------------------------->
+<--                             | CHANGELOG |                             -->
+<--------------------------------------------------------------------------->
+<a href="https://acidjs.com" target="_blank">AcidJS.com Documentation</a>
+</pre>
 ---
 
 ### [v3.0.15](https://github.com/universalweb/Acid/compare/v3.0.15...v3.0.15) 
 DATE: 2022-06-02
+
+### Commits
+
+- Format Update [`ae0c3bc`](https://github.com/universalweb/Acid/commit/ae0c3bcc427a90d36696bf970daba39d239d4638)
+- Changelog format [`7c0fa84`](https://github.com/universalweb/Acid/commit/7c0fa84293fa332afca2f16c7c17a55f327f243e)
 
 ---
 ### [v3.0.15](https://github.com/universalweb/Acid/compare/v3.0.14...v3.0.15) 
