@@ -8,6 +8,7 @@ DATE: 2022-06-02
 
 ### Commits
 
+- Changelog template updated [`3974459`](https://github.com/universalweb/Acid/commit/397445942b6ad767cd208fd63d763504f64f4ca1)
 - changelog & build scripts [`cf17dc7`](https://github.com/universalweb/Acid/commit/cf17dc76b92c6b9a57be6c0269c0d91301fc653c)
 
 ---

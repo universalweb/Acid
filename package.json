@@ -1,8 +1,8 @@
 {
     "name": "acidjs",
-    "company": "Universal Web, Inc",
-    "version": "3.0.14",
-    "description": "Acid is a robust, modern, modular, & async focused Javascript utility library for client (Browsers) & server (Node,Worker) like environments.",
+    "company": "Universal Web",
+    "version": "3.0.15",
+    "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library for client (Browsers) & server (Node,Worker) like environments.",
     "bugs": {
         "url": "https://github.com/universalweb/Acid/issues"
     },
@@ -15,6 +15,12 @@
         "test": "tests"
     },
     "readme": "README.md",
+    "auto-changelog": {
+        "commitLimit": false,
+        "output": "CHANGELOG.md",
+        "template": "./maintenance/keepachangelog.hbs",
+        "unreleased": true
+    },
     "keywords": [
         "Acid",
         "utility",
@@ -37,23 +43,27 @@
     },
     "scripts": {
         "build": "node index.js",
-        "versionBump": "npm version patch --force && cd ./package/ && npm version patch --force",
-        "pub": "npm run versionBump && npm publish ./package/"
+        "compile": "production=true node index.js",
+        "versionBump": "npm version patch -m \"Upgrade to %s\" --force && npm run npmVersion",
+        "npmVersion": "cd ./package/ && npm version patch --force",
+        "changelog": "npx auto-changelog -p --sort-commits date-desc && git add CHANGELOG.md",
+        "pub": "npm update && npm run compile && npm run versionBump && npm run changelog && npm publish ./package/"
     },
     "dependencies": {
-        "eslint-plugin-jsdoc": "^39.3.2",
         "@babel/core": "^7.18.2",
         "@babel/eslint-parser": "^7.18.2",
         "@babel/preset-env": "^7.18.2",
         "@microsoft/eslint-formatter-sarif": "^3.0.0",
+        "auto-changelog": "^2.4.0",
         "body-parser": "*",
         "connect-livereload": "*",
         "docredux": "*",
         "eslint": "^8.16.0",
+        "eslint-plugin-jsdoc": "^39.3.2",
         "express": "*",
         "magic-string": "*",
         "node-watch": "^0.7.3",
-        "rollup": "^2.75.1",
+        "rollup": "^2.75.5",
         "rollup-plugin-terser": "^7.0.2",
         "testatron": "^2.1.0",
         "tiny-lr": "^2.0.0"
