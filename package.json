@@ -1,7 +1,7 @@
 {
     "name": "acidjs",
     "company": "Universal Web, Inc",
-    "version": "3.0.9",
+    "version": "3.0.10",
     "description": "Acid is a robust, modern, modular, & async focused Javascript utility library for client (Browsers) & server (Node,Worker) like environments.",
     "bugs": {
         "url": "https://github.com/universalweb/Acid/issues"
@@ -36,7 +36,8 @@
         "directory": "npm"
     },
     "scripts": {
-        "build": "node index.js"
+        "build": "node index.js",
+        "pub": "npm version patch --force && cd ./package/ && npm version patch --force"
     },
     "dependencies": {
         "eslint-plugin-jsdoc": "^39.3.2",
