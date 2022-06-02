@@ -12,7 +12,7 @@
 		compactKeys,
 		map,
 		isEnter,
-	} = $;
+	} = window.$;
 	const regexComplexLink = /\[([\w\s\d]+)\]\(((https|http)?:\/\/[\w\d./()_?=#]+)\)/igm;
 	const colorize = (description, itemName, type) => {
 		// console.log(itemName, description);
@@ -68,11 +68,11 @@
 			return {
 				libraryName: 'Acid',
 				npmName: 'Acid',
-				description: `Acid is a robust, modern, modular, & async focused Javascript utility library for browser based environments.`,
+				description: `Acid is a robust, modern, modular, & async focused Javascript utility library.`,
 				github: 'https://github.com/universalweb/Acid',
 				npm: 'https://www.npmjs.com/package/Acid',
 				search: '',
-				$,
+				$: window.$,
 				categories: window.docMap.categories,
 				getDocItem(item) {
 					return items[item];
