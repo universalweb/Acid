@@ -12,7 +12,7 @@
    * sortAlphabetical([{letter:'a'}, {letter:'f'}, {letter:'c'}], 'letter');
    * // => [{"letter":"a"},{"letter":"c"},{"letter":"f"}]
  */
-export const sortAlphabetical = (collection, propertyName) => {
+export function sortAlphabetical(collection, propertyName) {
 	return collection.sort((current, next) => {
 		const currentKey = current[propertyName];
 		const nextKey = next[propertyName];
@@ -23,5 +23,5 @@ export const sortAlphabetical = (collection, propertyName) => {
 		}
 		return 0;
 	});
-};
+}
 

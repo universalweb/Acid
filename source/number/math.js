@@ -12,6 +12,7 @@ const randomMethod = mathNative.random;
   * @returns {number} - Returns the sum of the arguments.
   *
   * @example
+  * import { stubArray } from './Acid.js';
   * add(1, 1);
   * // => 2
 */
@@ -29,6 +30,7 @@ export const add = (number, value) => {
   * @returns {number} - Returns the difference of the arguments.
   *
   * @example
+  * import { stubArray } from './Acid.js';
   * minus(1, 1);
   * // => 0
 */
@@ -46,6 +48,7 @@ export const minus = (number, value) => {
   * @returns {number} - Returns the quotient of the arguments.
   *
   * @example
+  * import { stubArray } from './Acid.js';
   * divide(10, 5);
   * // => 2
 */
@@ -63,6 +66,7 @@ export const divide = (number, value) => {
   * @returns {number} - Returns the product of the arguments.
   *
   * @example
+  * import { stubArray } from './Acid.js';
   * multiply(10, 5);
   * // => 50
 */
@@ -80,6 +84,7 @@ export const multiply = (number, value) => {
   * @returns {number} - Returns the remainder of the arguments.
   *
   * @example
+  * import { stubArray } from './Acid.js';
   * remainder(10, 6);
   * // => 4
 */
@@ -128,18 +133,15 @@ export const deduct = (number) => {
   * @param {number} [min = 0] - Establishes lowest possible value for the random number.
   * @returns {number} - Returns random integer between the max and min range.
   *
-  * @test
-  * (async () => {
-  *   return assert(isNumber(randomArbitrary(10)), true);
-  * });
-  *
   * @example
+  * import { stubArray } from './Acid.js';
   * randomArbitrary(10);
   * // => 9.1
 */
 export const randomArbitrary = (max, min = 0) => {
 	return randomMethod() * (max - min) + min;
 };
+// make random account for a single arg as well as if two arguments were passed with low to high
 /**
   *  Produces a random integer between min (included) and max (excluded).
   *
@@ -150,12 +152,8 @@ export const randomArbitrary = (max, min = 0) => {
   * @param {number} [min = 0] - Establishes lowest possible value for the random number.
   * @returns {number} - Returns random integer between the max and min range.
   *
-  * @test
-  * (async () => {
-  *   return assert(isNumber(randomInt(10)), true);
-  * });
-  *
   * @example
+  * import { stubArray } from './Acid.js';
   * randomInt(10);
   * // => 9
 */

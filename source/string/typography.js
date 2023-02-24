@@ -1,4 +1,4 @@
-import { restString } from './range';
+import { restString } from './range.js';
 const spaceFirstLetter = / (.)/g;
 /**
  * Returns the first letter capitalized.
@@ -10,12 +10,13 @@ const spaceFirstLetter = / (.)/g;
  * @returns {string} - An upper case letter.
  *
  * @example
+ * import { stubArray } from './Acid.js';
  * upperFirstLetter('upper');
  * // => "U"
  */
-export const upperFirstLetter = (string) => {
+export function upperFirstLetter(string) {
 	return string[0].toUpperCase();
-};
+}
 /**
  * Capitalizes the first letter.
  *
@@ -26,12 +27,13 @@ export const upperFirstLetter = (string) => {
  * @returns {string} - String with first letter capitalized.
  *
  * @example
+ * import { stubArray } from './Acid.js';
  * upperFirst('upper');
  * // => 'Upper'
  */
-export const upperFirst = (string) => {
+export function upperFirst(string) {
 	return upperFirstLetter(string) + restString(string);
-};
+}
 /**
  * Capitalize all first letters.
  *
@@ -42,14 +44,15 @@ export const upperFirst = (string) => {
  * @returns {string} - String with all first letters capitalized.
  *
  * @example
+ * import { stubArray } from './Acid.js';
  * upperFirstAll('Lucy is next up.');
  * // => 'Lucy Is Next Up.'
  */
-export const upperFirstAll = (string) => {
+export function upperFirstAll(string) {
 	return string.replace(spaceFirstLetter, (match) => {
 		return match.toUpperCase();
 	});
-};
+}
 /**
  * Capitalize first letter and lower case the rest.
  *
@@ -60,12 +63,13 @@ export const upperFirstAll = (string) => {
  * @returns {string} - String with first letter capitalized.
  *
  * @example
+ * import { stubArray } from './Acid.js';
  * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
  * // => 'Lysergic namespace diethylamide'
  */
-export const upperFirstOnly = (string) => {
+export function upperFirstOnly(string) {
 	return upperFirstLetter(string) + restString(string).toLowerCase();
-};
+}
 /**
  * Capitalize all first letters and lower case the rest.
  *
@@ -76,12 +80,13 @@ export const upperFirstOnly = (string) => {
  * @returns {string} - String with all first letters capitalized.
  *
  * @example
+ * import { stubArray } from './Acid.js';
  * upperFirstOnlyAll('LYSERGIC ACID DIETHYLAMIDE');
  * // => 'Lysergic Acid Diethylamide'
  */
-export const upperFirstOnlyAll = (string) => {
+export function upperFirstOnlyAll(string) {
 	return upperFirstOnly(string.toLowerCase()).replace(spaceFirstLetter, (match) => {
 		return match.toUpperCase();
 	});
-};
+}
 

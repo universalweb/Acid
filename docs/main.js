@@ -12,24 +12,31 @@
 		compactKeys,
 		map,
 		isEnter,
+		htmlEntities
 	} = window.$;
 	const regexComplexLink = /\[([\w\s\d]+)\]\(((https|http)?:\/\/[\w\d./()_?=#]+)\)/igm;
 	const colorize = (description, itemName, type) => {
-		// console.log(itemName, description);
+		console.log(itemName, description, type);
 		const compiledTypes = ensureArray(type.split('|')).map((objType) => {
 			// console.log(objType);
-			return `<span class="param${(objType === '*') ? 'anything' : objType.replace('...', 'rest')}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
+			return `<span class="param${(objType === '*') ? 'anything' : htmlEntities(objType.replace(/([^a-z])/ig, '').replace('...', 'rest'))}">
+				${upperFirst((objType === '*') ? 'Anything (*)' : htmlEntities(objType))}
+			</span>`;
 		})
 			.join(` | `);
 		return `<tr>
-				<td class="param${upperFirst(itemName.replace(/([^a-z*])/ig, ''))} paramName">${upperFirst(itemName)}</td>
+				<td class="param${htmlEntities(upperFirst(itemName.replace(/([^a-z])/ig, '')))} paramName">
+					${htmlEntities(upperFirst(itemName))}
+				</td>
 				<td>${compiledTypes}</td>
 				<td>${upperFirst(description)}</td>
 			</tr>`;
 	};
 	const colorizeReturn = (description, type) => {
 		const compiledTypes = ensureArray(type.split('|')).map((objType) => {
-			return `<span class="param${(objType === '*') ? 'anything' : objType.replace(/([^a-z*])/ig, '')}">${upperFirst((objType === '*') ? 'Anything (*)' : objType)}</span>`;
+			return `<span class="param${(objType === '*') ? 'anything' : htmlEntities(objType.replace(/([^a-z])/ig, ''))}">
+				${upperFirst((objType === '*') ? 'Anything (*)' : htmlEntities(objType))}
+			</span>`;
 		})
 			.join(` | `);
 		return `<tr>

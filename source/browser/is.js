@@ -1,4 +1,4 @@
-import { hasValue } from '../internal/is';
+import { hasValue } from '../type/hasValue.js';
 /**
  * Checks if value is a plain DOM Node.
  *
@@ -11,10 +11,10 @@ import { hasValue } from '../internal/is';
  * @example
  * isDom(document.querySelectorAll('.test'));
  * // => true
-*/
-export const isDom = (value) => {
+ */
+export function isDom(value) {
 	return value && value.nodeType !== 9;
-};
+}
 /**
  * Checks if the value is a HTMLCollection.
  *
@@ -27,7 +27,7 @@ export const isDom = (value) => {
  * @example
  * isHTMLCollection(document.getElementsByClassName('test'));
  * // => true
-*/
+ */
 const objectHTMLCollection = '[object HTMLCollection]';
 export function isHTMLCollection(source) {
 	return (hasValue(source)) ? source.toString() === objectHTMLCollection : false;
@@ -44,7 +44,7 @@ export function isHTMLCollection(source) {
  * @example
  * isNodeList(document.querySelectorAll('.test'));
  * // => true
-*/
+ */
 const objectNodeList = '[object NodeList]';
 export function isNodeList(source) {
 	return (hasValue(source)) ? source.toString() === objectNodeList : false;

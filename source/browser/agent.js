@@ -1,22 +1,22 @@
-import { eachArray } from '../array/each';
-import { eachObject } from '../object/each';
-import { isBoolean } from '../internal/is';
-import { keys } from '../internal/object';
+import { eachArray } from '../array/each.js';
+import { eachObject } from '../object/each.js';
+import { isBoolean } from '../type/isBoolean.js';
+import { keys } from '../object/keys.js';
 /**
-  * Checks to see of the browser agent has a string.
-  *
-  * @function isAgent
-  * @category browser
-  * @type {Function}
-  * @param {string} value - The string to search for.
-  * @returns {boolean} - Returns true or false.
-  * @example
-  * isAgent('mobile');
-  * // => false
-*/
-export const isAgent = (value) => {
+ * Checks to see of the browser agent has a string.
+ *
+ * @function isAgent
+ * @category browser
+ * @type {Function}
+ * @param {string} value - The string to search for.
+ * @returns {boolean} - Returns true or false.
+ * @example
+ * isAgent('mobile');
+ * // => false
+ */
+export function isAgent(value) {
 	return (value) ? isAgent[value] : keys(isAgent);
-};
+}
 const userAgent = globalThis.navigator?.userAgentData;
 if (userAgent) {
 	eachObject(userAgent, (value, key) => {

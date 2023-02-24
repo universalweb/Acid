@@ -1,4 +1,4 @@
-import { eachArray } from '../array/each';
+import { eachArray } from '../array/each.js';
 /**
   * Returns a clone of the source object with the plucked properties.
   *

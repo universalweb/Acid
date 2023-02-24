@@ -17,7 +17,7 @@
  * promise((a) => {});
  * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
  */
-export const promise = (callback) => {
+export function promise(callback) {
 	return new Promise(callback);
-};
+}
 

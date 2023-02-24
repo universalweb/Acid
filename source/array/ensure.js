@@ -1,4 +1,5 @@
-import { isArray, hasValue } from '../internal/is';
+import { isArray } from '../type/isArray.js';
+import { hasValue } from '../type/hasValue.js';
 /**
   * Ensures the object is an array. If not wraps in array.
   *

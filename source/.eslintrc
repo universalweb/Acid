@@ -1,8 +1,9 @@
 {
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended", "plugin:import/recommended"],
     "parser": "@babel/eslint-parser",
     "plugins": [
-        "jsdoc"
+        "jsdoc",
+        "import"
     ],
     "env": {
         "browser": true,
@@ -22,6 +23,7 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "import/extensions": ["error", "ignorePackages"],
         "no-setter-return": "error",
         "no-dupe-else-if": "error",
         "no-import-assign": "off",
@@ -496,10 +498,10 @@
             }
         ],
         "jsdoc/check-access": 1,
-        "jsdoc/check-alignment": 0,
+        "jsdoc/check-alignment": 1,
         "jsdoc/check-examples": "off",
-        "jsdoc/check-indentation": 0,
-        "jsdoc/check-line-alignment": 0,
+        "jsdoc/check-indentation": 1,
+        "jsdoc/check-line-alignment": 1,
         "jsdoc/check-param-names": 1,
         "jsdoc/check-property-names": 1,
         "jsdoc/check-syntax": 1,

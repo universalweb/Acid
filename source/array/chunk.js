@@ -9,10 +9,10 @@
  * @returns {Array} - A chunked version of the source array.
  *
  * @example
- *  chunk([1,2,3], 1);
- * // => [[1],[2],[3]]
+ * import { chunk, assert } from './Acid.js';
+ * assert(chunk([1,2,3], 1), [[1],[2],[3]]);
  */
-export const chunk = (array, size = 1) => {
+export function chunk(array, size = 1) {
 	const chunked = [];
 	let index = 0;
 	array.forEach((item, key) => {
@@ -25,5 +25,4 @@ export const chunk = (array, size = 1) => {
 		chunked[index].push(item);
 	});
 	return chunked;
-};
-
+}

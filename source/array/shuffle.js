@@ -1,25 +1,25 @@
-import { randomInt } from '../number/math';
-import { toArray } from '../internal/array';
+import { randomInt } from '../number/math.js';
+import { toArray } from '../internal/array.js';
 /**
-  * Shuffle an array and return a new array.
-  *
-  * @function shuffle
-  * @category array
-  * @param {Array} target - Target Array to be shuffled.
-  * @param {number} amount - The amount of times to shuffle the array.
-  * @returns {Array} - An array with the shuffled results.
-  *
-  * @test
-  * (async () => {
-  *   const tempResult = shuffle([1, 2]);
-  *   return assert(tempResult.includes(1) && tempResult.includes(2), true);
-  * });
-  *
-  * @example
-  * shuffle([1, 2, 3, 4]);
-  * // => [3, 4, 2, 1]
-*/
-export const shuffle = (target, amount = target.length) => {
+ * Shuffle an array and return a new array.
+ *
+ * @function shuffle
+ * @category array
+ * @param {Array} target - Target Array to be shuffled.
+ * @param {number} amount - The amount of times to shuffle the array.
+ * @returns {Array} - An array with the shuffled results.
+ *
+ * @test
+ * (async () => {
+ *   const tempResult = shuffle([1, 2]);
+ *   return assert(tempResult.includes(1) && tempResult.includes(2), true);
+ * });
+ *
+ * @example
+ * shuffle([1, 2, 3, 4]);
+ * // => [3, 4, 2, 1]
+ */
+export function shuffle(target, amount = target.length) {
 	if (target.length <= 1) {
 		return toArray(target);
 	}
@@ -35,5 +35,5 @@ export const shuffle = (target, amount = target.length) => {
 		count++;
 	}
 	return shuffleArray;
-};
+}
 

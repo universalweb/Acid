@@ -1,5 +1,5 @@
 import { eachObjectAsync } from './eachAsync';
-import { hasValue } from '../internal/is';
+import { hasValue } from '../type/hasValue.js';
 /**
   * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
   *

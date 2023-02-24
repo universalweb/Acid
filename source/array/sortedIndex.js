@@ -1,21 +1,21 @@
-import { whileArray } from './each';
+import { everyArray } from './every.js';
 /**
-   * Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
-   *
-   * @function sortedIndex
-   * @category array
-   * @type {Function}
-   * @param {Array} array - Array to be sorted.
-   * @param {number} insertThis - Number to be inserted.
-   * @returns {number} - The index at which to insert.
-   *
-   * @example
-   * sortedIndex([30, 50], 40);
-   * // => 1
+ * Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
+ *
+ * @function sortedIndex
+ * @category array
+ * @type {Function}
+ * @param {Array} array - Array to be sorted.
+ * @param {number} insertThis - Number to be inserted.
+ * @returns {number} - The index at which to insert.
+ *
+ * @example
+ * sortedIndex([30, 50], 40);
+ * // => 1
  */
-export const sortedIndex = (array, insertThis) => {
+export function sortedIndex(array, insertThis) {
 	let min = 0;
-	whileArray(array, (item, index) => {
+	everyArray(array, (item, index) => {
 		min = index;
 		if (insertThis > item) {
 			return true;
@@ -24,5 +24,5 @@ export const sortedIndex = (array, insertThis) => {
 		}
 	});
 	return min;
-};
+}
 

@@ -1,24 +1,21 @@
-import { isFunction } from '../internal/is';
+import { isFunction } from '../type/isFunction.js';
 /**
-  * Checks if the given method is a function. If it is then it invokes it with the given arguments.
-  *
-  * @function ifInvoke
-  * @category function
-  * @type {Function}
-  * @param {Function} callable - The function to be invoked if possible.
-  * @param {...Array} args - Arguments to pass to the method.
-  * @returns {*} - Returns the method invoked or undefined.
-  *
-  * @example
-  * ifInvoke((...args) => { return args;}, 1, 2);
-  * // => [1, 2]
-  * @example
-  * ifInvoke(undefined, 1, 2);
-  * // => undefined
-*/
-export const ifInvoke = (callable, ...args) => {
+ * Checks if the given method is a function. If it is then it invokes it with the given arguments.
+ *
+ * @function ifInvoke
+ * @category function
+ * @type {Function}
+ * @param {Function} callable - The function to be invoked if possible.
+ * @param {...Array} args - Arguments to pass to the method.
+ * @returns {*} - Returns the method invoked or undefined.
+ *
+ * @example
+ * import { ifInvoke, assert } from './Acid.js';
+ * assert(ifInvoke((...args) => { return args;}, 1, 2), [1, 2]);
+ */
+export function ifInvoke(callable, ...args) {
 	if (isFunction(callable)) {
 		return callable(...args);
 	}
-};
+}
 

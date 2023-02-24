@@ -1,96 +1,98 @@
 /**
-  * Inserts text into a string at a given position.
-  *
-  * @function insertInRange
-  * @category string
-  * @type {Function}
-  * @param {string} string - String to insert the text into.
-  * @param {number} index - Point of insertion.
-  * @param {string} text - The string to be inserted.
-  * @returns {string} - The string with the text inserted at the given point.
-  *
-  * @example
-  * insertInRange('A from Lucy.', 1, ' tab');
-  * // => 'A tab from Lucy.'
-*/
-export const insertInRange = (string, index, text) => {
+ * Inserts text into a string at a given position.
+ *
+ * @function insertInRange
+ * @category string
+ * @type {Function}
+ * @param {string} string - String to insert the text into.
+ * @param {number} index - Point of insertion.
+ * @param {string} text - The string to be inserted.
+ * @returns {string} - The string with the text inserted at the given point.
+ *
+ * @example
+ * import { stubArray } from './Acid.js';
+ * insertInRange('A from Lucy.', 1, ' tab');
+ * // => 'A tab from Lucy.'
+ */
+export function insertInRange(string, index, text) {
 	return string.slice(0, index) + text + string.slice(index, string.length);
-};
+}
 /**
-  * Plucks a letter using the index starting from the right.
-  *
-  * @function rightString
-  * @category string
-  * @type {Function}
-  * @param {string} string - String to extract the letter from.
-  * @param {number} [index=1] - The starting position.
-  * @returns {string} - A letter at the given index.
-  *
-  * @example
-  * rightString('rightString');
-  * // => 'g'
-  * @example
-  * rightString('rightString', 2);
-  * // => 'n'
-*/
-export const rightString = (string, index = 1) => {
+ * Plucks a letter using the index starting from the right.
+ *
+ * @function rightString
+ * @category string
+ * @type {Function}
+ * @param {string} string - String to extract the letter from.
+ * @param {number} [index=1] - The starting position.
+ * @returns {string} - A letter at the given index.
+ *
+ * @example
+ * import { stubArray } from './Acid.js';
+ * rightString('rightString');
+ * // => 'g'
+ * rightString('rightString', 2);
+ * // => 'n'
+ */
+export function rightString(string, index = 1) {
 	return string[string.length - index];
-};
+}
 /**
-  * Splits up a string into chunks.
-  *
-  * @function chunkString
-  * @category string
-  * @type {Function}
-  * @param {string} string - String to chunked.
-  * @param {number} [size] - The max string length per chunk.
-  * @returns {Array} - An array with strings that are <= size parameter.
-  *
-  * @example
-  * chunkString('chunk', 2);
-  * // => ['ch', 'un', 'k']
-*/
-export const chunkString = (string, size) => {
+ * Splits up a string into chunks.
+ *
+ * @function chunkString
+ * @category string
+ * @type {Function}
+ * @param {string} string - String to chunked.
+ * @param {number} [size] - The max string length per chunk.
+ * @returns {Array} - An array with strings that are <= size parameter.
+ *
+ * @example
+ * import { stubArray } from './Acid.js';
+ * chunkString('chunk', 2);
+ * // => ['ch', 'un', 'k']
+ */
+export function chunkString(string, size) {
 	return string.match(new RegExp(`(.|[\r\n]){1,${size}}`, 'g'));
-};
+}
 /**
-  * Truncates everything before the index starting from the right.
-  *
-  * @function initialString
-  * @category string
-  * @type {Function}
-  * @param {string} string - String to extract the initial letters from.
-  * @param {number} [index=1] - Starting point from the right.
-  * @returns {string} - A string with the characters before the index starting from the right.
-  *
-  * @example
-  * initialString('initialString');
-  * // => 'initialStrin'
-  * @example
-  * initialString('initialString', 2);
-  * // => 'initialStri'
-*/
-export const initialString = (string, index = 1) => {
+ * Truncates everything before the index starting from the right.
+ *
+ * @function initialString
+ * @category string
+ * @type {Function}
+ * @param {string} string - String to extract the initial letters from.
+ * @param {number} [index=1] - Starting point from the right.
+ * @returns {string} - A string with the characters before the index starting from the right.
+ *
+ * @example
+ * import { stubArray } from './Acid.js';
+ * initialString('initialString');
+ * // => 'initialStrin'
+ * initialString('initialString', 2);
+ * // => 'initialStri'
+ */
+export function initialString(string, index = 1) {
 	return string.slice(0, index * -1);
-};
+}
 /**
-  * Truncates everything after a index.
-  *
-  * @function restString
-  * @category string
-  * @type {Function}
-  * @param {string} string - String to extract the rest of the letters from.
-  * @param {number} [index=1] - Starting point.
-  * @returns {string} - A string without the characters up-to to the index.
-  *
-  * @example
-  * restString('restString');
-  * // => 'estString'
-  * @example
-  * restString('restString', 2);
-  * // => 'stString'
-*/
-export const restString = (string, index = 1) => {
+ * Truncates everything after a index.
+ *
+ * @function restString
+ * @category string
+ * @type {Function}
+ * @param {string} string - String to extract the rest of the letters from.
+ * @param {number} [index=1] - Starting point.
+ * @returns {string} - A string without the characters up-to to the index.
+ *
+ * @example
+ * import { stubArray } from './Acid.js';
+ * restString('restString');
+ * // => 'estString'
+ * restString('restString', 2);
+ * // => 'stString'
+ */
+export function restString(string, index = 1) {
 	return string.substr(index);
-};
+}
 

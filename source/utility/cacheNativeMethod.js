@@ -9,8 +9,8 @@ const functionPrototype = Function.prototype;
   * @returns {Function} - Cached method.
   *
   * @example
-  * cacheNativeMethod(Array.prototype.push)([], 1);
-  * // => 1
+  * import { cacheNativeMethod, assert } from './Acid.js';
+  * assert(cacheNativeMethod(Array.prototype.push)([], 1), 1);
 */
 export function cacheNativeMethod(method) {
 	return functionPrototype.call.bind(method);

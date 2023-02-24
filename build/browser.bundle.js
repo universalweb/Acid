@@ -6,20 +6,6 @@
 			((global = typeof globalThis !== 'undefined' ? globalThis : global || self), factory((global.$ = {})));
 })(this, (exports) => {
 	'use strict';
-	const arrayNative = Array;
-	/**
-	 * Takes an array like object and creates a new Array from it.
-	 *
-	 * @function toArray
-	 * @category array
-	 * @param {*} arrayLike - Array like object.
-	 * @returns {*} - New array.
-	 *
-	 * @example
-	 * toArray([1, 2, 3]);
-	 * // => [1, 2, 3]
-	 */
-	const toArray = arrayNative.from;
 	/**
 	 * Calls a target function with arguments as specified.
 	 *
@@ -35,20 +21,20 @@
 	 * // => 2
 	 */
 	const apply = Reflect.apply;
-	const objectNative = Object;
+	const arrayNative = Array;
 	/**
-	 * Get object's keys.
+	 * Takes an array like object and creates a new Array from it.
 	 *
-	 * @function keys
-	 * @category object
-	 * @param {*} source - The source object to pull keys from.
-	 * @returns {Array} - Array of keys.
+	 * @function toArray
+	 * @category array
+	 * @param {*} arrayLike - Array like object.
+	 * @returns {*} - New array.
 	 *
 	 * @example
-	 * keys({a: 1, b: 2});
-	 * // => ['a', 'b']
+	 * toArray([1, 2, 3]);
+	 * // => [1, 2, 3]
 	 */
-	const keys = objectNative.keys;
+	const toArray = arrayNative.from;
 	/**
 	 * Determines whether two values are the same value.
 	 *
@@ -62,21 +48,7 @@
 	 * isSame('foo', 'foo');
 	 * // => true
 	 */
-	const isSame = objectNative.is;
-	/**
-	 * Copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
-	 *
-	 * @function assign
-	 * @category object
-	 * @param {Object} target - The target object.
-	 * @param {...Object} sources - The source object(s).
-	 * @returns {Object} - Returns the target object.
-	 *
-	 * @example
-	 * assign({b: 2}, {a: 1});
-	 * // => {b: 2, a: 1}
-	 */
-	const assign = objectNative.assign;
+	const isSame = Object.is;
 	/**
 	 * Returns a property descriptor for an own property (that is, one directly present on an object and not in the object's prototype chain) of a given object.
 	 *
@@ -90,7 +62,7 @@
 	 * getOwnPropertyDescriptor({ bar: 42 }, 'bar');
 	 * // => { configurable: true, enumerable: true, value: 42, writable: true }
 	 */
-	const getOwnPropertyDescriptor = objectNative.getOwnPropertyDescriptor;
+	const getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 	/**
 	 * Defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
 	 *
@@ -110,7 +82,7 @@
 	 * }).key;
 	 * // => 'static'
 	 */
-	const defineProperty = objectNative.defineProperty;
+	const defineProperty = Object.defineProperty;
 	/**
 	 * Returns an array of all properties (enumerable or not) found directly upon a given object.
 	 *
@@ -123,31 +95,16 @@
 	 * getOwnPropertyNames({ 0: 'a', 1: 'b', 2: 'c' });
 	 * // => ['0', '1', '2']
 	 */
-	const getOwnPropertyNames = objectNative.getOwnPropertyNames;
-	/**
-	 * Returns the amount of keys on the object.
-	 *
-	 * @function objectSize
-	 * @category object
-	 * @param {Object} source - The source object.
-	 * @returns {number} - The amount of keys.
-	 *
-	 * @example
-	 * objectSize({ 0: 'a', 1: 'b', 2: 'c' });
-	 * // => 3
-	 */
-	const objectSize = (source) => {
-		return keys(source).length;
-	};
-	/**
-	 * Checks if the value is undefined.
+	const getOwnPropertyNames = Object.getOwnPropertyNames;
+	/** Checks if the value is undefined.
 	 *
 	 * @function isUndefined
-	 * @category utility
+	 * @category type
 	 * @param {*} value - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
+	 * import { isUndefined } from './Acid.js';
 	 * isUndefined(undefined);
 	 * // => true
 	 */
@@ -158,11 +115,12 @@
 	 * Checks if the value is null.
 	 *
 	 * @function isNull
-	 * @category utility
+	 * @category type
 	 * @param {*} value - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
+	 * import { isNull } from './Acid.js';
 	 * isNull(null);
 	 * // => true
 	 */
@@ -173,86 +131,115 @@
 	 * Checks if the value is not null or undefined.
 	 *
 	 * @function hasValue
-	 * @category utility
+	 * @category type
 	 * @param {*} value - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * hasValue(1);
-	 * // => true
+	 * import { hasValue } from './Acid.js';
+	 * assert(hasValue(1), true);
 	 */
 	function hasValue(value) {
 		return !isUndefined(value) && !isNull(value);
 	}
-	function isConstructor(nativeObject) {
-		return (obj) => {
-			return hasValue(obj) ? obj.constructor === nativeObject : false;
+	function regexTestFactory(regexType) {
+		return (item) => {
+			return hasValue(item) ? regexType.test(item) : false;
 		};
 	}
-	const decimalCheck = /\.|\+/;
 	/**
-	 * Checks if the value is a decimal.
+	 * Checks if the value is a Boolean.
 	 *
-	 * @function isDecimal
-	 * @category utility
+	 * @function isBoolean
+	 * @category type
 	 * @param {*} value - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * isDecimal(1.01);
+	 * import { isBoolean } from './Acid.js';
+	 * isBoolean(true);
 	 * // => true
 	 */
-	const isDecimal = (value) => {
-		return decimalCheck.test(value.toString());
-	};
+	function isBoolean(value) {
+		return value.constructor.name === 'Boolean';
+	}
+	/**
+	 * Checks to see if the constructor is that of a native object.
+	 *
+	 * @function isConstructor
+	 * @category type
+	 * @param {Object} target - The target object.
+	 * @param {Object} nativeObject - The source object.
+	 * @returns {Object} - Returns the target object.
+	 *
+	 * @example
+	 * import { isConstructor } from 'Acid';
+	 * isConstructor(2, Number);
+	 * // => true
+	 */
+	function isConstructor(obj, nativeObject) {
+		return hasValue(obj) ? obj.constructor === nativeObject : false;
+	}
+	/**
+	 * Checks to see if the constructor is that of a native object.
+	 *
+	 * @function isConstructor
+	 * @category type
+	 * @param {Object} target - The target object.
+	 * @param {...Object} source - The source object.
+	 * @returns {Object} - Returns the target object.
+	 *
+	 * @example
+	 * import { isConstructor } from 'Acid';
+	 * isConstructor(2, Number);
+	 * // => {b: 2, a: 1}
+	 */
+	function isConstructorFactory(source) {
+		return (target) => {
+			return isConstructor(target, source);
+		};
+	}
+	function constructorName(source) {
+		return source?.constructor?.name;
+	}
+	/**
+	 * Checks if the value is a string.
+	 *
+	 * @function isString
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isString } from './Acid.js';
+	 * isString('Lucy');
+	 * // => true
+	 */
+	const isString = isConstructorFactory(String);
 	/**
 	 * Checks if the value is an array.
 	 *
 	 * @function isArray
-	 * @category utility
+	 * @category type
 	 * @param {*} value - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
+	 * import { isArray } from './Acid.js';
 	 * isArray([]);
 	 * // => true
 	 */
 	const isArray = Array.isArray;
 	/**
-	 * Checks if the value is a string.
-	 *
-	 * @function isString
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isString('Lucy');
-	 * // => true
-	 */
-	const isString = isConstructor(String);
-	/**
-	 * Checks if the value is a number.
-	 *
-	 * @function isNumber
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isNumber(1);
-	 * // => true
-	 */
-	const isNumber = isConstructor(Number);
-	/**
 	 * Checks if the value is a plain object.
 	 *
 	 * @function isPlainObject
-	 * @category utility
+	 * @category type
 	 * @param {*} value - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
+	 * import { isPlainObject } from './Acid.js';
 	 * isPlainObject({});
 	 * // => true
 	 */
@@ -262,37 +249,6 @@
 				.slice(9, 16) === 'Object(';
 		}
 		return false;
-	};
-	/**
-	 * Checks if the value is a plain object.
-	 *
-	 * @function isFunction
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isFunction(() => {});
-	 * // => true
-	 */
-	const isFunction = (value) => {
-		return hasValue(value) ? value instanceof Function : false;
-	};
-	/**
-	 * Checks if the value includes something.
-	 *
-	 * @function has
-	 * @category utility
-	 * @param {Array|String} value - Object to be checked.
-	 * @param {*} search - Object that is being searched for.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * has('My name is Acidjs', 'Acidjs');
-	 * // => true
-	 */
-	const has = (value, ...search) => {
-		return value.includes(...search);
 	};
 	/**
 	 * Checks if the value has length greater than 0.
@@ -306,105 +262,428 @@
 	 * hasLength([1]);
 	 * // => true
 	 */
-	const hasLength = (value) => {
+	function hasLength(value) {
 		return Boolean(value.length);
-	};
+	}
+	/**
+	 * Get object's keys.
+	 *
+	 * @function keys
+	 * @category object
+	 * @param {*} source - The source object to pull keys from.
+	 * @returns {Array} - Array of keys.
+	 *
+	 * @example
+	 * keys({a: 1, b: 2});
+	 * // => ['a', 'b']
+	 */
+	const objectKeys = Object.keys;
+	function keys(source) {
+		if (source) {
+			return objectKeys(source);
+		}
+	}
+	/**
+	 * Returns the amount of keys on the object.
+	 *
+	 * @function objectSize
+	 * @category object
+	 * @param {Object} source - The source object.
+	 * @returns {number} - The amount of keys.
+	 *
+	 * @example
+	 * objectSize({ 0: 'a', 1: 'b', 2: 'c' });
+	 * // => 3
+	 */
+	function objectSize(source) {
+		return keys(source).length;
+	}
 	/**
 	 * Checks if the value is empty.
 	 *
 	 * @function isEmpty
-	 * @category utility
+	 * @category type
 	 * @param {*} source - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
+	 * import { isEmpty } from './Acid.js';
 	 * isEmpty([]);
 	 * // => true
 	 */
-	const isEmpty = (source) => {
+	function isEmpty(source) {
 		if (isString(source) || isArray(source)) {
 			return !hasLength(source);
 		} else if (isPlainObject(source)) {
 			return !objectSize(source);
 		}
 		return !hasValue(source);
-	};
-	const regexGenerator = (regexType) => {
-		return (item) => {
-			return hasValue(item) ? regexType.test(item) : false;
-		};
-	};
+	}
 	/**
-	 * Checks if the string has a .css extension.
+	 * Checks if the source is a Int32Array.
 	 *
-	 * @function isFileCSS
-	 * @category utility
-	 * @param {string} value - Object to be checked.
+	 * @function isI32
+	 * @category type
+	 * @param {*} source - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * isFileCSS('test.css');
+	 * import { isI32 } from './Acid.js';
+	 * isI32(new Int32Array());
 	 * // => true
 	 */
-	const isFileCSS = regexGenerator(/\.css$/);
+	const isI32 = isConstructorFactory('Int32Array');
 	/**
-	 * Checks if the string has a .json extension.
+	 * Checks if the source is a ArrayBuffer.
 	 *
-	 * @function isFileJSON
-	 * @category utility
-	 * @param {string} value - Object to be checked.
+	 * @function isBuffer
+	 * @category type
+	 * @param {*} source - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * isFileJSON('test.json');
+	 * isBuffer(new ArrayBuffer());
 	 * // => true
 	 */
-	const isFileJSON = regexGenerator(/\.json$/);
+	const isBuffer = isConstructorFactory('ArrayBuffer');
 	/**
-	 * Checks if the string has a .js extension.
+	 * Checks if the source is a Float32Array.
 	 *
-	 * @function isFileJS
-	 * @category utility
-	 * @param {string} value - Object to be checked.
+	 * @function isF32
+	 * @category type
+	 * @param {*} source - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * isFileJS('test.js');
+	 * import { isFloat32 } from './Acid.js';
+	 * isFloat32(new Float32Array());
 	 * // => true
 	 */
-	const isFileJS = regexGenerator(/\.js$/);
+	const isF32 = isConstructorFactory('Float32Array');
 	/**
-	 * Checks if the string has a .html extension.
+	 * Checks if the source is a Int8Array.
 	 *
-	 * @function isFileHTML
-	 * @category utility
-	 * @param {string} value - Object to be checked.
+	 * @function isI8
+	 * @category type
+	 * @param {*} source - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * isFileHTML('test.html');
+	 * import { isInt8 } from './Acid.js';
+	 * isInt8(new Int8Array());
 	 * // => true
 	 */
-	const isFileHTML = regexGenerator(/\.html$/);
+	const isI8 = isConstructorFactory('Int8Array');
 	/**
-	 * Checks if the string has a '.'.
+	 * Checks if an object is a primitive.
 	 *
-	 * @function hasDot
-	 * @category utility
+	 * @function isPrimitive
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - True or false.
+	 *
+	 * @example
+	 * import { isPrimitive } from './Acid.js';
+	 * isPrimitive(1);
+	 * // => true
+	 * isPrimitive(() => {});
+	 * // => false
+	 */
+	function isPrimitive(value) {
+		const type = typeof value;
+		return value === null || value === undefined || (type !== 'object' && type !== 'function');
+	}
+	/**
+	 * Checks if the source is a Uint16Array.
+	 *
+	 * @function isU16
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isU16 } from './Acid.js';
+	 * isU16(new Uint16Array());
+	 * // => true
+	 */
+	const isU16 = isConstructorFactory('Uint16Array');
+	/**
+	 * Checks if the source is a WeakMap.
+	 *
+	 * @function isWeakMap
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isWeakMap } from './Acid.js';
+	 * assert(isWeakMap(new WeakMap()), true);
+	 */
+	const objectWeakMap = '[object WeakMap]';
+	function isWeakMap(source) {
+		return hasValue(source) ? source.toString() === objectWeakMap : false;
+	}
+	/**
+	 * Checks if the value is an Arguments object.
+	 *
+	 * @function isArguments
+	 * @category type
 	 * @param {*} value - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * hasDot('test.js');
+	 * import { isArguments } from './Acid.js';
+	 * isArguments([]);
+	 * // => false
+	 */
+	const objectArguments = '[object Arguments]';
+	function isArguments(source) {
+		return hasValue(source) ? source.toString() === objectArguments : false;
+	}
+	/**
+	 * Checks if the source is a Float64Array.
+	 *
+	 * @function isF64
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isF64 } from './Acid.js';
+	 * isF64(new Float64Array());
 	 * // => true
 	 */
-	const hasDot = regexGenerator(/\./);
+	const isF64 = isConstructorFactory('Float64Array');
+	/**
+	 * Checks if the source is a Map.
+	 *
+	 * @function isMap
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isMap } from './Acid.js';
+	 * isMap(new Map());
+	 * // => true
+	 */
+	const objectMap = '[object Map]';
+	function isMap(source) {
+		return hasValue(source) ? source.toString() === objectMap : false;
+	}
+	/**
+	 * Checks if an object is a promise.
+	 *
+	 * @function isPromise
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - True or false.
+	 *
+	 * @example
+	 * import { isPromise } from './Acid.js';
+	 * isPromise(new Promise(() => {}));
+	 * // => true
+	 */
+	function isPromise(value) {
+		if (value) {
+			return value instanceof Promise;
+		}
+		return false;
+	}
+	/**
+	 * Checks if the source is a Uint32Array.
+	 *
+	 * @function isU32
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isU32 } from './Acid.js';
+	 * isU32(new Uint32Array());
+	 * // => true
+	 */
+	const isU32 = isConstructorFactory('Uint32Array');
+	/**
+	 * Checks if the value is a Date.
+	 *
+	 * @function isDate
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isDate } from './Acid.js';
+	 * isDate(new Date());
+	 * // => true
+	 */
+	function isDate(value) {
+		return value instanceof Date;
+	}
+	/**
+	 * Checks if the value is a plain object.
+	 *
+	 * @function isFunction
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isFunction } from './Acid.js';
+	 * isFunction(() => {});
+	 * // => true
+	 */
+	const isFunction = (value) => {
+		return hasValue(value) ? value instanceof Function : false;
+	};
+	/**
+	 * Checks if the value is a RegExp.
+	 *
+	 * @function isRegExp
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isRegExp } from './Acid.js';
+	 * isRegExp(/test/);
+	 * // => true
+	 */
+	function isRegExp(value) {
+		return value instanceof RegExp;
+	}
+	/**
+	 * Checks if the source is a Uint8Array.
+	 *
+	 * @function isU8
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isU8 } from './Acid.js';
+	 * isU8(new Uint8Array());
+	 * // => true
+	 */
+	const isU8 = isConstructorFactory('Uint8Array');
+	/**
+	 * Checks if an object is an async function.
+	 *
+	 * @function isAsync
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - True or false.
+	 *
+	 * @example
+	 * import { isAsync, assert } from './Acid.js';
+	 * assert(isAsync(async() => {}), true);
+	 */
+	function isAsync(value) {
+		if (value) {
+			return value.constructor?.name === 'AsyncFunction';
+		}
+		return false;
+	}
+	/**
+	 * Checks if an object is an async function or promise.
+	 *
+	 * @function isKindAsync
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - True or false.
+	 *
+	 * @example
+	 * import { isKindAsync, assert } from './Acid.js';
+	 * assert(isKindAsync(async() => {}), true);
+	 */
+	function isKindAsync(value) {
+		if (value) {
+			return isPromise(value) || isAsync(value);
+		}
+		return false;
+	}
+	const decimalCheck = /\.|\+/;
+	/**
+	 * Checks if the value (typically a number) as a string has a decimal point.
+	 *
+	 * @function isDecimal
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isDecimal } from './Acid.js';
+	 * isDecimal(1.01);
+	 * // => true
+	 */
+	const isDecimal = (value) => {
+		return decimalCheck.test(value.toString());
+	};
+	/**
+	 * Checks if the source is a Int16Array.
+	 *
+	 * @function isI16
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isI16 } from './Acid.js';
+	 * isI16(new Int16Array());
+	 * // => true
+	 */
+	const isI16 = isConstructorFactory('Int16Array');
+	/**
+	 * Checks if the value is a number.
+	 *
+	 * @function isNumber
+	 * @category type
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isNumber } from './Acid.js';
+	 * isNumber(1);
+	 * // => true
+	 */
+	const isNumber = isConstructorFactory(Number);
+	/**
+	 * Checks if the source is a Set.
+	 *
+	 * @function isSet
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isSet } from './Acid.js';
+	 * isSet(new Set());
+	 * // => true
+	 */
+	const objectSet = '[object Set]';
+	function isSet(source) {
+		return hasValue(source) ? source.toString() === objectSet : false;
+	}
+	/**
+	 * Checks if the source is a Uint8ClampedArray.
+	 *
+	 * @function isU8C
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isU8C } from './Acid.js';
+	 * isU8C(new Uint8ClampedArray());
+	 * // => true
+	 */
+	const isU8C = isConstructorFactory('Uint8ClampedArray');
 	const getExtensionRegex = /\.([0-9a-z]+)/;
 	/**
 	 * Return the file extension.
 	 *
 	 * @function getFileExtension
-	 * @category utility
+	 * @category file
 	 * @param {*} source - Object to be checked.
 	 * @returns {string} - Returns the extension.
 	 *
@@ -412,384 +691,305 @@
 	 * getFileExtension('test.js');
 	 * // => 'js'
 	 */
-	const getFileExtension = (source) => {
+	function getFileExtension(source) {
 		const match = source.match(getExtensionRegex);
 		if (match) {
 			return match[1];
 		}
-	};
-	/**
-	 * Checks if the value is a RegExp.
-	 *
-	 * @function isRegExp
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isRegExp(/test/);
-	 * // => true
-	 */
-	const isRegExp = (value) => {
-		return value instanceof RegExp;
-	};
-	/**
-	 * Checks if the value is an Arguments object.
-	 *
-	 * @function isArguments
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isArguments([]);
-	 * // => false
-	 */
-	/**
-	 * Checks if the value is a Boolean.
-	 *
-	 * @function isBoolean
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isBoolean(true);
-	 * // => true
-	 */
-	const isBoolean = (value) => {
-		return value.constructor.name === 'Boolean';
-	};
-	/**
-	 * Checks if the value is a Date.
-	 *
-	 * @function isDate
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isDate(new Date());
-	 * // => true
-	 */
-	const isDate = (value) => {
-		return value instanceof Date;
-	};
-	/**
-	 * Checks if an object is a promise.
-	 *
-	 * @function isPromise
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - True or false.
-	 *
-	 * @example
-	 * isPromise(new Promise(() => {}));
-	 * // => true
-	 */
-	const isPromise = (value) => {
-		if (value) {
-			return value instanceof Promise;
-		}
-		return false;
-	};
-	/**
-	 * Checks if an object is an async function.
-	 *
-	 * @function isAsync
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - True or false.
-	 *
-	 * @example
-	 * isAsync(async() => {});
-	 * // => true
-	 */
-	const isAsync = (value) => {
-		if (value) {
-			return value.constructor?.name === 'AsyncFunction';
-		}
-		return false;
-	};
-	/**
-	 * Checks if an object is an async function or promise.
-	 *
-	 * @function isKindAsync
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - True or false.
-	 *
-	 * @example
-	 * isKindAsync(async() => {});
-	 * // => true
-	 * isKindAsync(new Promise(() => {}));
-	 * // => true
-	 */
-	const isKindAsync = (value) => {
-		if (value) {
-			return isPromise(value) || isAsync(value);
-		}
-		return false;
-	};
-	/**
-	 * Checks if an object is a primitive.
-	 *
-	 * @function isPrimitive
-	 * @category utility
-	 * @param {*} value - Object to be checked.
-	 * @returns {boolean} - True or false.
-	 *
-	 * @example
-	 * isPrimitive(1);
-	 * // => true
-	 * @example
-	 * isPrimitive(() => {});
-	 * // => false
-	 */
-	const isPrimitive = (value) => {
-		const type = typeof value;
-		return value === null || value === undefined || (type !== 'object' && type !== 'function');
-	};
-	/**
-	 * Checks if the source is a Map.
-	 *
-	 * @function isMap
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isMap(new Map());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Set.
-	 *
-	 * @function isSet
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isSet(new Set());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a WeakMap.
-	 *
-	 * @function isWeakMap
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isWeakMap(new WeakMap());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a ArrayBuffer.
-	 *
-	 * @function isArrayBuffer
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isArrayBuffer(new ArrayBuffer());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Float32Array.
-	 *
-	 * @function isFloat32Array
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isFloat32Array(new Float32Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Float64Array.
-	 *
-	 * @function isFloat64Array
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isFloat64Array(new Float64Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Int8Array.
-	 *
-	 * @function isInt8Array
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isInt8Array(new Int8Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Int16Array.
-	 *
-	 * @function isInt16Array
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isInt16Array(new Int16Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Int32Array.
-	 *
-	 * @function isInt32Array
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isInt32Array(new Int32Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Uint8Array.
-	 *
-	 * @function isUint8Array
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isUint8Array(new Uint8Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Uint8ClampedArray.
-	 *
-	 * @function isUint8ClampedArray
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isUint8ClampedArray(new Uint8ClampedArray());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Uint16Array.
-	 *
-	 * @function isUint16Array
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isUint16Array(new Uint16Array());
-	 * // => true
-	 */
-	/**
-	 * Checks if the source is a Uint32Array.
-	 *
-	 * @function isUint32Array
-	 * @category utility
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isUint32Array(new Uint32Array());
-	 * // => true
-	 */
-	const objectArguments = '[object Arguments]';
-	function isArguments(source) {
-		return hasValue(source) ? source.toString() === objectArguments : false;
-	}
-	const objectMap = '[object Map]';
-	function isMap(source) {
-		return hasValue(source) ? source.toString() === objectMap : false;
-	}
-	const objectSet = '[object Set]';
-	function isSet(source) {
-		return hasValue(source) ? source.toString() === objectSet : false;
-	}
-	const objectWeakMap = '[object WeakMap]';
-	function isWeakMap(source) {
-		return hasValue(source) ? source.toString() === objectWeakMap : false;
-	}
-	function isBuffer(source) {
-		return hasValue(source) ? source.constructor?.name === 'ArrayBuffer' : false;
-	}
-	function isFloat32(source) {
-		return hasValue(source) ? source.constructor?.name === 'Float32Array' : false;
-	}
-	function isFloat64(source) {
-		return hasValue(source) ? source.constructor?.name === 'Float64Array' : false;
-	}
-	function isInt8(source) {
-		return hasValue(source) ? source.constructor?.name === 'Int8Array' : false;
-	}
-	function isInt16(source) {
-		return hasValue(source) ? source.constructor?.name === 'Int16Array' : false;
-	}
-	function isInt32(source) {
-		return hasValue(source) ? source.constructor?.name === 'Int32Array' : false;
-	}
-	function isUint8(source) {
-		return hasValue(source) ? source.constructor?.name === 'Uint8Array' : false;
-	}
-	function isUint8Clamped(source) {
-		return hasValue(source) ? source.constructor?.name === 'Uint8ClampedArray' : false;
-	}
-	function isUint16(source) {
-		return hasValue(source) ? source.constructor?.name === 'Uint16Array' : false;
-	}
-	function isUint32(source) {
-		return hasValue(source) ? source.constructor?.name === 'Uint32Array' : false;
 	}
 	/**
-	 * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
+	 * Checks if the string has a .css extension.
 	 *
-	 * @function asyncEach
-	 * @type {Function}
+	 * @function isFileCSS
+	 * @category file
+	 * @param {string} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isFileCSS('test.css');
+	 * // => true
+	 */
+	const isFileCSS = regexTestFactory(/\.css$/);
+	/**
+	 * Checks if the string has a .html extension.
+	 *
+	 * @function isFileHTML
+	 * @category file
+	 * @param {string} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isFileHTML('test.html');
+	 * // => true
+	 */
+	const isFileHTML = regexTestFactory(/\.html$/);
+	/**
+	 * Checks if the string has a .js extension.
+	 *
+	 * @function isFileJS
+	 * @category file
+	 * @param {string} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isFileJS('test.js');
+	 * // => true
+	 */
+	const isFileJS = regexTestFactory(/\.js$/);
+	/**
+	 * Checks if the string has a .json extension.
+	 *
+	 * @function isFileJSON
+	 * @category file
+	 * @param {string} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isFileJSON('test.json');
+	 * // => true
+	 */
+	const isFileJSON = regexTestFactory(/\.json$/);
+	/**
+	 * Chunks an array according to a user defined number.
+	 *
+	 * @function chunk
 	 * @category Array
-	 * @async
-	 * @param {Array} source - Array of async functions that will be looped through.
-	 * Functions are given the supplied object, index, the calling array, and the array length.
-	 * @param {*} firstArgument - The first argument given to each function.
-	 * @returns {object} - The originally given array.
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   await asyncEach([async (item, index) => {
-	 *     tempList.push(index);
-	 *   }, async (item, index) => {
-	 *     tempList.push(index);
-	 *   }], {a:1});
-	 *   return assert(tempList, [0, 1]);
-	 * });
+	 * @type {Function}
+	 * @param {Array} array - Array to be chunked.
+	 * @param {number} size - Number which determines the size of each chunk.
+	 * @returns {Array} - A chunked version of the source array.
+	 *
 	 * @example
-	 * asyncEach([async (item, index) =>{
-	 *  console.log(item, index);
-	 * }, async (item) =>{
-	 *  console.log(item, index);
-	 * }], {a:1});
-	 * // {a:1} 0
-	 * // {a:1} 1
+	 * import { chunk, assert } from './Acid.js';
+	 * assert(chunk([1,2,3], 1), [[1],[2],[3]]);
 	 */
-	const asyncEach = async (source, firstArgument) => {
+	function chunk(array, size = 1) {
+		const chunked = [];
+		let index = 0;
+		array.forEach((item, key) => {
+			if (!(key % size)) {
+				chunked.push([]);
+				if (key) {
+					index++;
+				}
+			}
+			chunked[index].push(item);
+		});
+		return chunked;
+	}
+	/**
+	 * Clears the values out of an array.
+	 *
+	 * @function clear
+	 * @category Array
+	 * @type {Function}
+	 * @param {Array} array - Takes an array to be emptied.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * import { clear, assert } from './Acid.js';
+	 * assert(clear([1,'B', 'Cat']), []);
+	 */
+	function clear(array) {
+		array.length = 0;
+		return array;
+	}
+	/**
+	 * Clears the values out of an array.
+	 *
+	 * @function cloneArray
+	 * @category Array
+	 * @type {Function}
+	 * @param {Array} array - Takes an array to be cloned.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * import { cloneArray, assert } from './Acid.js';
+	 * assert(cloneArray([1,'B', 'Cat']), [1, 'B', 'Cat']);
+	 */
+	function cloneArray(array) {
+		return array.slice();
+	}
+	/**
+	 * A simple function which returns the value it's given.
+	 *
+	 * @function ReturnValue
+	 * @category function
+	 * @param {*} source - The source object.
+	 * @returns {source} The source object.
+	 */
+	function returnValue(source) {
+		return source;
+	}
+	/**
+	 * Iterates through the given array.
+	 *
+	 * @function eachArray
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {*} thisBind - An object to be given each time to the iteratee.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * import { eachArray, assert } from './Acid.js';
+	 * const list = [];
+	 * eachArray([1, 2, 3], (item, index) => {
+	 *   list[index] = item;
+	 * });
+	 * assert(list, [1, 2, 3]);
+	 */
+	function eachArray(source, iteratee, thisBind) {
 		const arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
-			const item = source[index];
-			await item(firstArgument, index, source, arrayLength);
+			iteratee(source[index], index, source, arrayLength, thisBind);
 		}
 		return source;
-	};
+	}
+	/**
+	 * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
+	 *
+	 * @function compactMapArray
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisBind - An object to be given each time to the iteratee.
+	 * @returns {Array} - An array with mapped properties that are not null or undefined.
+	 *
+	 * @example
+	 * import { compactMapArray, assert } from './Acid.js';
+	 * assert(compactMapArray([null, 2, 3], (item) => {
+	 *   return item;
+	 * }), [2, 3]);
+	 */
+	function compactMapArray(source, iteratee = returnValue, results = [], thisBind) {
+		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+			const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
+			if (hasValue(returned)) {
+				results.push(returned);
+			}
+		});
+		return results;
+	}
+	/**
+	 * Asynchronously Iterates through the given array. Each async function is awaited as to ensure synchronous order.
+	 *
+	 * @function eachAsyncArray
+	 * @category array
+	 * @type {Function}
+	 * @async
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @returns {Array} - Returns source the originally given array.
+	 *
+	 * @example
+	 * import { eachAsyncArray, assert } from './Acid.js';
+	 * const tempList = [];
+	 * await eachAsyncArray([1, 2, 3], async (item) => {
+	 *   tempList.push(item);
+	 * });
+	 * assert(tempList, [1, 2, 3]);
+	 */
+	async function eachAsyncArray(source, iteratee) {
+		const arrayLength = source.length;
+		for (let index = 0; index < arrayLength; index++) {
+			await iteratee(source[index], index, source, arrayLength);
+		}
+		return source;
+	}
+	/**
+	 * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
+	 *
+	 * @function compactMapAsync
+	 * @type {Function}
+	 * @category array
+	 * @async
+	 * @param {Array} source - Array to be compacted.
+	 * @param {Function} iteratee - Iteratee to be performed on array.
+	 * @returns {Array} - Array values after being put through an iterator.
+	 *
+	 * @example
+	 * import { compactMapAsync, assert } from './Acid.js';
+	 * assert(await compactMapAsync([1, 2, 3, null], async (item) => {
+	 *   return item;
+	 * }), [1, 2, 3]);
+	 */
+	async function compactMapAsync(source, iteratee = returnValue) {
+		const results = [];
+		await eachAsyncArray(source, async (item, index, arrayLength) => {
+			const result = await iteratee(item, index, results, arrayLength);
+			if (hasValue(result)) {
+				results.push(result);
+			}
+		});
+		return results;
+	}
+	function rangeUp(start, end, incrementArg) {
+		const rangeArray = [];
+		let position = start;
+		while (position < end) {
+			rangeArray.push(position);
+			position += incrementArg;
+		}
+		return rangeArray;
+	}
+	function rangeDown(start, end, incrementArg) {
+		const increment = incrementArg < 0 ? incrementArg * -1 : incrementArg;
+		const rangeArray = [];
+		let position = start;
+		while (position > end) {
+			rangeArray.push(position);
+			position -= increment;
+		}
+		return rangeArray;
+	}
+	/**
+	 * Create a numbered list of integers.
+	 *
+	 * @function range
+	 * @category array
+	 * @type {Function}
+	 * @param {number} start - Value which determines the start of the range.
+	 * @param {number} end - Value which determines the end of the range.
+	 * @param {number} step - Value used to step between integers.
+	 * @returns {Array} - An array of integers.
+	 *
+	 * @example
+	 * import { range, assert } from './Acid.js';
+	 * assert(range(0, 30, 5), [0, 5, 10, 15, 20, 25]);
+	 */
+	function range(start, end, step = 1) {
+		if (start < end) {
+			return rangeUp(start, end, step);
+		} else {
+			return rangeDown(start, end, step);
+		}
+	}
+	/**
+	 * Iterates through the given object.
+	 *
+	 * @function eachObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
+	 * @returns {Object|Function} - Returns the calling object.
+	 *
+	 * @example
+	 * import { eachObject, assert } from './Acid.js';
+	 * assert(eachObject({a: 1, b: 2, c: 3}, (item) => {
+	 *   console.log(item);
+	 * }), {a: 1, b: 2, c: 3});
+	 */
+	function eachObject(source, iteratee) {
+		const objectKeys = keys(source);
+		return eachArray(objectKeys, (key, index, original, propertyCount) => {
+			iteratee(source[key], key, source, propertyCount, original);
+		});
+	}
 	/**
 	 * Ensures the object is an array. If not wraps in array.
 	 *
@@ -811,6 +1011,231 @@
 		return (isArray(object) && object) || (hasValue(object) && [object]) || [];
 	};
 	/**
+	 * Flattens an array to a single level.
+	 *
+	 * @function flattenDeep
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} source - Array to flatten.
+	 * @returns {Array} - Returns a completely flattened array.
+	 *
+	 * @example
+	 * import { flattenDeep, assert } from './Acid.js';
+	 * assert(flattenDeep([1, [2, [3, [4]], 5]]), [1, 2, 3, 4, 5]);
+	 */
+	function flattenDeep(source) {
+		return source.flat(Infinity);
+	}
+	/**
+	 * Checks for primitive differences between a source array and other arrays, then returns a new array containing those differences.
+	 *
+	 * @function difference
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Source array.
+	 * @param {...Array} compare - Array(s) source array is compared against.
+	 * @returns {Array} - An array which contains the differences between the source and compare array.
+	 *
+	 * @example
+	 * import { difference, assert } from './Acid.js';
+	 * assert(difference([1, 2, 3], [1, 2]));
+	 */
+	function difference(...sources) {
+		const differencesMap = {};
+		const differences = [];
+		const sourcesLength = sources.length;
+		if (sourcesLength === 2) {
+			return difference(sources[0], sources[1]);
+		}
+		eachArray(sources, (currentArray, parentIndex) => {
+			eachArray(currentArray, (child, childIndex) => {
+				const childType = typeof child;
+				let parentType = differencesMap[childType];
+				if (!parentType) {
+					parentType = differencesMap[childType] = {};
+				}
+				let childRoot = parentType[child];
+				if (!childRoot) {
+					childRoot = parentType[child] = {
+						count: 1,
+						parentIndex,
+						child
+					};
+				} else if (childRoot.parentIndex === parentIndex) {
+					return;
+				} else {
+					childRoot.count++;
+				}
+			});
+		});
+		eachObject(differencesMap, (parentType) => {
+			eachObject(parentType, (item) => {
+				if (item.count === 1 && item.parentIndex === 0) {
+					differences.push(item.child);
+				}
+			});
+		});
+		return differences;
+	}
+	/**
+	 * Removes all items from an array after a specified index.
+	 *
+	 * @function drop
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} array - Source array.
+	 * @param {number} amount - Amount of items to drop from the array.
+	 * @param {number} [upTo = array.length] - Index to stop at.
+	 * @returns {Array} - An array with all values removed after a user defined index.
+	 *
+	 * @example
+	 * import { drop, assert } from './Acid.js';
+	 * assert(drop([1, 2, 3], 1), [2, 3]);
+	 */
+	function drop(array, amount, upTo = array.length) {
+		return array.splice(amount, upTo);
+	}
+	/**
+	 * Removes all items from an array before a specified index.
+	 *
+	 * @function dropRight
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} array - Source array.
+	 * @param {number} amount - Amount of items to drop from the array.
+	 * @param {number} [upTo = array.length] - Index to stop at.
+	 * @returns {Array} - An array with all values removed before a user defined index.
+	 *
+	 * @example
+	 * import { dropRight, assert } from './Acid.js';
+	 * assert(dropRight([1, 2, 3], 1), [1, 2]);
+	 */
+	const dropRight = (array, amount, upTo = array.length) => {
+		return drop(array, 0, upTo - amount);
+	};
+	/**
+	 * Iterates through the given array in reverse.
+	 *
+	 * @function eachRight
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * import { eachRight, assert } from './Acid.js';
+	 * const tempList = [];
+	 * await eachRight([1, 2, 3], (item) => {
+	 *   tempList.push(item);
+	 * });
+	 * assert(tempList, [3, 2, 1]);
+	 */
+	function eachRight(source, iteratee, thisBind) {
+		const arrayLength = source.length;
+		for (let index = arrayLength - 1; index >= 0; index--) {
+			iteratee(source[index], index, source, arrayLength, thisBind);
+		}
+		return source;
+	}
+	/**
+	 * Asynchronously Iterates through the given array in reverse. Each async function is awaited as to ensure synchronous order.
+	 *
+	 * @function eachRightAsync
+	 * @category array
+	 * @type {Function}
+	 * @async
+	 * @param {Array} callingArray - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @returns {Object} - The originally given array.
+	 *
+	 * @example
+	 * import { eachRightAsync, assert } from './Acid.js';
+	 * const tempList = [];
+	 * await eachRightAsync([1, 2, 3], async (item) => {
+	 *   tempList.push(item);
+	 * });
+	 * assert(tempList, [3, 2, 1]);
+	 */
+	async function eachRightAsync(callingArray, iteratee) {
+		const arrayLength = callingArray.length;
+		for (let index = arrayLength - 1; index >= 0; index--) {
+			await iteratee(callingArray[index], index, callingArray, arrayLength);
+		}
+		return callingArray;
+	}
+	/**
+	 * Iterates through the given array while the iteratee returns true.
+	 *
+	 * @function everyArray
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
+	 * @returns {Array} - Returns true if all returns are true or false if one value returns false.
+	 *
+	 * @example
+	 * import { everyArray, assert } from './Acid.js';
+	 * assert(everyArray([true, true, false], (item) => {
+	 *   return item;
+	 * }), false);
+	 */
+	function everyArray(source, iteratee, thisBind) {
+		const arrayLength = source.length;
+		for (let index = 0; index < arrayLength; index++) {
+			if (iteratee(source[index], index, source, arrayLength, thisBind) === false) {
+				return false;
+			}
+		}
+		return true;
+	}
+	/**
+	 * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
+	 *
+	 * @function filterArray
+	 * @category array
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
+	 * @param {Array} results - Array that will be used to assign results.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
+	 * @returns {Array} - An array with properties that passed the test.
+	 *
+	 * @example
+	 * import { filterArray, assert } from './Acid.js';
+	 * assert(filterArray([false, true, true], (item) => {
+	 *   return item;
+	 * }), [true, true]);
+	 */
+	function filterArray(source, iteratee, results = [], thisBind) {
+		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+			if (iteratee(item, index, results, arrayOriginal, arrayLength, thisBind) === true) {
+				results.push(item);
+			}
+		});
+		return results;
+	}
+	/**
+	 * Takes the first or multiple items from an array.
+	 *
+	 * @function first
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} array - Array to extract from.
+	 * @param {number} upTo - Number which determines how many items after the first item are extracted from the array.
+	 * @returns {Array} - Returns an array.
+	 *
+	 * @example
+	 * import { first, assert } from './Acid.js';
+	 * assert(first([1, 2, 3]), 1);
+	 */
+	function first(array, upTo) {
+		return upTo ? array.slice(0, upTo) : array[0];
+	}
+	/**
 	 * Flattens an array up to the provided level.
 	 *
 	 * @function flatten
@@ -821,10 +1246,10 @@
 	 * @returns {Array} - Returns an array.
 	 *
 	 * @example
-	 * flatten([1, [2, [3, [4]], 5]]);
-	 *  // => [1, 2, [3, [4]], 5]
+	 * import { flatten, assert } from './Acid.js';
+	 * assert(flatten([1, [2, [3, [4]], 5]]), [1, 2, [3, [4]], 5]);
 	 */
-	const flatten = (source, level = 1) => {
+	function flatten(source, level = 1) {
 		let sourceArray = source;
 		for (let i = 0; i < level; i++) {
 			sourceArray = sourceArray.reduce((previousValue, currentValue) => {
@@ -832,23 +1257,386 @@
 			}, []);
 		}
 		return sourceArray;
-	};
+	}
 	/**
-	 * Flattens an array to a single level.
+	 * Takes all but the last item in the array.
 	 *
-	 * @function flattenDeep
-	 * @type {Function}
+	 * @function initial
 	 * @category array
-	 * @param {Array} source - Array to flatten.
+	 * @type {Function}
+	 * @param {Array} array - Array to have items extracted from.
 	 * @returns {Array} - Returns a completely flattened array.
 	 *
 	 * @example
-	 * flattenDeep([1, [2, [3, [4]], 5]]);
-	 * // => [1, 2, 3, 4, 5]
+	 * import { initial, assert } from './Acid.js';
+	 * assert(initial([1, 2, 3, 4, 5]), [1, 2, 3, 4]);
 	 */
-	const flattenDeep = (source) => {
-		return source.flat(Infinity);
+	function initial(array) {
+		return array.slice(0, array.length - 1);
+	}
+	// Add intersectionBy & intersectionWith
+	/**
+	 * Returns an new array that is the [set intersection](http://en.wikipedia.org/wiki/Intersection_(set_theory))
+	 * of the array and the input array(s).
+	 *
+	 * @function intersection
+	 * @param {Array} array - Array to compare other arrays to.
+	 * @param {...Array} arrays - A variable number of arrays.
+	 * @category array
+	 * @returns {Array} - The new array of unique values shared by all of the arrays.
+	 *
+	 * @example
+	 * import { intersection, assert } from './Acid.js';
+	 * assert(intersection([1, 2, 3], [2, 3, 4]), [2, 3]);
+	 */
+	function intersection(array, ...arrays) {
+		return compactMapArray(array, (item) => {
+			const shouldReturn = everyArray(arrays, (otherItem) => {
+				return otherItem.includes(item);
+			});
+			if (shouldReturn) {
+				return item;
+			}
+		});
+	}
+	/**
+	 * Checks to see if an object has all of the given property names.
+	 *
+	 * @function hasKeys
+	 * @category object
+	 * @type {Function}
+	 * @param {Object} object - Object from which keys are extracted.
+	 * @param {Array} properties - Array of object keys.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * hasKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy','Thor']);
+	 * // => true
+	 *
+	 * @example
+	 * hasKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy','Tom']);
+	 * // => false
+	 */
+	function hasKeys(object, properties) {
+		const objectKeys = keys(object);
+		return everyArray(properties, (item) => {
+			return objectKeys.includes(item);
+		});
+	}
+	/**
+	 * Checks to see if an object has any of the given property names.
+	 *
+	 * @function hasAnyKeys
+	 * @category object
+	 * @type {Function}
+	 * @param {Object} object - Object from which keys are extracted.
+	 * @param {Array} properties - Array of object keys.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy', 'Tom']);
+	 * // => true
+	 * @example
+	 * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Other', 'Tom']);
+	 * // => false
+	 */
+	function hasAnyKeys(object, properties) {
+		const objectKeys = keys(object);
+		return Boolean(
+			properties.find((item) => {
+				return objectKeys.includes(item);
+			})
+		);
+	}
+	/**
+	 * Performs a deep comparison between two objects.
+	 *
+	 * @function isEqual
+	 * @type {Function}
+	 * @category utility
+	 * @param {*} source - Source object.
+	 * @param {*} compareObject - Object to compare to source.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isEqual, assert } from './Acid.js';
+	 * assert(isEqual({a: [1,2,3]}, {a: [1,2,3]}), true);
+	 */
+	// Add map & buffer Support
+	const isEqual = (source, compareObject) => {
+		if (source === compareObject) {
+			return true;
+		} else if (source.toString() === compareObject.toString()) {
+			if (isPlainObject(source)) {
+				const sourceProperties = keys(source);
+				if (hasKeys(compareObject, sourceProperties)) {
+					return everyArray(sourceProperties, (key) => {
+						return isEqual(source[key], compareObject[key]);
+					});
+				}
+			} else if (isArray(source)) {
+				if (source.length === compareObject.length) {
+					return everyArray(source, (item, index) => {
+						return isEqual(item, compareObject[index]);
+					});
+				}
+			}
+		}
+		return false;
 	};
+	/**
+	 * Performs a shallow strict comparison between two objects.
+	 *
+	 * @function isMatchArray
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} source - Source object.
+	 * @param {Array} compareArray - Object to compare to source.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isMatchArray, assert } from './Acid.js';
+	 * assert(isMatchArray([1, 2, 3], [1, 2, 3]), true);
+	 */
+	function isMatchArray(source, compareArray) {
+		if (source.length === compareArray.length) {
+			return everyArray(source, (item, index) => {
+				return isEqual(compareArray[index], item);
+			});
+		}
+		return false;
+	}
+	const mathNativeMax = Math.max;
+	/**
+	 * Plucks the largest value from an array.
+	 *
+	 * @function largest
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} array - Array from which largest number is taken.
+	 * @returns {number} - The largest number.
+	 *
+	 * @example
+	 * import { largest, assert } from './Acid.js';
+	 * assert(largest([1,2,3]), 3);
+	 */
+	function largest(array) {
+		return mathNativeMax(...array);
+	}
+	/**
+	 * Extracts item(s) from an array starting from the last item in the array.
+	 *
+	 * @function last
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} array - Array to have items extracted from.
+	 * @param {number} [indexFrom = 0] - Value which determines how many items are extracted from the array.
+	 * @returns {Array} - Items from the array.
+	 *
+	 * @example
+	 * import { last, assert } from './Acid.js';
+	 * assert(last([1, 2, 3, 4, 5] , 2), [4, 5]);
+	 */
+	function last(array, indexFrom) {
+		const arrayLength = array.length;
+		return indexFrom ? array.slice(arrayLength - indexFrom, arrayLength) : array[arrayLength - 1];
+	}
+	/**
+	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
+	 *
+	 * @function mapArray
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+	 * @param {Array} results - Array that will be used to assign results.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
+	 * @returns {Array} - An array of the same calling array's type.
+	 *
+	 * @example
+	 * import { mapArray, assert } from './Acid.js';
+	 * assert(mapArray([1, 2, 3], (item) => {
+	 *   return item * 2;
+	 * }), [2, 4, 6]);
+	 */
+	function mapArray(source, iteratee, results = [], thisBind) {
+		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+			results[index] = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
+		});
+		return results;
+	}
+	/**
+	 * Asynchronously iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
+	 *
+	 * @function mapAsyncArray
+	 * @category array
+	 * @type {Function}
+	 * @async
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+	 * @returns {Array} - An array of the same calling array's type.
+	 *
+	 * @example
+	 * import { mapAsyncArray, assert } from './Acid.js';
+	 * assert(await mapAsyncArray([1, 2, 3], async (item) => {
+	 *   return item * 2;
+	 * }), [2, 4, 6]);
+	 */
+	async function mapAsyncArray(source, iteratee) {
+		const results = [];
+		await eachAsyncArray(source, async (item, index, arrayLength) => {
+			results[index] = await iteratee(item, index, arrayLength);
+		});
+		return results;
+	}
+	/**
+	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array in reverse.
+	 *
+	 * @function mapRightArray
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
+	 * @returns {Array} - An array of the same calling array's type.
+	 *
+	 * @example
+	 * import { mapRightArray, assert } from './Acid.js';
+	 * assert(mapRightArray([1, 2, 3], (item) => {
+	 *   return item * 2;
+	 * }), [6, 4, 2]);
+	 */
+	function mapRightArray(source, iteratee, results = [], thisBind) {
+		let trueIndex = 0;
+		const arrayLength = source.length;
+		for (let index = arrayLength - 1; index >= 0; index--) {
+			results[trueIndex] = iteratee(source[index], index, source, arrayLength, thisBind);
+			trueIndex++;
+		}
+		return results;
+	}
+	/**
+	 * Iterates through the given and creates an object with all elements that pass the test implemented by the iteratee.
+	 *
+	 * @function mapWhile
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
+	 * @returns {Array} - An array with properties that passed the test.
+	 *
+	 * @example
+	 * import { mapWhile, assert } from './Acid.js';
+	 * assert(mapWhile([1, 2, 0], (item) => {
+	 *   return Boolean(item);
+	 * }), [1, 2]);
+	 */
+	function mapWhile(source, iteratee, results = [], thisBind) {
+		const arrayLength = source.length;
+		for (let index = 0; index < arrayLength; index++) {
+			const item = source[index];
+			const returned = iteratee(item, index, results, source, arrayLength, thisBind);
+			if (returned === false) {
+				break;
+			}
+			results[index] = item;
+		}
+		return results;
+	}
+	const numericalCompare = (a, b) => {
+		return a - b;
+	};
+	/**
+	 * Sorts an array in place using a numerical comparison algorithm from lowest to highest.
+	 *
+	 * @function numSort
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} numberList - Array of numbers.
+	 * @returns {Array} - The array this method was called on.
+	 *
+	 * @example
+	 * numSort([10, 0, 2, 1]);
+	 * // => [0, 1, 2, 10]
+	 */
+	function numSort(numberList) {
+		return numberList.sort(numericalCompare);
+	}
+	/**
+	 * Takes all but the last item in the array.
+	 *
+	 * @function arrayToObject
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} source - Array to have items extracted from.
+	 * @param {Array} properties - Array to have items extracted from.
+	 * @returns {Array} - Returns a completely flattened array.
+	 *
+	 * @example
+	 * arrayToObject([1, 2, 3], ['i', 'love', 'lucy']);
+	 * // => {i:1, love:2, lucy: 3}
+	 */
+	function arrayToObject(source, properties) {
+		const sortedObject = {};
+		eachArray(source, (item, key) => {
+			sortedObject[properties[key]] = item;
+		});
+		return sortedObject;
+	}
+	/**
+	 * Split array into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
+	 *
+	 * @function partition
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} array - Takes an array to split.
+	 * @param {Function} funct - Function run on each item in array.
+	 * @returns {Array} - One array split into two arrays.
+	 *
+	 * @example
+	 * partition([
+	 *  {user: 'barney', age: 36, active: false},
+	 *  {user: 'fred', age: 40, active: true},
+	 *  {user: 'pebbles', age: 1,  active: false}
+	 * ], (item) => { return item.active; });
+	 * // => [
+	 * [{"user":"fred","age":40,"active":true}],
+	 *   [{"user":"barney","age":36,"active":false},
+	 *   {"user":"pebbles","age":1,"active":false}]]
+	 */
+	function partition(array, funct) {
+		const failed = [];
+		return [
+			compactMapArray(array, (item) => {
+				if (funct(item)) {
+					return item;
+				}
+				failed.push(item);
+			}),
+			failed
+		];
+	}
+	const numericalCompareReverse = (a, b) => {
+		return b - a;
+	};
+	/**
+	 * Sorts an array in place using a reverse numerical comparison algorithm from highest to lowest.
+	 *
+	 * @function rNumSort
+	 * @category array
+	 * @param {Array} numberList - Array of numbers.
+	 * @returns {Array} - The array this method was called on.
+	 *
+	 * @example
+	 * rNumSort([10, 0, 2, 1]);
+	 * // => [10, 2, 1, 0]
+	 */
+	function rNumSort(numberList) {
+		return numberList.sort(numericalCompareReverse);
+	}
 	/**
 	 * Removes all occurrences of the passed in items from the array and returns the array. This mutates the given array. Clone the array if you desire to avoid mutation.
 	 *
@@ -865,7 +1653,7 @@
 	 * remove([3, 3, 4, 5], 3, 4);
 	 * // => [5]
 	 */
-	const remove = (array, removeThese) => {
+	function remove(array, removeThese) {
 		let arrayLength = array.length;
 		for (let index = 0; index < arrayLength; index++) {
 			const item = array[index];
@@ -876,7 +1664,7 @@
 			}
 		}
 		return array;
-	};
+	}
 	/**
 	 * Removes items that pass the method's test. This mutates the given array. Clone the array if you desire to avoid mutation.
 	 *
@@ -890,7 +1678,7 @@
 	 * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);});
 	 * // => [2, 4]
 	 */
-	const removeBy = (source, iteratee) => {
+	function removeBy(source, iteratee) {
 		let arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
 			const item = source[index];
@@ -901,35 +1689,7 @@
 			}
 		}
 		return source;
-	};
-	/**
-	 * Chunks an array according to a user defined number.
-	 *
-	 * @function chunk
-	 * @category Array
-	 * @type {Function}
-	 * @param {Array} array - Array to be chunked.
-	 * @param {number} size - Number which determines the size of each chunk.
-	 * @returns {Array} - A chunked version of the source array.
-	 *
-	 * @example
-	 *  chunk([1,2,3], 1);
-	 * // => [[1],[2],[3]]
-	 */
-	const chunk = (array, size = 1) => {
-		const chunked = [];
-		let index = 0;
-		array.forEach((item, key) => {
-			if (!(key % size)) {
-				chunked.push([]);
-				if (key) {
-					index++;
-				}
-			}
-			chunked[index].push(item);
-		});
-		return chunked;
-	};
+	}
 	/**
 	 * Extracts all items in array except the first and last item.
 	 *
@@ -943,26 +1703,9 @@
 	 * rest([1, 2, 3, 4, 5]);
 	 * // => [2, 3, 4, 5]
 	 */
-	const rest = (array) => {
+	function rest(array) {
 		return array.slice(1, array.length);
-	};
-	/**
-	 * Clears the values out of an array.
-	 *
-	 * @function clear
-	 * @category Array
-	 * @type {Function}
-	 * @param {Array} array - Takes an array to be emptied.
-	 * @returns {Array} - The originally given array.
-	 *
-	 * @example
-	 * clear([1,'B', 'Cat']);
-	 * // => []
-	 */
-	const clear = (array) => {
-		array.length = 0;
-		return array;
-	};
+	}
 	/**
 	 * Get the item at the supplied index starting at the end of the array.
 	 *
@@ -977,25 +1720,9 @@
 	 * right([1, 2, 3, 4, 5] , 1);
 	 * // => 4
 	 */
-	const right = (source, amount) => {
+	function right(source, amount) {
 		return source[source.length - 1 - amount];
-	};
-	/**
-	 * Clears the values out of an array.
-	 *
-	 * @function cloneArray
-	 * @category Array
-	 * @type {Function}
-	 * @param {Array} array - Takes an array to be cloned.
-	 * @returns {Array} - The originally given array.
-	 *
-	 * @example
-	 * cloneArray([1,'B', 'Cat']);
-	 * // => [1, 'B', 'Cat']
-	 */
-	const cloneArray = (array) => {
-		return array.slice();
-	};
+	}
 	const mathNative = Math;
 	const floorMethod = mathNative.floor;
 	const randomMethod = mathNative.random;
@@ -1010,6 +1737,7 @@
 	 * @returns {number} - Returns the sum of the arguments.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * add(1, 1);
 	 * // => 2
 	 */
@@ -1027,6 +1755,7 @@
 	 * @returns {number} - Returns the difference of the arguments.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * minus(1, 1);
 	 * // => 0
 	 */
@@ -1044,6 +1773,7 @@
 	 * @returns {number} - Returns the quotient of the arguments.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * divide(10, 5);
 	 * // => 2
 	 */
@@ -1061,6 +1791,7 @@
 	 * @returns {number} - Returns the product of the arguments.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * multiply(10, 5);
 	 * // => 50
 	 */
@@ -1078,6 +1809,7 @@
 	 * @returns {number} - Returns the remainder of the arguments.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * remainder(10, 6);
 	 * // => 4
 	 */
@@ -1126,18 +1858,15 @@
 	 * @param {number} [min = 0] - Establishes lowest possible value for the random number.
 	 * @returns {number} - Returns random integer between the max and min range.
 	 *
-	 * @test
-	 * (async () => {
-	 *   return assert(isNumber(randomArbitrary(10)), true);
-	 * });
-	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * randomArbitrary(10);
 	 * // => 9.1
 	 */
 	const randomArbitrary = (max, min = 0) => {
 		return randomMethod() * (max - min) + min;
 	};
+	// make random account for a single arg as well as if two arguments were passed with low to high
 	/**
 	 *  Produces a random integer between min (included) and max (excluded).
 	 *
@@ -1148,12 +1877,8 @@
 	 * @param {number} [min = 0] - Establishes lowest possible value for the random number.
 	 * @returns {number} - Returns random integer between the max and min range.
 	 *
-	 * @test
-	 * (async () => {
-	 *   return assert(isNumber(randomInt(10)), true);
-	 * });
-	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * randomInt(10);
 	 * // => 9
 	 */
@@ -1179,7 +1904,7 @@
 	 * shuffle([1, 2, 3, 4]);
 	 * // => [3, 4, 2, 1]
 	 */
-	const shuffle = (target, amount = target.length) => {
+	function shuffle(target, amount = target.length) {
 		if (target.length <= 1) {
 			return toArray(target);
 		}
@@ -1195,7 +1920,7 @@
 			count++;
 		}
 		return shuffleArray;
-	};
+	}
 	/**
 	 * Produce a random sample from the list. Pass a number to return n random elements from the list. Otherwise a single random item will be returned.
 	 *
@@ -1215,7 +1940,7 @@
 	 * sample([1, 2, 3, 4] , 2);
 	 * // => [1, 3]
 	 */
-	const sample = (source, amount = 1) => {
+	function sample(source, amount) {
 		if (!source) {
 			return false;
 		}
@@ -1239,23 +1964,7 @@
 			}
 		}
 		return sampleArray;
-	};
-	/**
-	 * Takes all but the last item in the array.
-	 *
-	 * @function initial
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} array - Array to have items extracted from.
-	 * @returns {Array} - Returns a completely flattened array.
-	 *
-	 * @example
-	 * initial([1, 2, 3, 4, 5]);
-	 * // => [1, 2, 3, 4]
-	 */
-	const initial = (array) => {
-		return array.slice(0, array.length - 1);
-	};
+	}
 	const mathNativeMin = Math.min;
 	/**
 	 * Plucks the smallest value from an array.
@@ -1270,269 +1979,142 @@
 	 * smallest([1,2,3]);
 	 * // => 1
 	 */
-	const smallest = (array) => {
+	function smallest(array) {
 		return mathNativeMin(...array);
-	};
-	const rangeUp = (start, end, incrementArg) => {
-		const rangeArray = [];
-		let position = start;
-		while (position < end) {
-			rangeArray.push(position);
-			position += incrementArg;
-		}
-		return rangeArray;
-	};
-	const rangeDown = (start, end, incrementArg) => {
-		const increment = incrementArg < 0 ? incrementArg * -1 : incrementArg;
-		const rangeArray = [];
-		let position = start;
-		while (position > end) {
-			rangeArray.push(position);
-			position -= increment;
-		}
-		return rangeArray;
-	};
-	/**
-	 * Create a numbered list of integers.
-	 *
-	 * @type {Function} range
-	 * @category array
-	 * @param {number} start - Value which determines the start of the range.
-	 * @param {number} end - Value which determines the end of the range.
-	 * @param {number} step - Value used to step between integers.
-	 * @returns {Array} - An array of integers.
-	 * @example
-	 * range(0, 30, 5);
-	 * // => [0, 5, 10, 15, 20, 25]
-	 */
-	const range = (start, end, step = 1) => {
-		if (start < end) {
-			return rangeUp(start, end, step);
-		} else {
-			return rangeDown(start, end, step);
-		}
-	};
-	/**
-	 * Iterates through the given array.
-	 *
-	 * @function eachArray
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {*} thisBind - An object to be given each time to the iteratee.
-	 * @returns {Array} - The originally given array.
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   eachArray([1, 2, 3], (item) => {
-	 *     tempList.push(item);
-	 *   });
-	 *   return assert(tempList, [1, 2, 3]);
-	 * });
-	 * @example
-	 * eachArray([1, 2, 3], (item) => {
-	 *   console.log(item);
-	 * });
-	 * // => [1, 2, 3]
-	 */
-	function eachArray(source, iteratee, thisBind) {
-		const arrayLength = source.length;
-		for (let index = 0; index < arrayLength; index++) {
-			iteratee(source[index], index, source, arrayLength, thisBind);
-		}
-		return source;
 	}
 	/**
-	 * Iterates through the given array in reverse.
+	 * Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
 	 *
-	 * @function eachArrayRight
+	 * @function sortedIndex
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {*} thisBind -An object to be given each time to the iteratee.
-	 * @returns {Array} - The originally given array.
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   eachArrayRight([1, 2, 3], (item) => {
-	 *     tempList.push(item);
-	 *   });
-	 *   return assert(tempList, [3, 2, 1]);
-	 * });
-	 * @example
-	 * eachArrayRight([1, 2, 3], (item) => {
-	 *   console.log(item);
-	 * });
-	 * // => [1, 2, 3]
-	 */
-	function eachArrayRight(source, iteratee, thisBind) {
-		const arrayLength = source.length;
-		for (let index = arrayLength - 1; index >= 0; index--) {
-			iteratee(source[index], index, source, arrayLength, thisBind);
-		}
-		return source;
-	}
-	/**
-	 * Iterates through the given array while the iteratee returns true.
+	 * @param {Array} array - Array to be sorted.
+	 * @param {number} insertThis - Number to be inserted.
+	 * @returns {number} - The index at which to insert.
 	 *
-	 * @function whileArray
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @param {*} thisBind -An object to be given each time to the iteratee.
-	 * @returns {Array} - Returns true if all returns are true or false if one value returns false.
 	 * @example
-	 * whileArray([true, true, false], (item) => {
-	 *   return item;
-	 * });
-	 * // => false
+	 * sortedIndex([30, 50], 40);
+	 * // => 1
 	 */
-	function whileArray(source, iteratee, thisBind) {
-		const arrayLength = source.length;
-		for (let index = 0; index < arrayLength; index++) {
-			if (iteratee(source[index], index, source, arrayLength, thisBind) === false) {
+	function sortedIndex(array, insertThis) {
+		let min = 0;
+		everyArray(array, (item, index) => {
+			min = index;
+			if (insertThis > item) {
+				return true;
+			} else {
 				return false;
 			}
-		}
-		return true;
+		});
+		return min;
 	}
 	/**
-	 * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
+	 * Reduces the values in an array into a single number.
 	 *
-	 * @function filterArray
+	 * @function sum
 	 * @category array
 	 * @type {Function}
-	 * @category array
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
-	 * @param {Array} results - Array that will be used to assign results.
-	 * @param {*} thisBind -An object to be given each time to the iteratee.
-	 * @returns {Array} - An array with properties that passed the test.
+	 * @param {Array} array - Array to be reduced.
+	 * @returns {number} - Returns a single value.
+	 *
 	 * @example
-	 * filterArray([false, true, true], (item) => {
+	 * sum([1, 2, 3, 4]);
+	 * // => 10
+	 */
+	function sum(array) {
+		return array.reduce((a, b) => {
+			return a + b;
+		}, 0);
+	}
+	/**
+	 * Returns a shallow copy of the array up to an amount.
+	 *
+	 * @function take
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - The source array to take from.
+	 * @param {Array} [endIndex = 1] - Zero-based index before which to end extraction.
+	 * @returns {Array} - The aggregated array.
+	 *
+	 * @example
+	 * import { take, assert } from './Acid.js';
+	 * assert(take([1,2,3], 2), [1, 2]);
+	 */
+	function take(source, endIndex = 1) {
+		return source.slice(0, endIndex);
+	}
+	function onlyUnique(value, index, array) {
+		return array.indexOf(value) === index;
+	}
+	function sortUnique(item, index, array) {
+		return item !== array[index - 1];
+	}
+	/**
+	 * Filters the array down to unique elements.
+	 *
+	 * @function unique
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - The array to be filtered.
+	 * @param {Boolean} isSorted - Flag which means the array is already sorted.
+	 * @returns {Array} - The filtered array.
+	 *
+	 * @example
+	 * unique([1, 2, 2, 4]);
+	 * // => [1, 2, 4]
+	 */
+	function unique(source, isSorted) {
+		if (isSorted) {
+			return source.filter(sortUnique);
+		}
+		return source.filter(onlyUnique);
+	}
+	/**
+	 * Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
+	 *
+	 * @function union
+	 * @category array
+	 * @type {Function}
+	 * @param {...Array} arrays - The arrays to be evaluated.
+	 * @returns {Array} - The aggregated array.
+	 *
+	 * @example
+	 * union([1,2,4], [1,2,3]);
+	 * // => [1, 2, 4, 3]
+	 */
+	function union(...arrays) {
+		return unique(flattenDeep(arrays));
+	}
+	/**
+	 * Iterates through the calling object and creates a new object based on the calling object's type with the results,
+	 * (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+	 * Re-checks the length each loop.
+	 *
+	 * @function whileCompactMap
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisBind -An object to be given each time to the iteratee.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * import { whileCompactMap, assert } from './Acid.js';
+	 * assert(whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
 	 *   return item;
-	 * });
-	 * // => [true, true]
+	 * }), [1, 2, 3, false]);
 	 */
-	function filterArray(source, iteratee, results = [], thisBind) {
-		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
-			if (iteratee(item, index, results, arrayOriginal, arrayLength, thisBind) === true) {
-				results.push(item);
+	function whileCompactMap(source, iteratee, results = [], thisBind) {
+		let index = 0;
+		while (index < source.length) {
+			const result = results.push(iteratee(source[index], index, source, source.length, thisBind));
+			index++;
+			if (hasValue(result)) {
+				results.push(result);
 			}
-		});
-		return results;
-	}
-	/**
-	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
-	 *
-	 * @function mapArray
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} results - Array that will be used to assign results.
-	 * @param {*} thisBind -An object to be given each time to the iteratee.
-	 * @returns {Array} - An array of the same calling array's type.
-	 * @example
-	 * mapArray([1, 2, 3], (item) => {
-	 *   return item * 2;
-	 * });
-	 * // => [2, 4, 6]
-	 */
-	function mapArray(source, iteratee, results = [], thisBind) {
-		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
-			results[index] = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
-		});
-		return results;
-	}
-	/**
-	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array in reverse.
-	 *
-	 * @function mapArrayRight
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {*} thisBind -An object to be given each time to the iteratee.
-	 * @returns {Array} - An array of the same calling array's type.
-	 * @example
-	 * mapArrayRight([1, 2, 3], (item) => {
-	 *   return item * 2;
-	 * });
-	 * // => [6, 4, 2]
-	 */
-	function mapArrayRight(source, iteratee, results = [], thisBind) {
-		let trueIndex = 0;
-		const arrayLength = source.length;
-		for (let index = arrayLength - 1; index >= 0; index--) {
-			results[trueIndex] = iteratee(source[index], index, source, arrayLength, thisBind);
-			trueIndex++;
 		}
-		return results;
-	}
-	function removeNoValue$2(source) {
-		if (hasValue(source)) {
-			return source;
-		}
-	}
-	/**
-	 * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
-	 *
-	 * @function compactMapArray
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {*} thisBind -An object to be given each time to the iteratee.
-	 * @returns {Array} - An array with mapped properties that are not null or undefined.
-	 * @example
-	 * compactMapArray([null, 2, 3], (source) => {
-	 *   return source;
-	 * });
-	 * // => [2, 3]
-	 */
-	function compactMapArray(source, iteratee = removeNoValue$2, results = [], thisBind) {
-		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
-			const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
-			if (hasValue(returned)) {
-				results.push(returned);
-			}
-		});
-		return results;
-	}
-	/**
-	 * Iterates through the given and creates an object with all elements that pass the test implemented by the iteratee.
-	 *
-	 * @function mapWhile
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {*} thisBind -An object to be given each time to the iteratee.
-	 * @returns {Array} - An array with properties that passed the test.
-	 * @example
-	 * mapWhile([true, true, false], (item) => {
-	 *   return item;
-	 * });
-	 * // => [true, true]
-	 */
-	function mapWhile(source, iteratee, results = [], thisBind) {
-		const arrayLength = source.length;
-		for (let index = 0; index < arrayLength; index++) {
-			const item = source[index];
-			const returned = iteratee(item, index, results, source, arrayLength, thisBind);
-			if (returned === false) {
-				break;
-			}
-			results[index] = item;
-		}
-		return results;
+		return source;
 	}
 	/**
 	 * Iterates through the given array but re-checks the length each loop. Usefull while mutating the same array being looped over.
@@ -1544,19 +2126,14 @@
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
 	 * @param {*} thisBind -An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   whileEachArray([1, 2, 3], (item) => {
-	 *     tempList.push(item);
-	 *   });
-	 *   return assert(tempList, [1, 2, 3]);
-	 * });
+	 *
 	 * @example
-	 * whileEachArray([1, 2, 3], (item) => {
-	 *   console.log(item);
+	 * import { whileEachArray, assert } from './Acid.js';
+	 * const list = [];
+	 * whileEachArray([1, 2, 3], (item, index) => {
+	 *   list[index] = item;
 	 * });
-	 * // => [1, 2, 3]
+	 * assert(list, [1, 2, 3]);
 	 */
 	function whileEachArray(source, iteratee, thisBind) {
 		let index = 0;
@@ -1576,21 +2153,17 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
 	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {*} thisBind -An object to be given each time to the iteratee.
+	 * @param {*} thisBind - An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   whileMapArray([1, 2, 3, false, null], (item) => {
-	 *     tempList.push(item);
-	 *   });
-	 *   return assert(tempList, [1, 2, 3, false, null]);
-	 * });
+	 *
 	 * @example
-	 * whileMapArray([1, 2, 3, false, null], (item) => {
+	 * import { whileMapArray, assert } from './Acid.js';
+	 * assert(whileMapArray([1, 2, 3], (item, index, source) => {
+	 *   if (index === 0) {
+	 *     source.push(4);
+	 *   }
 	 *   return item;
-	 * });
-	 * // => [1, 2, 3, false, null]
+	 * }), [1, 2, 3, 4]);
 	 */
 	function whileMapArray(source, iteratee, results = [], thisBind) {
 		let index = 0;
@@ -1600,473 +2173,6 @@
 		}
 		return source;
 	}
-	/**
-	 * Iterates through the calling object and creates a new object based on the calling object's type with the results,
-	 * (excludes results which are null or undefined), of the iteratee on every element in the calling object.
-	 * Re-checks the length each loop.
-	 *
-	 * @function whileCompactMap
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {*} thisBind -An object to be given each time to the iteratee.
-	 * @returns {Array} - The originally given array.
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
-	 *     return item;
-	 *   });
-	 *   return assert(tempList, [1, 2, 3, false]);
-	 * });
-	 * @example
-	 * whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
-	 *   return item;
-	 * });
-	 * // => [1, 2, 3, false]
-	 */
-	function whileCompactMap(source, iteratee, results = [], thisBind) {
-		let index = 0;
-		while (index < source.length) {
-			const result = results.push(iteratee(source[index], index, source, source.length, thisBind));
-			index++;
-			if (hasValue(result)) {
-				results.push(result);
-			}
-		}
-		return source;
-	}
-	/**
-	 * Returns an new array that is the [set intersection](http://en.wikipedia.org/wiki/Intersection_(set_theory))
-	 * of the array and the input array(s).
-	 *
-	 * @function intersect
-	 * @param {Array} array - Array to compare other arrays to.
-	 * @param {...Array} arrays - A variable number of arrays.
-	 * @category array
-	 * @returns {Array} - The new array of unique values shared by all of the arrays.
-	 *
-	 * @example
-	 * intersect([1, 2, 3], [2, 3, 4]);
-	 * // => [2, 3]
-	 * @example
-	 * intersect([1, 2, 3], [101, 2, 50, 1], [2, 1]);
-	 * // => [1, 2]
-	 */
-	const intersect = (array, ...arrays) => {
-		return compactMapArray(array, (item) => {
-			const shouldReturn = whileArray(arrays, (otherItem) => {
-				return otherItem.includes(item);
-			});
-			if (shouldReturn) {
-				return item;
-			}
-		});
-	};
-	/**
-	 * Checks for differences between arrays, then creates an array based on those differences.
-	 *
-	 * @function difference
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} array - Source array.
-	 * @param {...Array} compares - Array(s) source array is compared against.
-	 * @returns {Array} - An array which contains the differences between the source and compare array.
-	 *
-	 * @example
-	 * difference([1, 2, 3], [1, 2]);
-	 * // => [3]
-	 */
-	const difference = (array, ...compares) => {
-		const compare = flattenDeep(compares);
-		return compactMapArray(array, (item) => {
-			if (!compare.includes(item)) {
-				return item;
-			}
-		});
-	};
-	/**
-	 * Removes all items from an array after a specified index.
-	 *
-	 * @function drop
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} array - Source array.
-	 * @param {number} amount - Amount of items to drop from the array.
-	 * @param {number} [upTo = array.length] - Index to stop at.
-	 * @returns {Array} - An array with all values removed after a user defined index.
-	 *
-	 * @example
-	 * drop([1, 2, 3], 1);
-	 * // => [2, 3]
-	 */
-	const drop = (array, amount, upTo = array.length) => {
-		return array.splice(amount, upTo);
-	};
-	/**
-	 * Removes all items from an array before a specified index.
-	 *
-	 * @function dropRight
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} array - Source array.
-	 * @param {number} amount - Amount of items to drop from the array.
-	 * @param {number} [upTo = array.length] - Index to stop at.
-	 * @returns {Array} - An array with all values removed before a user defined index.
-	 *
-	 * @example
-	 * dropRight([1, 2, 3], 1);
-	 * // => [1, 2]
-	 */
-	const dropRight = (array, amount, upTo = array.length) => {
-		return drop(array, 0, upTo - amount);
-	};
-	/**
-	 * Performs a shallow strict comparison between two objects.
-	 *
-	 * @function isMatchArray
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} source - Source object.
-	 * @param {Array} compareArray - Object to compare to source.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isMatchArray([1, 2, 3], [1, 2, 3]);
-	 * // => true
-	 */
-	const isMatchArray = (source, compareArray) => {
-		if (source.length === compareArray.length) {
-			return whileArray(source, (item, index) => {
-				return compareArray[index] === item;
-			});
-		}
-		return false;
-	};
-	/**
-	 * Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
-	 *
-	 * @function sortedIndex
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} array - Array to be sorted.
-	 * @param {number} insertThis - Number to be inserted.
-	 * @returns {number} - The index at which to insert.
-	 *
-	 * @example
-	 * sortedIndex([30, 50], 40);
-	 * // => 1
-	 */
-	const sortedIndex = (array, insertThis) => {
-		let min = 0;
-		whileArray(array, (item, index) => {
-			min = index;
-			if (insertThis > item) {
-				return true;
-			} else {
-				return false;
-			}
-		});
-		return min;
-	};
-	const mathNativeMax = Math.max;
-	/**
-	 * Plucks the largest value from an array.
-	 *
-	 * @function largest
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} array - Array from which largest number is taken.
-	 * @returns {number} - The largest number.
-	 *
-	 * @example
-	 * largest([1,2,3]);
-	 * // => 3
-	 */
-	const largest = (array) => {
-		return mathNativeMax(...array);
-	};
-	/**
-	 * Reduces the values in an array into a single number.
-	 *
-	 * @function sum
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} array - Array to be reduced.
-	 * @returns {number} - Returns a single value.
-	 *
-	 * @example
-	 * sum([1, 2, 3, 4]);
-	 * // => 10
-	 */
-	const sum = (array) => {
-		return array.reduce((a, b) => {
-			return a + b;
-		}, 0);
-	};
-	/**
-	 * Asynchronously Iterates through the given array. Each async function is awaited as to ensure synchronous order.
-	 *
-	 * @function eachAsync
-	 * @category array
-	 * @type {Function}
-	 * @async
-	 * @param {Array} callingArray - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @returns {Object} - The originally given array.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   await eachAsync([1, 2, 3], async (item) => {
-	 *     tempList.push(item);
-	 *   });
-	 *   return assert(tempList, [1, 2, 3]);
-	 * });
-	 *
-	 * @example
-	 * eachAsync([3,4], async (item, index) =>{
-	 *  console.log(item, index);
-	 * });
-	 * // 3 0
-	 * // 4 1
-	 */
-	const eachAsync = async (callingArray, iteratee) => {
-		const arrayLength = callingArray.length;
-		for (let index = 0; index < arrayLength; index++) {
-			await iteratee(callingArray[index], index, callingArray, arrayLength);
-		}
-		return callingArray;
-	};
-	/**
-	 * Asynchronously Iterates through the given array in reverse. Each async function is awaited as to ensure synchronous order.
-	 *
-	 * @function eachAsyncRight
-	 * @category array
-	 * @type {Function}
-	 * @async
-	 * @param {Array} callingArray - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @returns {Object} - The originally given array.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   await eachAsyncRight([1, 2, 3], async (item) => {
-	 *     tempList.push(item);
-	 *   });
-	 *   return assert(tempList, [3, 2, 1]);
-	 * });
-	 *
-	 * @example
-	 * eachAsyncRight([3,4], async (item, index) =>{
-	 *  console.log(item, index);
-	 * });
-	 * // 4 0
-	 * // 3 1
-	 */
-	const eachAsyncRight = async (callingArray, iteratee) => {
-		const arrayLength = callingArray.length;
-		for (let index = arrayLength - 1; index >= 0; index--) {
-			await iteratee(callingArray[index], index, callingArray, arrayLength);
-		}
-		return callingArray;
-	};
-	/**
-	 * Extracts item(s) from an array starting from the last item in the array.
-	 *
-	 * @function last
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} array - Array to have items extracted from.
-	 * @param {number} [indexFrom = 0] - Value which determines how many items are extracted from the array.
-	 * @returns {Array} - Items from the array.
-	 *
-	 * @example
-	 * last([1, 2, 3, 4, 5] , 2);
-	 * // => [4, 5]
-	 * @example
-	 * last([1, 2, 3, 4, 5]);
-	 * // => 5
-	 */
-	const last = (array, indexFrom) => {
-		const arrayLength = array.length;
-		return indexFrom ? array.slice(arrayLength - indexFrom, arrayLength) : array[arrayLength - 1];
-	};
-	/**
-	 * Returns a shallow copy of the array up to an amount.
-	 *
-	 * @function take
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - The source array to take from.
-	 * @param {Array} [end = 1] - Zero-based index before which to end extraction.
-	 * @returns {Array} - The aggregated array.
-	 *
-	 * @example
-	 * take([1,2,3], 2);
-	 * // => [1, 2]
-	 */
-	const take = (source, end = 1) => {
-		return source.slice(0, end);
-	};
-	/**
-	 * Returns a shallow copy of the array up to an amount starting from the right.
-	 *
-	 * @function takeRight
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - The source array to take right from.
-	 * @param {Array} [index = 1] - Zero-based index from the right to begin extraction.
-	 * @returns {Array} - The aggregated array.
-	 *
-	 * @example
-	 * takeRight([1,2,3], 2);
-	 * // => [2, 3]
-	 */
-	const takeRight = (source, index = 1) => {
-		const arrayLength = source.length;
-		return source.slice(arrayLength - index, arrayLength);
-	};
-	/**
-	 * Asynchronously iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
-	 *
-	 * @function mapAsync
-	 * @category array
-	 * @type {Function}
-	 * @async
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @returns {Array} - An array of the same calling array's type.
-	 *
-	 * @example
-	 * mapAsync([1, 2, 3], (item) => {
-	 *   return item * 2;
-	 * });
-	 * // => [2, 4, 6]
-	 */
-	const mapAsync = async (source, iteratee) => {
-		const results = [];
-		await eachAsync(source, async (item, index, arrayLength) => {
-			results[index] = await iteratee(item, index, arrayLength);
-		});
-		return results;
-	};
-	const onlyUnique = (value, index, array) => {
-		return array.indexOf(value) === index;
-	};
-	const sortUnique = (item, index, array) => {
-		return item !== array[index - 1];
-	};
-	/**
-	 * Filters the array down to unique elements.
-	 *
-	 * @function unique
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} source - The array to be filtered.
-	 * @param {Boolean} isSorted - Flag which means the array is already sorted.
-	 * @returns {Array} - The filtered array.
-	 *
-	 * @example
-	 * unique([1, 2, 2, 4]);
-	 * // => [1, 2, 4]
-	 */
-	const unique = (source, isSorted) => {
-		if (isSorted) {
-			return source.filter(sortUnique);
-		}
-		return source.filter(onlyUnique);
-	};
-	/**
-	 * Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
-	 *
-	 * @function union
-	 * @category array
-	 * @type {Function}
-	 * @param {...Array} arrays - The arrays to be evaluated.
-	 * @returns {Array} - The aggregated array.
-	 *
-	 * @example
-	 * union([1,2,4], [1,2,3]);
-	 * // => [1, 2, 4, 3]
-	 */
-	const union = (...arrays) => {
-		return unique(flattenDeep(arrays));
-	};
-	function removeNoValue$1(source) {
-		if (hasValue(source)) {
-			return source;
-		}
-	}
-	/**
-	 * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
-	 *
-	 * @function compactMapAsync
-	 * @type {Function}
-	 * @category array
-	 * @async
-	 * @param {Array} source - Array to be compacted.
-	 * @param {Function} iteratee - Iteratee to be performed on array.
-	 * @returns {Array} - Array values after being put through an iterator.
-	 *
-	 * @example
-	 * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
-	 * // => [1, 2, 3]
-	 */
-	const compactMapAsync = async (source, iteratee = removeNoValue$1) => {
-		const results = [];
-		let result;
-		await eachAsync(source, async (item, index, arrayLength) => {
-			result = await iteratee(item, index, results, arrayLength);
-			if (hasValue(result)) {
-				results.push(result);
-			}
-		});
-		return results;
-	};
-	const numericalCompare = (a, b) => {
-		return a - b;
-	};
-	/**
-	 * Sorts an array in place using a numerical comparison algorithm from lowest to highest.
-	 *
-	 * @function numSort
-	 * @category array
-	 * @type {Function}
-	 * @param {Array} numberList - Array of numbers.
-	 * @returns {Array} - The array this method was called on.
-	 *
-	 * @example
-	 * numSort([10, 0, 2, 1]);
-	 * // => [0, 1, 2, 10]
-	 */
-	const numSort = (numberList) => {
-		return numberList.sort(numericalCompare);
-	};
-	/**
-	 * Takes all but the last item in the array.
-	 *
-	 * @function arrayToObject
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} source - Array to have items extracted from.
-	 * @param {Array} properties - Array to have items extracted from.
-	 * @returns {Array} - Returns a completely flattened array.
-	 *
-	 * @example
-	 * arrayToObject([1, 2, 3], ['i', 'love', 'lucy']);
-	 * // => {i:1, love:2, lucy: 3}
-	 */
-	const arrayToObject = (source, properties) => {
-		const sortedObject = {};
-		eachArray(source, (item, key) => {
-			sortedObject[properties[key]] = item;
-		});
-		return sortedObject;
-	};
 	/**
 	 * Returns a copy of the array with all instances of the values removed.
 	 *
@@ -2081,44 +2187,11 @@
 	 * without([1, 2, 2, 4], [4]);
 	 * // => [1, 2, 2]
 	 */
-	const without = (target, removeThese) => {
+	function without(target, removeThese) {
 		return target.filter((item) => {
 			return !removeThese.includes(item);
 		});
-	};
-	/**
-	 * Split array into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
-	 *
-	 * @function partition
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} array - Takes an array to split.
-	 * @param {Function} funct - Function run on each item in array.
-	 * @returns {Array} - One array split into two arrays.
-	 *
-	 * @example
-	 * partition([
-	 *  {user: 'barney', age: 36, active: false},
-	 *  {user: 'fred', age: 40, active: true},
-	 *  {user: 'pebbles', age: 1,  active: false}
-	 * ], (item) => { return item.active; });
-	 * // => [
-	 * [{"user":"fred","age":40,"active":true}],
-	 *   [{"user":"barney","age":36,"active":false},
-	 *   {"user":"pebbles","age":1,"active":false}]]
-	 */
-	const partition = (array, funct) => {
-		const failed = [];
-		return [
-			compactMapArray(array, (item) => {
-				if (funct(item)) {
-					return item;
-				}
-				failed.push(item);
-			}),
-			failed
-		];
-	};
+	}
 	/**
 	 * Creates an array that is the symmetric difference of the provided arrays.
 	 *
@@ -2129,22 +2202,46 @@
 	 * @returns {Array} - The filtered array.
 	 *
 	 * @example
-	 * xor([2, 1], [2, 3]);
-	 * // => [1, 3]
+	 * xor([2, 1], [2, 3, 5], [6]);
+	 * // => [1, 3, 5, 6]
 	 */
-	const xor = (...arrays) => {
+	function xor(...sources) {
+		const xorMap = {};
 		const xored = [];
-		eachArray(arrays, (array) => {
-			eachArray(unique(array), (item) => {
-				if (xored.includes(item)) {
-					xored.splice(xored.indexOf(item), 1);
+		const sourcesLength = sources.length;
+		if (sourcesLength === 2) {
+			return difference(sources[0], sources[1]);
+		}
+		eachArray(sources, (currentArray, parentIndex) => {
+			eachArray(currentArray, (child, childIndex) => {
+				const childType = typeof child;
+				let parentType = xorMap[childType];
+				if (!parentType) {
+					parentType = xorMap[childType] = {};
+				}
+				let childRoot = parentType[child];
+				if (!childRoot) {
+					childRoot = parentType[child] = {
+						count: 1,
+						parentIndex,
+						child
+					};
+				} else if (childRoot.parentIndex === parentIndex) {
+					return;
 				} else {
-					xored.push(item);
+					childRoot.count++;
+				}
+			});
+		});
+		eachObject(xorMap, (parentType) => {
+			eachObject(parentType, (item) => {
+				if (item.count === 1) {
+					xored.push(item.child);
 				}
 			});
 		});
 		return xored;
-	};
+	}
 	/**
 	 * Merges together the values of each of the arrays with the values at the corresponding position.
 	 *
@@ -2158,13 +2255,13 @@
 	 * zip(['a', 'b'], [1, 2], [true, false]);
 	 * // => [['a', 1, true], ['b', 2, false]]
 	 */
-	const zip = (...arrays) => {
+	function zip(...arrays) {
 		return arrays[0].map((item, index) => {
 			return arrays.map((array) => {
 				return array[index];
 			});
 		});
-	};
+	}
 	/**
 	 * Takes an array of grouped elements and creates an array regrouping the elements to their pre-zip array configuration.
 	 *
@@ -2178,214 +2275,132 @@
 	 * unZip([['a', 1, true], ['b', 2, false]]);
 	 * // => [['a', 'b'], [1, 2], [true, false]]
 	 */
-	const unZip = (source) => {
+	function unZip(source) {
 		return source[0].map((item, index) => {
 			return source.map((arraySet) => {
 				return arraySet[index];
 			});
 		});
-	};
+	}
 	/**
-	 * Takes the first or multiple items from an array.
+	 * Creates an object composed of keys generated from the results of running each element of collection through iteratee.
 	 *
-	 * @function first
+	 * @function countBy
+	 * @category collection
 	 * @type {Function}
-	 * @category array
-	 * @param {Array} array - Array to extract from.
-	 * @param {number} upTo - Number which determines how many items after the first item are extracted from the array.
-	 * @returns {Array} - Returns an array.
+	 * @param {Array} collection - Array of objects.
+	 * @param {Function} iteratee - The iteratee to transform keys.
+	 * @returns {Object} - Returns the composed aggregate object.
 	 *
 	 * @example
-	 * first([1, 2, 3]);
-	 * // => 1
-	 * @example
-	 * first([1, 2, 3], 2);
-	 * // => [1, 2]
+	 * countBy([{a:1}, {a:3}], (item) => { return 'a';});
+	 * // => {a: 2}
 	 */
-	const first = (array, upTo) => {
-		return upTo ? array.slice(0, upTo) : array[0];
-	};
-	const numericalCompareReverse = (a, b) => {
-		return b - a;
-	};
-	/**
-	 * Sorts an array in place using a reverse numerical comparison algorithm from highest to lowest.
-	 *
-	 * @function rNumSort
-	 * @category array
-	 * @param {Array} numberList - Array of numbers.
-	 * @returns {Array} - The array this method was called on.
-	 *
-	 * @example
-	 * rNumSort([10, 0, 2, 1]);
-	 * // => [10, 2, 1, 0]
-	 */
-	const rNumSort = (numberList) => {
-		return numberList.sort(numericalCompareReverse);
-	};
-	/**
-	 * Iterates based on a start index and an end index. The loop ends when the start index is equal to the end index.
-	 *
-	 * @function times
-	 * @category array
-	 * @type {Function}
-	 * @param {number} startIndex - The number to start loop from.
-	 * @param {number} endIndex - The number to stop at the loop.
-	 * @param {Function} iteratee - Transformation function which is passed position, start, and end.
-	 * @returns {undefined} - Nothing.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   times(0, 3, (item) => {
-	 *     tempList.push(item);
-	 *   });
-	 *   return assert(tempList, [0, 1, 2]);
-	 * });
-	 *
-	 * @example
-	 * times(0, 3, (item) => {
-	 *   console.log(item);
-	 * });
-	 * //Will log
-	 * // 0
-	 * // 1
-	 * // 2
-	 * // => undefined
-	 */
-	const times = (startIndex, endIndex, iteratee) => {
-		const start = iteratee ? startIndex : 0;
-		const end = iteratee ? endIndex : startIndex;
-		const iterateeMethod = iteratee || endIndex;
-		for (let position = start; position < end; position++) {
-			iterateeMethod(position, start, end);
-		}
-	};
-	/**
-	 * Iterates based on a start index and end index. Creates an array with the results of the iteratee on every element in the calling array. The loop ends when the start index is equal to the end index.
-	 *
-	 * @function timesMap
-	 * @category array
-	 * @type {Function}
-	 * @param {number} startIndex - The number to start loop from.
-	 * @param {number} endIndex - The number to stop at the loop.
-	 * @param {Function} iteratee - Transformation function which is passed position, start, and end.
-	 * @param {Array} [results = []] - Array that will be used to assign results.
-	 * @returns {Object} - An array with iteratee's returned values.
-	 *
-	 * @example
-	 * timesMap(0, 3, (item) => {
-	 *   return item;
-	 * });
-	 * // => [0, 1, 2]
-	 */
-	const timesMap = (startIndex, endIndex, iteratee, results = []) => {
-		const start = iteratee ? startIndex : 0;
-		const end = iteratee ? endIndex : startIndex;
-		const iterateeMethod = iteratee || endIndex;
+	function countBy(collection, iteratee) {
+		const object = {};
 		let result;
-		times(start, end, (position) => {
-			result = iterateeMethod(position, start, end, results);
-			if (hasValue(result)) {
-				results.push(result);
+		eachArray(collection, (item) => {
+			result = iteratee(item);
+			if (!object[result]) {
+				object[result] = 0;
 			}
+			object[result]++;
 		});
-		return results;
-	};
+		return object;
+	}
 	/**
-	 * Sorts an array in place using a key from newest to oldest.
+	 * Count the amount of times a key is present in a collection.
 	 *
-	 * @function sortNewest
+	 * @function countKey
 	 * @category collection
 	 * @type {Function}
-	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} propertyName - The property name to sort by based on it's value.
-	 * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
-	 * @returns {Array} - The sorted array and or a clone of the array sorted.
+	 * @param {Array} collection - Array of objects.
+	 * @param {Function} propertyName - The name of the key.
+	 * @returns {number} - The count.
 	 *
 	 * @example
-	 * sortNewest([{id: 1}, {id: 0}], 'id');
-	 * // => [{id: 1}, {id: 0}]
+	 * countKey([{a:1}, {a:3}], 'a');
+	 * // => 2
 	 */
-	const sortNewest = (collection, propertyName, pureMode = true) => {
-		const array = pureMode ? collection : [...collection];
-		return array.sort((previous, next) => {
-			if (!next[propertyName]) {
-				return -1;
-			} else if (!previous[propertyName]) {
-				return 1;
-			} else if (previous[propertyName] < next[propertyName]) {
-				return 1;
-			} else if (previous[propertyName] > next[propertyName]) {
-				return -1;
+	function countKey(collection, propertyName) {
+		let count = 0;
+		eachArray(collection, (item) => {
+			if (item[propertyName]) {
+				count++;
 			}
-			return 0;
 		});
-	};
+		return count;
+	}
 	/**
-	 * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
+	 * Count the amount of times a key is not present in a collection.
 	 *
-	 * @function getNewest
+	 * @function countWithoutKey
 	 * @category collection
 	 * @type {Function}
-	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} propertyName - The property name to sort by based on it's value.
-	 * @returns {Object} - The newest object in the collection.
+	 * @param {Array} collection - Array of objects.
+	 * @param {string} propertyName - The name of the key.
+	 * @returns {number} - The count.
 	 *
 	 * @example
-	 * getNewest([{id: 1}, {id: 0}], 'id');
+	 * countWithoutKey([{a:1}, {a:3}], 'b');
+	 * // => 2
+	 */
+	function countWithoutKey(collection, propertyName) {
+		let count = 0;
+		eachArray(collection, (item) => {
+			if (!item[propertyName]) {
+				count++;
+			}
+		});
+		return count;
+	}
+	function findIndexCache(element, index, array, indexMatch, propertyName) {
+		if (element[propertyName] === indexMatch) {
+			return true;
+		}
+	}
+	/**
+	 * Finds an object in a collection by the given id and property name.
+	 *
+	 * @function findItem
+	 * @type {Function}
+	 * @category collection
+	 * @param {Array} collection - Collection to be checked for an item.
+	 * @param {number|string} id - The value to look for.
+	 * @param {string} [propertyName = 'id'] - The name of the property to compare.
+	 * @returns {Object} - The found object.
+	 *
+	 * @example
+	 * findItem([{id: 1}, {id: 2}], 1);
 	 * // => {id: 1}
 	 */
-	const getNewest = (collection, propertyName) => {
-		return sortNewest(collection, propertyName, false)[0];
-	};
-	/**
-	 * Sorts an array in place using a key from oldest to newest.
-	 *
-	 * @function sortOldest
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} key - The property name to sort by based on it's value.
-	 * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
-	 * @returns {Array} - The sorted array and or a clone of the array sorted.
-	 *
-	 * @example
-	 * sortOldest([{id: 1}, {id: 0}], 'id');
-	 * // => [{id: 0}, {id: 1}]
-	 */
-	const sortOldest = (collection, key = 'id', pureMode = true) => {
-		const array = pureMode ? collection : [...collection];
-		return array.sort((previous, next) => {
-			if (!next[key]) {
-				return 1;
-			} else if (!previous[key]) {
-				return -1;
-			} else if (previous[key] < next[key]) {
-				return -1;
-			} else if (previous[key] > next[key]) {
-				return 1;
-			}
-			return 0;
+	function findItem(collection, id, propertyName = 'id') {
+		const result = collection.find((element, index) => {
+			return findIndexCache(element, index, collection, id, propertyName);
 		});
-	};
+		return result === -1 ? false : result;
+	}
 	/**
-	 * Sorts an array in place using a key from oldest to newest and returns the oldest. Does not mutate the array.
+	 * Finds an object in a collection by the given id and property name and returns the array index of the object.
 	 *
-	 * @function getOldest
-	 * @category collection
+	 * @function findIndex
 	 * @type {Function}
-	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} key - The property name to sort by based on it's value.
-	 * @returns {Object} - The newest object in the collection.
+	 * @category collection
+	 * @param {Array} collection - Collection to be checked for an item.
+	 * @param {number|string} id - The value to look for.
+	 * @param {string} [propertyName = 'id'] - The name of the property to compare.
+	 * @returns {number} - The index of the object.
 	 *
 	 * @example
-	 * getOldest([{id: 1}, {id: 0}], 'id');
-	 * // => {id: 0}
+	 * findIndex([{id: 1}, {id: 2}], 1);
+	 * // => 0
 	 */
-	const getOldest = (collection, key = 'id') => {
-		return sortOldest(collection, key)[0];
-	};
+	function findIndex(collection, id, propertyName = 'id') {
+		const result = collection.findIndex((element, index) => {
+			return findIndexCache(element, index, collection, id, propertyName);
+		});
+		return result === -1 ? false : result;
+	}
 	/**
 	 * Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
 	 * The order of grouped values is determined by the order they occur in collection.
@@ -2402,7 +2417,7 @@
 	 * groupBy([6.1, 4.2, 6.3], Math.floor);
 	 * // => { '4': [4.2], '6': [6.1, 6.3] }
 	 */
-	const groupBy = (collection, iteratee) => {
+	function groupBy(collection, iteratee) {
 		const sortedObject = {};
 		eachArray(collection, (item) => {
 			const results = iteratee(item);
@@ -2412,79 +2427,7 @@
 			sortedObject[results].push(item);
 		});
 		return sortedObject;
-	};
-	/**
-	 * Creates an object composed of keys generated from the results of running each element of collection through iteratee.
-	 *
-	 * @function countBy
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Array of objects.
-	 * @param {Function} iteratee - The iteratee to transform keys.
-	 * @returns {Object} - Returns the composed aggregate object.
-	 *
-	 * @example
-	 * countBy([{a:1}, {a:3}], (item) => { return 'a';});
-	 * // => {a: 2}
-	 */
-	const countBy = (collection, iteratee) => {
-		const object = {};
-		let result;
-		eachArray(collection, (item) => {
-			result = iteratee(item);
-			if (!object[result]) {
-				object[result] = 0;
-			}
-			object[result]++;
-		});
-		return object;
-	};
-	/**
-	 * Count the amount of times a key is present in a collection.
-	 *
-	 * @function countKey
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Array of objects.
-	 * @param {Function} propertyName - The name of the key.
-	 * @returns {number} - The count.
-	 *
-	 * @example
-	 * countKey([{a:1}, {a:3}], 'a');
-	 * // => 2
-	 */
-	const countKey = (collection, propertyName) => {
-		let count = 0;
-		eachArray(collection, (item) => {
-			if (item[propertyName]) {
-				count++;
-			}
-		});
-		return count;
-	};
-	/**
-	 * Count the amount of times a key is not present in a collection.
-	 *
-	 * @function countWithoutKey
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Array of objects.
-	 * @param {string} propertyName - The name of the key.
-	 * @returns {number} - The count.
-	 *
-	 * @example
-	 * countWithoutKey([{a:1}, {a:3}], 'b');
-	 * // => 2
-	 */
-	const countWithoutKey = (collection, propertyName) => {
-		let count = 0;
-		eachArray(collection, (item) => {
-			if (!item[propertyName]) {
-				count++;
-			}
-		});
-		return count;
-	};
+	}
 	/**
 	 * Given a list, and an iteratee function that returns a key for each element in the list (or a property name), returns an object with an index of each item. Just like groupBy, but for when you know the keys are unique.
 	 *
@@ -2499,71 +2442,13 @@
 	 * indexBy([{name: 'Lucy', id: 0}, {name: 'Erick', id: 1}], 'id');
 	 * // => { "0": {name: 'Lucy', id: 0}, "1": {name: 'Erick', id: 1}}
 	 */
-	const indexBy = (collection, propertyName = 'id') => {
+	function indexBy(collection, propertyName = 'id') {
 		const sortedObject = {};
 		eachArray(collection, (item) => {
 			sortedObject[item[propertyName]] = item;
 		});
 		return sortedObject;
-	};
-	/**
-	 * Returns an array of the plucked values from the collection.
-	 *
-	 * @function pluck
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Array used to determine what value to be plucked.
-	 * @param {string} pluckThis - Property name.
-	 * @returns {Array} - An array of plucked values.
-	 *
-	 * @example
-	 * pluck([{lucy: 'Ants moving around on the walls.'}, {lucy: 'In the sky with diamonds.'}], 'lucy');
-	 * // => ['Ants moving around on the walls.', 'In the sky with diamonds.']
-	 */
-	const pluck = (collection, pluckThis) => {
-		return mapArray(collection, (item) => {
-			const result = item[pluckThis];
-			return result;
-		});
-	};
-	/**
-	 * Returns an array of the plucked values from the object. Values are plucked in the order given by the array.
-	 *
-	 * @function pluckObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object} value - Array used to determine what values to be plucked.
-	 * @param {string|Array} pluckThese - Property name.
-	 * @returns {Array} - An array of plucked values.
-	 *
-	 * @example
-	 * pluckObject({a: 1, b:3}, ['a','b']);
-	 * // => [1, 3]
-	 */
-	const pluckObject = (value, pluckThese) => {
-		return mapArray(pluckThese, (item) => {
-			return value[item];
-		});
-	};
-	/**
-	 * Returns an array of the arrays of plucked values from the collection.
-	 *
-	 * @function pluckValues
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Array used to determine what values to be plucked.
-	 * @param {Array} pluckThese - Property names.
-	 * @returns {Array} - An array of arrays of plucked values.
-	 *
-	 * @example
-	 * pluckValues([{a: 1, b:3}, {a: 1, b:3}], ['a','b']);
-	 * // => [[1, 3], [1, 3]]
-	 */
-	const pluckValues = (collection, pluckThese) => {
-		return mapArray(collection, (item) => {
-			return pluckObject(item, pluckThese);
-		});
-	};
+	}
 	/**
 	 * Invokes a function on the provided property name in each object in the collection.
 	 *
@@ -2579,11 +2464,11 @@
 	 * invoke([{lucy(item, index) { return [item, index];}}, {lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
 	 * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
 	 */
-	const invoke = (collection, property, value) => {
+	function invoke(collection, property, value) {
 		return mapArray(collection, (item, index) => {
 			return item[property](value, index);
 		});
-	};
+	}
 	/**
 	 * Asynchronously awaits & invokes a function on the provided property name in each object in the collection.
 	 *
@@ -2606,58 +2491,69 @@
 	 * invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
 	 * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
 	 */
-	const invokeAsync = (collection, property, value) => {
-		return mapAsync(collection, async (item, index) => {
+	function invokeAsync(collection, property, value) {
+		return mapAsyncArray(collection, async (item, index) => {
 			return item[property](value, index);
 		});
-	};
-	const findIndexCache = (element, index, array, indexMatch, propertyName) => {
-		if (element[propertyName] === indexMatch) {
-			return true;
-		}
-	};
+	}
 	/**
-	 * Finds an object in a collection by the given id and property name.
+	 * Returns an array of the plucked values from the collection.
 	 *
-	 * @function findItem
-	 * @type {Function}
+	 * @function pluck
 	 * @category collection
-	 * @param {Array} collection - Collection to be checked for an item.
-	 * @param {number|string} id - The value to look for.
-	 * @param {string} [propertyName = 'id'] - The name of the property to compare.
-	 * @returns {Object} - The found object.
+	 * @type {Function}
+	 * @param {Array} collection - Array used to determine what value to be plucked.
+	 * @param {string} pluckThis - Property name.
+	 * @returns {Array} - An array of plucked values.
 	 *
 	 * @example
-	 * findItem([{id: 1}, {id: 2}], 1);
-	 * // => {id: 1}
+	 * pluck([{lucy: 'Ants moving around on the walls.'}, {lucy: 'In the sky with diamonds.'}], 'lucy');
+	 * // => ['Ants moving around on the walls.', 'In the sky with diamonds.']
 	 */
-	const findItem = (collection, id, propertyName = 'id') => {
-		const result = collection.find((element, index) => {
-			return findIndexCache(element, index, collection, id, propertyName);
+	function pluck(collection, pluckThis) {
+		return mapArray(collection, (item) => {
+			const result = item[pluckThis];
+			return result;
 		});
-		return result === -1 ? false : result;
-	};
+	}
 	/**
-	 * Finds an object in a collection by the given id and property name and returns the array index of the object.
+	 * Returns an array of the plucked values from the object. Values are plucked in the order given by the array.
 	 *
-	 * @function findIndex
+	 * @function pluckObject
+	 * @category object
 	 * @type {Function}
-	 * @category collection
-	 * @param {Array} collection - Collection to be checked for an item.
-	 * @param {number|string} id - The value to look for.
-	 * @param {string} [propertyName = 'id'] - The name of the property to compare.
-	 * @returns {number} - The index of the object.
+	 * @param {Object} value - Array used to determine what values to be plucked.
+	 * @param {string|Array} pluckThese - Property name.
+	 * @returns {Array} - An array of plucked values.
 	 *
 	 * @example
-	 * findIndex([{id: 1}, {id: 2}], 1);
-	 * // => 0
+	 * pluckObject({a: 1, b:3}, ['a','b']);
+	 * // => [1, 3]
 	 */
-	const findIndex = (collection, id, propertyName = 'id') => {
-		const result = collection.findIndex((element, index) => {
-			return findIndexCache(element, index, collection, id, propertyName);
+	function pluckObject(value, pluckThese) {
+		return mapArray(pluckThese, (item) => {
+			return value[item];
 		});
-		return result === -1 ? false : result;
-	};
+	}
+	/**
+	 * Returns an array of the arrays of plucked values from the collection.
+	 *
+	 * @function pluckValues
+	 * @category collection
+	 * @type {Function}
+	 * @param {Array} collection - Array used to determine what values to be plucked.
+	 * @param {Array} pluckThese - Property names.
+	 * @returns {Array} - An array of arrays of plucked values.
+	 *
+	 * @example
+	 * pluckValues([{a: 1, b:3}, {a: 1, b:3}], ['a','b']);
+	 * // => [[1, 3], [1, 3]]
+	 */
+	function pluckValues(collection, pluckThese) {
+		return mapArray(collection, (item) => {
+			return pluckObject(item, pluckThese);
+		});
+	}
 	/**
 	 * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
 	 *
@@ -2672,7 +2568,7 @@
 	 * sortAlphabetical([{letter:'a'}, {letter:'f'}, {letter:'c'}], 'letter');
 	 * // => [{"letter":"a"},{"letter":"c"},{"letter":"f"}]
 	 */
-	const sortAlphabetical = (collection, propertyName) => {
+	function sortAlphabetical(collection, propertyName) {
 		return collection.sort((current, next) => {
 			const currentKey = current[propertyName];
 			const nextKey = next[propertyName];
@@ -2683,7 +2579,139 @@
 			}
 			return 0;
 		});
-	};
+	}
+	/**
+	 * Sorts an array in place using a key from newest to oldest.
+	 *
+	 * @function sortNewest
+	 * @category collection
+	 * @type {Function}
+	 * @param {Array} collection - Collection to be sorted.
+	 * @param {string} propertyName - The property name to sort by based on it's value.
+	 * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
+	 * @returns {Array} - The sorted array and or a clone of the array sorted.
+	 *
+	 * @example
+	 * sortNewest([{id: 1}, {id: 0}], 'id');
+	 * // => [{id: 1}, {id: 0}]
+	 */
+	function sortNewest(collection, propertyName, pureMode = true) {
+		const array = pureMode ? collection : [...collection];
+		return array.sort((previous, next) => {
+			if (!next[propertyName]) {
+				return -1;
+			} else if (!previous[propertyName]) {
+				return 1;
+			} else if (previous[propertyName] < next[propertyName]) {
+				return 1;
+			} else if (previous[propertyName] > next[propertyName]) {
+				return -1;
+			}
+			return 0;
+		});
+	}
+	/**
+	 * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
+	 *
+	 * @function getNewest
+	 * @category collection
+	 * @type {Function}
+	 * @param {Array} collection - Collection to be sorted.
+	 * @param {string} propertyName - The property name to sort by based on it's value.
+	 * @returns {Object} - The newest object in the collection.
+	 *
+	 * @example
+	 * getNewest([{id: 1}, {id: 0}], 'id');
+	 * // => {id: 1}
+	 */
+	function getNewest(collection, propertyName) {
+		return sortNewest(collection, propertyName, false)[0];
+	}
+	/**
+	 * Sorts an array in place using a key from oldest to newest.
+	 *
+	 * @function sortOldest
+	 * @category collection
+	 * @type {Function}
+	 * @param {Array} collection - Collection to be sorted.
+	 * @param {string} key - The property name to sort by based on it's value.
+	 * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
+	 * @returns {Array} - The sorted array and or a clone of the array sorted.
+	 *
+	 * @example
+	 * sortOldest([{id: 1}, {id: 0}], 'id');
+	 * // => [{id: 0}, {id: 1}]
+	 */
+	function sortOldest(collection, key = 'id', pureMode = true) {
+		const array = pureMode ? collection : [...collection];
+		return array.sort((previous, next) => {
+			if (!next[key]) {
+				return 1;
+			} else if (!previous[key]) {
+				return -1;
+			} else if (previous[key] < next[key]) {
+				return -1;
+			} else if (previous[key] > next[key]) {
+				return 1;
+			}
+			return 0;
+		});
+	}
+	/**
+	 * Sorts an array in place using a key from oldest to newest and returns the oldest. Does not mutate the array.
+	 *
+	 * @function getOldest
+	 * @category collection
+	 * @type {Function}
+	 * @param {Array} collection - Collection to be sorted.
+	 * @param {string} key - The property name to sort by based on it's value.
+	 * @returns {Object} - The newest object in the collection.
+	 *
+	 * @example
+	 * getOldest([{id: 1}, {id: 0}], 'id');
+	 * // => {id: 0}
+	 */
+	function getOldest(collection, key = 'id') {
+		return sortOldest(collection, key)[0];
+	}
+	/**
+	 * Creates a function that executes callable, only after being called n times.
+	 *
+	 * @function after
+	 * @category function
+	 * @type {Function}
+	 * @param {number} amount - The number of calls until method is invoked.
+	 * @param {Function} callable - The function to be called.
+	 * @returns {Function} - Returns the new pass-thru function.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const onlyAfter = after(2, (item) => { return item;});
+	 *   return await assert(onlyAfter(1), undefined) && await assert(onlyAfter(2), 2);
+	 * });
+	 *
+	 * @example
+	 * const onlyAfter = after(1, (item) => { return item;});
+	 * onlyAfter(1);
+	 * // => undefined
+	 * onlyAfter(2);
+	 * // => 2
+	 */
+	function after(amount, callable) {
+		let point = amount;
+		let value;
+		const onlyAfter = (...args) => {
+			if (point !== null) {
+				point--;
+			}
+			if (point <= 0) {
+				value = callable(...args);
+				point = null;
+			}
+			return value;
+		};
+		return onlyAfter;
+	}
 	/**
 	 * Creates a function that invokes callable, with up to n arguments, ignoring any additional arguments.
 	 *
@@ -2698,11 +2726,223 @@
 	 * ary((...args) => { return args;}, 2)(1, 2, 3);
 	 * // => [1, 2]
 	 */
-	const ary = (callable, amount) => {
+	function ary(callable, amount) {
 		return (...args) => {
 			return callable(...args.splice(0, amount));
 		};
+	}
+	/**
+	 * Creates a function that executes callable, only before n times.
+	 *
+	 * @function before
+	 * @category function
+	 * @type {Function}
+	 * @param {number} amount - The number of calls before n.
+	 * @param {Function} callable - The function to be called.
+	 * @returns {Function} - Returns the new pass-thru function.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const onlyBefore = before(3, (item) => { return item;});
+	 *   return await assert(onlyBefore(1), 1) && await assert(onlyBefore(2), 2) && await assert(onlyBefore(3), 2);
+	 * });
+	 *
+	 * @example
+	 * const onlyBefore = before(3, () => { return 1;});
+	 * onlyBefore(1);
+	 * // => 1
+	 * onlyBefore(2);
+	 * // => 2
+	 * onlyBefore(3);
+	 * // => 2
+	 */
+	function before(amount, callable) {
+		let point = amount;
+		let value;
+		const onlyBefore = (...args) => {
+			if (point !== null) {
+				point--;
+			}
+			if (point >= 1) {
+				value = callable(...args);
+			} else {
+				point = null;
+			}
+			return value;
+		};
+		return onlyBefore;
+	}
+	/**
+	 * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
+	 *
+	 * @function mapObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Object|Function} - An object of the same calling object's type.
+	 *
+	 * @example
+	 * mapObject({a: 1, b: 2, c: 3}, (item) => {
+	 *   return item * 2;
+	 * });
+	 * // => {a: 2, b: 4, c: 6}
+	 */
+	function mapObject(source, iteratee, results = {}) {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			results[key] = iteratee(item, key, results, original, propertyCount, objectKeys);
+		});
+		return results;
+	}
+	function forEachWrap(object, callback) {
+		return object.forEach(callback);
+	}
+	function generateLoop(arrayLoop, objectLoop) {
+		return (source, iteratee, results) => {
+			let returned;
+			if (!hasValue(source)) {
+				return;
+			} else if (isArray(source)) {
+				returned = arrayLoop;
+			} else if (isPlainObject(source) || isFunction(source)) {
+				returned = objectLoop;
+			} else if (source.forEach) {
+				returned = forEachWrap;
+			} else {
+				returned = objectLoop;
+			}
+			return returned(source, iteratee, results);
+		};
+	}
+	/**
+	 * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
+	 *
+	 * @function map
+	 * @category utility
+	 * @type {Function}
+	 * @param {Array | object | Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Array | object | Function} - A new object of the same calling object's type.'.
+	 *
+	 * @example
+	 * import { map, assert } from './Acid.js';
+	 * assert(map({a: 1, b: 2, c: 3}, (item) => {
+	 *   return item * 2;
+	 * }), {a: 2, b: 4, c: 6});
+	 */
+	const map = generateLoop(mapArray, mapObject);
+	/**
+	 * Loops through an object or an array and binds the given object to all functions encountered.
+	 *
+	 * @function bindAll
+	 * @category function
+	 * @type {Function}
+	 * @param {Object|Function|Array} collection - The functions to bind.
+	 * @param {*} bindThis - Object to be bound to functions.
+	 * @returns {Object|Function|Array} - Returns the method invoked or undefined.
+	 *
+	 * @example
+	 * bindAll([function () { return this;}], 'Lucy')[0]().toString();
+	 * // => 'Lucy'
+	 * @example
+	 * bindAll({a() { return this;}}, 'Lucy').a().toString();
+	 * // => 'Lucy'
+	 */
+	function bindAll(collection, bindThis) {
+		return map(collection, (item) => {
+			return isFunction(item) ? item.bind(bindThis) : item;
+		});
+	}
+	const objectAssign = Object.assign;
+	/**
+	 * Copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
+	 *
+	 * @function assign
+	 * @category object
+	 * @param {Object} target - The target object.
+	 * @param {...Object} sources - The source object(s).
+	 * @returns {Object} - Returns the target object.
+	 *
+	 * @example
+	 * assign({b: 2}, {a: 1});
+	 * // => {b: 2, a: 1}
+	 */
+	function assign(target, ...sources) {
+		if (target) {
+			return objectAssign(target, ...sources);
+		}
+	}
+	/**
+	 * Iterates through the given object.
+	 *
+	 * @function each
+	 * @category utility
+	 * @type {Function}
+	 * @param {Array | object | Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+	 * @returns {Array | object | Function} - The originally given object.
+	 *
+	 * @example
+	 * import { each, assert } from './Acid.js';
+	 * const list = {};
+	 * each({a: 1, b: 2, c: 3}, (item, key) => {
+	 *   list[key] = item;
+	 * });
+	 * assert(list, {a: 1, b: 2, c: 3});
+	 */
+	const each = generateLoop(eachArray, eachObject);
+	const add = (link, methods) => {
+		each(methods, (item, key) => {
+			link.methods[key] = (...args) => {
+				item(link.value, ...args);
+				return link.methods;
+			};
+		});
+		return link;
 	};
+	/**
+	 * Creates a chainable set of functions.
+	 *
+	 * @function chain
+	 * @category function
+	 * @type {Function}
+	 * @param {Array|Object} methods - The object to take methods from.
+	 * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
+	 *
+	 * @test
+	 * (async () => {
+	 *   const chained = chain({a(item) { return item;}});
+	 *   chained('Acid').a();
+	 *   return assert(chained.done(), 'Acid');
+	 * });
+	 *
+	 * @example
+	 * const chained = chain({a(item) { return item;}});
+	 * chained('Acid').a();
+	 * chained.done();
+	 * // => 'Acid'
+	 */
+	function chain(methods) {
+		const link = (value) => {
+			link.value = value;
+			return link.methods;
+		};
+		assign(link, {
+			add(addToChain) {
+				return add(link, addToChain);
+			},
+			done() {
+				const value = link.value;
+				link.value = null;
+				return value;
+			},
+			methods: {}
+		});
+		link.add(methods);
+		return link;
+	}
 	/**
 	 * Creates a function that accepts arguments of method and either invokes method returning its result, if at least arity number of arguments have been provided, or returns a function that accepts the remaining method arguments, and so on. The arity of method may be specified if method length is not sufficient.
 	 *
@@ -2719,7 +2959,7 @@
 	 * })(1)(2)(3);
 	 * // => [1, 2, 3]
 	 */
-	const curry = (callable, arity = callable.length) => {
+	function curry(callable, arity = callable.length) {
 		const curries = [];
 		const curried = (...curryArgs) => {
 			curries.push(...curryArgs);
@@ -2731,7 +2971,7 @@
 			return curried;
 		};
 		return curried;
-	};
+	}
 	/**
 	 * Creates a function that accepts arguments of method and either invokes method returning its result, if at least arity number of arguments have been provided, or returns a function that accepts the remaining method arguments, and so on. The arity of method may be specified if method.length is not sufficient. The arguments are given in reverse order.
 	 *
@@ -2747,7 +2987,7 @@
 	 * })(1)(2)(3);
 	 * // => [3, 2, 1]
 	 */
-	const curryRight = (callable, arity = callable.length) => {
+	function curryRight(callable, arity = callable.length) {
 		const curries = [];
 		const curried = (...curryArgs) => {
 			curries.unshift(...curryArgs);
@@ -2759,7 +2999,374 @@
 			return curried;
 		};
 		return curried;
+	}
+	/**
+	 * This method returns true.
+	 *
+	 * @function stubTrue
+	 * @category function
+	 * @type {Function}
+	 * @returns {boolean} - Returns true.
+	 *
+	 * @example
+	 * import { stubArray } from './Acid.js';
+	 * stubTrue();
+	 * // => true
+	 */
+	const truth = true;
+	const stubTrue = () => {
+		return truth;
 	};
+	/**
+	 * This method returns false.
+	 *
+	 * @function stubFalse
+	 * @category function
+	 * @type {Function}
+	 * @returns {boolean} - Returns false.
+	 *
+	 * @example
+	 * import { stubArray } from './Acid.js';
+	 * stubFalse();
+	 * // => false
+	 */
+	const falsy = false;
+	const stubFalse = () => {
+		return falsy;
+	};
+	/**
+	 * A function which acts like the "new" operator and can pass arguments. This is a safe version of the original which will error if given undefined
+	 * This is useful when working with classes and prefering to avoid the new operator and it's potential side effects.
+	 *
+	 * @function construct
+	 * @category class
+	 * @param {Function} target - The target function or class.
+	 * @param {Array} [argumentsList =[]] - An array-like object specifying the arguments with which target should be called. Default value is a new empty array.
+	 * @param {Array} newTarget - The constructor whose prototype should be used. See also the new.target operator. If newTarget is not present, its value defaults to target.
+	 * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
+	 *
+	 * @example
+	 * const newClass = construct(function (a) {return a;}, []);
+	 * // => 2
+	 */
+	const reflectConstruct = Reflect.construct;
+	function construct(target, argumentsList = [], newTarget) {
+		if (newTarget) {
+			return reflectConstruct(target, argumentsList, newTarget);
+		}
+		return reflectConstruct(target, argumentsList);
+	}
+	/**
+	 * This method returns undefined.
+	 *
+	 * @function noop
+	 * @category function
+	 * @type {Function}
+	 * @returns {undefined} - Returns undefined.
+	 * @example
+	 * noop();
+	 * // => undefined
+	 */
+	const noop = () => {
+		return;
+	};
+	/**
+	 * Iterates based on the amount given invoking the iteratee with the current index as an argument.
+	 *
+	 * @function times
+	 * @category array
+	 * @type {Function}
+	 * @param {number} amount - The amount of times to loop invoking the iteratee.
+	 * @param {Function} iteratee - Transformation function which is passed index and amount.
+	 * @returns {undefined} - Nothing.
+	 *
+	 * @example
+	 * import { times } from 'Acid';
+	 * times(3, (item) => {
+	 *   console.log(item);
+	 * });
+	 * // 0
+	 * // 1
+	 * // 2
+	 * // => undefined
+	 */
+	function times(amount, iteratee) {
+		for (let index = 0; index < amount; index++) {
+			iteratee(index);
+		}
+	}
+	/**
+	 * Iterates based on the amount given and maps the results returned by the iteratee each time to an array.
+	 *
+	 * @function timesMap
+	 * @category array
+	 * @type {Function}
+	 * @param {number} amount - The amount of times to loop invoking the iteratee.
+	 * @param {Function} iteratee - Transformation function which is passed index and amount.
+	 * @param {Array} [results = []] - Array that will have iteratee return pushed to.
+	 * @returns {Array} - An array with iteratee's returned values.
+	 *
+	 * @example
+	 * import { timesMap } from 'Acid';
+	 * timesMap(3, (item) => {
+	 *   return item;
+	 * });
+	 * // => [0, 1, 2]
+	 */
+	function timesMap(amount, iteratee, results = []) {
+		for (let index = 0; index < amount; index++) {
+			results[index] = iteratee(amount);
+		}
+		return results;
+	}
+	class Timers {
+		list = construct(Map);
+		construct() {}
+		/**
+		 * Remove a timer that was created using the timer function.
+		 *
+		 * @param {number} id - The id of the timer to remove.
+		 * @returns {undefined} - Returns nothing.
+		 *
+		 * @example
+		 * import { stubArray } from './Acid.js';
+		 * timer(() => {}, 100);
+		 * // => 0
+		 */
+		remove(id) {
+			clearTimeout(id);
+			this.list.delete(id);
+		}
+		has(id) {
+			return this.list.has(id);
+		}
+		get(id) {
+			return this.list.get(id);
+		}
+		/**
+		 * Create a timer and add it to the list of timers.
+		 *
+		 * @type {Function}
+		 * @param {Function} callable - The function to be invoked.
+		 * @param {number} time - The time in milliseconds.
+		 * @returns {Object} - Returns setTimeoutId ID.
+		 *
+		 * @example
+		 * import { stubArray } from './Acid.js';
+		 * timers.set(() => {}, 100);
+		 * // => 0
+		 */
+		set(callable, time) {
+			const currentThis = this;
+			const id = setTimeout(() => {
+				callable();
+				currentThis.remove(id);
+			}, time);
+			this.list.set(id, truth);
+			return id;
+		}
+		/**
+		 * Clear all active timers.
+		 *
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * import { stubArray } from './Acid.js';
+		 * timers.clear();
+		 * // => undefined
+		 */
+		clear() {
+			const currentThis = this;
+			currentThis.list.forEach((id) => {
+				currentThis.remove(id);
+			});
+		}
+	}
+	const timers = construct(Timers);
+	/**
+	 * Timer wrapper.
+	 *
+	 * @function timer
+	 * @category function
+	 * @type {Function}
+	 * @param {Function} callable - The function to be invoked.
+	 * @param {number} time - The time in milliseconds.
+	 * @returns {Object} - Returns setTimeoutId ID.
+	 *
+	 * @example
+	 * import { stubArray } from './Acid.js';
+	 * timer(() => {}, 100);
+	 * // => 0
+	 */
+	function timer(callable, time) {
+		return timers.set(callable, time);
+	}
+	/**
+	 * Clear all active timers.
+	 *
+	 * @function clearTimers
+	 * @category function
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * import { stubArray } from './Acid.js';
+	 * clearTimers();
+	 * // => undefined
+	 */
+	function clearTimers() {
+		const id = setTimeout(noop, 0);
+		times(id, (index) => {
+			timers.remove(index);
+		});
+	}
+	/**
+	 * Creates a debounced function that delays invoking callable until after milliseconds have elapsed since the last time the debounced function was invoked. The debounce function has a clear method to cancel the timer.
+	 *
+	 * @function debounce
+	 * @category function
+	 * @type {Function}
+	 * @param {Function} callable - The function to be invoked.
+	 * @param {number} time - The time in milliseconds.
+	 * @returns {Function} - The debounced function.
+	 *
+	 * @example
+	 * const debounced = debounce(() => { console.log('debounced'); }, 0);
+	 * debounced();
+	 * // 'debounced'
+	 */
+	function debounce(callable, time) {
+		function debounced(...args) {
+			if (debounced.id !== falsy) {
+				timers.remove(debounced.id);
+			}
+			debounced.id = timer(() => {
+				debounced.callable(...args);
+				debounced.id = falsy;
+			}, time);
+		}
+		debounced.id = falsy;
+		debounced.callable = callable.bind(debounced);
+		debounced.clear = () => {
+			if (debounced.id !== falsy) {
+				timers.remove(debounced.id);
+				debounced.id = falsy;
+			}
+		};
+		return debounced;
+	}
+	/**
+	 * Checks if the given method is a function. If it is then it invokes it with the given arguments.
+	 *
+	 * @function ifInvoke
+	 * @category function
+	 * @type {Function}
+	 * @param {Function} callable - The function to be invoked if possible.
+	 * @param {...Array} args - Arguments to pass to the method.
+	 * @returns {*} - Returns the method invoked or undefined.
+	 *
+	 * @example
+	 * import { ifInvoke, assert } from './Acid.js';
+	 * assert(ifInvoke((...args) => { return args;}, 1, 2), [1, 2]);
+	 */
+	function ifInvoke(callable, ...args) {
+		if (isFunction(callable)) {
+			return callable(...args);
+		}
+	}
+	/**
+	 * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
+	 *
+	 * @function inAsync
+	 * @type {Function}
+	 * @category Array
+	 * @async
+	 * @param {Array} source - Array of async functions that will be looped through.
+	 * Functions are given the supplied object, index, the calling array, and the array length.
+	 * @param {*} firstArgument - The first argument given to each function.
+	 * @returns {object} - The originally given array.
+	 *
+	 * @example
+	 * import { inAsync, assert } from './Acid.js';
+	 * const list = [];
+	 * await inAsync([async (firstArgument, item, index) => {
+	 *   list.push(index + firstArgument.a);
+	 * }, async (firstArgument, item, index) => {
+	 *   list.push(index);
+	 * }], {a:1});
+	 * assert(list, [1, 1]);
+	 */
+	async function inAsync(source, firstArgument) {
+		const arrayLength = source.length;
+		for (let index = 0; index < arrayLength; index++) {
+			const item = source[index];
+			await item(firstArgument, index, source, arrayLength);
+		}
+		return source;
+	}
+	/**
+	 * Invoke an array of functions.
+	 *
+	 * @function inSync
+	 * @category function
+	 * @type {Function}
+	 * @param {Array|Object|Function} collection - The functions to be invoked.
+	 * @param {*} value - The object passed as an argument to each method.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @test
+	 * (() => {
+	 *   const tempList = [];
+	 *   inSync([() => {tempList.push(1);}, () => {tempList.push(2);}]);
+	 *   return assert(tempList, [1, 2]);
+	 * });
+	 *
+	 * @example
+	 * inSync([() => {console.log(1);}, () => {console.log(2);}]);
+	 * // 1
+	 * // 2
+	 * // => undefined
+	 */
+	const inSync = (collection, value) => {
+		return each(collection, (item) => {
+			item(value);
+		});
+	};
+	/**
+	 * Creates a function that negates the result of the predicate callable.
+	 *
+	 * @function negate
+	 * @category function
+	 * @type {Function}
+	 * @param {Function} callable - The function to be invoked.
+	 * @returns {*} - Returns the given methods result.
+	 *
+	 * @example
+	 * negate(() => { return false;})();
+	 * // => true
+	 */
+	function negate(callable) {
+		return (...args) => {
+			return !callable(...args);
+		};
+	}
+	/**
+	 * Creates a function that gets the argument at index n. If n is negative, the nth argument from the end is returned.
+	 *
+	 * @function nthArg
+	 * @category function
+	 * @type {Function}
+	 * @param {number} [index = 0] - The index of the argument to return.
+	 * @returns {Function} - Returns the new pass-thru function.
+	 *
+	 * @example
+	 * nthArg(1)('a', 'b');
+	 * // => 'b'
+	 */
+	function nthArg(index = 0) {
+		return (...args) => {
+			return args[index];
+		};
+	}
 	/**
 	 * Creates a function that is restricted to execute method once. Repeat calls to the function will return the value of the first call. The method is executed with the this binding of the created function.
 	 *
@@ -2792,203 +3399,9 @@
 		return onlyOnce;
 	};
 	/**
-	 * Creates a function that executes callable, only after being called n times.
-	 *
-	 * @function after
-	 * @category function
-	 * @type {Function}
-	 * @param {number} amount - The number of calls until method is invoked.
-	 * @param {Function} callable - The function to be called.
-	 * @returns {Function} - Returns the new pass-thru function.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const onlyAfter = after(2, (item) => { return item;});
-	 *   return await assert(onlyAfter(1), undefined) && await assert(onlyAfter(2), 2);
-	 * });
-	 *
-	 * @example
-	 * const onlyAfter = after(1, (item) => { return item;});
-	 * onlyAfter(1);
-	 * // => undefined
-	 * onlyAfter(2);
-	 * // => 2
-	 */
-	const after = (amount, callable) => {
-		let point = amount;
-		let value;
-		const onlyAfter = (...args) => {
-			if (point !== null) {
-				point--;
-			}
-			if (point <= 0) {
-				value = callable(...args);
-				point = null;
-			}
-			return value;
-		};
-		return onlyAfter;
-	};
-	/**
-	 * Creates a function that executes callable, only before n times.
-	 *
-	 * @function before
-	 * @category function
-	 * @type {Function}
-	 * @param {number} amount - The number of calls before n.
-	 * @param {Function} callable - The function to be called.
-	 * @returns {Function} - Returns the new pass-thru function.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const onlyBefore = before(3, (item) => { return item;});
-	 *   return await assert(onlyBefore(1), 1) && await assert(onlyBefore(2), 2) && await assert(onlyBefore(3), 2);
-	 * });
-	 *
-	 * @example
-	 * const onlyBefore = before(3, () => { return 1;});
-	 * onlyBefore(1);
-	 * // => 1
-	 * onlyBefore(2);
-	 * // => 2
-	 * onlyBefore(3);
-	 * // => 2
-	 */
-	const before = (amount, callable) => {
-		let point = amount;
-		let value;
-		const onlyBefore = (...args) => {
-			if (point !== null) {
-				point--;
-			}
-			if (point >= 1) {
-				value = callable(...args);
-			} else {
-				point = null;
-			}
-			return value;
-		};
-		return onlyBefore;
-	};
-	/**
-	 * This method returns a new empty object.
-	 *
-	 * @function stubObject
-	 * @category function
-	 * @type {Function}
-	 * @returns {Object} - Returns the new empty object.
-	 * @example
-	 * stubObject();
-	 * // => {}
-	 */
-	const stubObject = () => {
-		return {};
-	};
-	/**
-	 * This method returns a new empty array.
-	 *
-	 * @function stubArray
-	 * @category function
-	 * @type {Function}
-	 * @returns {Array} - Returns the new empty array.
-	 * @example
-	 * stubArray();
-	 * // => []
-	 */
-	const stubArray = () => {
-		return [];
-	};
-	/**
-	 * This method returns a new empty string.
-	 *
-	 * @function stubString
-	 * @category function
-	 * @type {Function}
-	 * @returns {string} - Returns the new empty string.
-	 * @example
-	 * stubString();
-	 * // => ''
-	 */
-	const stubString = () => {
-		return '';
-	};
-	/**
-	 * This method returns false.
-	 *
-	 * @function stubFalse
-	 * @category function
-	 * @type {Function}
-	 * @returns {boolean} - Returns false.
-	 * @example
-	 * stubFalse();
-	 * // => false
-	 */
-	const stubFalse = () => {
-		return false;
-	};
-	/**
-	 * This method returns true.
-	 *
-	 * @function stubTrue
-	 * @category function
-	 * @type {Function}
-	 * @returns {boolean} - Returns true.
-	 * @example
-	 * stubTrue();
-	 * // => true
-	 */
-	const stubTrue = () => {
-		return true;
-	};
-	/**
-	 * This method returns undefined.
-	 *
-	 * @function noop
-	 * @category function
-	 * @type {Function}
-	 * @returns {undefined} - Returns undefined.
-	 * @example
-	 * noop();
-	 * // => undefined
-	 */
-	const noop = () => {
-		return undefined;
-	};
-	/**
-	 * Iterates through the given object.
-	 *
-	 * @function eachObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-	 * @returns {Object|Function} - Returns the calling object.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempList = {};
-	 *   eachObject({a: 1, b: 2, c: 3}, (item, key) => {
-	 *     tempList[key] = item;
-	 *   });
-	 *   return assert(tempList, {a: 1, b: 2, c: 3});
-	 * });
-	 *
-	 * @example
-	 * eachObject({a: 1, b: 2, c: 3}, (item) => {
-	 *   console.log(item);
-	 * });
-	 * // => {a: 1, b: 2, c: 3}
-	 */
-	const eachObject = (source, iteratee) => {
-		const objectKeys = keys(source);
-		return eachArray(objectKeys, (key, index, original, propertyCount) => {
-			iteratee(source[key], key, source, propertyCount, original);
-		});
-	};
-	/**
 	 * Iterates through the given object while the iteratee returns true.
 	 *
-	 * @function whileObject
+	 * @function everyObject
 	 * @category object
 	 * @type {Function}
 	 * @param {Object} source - Object that will be looped through.
@@ -2996,595 +3409,74 @@
 	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
-	 * whileObject({a: false, b: true, c: true}, (item) => {
-	 *   return item;
-	 * });
-	 * // => false
-	 * @example
-	 * whileObject({a: true, b: true, c: true}, (item) => {
+	 * everyObject({a: true, b: true, c: true}, (item) => {
 	 *   return item;
 	 * });
 	 * // => true
 	 */
-	const whileObject = (source, iteratee) => {
+	function everyObject(source, iteratee) {
 		const objectKeys = keys(source);
-		return whileArray(objectKeys, (key, index, original, propertyCount) => {
+		return everyArray(objectKeys, (key, index, original, propertyCount) => {
 			return iteratee(source[key], key, source, propertyCount, original);
 		});
-	};
-	/**
-	 * Iterates through the calling object and creates an object with all elements that pass the test implemented by the iteratee.
-	 *
-	 * @function filterObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} - An object with properties that passed the test.
-	 *
-	 * @example
-	 * filterObject({a: false, b: true, c: true}, (item) => {
-	 *   return item;
-	 * });
-	 * // => {b: true, c: true}
-	 */
-	const filterObject = (source, iteratee, results = {}) => {
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			if (iteratee(item, key, results, original, propertyCount, objectKeys) === true) {
-				results[key] = item;
-			}
-		});
-		return results;
-	};
-	/**
-	 * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
-	 *
-	 * @function mapObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} - An object of the same calling object's type.
-	 *
-	 * @example
-	 * mapObject({a: 1, b: 2, c: 3}, (item) => {
-	 *   return item * 2;
-	 * });
-	 * // => {a: 2, b: 4, c: 6}
-	 */
-	const mapObject = (source, iteratee, results = {}) => {
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			results[key] = iteratee(item, key, results, original, propertyCount, objectKeys);
-		});
-		return results;
-	};
-	function removeNoValue(source) {
-		if (hasValue(source)) {
-			return source;
-		}
 	}
-	/**
-	 * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
-	 *
-	 * @function compactMapObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
-	 *
-	 * @example
-	 * compactMapObject({a: undefined, b: 2, c: 3}, (item) => {
-	 *   return item;
-	 * });
-	 * // => {b: 2, c: 3}
-	 */
-	const compactMapObject = (source, iteratee = removeNoValue, results = {}) => {
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			const result = iteratee(item, key, results, original, propertyCount, objectKeys);
-			if (hasValue(result)) {
-				results[key] = result;
-			}
-		});
-		return results;
-	};
-	const forEachWrap = (object, callback) => {
-		return object.forEach(callback);
-	};
-	const generateCheckLoops = (arrayLoop, objectLoop) => {
-		return (source, iteratee, results) => {
-			let returned;
-			if (!hasValue(source)) {
-				return;
-			} else if (isArray(source)) {
-				returned = arrayLoop;
-			} else if (isPlainObject(source) || isFunction(source)) {
-				returned = objectLoop;
-			} else if (source.forEach) {
-				returned = forEachWrap;
-			} else {
-				returned = objectLoop;
-			}
-			return returned(source, iteratee, results);
-		};
-	};
 	/**
 	 * Iterates through the given object while the iteratee returns true.
 	 *
-	 * @function eachWhile
+	 * @function every
 	 * @category utility
 	 * @type {Function}
 	 * @param {object | Array | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
 	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+	 *
 	 * @example
-	 * eachWhile({a: false, b: true, c: true}, (item) => {
+	 * import { every, assert } from './Acid.js';
+	 * assert(every({a: false, b: true, c: true}, (item) => {
 	 *  return item;
-	 * });
-	 * // => false
+	 * }), false);
 	 */
-	const eachWhile = generateCheckLoops(whileArray, whileObject);
+	const every = generateLoop(everyArray, everyObject);
 	/**
-	 * Iterates through the given object.
-	 *
-	 * @function each
-	 * @category utility
-	 * @type {Function}
-	 * @param {Array | object | Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @returns {Array | object | Function} - The originally given object.
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   each({a: 1, b: 2, c: 3}, (item) => {
-	 *     tempList.push(item);
-	 *   });
-	 *   return assert(tempList, [1, 2, 3]);
-	 * });
-	 * @example
-	 * each({a: 1, b: 2, c: 3}, (item) => {
-	 *   console.log(item);
-	 * });
-	 * // => {a: 1, b: 2, c: 3}
-	 */
-	const each = generateCheckLoops(eachArray, eachObject);
-	/**
-	 * Iterates through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
-	 *
-	 * @function filter
-	 * @category utility
-	 * @type {Function}
-	 * @param {Array | object | Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Array | object | Function} - A new object of the same calling object's type.
-	 * @example
-	 * filter({a: false, b: true, c: true}, (item) => {
-	 *   return item;
-	 * });
-	 * // => {b: true, c: true}
-	 */
-	const filter = generateCheckLoops(filterArray, filterObject);
-	/**
-	 * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
-	 *
-	 * @function map
-	 * @category utility
-	 * @type {Function}
-	 * @param {Array | object | Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Array | object | Function} - A new object of the same calling object's type.
-	 * @example
-	 * map({a: 1, b: 2, c: 3}, (item) => {
-	 *   return item * 2;
-	 * });
-	 * // => {a: 2, b: 4, c: 6}
-	 */
-	const map = generateCheckLoops(mapArray, mapObject);
-	/**
-	 * Iterates through the calling object and creates a new object based on the calling object's type with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
-	 *
-	 * @function compactMap
-	 * @category utility
-	 * @type {Function}
-	 * @param {Array | object | Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Array | object | Function} - A new object of the same calling object's type.
-	 * @example
-	 * compactMap({a: null, b: 2, c: 3}, (item) => {
-	 *   return item;
-	 * });
-	 * // => {b: 2, c: 3}
-	 */
-	const compactMap = generateCheckLoops(compactMapArray, compactMapObject);
-	/**
-	 * Loops through an object or an array and binds the given object to all functions encountered.
-	 *
-	 * @function bindAll
-	 * @category function
-	 * @type {Function}
-	 * @param {Object|Function|Array} collection - The functions to bind.
-	 * @param {*} bindThis - Object to be bound to functions.
-	 * @returns {Object|Function|Array} - Returns the method invoked or undefined.
-	 *
-	 * @example
-	 * bindAll([function () { return this;}], 'Lucy')[0]().toString();
-	 * // => 'Lucy'
-	 * @example
-	 * bindAll({a() { return this;}}, 'Lucy').a().toString();
-	 * // => 'Lucy'
-	 */
-	const bindAll = (collection, bindThis) => {
-		return map(collection, (item) => {
-			return isFunction(item) ? item.bind(bindThis) : item;
-		});
-	};
-	/**
-	 * Checks if the given method is a function. If it is then it invokes it with the given arguments.
-	 *
-	 * @function ifInvoke
-	 * @category function
-	 * @type {Function}
-	 * @param {Function} callable - The function to be invoked if possible.
-	 * @param {...Array} args - Arguments to pass to the method.
-	 * @returns {*} - Returns the method invoked or undefined.
-	 *
-	 * @example
-	 * ifInvoke((...args) => { return args;}, 1, 2);
-	 * // => [1, 2]
-	 * @example
-	 * ifInvoke(undefined, 1, 2);
-	 * // => undefined
-	 */
-	const ifInvoke = (callable, ...args) => {
-		if (isFunction(callable)) {
-			return callable(...args);
-		}
-	};
-	/**
-	 * Creates a function that negates the result of the predicate callable.
-	 *
-	 * @function negate
-	 * @category function
-	 * @type {Function}
-	 * @param {Function} callable - The function to be invoked.
-	 * @returns {*} - Returns the given methods result.
-	 *
-	 * @example
-	 * negate(() => { return false;})();
-	 * // => true
-	 */
-	const negate = (callable) => {
-		return (...args) => {
-			return !callable(...args);
-		};
-	};
-	/**
-	 * Checks if predicate returns truthy for all elements of collection. Iteration is stopped once predicate returns falsey. The predicate is invoked with three arguments: (value, index|key, collection).
-	 *
-	 * @function every
-	 * @category function
-	 * @type {Function}
-	 * @param {Array|Object} collection - The collection to iterate over.
-	 * @param {Function} predicate - The function invoked per iteration.
-	 * @returns {boolean} - Returns true if all elements pass the predicate check, else false.
-	 *
-	 * @example
-	 * every([[], true, 1, null, 'string'], Boolean);
-	 * // => false
-	 */
-	const every = eachWhile;
-	/**
-	 * Creates a function that invokes iteratees with the arguments it receives and returns their results.
+	 * Creates a function that invokes iteratee with the arguments it receives and returns their results.
 	 *
 	 * @function over
 	 * @category function
 	 * @type {Function}
-	 * @param {Array|Object} iteratees - The iteratees to invoke.
-	 * @returns {Function} - Returns the new function.
+	 * @param {(Array.<function>|Object.<function>)} iteratee - The list of functions to loop through.
+	 * @returns {Function} - Returns the new over wrapped function.
 	 *
 	 * @example
 	 * over([Math.max, Math.min])(1, 2, 3, 4);
 	 * // => [4, 1]
 	 */
-	const over = (iteratees) => {
+	function over(iteratee) {
 		return (...args) => {
-			return map(iteratees, (item) => {
+			return map(iteratee, (item) => {
 				return item(...args);
 			});
 		};
-	};
+	}
 	/**
 	 * Creates a function that checks if all of the predicates return truthy when invoked with the arguments it receives.
 	 *
 	 * @function overEvery
 	 * @category function
 	 * @type {Function}
-	 * @param {Array|Object} predicates -  The predicates to check.
-	 * @returns {Function} - Returns the new function.
+	 * @param {(Array.<function>|Object.<function>)} iteratee - The list of functions to loop through.
+	 * @returns {Function} - Returns the new overEvery wrapped function.
 	 *
 	 * @example
-	 * overEvery([Boolean, isFinite])('1');
-	 * // => true
-	 * @example
-	 * overEvery([Boolean, isFinite])(null);
-	 * // => false
+	 * import { overEvery, assert } from './Acid.js';
+	 * assert(overEvery([Boolean, isFinite])('1'), true);
 	 */
-	const overEvery = (predicates) => {
+	function overEvery(predicates) {
 		return (...args) => {
-			return eachWhile(predicates, (item) => {
+			return every(predicates, (item) => {
 				return item(...args);
 			});
 		};
-	};
-	/**
-	 * Timer wrapper.
-	 *
-	 * @function timer
-	 * @category function
-	 * @type {Function}
-	 * @param {Function} callable - The function to be invoked.
-	 * @param {number} time - The time in milliseconds.
-	 * @returns {Object} - Returns setTimeout ID.
-	 *
-	 * @example
-	 * timer(() => {}, 100);
-	 * // => 0
-	 */
-	const timer = (callable, time) => {
-		return setTimeout(callable, time);
-	};
-	/**
-	 * Interval wrapper.
-	 *
-	 * @function interval
-	 * @category function
-	 * @type {Function}
-	 * @param {Function} callable - The function to be invoked.
-	 * @param {number} time - The time in milliseconds.
-	 * @returns {Object} - Returns setInterval ID.
-	 *
-	 * @example
-	 * interval(() => {}, 100);
-	 * // => 0
-	 */
-	const interval = (callable, time) => {
-		return setInterval(callable, time);
-	};
-	const generateClear = (callable, clearMethod) => {
-		return () => {
-			times(
-				0,
-				callable(() => {}, 0),
-				(index) => {
-					clearMethod(index);
-				}
-			);
-		};
-	};
-	/**
-	 * Clear all active timers.
-	 *
-	 * @function clearTimers
-	 * @category function
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * clearTimers();
-	 * // => undefined
-	 */
-	const clearTimers = generateClear(timer, clearTimeout);
-	/**
-	 * Clear all active intervals.
-	 *
-	 * @function clearIntervals
-	 * @category function
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * clearIntervals();
-	 * // => undefined
-	 */
-	const clearIntervals = generateClear(interval, clearInterval);
-	/**
-	 * Creates a debounced function that delays invoking callable until after wait milliseconds have elapsed since the last time the debounced function was invoked. The debounce function has a clear method to cancel the timer.
-	 *
-	 * @function debounce
-	 * @category function
-	 * @type {Function}
-	 * @param {Function} callable - The function to be invoked.
-	 * @param {number} time - The time in milliseconds.
-	 * @returns {Function} - The debounced function.
-	 *
-	 * @example
-	 * debounce(() => { console.log('debounced'); }, 0)();
-	 * // 'debounced'
-	 */
-	const debounce = (callable, time) => {
-		let timeout = false;
-		const debounced = (...args) => {
-			if (timeout !== false) {
-				clearTimeout(timeout);
-			}
-			timeout = timer(() => {
-				callable(...args);
-				timeout = false;
-			}, time);
-		};
-		debounced.clear = () => {
-			if (timeout) {
-				clearTimeout(timeout);
-				timeout = false;
-			}
-		};
-		return debounced;
-	};
-	/**
-	 * Creates a throttled function that only invokes callable at most once per every wait milliseconds. The throttle function has a clear method to cancel the timer.
-	 *
-	 * @function throttle
-	 * @category function
-	 * @type {Function}
-	 * @param {Function} callable - The function to be invoked.
-	 * @param {number} time - The time in milliseconds.
-	 * @returns {Function} - The throttled function.
-	 *
-	 * @example
-	 * throttle(() => { console.log('throttle'); }, 0)();
-	 * // 'throttle'
-	 */
-	const throttle = (callable, time) => {
-		let timeout = false;
-		let shouldThrottle;
-		const throttled = (...args) => {
-			if (timeout) {
-				shouldThrottle = true;
-				return;
-			}
-			callable(...args);
-			timeout = timer(() => {
-				if (shouldThrottle) {
-					callable(...args);
-				}
-				timeout = false;
-			}, time);
-		};
-		throttled.clear = () => {
-			clearTimeout(timeout);
-			timeout = false;
-		};
-		return throttled;
-	};
-	const add = (link, methods) => {
-		each(methods, (item, key) => {
-			link.methods[key] = (...args) => {
-				item(link.value, ...args);
-				return link.methods;
-			};
-		});
-		return link;
-	};
-	/**
-	 * Creates a chainable set of functions.
-	 *
-	 * @function chain
-	 * @category function
-	 * @type {Function}
-	 * @param {Array|Object} methods - The object to take methods from.
-	 * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const chained = chain({a(item) { return item;}});
-	 *   chained('Acid').a();
-	 *   return assert(chained.done(), 'Acid');
-	 * });
-	 *
-	 * @example
-	 * const chained = chain({a(item) { return item;}});
-	 * chained('Acid').a();
-	 * chained.done();
-	 * // => 'Acid'
-	 */
-	const chain = (methods) => {
-		const link = (value) => {
-			link.value = value;
-			return link.methods;
-		};
-		assign(link, {
-			add(addToChain) {
-				return add(link, addToChain);
-			},
-			done() {
-				const value = link.value;
-				link.value = null;
-				return value;
-			},
-			methods: {}
-		});
-		link.add(methods);
-		return link;
-	};
-	/**
-	 * Invoke an array of functions.
-	 *
-	 * @function inSync
-	 * @category function
-	 * @type {Function}
-	 * @param {Array|Object|Function} collection - The functions to be invoked.
-	 * @param {*} value - The object passed as an argument to each method.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   inSync([() => {tempList.push(1);}, () => {tempList.push(2);}]);
-	 *   return assert(tempList, [1, 2]);
-	 * });
-	 *
-	 * @example
-	 * inSync([() => {console.log(1);}, () => {console.log(2);}]);
-	 * // 1
-	 * // 2
-	 * // => undefined
-	 */
-	const inSync = (collection, value) => {
-		return each(collection, (item) => {
-			item(value);
-		});
-	};
-	/**
-	 * Invoke an array of functions asynchronously. Each function is awaited to ensure execution order.
-	 *
-	 * @function inAsync
-	 * @category function
-	 * @type {Function}
-	 * @async
-	 * @param {Array|Object|Function} collection - The functions to be invoked.
-	 * @param {*} value - The object passed as an argument to each method.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @test
-	 * (async () => {
-	 *   const tempList = [];
-	 *   await inAsync([async () => {tempList.push(1);}, async () => {tempList.push(2);}]);
-	 *   return assert(tempList, [1, 2]);
-	 * });
-	 *
-	 * @example
-	 * inAsync([async () => {console.log(1);}, async () => {console.log(2);}]);
-	 * // 1
-	 * // 2
-	 * // => undefined
-	 */
-	const inAsync = async (collection, value) => {
-		return eachAsync(collection, async (item) => {
-			await item(value);
-		});
-	};
-	/**
-	 * Creates a function that gets the argument at index n. If n is negative, the nth argument from the end is returned.
-	 *
-	 * @function nthArg
-	 * @category function
-	 * @type {Function}
-	 * @param {number} [index = 0] - The index of the argument to return.
-	 * @returns {Function} - Returns the new pass-thru function.
-	 *
-	 * @example
-	 * nthArg(1)('a', 'b');
-	 * // => 'b'
-	 */
-	const nthArg = (index = 0) => {
-		return (...args) => {
-			return args[index];
-		};
-	};
+	}
 	/**
 	 * Creates a function that invokes method with arguments arranged according to the specified indexes where the argument value at the first index is provided as the first argument, the argument value at the second index is provided as the second argument, and so on.
 	 *
@@ -3601,7 +3493,7 @@
 	 * }, [1,2,0])(1,2,3);
 	 * // => [2, 3, 1]
 	 */
-	const reArg = (callable, indexes) => {
+	function reArg(callable, indexes) {
 		return (...args) => {
 			return callable(
 				...indexes.map((item) => {
@@ -3609,7 +3501,44 @@
 				})
 			);
 		};
-	};
+	}
+	/**
+	 * Creates a throttled function that only invokes callable at most once per every milliseconds. The throttle function has a clear method to cancel the timer.
+	 *
+	 * @function throttle
+	 * @category function
+	 * @type {Function}
+	 * @param {Function} callable - The function to be invoked.
+	 * @param {number} time - The time in milliseconds.
+	 * @returns {Function} - The throttled function.
+	 *
+	 * @example
+	 * const throttled = throttle(() => { console.log('throttle'); }, 0)();
+	 * throttled();
+	 * // 'throttle'
+	 */
+	function throttle(callable, time) {
+		function throttled(...args) {
+			if (throttled.id) {
+				throttled.shouldThrottle = truth;
+				return;
+			}
+			throttled.callable(...args);
+			throttled.id = timer(() => {
+				if (throttled.shouldThrottle) {
+					throttled.callable(...args);
+				}
+				throttled.id = falsy;
+			}, time);
+		}
+		throttled.id = falsy;
+		throttled.callable = callable.bind(throttled);
+		throttled.clear = () => {
+			timers.remove(throttled.id);
+			throttled.id = falsy;
+		};
+		return throttled;
+	}
 	/**
 	 * Creates a function that provides value to wrapper as its first argument. The wrapper function is given two arguments the value and the provided argument from the newly created function.
 	 *
@@ -3626,30 +3555,11 @@
 	 * })('Diamonds');
 	 * // => 'My name is Lucy Diamonds.'
 	 */
-	const wrap = (value, wrapper) => {
+	function wrap(value, wrapper) {
 		return (...arg) => {
 			return wrapper(value, ...arg);
 		};
-	};
-	/**
-	 * Strictly checks if a number is zero.
-	 *
-	 * @function isZero
-	 * @category number
-	 * @type {Function}
-	 * @param {number} item - Number to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isZero(0);
-	 * // => true
-	 * @example
-	 * isZero(1);
-	 * // => false
-	 */
-	const isZero = (item) => {
-		return item === 0;
-	};
+	}
 	/**
 	 * Strictly checks if a number equal to another number.
 	 *
@@ -3661,9 +3571,9 @@
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * isNumberEqual(0, 0);
 	 * // => true
-	 * @example
 	 * isNumberEqual(0, 1);
 	 * // => false
 	 */
@@ -3682,9 +3592,9 @@
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * isNumberInRange(1, 0, 2);
 	 * // => true
-	 * @example
 	 * isNumberInRange(1, -1, 0);
 	 * // => false
 	 */
@@ -3692,74 +3602,23 @@
 		return num > start && num < end;
 	};
 	/**
-	 * Checks to see if an object has all of the given property names.
+	 * Strictly checks if a number is zero.
 	 *
-	 * @function hasKeys
-	 * @category object
+	 * @function isZero
+	 * @category number
 	 * @type {Function}
-	 * @param {Object} object - Object from which keys are extracted.
-	 * @param {Array} properties - Array of object keys.
+	 * @param {number} item - Number to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * hasKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy','Thor']);
+	 * import { stubArray } from './Acid.js';
+	 * isZero(0);
 	 * // => true
-	 *
-	 * @example
-	 * hasKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy','Tom']);
+	 * isZero(1);
 	 * // => false
 	 */
-	const hasKeys = (object, properties) => {
-		const objectKeys = keys(object);
-		return whileArray(properties, (item) => {
-			return objectKeys.includes(item);
-		});
-	};
-	/**
-	 * Checks to see if an object has any of the given property names.
-	 *
-	 * @function hasAnyKeys
-	 * @category object
-	 * @type {Function}
-	 * @param {Object} object - Object from which keys are extracted.
-	 * @param {Array} properties - Array of object keys.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy', 'Tom']);
-	 * // => true
-	 * @example
-	 * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Other', 'Tom']);
-	 * // => false
-	 */
-	const hasAnyKeys = (object, properties) => {
-		const objectKeys = keys(object);
-		return Boolean(
-			properties.find((item) => {
-				return objectKeys.includes(item);
-			})
-		);
-	};
-	/**
-	 * Returns a clone of the source object with the plucked properties.
-	 *
-	 * @function pick
-	 * @type {Function}
-	 * @category object
-	 * @param {Object} source - Object to be cloned.
-	 * @param {Array} array - Array used to determine what values to be plucked.
-	 * @param {Object} [newObject = {}] - Object to be populated with plucked values.
-	 * @returns {Object} - A new object with plucked properties.
-	 *
-	 * @example
-	 * pick({a:1, b:2, c:3}, ['a','b']);
-	 * // => {a:1, b:2}
-	 */
-	const pick = (source, array, newObject = {}) => {
-		eachArray(array, (item) => {
-			newObject[item] = source[item];
-		});
-		return newObject;
+	const isZero = (item) => {
+		return item === 0;
 	};
 	/**
 	 * Extracts all keys from an object whose values are not falsey. The values false, null, 0, "", undefined, and NaN are falsey.
@@ -3780,7 +3639,7 @@
 	 * compactKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: undefined, other: false, that: null});
 	 * // => ['Lucy', 'John']
 	 */
-	const compactKeys = (object) => {
+	function compactKeys(object) {
 		const compactedKeys = [];
 		eachObject(object, (item, key) => {
 			if (item) {
@@ -3788,112 +3647,7 @@
 			}
 		});
 		return compactedKeys;
-	};
-	/**
-	 * Performs a shallow strict comparison between two objects.
-	 *
-	 * @function isMatchObject
-	 * @type {Function}
-	 * @category object
-	 * @param {Object} source - Source object.
-	 * @param {Object} compareObject - Object to compare to source.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isMatchObject({a: 1}, {a: 1});
-	 * // => true
-	 */
-	const isMatchObject = (source, compareObject) => {
-		const sourceProperties = keys(source);
-		if (isMatchArray(sourceProperties, keys(compareObject))) {
-			return whileArray(sourceProperties, (key) => {
-				return source[key] === compareObject[key];
-			});
-		}
-		return false;
-	};
-	/**
-	 * Creates an object from two arrays, one of property identifiers and one of corresponding values.
-	 *
-	 * @function zipObject
-	 * @type {Function}
-	 * @category object
-	 * @param {Array} properties - The property identifiers.
-	 * @param {Array} values - The property values.
-	 * @returns {Object} - Returns the new object.
-	 *
-	 * @example
-	 * zipObject(['a', 'b'], [1, 2]);
-	 * // => { 'a': 1, 'b': 2 }
-	 */
-	const zipObject = (properties, values) => {
-		const zipedObject = {};
-		eachArray(properties, (item, key) => {
-			zipedObject[item] = values[key];
-		});
-		return zipedObject;
-	};
-	/**
-	 * Takes an array of grouped elements and creates an array regrouping the elements to their pre-zip object configuration.
-	 *
-	 * @function unZipObject
-	 * @type {Function}
-	 * @category object
-	 * @param {Object} object - The object to process.
-	 * @returns {Array} - Returns two arrays one of keys and the other of values inside a single array.
-	 *
-	 * @example
-	 * unZipObject({ 'a': 1, 'b': 2 });
-	 * // => [['a', 'b'], [1, 2]]
-	 */
-	const unZipObject = (object) => {
-		const unZippedKeys = [];
-		const values = [];
-		eachObject(object, (item, key) => {
-			unZippedKeys.push(key);
-			values.push(item);
-		});
-		return [unZippedKeys, values];
-	};
-	/**
-	 * Creates an inverted version of a given object by switching it's keys and values.
-	 *
-	 * @function invert
-	 * @type {Function}
-	 * @category object
-	 * @param {Object} thisObject - Object to be inverted.
-	 * @param {Array} [invertedObject = {}] - Empty object to be populated with inverted values from thisObject.
-	 * @returns {Object} - Returns object with keys and values switched.
-	 *
-	 * @example
-	 * invert({a:1});
-	 * // => {1:'a'}
-	 */
-	const invert = (thisObject, invertedObject = {}) => {
-		eachObject(thisObject, (item, key) => {
-			invertedObject[item] = key;
-		});
-		return invertedObject;
-	};
-	/**
-	 * Returns a clone of the given object without the given properties.
-	 *
-	 * @function omit
-	 * @category object
-	 * @type {Function}
-	 * @param {Object} originalObject - Object from which keys are extracted.
-	 * @param {Array} array - Array of object keys.
-	 * @returns {Object} - A new object with the removed.
-	 *
-	 * @example
-	 * omit({a:1, b:2}, ['a']);
-	 * // => {b:2}
-	 */
-	const omit = (originalObject, array) => {
-		return filterObject(originalObject, (item, key) => {
-			return !array.includes(key);
-		});
-	};
+	}
 	/**
 	 * Asynchronously iterates through the given object.
 	 *
@@ -3921,10 +3675,78 @@
 	 */
 	const eachObjectAsync = async (source, iteratee) => {
 		const objectKeys = keys(source);
-		await eachAsync(objectKeys, (key, index, array, propertyCount) => {
+		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
 			return iteratee(source[key], key, source, propertyCount, objectKeys);
 		});
 		return source;
+	};
+	/**
+	 * Iterates through the calling object and creates an object with all elements that pass the test implemented by the iteratee.
+	 *
+	 * @function filterObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Object|Function} - An object with properties that passed the test.
+	 *
+	 * @example
+	 * filterObject({a: false, b: true, c: true}, (item) => {
+	 *   return item;
+	 * });
+	 * // => {b: true, c: true}
+	 */
+	function filterObject(source, iteratee, results = {}) {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			if (iteratee(item, key, results, original, propertyCount, objectKeys) === true) {
+				results[key] = item;
+			}
+		});
+		return results;
+	}
+	/**
+	 * Creates an inverted version of a given object by switching it's keys and values.
+	 *
+	 * @function invert
+	 * @type {Function}
+	 * @category object
+	 * @param {Object} thisObject - Object to be inverted.
+	 * @param {Array} [invertedObject = {}] - Empty object to be populated with inverted values from thisObject.
+	 * @returns {Object} - Returns object with keys and values switched.
+	 *
+	 * @example
+	 * invert({a:1});
+	 * // => {1:'a'}
+	 */
+	function invert(thisObject, invertedObject = {}) {
+		eachObject(thisObject, (item, key) => {
+			invertedObject[item] = key;
+		});
+		return invertedObject;
+	}
+	/**
+	 * Performs a shallow strict comparison between two objects.
+	 *
+	 * @function isMatchObject
+	 * @type {Function}
+	 * @category object
+	 * @param {Object} source - Source object.
+	 * @param {Object} compareObject - Object to compare to source.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * isMatchObject({a: 1}, {a: 1});
+	 * // => true
+	 */
+	const isMatchObject = (source, compareObject) => {
+		const sourceProperties = keys(source);
+		if (isMatchArray(sourceProperties, keys(compareObject))) {
+			return everyArray(sourceProperties, (key) => {
+				return source[key] === compareObject[key];
+			});
+		}
+		return false;
 	};
 	/**
 	 * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
@@ -3991,6 +3813,89 @@
 		});
 		return results;
 	};
+	/**
+	 * Returns a clone of the given object without the given properties.
+	 *
+	 * @function omit
+	 * @category object
+	 * @type {Function}
+	 * @param {Object} originalObject - Object from which keys are extracted.
+	 * @param {Array} array - Array of object keys.
+	 * @returns {Object} - A new object with the removed.
+	 *
+	 * @example
+	 * omit({a:1, b:2}, ['a']);
+	 * // => {b:2}
+	 */
+	function omit(originalObject, array) {
+		return filterObject(originalObject, (item, key) => {
+			return !array.includes(key);
+		});
+	}
+	/**
+	 * Returns a clone of the source object with the plucked properties.
+	 *
+	 * @function pick
+	 * @type {Function}
+	 * @category object
+	 * @param {Object} source - Object to be cloned.
+	 * @param {Array} array - Array used to determine what values to be plucked.
+	 * @param {Object} [newObject = {}] - Object to be populated with plucked values.
+	 * @returns {Object} - A new object with plucked properties.
+	 *
+	 * @example
+	 * pick({a:1, b:2, c:3}, ['a','b']);
+	 * // => {a:1, b:2}
+	 */
+	const pick = (source, array, newObject = {}) => {
+		eachArray(array, (item) => {
+			newObject[item] = source[item];
+		});
+		return newObject;
+	};
+	/**
+	 * Creates an object from two arrays, one of property identifiers and one of corresponding values.
+	 *
+	 * @function zipObject
+	 * @type {Function}
+	 * @category object
+	 * @param {Array} properties - The property identifiers.
+	 * @param {Array} values - The property values.
+	 * @returns {Object} - Returns the new object.
+	 *
+	 * @example
+	 * zipObject(['a', 'b'], [1, 2]);
+	 * // => { 'a': 1, 'b': 2 }
+	 */
+	const zipObject = (properties, values) => {
+		const zipedObject = {};
+		eachArray(properties, (item, key) => {
+			zipedObject[item] = values[key];
+		});
+		return zipedObject;
+	};
+	/**
+	 * Takes an array of grouped elements and creates an array regrouping the elements to their pre-zip object configuration.
+	 *
+	 * @function unZipObject
+	 * @type {Function}
+	 * @category object
+	 * @param {Object} object - The object to process.
+	 * @returns {Array} - Returns two arrays one of keys and the other of values inside a single array.
+	 *
+	 * @example
+	 * unZipObject({ 'a': 1, 'b': 2 });
+	 * // => [['a', 'b'], [1, 2]]
+	 */
+	const unZipObject = (object) => {
+		const unZippedKeys = [];
+		const values = [];
+		eachObject(object, (item, key) => {
+			unZippedKeys.push(key);
+			values.push(item);
+		});
+		return [unZippedKeys, values];
+	};
 	const normalizeCase = /[-_]/g;
 	const spaceFirstLetter$1 = / (.)/g;
 	/**
@@ -4003,13 +3908,14 @@
 	 * @returns {string} - Converted string in upper case.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * upperCase('upper case');
 	 * // => 'UPPER CASE'
 	 */
-	const upperCase = (string) => {
+	function upperCase(string) {
 		return string.replace(normalizeCase, ' ').trim()
 			.toUpperCase();
-	};
+	}
 	/**
 	 * Converts a string into Camel case format.
 	 *
@@ -4020,14 +3926,15 @@
 	 * @returns {string} - Converted string in Camel case.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * camelCase('camel case');
 	 * // => 'camelCase'
 	 */
-	const camelCase = (string) => {
+	function camelCase(string) {
 		return string.toLowerCase().replace(spaceFirstLetter$1, (match) => {
 			return match.toUpperCase().replace(/ /g, '');
 		});
-	};
+	}
 	/**
 	 * Converts a string into Kebab case format.
 	 *
@@ -4038,14 +3945,15 @@
 	 * @returns {string} - Converted string in Kebab case.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * kebabCase('kebab case');
 	 * // => 'kebab-case'
 	 */
-	const kebabCase = (string) => {
+	function kebabCase(string) {
 		return string.replace(normalizeCase, ' ').trim()
 			.toLowerCase()
 			.replace(spaceFirstLetter$1, '-$1');
-	};
+	}
 	/**
 	 * Converts a string into snake case format.
 	 *
@@ -4056,14 +3964,15 @@
 	 * @returns {string} - Converted string in Snake case.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * snakeCase('snake case');
 	 * // => 'snake_case'
 	 */
-	const snakeCase = (string) => {
+	function snakeCase(string) {
 		return string.replace(normalizeCase, ' ').trim()
 			.toLowerCase()
 			.replace(spaceFirstLetter$1, '_$1');
-	};
+	}
 	/**
 	 * Inserts text into a string at a given position.
 	 *
@@ -4076,12 +3985,13 @@
 	 * @returns {string} - The string with the text inserted at the given point.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * insertInRange('A from Lucy.', 1, ' tab');
 	 * // => 'A tab from Lucy.'
 	 */
-	const insertInRange = (string, index, text) => {
+	function insertInRange(string, index, text) {
 		return string.slice(0, index) + text + string.slice(index, string.length);
-	};
+	}
 	/**
 	 * Plucks a letter using the index starting from the right.
 	 *
@@ -4093,15 +4003,15 @@
 	 * @returns {string} - A letter at the given index.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * rightString('rightString');
 	 * // => 'g'
-	 * @example
 	 * rightString('rightString', 2);
 	 * // => 'n'
 	 */
-	const rightString = (string, index = 1) => {
+	function rightString(string, index = 1) {
 		return string[string.length - index];
-	};
+	}
 	/**
 	 * Splits up a string into chunks.
 	 *
@@ -4113,12 +4023,13 @@
 	 * @returns {Array} - An array with strings that are <= size parameter.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * chunkString('chunk', 2);
 	 * // => ['ch', 'un', 'k']
 	 */
-	const chunkString = (string, size) => {
+	function chunkString(string, size) {
 		return string.match(new RegExp(`(.|[\r\n]){1,${size}}`, 'g'));
-	};
+	}
 	/**
 	 * Truncates everything before the index starting from the right.
 	 *
@@ -4130,15 +4041,15 @@
 	 * @returns {string} - A string with the characters before the index starting from the right.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * initialString('initialString');
 	 * // => 'initialStrin'
-	 * @example
 	 * initialString('initialString', 2);
 	 * // => 'initialStri'
 	 */
-	const initialString = (string, index = 1) => {
+	function initialString(string, index = 1) {
 		return string.slice(0, index * -1);
-	};
+	}
 	/**
 	 * Truncates everything after a index.
 	 *
@@ -4150,15 +4061,15 @@
 	 * @returns {string} - A string without the characters up-to to the index.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * restString('restString');
 	 * // => 'estString'
-	 * @example
 	 * restString('restString', 2);
 	 * // => 'stString'
 	 */
-	const restString = (string, index = 1) => {
+	function restString(string, index = 1) {
 		return string.substr(index);
-	};
+	}
 	/**
 	 * Replaces all occurrences of strings in an array with a value.
 	 *
@@ -4171,12 +4082,13 @@
 	 * @returns {string} - The string with the replacement.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * replaceList('Her name was user.', ['user'], 'Lucy');
 	 * // => 'Her name was Lucy.'
 	 */
-	const replaceList = (string, words, value) => {
+	function replaceList(string, words, value) {
 		return string.replace(new RegExp(`\\b${words.join('|')}\\b`, 'gi'), value);
-	};
+	}
 	const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
 	const andRegex = /&/g;
 	const lessThanRegex = /</g;
@@ -4192,16 +4104,17 @@
 	 * @returns {string} - Converted string into the decoded URI Component .
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * rawURLDecode('Lucy%20saw%20diamonds%20in%20the%20sky.');
 	 * // => 'Lucy saw diamonds in the sky.'
 	 */
-	const rawURLDecode = (string) => {
+	function rawURLDecode(string) {
 		return decodeURIComponent(
 			string.replace(rawURLDecodeRegex, () => {
 				return '%25';
 			})
 		);
-	};
+	}
 	/**
 	 * Replaced sensitive characters with their matching html entity.
 	 *
@@ -4212,14 +4125,15 @@
 	 * @returns {string} - Replaced string.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`);
 	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 	 */
-	const htmlEntities = (string) => {
+	function htmlEntities(string) {
 		return string.replace(andRegex, '&amp;').replace(lessThanRegex, '&lt;')
 			.replace(moreThanRegex, '&gt;')
 			.replace(doubleQuoteRegex, '&quot;');
-	};
+	}
 	/**
 	 * Executes rawURLDecode followd by htmlEntities methods on a string.
 	 *
@@ -4230,12 +4144,13 @@
 	 * @returns {string} - Replaced string.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`);
 	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 	 */
-	const sanitize = (string) => {
+	function sanitize(string) {
 		return htmlEntities(rawURLDecode(string));
-	};
+	}
 	const tokenizeRegEx = /\S+/g;
 	const wordsRegEx = /\w+/g;
 	/**
@@ -4248,12 +4163,13 @@
 	 * @returns {Array} - Array of words without white space characters.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * tokenize('I am Lucy!');
 	 * // => ["I", "am", "Lucy!"]
 	 */
-	const tokenize = (string) => {
+	function tokenize(string) {
 		return string.match(tokenizeRegEx) || [];
-	};
+	}
 	/**
 	 * Break string into word matches.
 	 *
@@ -4263,12 +4179,13 @@
 	 * @returns {Array} - Array of words with word characters only.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * words('I am Lucy!');
 	 * // => ["I", "am", "Lucy"]
 	 */
-	const words = (string) => {
+	function words(string) {
 		return string.match(wordsRegEx) || [];
-	};
+	}
 	const truncateDown = (string, maxLength, stringLength) => {
 		const breakAll = string.split('');
 		const breakAllLength = breakAll.length;
@@ -4306,13 +4223,14 @@
 	 * @returns {string} - The mutated string.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * truncate('Where is Lucy?', 2);
 	 * // => 'Where is'
 	 */
-	const truncate = (string, maxLength) => {
+	function truncate(string, maxLength) {
 		const stringLength = string.length;
 		return stringLength > maxLength ? truncateDown(string, maxLength, stringLength) : string;
-	};
+	}
 	/**
 	 * Truncates the string, accounting for word placement and character count from the right.
 	 *
@@ -4324,13 +4242,14 @@
 	 * @returns {string} - The mutated string.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * truncateRight('Where is Lucy?', 6);
 	 * // => 'Lucy?'
 	 */
-	const truncateRight = (string, maxLength) => {
+	function truncateRight(string, maxLength) {
 		const stringLength = string.length;
 		return stringLength > maxLength ? truncateUp(string, maxLength, stringLength) : string;
-	};
+	}
 	const spaceFirstLetter = / (.)/g;
 	/**
 	 * Returns the first letter capitalized.
@@ -4342,12 +4261,13 @@
 	 * @returns {string} - An upper case letter.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * upperFirstLetter('upper');
 	 * // => "U"
 	 */
-	const upperFirstLetter = (string) => {
+	function upperFirstLetter(string) {
 		return string[0].toUpperCase();
-	};
+	}
 	/**
 	 * Capitalizes the first letter.
 	 *
@@ -4358,12 +4278,13 @@
 	 * @returns {string} - String with first letter capitalized.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * upperFirst('upper');
 	 * // => 'Upper'
 	 */
-	const upperFirst = (string) => {
+	function upperFirst(string) {
 		return upperFirstLetter(string) + restString(string);
-	};
+	}
 	/**
 	 * Capitalize all first letters.
 	 *
@@ -4374,14 +4295,15 @@
 	 * @returns {string} - String with all first letters capitalized.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * upperFirstAll('Lucy is next up.');
 	 * // => 'Lucy Is Next Up.'
 	 */
-	const upperFirstAll = (string) => {
+	function upperFirstAll(string) {
 		return string.replace(spaceFirstLetter, (match) => {
 			return match.toUpperCase();
 		});
-	};
+	}
 	/**
 	 * Capitalize first letter and lower case the rest.
 	 *
@@ -4392,12 +4314,13 @@
 	 * @returns {string} - String with first letter capitalized.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
 	 * // => 'Lysergic namespace diethylamide'
 	 */
-	const upperFirstOnly = (string) => {
+	function upperFirstOnly(string) {
 		return upperFirstLetter(string) + restString(string).toLowerCase();
-	};
+	}
 	/**
 	 * Capitalize all first letters and lower case the rest.
 	 *
@@ -4408,147 +4331,83 @@
 	 * @returns {string} - String with all first letters capitalized.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * upperFirstOnlyAll('LYSERGIC ACID DIETHYLAMIDE');
 	 * // => 'Lysergic Acid Diethylamide'
 	 */
-	const upperFirstOnlyAll = (string) => {
+	function upperFirstOnlyAll(string) {
 		return upperFirstOnly(string.toLowerCase()).replace(spaceFirstLetter, (match) => {
 			return match.toUpperCase();
 		});
-	};
-	/**
-	 * A function which acts like the "new" operator and can pass arguments. This is a safe version of the original which will error if given undefined
-	 * This is useful when working with classes and prefering to avoid the new operator and it's potential side effects.
-	 *
-	 * @function construct
-	 * @category class
-	 * @param {Function} target - The target function or class.
-	 * @param {Array} [argumentsList =[]] - An array-like object specifying the arguments with which target should be called. Default value is a new empty array.
-	 * @param {Array} newTarget - The constructor whose prototype should be used. See also the new.target operator. If newTarget is not present, its value defaults to target.
-	 * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
-	 *
-	 * @example
-	 * const newClass = construct(function (a) {return a;}, []);
-	 * // => 2
-	 */
-	const reflectConstruct = Reflect.construct;
-	function construct(target, argumentsList = [], newTarget) {
-		if (newTarget) {
-			return reflectConstruct(target, argumentsList, newTarget);
-		}
-		return reflectConstruct(target, argumentsList);
 	}
-	const objectCreate = Object.create;
-	const assignDeepRecursion = (target, source, mergeArrays = false, indexArg, lengthArg, objectKeysArg) => {
-		if (hasValue(target)) {
-			if (objectKeysArg) {
-				const currentKey = objectKeysArg.pop();
-				if (currentKey) {
-					const sourceItem = source[currentKey];
-					console.log(currentKey, target[currentKey], sourceItem);
-					target[currentKey] = assignDeepRecursion(target[currentKey], sourceItem, mergeArrays);
-					console.log(target[currentKey]);
-				} else if (!lengthArg) {
-					return target;
-				}
-				if (lengthArg) {
-					let index = indexArg || 0;
-					index++;
-					if (index < lengthArg) {
-						return assignDeepRecursion(target, source, mergeArrays, index, lengthArg, objectKeysArg);
-					}
-				}
-				return assignDeepRecursion(target, source, mergeArrays, null, null, objectKeysArg);
-			} else if (lengthArg) {
-				if (indexArg < lengthArg) {
-					let index = indexArg || 0;
-					const sourceItem = source[index];
-					if (hasValue(sourceItem)) {
-						const targetItem = target[index];
-						if (mergeArrays) {
-							target.push(assignDeepRecursion(targetItem, sourceItem, mergeArrays));
-						} else {
-							target[index] = assignDeepRecursion(targetItem, sourceItem, mergeArrays);
-						}
-						index++;
-						if (index < lengthArg) {
-							return assignDeepRecursion(target, source, mergeArrays, index, lengthArg, objectKeysArg);
-						}
-					}
-				}
-			} else if (isArray(source)) {
-				if (lengthArg === 0) {
-					return target;
-				}
-				return assignDeepRecursion(target, source, mergeArrays, 0, source.length);
-			} else if (isPlainObject(source)) {
-				const objectKeys = keys(source);
-				return assignDeepRecursion(target, source, mergeArrays, null, null, objectKeys);
-			} else {
-				return source;
-			}
-		} else if (isPlainObject(source)) {
-			if (objectKeysArg) {
-				return assignDeepRecursion({}, source, mergeArrays, null, null, objectKeysArg);
-			}
-			return assignDeepRecursion({}, source, mergeArrays);
-		} else if (isArray(source)) {
-			if (indexArg < lengthArg) {
-				return assignDeepRecursion([], source, mergeArrays, indexArg, lengthArg, objectKeysArg);
-			}
-			return assignDeepRecursion([], source, mergeArrays);
-		}
-		if (!hasValue(target)) {
-			return source;
-		}
-		return target;
-	};
+	const jsonNative = JSON;
 	/**
-	 * Creates new object with deeply assigned values from another object.
+	 * Parses JSON string with safety check for undefined.
 	 *
-	 * @function assignDeep
+	 * @function jsonParse
 	 * @category utility
 	 * @type {Function}
-	 * @param {Object|Function|Class|Array} target - Object to be assigned new properties.
-	 * @param {Object|Function|Class|Array} source - Object from which properties are extracted.
-	 * @param {boolean} [mergeArrays = true] - Array from which items are assigned to the new object.
-	 * @returns {Object} - Returns object with the newly assigned properties.
+	 * @param {string} source - String to be parsed.
+	 * @param {function} reviver - A function that prescribes how each value originally produced by parsing is transformed before being returned.
+	 * @returns {Object} - Returns the parsed object.
 	 *
 	 * @example
-	 * assignDeep({a:1}, {b:2});
-	 * // => {a:1, b:2}
+	 * import { jsonParse, assert } from './Acid.js';
+	 * assert(jsonParse('{a:1}'), {a:1});
 	 */
-	function assignDeep(target, source, mergeArrays = true) {
-		return assignDeepRecursion(target, source, mergeArrays);
+	function jsonParse(source, reviver) {
+		if (source) {
+			return jsonNative.parse(source, reviver);
+		}
 	}
 	/**
-	 * Creates a structuredClone clone of an object if no structuredClone then assignDeep is used.
+	 * Stringify an object into a JSON string.
 	 *
-	 * @function clone
+	 * @function stringify
 	 * @category utility
 	 * @type {Function}
-	 * @param {Object} source - Source object to clone.
+	 * @param {Object} object - Object to Stringify.
+	 * @returns {string} - Returns the object as a valid JSON string.
+	 *
+	 * @example
+	 * import { stringify, assert } from './Acid.js';
+	 * assert(stringify({a:1}), '{a:1}');
+	 */
+	const stringify = jsonNative.stringify;
+	function createAssertError(source, expected, options) {
+		let errorTitle;
+		if (isFunction(options)) {
+			errorTitle = `${options.name} : ${options.constructor.name}`;
+		} else if (options) {
+			errorTitle = `${options.title || options.method.name} -> ${options.file}`;
+		}
+		return new Error(
+			`Test Failed: ${errorTitle}
+		Result: ${stringify(source)}
+		Expected: ${stringify(expected)}`,
+			options
+		);
+	}
+	/**
+	 * Check if source value matches the expected value.
+	 *
+	 * @function assert
+	 * @category utility
+	 * @type {Function}
+	 * @param {*} source - The source object to compare to.
+	 * @param {*} expected - The expected result that's compared to the source.
+	 * @param {*} options - Additional options for the Error instance & unit test information.
 	 * @returns {Object} - Returns a deep clone of an object.
 	 *
 	 * @example
-	 * clone({b:2})
-	 * // => {a:1, b:2}
+	 * import { assert } from './Acid.js';
+	 * assert(assert(1,1), true);
 	 */
-	const structuredCloneSafe = globalThis.structuredClone;
-	exports.clone = void 0;
-	if (structuredCloneSafe) {
-		exports.clone = (item) => {
-			return globalThis.structuredClone(item);
-		};
-	} else {
-		exports.clone = (item) => {
-			if (isPlainObject(item)) {
-				return assignDeepRecursion({}, item);
-			} else if (isArray(item)) {
-				return assignDeepRecursion([], item);
-			}
-			return objectCreate(item);
-		};
+	function assert(source, expected, options) {
+		if (!isEqual(source, expected)) {
+			return createAssertError(source, expected, options);
+		}
+		return true;
 	}
 	const functionPrototype = Function.prototype;
 	/**
@@ -4561,12 +4420,270 @@
 	 * @returns {Function} - Cached method.
 	 *
 	 * @example
-	 * cacheNativeMethod(Array.prototype.push)([], 1);
-	 * // => 1
+	 * import { cacheNativeMethod, assert } from './Acid.js';
+	 * assert(cacheNativeMethod(Array.prototype.push)([], 1), 1);
 	 */
 	function cacheNativeMethod(method) {
 		return functionPrototype.call.bind(method);
 	}
+	/**
+	 * Creates a structuredClone clone of an object if no structuredClone then copy is used.
+	 *
+	 * @function clone
+	 * @category utility
+	 * @type {Function}
+	 * @param {Object} source - Source object to clone.
+	 * @returns {Object} - Returns a deep clone of an object.
+	 *
+	 * @example
+	 * import { clone, assert } from './Acid.js';
+	 * assert(clone({a:{b:[2]}}), {a:{b:[2]}});
+	 */
+	const structuredCloneSafe = globalThis.structuredClone;
+	function clone(item) {
+		return structuredCloneSafe(item);
+	}
+	/**
+	 * Check if a value is truey which is anything but false, null, 0, "", undefined, and NaN.
+	 *
+	 * @function truey
+	 * @category Utility
+	 * @type {Function}
+	 * @param {*} source - Item to be truey checked.
+	 * @param {*} [returnIfTrue = true] - Item to be returned if item is truey.
+	 * @returns {boolean|*} - Returns true if the item is truey or returnIfTrue if provided otherwise returns false.
+	 *
+	 * @example
+	 * import { truey, assert } from './Acid.js';
+	 * assert(truey(1), true);
+	 * assert(truey(0), false);
+	 */
+	function truey(source, returnIfTrue = true) {
+		return Boolean(source) && returnIfTrue;
+	}
+	/**
+	 * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
+	 *
+	 * @function compact
+	 * @category Utility
+	 * @type {Function}
+	 * @param {Array|Object} source - Array or Object to be compacted.
+	 * @returns {Array|Object} - A new object or array containing the filtered values.
+	 *
+	 * @example
+	 * import { compact, assert } from './Acid.js';
+	 * assert(compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]), [1, 'B', 'Cat']);
+	 */
+	function compact(source) {
+		if (isPlainObject(source)) {
+			const sourceKeys = keys(source);
+			const sourceKeysLength = sourceKeys.length;
+			const targetObject = {};
+			for (let i = 0; i < sourceKeysLength; i++) {
+				const keyName = sourceKeys[i];
+				const item = source[keyName];
+				const isTruey = truey(item);
+				if (isTruey) {
+					targetObject[keyName] = item;
+				}
+			}
+			return targetObject;
+		}
+		return source.filter((item) => {
+			return truey(item);
+		});
+	}
+	/**
+	 * Check if a value is falsey which are false, null, 0, "", undefined, and NaN.
+	 *
+	 * @function falsey
+	 * @category Utility
+	 * @type {Function}
+	 * @param {*} source - Item to be falsey checked.
+	 * @param {*} [returnIfTrue = true] - Item to be returned if item is falsey.
+	 * @returns {boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
+	 *
+	 * @example
+	 * import { falsey, assert } from './Acid.js';
+	 * assert(falsey(0), true);
+	 * assert(falsey(1), false);
+	 */
+	function falsey(source, returnIfTrue = true) {
+		return Boolean(source) === false && returnIfTrue;
+	}
+	/**
+	 * Iterates through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
+	 *
+	 * @function filter
+	 * @category utility
+	 * @type {Function}
+	 * @param {Array | object | Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Array | object | Function} - A new object of the same calling object's type.
+	 *
+	 * @example
+	 * import { filter, assert } from './Acid.js';
+	 * assert(filter({a: false, b: true, c: true}, (item) => {
+	 *   return item;
+	 * }), {b: true, c: true});
+	 */
+	const filter = generateLoop(filterArray, filterObject);
+	function returnFlow$1(callable) {
+		return (...methods) => {
+			return (arg) => {
+				let value = arg;
+				callable(methods, (item) => {
+					value = item(value);
+				});
+				return value;
+			};
+		};
+	}
+	/**
+	 * Creates a function that returns the result of invoking the given functions, where each successive invocation is supplied the return value of the previous.
+	 *
+	 * @function flow
+	 * @category utility
+	 * @type {Function}
+	 * @param {Array} collection - Methods to invoke.
+	 * @returns {Function} - Returns the new composite function.
+	 *
+	 * @example
+	 * flow(increment, increment, deduct)(0);
+	 * // => 1
+	 */
+	const flow = returnFlow$1(eachArray);
+	/**
+	 * This method is like flow except that it creates a function that invokes the given functions from right to left.
+	 *
+	 * @function flowRight
+	 * @category utility
+	 * @type {Function}
+	 * @param {Array} collection - Methods to invoke.
+	 * @returns {Function} - Returns the new composite function.
+	 *
+	 * @example
+	 * flowRight(increment, increment, deduct)(0);
+	 * // => 1
+	 */
+	const flowRight = returnFlow$1(eachRight);
+	function returnFlow(callable) {
+		return (...methods) => {
+			return async (arg) => {
+				let value = arg;
+				await callable(methods, async (item) => {
+					value = await item(value);
+				});
+				return value;
+			};
+		};
+	}
+	/**
+	 * Creates a function that returns the result of invoking the given functions, where each successive invocation is supplied the return value of the previous.
+	 *
+	 * @function flowAsync
+	 * @category utility
+	 * @type {Function}
+	 * @async
+	 * @param {Array} collection - Methods to invoke.
+	 * @returns {Function} - Returns the new composite function.
+	 *
+	 * @example
+	 * flowAsync(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
+	 * // => 2
+	 */
+	const flowAsync = returnFlow(eachAsyncArray);
+	/**
+	 * This method is like flow except that it creates a function that invokes the given functions from right to left.
+	 *
+	 * @function flowAsyncRight
+	 * @category utility
+	 * @type {Function}
+	 * @async
+	 * @param {Array} collection - Methods to invoke.
+	 * @returns {Function} - Returns the new composite function.
+	 *
+	 * @example
+	 * flowAsyncRight(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
+	 * // => 2
+	 */
+	const flowAsyncRight = returnFlow(eachRightAsync);
+	const regexToPath = /\.|\[/;
+	const regexCloseBracket = /]/g;
+	const emptyString = '';
+	/**
+	 * Breaks up string into object chain list.
+	 *
+	 * @function toPath
+	 * @type {Function}
+	 * @category utility
+	 * @param {string} string - String to be broken up.
+	 * @returns {Array} - Array used to go through object chain.
+	 *
+	 * @example
+	 * import { stubArray } from './Acid.js';
+	 * toPath('post.like[2]');
+	 * // => ['post', 'like', '2']
+	 */
+	function toPath(string) {
+		return string.replace(regexCloseBracket, emptyString).split(regexToPath);
+	}
+	/**
+	 * Returns property on an object.
+	 *
+	 * @function get
+	 * @category utility
+	 * @type {Function}
+	 * @param {string} propertyString - String used to retrieve properties.
+	 * @param {Object} objectChain - Object which has a property retrieved from it.
+	 * @returns {Object} - Returns property from the given object.
+	 *
+	 * @example
+	 * get('post.like[2]', {
+	 *   post: {
+	 *     like: ['a','b','c']
+	 *   }
+	 * });
+	 * // => 'c'
+	 */
+	const get = (propertyString, objectChain) => {
+		let link = objectChain;
+		everyArray(toPath(propertyString), (item) => {
+			link = link[item];
+			return hasValue(link);
+		});
+		return link;
+	};
+	/**
+	 * Checks if the value includes something.
+	 *
+	 * @function has
+	 * @category utility
+	 * @param {Array|String} value - Object to be checked.
+	 * @param {*} search - Object that is being searched for.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * has('My name is Acidjs', 'Acidjs');
+	 * // => true
+	 */
+	function has(value, ...search) {
+		return value && value.includes && value.includes(...search);
+	}
+	/**
+	 * Checks if the string has a '.'.
+	 *
+	 * @function hasDot
+	 * @category utility
+	 * @param {*} value - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * hasDot('test.js');
+	 * // => true
+	 */
+	const hasDot = regexTestFactory(/\./);
 	/**
 	 * Checks if a property on an object has a value. If not, it will assign a value.
 	 *
@@ -4589,200 +4706,109 @@
 		return rootObject;
 	};
 	/**
-	 * Performs a deep comparison between two objects.
-	 *
-	 * @function isEqual
-	 * @type {Function}
-	 * @category utility
-	 * @param {Object} source - Source object.
-	 * @param {Object} compareObject - Object to compare to source.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * isEqual({a: [1,2,3]}, {a: [1,2,3]});
-	 * // => true
+	 * @function ifValue
+	 * @category function
+	 * @param {*} source - The source object to be hasValue checked.
+	 * @returns {source} The source object if it passes the hasValue check.
 	 */
-	const isEqual = (source, compareObject) => {
-		if (source === compareObject) {
-			return true;
-		} else if (source.toString() === compareObject.toString()) {
-			if (isPlainObject(source)) {
-				const sourceProperties = keys(source);
-				if (hasKeys(compareObject, sourceProperties)) {
-					return whileArray(sourceProperties, (key) => {
-						return isEqual(source[key], compareObject[key]);
-					});
-				}
-			} else if (isArray(source)) {
-				if (source.length === compareObject.length) {
-					return whileArray(source, (item, index) => {
-						return isEqual(item, compareObject[index]);
-					});
-				}
-			}
+	function ifValue(source) {
+		if (hasValue(source)) {
+			return source;
 		}
-		return false;
-	};
+	}
+	class Intervals {
+		list = construct(Map);
+		construct() {}
+		/**
+		 * Remove a setInterval that was created using the intervals function.
+		 *
+		 * @param {number} id - The id of the setInterval to remove.
+		 * @returns {undefined} - Returns nothing.
+		 *
+		 * @example
+		 * timer(() => {}, 100);
+		 * // => 0
+		 */
+		remove(id) {
+			clearInterval(id);
+			this.list.delete(id);
+		}
+		has(id) {
+			return this.list.has(id);
+		}
+		get(id) {
+			return this.list.get(id);
+		}
+		/**
+		 * Create a setInterval & add it to the list of interval timers.
+		 *
+		 * @type {Function}
+		 * @param {Function} callable - The function to be invoked.
+		 * @param {number} time - The time in milliseconds.
+		 * @returns {Object} - Returns setTimeoutId ID.
+		 *
+		 * @example
+		 * timers.set(() => {}, 100);
+		 * // => 0
+		 */
+		set(callable, time) {
+			const id = setInterval(() => {
+				callable();
+			}, time);
+			this.list.set(id, truth);
+			return id;
+		}
+		/**
+		 * Clear all active setIntervals.
+		 *
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * intervals.clear();
+		 * // => undefined
+		 */
+		clear() {
+			const currentThis = this;
+			currentThis.list.forEach((id) => {
+				currentThis.remove(id);
+			});
+		}
+	}
+	const intervals = construct(Intervals);
 	/**
-	 * Using a deep comparison it checks if properties of two objects using an array are equal.
+	 * Create an interval timer.
 	 *
-	 * @function propertyMatch
+	 * @function interval
+	 * @category function
 	 * @type {Function}
-	 * @category utility
-	 * @param {Object} source - The source object to compare.
-	 * @param {Object} compared - Object to be compared to source.
-	 * @param {Array} properties - List of properties to compare defaults to keys(source).
-	 * @returns {Array} - Returns an array of properties.
+	 * @param {Function} callable - The function to be invoked.
+	 * @param {number} time - The time in milliseconds.
+	 * @returns {Object} - Returns setInterval ID.
 	 *
 	 * @example
-	 * propertyMatch({
-	 *   a: 1,
-	 *   b: 2
-	 * }, {
-	 *   a: 1,
-	 *   b: 2
-	 * }, ['a', 'b']);
-	 * // => true
-	 */
-	const propertyMatch = (source, compared, properties = keys(source)) => {
-		return whileArray(properties, (property) => {
-			return isEqual(source[property], compared[property]);
-		});
-	};
-	const regexToPath = /\.|\[/;
-	const regexCloseBracket = /]/g;
-	const emptyString = '';
-	/**
-	 * Breaks up string into object chain list.
-	 *
-	 * @function toPath
-	 * @type {Function}
-	 * @category utility
-	 * @param {string} string - String to be broken up.
-	 * @returns {Array} - Array used to go through object chain.
-	 *
-	 * @example
-	 * toPath('post.like[2]');
-	 * // => ['post', 'like', '2']
-	 */
-	const toPath = (string) => {
-		return string.replace(regexCloseBracket, emptyString).split(regexToPath);
-	};
-	let count = 0;
-	const uidFree = [];
-	/**
-	 * Creates a numerical unique ID and recycles old ones. UID numerically ascends however freed UIDs are later reused.
-	 *
-	 * @function uid
-	 * @category utility
-	 * @type {Function}
-	 * @category utility
-	 * @returns {number} - Returns a unique id.
-	 *
-	 * @test
-	 * (async () => {
-	 *   return await assert(uid(), 0) && await assert(uid(), 1);
-	 * });
-	 *
-	 * @example
-	 * uid();
+	 * interval(() => {}, 100);
 	 * // => 0
-	 * uid();
-	 * // => 1
 	 */
-	function uid() {
-		let result = uidFree.shift(uidFree);
-		if (!hasValue(result)) {
-			result = count;
-			count++;
-		}
-		return result;
+	function interval(callable, time) {
+		return intervals.set(callable, time);
 	}
 	/**
-	 * Frees an UID so that it may be recycled for later use.
+	 * Clear all active interval timers.
 	 *
-	 * @function uid.free
-	 * @category utility
-	 * @type {Function}
-	 * @param {number} id - Number to be freed.
-	 * @returns {undefined} - Nothing is returned.
-	 *
-	 * @test
-	 * (async () => {
-	 *   return await assert(uid(), 0) &&
-	 *    await assert(uid(), 1) &&
-	 *    await assert(uid.free(0), undefined) &&
-	 *    await assert(uid(), 0);
-	 * });
+	 * @function clearIntervals
+	 * @category function
+	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * uid();
-	 * // => 0
-	 * uid();
-	 * // => 1
-	 * uid.free(0);
+	 * clearIntervals();
 	 * // => undefined
-	 * uid();
-	 * // => 0
 	 */
-	uid.free = (id) => {
-		uidFree.push(id);
-	};
-	/**
-	 * Returns property on an object.
-	 *
-	 * @function get
-	 * @category utility
-	 * @type {Function}
-	 * @param  {string} propertyString - String used to retrieve properties.
-	 * @param {Object} objectChain - Object which has a property retrieved from it.
-	 * @returns {Object} - Returns property from the given object.
-	 *
-	 * @example
-	 * get('post.like[2]', {
-	 *   post: {
-	 *     like: ['a','b','c']
-	 *   }
-	 * });
-	 * // => 'c'
-	 */
-	const get = (propertyString, objectChain) => {
-		let link = objectChain;
-		whileArray(toPath(propertyString), (item) => {
-			link = link[item];
-			return hasValue(link);
+	function clearIntervals() {
+		const id = setTimeout(noop, 0);
+		times(id, (index) => {
+			intervals.remove(index);
 		});
-		return link;
-	};
-	const jsonNative = JSON;
-	/**
-	 * Parses JSON string.
-	 *
-	 * @function jsonParse
-	 * @category utility
-	 * @type {Function}
-	 * @param {string} string - String to be parsed.
-	 * @returns {Object} - Returns the parsed object.
-	 *
-	 * @example
-	 * jsonParse('{}');
-	 * // => {}
-	 */
-	const jsonParse = jsonNative.parse;
-	/**
-	 * Stringify an object into a JSON string.
-	 *
-	 * @function stringify
-	 * @category utility
-	 * @type {Function}
-	 * @param {Object} object - Object to Stringify.
-	 * @returns {string} - Returns the object as a valid JSON string.
-	 *
-	 * @example
-	 * stringify({});
-	 * // => '{}'
-	 */
-	const stringify = jsonNative.stringify;
+	}
 	/**
 	 * Set & Get a model.
 	 *
@@ -4840,9 +4866,157 @@
 	 * promise((a) => {});
 	 * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
 	 */
-	const promise = (callback) => {
+	function promise(callback) {
 		return new Promise(callback);
+	}
+	/**
+	 * Using a deep comparison it checks if properties of two objects using an array are equal.
+	 *
+	 * @function propertyMatch
+	 * @type {Function}
+	 * @category utility
+	 * @param {Object} source - The source object to compare.
+	 * @param {Object} compared - Object to be compared to source.
+	 * @param {Array} properties - List of properties to compare defaults to keys(source).
+	 * @returns {Array} - Returns an array of properties.
+	 *
+	 * @example
+	 * import { propertyMatch } from './Acid.js';
+	 * propertyMatch({
+	 *   a: 1,
+	 *   b: 2
+	 * }, {
+	 *   a: 1,
+	 *   b: 2
+	 * }, ['a', 'b']);
+	 * // => true
+	 */
+	const propertyMatch = (source, compared, properties = keys(source)) => {
+		return everyArray(properties, (property) => {
+			return isEqual(source[property], compared[property]);
+		});
 	};
+	class Store {
+		target;
+		constructor(source = {}) {
+			const target = (this.target = source);
+			if (target === null || typeof target !== 'object') {
+				return target;
+			}
+			eachObject(target, (property) => {
+				target[property] = new Store(target[property]);
+			});
+			this.data = new Proxy(target, {
+				get(proxyTarget, property) {
+					console.log(proxyTarget, property, proxyTarget[property]);
+					return proxyTarget[property];
+				},
+				set(proxyTarget, property, value) {
+					console.log(proxyTarget, property, proxyTarget[property]);
+					proxyTarget[property] = new Store(value);
+					return true;
+				}
+			});
+		}
+	}
+	/**
+	 * This method returns a new empty array.
+	 *
+	 * @function stubArray
+	 * @category function
+	 * @type {Function}
+	 * @returns {Array} - Returns the new empty array.
+	 * @example
+	 * import { stubArray } from './Acid.js';
+	 * stubArray();
+	 * // => []
+	 */
+	const stubArray = () => {
+		return [];
+	};
+	/**
+	 * This method returns a new empty object.
+	 *
+	 * @function stubObject
+	 * @category function
+	 * @type {Function}
+	 * @returns {Object} - Returns the new empty object.
+	 *
+	 * @example
+	 * import { stubArray } from './Acid.js';
+	 * stubObject();
+	 * // => {}
+	 */
+	const stubObject = () => {
+		return {};
+	};
+	/**
+	 * This method returns a new empty string.
+	 *
+	 * @function stubString
+	 * @category function
+	 * @type {Function}
+	 * @returns {string} - Returns the new empty string.
+	 *
+	 * @example
+	 * import { stubArray } from './Acid.js';
+	 * stubString();
+	 * // => ''
+	 */
+	const stubString = () => {
+		return '';
+	};
+	/**
+	 * Asynchronously iterates based on the amount given awaiting on the iteratee with the current index as an argument.
+	 *
+	 * @async
+	 * @function timesAsync
+	 * @category utility
+	 * @type {Function}
+	 * @param {number} amount - The amount of times to loop invoking the iteratee.
+	 * @param {Function} iteratee - Transformation function which is passed index and amount.
+	 * @returns {undefined} - Nothing.
+	 *
+	 * @example
+	 * import { timesAsync } from 'Acid';
+	 * await timesAsync(3, async (item) => {
+	 *   console.log(item);
+	 * });
+	 * // 0
+	 * // 1
+	 * // 2
+	 * // => undefined
+	 */
+	async function timesAsync(amount, iteratee) {
+		for (let index = 0; index < amount; index++) {
+			await iteratee(amount);
+		}
+	}
+	/**
+	 * Asynchronously iterates based on the amount given and maps the results awaited on by the iteratee each time to an array.
+	 *
+	 * @async
+	 * @function timesMapAsync
+	 * @category array
+	 * @type {Function}
+	 * @param {number} amount - The amount of times to loop invoking the iteratee.
+	 * @param {Function} iteratee - Transformation function which is passed index and amount.
+	 * @param {Array} [results = []] - Array that will have iteratee return pushed to.
+	 * @returns {Array} - An array with iteratee's returned values.
+	 *
+	 * @example
+	 * import { timesMapAsync } from 'Acid';
+	 * await timesMapAsync(3, (item) => {
+	 *   return item;
+	 * });
+	 * // => [0, 1, 2]
+	 */
+	async function timesMapAsync(amount, iteratee, results = []) {
+		for (let index = 0; index < amount; index++) {
+			results[index] = await iteratee(amount);
+		}
+		return results;
+	}
 	/**
 	 * Performs a toggle between 2 values using a deep or strict comparison.
 	 *
@@ -4855,260 +5029,163 @@
 	 * @returns {(string|number|Object|Array)} - The opposing value to the current.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * let toggleMe = true;
 	 * toggleMe = toggle(toggleMe, true, false);
 	 * // => false
 	 */
-	const toggle = (value, on = true, off = false) => {
+	function toggle(value, on = true, off = false) {
 		return isEqual(on, value) ? off : on;
-	};
-	const returnFlow$1 = (callable) => {
-		return (...methods) => {
-			return (arg) => {
-				let value = arg;
-				callable(methods, (item) => {
-					value = item(value);
-				});
-				return value;
-			};
-		};
-	};
+	}
+	let count = 0;
+	const uidFree = [];
 	/**
-	 * Creates a function that returns the result of invoking the given functions, where each successive invocation is supplied the return value of the previous.
+	 * Creates a numerical unique ID and recycles old ones. UID numerically ascends however freed UIDs are later reused.
 	 *
-	 * @function flow
+	 * @function uid
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array} collection - Methods to invoke.
-	 * @returns {Function} - Returns the new composite function.
+	 * @category utility
+	 * @returns {number} - Returns a unique id.
 	 *
 	 * @example
-	 * flow(increment, increment, deduct)(0);
+	 * import { stubArray } from './Acid.js';
+	 * uid();
+	 * // => 0
+	 * uid();
 	 * // => 1
 	 */
-	const flow = returnFlow$1(eachArray);
+	function uid() {
+		let result = uidFree.shift(uidFree);
+		if (!hasValue(result)) {
+			result = count;
+			count++;
+		}
+		return result;
+	}
 	/**
-	 * This method is like flow except that it creates a function that invokes the given functions from right to left.
+	 * Frees an UID so that it may be recycled for later use.
 	 *
-	 * @function flowRight
+	 * @function uid.free
 	 * @category utility
 	 * @type {Function}
-	 * @param {Array} collection - Methods to invoke.
-	 * @returns {Function} - Returns the new composite function.
+	 * @param {number} id - Number to be freed.
+	 * @returns {undefined} - Nothing is returned.
 	 *
 	 * @example
-	 * flowRight(increment, increment, deduct)(0);
+	 * import { stubArray } from './Acid.js';
+	 * uid();
+	 * // => 0
+	 * uid();
 	 * // => 1
+	 * uid.free(0);
+	 * // => undefined
+	 * uid();
+	 * // => 0
 	 */
-	const flowRight = returnFlow$1(eachArrayRight);
-	const returnFlow = (callable) => {
-		return (...methods) => {
-			return async (arg) => {
-				let value = arg;
-				await callable(methods, async (item) => {
-					value = await item(value);
-				});
-				return value;
-			};
-		};
+	uid.free = (id) => {
+		uidFree.push(id);
 	};
 	/**
-	 * Creates a function that returns the result of invoking the given functions, where each successive invocation is supplied the return value of the previous.
-	 *
-	 * @function flowAsync
-	 * @category utility
-	 * @type {Function}
-	 * @async
-	 * @param {Array} collection - Methods to invoke.
-	 * @returns {Function} - Returns the new composite function.
-	 *
-	 * @example
-	 * flowAsync(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
-	 * // => 2
-	 */
-	const flowAsync = returnFlow(eachAsync);
-	/**
-	 * This method is like flow except that it creates a function that invokes the given functions from right to left.
-	 *
-	 * @function flowAsyncRight
-	 * @category utility
-	 * @type {Function}
-	 * @async
-	 * @param {Array} collection - Methods to invoke.
-	 * @returns {Function} - Returns the new composite function.
-	 *
-	 * @example
-	 * flowAsyncRight(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
-	 * // => 2
-	 */
-	const flowAsyncRight = returnFlow(eachAsyncRight);
-	/**
-	 * A virtual storage & drop in replacement for localStorage.
+	 * Class representing a virtual storage. A drop in replacement for localStorage.
 	 * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
 	 * Direct class/constructor access is named VirtualStorage.
 	 *
-	 * @function virtualStorage
 	 * @category utility
-	 * @type {Function}
 	 * @returns {*} - Returns a new VirtualStorage Object.
 	 *
 	 * @example
+	 * import { stubArray } from './Acid.js';
 	 * const myVirtualStorage = virtualStorage();
 	 * // => New Crate Object
-	 */
-	/**
-	 * Save an item to a virtual storage object.
-	 *
-	 * @function virtualStorage.setItem
-	 * @category utility
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * // => undefined
-	 */
-	/**
-	 * Get an item from a virtual storage object.
-	 *
-	 * @function virtualStorage.getItem
-	 * @category utility
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.getItem('key');
-	 * // => 'value'
-	 */
-	/**
-	 * Remove an item from a virtual storage object.
-	 *
-	 * @function virtualStorage.removeItem
-	 * @category utility
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.removeItem('key');
-	 * myVirtualStorage.getItem('key');
-	 * // => undefined
-	 */
-	/**
-	 * Clears all data from the virtual storage object by replacing with a new object.
-	 *
-	 * @function virtualStorage.clear
-	 * @category utility
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * const myVirtualStorage = virtualStorage();
-	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.clear();
-	 * myVirtualStorage.getItem('key');
-	 * // => undefined
 	 */
 	class VirtualStorage {
 		constructor(initialObject = {}) {
 			this.items = initialObject;
 		}
+		/**
+		 * Get an item from a virtual storage object.
+		 *
+		 * @param {string} key - The key used to store the data.
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * import { VirtualStorage } from './Acid.js';
+		 * const myVirtualStorage = virtualStorage();
+		 * myVirtualStorage.setItem('key', 'value');
+		 * myVirtualStorage.getItem('key');
+		 * // => 'value'
+		 */
 		getItem(key) {
 			return this.items[key];
 		}
+		/**
+		 * Save an item to a virtual storage object.
+		 *
+		 * @param {string} key - The key used to store the data.
+		 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * import { VirtualStorage, assert } from './Acid.js';
+		 * const vStorage = new VirtualStorage();
+		 * vStorage.setItem('title', 'value');
+		 * assert(vStorage.getItem('title'), 'value');
+		 */
 		setItem(key, value) {
 			this.items[key] = value;
 		}
+		/**
+		 * Clears all data from the virtual storage object by replacing with a new object.
+		 *
+		 * @param {string} key - The key used to remove data.
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * import { stubArray } from './Acid.js';
+		 * const myVirtualStorage = virtualStorage();
+		 * myVirtualStorage.setItem('key', 'value');
+		 * myVirtualStorage.clear();
+		 * myVirtualStorage.getItem('key');
+		 * // => undefined
+		 */
 		clear() {
 			this.items = {};
 		}
+		/**
+		 * Remove an item from a virtual storage object.
+		 *
+		 * @param {string} key - The key used to remove data.
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * import { stubArray } from './Acid.js';
+		 * const myVirtualStorage = virtualStorage();
+		 * myVirtualStorage.setItem('key', 'value');
+		 * myVirtualStorage.removeItem('key');
+		 * myVirtualStorage.getItem('key');
+		 * // => undefined
+		 */
 		removeItem(key) {
 			this.items[key] = null;
 		}
 	}
-	function virtualStorage() {
-		return new VirtualStorage();
-	}
 	/**
-	 * Check if a value is falsey which are false, null, 0, "", undefined, and NaN.
+	 *  The virtualStorage function is a factory which wraps the VirtualStorage class constructor.
 	 *
-	 * @function falsey
-	 * @category Utility
+	 * @function virtualStorage
+	 * @category browser
 	 * @type {Function}
-	 * @param {*} source - Item to be falsey checked.
-	 * @param {*} returnIfTrue - Item to be returned if item is falsey.
-	 * @returns {boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
+	 * @returns {*} - Returns a new VirtualStorage Object.
 	 *
 	 * @example
-	 * falsey(0);
-	 * // => true
-	 * @example
-	 * falsey(1);
-	 * // => false
+	 * import { virtualStorage, assert } from './Acid.js';
+	 * const vStorage = virtualStorage();
+	 * vStorage.setItem('title', 'value');
+	 * assert(vStorage.getItem('title'), 'value');
 	 */
-	function falsey(source, returnIfTrue = true) {
-		return Boolean(source) === false && returnIfTrue;
-	}
-	/**
-	 * Check if a value is truey which is anything but false, null, 0, "", undefined, and NaN.
-	 *
-	 * @function truey
-	 * @category Utility
-	 * @type {Function}
-	 * @param {*} source - Item to be truey checked.
-	 * @param {*} returnIfTrue - Item to be returned if item is truey.
-	 * @returns {boolean|*} - Returns true if the item is truey or returnIfTrue if provided otherwise returns false.
-	 *
-	 * @example
-	 * truey(0);
-	 * // => false
-	 * @example
-	 * truey(1);
-	 * // => true
-	 */
-	function truey(source, returnIfTrue = true) {
-		return Boolean(source) && returnIfTrue;
-	}
-	/**
-	 * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
-	 *
-	 * @function compact
-	 * @category Utility
-	 * @type {Function}
-	 * @param {Array|Object} source - Array or Object to be compacted.
-	 * @returns {Array|Object} - A new object or array containing the filtered values.
-	 *
-	 * @example
-	 * compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]);
-	 * // => [1, 'B', 'Cat']
-	 */
-	function compact(source) {
-		if (isPlainObject(source)) {
-			const sourceKeys = keys(source);
-			const sourceKeysLength = sourceKeys.length;
-			const targetObject = {};
-			for (let i = 0; i < sourceKeysLength; i++) {
-				const keyName = sourceKeys[i];
-				const item = source[keyName];
-				const isTruey = truey(item);
-				if (isTruey) {
-					targetObject[keyName] = item;
-				}
-			}
-			return targetObject;
-		}
-		return source.filter((item) => {
-			return truey(item);
-		});
+	function virtualStorage(initialObject) {
+		return new VirtualStorage(initialObject);
 	}
 	/**
 	 * Checks to see of the browser agent has a string.
@@ -5122,9 +5199,9 @@
 	 * isAgent('mobile');
 	 * // => false
 	 */
-	const isAgent = (value) => {
+	function isAgent(value) {
 		return value ? isAgent[value] : keys(isAgent);
-	};
+	}
 	const userAgent = globalThis.navigator?.userAgentData;
 	if (userAgent) {
 		eachObject(userAgent, (value, key) => {
@@ -5160,10 +5237,10 @@
 	 * eventAdd(document.body, 'click', () => {console.log('CLICKED');});
 	 * // = > document.body
 	 */
-	const eventAdd = (node, eventName, callback, useCapture) => {
+	function eventAdd(node, eventName, callback, useCapture) {
 		node.addEventListener(eventName, callback, useCapture);
 		return node;
-	};
+	}
 	/**
 	 * Attaches an event listener to a node.
 	 *
@@ -5180,10 +5257,10 @@
 	 * eventRemove(document.body, () => {console.log('CLICKED');});
 	 * // = > Undefined
 	 */
-	const eventRemove = (node, eventName, callback, useCapture) => {
+	function eventRemove(node, eventName, callback, useCapture) {
 		node.removeEventListener(eventName, callback, useCapture);
 		return node;
-	};
+	}
 	/**
 	 * Checks if the keycode of the event is strictly equal to 13.
 	 *
@@ -5197,9 +5274,9 @@
 	 * isEnter('click');
 	 * // => false
 	 */
-	const isEnter = (eventObject) => {
+	function isEnter(eventObject) {
 		return eventObject.keyCode === 13;
-	};
+	}
 	/**
 	 * Create a document fragment.
 	 *
@@ -5222,10 +5299,10 @@
 	 * @param {Node} child - The node to be appended.
 	 * @returns {undefined} - Returns the child.
 	 */
-	const append = (parentNode, child) => {
+	function append(parentNode, child) {
 		parentNode.appendChild(child);
 		return child;
-	};
+	}
 	/**
 	 * Assign attributes to a DOM node.
 	 *
@@ -5241,7 +5318,7 @@
 	 * @example
 	 * nodeAttribute(document.body, { 'data-example': 'test'});
 	 */
-	const nodeAttribute = (node, object) => {
+	function nodeAttribute(node, object) {
 		if (isArray(object)) {
 			return zipObject(
 				object,
@@ -5254,7 +5331,7 @@
 			node.setAttribute(key, item);
 		});
 		return node;
-	};
+	}
 	const dotString = '.';
 	const poundString = '#';
 	const classTest = /^.[\w_-]+$/;
@@ -5319,7 +5396,7 @@
 	 * selector('#node');
 	 * // => <div id="node"></div>
 	 */
-	const selector = (select) => {
+	function selector(select) {
 		const firstLetter = select[0];
 		switch (firstLetter) {
 		case poundString:
@@ -5338,7 +5415,7 @@
 			}
 		}
 		return querySelectorAll(select);
-	};
+	}
 	const createElementCache = document.createElement.bind(document);
 	const nodeAttachLoadingEvents = (node) => {
 		return promise((accept) => {
@@ -5362,14 +5439,14 @@
 	 * importjs('core.js');
 	 * importjs('core');
 	 */
-	const importjs = (url) => {
+	function importjs(url) {
 		const src = (hasDot(url) && url) || `${url}.js`;
 		const node = nodeAttribute(createElementCache('script'), {
 			async: '',
 			src
 		});
 		return nodeAttachLoadingEvents(node);
-	};
+	}
 	/**
 	 * Runs a function if the document has finished loading. If not, add an eventlistener.
 	 *
@@ -5384,7 +5461,7 @@
 	 * isDocumentReady(() => {return 1});
 	 * // => 1
 	 */
-	const isDocumentReady = (callable) => {
+	function isDocumentReady(callable) {
 		const state = document.readyState;
 		const checkStatus = state === 'interactive' || state === 'completed' || state === 'complete';
 		if (checkStatus) {
@@ -5394,7 +5471,7 @@
 			eventAdd(document, 'DOMContentLoaded', callable);
 		}
 		return false;
-	};
+	}
 	isDocumentReady(() => {
 		const scriptTag = getById('AcidLib');
 		const scriptName = (scriptTag && scriptTag.getAttribute('data-index')) || '/index';
@@ -5422,14 +5499,14 @@
 			protocolSocket
 		}
 	};
-	const saveDimensions = () => {
+	function saveDimensions() {
 		assign(info, {
 			bodyHeight: document.body.offsetHeight,
 			bodyWidth: document.body.offsetWidth,
 			windowHeight: window.innerHeight,
 			windowWidth: window.innerWidth
 		});
-	};
+	}
 	/**
 	 * Save current document & window dimensions to the info property.
 	 *
@@ -5442,83 +5519,12 @@
 	 * @example
 	 * updateDimensions();
 	 */
-	const updateDimensions = () => {
+	function updateDimensions() {
 		saveDimensions();
-	};
+	}
 	isDocumentReady(updateDimensions);
 	eventAdd(window, 'load', updateDimensions, true);
 	eventAdd(window, 'resize', updateDimensions, true);
-	/**
-	 * Create a virtual storage container with localStorage support. Crate will fallback to strictly virtual storage if localStorage isn't supported. If localStorage is supported virtual storage will be used first and only fallback to localStorage when needed. Crate is ideal as a seemless drop in replacement for localStorage when the browser doesn't support or allow localStorage.
-	 * The crate function is a factory which wraps the Crate constructor & returns it.
-	 * Direct class/constructor access is named Crate.
-	 *
-	 * @function crate
-	 * @category browser
-	 * @type {Function}
-	 * @returns {*} - Returns a new Crate Object.
-	 * @example
-	 * const storageCrate = crate();
-	 * // => New Crate Object
-	 */
-	/**
-	 * Save an item to a crate.
-	 *
-	 * @function crate.setItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
-	 * @returns {undefined} - Returns undefined.
-	 * @example
-	 * const storageCrate = crate();
-	 * storageCrate.setItem('key', 'value');
-	 * // => undefined
-	 */
-	/**
-	 * Get an item from a crate.
-	 *
-	 * @function crate.getItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to store the data.
-	 * @returns {undefined} - Returns undefined.
-	 * @example
-	 * const storageCrate = crate();
-	 * storageCrate.setItem('key', 'value');
-	 * storageCrate.getItem('key');
-	 * // => 'value'
-	 */
-	/**
-	 * Remove an item from a crate.
-	 *
-	 * @function crate.removeItem
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 * @example
-	 * const storageCrate = crate();
-	 * storageCrate.setItem('key', 'value');
-	 * storageCrate.removeItem('key');
-	 * storageCrate.getItem('key');
-	 * // => undefined
-	 */
-	/**
-	 * Clears all data for the crate including all of localStorage if supported.
-	 *
-	 * @function crate.clear
-	 * @category browser
-	 * @type {Function}
-	 * @param {string} key - The key used to remove data.
-	 * @returns {undefined} - Returns undefined.
-	 * @example
-	 * const storageCrate = crate();
-	 * storageCrate.setItem('key', 'value');
-	 * storageCrate.clear();
-	 * storageCrate.getItem('key');
-	 * // => undefined
-	 */
 	exports.hasLocal = void 0;
 	function hasStorage(storeCheck) {
 		try {
@@ -5531,20 +5537,50 @@
 	hasStorage(() => {
 		return localStorage;
 	});
+	/**
+	 * Class which creates a virtual storage container with localStorage support.
+	 * Crate will fallback to strictly virtual storage if localStorage isn't supported.
+	 * If localStorage is supported virtual storage will be used first & only fallback to localStorage when needed.
+	 * Crate is ideal as a seemless drop in replacement for localStorage when not supported or allowed.
+	 */
 	class Crate {
 		constructor(initialObject) {
 			if (this.hasLocal) {
 				this.local = localStorage;
 			}
-			this.storage = virtualStorage();
+			this.storage = virtualStorage(initialObject);
 		}
 		hasLocal = exports.hasLocal;
+		/**
+		 * Save an item to a crate.
+		 *
+		 * @param {string} key - The key used to store the data.
+		 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * const storageCrate = crate();
+		 * storageCrate.setItem('key', 'value');
+		 * // => undefined
+		 */
 		setItem(key, value) {
 			if (this.hasLocal) {
 				this.local.setItem(key, isString(value) ? value : stringify(value));
 			}
 			return this.storage.setItem(key, value);
 		}
+		/**
+		 * Get an item from a crate.
+		 *
+		 * @param {string} key - The key used to store the data.
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * const storageCrate = crate();
+		 * storageCrate.setItem('key', 'value');
+		 * storageCrate.getItem('key');
+		 * // => 'value'
+		 */
 		getItem(key) {
 			const item = this.storage.getItem(key);
 			if (hasValue(item)) {
@@ -5554,12 +5590,38 @@
 				return this.local.getItem(key);
 			}
 		}
+		/**
+		 * Clears all data for the crate including all of localStorage if supported.
+		 *
+		 * @param {string} key - The key used to remove data.
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * const storageCrate = crate();
+		 * storageCrate.setItem('key', 'value');
+		 * storageCrate.clear();
+		 * storageCrate.getItem('key');
+		 * // => undefined
+		 */
 		clear() {
 			if (this.hasLocal) {
 				this.local.clear();
 			}
 			this.storage.clear();
 		}
+		/**
+		 * Remove an item from a crate.
+		 *
+		 * @param {string} key - The key used to remove data.
+		 * @returns {undefined} - Returns undefined.
+		 *
+		 * @example
+		 * const storageCrate = crate();
+		 * storageCrate.setItem('key', 'value');
+		 * storageCrate.removeItem('key');
+		 * storageCrate.getItem('key');
+		 * // => undefined
+		 */
 		removeItem(key) {
 			if (this.hasLocal) {
 				this.local.removeItem(key);
@@ -5567,6 +5629,18 @@
 			this.storage.removeItem(key);
 		}
 	}
+	/**
+	 *  The crate function is a factory which wraps the Crate class constructor.
+	 *
+	 * @function crate
+	 * @category browser
+	 * @type {Function}
+	 * @returns {*} - Returns a new Crate Object.
+	 *
+	 * @example
+	 * const storageCrate = crate();
+	 * // => New Crate Object
+	 */
 	function crate(virtualFlag) {
 		return new Crate(virtualFlag);
 	}
@@ -5632,9 +5706,9 @@
 	 * isDom(document.querySelectorAll('.test'));
 	 * // => true
 	 */
-	const isDom = (value) => {
+	function isDom(value) {
 		return value && value.nodeType !== 9;
-	};
+	}
 	/**
 	 * Checks if the value is a HTMLCollection.
 	 *
@@ -5670,7 +5744,10 @@
 		return hasValue(source) ? source.toString() === objectNodeList : false;
 	}
 	exports.Crate = Crate;
+	exports.Intervals = Intervals;
 	exports.Model = Model;
+	exports.Store = Store;
+	exports.Timers = Timers;
 	exports.VirtualStorage = VirtualStorage;
 	exports.add = add$1;
 	exports.after = after;
@@ -5678,9 +5755,8 @@
 	exports.apply = apply;
 	exports.arrayToObject = arrayToObject;
 	exports.ary = ary;
+	exports.assert = assert;
 	exports.assign = assign;
-	exports.assignDeep = assignDeep;
-	exports.asyncEach = asyncEach;
 	exports.before = before;
 	exports.bindAll = bindAll;
 	exports.cacheNativeMethod = cacheNativeMethod;
@@ -5691,17 +5767,17 @@
 	exports.clear = clear;
 	exports.clearIntervals = clearIntervals;
 	exports.clearTimers = clearTimers;
+	exports.clone = clone;
 	exports.cloneArray = cloneArray;
 	exports.cnsl = cnsl;
 	exports.cnslTheme = cnslTheme;
 	exports.compact = compact;
 	exports.compactKeys = compactKeys;
-	exports.compactMap = compactMap;
 	exports.compactMapArray = compactMapArray;
 	exports.compactMapAsync = compactMapAsync;
-	exports.compactMapObject = compactMapObject;
 	exports.compactMapObjectAsync = compactMapObjectAsync;
 	exports.construct = construct;
+	exports.constructorName = constructorName;
 	exports.countBy = countBy;
 	exports.countKey = countKey;
 	exports.countWithoutKey = countWithoutKey;
@@ -5719,17 +5795,19 @@
 	exports.dropRight = dropRight;
 	exports.each = each;
 	exports.eachArray = eachArray;
-	exports.eachArrayRight = eachArrayRight;
-	exports.eachAsync = eachAsync;
-	exports.eachAsyncRight = eachAsyncRight;
+	exports.eachAsyncArray = eachAsyncArray;
 	exports.eachObject = eachObject;
 	exports.eachObjectAsync = eachObjectAsync;
-	exports.eachWhile = eachWhile;
+	exports.eachRight = eachRight;
+	exports.eachRightAsync = eachRightAsync;
 	exports.ensureArray = ensureArray;
 	exports.eventAdd = eventAdd;
 	exports.eventRemove = eventRemove;
 	exports.every = every;
+	exports.everyArray = everyArray;
+	exports.everyObject = everyObject;
 	exports.falsey = falsey;
+	exports.falsy = falsy;
 	exports.filter = filter;
 	exports.filterArray = filterArray;
 	exports.filterObject = filterObject;
@@ -5762,6 +5840,7 @@
 	exports.htmlEntities = htmlEntities;
 	exports.ifInvoke = ifInvoke;
 	exports.ifNotEqual = ifNotEqual;
+	exports.ifValue = ifValue;
 	exports.importjs = importjs;
 	exports.inAsync = inAsync;
 	exports.inSync = inSync;
@@ -5771,8 +5850,9 @@
 	exports.initial = initial;
 	exports.initialString = initialString;
 	exports.insertInRange = insertInRange;
-	exports.intersect = intersect;
+	exports.intersection = intersection;
 	exports.interval = interval;
+	exports.intervals = intervals;
 	exports.invert = invert;
 	exports.invoke = invoke;
 	exports.invokeAsync = invokeAsync;
@@ -5783,6 +5863,7 @@
 	exports.isBoolean = isBoolean;
 	exports.isBuffer = isBuffer;
 	exports.isConstructor = isConstructor;
+	exports.isConstructorFactory = isConstructorFactory;
 	exports.isDate = isDate;
 	exports.isDecimal = isDecimal;
 	exports.isDocumentReady = isDocumentReady;
@@ -5790,17 +5871,17 @@
 	exports.isEmpty = isEmpty;
 	exports.isEnter = isEnter;
 	exports.isEqual = isEqual;
+	exports.isF32 = isF32;
+	exports.isF64 = isF64;
 	exports.isFileCSS = isFileCSS;
 	exports.isFileHTML = isFileHTML;
 	exports.isFileJS = isFileJS;
 	exports.isFileJSON = isFileJSON;
-	exports.isFloat32 = isFloat32;
-	exports.isFloat64 = isFloat64;
 	exports.isFunction = isFunction;
 	exports.isHTMLCollection = isHTMLCollection;
-	exports.isInt16 = isInt16;
-	exports.isInt32 = isInt32;
-	exports.isInt8 = isInt8;
+	exports.isI16 = isI16;
+	exports.isI32 = isI32;
+	exports.isI8 = isI8;
 	exports.isKindAsync = isKindAsync;
 	exports.isMap = isMap;
 	exports.isMatchArray = isMatchArray;
@@ -5817,10 +5898,10 @@
 	exports.isSame = isSame;
 	exports.isSet = isSet;
 	exports.isString = isString;
-	exports.isUint16 = isUint16;
-	exports.isUint32 = isUint32;
-	exports.isUint8 = isUint8;
-	exports.isUint8Clamped = isUint8Clamped;
+	exports.isU16 = isU16;
+	exports.isU32 = isU32;
+	exports.isU8 = isU8;
+	exports.isU8C = isU8C;
 	exports.isUndefined = isUndefined;
 	exports.isWeakMap = isWeakMap;
 	exports.isZero = isZero;
@@ -5831,10 +5912,9 @@
 	exports.last = last;
 	exports.map = map;
 	exports.mapArray = mapArray;
-	exports.mapArrayRight = mapArrayRight;
-	exports.mapAsync = mapAsync;
-	exports.mapObject = mapObject;
+	exports.mapAsyncArray = mapAsyncArray;
 	exports.mapObjectAsync = mapObjectAsync;
+	exports.mapRightArray = mapRightArray;
 	exports.mapWhile = mapWhile;
 	exports.minus = minus;
 	exports.model = model;
@@ -5846,10 +5926,10 @@
 	exports.numSort = numSort;
 	exports.numericalCompare = numericalCompare;
 	exports.numericalCompareReverse = numericalCompareReverse;
-	exports.objectCreate = objectCreate;
 	exports.objectSize = objectSize;
 	exports.omit = omit;
 	exports.once = once;
+	exports.onlyUnique = onlyUnique;
 	exports.over = over;
 	exports.overEvery = overEvery;
 	exports.partition = partition;
@@ -5865,15 +5945,18 @@
 	exports.randomArbitrary = randomArbitrary;
 	exports.randomInt = randomInt;
 	exports.range = range;
+	exports.rangeDown = rangeDown;
+	exports.rangeUp = rangeUp;
 	exports.rawURLDecode = rawURLDecode;
 	exports.reArg = reArg;
-	exports.regexGenerator = regexGenerator;
+	exports.regexTestFactory = regexTestFactory;
 	exports.remainder = remainder;
 	exports.remove = remove;
 	exports.removeBy = removeBy;
 	exports.replaceList = replaceList;
 	exports.rest = rest;
 	exports.restString = restString;
+	exports.returnValue = returnValue;
 	exports.right = right;
 	exports.rightString = rightString;
 	exports.sample = sample;
@@ -5886,6 +5969,7 @@
 	exports.sortAlphabetical = sortAlphabetical;
 	exports.sortNewest = sortNewest;
 	exports.sortOldest = sortOldest;
+	exports.sortUnique = sortUnique;
 	exports.sortedIndex = sortedIndex;
 	exports.stringify = stringify;
 	exports.stubArray = stubArray;
@@ -5895,12 +5979,14 @@
 	exports.stubTrue = stubTrue;
 	exports.sum = sum;
 	exports.take = take;
-	exports.takeRight = takeRight;
 	exports.themes = themes;
 	exports.throttle = throttle;
 	exports.timer = timer;
+	exports.timers = timers;
 	exports.times = times;
+	exports.timesAsync = timesAsync;
 	exports.timesMap = timesMap;
+	exports.timesMapAsync = timesMapAsync;
 	exports.toArray = toArray;
 	exports.toPath = toPath;
 	exports.toggle = toggle;
@@ -5908,6 +5994,7 @@
 	exports.truey = truey;
 	exports.truncate = truncate;
 	exports.truncateRight = truncateRight;
+	exports.truth = truth;
 	exports.uid = uid;
 	exports.unZip = unZip;
 	exports.unZipObject = unZipObject;
@@ -5921,11 +6008,9 @@
 	exports.upperFirstOnly = upperFirstOnly;
 	exports.upperFirstOnlyAll = upperFirstOnlyAll;
 	exports.virtualStorage = virtualStorage;
-	exports.whileArray = whileArray;
 	exports.whileCompactMap = whileCompactMap;
 	exports.whileEachArray = whileEachArray;
 	exports.whileMapArray = whileMapArray;
-	exports.whileObject = whileObject;
 	exports.without = without;
 	exports.words = words;
 	exports.wrap = wrap;

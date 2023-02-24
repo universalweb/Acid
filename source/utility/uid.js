@@ -1,4 +1,4 @@
-import { hasValue } from '../internal/is';
+import { hasValue } from '../type/hasValue.js';
 let count = 0;
 const uidFree = [];
 const uidClosed = {};
@@ -11,12 +11,8 @@ const uidClosed = {};
   * @category utility
   * @returns {number} - Returns a unique id.
   *
-  * @test
-  * (async () => {
-  *   return await assert(uid(), 0) && await assert(uid(), 1);
-  * });
-  *
   * @example
+  * import { stubArray } from './Acid.js';
   * uid();
   * // => 0
   * uid();
@@ -40,15 +36,8 @@ export function uid() {
   * @param {number} id - Number to be freed.
   * @returns {undefined} - Nothing is returned.
   *
-  * @test
-  * (async () => {
-  *   return await assert(uid(), 0) &&
-  *    await assert(uid(), 1) &&
-  *    await assert(uid.free(0), undefined) &&
-  *    await assert(uid(), 0);
-  * });
-  *
   * @example
+  * import { stubArray } from './Acid.js';
   * uid();
   * // => 0
   * uid();

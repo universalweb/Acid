@@ -1,45 +1,22 @@
-import { eachWhile, map } from '../utility/each';
+import { map } from '../utility/map.js';
+import { every } from '../utility/every.js';
 /**
-  * Creates a function that invokes iteratees with the arguments it receives and returns their results.
-  *
-  * @function over
-  * @category function
-  * @type {Function}
-  * @param {Array|Object} iteratees - The iteratees to invoke.
-  * @returns {Function} - Returns the new function.
-  *
-  * @example
-  * over([Math.max, Math.min])(1, 2, 3, 4);
-  * // => [4, 1]
-*/
-export const over = (iteratees) => {
+ * Creates a function that invokes iteratee with the arguments it receives and returns their results.
+ *
+ * @function over
+ * @category function
+ * @type {Function}
+ * @param {(Array.<function>|Object.<function>)} iteratee - The list of functions to loop through.
+ * @returns {Function} - Returns the new over wrapped function.
+ *
+ * @example
+ * over([Math.max, Math.min])(1, 2, 3, 4);
+ * // => [4, 1]
+ */
+export function over(iteratee) {
 	return (...args) => {
-		return map(iteratees, (item) => {
+		return map(iteratee, (item) => {
 			return item(...args);
 		});
 	};
-};
-/**
-  * Creates a function that checks if all of the predicates return truthy when invoked with the arguments it receives.
-  *
-  * @function overEvery
-  * @category function
-  * @type {Function}
-  * @param {Array|Object} predicates -  The predicates to check.
-  * @returns {Function} - Returns the new function.
-  *
-  * @example
-  * overEvery([Boolean, isFinite])('1');
-  * // => true
-  * @example
-  * overEvery([Boolean, isFinite])(null);
-  * // => false
-*/
-export const overEvery = (predicates) => {
-	return (...args) => {
-		return eachWhile(predicates, (item) => {
-			return item(...args);
-		});
-	};
-};
-
+}

@@ -11,10 +11,11 @@ const emptyString = '';
   * @returns {Array} - Array used to go through object chain.
   *
   * @example
+  * import { stubArray } from './Acid.js';
   * toPath('post.like[2]');
   * // => ['post', 'like', '2']
 */
-export const toPath = (string) => {
+export function toPath(string) {
 	return string.replace(regexCloseBracket, emptyString).split(regexToPath);
-};
+}
 

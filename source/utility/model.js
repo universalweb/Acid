@@ -1,7 +1,7 @@
-import { get } from './get';
-import { hasValue } from '../internal/is';
-import { assign } from '../internal/object';
-import { construct } from '../class/construct';
+import { get } from './get.js';
+import { hasValue } from '../type/hasValue.js';
+import { assign } from '../object/assign.js';
+import { construct } from '../class/construct.js';
 /**
  * Set & Get a model.
  *

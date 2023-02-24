@@ -25,39 +25,41 @@ const truncateUp = (string, maxLength, stringLength) => {
 	return string.substr(index, stringLength).trim();
 };
 /**
-  * Truncates the string, accounting for word placement and character count.
-  *
-  * @function truncate
-  * @type {Function}
-  * @category string
-  * @param {string} string - String to be truncated.
-  * @param {number} maxLength - The desired max length of the string.
-  * @returns {string} - The mutated string.
-  *
-  * @example
-  * truncate('Where is Lucy?', 2);
-  * // => 'Where is'
-*/
-export const truncate = (string, maxLength) => {
+ * Truncates the string, accounting for word placement and character count.
+ *
+ * @function truncate
+ * @type {Function}
+ * @category string
+ * @param {string} string - String to be truncated.
+ * @param {number} maxLength - The desired max length of the string.
+ * @returns {string} - The mutated string.
+ *
+ * @example
+ * import { stubArray } from './Acid.js';
+ * truncate('Where is Lucy?', 2);
+ * // => 'Where is'
+ */
+export function truncate(string, maxLength) {
 	const stringLength = string.length;
 	return (stringLength > maxLength) ? truncateDown(string, maxLength, stringLength) : string;
-};
+}
 /**
-  * Truncates the string, accounting for word placement and character count from the right.
-  *
-  * @function truncateRight
-  * @type {Function}
-  * @category string
-  * @param {string} string - String to be truncated.
-  * @param {number} maxLength - The desired max length of the string.
-  * @returns {string} - The mutated string.
-  *
-  * @example
-  * truncateRight('Where is Lucy?', 6);
-  * // => 'Lucy?'
-*/
-export const truncateRight = (string, maxLength) => {
+ * Truncates the string, accounting for word placement and character count from the right.
+ *
+ * @function truncateRight
+ * @type {Function}
+ * @category string
+ * @param {string} string - String to be truncated.
+ * @param {number} maxLength - The desired max length of the string.
+ * @returns {string} - The mutated string.
+ *
+ * @example
+ * import { stubArray } from './Acid.js';
+ * truncateRight('Where is Lucy?', 6);
+ * // => 'Lucy?'
+ */
+export function truncateRight(string, maxLength) {
 	const stringLength = string.length;
 	return (stringLength > maxLength) ? truncateUp(string, maxLength, stringLength) : string;
-};
+}
 

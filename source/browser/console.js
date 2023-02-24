@@ -1,5 +1,5 @@
-import { isString } from '../internal/is';
-import { stringify } from '../utility/json';
+import { isString } from '../type/isString.js';
+import { stringify } from '../utility/json.js';
 const generateTheme = (color, bg) => {
 	return `color:${color};background:${bg};`;
 };

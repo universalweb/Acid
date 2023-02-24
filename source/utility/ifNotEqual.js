@@ -1,4 +1,4 @@
-import { hasValue } from '../internal/is';
+import { hasValue } from '../type/hasValue.js';
 /**
    * Checks if a property on an object has a value. If not, it will assign a value.
    *

@@ -1,10 +1,6 @@
-import { eachAsync } from './eachAsync';
-import { hasValue } from '../internal/is';
-function removeNoValue(source) {
-	if (hasValue(source)) {
-		return source;
-	}
-}
+import { eachAsyncArray } from './eachAsync.js';
+import { returnValue } from '../utility/returnValue.js';
+import { hasValue } from '../type/hasValue.js';
 /**
  * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
  *
@@ -17,18 +13,19 @@ function removeNoValue(source) {
  * @returns {Array} - Array values after being put through an iterator.
  *
  * @example
- * compactMapAsync([1, 2, 3, null], async (item) => {return item;});
- * // => [1, 2, 3]
+ * import { compactMapAsync, assert } from './Acid.js';
+ * assert(await compactMapAsync([1, 2, 3, null], async (item) => {
+ *   return item;
+ * }), [1, 2, 3]);
  */
-export const compactMapAsync = async (source, iteratee = removeNoValue) => {
+export async function compactMapAsync(source, iteratee = returnValue) {
 	const results = [];
-	let result;
-	await eachAsync(source, async (item, index, arrayLength) => {
-		result = await iteratee(item, index, results, arrayLength);
+	await eachAsyncArray(source, async (item, index, arrayLength) => {
+		const result = await iteratee(item, index, results, arrayLength);
 		if (hasValue(result)) {
 			results.push(result);
 		}
 	});
 	return results;
-};
+}
 

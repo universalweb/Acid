@@ -1,45 +1,3 @@
-const objectNative = Object;
-/**
- * Get object's keys.
- *
- * @function keys
- * @category object
- * @param {*} source - The source object to pull keys from.
- * @returns {Array} - Array of keys.
- *
- * @example
- * keys({a: 1, b: 2});
- * // => ['a', 'b']
-*/
-export const keys = objectNative.keys;
-/**
- * Determines whether two values are the same value.
- *
- * @function isSame
- * @category object
- * @param {*} source - Value to compare to.
- * @param {*} target - A value to compare.
- * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
- *
- * @example
- * isSame('foo', 'foo');
- * // => true
-*/
-export const isSame = objectNative.is;
-/**
- * Copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
- *
- * @function assign
- * @category object
- * @param {Object} target - The target object.
- * @param {...Object} sources - The source object(s).
- * @returns {Object} - Returns the target object.
- *
- * @example
- * assign({b: 2}, {a: 1});
- * // => {b: 2, a: 1}
-*/
-export const assign = objectNative.assign;
 /**
  * Returns a property descriptor for an own property (that is, one directly present on an object and not in the object's prototype chain) of a given object.
  *
@@ -53,7 +11,7 @@ export const assign = objectNative.assign;
  * getOwnPropertyDescriptor({ bar: 42 }, 'bar');
  * // => { configurable: true, enumerable: true, value: 42, writable: true }
 */
-export const getOwnPropertyDescriptor = objectNative.getOwnPropertyDescriptor;
+export const getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 /**
  * Defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
  *
@@ -73,7 +31,7 @@ export const getOwnPropertyDescriptor = objectNative.getOwnPropertyDescriptor;
  * }).key;
  * // => 'static'
 */
-export const defineProperty = objectNative.defineProperty;
+export const defineProperty = Object.defineProperty;
 /**
  * Returns an array of all properties (enumerable or not) found directly upon a given object.
  *
@@ -86,20 +44,5 @@ export const defineProperty = objectNative.defineProperty;
  * getOwnPropertyNames({ 0: 'a', 1: 'b', 2: 'c' });
  * // => ['0', '1', '2']
 */
-export const getOwnPropertyNames = objectNative.getOwnPropertyNames;
-/**
- * Returns the amount of keys on the object.
- *
- * @function objectSize
- * @category object
- * @param {Object} source - The source object.
- * @returns {number} - The amount of keys.
- *
- * @example
- * objectSize({ 0: 'a', 1: 'b', 2: 'c' });
- * // => 3
-*/
-export const objectSize = (source) => {
-	return keys(source).length;
-};
+export const getOwnPropertyNames = Object.getOwnPropertyNames;
 

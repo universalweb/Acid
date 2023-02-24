@@ -1,5 +1,5 @@
-import { assign } from '../internal/object';
-import { each } from '../utility/each';
+import { assign } from '../object/assign.js';
+import { each } from '../utility/each.js';
 const add = (link, methods) => {
 	each(methods, (item, key) => {
 		link.methods[key] = (...args) => {
@@ -10,28 +10,28 @@ const add = (link, methods) => {
 	return link;
 };
 /**
-  * Creates a chainable set of functions.
-  *
-  * @function chain
-  * @category function
-  * @type {Function}
-  * @param {Array|Object} methods - The object to take methods from.
-  * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
-  *
-  * @test
-  * (async () => {
-  *   const chained = chain({a(item) { return item;}});
-  *   chained('Acid').a();
-  *   return assert(chained.done(), 'Acid');
-  * });
-  *
-  * @example
-  * const chained = chain({a(item) { return item;}});
-  * chained('Acid').a();
-  * chained.done();
-  * // => 'Acid'
-*/
-export const chain = (methods) => {
+ * Creates a chainable set of functions.
+ *
+ * @function chain
+ * @category function
+ * @type {Function}
+ * @param {Array|Object} methods - The object to take methods from.
+ * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
+ *
+ * @test
+ * (async () => {
+ *   const chained = chain({a(item) { return item;}});
+ *   chained('Acid').a();
+ *   return assert(chained.done(), 'Acid');
+ * });
+ *
+ * @example
+ * const chained = chain({a(item) { return item;}});
+ * chained('Acid').a();
+ * chained.done();
+ * // => 'Acid'
+ */
+export function chain(methods) {
 	const link = (value) => {
 		link.value = value;
 		return link.methods;
@@ -49,5 +49,5 @@ export const chain = (methods) => {
 	});
 	link.add(methods);
 	return link;
-};
+}
 

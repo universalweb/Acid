@@ -13,7 +13,7 @@
   * sortNewest([{id: 1}, {id: 0}], 'id');
   * // => [{id: 1}, {id: 0}]
 */
-export const sortNewest = (collection, propertyName, pureMode = true) => {
+export function sortNewest(collection, propertyName, pureMode = true) {
 	const array = (pureMode) ? collection : [...collection];
 	return array.sort((previous, next) => {
 		if (!next[propertyName]) {
@@ -27,7 +27,7 @@ export const sortNewest = (collection, propertyName, pureMode = true) => {
 		}
 		return 0;
 	});
-};
+}
 /**
   * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
   *
@@ -42,7 +42,7 @@ export const sortNewest = (collection, propertyName, pureMode = true) => {
   * getNewest([{id: 1}, {id: 0}], 'id');
   * // => {id: 1}
 */
-export const getNewest = (collection, propertyName) => {
+export function getNewest(collection, propertyName) {
 	return sortNewest(collection, propertyName, false)[0];
-};
+}
 
