@@ -1,6 +1,7 @@
 import { eachArray } from './each.js';
-import { eachObject } from '../object/each.js';
+import { each } from '../utility/each.js';
 import { flattenDeep } from './flattenDeep.js';
+import { construct } from '../class/construct.js';
 /**
  * Checks for primitive differences between a source array and other arrays, then returns a new array containing those differences.
  *
@@ -16,26 +17,18 @@ import { flattenDeep } from './flattenDeep.js';
  * assert(difference([1, 2, 3], [1, 2]));
  */
 export function difference(...sources) {
-	const differencesMap = {};
+	const differencesMap = construct(Map);
 	const differences = [];
-	const sourcesLength = sources.length;
-	if (sourcesLength === 2) {
-		return difference(sources[0], sources[1]);
-	}
 	eachArray(sources, (currentArray, parentIndex) => {
 		eachArray(currentArray, (child, childIndex) => {
-			const childType = typeof child;
-			let parentType = differencesMap[childType];
-			if (!parentType) {
-				parentType = differencesMap[childType] = {};
-			}
-			let childRoot = parentType[child];
+			let childRoot = differencesMap.get(child);
 			if (!childRoot) {
-				childRoot = parentType[child] = {
+				childRoot = {
 					count: 1,
 					parentIndex,
 					child
 				};
+				differencesMap.set(child, childRoot);
 			} else if (childRoot.parentIndex === parentIndex) {
 				return;
 			} else {
@@ -43,12 +36,10 @@ export function difference(...sources) {
 			}
 		});
 	});
-	eachObject(differencesMap, (parentType) => {
-		eachObject(parentType, (item) => {
-			if (item.count === 1 && item.parentIndex === 0) {
-				differences.push(item.child);
-			}
-		});
+	each(differencesMap, (item) => {
+		if (item.count === 1 && item.parentIndex === 0) {
+			differences.push(item.child);
+		}
 	});
 	return differences;
 }

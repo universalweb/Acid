@@ -1,6 +1,7 @@
 import { eachArray } from './each.js';
-import { eachObject } from '../object/each.js';
+import { each } from '../utility/each.js';
 import { difference } from './difference.js';
+import { construct } from '../class/construct.js';
 /**
  * Creates an array that is the symmetric difference of the provided arrays.
  *
@@ -15,7 +16,7 @@ import { difference } from './difference.js';
  * // => [1, 3, 5, 6]
  */
 export function xor(...sources) {
-	const xorMap = {};
+	const xorMap = construct(Map);
 	const xored = [];
 	const sourcesLength = sources.length;
 	if (sourcesLength === 2) {
@@ -23,18 +24,14 @@ export function xor(...sources) {
 	}
 	eachArray(sources, (currentArray, parentIndex) => {
 		eachArray(currentArray, (child, childIndex) => {
-			const childType = typeof child;
-			let parentType = xorMap[childType];
-			if (!parentType) {
-				parentType = xorMap[childType] = {};
-			}
-			let childRoot = parentType[child];
+			let childRoot = xorMap.get(child);
 			if (!childRoot) {
-				childRoot = parentType[child] = {
+				childRoot = {
 					count: 1,
 					parentIndex,
 					child
 				};
+				xorMap.set(child, childRoot);
 			} else if (childRoot.parentIndex === parentIndex) {
 				return;
 			} else {
@@ -42,12 +39,10 @@ export function xor(...sources) {
 			}
 		});
 	});
-	eachObject(xorMap, (parentType) => {
-		eachObject(parentType, (item) => {
-			if (item.count === 1) {
-				xored.push(item.child);
-			}
-		});
+	each(xorMap, (item) => {
+		if (item.count === 1) {
+			xored.push(item.child);
+		}
 	});
 	return xored;
 }

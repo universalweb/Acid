@@ -990,6 +990,45 @@
 			iteratee(source[key], key, source, propertyCount, original);
 		});
 	}
+	function forEachWrap(object, callback) {
+		return object.forEach(callback);
+	}
+	function generateLoop(arrayLoop, objectLoop) {
+		return (source, iteratee, results) => {
+			let returned;
+			if (!hasValue(source)) {
+				return;
+			} else if (isArray(source)) {
+				returned = arrayLoop;
+			} else if (isPlainObject(source) || isFunction(source)) {
+				returned = objectLoop;
+			} else if (source.forEach) {
+				returned = forEachWrap;
+			} else {
+				returned = objectLoop;
+			}
+			return returned(source, iteratee, results);
+		};
+	}
+	/**
+	 * Iterates through the given object.
+	 *
+	 * @function each
+	 * @category utility
+	 * @type {Function}
+	 * @param {Array | object | Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+	 * @returns {Array | object | Function} - The originally given object.
+	 *
+	 * @example
+	 * import { each, assert } from './Acid.js';
+	 * const list = {};
+	 * each({a: 1, b: 2, c: 3}, (item, key) => {
+	 *   list[key] = item;
+	 * });
+	 * assert(list, {a: 1, b: 2, c: 3});
+	 */
+	const each = generateLoop(eachArray, eachObject);
 	/**
 	 * Ensures the object is an array. If not wraps in array.
 	 *
@@ -1027,6 +1066,28 @@
 		return source.flat(Infinity);
 	}
 	/**
+	 * A function which acts like the "new" operator and can pass arguments. This is a safe version of the original which will error if given undefined
+	 * This is useful when working with classes and prefering to avoid the new operator and it's potential side effects.
+	 *
+	 * @function construct
+	 * @category class
+	 * @param {Function} target - The target function or class.
+	 * @param {Array} [argumentsList =[]] - An array-like object specifying the arguments with which target should be called. Default value is a new empty array.
+	 * @param {Array} newTarget - The constructor whose prototype should be used. See also the new.target operator. If newTarget is not present, its value defaults to target.
+	 * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
+	 *
+	 * @example
+	 * const newClass = construct(function (a) {return a;}, []);
+	 * // => 2
+	 */
+	const reflectConstruct = Reflect.construct;
+	function construct(target, argumentsList = [], newTarget) {
+		if (newTarget) {
+			return reflectConstruct(target, argumentsList, newTarget);
+		}
+		return reflectConstruct(target, argumentsList);
+	}
+	/**
 	 * Checks for primitive differences between a source array and other arrays, then returns a new array containing those differences.
 	 *
 	 * @function difference
@@ -1041,26 +1102,18 @@
 	 * assert(difference([1, 2, 3], [1, 2]));
 	 */
 	function difference(...sources) {
-		const differencesMap = {};
+		const differencesMap = construct(Map);
 		const differences = [];
-		const sourcesLength = sources.length;
-		if (sourcesLength === 2) {
-			return difference(sources[0], sources[1]);
-		}
 		eachArray(sources, (currentArray, parentIndex) => {
 			eachArray(currentArray, (child, childIndex) => {
-				const childType = typeof child;
-				let parentType = differencesMap[childType];
-				if (!parentType) {
-					parentType = differencesMap[childType] = {};
-				}
-				let childRoot = parentType[child];
+				let childRoot = differencesMap.get(child);
 				if (!childRoot) {
-					childRoot = parentType[child] = {
+					childRoot = {
 						count: 1,
 						parentIndex,
 						child
 					};
+					differencesMap.set(child, childRoot);
 				} else if (childRoot.parentIndex === parentIndex) {
 					return;
 				} else {
@@ -1068,12 +1121,10 @@
 				}
 			});
 		});
-		eachObject(differencesMap, (parentType) => {
-			eachObject(parentType, (item) => {
-				if (item.count === 1 && item.parentIndex === 0) {
-					differences.push(item.child);
-				}
-			});
+		each(differencesMap, (item) => {
+			if (item.count === 1 && item.parentIndex === 0) {
+				differences.push(item.child);
+			}
 		});
 		return differences;
 	}
@@ -2206,7 +2257,7 @@
 	 * // => [1, 3, 5, 6]
 	 */
 	function xor(...sources) {
-		const xorMap = {};
+		const xorMap = construct(Map);
 		const xored = [];
 		const sourcesLength = sources.length;
 		if (sourcesLength === 2) {
@@ -2214,18 +2265,14 @@
 		}
 		eachArray(sources, (currentArray, parentIndex) => {
 			eachArray(currentArray, (child, childIndex) => {
-				const childType = typeof child;
-				let parentType = xorMap[childType];
-				if (!parentType) {
-					parentType = xorMap[childType] = {};
-				}
-				let childRoot = parentType[child];
+				let childRoot = xorMap.get(child);
 				if (!childRoot) {
-					childRoot = parentType[child] = {
+					childRoot = {
 						count: 1,
 						parentIndex,
 						child
 					};
+					xorMap.set(child, childRoot);
 				} else if (childRoot.parentIndex === parentIndex) {
 					return;
 				} else {
@@ -2233,12 +2280,10 @@
 				}
 			});
 		});
-		eachObject(xorMap, (parentType) => {
-			eachObject(parentType, (item) => {
-				if (item.count === 1) {
-					xored.push(item.child);
-				}
-			});
+		each(xorMap, (item) => {
+			if (item.count === 1) {
+				xored.push(item.child);
+			}
 		});
 		return xored;
 	}
@@ -2795,26 +2840,6 @@
 		});
 		return results;
 	}
-	function forEachWrap(object, callback) {
-		return object.forEach(callback);
-	}
-	function generateLoop(arrayLoop, objectLoop) {
-		return (source, iteratee, results) => {
-			let returned;
-			if (!hasValue(source)) {
-				return;
-			} else if (isArray(source)) {
-				returned = arrayLoop;
-			} else if (isPlainObject(source) || isFunction(source)) {
-				returned = objectLoop;
-			} else if (source.forEach) {
-				returned = forEachWrap;
-			} else {
-				returned = objectLoop;
-			}
-			return returned(source, iteratee, results);
-		};
-	}
 	/**
 	 * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
 	 *
@@ -2874,25 +2899,6 @@
 			return objectAssign(target, ...sources);
 		}
 	}
-	/**
-	 * Iterates through the given object.
-	 *
-	 * @function each
-	 * @category utility
-	 * @type {Function}
-	 * @param {Array | object | Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @returns {Array | object | Function} - The originally given object.
-	 *
-	 * @example
-	 * import { each, assert } from './Acid.js';
-	 * const list = {};
-	 * each({a: 1, b: 2, c: 3}, (item, key) => {
-	 *   list[key] = item;
-	 * });
-	 * assert(list, {a: 1, b: 2, c: 3});
-	 */
-	const each = generateLoop(eachArray, eachObject);
 	const add = (link, methods) => {
 		each(methods, (item, key) => {
 			link.methods[key] = (...args) => {
@@ -3034,28 +3040,6 @@
 	const stubFalse = () => {
 		return falsy;
 	};
-	/**
-	 * A function which acts like the "new" operator and can pass arguments. This is a safe version of the original which will error if given undefined
-	 * This is useful when working with classes and prefering to avoid the new operator and it's potential side effects.
-	 *
-	 * @function construct
-	 * @category class
-	 * @param {Function} target - The target function or class.
-	 * @param {Array} [argumentsList =[]] - An array-like object specifying the arguments with which target should be called. Default value is a new empty array.
-	 * @param {Array} newTarget - The constructor whose prototype should be used. See also the new.target operator. If newTarget is not present, its value defaults to target.
-	 * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
-	 *
-	 * @example
-	 * const newClass = construct(function (a) {return a;}, []);
-	 * // => 2
-	 */
-	const reflectConstruct = Reflect.construct;
-	function construct(target, argumentsList = [], newTarget) {
-		if (newTarget) {
-			return reflectConstruct(target, argumentsList, newTarget);
-		}
-		return reflectConstruct(target, argumentsList);
-	}
 	/**
 	 * This method returns undefined.
 	 *
@@ -4374,7 +4358,8 @@
 	 * assert(stringify({a:1}), '{a:1}');
 	 */
 	const stringify = jsonNative.stringify;
-	function createAssertError(source, expected, options) {
+	function createAssertError(source, expected, localOptions) {
+		const options = globalThis.options || localOptions;
 		let errorTitle;
 		if (isFunction(options)) {
 			errorTitle = `${options.name} : ${options.constructor.name}`;
@@ -4401,7 +4386,9 @@
 	 *
 	 * @example
 	 * import { assert } from './Acid.js';
-	 * assert(assert(1,1), true);
+	 * if (assert(1,1) !==  true) {
+	 * 	new Error('Assert Test Failed');
+	 * }
 	 */
 	function assert(source, expected, options) {
 		if (!isEqual(source, expected)) {

@@ -14,10 +14,11 @@
     "words": [],
     "ignoreWords": [
         "cnsl",
-        "importjs",
         "gstatic",
+        "importjs",
+        "jsdelivr",
         "sentivate",
-        "jsdelivr"
+        "xored"
     ],
     "import": []
 }

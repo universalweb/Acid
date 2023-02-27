@@ -2,7 +2,8 @@ import { isFunction } from '../type/isFunction.js';
 import { isEqual } from '../utility/isEqual.js';
 import { isKindAsync } from '../type/isAsync.js';
 import { stringify } from './json.js';
-function createAssertError(source, expected, options) {
+function createAssertError(source, expected, localOptions) {
+	const options = globalThis.options || localOptions;
 	let errorTitle;
 	if (isFunction(options)) {
 		errorTitle = `${options.name} : ${options.constructor.name}`;
@@ -26,7 +27,9 @@ function createAssertError(source, expected, options) {
  *
  * @example
  * import { assert } from './Acid.js';
- * assert(assert(1,1), true);
+ * if (assert(1,1) !==  true) {
+ * 	new Error('Assert Test Failed');
+ * }
  */
 export function assert(source, expected, options) {
 	if (!isEqual(source, expected)) {
