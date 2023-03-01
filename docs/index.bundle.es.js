@@ -1129,7 +1129,7 @@ function flattenDeep(source) {
  * @example
  * const newClass = construct(function (a) {return a;}, []);
  * // => 2
-*/
+ */
 const reflectConstruct = Reflect.construct;
 function construct(target, argumentsList = [], newTarget) {
 	if (newTarget) {
@@ -3767,6 +3767,33 @@ function compactKeys(object) {
 }
 
 /**
+ * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+ *
+ * @function compactMapObject
+ * @category object
+ * @type {Function}
+ * @param {Object|Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+ * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
+ *
+ * @example
+ * compactMapObject({a: undefined, b: 2, c: 3}, (item) => {
+ *   return item;
+ * });
+ * // => {b: 2, c: 3}
+ */
+function compactMapObject(source, iteratee = returnValue, results = {}) {
+	eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+		const result = iteratee(item, key, results, original, propertyCount, objectKeys);
+		if (hasValue(result)) {
+			results[key] = result;
+		}
+	});
+	return results;
+}
+
+/**
  * Asynchronously iterates through the given object.
  *
  * @function eachObjectAsync
@@ -5352,5 +5379,5 @@ function virtualStorage(initialObject) {
 	return new VirtualStorage(initialObject);
 }
 
-export { Intervals, Model, Store, Timers, VirtualStorage, add$1 as add, after, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMapArray, compactMapAsync, compactMapObjectAsync, construct, constructorName, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachObject, eachObjectAsync, eachRight, eachRightAsync, ensureArray, every, everyArray, everyObject, falsey, falsy, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isConstructorFactory, isDate, isDecimal, isEmpty, isEqual, isF32, isF64, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFunction, isI16, isI32, isI8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSame, isSet, isString, isU16, isU32, isU8, isU8C, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapObjectAsync, mapRightArray, mapWhile, minus, model, multiply, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomArbitrary, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, uid, unZip, unZipObject, union, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Intervals, Model, Store, Timers, VirtualStorage, add$1 as add, after, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, constructorName, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachObject, eachObjectAsync, eachRight, eachRightAsync, ensureArray, every, everyArray, everyObject, falsey, falsy, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isConstructorFactory, isDate, isDecimal, isEmpty, isEqual, isF32, isF64, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFunction, isI16, isI32, isI8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSame, isSet, isString, isU16, isU32, isU8, isU8C, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapObject, mapObjectAsync, mapRightArray, mapWhile, minus, model, multiply, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomArbitrary, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, uid, unZip, unZipObject, union, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

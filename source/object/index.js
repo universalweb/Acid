@@ -1,5 +1,6 @@
 export * from './assign.js';
 export * from './compactKeys.js';
+export * from './compactMap.js';
 export * from './each.js';
 export * from './eachAsync.js';
 export * from './every.js';
@@ -8,6 +9,7 @@ export * from './hasKeys.js';
 export * from './invert.js';
 export * from './isMatch.js';
 export * from './keys.js';
+export * from './map.js';
 export * from './mapAsync.js';
 export * from './omit.js';
 export * from './pick.js';

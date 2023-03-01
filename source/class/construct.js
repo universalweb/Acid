@@ -12,7 +12,7 @@
  * @example
  * const newClass = construct(function (a) {return a;}, []);
  * // => 2
-*/
+ */
 const reflectConstruct = Reflect.construct;
 export function construct(target, argumentsList = [], newTarget) {
 	if (newTarget) {

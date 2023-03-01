@@ -16,7 +16,7 @@
 	} = window.$;
 	const regexComplexLink = /\[([\w\s\d]+)\]\(((https|http)?:\/\/[\w\d./()_?=#]+)\)/igm;
 	const colorize = (description, itemName, type) => {
-		console.log(itemName, description, type);
+		// console.log(itemName, description, type);
 		const compiledTypes = ensureArray(type.split('|')).map((objType) => {
 			// console.log(objType);
 			return `<span class="param${(objType === '*') ? 'anything' : htmlEntities(objType.replace(/([^a-z])/ig, '').replace('...', 'rest'))}">
@@ -63,6 +63,7 @@
 		if (item.examples) {
 			item.examples = map(item.examples, (exampleCode) => {
 				exampleCode.sourceOld = exampleCode.source;
+				// console.log(exampleCode);
 				exampleCode.source = window.hljs.highlight(window.js_beautify(exampleCode.source), {
 					language: 'javascript',
 				}).value;

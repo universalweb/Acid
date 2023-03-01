@@ -1,55 +1,63 @@
-const docredux = require('docredux');
+import { buildJson } from 'docredux';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const currentDirname = path.dirname(fileURLToPath(import.meta.url));
 const buildDocs = () => {
-	return docredux.build.json({
-		destination: `${__dirname}/docs/`,
-		source: `${__dirname}/docs/browser.bundle.js`,
+	return buildJson({
+		destination: `${currentDirname}/docs/`,
+		source: `${currentDirname}/docs/browser.bundle.js`,
 	});
 };
-const rollup = require('rollup').rollup;
-const { terser } = require('rollup-plugin-terser');
-const format = require('prettier-eslint');
-const tinyLR = require('tiny-lr')();
-const liveReload = require('connect-livereload');
-const fs = require('fs');
-const watch = require('node-watch');
-const express = require('express');
-const path = require('path');
+import { rollup } from 'rollup';
+import terser from '@rollup/plugin-terser';
+import format from 'prettier-eslint';
+import tinyLR from 'tiny-lr';
+import liveReload from 'connect-livereload';
+import fs from 'fs';
+import watch from 'node-watch';
+import express from 'express';
 const app = express();
 const expressRoot = '/';
 const expressPort = 8890;
-const liveReloadPort = 35729;
-const liveReloadStart = () => {
-	app.use(liveReload());
-	app.use(express.static(`${__dirname}/docs`));
+async function liveServer() {
+	const port = 35729;
+	const server = await (new tinyLR.Server({
+		port,
+	}));
+	server.listen();
+	app.use(liveReload({
+		port,
+	}));
+	app.use(express.static(`${currentDirname}/docs`));
 	app.listen(expressPort);
-	tinyLR.listen(liveReloadPort);
-};
-const notifyLiveReload = (evt, filename) => {
-	const fileName = path.relative(expressRoot, filename);
-	tinyLR.changed({
-		body: {
-			files: [fileName],
-		},
-	});
-};
-const beautify = (source, destination) => {
+	return server;
+}
+async function beautify(source, destination) {
 	console.log('Beautify');
 	const text = fs.readFileSync(source).toString();
 	const eslintConfigLocation = (source.includes('/module/') && './source/.eslintrc') || './.eslintrc';
 	console.log('GET ESLINT CONFIG', source, eslintConfigLocation);
 	const eslintConfig = JSON.parse(fs.readFileSync(eslintConfigLocation).toString());
+	const cleanedEslintConfig = {};
+	Object.entries(eslintConfig).forEach(([key, value]) => {
+		if (!key.match(/plugins|extends/)) {
+			cleanedEslintConfig[key] = value;
+		}
+	});
 	console.log('GOT ESLINT CONFIG');
-	const formattedCode = format({
-		eslintConfig,
+	const formattedCode = await format({
+		eslintConfig: cleanedEslintConfig,
+		'overrideConfig.plugins': true,
 		prettierOptions: {
 			parser: 'babel',
 		},
 		text,
 	});
+	console.log('WROTE', destination || source);
 	fs.writeFileSync(destination || source, formattedCode, 'utf8');
-};
+}
 const copyFile = (start, end) => {
-	fs.writeFileSync(end, fs.readFileSync(path.join(__dirname, start)).toString(), 'utf8');
+	fs.writeFileSync(end, fs.readFileSync(path.join(currentDirname, start)).toString(), 'utf8');
 };
 const build = async () => {
 	console.log('Build Client START');
@@ -86,7 +94,7 @@ const build = async () => {
 		name: '$',
 		sourcemap: true
 	});
-	beautify('./build/browser.bundle.js');
+	await beautify('./build/browser.bundle.js');
 	copyFile('./build/browser.bundle.js', './docs/browser.bundle.js');
 	copyFile('./build/module/browser/bundle.js', './docs/browser.bundle.es.js');
 	copyFile('./build/browser.js', './docs/browser.js');
@@ -125,7 +133,7 @@ const build = async () => {
 		name: '$',
 		sourcemap: true
 	});
-	beautify('./build/index.bundle.js');
+	await beautify('./build/index.bundle.js');
 	copyFile('./build/index.bundle.js', './docs/index.bundle.js');
 	copyFile('./build/module/bundle.js', './docs/index.bundle.es.js');
 	copyFile('./build/index.js', './docs/index.js');
@@ -146,7 +154,15 @@ const build = async () => {
 };
 build();
 if (!process.env.production) {
-	liveReloadStart();
+	const server = await liveServer();
+	const notifyLiveReload = (evt, filename) => {
+		const fileName = path.relative(expressRoot, filename);
+		server.changed({
+			body: {
+				files: [fileName],
+			},
+		});
+	};
 	watch('./source/', {
 		recursive: true
 	}, async (evt, filename) => {
