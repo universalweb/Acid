@@ -1,7 +1,8 @@
 {
-    "name": "acidjs",
+    "name": "Acid",
+    "type": "module",
     "company": "Universal Web",
-    "version": "3.0.17",
+    "version": "3.0.21",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library.",
     "bugs": {
         "url": "https://github.com/universalweb/Acid/issues"
@@ -32,8 +33,8 @@
     "main": "index.js",
     "maintainers": [
         {
-            "email": "tommarchi@protonmail.com",
-            "name": "Tom Marchi"
+            "email": "info@universalweb.io",
+            "name": "UniversalWeb"
         }
     ],
     "repository": {
@@ -54,21 +55,21 @@
         "@babel/eslint-parser": "^7.19.1",
         "@babel/preset-env": "^7.20.2",
         "@microsoft/eslint-formatter-sarif": "^3.0.0",
+        "@rollup/plugin-terser": "*",
         "auto-changelog": "^2.4.0",
-        "body-parser": "1.20.1",
+        "body-parser": "1.20.2",
         "connect-livereload": "0.6.1",
-        "daisyui": "^2.50.2",
-        "docredux": "3.0.0",
-        "eslint": "^8.34.0",
-        "eslint-plugin-jsdoc": "^40.0.0",
-        "express": "4.18.2",
-        "magic-string": "0.29.0",
-        "node-watch": "^0.7.3",
-        "rollup": "3.17.2",
-        "rollup-plugin-terser": "7.0.2",
-        "tailwindcss": "^3.2.7",
-        "testatron": "^2.1.0",
-        "tiny-lr": "^2.0.0"
+        "daisyui": "^2.51.2",
+        "docredux": "^3.0.7",
+        "eslint": "^8.35.0",
+        "eslint-plugin-jsdoc": "*",
+        "express": "*",
+        "magic-string": "*",
+        "node-watch": "*",
+        "rollup": "*",
+        "tailwindcss": "*",
+        "testatron": "*",
+        "tiny-lr": "*"
     },
     "devDependencies": {
         "eslint-plugin-import": "^2.27.5"
