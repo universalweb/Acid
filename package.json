@@ -2,7 +2,7 @@
     "name": "Acid",
     "type": "module",
     "company": "Universal Web",
-    "version": "3.0.21",
+    "version": "3.0.22",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library.",
     "bugs": {
         "url": "https://github.com/universalweb/Acid/issues"
@@ -59,8 +59,8 @@
         "auto-changelog": "^2.4.0",
         "body-parser": "1.20.2",
         "connect-livereload": "0.6.1",
-        "daisyui": "^2.51.2",
-        "docredux": "^3.0.7",
+        "daisyui": "^2.51.3",
+        "docredux": "^3.0.8",
         "eslint": "^8.35.0",
         "eslint-plugin-jsdoc": "*",
         "express": "*",
