@@ -18,6 +18,7 @@ export * from './interval.js';
 export * from './isEqual.js';
 export * from './json.js';
 export * from './map.js';
+export * from './merge.js';
 export * from './model.js';
 export * from './noop.js';
 export * from './promise.js';

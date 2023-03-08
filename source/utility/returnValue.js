@@ -1,7 +1,7 @@
 /**
  * A simple function which returns the value it's given.
  *
- * @function ReturnValue
+ * @function returnValue
  * @category function
  * @param {*} source - The source object.
  * @returns {source} The source object.

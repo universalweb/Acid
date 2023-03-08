@@ -1,83 +1,79 @@
 <div class="uk-grid-collapse uk-width-1-1 uk-height-1-1 uk-position-absolute uk-overflow-hidden uk-background-muted">
   <div class="uk-grid-collapse uk-container-xlarge uk-height-1-1 uk-margin-auto uk-overflow-hidden uk-position-relative" uk-grid>
-      <div class="uk-overflow-scroll uk-padding scroll light uk-position-absolute uk-position-left uk-height-1-1 uk-container uk-tile-secondary uk-light uk-width-1-4">
-        <div class="uk-padding-small">
-          <h2 class="uk-heading-line uk-text-center  uk-margin-remove-bottom"><span>{{libraryName}}</span></h2>
-          <h6 class="uk-text-center uk-margin-bottom uk-margin-remove-top">Total Methods: {{methodCount}}</h6>
-          <p class="uk-text uk-text-center">{{description}}</p>
-          Case sensitive NPM name
-          <code class="uk-width-1-1 uk-text-center uk-margin-bottom">npm install {{npmName}}</code>
-          <h6 class="uk-text-center uk-margin-bottom"><a href="{{github}}">GITHUB</a> | <a href="{{npm}}">NPM</a></h6>
-          <hr class="uk-divider-icon">
-          <h4 class="uk-text-center"><span>Search</span></h4>
-          <form class="uk-margin-bottom">
-            <fieldset class="uk-fieldset">
-              <div class="uk-margin">
-                  <form class="uk-search uk-search-default uk-width-1-1">
-                      <span uk-search-icon></span>
-                      <input class="uk-search-input uk-width-1-1" value="{{searchFilter}}" on-keydown="search" type="search" placeholder="Search">
-                  </form>
-              </div>
-            </fieldset>
-          </form>
-          {{#searchFilter}}
-            <div>
-              {{#searchItems.length}}
-                <ul class="uk-list uk-link-text uk-width-1-1">
-                  {{#searchItems}}
-                      <li><a href="#{{this}}" on-click="@.fire('goTo', @context, this)">{{this}}</a></li>
-                  {{/}}
-                </ul>
-              {{/}}
+    <div class="uk-overflow-scroll uk-padding scroll light uk-position-absolute uk-position-left uk-height-1-1 uk-container uk-tile-secondary uk-light uk-width-1-4">
+      <div class="uk-padding-small">
+        <h2 class="uk-heading-line uk-text-center  uk-margin-remove-bottom"><span>{{libraryName}}</span></h2>
+        <h6 class="uk-text-center uk-margin-bottom uk-margin-remove-top">Total Methods: {{methodCount}}</h6>
+        <p class="uk-text uk-text-center">{{description}}</p> Case sensitive NPM name <code class="uk-width-1-1 uk-text-center uk-margin-bottom">npm install {{npmName}}</code>
+        <h6 class="uk-text-center uk-margin-bottom"><a href="{{github}}">GITHUB</a> | <a href="{{npm}}">NPM</a></h6>
+        <hr class="uk-divider-icon">
+        <h4 class="uk-text-center"><span>Search</span></h4>
+        <form class="uk-margin-bottom">
+          <fieldset class="uk-fieldset">
+            <div class="uk-margin">
+              <form class="uk-search uk-search-default uk-width-1-1">
+                <span uk-search-icon></span>
+                <input class="uk-search-input uk-width-1-1" value="{{searchFilter}}" on-keydown="search" type="search" placeholder="Search">
+              </form>
             </div>
+          </fieldset>
+        </form>
+        {{#searchFilter}}
+          <div>
+            {{#searchItems.length}}
+              <ul class="uk-list uk-link-text uk-width-1-1">
+                {{#searchItems}}
+                  <li><a href="#{{this.replace(/\./,'-')}}" on-click="@.fire('goTo', @context, this)">{{this}}</a></li>
+                  {{/}}
+              </ul>
+              {{/}}
+          </div>
           {{/}}
           {{#categories}}
-            <h4 class="uk-heading-line uk-text-center"><span>{{$.upperFirst(this.categoryName)}}</span></h4>
+            <h4 class="uk-heading-line uk-text-center"><span>{{$.upperFirst(this.title)}}</span></h4>
             <ul class="uk-list uk-link-text uk-width-1-1">
               {{#this.items}}
                 <li class="item uk-width-1-1">
-                  <a href="#{{this}}" on-click="@.fire('goTo', @context, this)">{{this}}</a>
+                  <a href="#{{this.replace(/\./,'-')}}" on-click="@.fire('goTo', @context, this)">{{this}}</a>
                 </li>
-              {{/}}
+                {{/}}
             </ul>
-          {{/}}
-        </div>
+            {{/}}
       </div>
-      <div class="uk-position-right scroll uk-overflow-auto uk-width-3-4 uk-container uk-position-absolute uk-height-1-1 uk-background-muted">
-        <div class="uk-container-xsmall uk-margin-auto uk-padding">
-          {{#categories}}
-            {{#this.items}}
-              {{#getDocItem(this)}}
-                <article class="uk-article uk-card-hover uk-card-small uk-card uk-card-default uk-padding-small uk-border-rounded animate" id="{{this.name}}">
+    </div>
+    <div class="uk-position-right scroll uk-overflow-auto uk-width-3-4 uk-container uk-position-absolute uk-height-1-1 uk-background-muted">
+      <div class="uk-container-xsmall uk-margin-auto uk-padding">
+        {{#categories}}
+          {{#this.items}}
+            {{#getDocItem(this)}}
+              <article class="uk-article uk-card-hover uk-card-small uk-card uk-card-default uk-padding-small uk-border-rounded animate" id="{{this.name.replace(/\./,'-')}}">
                 <h3 class="uk-heading-line uk-text-center">
-                    <span>
-                      {{this.name}}
-                      <span class="uk-label">
-                        {{this.category.name}}
-                      </span>
+                  <span>
+                    {{this.name}}
+                    <span class="uk-label">
+                      {{this.category.name}}
                     </span>
-                  </h3>
-                  <p class="uk-text-emphasis">
-                    {{{description}}}
-                  </p>
+                  </span>
+                </h3>
+                <p class="uk-text-emphasis">
+                  {{{description}}} </p>
+                <hr />
+                {{#params && params.length}}
+                  <span class="smallTitle">Parameters</span>
+                  <table class="uk-table-striped uk-table-hover uk-table uk-table-small uk-table-divider">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {{#params}}
+                        {{{this.source}}} {{/}}
+                    </tbody>
+                  </table>
                   <hr />
-                  {{#params && params.length}}
-                    <span class="smallTitle">Parameters</span>
-                      <table class="uk-table-striped uk-table-hover uk-table uk-table-small uk-table-divider">
-                        <thead>
-                          <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {{#params}}
-                            {{{this.source}}}
-                          {{/}}
-                        </tbody>
-                    </table>
-                    <hr />
                   {{/}}
                   {{#if returns}}
                     <span class="smallTitle">Returns</span>
@@ -90,8 +86,7 @@
                       </thead>
                       <tbody>
                         {{#returns}}
-                          {{{this.source}}}
-                        {{/}}
+                          {{{this.source}}} {{/}}
                       </tbody>
                     </table>
                   {{/if}}
@@ -99,14 +94,14 @@
                   <h6>Examples</h6>
                   <div class="uk-width-1-1">
                     {{#examples}}
-                    <pre><div class="language-javascript uk-width-1-1">{{{this.source}}}</div></pre>
-                    {{/}}
+                      <pre><div class="language-javascript uk-width-1-1">{{{this.source}}}</div></pre>
+                      {{/}}
                   </div>
-                </article>
+              </article>
               {{/}}
-            {{/}}
-          {{/}}
-        </div>
+              {{/}}
+              {{/}}
       </div>
     </div>
+  </div>
 </div>

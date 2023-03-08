@@ -813,7 +813,7 @@
 	/**
 	 * A simple function which returns the value it's given.
 	 *
-	 * @function ReturnValue
+	 * @function returnValue
 	 * @category function
 	 * @param {*} source - The source object.
 	 * @returns {source} The source object.
@@ -4440,7 +4440,7 @@
 		return functionPrototype.call.bind(method);
 	}
 	/**
-	 * Creates a structuredClone clone of an object if no structuredClone then copy is used.
+	 * Creates a structured clone of an object.
 	 *
 	 * @function clone
 	 * @category utility
@@ -4822,6 +4822,19 @@
 			intervals.remove(index);
 		});
 	}
+	function merge(target, ...sources) {
+		each(sources, (currentSource) => {
+			each(currentSource, (sourceItem, sourceKey) => {
+				if (target[sourceKey]) {
+					if (isPlainObject(sourceItem) || isArray(sourceItem) || sourceItem.forEach) {
+						return merge(target[sourceKey], sourceItem);
+					}
+				}
+				target[sourceKey] = sourceItem;
+			});
+		});
+		return target;
+	}
 	/**
 	 * Set & Get a model.
 	 *
@@ -5050,55 +5063,101 @@
 	function toggle(value, on = true, off = false) {
 		return isEqual(on, value) ? off : on;
 	}
-	let count = 0;
-	const uidFree = [];
 	/**
-	 * Creates a numerical unique ID and recycles old ones. UID numerically ascends however freed UIDs are later reused.
+	 * Unique ID Generator Module.
 	 *
-	 * @function uid
+	 * @module utility/uid
+	 */
+	/**
+	 * Creates a unique numerical recyclable ID generator. The IDs are numerically ascending however freed ids are recycled when available.
+	 *
+	 * @class UniqID
+	 * @type {class}
 	 * @category utility
-	 * @type {Function}
-	 * @category utility
-	 * @returns {number} - Returns a unique id.
+	 * @returns {UniqID} - Returns a new instance of UniqID.
 	 *
 	 * @example
-	 * import { stubArray } from './Acid.js';
-	 * uid();
-	 * // => 0
-	 * uid();
-	 * // => 1
+	 * import { UniqID, construct, assert } from './Acid.js';
+	 * const gen = construct(UniqID);
+	 * assert(gen.get(), 0);
+	 * assert(gen.get(), 1);
+	 * gen.free(0);
+	 * assert(gen.get(), 0);
 	 */
-	function uid() {
-		let result = uidFree.shift(uidFree);
-		if (!hasValue(result)) {
-			result = count;
-			count++;
+	class UniqID {
+		totalActive = 0;
+		freed = [];
+		totalFree = 0;
+		/**
+		 * Generates a new ID or recycle one that is no longer used.
+		 *
+		 * @function get
+		 * @class UniqID
+		 * @category utility
+		 * @type {Function}
+		 * @returns {number} - Returns a unique id.
+		 *
+		 * @example
+		 * import { UniqID, construct, assert } from './Acid.js';
+		 * const gen = construct(UniqID);
+		 * assert(gen.get(), 0);
+		 */
+		get() {
+			let result = this.freed.shift();
+			if (hasValue(result)) {
+				this.totalFree--;
+			} else {
+				result = this.totalActive;
+				this.totalActive++;
+			}
+			return result;
 		}
-		return result;
+		/**
+		 * Frees an UID so that it may be recycled for later use.
+		 *
+		 * @function free
+		 * @class UniqID
+		 * @category utility
+		 * @type {Function}
+		 * @param {number} id - Number to be freed.
+		 * @returns {undefined} - Nothing is returned.
+		 *
+		 * @example
+		 * import { UniqID, construct, assert } from './Acid.js';
+		 * const gen = construct(UniqID);
+		 * assert(gen.get(), 0);
+		 * gen.free(0);
+		 * assert(gen.get(), 0);
+		 */
+		free(id) {
+			this.freed.push(id);
+			this.totalFree++;
+			const isActive = this.totalActive > 0;
+			const shouldReset = this.totalActive === this.totalFree;
+			if (isActive && shouldReset) {
+				this.reset();
+			}
+		}
+		reset() {
+			this.totalActive = 0;
+			this.freed.length = 0;
+			this.totalFree = 0;
+		}
 	}
 	/**
-	 * Frees an UID so that it may be recycled for later use.
+	 * A built in constructed instance of UniqID. Creates a unique numerical recyclable ID. The IDs are numerically ascending however freed ids are recycled when available.
 	 *
-	 * @function uid.free
+	 * @function uniqID
 	 * @category utility
-	 * @type {Function}
-	 * @param {number} id - Number to be freed.
-	 * @returns {undefined} - Nothing is returned.
 	 *
 	 * @example
-	 * import { stubArray } from './Acid.js';
-	 * uid();
-	 * // => 0
-	 * uid();
-	 * // => 1
-	 * uid.free(0);
-	 * // => undefined
-	 * uid();
-	 * // => 0
+	 * import { uniqID, assert } from './Acid.js';
+	 * assert(uniqID.get(), 0);
+	 * assert(uniqID.get(), 1);
+	 * uniqID.free(0);
+	 * assert(uniqID.get(), 0);
 	 */
-	uid.free = (id) => {
-		uidFree.push(id);
-	};
+	const uniqID = construct(UniqID);
 	/**
 	 * Class representing a virtual storage. A drop in replacement for localStorage.
 	 * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
@@ -5204,6 +5263,7 @@
 	exports.Model = Model;
 	exports.Store = Store;
 	exports.Timers = Timers;
+	exports.UniqID = UniqID;
 	exports.VirtualStorage = VirtualStorage;
 	exports.add = add$1;
 	exports.after = after;
@@ -5356,6 +5416,7 @@
 	exports.mapObjectAsync = mapObjectAsync;
 	exports.mapRightArray = mapRightArray;
 	exports.mapWhile = mapWhile;
+	exports.merge = merge;
 	exports.minus = minus;
 	exports.model = model;
 	exports.multiply = multiply;
@@ -5429,10 +5490,10 @@
 	exports.truncate = truncate;
 	exports.truncateRight = truncateRight;
 	exports.truth = truth;
-	exports.uid = uid;
 	exports.unZip = unZip;
 	exports.unZipObject = unZipObject;
 	exports.union = union;
+	exports.uniqID = uniqID;
 	exports.unique = unique;
 	exports.upperCase = upperCase;
 	exports.upperFirst = upperFirst;

@@ -852,7 +852,7 @@ function cloneArray(array) {
 /**
  * A simple function which returns the value it's given.
  *
- * @function ReturnValue
+ * @function returnValue
  * @category function
  * @param {*} source - The source object.
  * @returns {source} The source object.
@@ -4593,18 +4593,18 @@ function cacheNativeMethod(method) {
 }
 
 /**
-  * Creates a structuredClone clone of an object if no structuredClone then copy is used.
-  *
-  * @function clone
-  * @category utility
-  * @type {Function}
-  * @param {Object} source - Source object to clone.
-  * @returns {Object} - Returns a deep clone of an object.
-  *
-  * @example
-  * import { clone, assert } from './Acid.js';
-  * assert(clone({a:{b:[2]}}), {a:{b:[2]}});
-*/
+ * Creates a structured clone of an object.
+ *
+ * @function clone
+ * @category utility
+ * @type {Function}
+ * @param {Object} source - Source object to clone.
+ * @returns {Object} - Returns a deep clone of an object.
+ *
+ * @example
+ * import { clone, assert } from './Acid.js';
+ * assert(clone({a:{b:[2]}}), {a:{b:[2]}});
+ */
 const structuredCloneSafe = globalThis.structuredClone;
 function clone(item) {
 	return structuredCloneSafe(item);
@@ -4990,6 +4990,20 @@ function clearIntervals() {
 	});
 }
 
+function merge(target, ...sources) {
+	each(sources, (currentSource) => {
+		each(currentSource, (sourceItem, sourceKey) => {
+			if (target[sourceKey]) {
+				if (isPlainObject(sourceItem) || isArray(sourceItem) || sourceItem.forEach) {
+					return merge(target[sourceKey], sourceItem);
+				}
+			}
+			target[sourceKey] = sourceItem;
+		});
+	});
+	return target;
+}
+
 /**
  * Set & Get a model.
  *
@@ -5227,55 +5241,101 @@ function toggle(value, on = true, off = false) {
 	return (isEqual(on, value)) ? off : on;
 }
 
-let count = 0;
-const uidFree = [];
 /**
-  * Creates a numerical unique ID and recycles old ones. UID numerically ascends however freed UIDs are later reused.
-  *
-  * @function uid
-  * @category utility
-  * @type {Function}
-  * @category utility
-  * @returns {number} - Returns a unique id.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * uid();
-  * // => 0
-  * uid();
-  * // => 1
-*/
-function uid() {
-	let result = uidFree.shift(uidFree);
-	if (!hasValue(result)) {
-		result = count;
-		count++;
+ * Unique ID Generator Module.
+ *
+ * @module utility/uid
+ */
+/**
+ * Creates a unique numerical recyclable ID generator. The IDs are numerically ascending however freed ids are recycled when available.
+ *
+ * @class UniqID
+ * @type {class}
+ * @category utility
+ * @returns {UniqID} - Returns a new instance of UniqID.
+ *
+ * @example
+ * import { UniqID, construct, assert } from './Acid.js';
+ * const gen = construct(UniqID);
+ * assert(gen.get(), 0);
+ * assert(gen.get(), 1);
+ * gen.free(0);
+ * assert(gen.get(), 0);
+ */
+class UniqID {
+	totalActive = 0;
+	freed = [];
+	totalFree = 0;
+	/**
+	 * Generates a new ID or recycle one that is no longer used.
+	 *
+	 * @function get
+	 * @class UniqID
+	 * @category utility
+	 * @type {Function}
+	 * @returns {number} - Returns a unique id.
+	 *
+	 * @example
+	 * import { UniqID, construct, assert } from './Acid.js';
+	 * const gen = construct(UniqID);
+	 * assert(gen.get(), 0);
+	 */
+	get() {
+		let result = this.freed.shift();
+		if (hasValue(result)) {
+			this.totalFree--;
+		} else {
+			result = this.totalActive;
+			this.totalActive++;
+		}
+		return result;
 	}
-	return result;
+	/**
+	 * Frees an UID so that it may be recycled for later use.
+	 *
+	 * @function free
+	 * @class UniqID
+	 * @category utility
+	 * @type {Function}
+	 * @param {number} id - Number to be freed.
+	 * @returns {undefined} - Nothing is returned.
+	 *
+	 * @example
+	 * import { UniqID, construct, assert } from './Acid.js';
+	 * const gen = construct(UniqID);
+	 * assert(gen.get(), 0);
+	 * gen.free(0);
+	 * assert(gen.get(), 0);
+	 */
+	free(id) {
+		this.freed.push(id);
+		this.totalFree++;
+		const isActive = this.totalActive > 0;
+		const shouldReset = this.totalActive === this.totalFree;
+		if (isActive && shouldReset) {
+			this.reset();
+		}
+	}
+	reset() {
+		this.totalActive = 0;
+		this.freed.length = 0;
+		this.totalFree = 0;
+	}
 }
 /**
-  * Frees an UID so that it may be recycled for later use.
-  *
-  * @function uid.free
-  * @category utility
-  * @type {Function}
-  * @param {number} id - Number to be freed.
-  * @returns {undefined} - Nothing is returned.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * uid();
-  * // => 0
-  * uid();
-  * // => 1
-  * uid.free(0);
-  * // => undefined
-  * uid();
-  * // => 0
-*/
-uid.free = (id) => {
-	uidFree.push(id);
-};
+ * A built in constructed instance of UniqID. Creates a unique numerical recyclable ID. The IDs are numerically ascending however freed ids are recycled when available.
+ *
+ * @function uniqID
+ * @category utility
+ *
+ * @example
+ * import { uniqID, assert } from './Acid.js';
+ * assert(uniqID.get(), 0);
+ * assert(uniqID.get(), 1);
+ * uniqID.free(0);
+ * assert(uniqID.get(), 0);
+ */
+const uniqID = construct(UniqID);
 
 /**
  * Class representing a virtual storage. A drop in replacement for localStorage.
@@ -5379,5 +5439,5 @@ function virtualStorage(initialObject) {
 	return new VirtualStorage(initialObject);
 }
 
-export { Intervals, Model, Store, Timers, VirtualStorage, add$1 as add, after, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, constructorName, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachObject, eachObjectAsync, eachRight, eachRightAsync, ensureArray, every, everyArray, everyObject, falsey, falsy, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isConstructorFactory, isDate, isDecimal, isEmpty, isEqual, isF32, isF64, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFunction, isI16, isI32, isI8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSame, isSet, isString, isU16, isU32, isU8, isU8C, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapObject, mapObjectAsync, mapRightArray, mapWhile, minus, model, multiply, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomArbitrary, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, uid, unZip, unZipObject, union, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Intervals, Model, Store, Timers, UniqID, VirtualStorage, add$1 as add, after, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMapArray, compactMapAsync, compactMapObject, compactMapObjectAsync, construct, constructorName, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachObject, eachObjectAsync, eachRight, eachRightAsync, ensureArray, every, everyArray, everyObject, falsey, falsy, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isConstructorFactory, isDate, isDecimal, isEmpty, isEqual, isF32, isF64, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFunction, isI16, isI32, isI8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSame, isSet, isString, isU16, isU32, isU8, isU8C, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapObject, mapObjectAsync, mapRightArray, mapWhile, merge, minus, model, multiply, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomArbitrary, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map
