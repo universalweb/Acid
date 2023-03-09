@@ -34,13 +34,11 @@ If a "data-index" attribute is found it'll use the value as a URL (default URL i
 ### LINKS
 
 [Documentation](https://acidjs.com)  
-[Sentivate](https://sentivate.com)  
 [Universal Web](https://universalweb.io)  
-[Tom Marchi](https://tommarchi.com)  
 
 ## Methods
 
 All methods are available from the root object \$ or can be imported using import export syntax found in the module folder.  
 If extreme tree shaking and compression is required use the [source folder](https://github.com/universalweb/Acid/tree/master/source) located on the [github repo](https://github.com/universalweb/Acid/tree/master/).  
 
-© copyright 2022 [Universal Web, Inc](https://universalweb.io)
+© copyright 2022 [Universal Web](https://universalweb.io)
