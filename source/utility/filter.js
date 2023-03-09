@@ -13,7 +13,7 @@ import { generateLoop } from './generateLoop.js';
  * @returns {Array | object | Function} - A new object of the same calling object's type.
  *
  * @example
- * import { filter, assert } from './Acid.js';
+ * import { filter, assert } from 'Acid';
  * assert(filter({a: false, b: true, c: true}, (item) => {
  *   return item;
  * }), {b: true, c: true});

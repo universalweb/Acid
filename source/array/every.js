@@ -8,11 +8,11 @@ import { returnValue } from '../utility/returnValue.js';
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @param {*} thisBind - An object to be given each time to the iteratee.
  * @returns {Array} - Returns true if all returns are true or false if one value returns false.
  *
  * @example
- * import { everyArray, assert } from './Acid.js';
+ * import { everyArray, assert } from 'Acid';
  * assert(everyArray([true, true, false], (item) => {
  *   return item;
  * }), false);

@@ -8,10 +8,10 @@ import { hasValue } from './hasValue.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isMap } from './Acid.js';
+ * import { isMap } from 'Acid';
  * isMap(new Map());
  * // => true
-*/
+ */
 const objectMap = '[object Map]';
 export function isMap(source) {
 	return (hasValue(source)) ? source.toString() === objectMap : false;

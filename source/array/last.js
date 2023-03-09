@@ -9,7 +9,7 @@
  * @returns {Array} - Items from the array.
  *
  * @example
- * import { last, assert } from './Acid.js';
+ * import { last, assert } from 'Acid';
  * assert(last([1, 2, 3, 4, 5] , 2), [4, 5]);
  */
 export function last(array, indexFrom) {

@@ -10,7 +10,7 @@ const jsonNative = JSON;
  * @returns {Object} - Returns the parsed object.
  *
  * @example
- * import { jsonParse, assert } from './Acid.js';
+ * import { jsonParse, assert } from 'Acid';
  * assert(jsonParse('{a:1}'), {a:1});
  */
 export function jsonParse(source, reviver) {
@@ -28,7 +28,7 @@ export function jsonParse(source, reviver) {
  * @returns {string} - Returns the object as a valid JSON string.
  *
  * @example
- * import { stringify, assert } from './Acid.js';
+ * import { stringify, assert } from 'Acid';
  * assert(stringify({a:1}), '{a:1}');
  */
 export const stringify = jsonNative.stringify;

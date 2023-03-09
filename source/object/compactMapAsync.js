@@ -1,10 +1,10 @@
-import { eachObject } from './each.js';
+import { eachAsyncObject } from './eachAsync.js';
 import { hasValue } from '../type/hasValue.js';
 import { returnValue } from '../utility/returnValue.js';
 /**
- * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+ * Asynchronously iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
  *
- * @function compactMapObject
+ * @function compactMapAsyncObject
  * @category object
  * @type {Function}
  * @param {Object|Function} source - Object that will be looped through.
@@ -13,14 +13,14 @@ import { returnValue } from '../utility/returnValue.js';
  * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
  *
  * @example
- * compactMapObject({a: undefined, b: 2, c: 3}, (item) => {
+ * compactMapAsyncObject({a: undefined, b: 2, c: 3}, (item) => {
  *   return item;
  * });
  * // => {b: 2, c: 3}
  */
-export function compactMapObject(source, iteratee = returnValue, results = {}) {
-	eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-		const result = iteratee(item, key, results, original, propertyCount, objectKeys);
+export async function compactMapAsyncObject(source, iteratee = returnValue, results = {}) {
+	await eachAsyncObject(source, async (item, key, original, propertyCount, objectKeys) => {
+		const result = await iteratee(item, key, results, original, propertyCount, objectKeys);
 		if (hasValue(result)) {
 			results[key] = result;
 		}

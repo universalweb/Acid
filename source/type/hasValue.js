@@ -9,9 +9,9 @@ import { isNull } from './isNull.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { hasValue } from './Acid.js';
+ * import { hasValue } from 'Acid';
  * assert(hasValue(1), true);
-*/
+ */
 export function hasValue(value) {
 	return !isUndefined(value) && !isNull(value);
 }

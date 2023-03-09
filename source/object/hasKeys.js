@@ -14,7 +14,7 @@ const hasOwn = Object.hasOwn;
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { hasKeys, assert } from './Acid.js';
+ * import { hasKeys, assert } from 'Acid';
  * assert(hasKeys({a: {b: { c: 1}}}, 'a', 'a.b', 'a.b.c'), true);
  */
 export function hasKeys(source, ...properties) {
@@ -43,7 +43,7 @@ export function hasKeys(source, ...properties) {
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { hasAnyKeys, assert } from './Acid.js';
+ * import { hasAnyKeys, assert } from 'Acid';
  * assert(hasAnyKeys({a: {b: { yes : 1}}}, 'no', 'nope', 'a.b.yes'), true);
  * assert(hasAnyKeys({a: {b: { yes : 1}}}, 'no', 'nope', 'a.b.noped'), false);
  */

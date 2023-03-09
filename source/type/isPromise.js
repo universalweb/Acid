@@ -7,10 +7,10 @@
  * @returns {boolean} - True or false.
  *
  * @example
- * import { isPromise } from './Acid.js';
+ * import { isPromise } from 'Acid';
  * isPromise(new Promise(() => {}));
  * // => true
-*/
+ */
 export function isPromise(value) {
 	if (value) {
 		return value instanceof Promise;

@@ -8,11 +8,11 @@ import { returnValue } from '../utility/returnValue.js';
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @param {*} thisBind - An object to be given each time to the iteratee.
  * @returns {Array} - The originally given array.
  *
  * @example
- * import { whileEachArray, assert } from './Acid.js';
+ * import { whileEachArray, assert } from 'Acid';
  * const list = [];
  * whileEachArray([1, 2, 3], (item, index) => {
  *   list[index] = item;

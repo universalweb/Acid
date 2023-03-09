@@ -10,7 +10,7 @@ import { isPlainObject } from '../type/isPlainObject.js';
  * @returns {Object} - Returns a deep clone of an object.
  *
  * @example
- * import { clone, assert } from './Acid.js';
+ * import { clone, assert } from 'Acid';
  * assert(clone({a:{b:[2]}}), {a:{b:[2]}});
  */
 const structuredCloneSafe = globalThis.structuredClone;

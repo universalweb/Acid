@@ -8,10 +8,10 @@ import { hasValue } from './hasValue.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isPlainObject } from './Acid.js';
+ * import { isPlainObject } from 'Acid';
  * isPlainObject({});
  * // => true
-*/
+ */
 export const isPlainObject = (value) => {
 	if (hasValue(value)) {
 		return value.constructor.toString().trim()

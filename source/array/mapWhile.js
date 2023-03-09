@@ -10,11 +10,11 @@ import { eachArray } from './each.js';
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
- * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @param {*} thisBind - An object to be given each time to the iteratee.
  * @returns {Array} - An array with properties that passed the test.
  *
  * @example
- * import { mapWhile, assert } from './Acid.js';
+ * import { mapWhile, assert } from 'Acid';
  * assert(mapWhile([1, 2, 0], (item) => {
  *   return Boolean(item);
  * }), [1, 2]);

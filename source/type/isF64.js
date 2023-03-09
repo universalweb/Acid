@@ -8,8 +8,8 @@ import { isConstructorFactory } from './isConstructor.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isF64 } from './Acid.js';
+ * import { isF64 } from 'Acid';
  * isF64(new Float64Array());
  * // => true
-*/
+ */
 export const isF64 = isConstructorFactory('Float64Array');

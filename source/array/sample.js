@@ -1,4 +1,4 @@
-import { randomInt } from '../number/math.js';
+import { randomInt } from '../math/randomInt.js';
 import { shuffle } from './shuffle.js';
 /**
  * Produce a random sample from the list. Pass a number to return n random elements from the list. Otherwise a single random item will be returned.

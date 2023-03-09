@@ -12,7 +12,7 @@ import { returnValue } from '../utility/returnValue.js';
  * @returns {Array} - The originally given array.
  *
  * @example
- * import { eachArray, assert } from './Acid.js';
+ * import { eachArray, assert } from 'Acid';
  * const list = [];
  * eachArray([1, 2, 3], (item, index) => {
  *   list[index] = item;

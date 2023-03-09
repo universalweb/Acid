@@ -8,7 +8,7 @@
  * @returns {Array} - The originally given array.
  *
  * @example
- * import { clear, assert } from './Acid.js';
+ * import { clear, assert } from 'Acid';
  * assert(clear([1,'B', 'Cat']), []);
  */
 export function clear(array) {

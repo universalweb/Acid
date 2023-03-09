@@ -833,27 +833,27 @@ function clear(array) {
 }
 
 /**
- * Clears the values out of an array.
+ * Quick clones an array and assigns its items to the new array.
  *
  * @function cloneArray
  * @category Array
  * @type {Function}
- * @param {Array} array - Takes an array to be cloned.
- * @returns {Array} - The originally given array.
+ * @param {Array} source - The array to be quick cloned.
+ * @returns {Array} - The newly cloned array with assigned items.
  *
  * @example
  * import { cloneArray, assert } from './Acid.js';
  * assert(cloneArray([1,'B', 'Cat']), [1, 'B', 'Cat']);
  */
-function cloneArray(array) {
-	return array.slice();
+function cloneArray(source) {
+	return source.slice();
 }
 
 /**
  * A simple function which returns the value it's given.
  *
  * @function returnValue
- * @category function
+ * @category utility
  * @param {*} source - The source object.
  * @returns {source} The source object.
  */
@@ -1177,7 +1177,7 @@ function construct(target, argumentsList = [], newTarget) {
 }
 
 /**
- * Checks for primitive differences between a source array and other arrays, then returns a new array containing those differences.
+ * Checks for primitive differences between a source array to other arrays, then returns a new array containing those differences.
  *
  * @function difference
  * @category array
@@ -1565,13 +1565,13 @@ function hasAnyKeys(source, ...properties) {
 }
 
 /**
- * Performs a deep comparison between two objects.
+ * Performs a deep comparison between two objects & determines if the value is the same using strict comparison.
  *
  * @function isEqual
  * @type {Function}
  * @category utility
  * @param {*} source - Source object.
- * @param {*} compareObject - Object to compare to source.
+ * @param {*} target - Object to be compared.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -1579,21 +1579,21 @@ function hasAnyKeys(source, ...properties) {
  * assert(isEqual({a: [1,2,3]}, {a: [1,2,3]}), true);
  */
 // Add map & buffer Support
-const isEqual = (source, compareObject) => {
-	if (source === compareObject) {
+const isEqual = (source, target) => {
+	if (source === target) {
 		return true;
-	} else if (source.toString() === compareObject.toString()) {
+	} else if (source.toString() === target.toString()) {
 		if (isPlainObject(source)) {
 			const sourceProperties = keys(source);
-			if (hasKeys(compareObject, sourceProperties)) {
+			if (hasKeys(target, sourceProperties)) {
 				return everyArray(sourceProperties, (key) => {
-					return isEqual(source[key], compareObject[key]);
+					return isEqual(source[key], target[key]);
 				});
 			}
 		} else if (isArray(source)) {
-			if (source.length === compareObject.length) {
+			if (source.length === target.length) {
 				return everyArray(source, (item, index) => {
-					return isEqual(item, compareObject[index]);
+					return isEqual(item, target[index]);
 				});
 			}
 		}
@@ -1954,168 +1954,27 @@ function right(source, amount) {
 	return source[source.length - 1 - amount];
 }
 
-const mathNative = Math;
-const floorMethod = mathNative.floor;
-const randomMethod = mathNative.random;
+const {
+	floor,
+	random
+} = Math;
 /**
-  * Adds two numbers.
-  *
-  * @function add
-  * @category number
-  * @type {Function}
-  * @param {number} number - First number.
-  * @param {number} value - Second number.
-  * @returns {number} - Returns the sum of the arguments.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * add(1, 1);
-  * // => 2
-*/
-const add$1 = (number, value) => {
-	return number + value;
-};
-/**
-  * Subtracts two numbers.
-  *
-  * @function minus
-  * @category number
-  * @type {Function}
-  * @param {number} number - First number.
-  * @param {number} value - Second number.
-  * @returns {number} - Returns the difference of the arguments.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * minus(1, 1);
-  * // => 0
-*/
-const minus = (number, value) => {
-	return number - value;
-};
-/**
-  * Divides two numbers.
-  *
-  * @function divide
-  * @category number
-  * @type {Function}
-  * @param {number} number - First number.
-  * @param {number} value - Second number.
-  * @returns {number} - Returns the quotient of the arguments.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * divide(10, 5);
-  * // => 2
-*/
-const divide = (number, value) => {
-	return number / value;
-};
-/**
-  * Multiplies two numbers.
-  *
-  * @function multiply
-  * @category number
-  * @type {Function}
-  * @param {number} number - First number.
-  * @param {number} value - Second number.
-  * @returns {number} - Returns the product of the arguments.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * multiply(10, 5);
-  * // => 50
-*/
-const multiply = (number, value) => {
-	return number * value;
-};
-/**
-  *  Extracts the remainder between two numbers.
-  *
-  * @function remainder
-  * @category number
-  * @type {Function}
-  * @param {number} number - First number.
-  * @param {number} value - Second number.
-  * @returns {number} - Returns the remainder of the arguments.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * remainder(10, 6);
-  * // => 4
-*/
-const remainder = (number, value) => {
-	return number % value;
-};
-/**
-  *  Increments a number.
-  *
-  * @function increment
-  * @category number
-  * @type {Function}
-  * @param {number} number - First number.
-  * @returns {number} - Returns an incremented version of the number.
-  *
-  * @example
-  * increment(10);
-  * // => 11
-*/
-const increment = (number) => {
-	return number + 1;
-};
-/**
-  *  Decrements a number.
-  *
-  * @function deduct
-  * @category number
-  * @type {Function}
-  * @param {number} number - First number.
-  * @returns {number} - Returns a decremented version of the number.
-  *
-  * @example
-  * deduct(10);
-  * // => 9
-*/
-const deduct = (number) => {
-	return number - 1;
-};
-/**
-  *  Produces a random number between min (included) and max (excluded).
-  *
-  * @function randomArbitrary
-  * @category number
-  * @type {Function}
-  * @param {number} max - Establishes highest possible value for the random number.
-  * @param {number} [min = 0] - Establishes lowest possible value for the random number.
-  * @returns {number} - Returns random integer between the max and min range.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * randomArbitrary(10);
-  * // => 9.1
-*/
-const randomArbitrary = (max, min = 0) => {
-	return randomMethod() * (max - min) + min;
-};
-// make random account for a single arg as well as if two arguments were passed with low to high
-/**
-  *  Produces a random integer between min (included) and max (excluded).
-  *
-  * @function randomInt
-  * @category number
-  * @type {Function}
-  * @param {number} max - Establishes highest possible value for the random number.
-  * @param {number} [min = 0] - Establishes lowest possible value for the random number.
-  * @returns {number} - Returns random integer between the max and min range.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * randomInt(10);
-  * // => 9
-*/
-const randomInt = (max, min = 0) => {
-	return floorMethod(randomMethod() * (max - min)) + min;
-};
+ *  Produces a random whole number between min (included) and max (excluded). Do not use for security or encryption.
+ *
+ * @function randomInt
+ * @category number
+ * @type {Function}
+ * @param {number} max - The highest possible value for the random number.
+ * @param {number} [min = 0] - Establishes lowest possible value for the random number.
+ * @returns {number} - Returns random integer between the max and min range.
+ *
+ * @example
+ * import { randomInt, assert } from './Acid.js';
+ * assert(randomInt(10, 0), (value) => { return value > 0 && value < 10;});
+ */
+function randomInt(max, min = 0) {
+	return floor(random() * (max - min)) + min;
+}
 
 /**
  * Shuffle an array and return a new array.
@@ -2242,25 +2101,6 @@ function sortedIndex(array, insertThis) {
 		}
 	});
 	return min;
-}
-
-/**
- * Reduces the values in an array into a single number.
- *
- * @function sum
- * @category array
- * @type {Function}
- * @param {Array} array - Array to be reduced.
- * @returns {number} - Returns a single value.
- *
- * @example
- * sum([1, 2, 3, 4]);
- * // => 10
- */
-function sum(array) {
-	return array.reduce((a, b) => {
-		return a + b;
-	}, 0);
 }
 
 /**
@@ -3113,7 +2953,7 @@ function assign(target, ...sources) {
 	}
 }
 
-const add = (link, methods) => {
+const add$1 = (link, methods) => {
 	each(methods, (item, key) => {
 		link.methods[key] = (...args) => {
 			item(link.value, ...args);
@@ -3151,7 +2991,7 @@ function chain(methods) {
 	};
 	assign(link, {
 		add(addToChain) {
-			return add(link, addToChain);
+			return add$1(link, addToChain);
 		},
 		done() {
 			const value = link.value;
@@ -3226,7 +3066,7 @@ function curryRight(callable, arity = callable.length) {
  * This method returns true.
  *
  * @function stubTrue
- * @category function
+ * @category utility
  * @type {Function}
  * @returns {boolean} - Returns true.
  *
@@ -3244,7 +3084,7 @@ const stubTrue = () => {
  * This method returns false.
  *
  * @function stubFalse
- * @category function
+ * @category utility
  * @type {Function}
  * @returns {boolean} - Returns false.
  *
@@ -3274,48 +3114,48 @@ const noop = () => {
 };
 
 /**
-  * Iterates based on the amount given invoking the iteratee with the current index as an argument.
-  *
-  * @function times
-  * @category array
-  * @type {Function}
-  * @param {number} amount - The amount of times to loop invoking the iteratee.
-  * @param {Function} iteratee - Transformation function which is passed index and amount.
-  * @returns {undefined} - Nothing.
-  *
-  * @example
-  * import { times } from 'Acid';
-  * times(3, (item) => {
-  *   console.log(item);
-  * });
-  * // 0
-  * // 1
-  * // 2
-  * // => undefined
-*/
+ * Iterates based on the amount given invoking the iteratee with the current index as an argument.
+ *
+ * @function times
+ * @category utility
+ * @type {Function}
+ * @param {number} amount - The amount of times to loop invoking the iteratee.
+ * @param {Function} iteratee - Transformation function which is passed index and amount.
+ * @returns {undefined} - Nothing.
+ *
+ * @example
+ * import { times } from 'Acid';
+ * times(3, (item) => {
+ *   console.log(item);
+ * });
+ * // 0
+ * // 1
+ * // 2
+ * // => undefined
+ */
 function times(amount, iteratee) {
 	for (let index = 0; index < amount; index++) {
 		iteratee(index);
 	}
 }
 /**
-  * Iterates based on the amount given and maps the results returned by the iteratee each time to an array.
-  *
-  * @function timesMap
-  * @category array
-  * @type {Function}
-  * @param {number} amount - The amount of times to loop invoking the iteratee.
-  * @param {Function} iteratee - Transformation function which is passed index and amount.
-  * @param {Array} [results = []] - Array that will have iteratee return pushed to.
-  * @returns {Array} - An array with iteratee's returned values.
-  *
-  * @example
-  * import { timesMap } from 'Acid';
-  * timesMap(3, (item) => {
-  *   return item;
-  * });
-  * // => [0, 1, 2]
-*/
+ * Iterates based on the amount given and maps the results returned by the iteratee each time to an array.
+ *
+ * @function timesMap
+ * @category utility
+ * @type {Function}
+ * @param {number} amount - The amount of times to loop invoking the iteratee.
+ * @param {Function} iteratee - Transformation function which is passed index and amount.
+ * @param {Array} [results = []] - Array that will have iteratee return pushed to.
+ * @returns {Array} - An array with iteratee's returned values.
+ *
+ * @example
+ * import { timesMap } from 'Acid';
+ * timesMap(3, (item) => {
+ *   return item;
+ * });
+ * // => [0, 1, 2]
+ */
 function timesMap(amount, iteratee, results = []) {
 	for (let index = 0; index < amount; index++) {
 		results[index] = iteratee(amount);
@@ -3776,6 +3616,62 @@ function wrap(value, wrapper) {
 	return (...arg) => {
 		return wrapper(value, ...arg);
 	};
+}
+
+/**
+ * Adds two numbers.
+ *
+ * @function add
+ * @category number
+ * @type {Function}
+ * @param {number} number - First number.
+ * @param {number} value - Second number.
+ * @returns {number} - Returns the sum of the arguments.
+ *
+ * @example
+ * import { add, assert } from './Acid.js';
+ * assert(add(1, 1), 2);
+ */
+function add(source, value) {
+	return source + value;
+}
+
+/**
+ * Subtract all numbers in the array starting from left to right & return the difference.
+ *
+ * @function sub
+ * @category math
+ * @type {Function}
+ * @param {number[]} source - Array of numbers.
+ * @returns {number} - Returns the final difference.
+ *
+ * @example
+ * import { sub, assert } from './Acid.js';
+ * assert(sub([10, 1, 2, 3]), 5);
+ */
+function sub(source) {
+	return source.reduce((a, b) => {
+		return a - b;
+	}, 0);
+}
+
+/**
+ * Sum all numbers in a given array.
+ *
+ * @function sum
+ * @category math
+ * @type {Function}
+ * @param {number[]} source - Array of numbers.
+ * @returns {number} - Returns a single number.
+ *
+ * @example
+ * sum([1, 2, 3, 4]);
+ * // => 10
+ */
+function sum(source) {
+	return source.reduce((a, b) => {
+		return a + b;
+	}, 0);
 }
 
 /**
@@ -4558,6 +4454,24 @@ function upperFirstOnlyAll(string) {
 	});
 }
 
+/**
+ * Performs a deep comparison between two objects & determines if they're different using strict comparison.
+ *
+ * @function notEqual
+ * @type {Function}
+ * @category utility
+ * @param {*} source - Source object.
+ * @param {*} target - Object to be compared.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * import { notEqual, assert } from './Acid.js';
+ * assert(notEqual({a: [1,2,3]}, {a: [1,3,3]}), true);
+ */
+function notEqual(source, target) {
+	return isEqual(source, target) === false;
+}
+
 const jsonNative = JSON;
 /**
  * Parses JSON string with safety check for undefined.
@@ -4618,12 +4532,13 @@ function createAssertError(source, expected, localOptions) {
  *
  * @example
  * import { assert } from './Acid.js';
- * if (assert(1,1) !==  true) {
- * 	new Error('Assert Test Failed');
+ * if (!assert(1,1)) {
+ * 	new Error('Assert Method Failed');
  * }
  */
 function assert(source, expected, options) {
-	if (!isEqual(source, expected)) {
+	const expectedFunction = isFunction(expected) && expected(source, options) === false;
+	if (expectedFunction || notEqual(source, expected)) {
 		return createAssertError(source, expected, options);
 	}
 	return true;
@@ -5102,23 +5017,23 @@ const propertyMatch = (source, compared, properties = keys(source)) => {
 };
 
 class Store {
-	target;
+	source;
 	constructor(source = {}) {
-		const target = this.target = source;
-		if (target === null || typeof target !== 'object') {
-			return target;
+		this.source = source;
+		if (source === null || typeof source !== 'object') {
+			return source;
 		}
-		eachObject(target, (property) => {
-			target[property] = new Store(target[property]);
+		eachObject(source, (property) => {
+			source[property] = new Store(source[property]);
 		});
-		this.data = new Proxy(target, {
-			get(proxyTarget, property) {
-				console.log(proxyTarget, property, proxyTarget[property]);
-				return proxyTarget[property];
+		this.data = new Proxy(source, {
+			get(proxySource, property) {
+				console.log(proxySource, property, proxySource[property]);
+				return proxySource[property];
 			},
-			set(proxyTarget, property, value) {
-				console.log(proxyTarget, property, proxyTarget[property]);
-				proxyTarget[property] = new Store(value);
+			set(proxySource, property, value) {
+				console.log(proxySource, property, proxySource[property]);
+				proxySource[property] = new Store(value);
 				return true;
 			},
 		});
@@ -5129,7 +5044,7 @@ class Store {
  * This method returns a new empty array.
  *
  * @function stubArray
- * @category function
+ * @category utility
  * @type {Function}
  * @returns {Array} - Returns the new empty array.
  * @example
@@ -5145,7 +5060,7 @@ const stubArray = () => {
  * This method returns a new empty object.
  *
  * @function stubObject
- * @category function
+ * @category utility
  * @type {Function}
  * @returns {Object} - Returns the new empty object.
  *
@@ -5162,7 +5077,7 @@ const stubObject = () => {
  * This method returns a new empty string.
  *
  * @function stubString
- * @category function
+ * @category utility
  * @type {Function}
  * @returns {string} - Returns the new empty string.
  *
@@ -5446,5 +5361,5 @@ function virtualStorage(initialObject) {
 	return new VirtualStorage(initialObject);
 }
 
-export { Intervals, Model, Store, Timers, UniqID, VirtualStorage, add$1 as add, after, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMapArray, compactMapAsyncArray, compactMapObject, compactMapObjectAsync, construct, constructorName, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, deduct, defineProperty, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, every, everyArray, everyObject, falsey, falsy, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forOf, forOfAsync, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isConstructorFactory, isDate, isDecimal, isEmpty, isEqual, isF32, isF64, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFunction, isI16, isI32, isI8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSame, isSet, isString, isU16, isU32, isU8, isU8C, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapObject, mapObjectAsync, mapRightArray, mapWhile, merge, minus, model, multiply, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomArbitrary, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sum, take, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMapArray, compactMapAsyncArray, compactMapObject, compactMapObjectAsync, construct, constructorName, countBy, countKey, countWithoutKey, curry, curryRight, debounce, decimalCheck, defineProperty, difference, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, every, everyArray, everyObject, falsey, falsy, filter, filterArray, filterObject, findIndex, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forOf, forOfAsync, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getOwnPropertyDescriptor, getOwnPropertyNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasValue, htmlEntities, ifInvoke, ifNotEqual, ifValue, inAsync, inSync, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isAsync, isBoolean, isBuffer, isConstructor, isConstructorFactory, isDate, isDecimal, isEmpty, isEqual, isF32, isF64, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFunction, isI16, isI32, isI8, isKindAsync, isMap, isMatchArray, isMatchObject, isNull, isNumber, isNumberEqual, isNumberInRange, isPlainObject, isPrimitive, isPromise, isRegExp, isSame, isSet, isString, isU16, isU32, isU8, isU8C, isUndefined, isWeakMap, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapObject, mapObjectAsync, mapRightArray, mapWhile, merge, model, negate, noop, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sub, sum, take, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

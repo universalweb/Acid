@@ -8,9 +8,9 @@ import { hasValue } from './hasValue.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isWeakMap } from './Acid.js';
+ * import { isWeakMap } from 'Acid';
  * assert(isWeakMap(new WeakMap()), true);
-*/
+ */
 const objectWeakMap = '[object WeakMap]';
 export function isWeakMap(source) {
 	return (hasValue(source)) ? source.toString() === objectWeakMap : false;

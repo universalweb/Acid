@@ -8,8 +8,8 @@ import { isConstructorFactory } from './isConstructor.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isU8C } from './Acid.js';
+ * import { isU8C } from 'Acid';
  * isU8C(new Uint8ClampedArray());
  * // => true
-*/
+ */
 export const isU8C = isConstructorFactory('Uint8ClampedArray');

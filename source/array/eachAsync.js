@@ -10,7 +10,7 @@
  * @returns {Array} - Returns source the originally given array.
  *
  * @example
- * import { eachAsyncArray, assert } from './Acid.js';
+ * import { eachAsyncArray, assert } from 'Acid';
  * const tempList = [];
  * await eachAsyncArray([1, 2, 3], async (item) => {
  *   tempList.push(item);

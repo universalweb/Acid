@@ -7,10 +7,10 @@
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isRegExp } from './Acid.js';
+ * import { isRegExp } from 'Acid';
  * isRegExp(/test/);
  * // => true
-*/
+ */
 export function isRegExp(value) {
 	return value instanceof RegExp;
 }

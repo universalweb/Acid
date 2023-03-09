@@ -8,8 +8,8 @@ import { isConstructorFactory } from './isConstructor.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isFloat32 } from './Acid.js';
- * isFloat32(new Float32Array());
+ * import { isF32 } from 'Acid';
+ * isF32(new Float32Array());
  * // => true
-*/
+ */
 export const isF32 = isConstructorFactory('Float32Array');

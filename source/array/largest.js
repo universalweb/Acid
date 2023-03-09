@@ -9,7 +9,7 @@ const mathNativeMax = Math.max;
  * @returns {number} - The largest number.
  *
  * @example
- * import { largest, assert } from './Acid.js';
+ * import { largest, assert } from 'Acid';
  * assert(largest([1,2,3]), 3);
  */
 export function largest(array) {

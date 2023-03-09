@@ -10,7 +10,7 @@ const spaceFirstLetter = / (.)/g;
  * @returns {string} - Converted string in upper case.
  *
  * @example
- * import { stubArray } from './Acid.js';
+ * import { stubArray } from 'Acid';
  * upperCase('upper case');
  * // => 'UPPER CASE'
  */
@@ -29,7 +29,7 @@ export function upperCase(string) {
  * @returns {string} - Converted string in Camel case.
  *
  * @example
- * import { stubArray } from './Acid.js';
+ * import { stubArray } from 'Acid';
  * camelCase('camel case');
  * // => 'camelCase'
  */
@@ -49,7 +49,7 @@ export function camelCase(string) {
  * @returns {string} - Converted string in Kebab case.
  *
  * @example
- * import { stubArray } from './Acid.js';
+ * import { stubArray } from 'Acid';
  * kebabCase('kebab case');
  * // => 'kebab-case'
  */
@@ -69,7 +69,7 @@ export function kebabCase(string) {
  * @returns {string} - Converted string in Snake case.
  *
  * @example
- * import { stubArray } from './Acid.js';
+ * import { stubArray } from 'Acid';
  * snakeCase('snake case');
  * // => 'snake_case'
  */

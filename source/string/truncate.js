@@ -35,7 +35,7 @@ const truncateUp = (string, maxLength, stringLength) => {
  * @returns {string} - The mutated string.
  *
  * @example
- * import { stubArray } from './Acid.js';
+ * import { stubArray } from 'Acid';
  * truncate('Where is Lucy?', 2);
  * // => 'Where is'
  */
@@ -54,7 +54,7 @@ export function truncate(string, maxLength) {
  * @returns {string} - The mutated string.
  *
  * @example
- * import { stubArray } from './Acid.js';
+ * import { stubArray } from 'Acid';
  * truncateRight('Where is Lucy?', 6);
  * // => 'Lucy?'
  */

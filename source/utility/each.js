@@ -16,7 +16,7 @@ import { forOf } from './forOf.js';
  * @returns {Array | object | Function} - The originally given object.
  *
  * @example
- * import { each, assert } from './Acid.js';
+ * import { each, assert } from 'Acid';
  * const list = {};
  * each({a: 1, b: 2, c: 3}, (item, key) => {
  *   list[key] = item;

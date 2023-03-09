@@ -11,11 +11,11 @@ import { eachArray } from './each.js';
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results.
- * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @param {*} thisBind - An object to be given each time to the iteratee.
  * @returns {Array} - An array with properties that passed the test.
  *
  * @example
- * import { filterArray, assert } from './Acid.js';
+ * import { filterArray, assert } from 'Acid';
  * assert(filterArray([false, true, true], (item) => {
  *   return item;
  * }), [true, true]);

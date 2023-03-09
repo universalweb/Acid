@@ -7,12 +7,12 @@
  * @returns {boolean} - True or false.
  *
  * @example
- * import { isPrimitive } from './Acid.js';
+ * import { isPrimitive } from 'Acid';
  * isPrimitive(1);
  * // => true
  * isPrimitive(() => {});
  * // => false
-*/
+ */
 export function isPrimitive(value) {
 	const type = typeof value;
 	return value === null || value === undefined || (type !== 'object' && type !== 'function');

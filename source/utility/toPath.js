@@ -11,7 +11,7 @@ const emptyString = '';
  * @returns {Array} - Array used to go through object chain.
  *
  * @example
- * import { toPath } from './Acid.js';
+ * import { toPath } from 'Acid';
  * toPath('post.like[2]');
  * // => ['post', 'like', '2']
  */

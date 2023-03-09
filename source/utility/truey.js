@@ -9,7 +9,7 @@
  * @returns {boolean|*} - Returns true if the item is truey or returnIfTrue if provided otherwise returns false.
  *
  * @example
- * import { truey, assert } from './Acid.js';
+ * import { truey, assert } from 'Acid';
  * assert(truey(1), true);
  * assert(truey(0), false);
  */

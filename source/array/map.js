@@ -10,11 +10,11 @@ import { eachArray } from './each.js';
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results.
- * @param {*} thisBind -An object to be given each time to the iteratee.
+ * @param {*} thisBind - An object to be given each time to the iteratee.
  * @returns {Array} - An array of the same calling array's type.
  *
  * @example
- * import { mapArray, assert } from './Acid.js';
+ * import { mapArray, assert } from 'Acid';
  * assert(mapArray([1, 2, 3], (item) => {
  *   return item * 2;
  * }), [2, 4, 6]);

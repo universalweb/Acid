@@ -8,8 +8,8 @@ import { isConstructorFactory } from './isConstructor.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isNumber } from './Acid.js';
+ * import { isNumber } from 'Acid';
  * isNumber(1);
  * // => true
-*/
+ */
 export const isNumber = isConstructorFactory(Number);

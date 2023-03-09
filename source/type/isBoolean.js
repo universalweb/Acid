@@ -7,10 +7,10 @@
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isBoolean } from './Acid.js';
+ * import { isBoolean } from 'Acid';
  * isBoolean(true);
  * // => true
-*/
+ */
 export function isBoolean(value) {
 	return value.constructor.name === 'Boolean';
 }

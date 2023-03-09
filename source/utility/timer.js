@@ -8,16 +8,16 @@ export class Timers {
 	construct() {
 	}
 	/**
-    * Remove a timer that was created using the timer function.
-    *
-    * @param {number} id - The id of the timer to remove.
-    * @returns {undefined} - Returns nothing.
-    *
-    * @example
-    * import { stubArray } from './Acid.js';
-    * timer(() => {}, 100);
-    * // => 0
-  */
+	 * Remove a timer that was created using the timer function.
+	 *
+	 * @param {number} id - The id of the timer to remove.
+	 * @returns {undefined} - Returns nothing.
+	 *
+	 * @example
+	 * import { stubArray } from 'Acid';
+	 * timer(() => {}, 100);
+	 * // => 0
+	 */
 	remove(id) {
 		clearTimeout(id);
 		this.list.delete(id);
@@ -29,18 +29,18 @@ export class Timers {
 		return this.list.get(id);
 	}
 	/**
-    * Create a timer and add it to the list of timers.
-    *
-    * @type {Function}
-    * @param {Function} callable - The function to be invoked.
-    * @param {number} time - The time in milliseconds.
-    * @returns {Object} - Returns setTimeoutId ID.
-    *
-    * @example
-    * import { stubArray } from './Acid.js';
-    * timers.set(() => {}, 100);
-    * // => 0
-  */
+	 * Create a timer and add it to the list of timers.
+	 *
+	 * @type {Function}
+	 * @param {Function} callable - The function to be invoked.
+	 * @param {number} time - The time in milliseconds.
+	 * @returns {Object} - Returns setTimeoutId ID.
+	 *
+	 * @example
+	 * import { stubArray } from 'Acid';
+	 * timers.set(() => {}, 100);
+	 * // => 0
+	 */
 	set(callable, time) {
 		const currentThis = this;
 		const id = setTimeout(() => {
@@ -51,15 +51,15 @@ export class Timers {
 		return id;
 	}
 	/**
-    * Clear all active timers.
-    *
-    * @returns {undefined} - Returns undefined.
-    *
-    * @example
-    * import { stubArray } from './Acid.js';
-    * timers.clear();
-    * // => undefined
-  */
+	 * Clear all active timers.
+	 *
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * import { stubArray } from 'Acid';
+	 * timers.clear();
+	 * // => undefined
+	 */
 	clear() {
 		const currentThis = this;
 		currentThis.list.forEach((id) => {
@@ -69,35 +69,35 @@ export class Timers {
 }
 export const timers = construct(Timers);
 /**
-  * Timer wrapper.
-  *
-  * @function timer
-  * @category function
-  * @type {Function}
-  * @param {Function} callable - The function to be invoked.
-  * @param {number} time - The time in milliseconds.
-  * @returns {Object} - Returns setTimeoutId ID.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * timer(() => {}, 100);
-  * // => 0
-*/
+ * Timer wrapper.
+ *
+ * @function timer
+ * @category function
+ * @type {Function}
+ * @param {Function} callable - The function to be invoked.
+ * @param {number} time - The time in milliseconds.
+ * @returns {Object} - Returns setTimeoutId ID.
+ *
+ * @example
+ * import { stubArray } from 'Acid';
+ * timer(() => {}, 100);
+ * // => 0
+ */
 export function timer(callable, time) {
 	return timers.set(callable, time);
 }
 /**
-  * Clear all active timers.
-  *
-  * @function clearTimers
-  * @category function
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * import { stubArray } from './Acid.js';
-  * clearTimers();
-  * // => undefined
-*/
+ * Clear all active timers.
+ *
+ * @function clearTimers
+ * @category function
+ * @returns {undefined} - Returns undefined.
+ *
+ * @example
+ * import { stubArray } from 'Acid';
+ * clearTimers();
+ * // => undefined
+ */
 export function clearTimers() {
 	const id = setTimeout(noop, 0);
 	times(id, (index) => {

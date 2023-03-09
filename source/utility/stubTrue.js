@@ -2,12 +2,12 @@
  * This method returns true.
  *
  * @function stubTrue
- * @category function
+ * @category utility
  * @type {Function}
  * @returns {boolean} - Returns true.
  *
  * @example
- * import { stubArray } from './Acid.js';
+ * import { stubArray } from 'Acid';
  * stubTrue();
  * // => true
  */

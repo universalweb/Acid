@@ -1,22 +1,22 @@
 import { eachObject } from '../object/each.js';
 export class Store {
-	target;
+	source;
 	constructor(source = {}) {
-		const target = this.target = source;
-		if (target === null || typeof target !== 'object') {
-			return target;
+		this.source = source;
+		if (source === null || typeof source !== 'object') {
+			return source;
 		}
-		eachObject(target, (property) => {
-			target[property] = new Store(target[property]);
+		eachObject(source, (property) => {
+			source[property] = new Store(source[property]);
 		});
-		this.data = new Proxy(target, {
-			get(proxyTarget, property) {
-				console.log(proxyTarget, property, proxyTarget[property]);
-				return proxyTarget[property];
+		this.data = new Proxy(source, {
+			get(proxySource, property) {
+				console.log(proxySource, property, proxySource[property]);
+				return proxySource[property];
 			},
-			set(proxyTarget, property, value) {
-				console.log(proxyTarget, property, proxyTarget[property]);
-				proxyTarget[property] = new Store(value);
+			set(proxySource, property, value) {
+				console.log(proxySource, property, proxySource[property]);
+				proxySource[property] = new Store(value);
 				return true;
 			},
 		});

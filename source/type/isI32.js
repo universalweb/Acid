@@ -8,8 +8,8 @@ import { isConstructorFactory } from './isConstructor.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isI32 } from './Acid.js';
+ * import { isI32 } from 'Acid';
  * isI32(new Int32Array());
  * // => true
-*/
+ */
 export const isI32 = isConstructorFactory('Int32Array');

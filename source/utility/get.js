@@ -13,7 +13,7 @@ import { everyArray } from '../array/every.js';
  * @returns {Object} - Returns property from the given object.
  *
  * @example
- * import { get, assert } from './Acid.js';
+ * import { get, assert } from 'Acid';
  * const objectTarget = {
  *   post: {
  *     like: ['a','b','c']

@@ -3,7 +3,7 @@ import { each } from '../utility/each.js';
 import { flattenDeep } from './flattenDeep.js';
 import { construct } from '../class/construct.js';
 /**
- * Checks for primitive differences between a source array and other arrays, then returns a new array containing those differences.
+ * Checks for primitive differences between a source array to other arrays, then returns a new array containing those differences.
  *
  * @function difference
  * @category array
@@ -13,7 +13,7 @@ import { construct } from '../class/construct.js';
  * @returns {Array} - An array which contains the differences between the source and compare array.
  *
  * @example
- * import { difference, assert } from './Acid.js';
+ * import { difference, assert } from 'Acid';
  * assert(difference([1, 2, 3], [1, 2]));
  */
 export function difference(...sources) {

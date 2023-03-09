@@ -1,5 +1,5 @@
 import { isFunction } from '../type/isFunction.js';
-import { isEqual } from '../utility/isEqual.js';
+import { notEqual } from '../utility/notEqual.js';
 import { isKindAsync } from '../type/isAsync.js';
 import { stringify } from './json.js';
 function createAssertError(source, expected, localOptions) {
@@ -26,13 +26,14 @@ function createAssertError(source, expected, localOptions) {
  * @returns {Object} - Returns a deep clone of an object.
  *
  * @example
- * import { assert } from './Acid.js';
- * if (assert(1,1) !==  true) {
- * 	new Error('Assert Test Failed');
+ * import { assert } from 'Acid';
+ * if (!assert(1,1)) {
+ * 	new Error('Assert Method Failed');
  * }
  */
 export function assert(source, expected, options) {
-	if (!isEqual(source, expected)) {
+	const expectedFunction = isFunction(expected) && expected(source, options) === false;
+	if (expectedFunction || notEqual(source, expected)) {
 		return createAssertError(source, expected, options);
 	}
 	return true;

@@ -10,7 +10,7 @@ import { ensureArray } from '../array/ensure.js';
  * @returns {Array} - Returns an array.
  *
  * @example
- * import { flatten, assert } from './Acid.js';
+ * import { flatten, assert } from 'Acid';
  * assert(flatten([1, [2, [3, [4]], 5]]), [1, 2, [3, [4]], 5]);
  */
 export function flatten(source, level = 1) {

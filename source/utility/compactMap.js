@@ -1,5 +1,7 @@
 import { compactMapArray } from '../array/compactMap.js';
+import { compactMapAsyncArray } from '../array/compactMapAsync.js';
 import { compactMapObject } from '../object/compactMap.js';
+import { compactMapAsyncObject } from '../object/compactMapAsync.js';
 import { generateLoop } from './generateLoop.js';
 /**
  * Iterates through the calling object and creates a new object based on the calling object's type with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
@@ -13,10 +15,9 @@ import { generateLoop } from './generateLoop.js';
  * @returns {Array | object | Function} - A new object of the same calling object's type.
  *
  * @example
- * import { compactMap, assert } from './Acid.js';
+ * import { compactMap, assert } from 'Acid';
  * assert(compactMap({a: null, b: 2, c: 3}, (item) => {
  *   return item;
  * }), {b: 2, c: 3});
  */
-export const compactMap = generateLoop(compactMapArray, compactMapAsyncArray, compactMapObject);
-export const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
+export const compactMap = generateLoop(compactMapArray, compactMapAsyncArray, compactMapObject, compactMapAsyncObject);

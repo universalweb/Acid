@@ -8,10 +8,10 @@ import { hasValue } from './hasValue.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isArguments } from './Acid.js';
+ * import { isArguments } from 'Acid';
  * isArguments([]);
  * // => false
-*/
+ */
 const objectArguments = '[object Arguments]';
 export function isArguments(source) {
 	return (hasValue(source)) ? source.toString() === objectArguments : false;

@@ -12,7 +12,7 @@ import { generateLoop } from './generateLoop.js';
  * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
- * import { every, assert } from './Acid.js';
+ * import { every, assert } from 'Acid';
  * assert(every({a: false, b: true, c: true}, (item) => {
  *  return item;
  * }), false);

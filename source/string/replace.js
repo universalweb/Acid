@@ -10,7 +10,7 @@
  * @returns {string} - The string with the replacement.
  *
  * @example
- * import { stubArray } from './Acid.js';
+ * import { stubArray } from 'Acid';
  * replaceList('Her name was user.', ['user'], 'Lucy');
  * // => 'Her name was Lucy.'
  */

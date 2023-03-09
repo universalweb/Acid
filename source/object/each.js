@@ -11,7 +11,7 @@ import { eachArray } from '../array/each.js';
  * @returns {Object|Function} - Returns the calling object.
  *
  * @example
- * import { eachObject, assert } from './Acid.js';
+ * import { eachObject, assert } from 'Acid';
  * assert(eachObject({a: 1, b: 2, c: 3}, (item) => {
  *   console.log(item);
  * }), {a: 1, b: 2, c: 3});

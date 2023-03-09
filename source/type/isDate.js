@@ -7,10 +7,10 @@
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isDate } from './Acid.js';
+ * import { isDate } from 'Acid';
  * isDate(new Date());
  * // => true
-*/
+ */
 export function isDate(value) {
 	return value instanceof Date;
 }

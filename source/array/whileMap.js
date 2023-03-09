@@ -14,7 +14,7 @@ import { returnValue } from '../utility/returnValue.js';
  * @returns {Array} - The originally given array.
  *
  * @example
- * import { whileMapArray, assert } from './Acid.js';
+ * import { whileMapArray, assert } from 'Acid';
  * assert(whileMapArray([1, 2, 3], (item, index, source) => {
  *   if (index === 0) {
  *     source.push(4);

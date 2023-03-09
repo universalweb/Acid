@@ -10,7 +10,7 @@
  * @returns {Array} - An array with all values removed after a user defined index.
  *
  * @example
- * import { drop, assert } from './Acid.js';
+ * import { drop, assert } from 'Acid';
  * assert(drop([1, 2, 3], 1), [2, 3]);
  */
 export function drop(array, amount, upTo = array.length) {

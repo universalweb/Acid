@@ -2,11 +2,11 @@
  * This method returns a new empty array.
  *
  * @function stubArray
- * @category function
+ * @category utility
  * @type {Function}
  * @returns {Array} - Returns the new empty array.
  * @example
- * import { stubArray } from './Acid.js';
+ * import { stubArray } from 'Acid';
  * stubArray();
  * // => []
  */

@@ -13,7 +13,7 @@ import { hasValue } from '../type/hasValue.js';
  * @returns {Array} - Array values after being put through an iterator.
  *
  * @example
- * import { compactMapAsync, assert } from './Acid.js';
+ * import { compactMapAsync, assert } from 'Acid';
  * assert(await compactMapAsync([1, 2, 3, null], async (item) => {
  *   return item;
  * }), [1, 2, 3]);

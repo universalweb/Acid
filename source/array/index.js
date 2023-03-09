@@ -37,7 +37,6 @@ export * from './sample.js';
 export * from './shuffle.js';
 export * from './smallest.js';
 export * from './sortedIndex.js';
-export * from './sum.js';
 export * from './take.js';
 export * from './union.js';
 export * from './unique.js';

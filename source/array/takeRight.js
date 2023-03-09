@@ -9,7 +9,7 @@
  * @returns {Array} - The aggregated array.
  *
  * @example
- * import { takeRight, assert } from './Acid.js';
+ * import { takeRight, assert } from 'Acid';
  * assert(takeRight([1,2,3], 2), [2, 3]);
  */
 export function takeRight(source, indexRight = 1) {

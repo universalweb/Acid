@@ -7,10 +7,10 @@
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isNull } from './Acid.js';
+ * import { isNull } from 'Acid';
  * isNull(null);
  * // => true
-*/
+ */
 export function isNull(value) {
 	return value === null;
 }

@@ -8,10 +8,10 @@ import { hasValue } from './hasValue.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isFunction } from './Acid.js';
+ * import { isFunction } from 'Acid';
  * isFunction(() => {});
  * // => true
-*/
+ */
 export const isFunction = (value) => {
 	return (hasValue(value)) ? value instanceof Function : false;
 };

@@ -8,9 +8,9 @@ import { isPromise } from './isPromise.js';
  * @returns {boolean} - True or false.
  *
  * @example
- * import { isAsync, assert } from './Acid.js';
+ * import { isAsync, assert } from 'Acid';
  * assert(isAsync(async() => {}), true);
-*/
+ */
 export function isAsync(value) {
 	if (value) {
 		return value.constructor?.name === 'AsyncFunction';
@@ -26,9 +26,9 @@ export function isAsync(value) {
  * @returns {boolean} - True or false.
  *
  * @example
- * import { isKindAsync, assert } from './Acid.js';
+ * import { isKindAsync, assert } from 'Acid';
  * assert(isKindAsync(async() => {}), true);
-*/
+ */
 export function isKindAsync(value) {
 	if (value) {
 		return isPromise(value) || isAsync(value);

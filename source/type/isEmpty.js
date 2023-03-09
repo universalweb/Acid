@@ -13,10 +13,10 @@ import { hasValue } from './hasValue.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isEmpty } from './Acid.js';
+ * import { isEmpty } from 'Acid';
  * isEmpty([]);
  * // => true
-*/
+ */
 export function isEmpty(source) {
 	if (isString(source) || isArray(source)) {
 		return !hasLength(source);

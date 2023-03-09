@@ -9,7 +9,7 @@
  * @returns {Array} - Returns an array.
  *
  * @example
- * import { first, assert } from './Acid.js';
+ * import { first, assert } from 'Acid';
  * assert(first([1, 2, 3]), 1);
  */
 export function first(array, upTo) {

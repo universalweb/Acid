@@ -8,7 +8,7 @@
  * @returns {Array} - Returns a completely flattened array.
  *
  * @example
- * import { initial, assert } from './Acid.js';
+ * import { initial, assert } from 'Acid';
  * assert(initial([1, 2, 3, 4, 5]), [1, 2, 3, 4]);
  */
 export function initial(array) {
