@@ -1,6 +1,10 @@
 import { eachArray } from '../array/each.js';
+import { eachAsyncArray } from '../array/eachAsync.js';
 import { eachObject } from '../object/each.js';
+import { eachAsyncObject } from '../object/eachAsync.js';
 import { generateLoop } from './generateLoop.js';
+import { forOfAsync } from './forOfAsync.js';
+import { forOf } from './forOf.js';
 /**
  * Iterates through the given object.
  *
@@ -19,5 +23,5 @@ import { generateLoop } from './generateLoop.js';
  * });
  * assert(list, {a: 1, b: 2, c: 3});
  */
-export const each = generateLoop(eachArray, eachObject);
+export const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
 

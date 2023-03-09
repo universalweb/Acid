@@ -1,27 +1,35 @@
 import { everyArray } from '../array/every.js';
 import { keys } from '../object/keys.js';
+import { toPath } from '../utility/toPath.js';
+import { get } from '../utility/get.js';
+const hasOwn = Object.hasOwn;
 /**
  * Checks to see if an object has all of the given property names.
  *
  * @function hasKeys
  * @category object
  * @type {Function}
- * @param {Object} object - Object from which keys are extracted.
- * @param {Array} properties - Array of object keys.
+ * @param {Object} source - Source object to check for keys.
+ * @param {...String} properties - List of strings to check.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * hasKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy','Thor']);
- * // => true
- *
- * @example
- * hasKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy','Tom']);
- * // => false
+ * import { hasKeys, assert } from './Acid.js';
+ * assert(hasKeys({a: {b: { c: 1}}}, 'a', 'a.b', 'a.b.c'), true);
  */
-export function hasKeys(object, properties) {
-	const objectKeys = keys(object);
+export function hasKeys(source, ...properties) {
 	return everyArray(properties, (item) => {
-		return objectKeys.includes(item);
+		const pathArray = toPath(item);
+		if (pathArray.length === 1) {
+			return hasOwn(source, item);
+		} else {
+			const lastPath = pathArray.pop();
+			const initialPathObject = get(pathArray, source);
+			if (initialPathObject) {
+				return hasOwn(initialPathObject, lastPath);
+			}
+			return false;
+		}
 	});
 }
 /**
@@ -30,21 +38,28 @@ export function hasKeys(object, properties) {
  * @function hasAnyKeys
  * @category object
  * @type {Function}
- * @param {Object} object - Object from which keys are extracted.
- * @param {Array} properties - Array of object keys.
+ * @param {Object} source - Source object to check for keys.
+ * @param {Array} properties - List of strings to check.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Lucy', 'Tom']);
- * // => true
- * @example
- * hasAnyKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: 'Bobo'}, ['Other', 'Tom']);
- * // => false
+ * import { hasAnyKeys, assert } from './Acid.js';
+ * assert(hasAnyKeys({a: {b: { yes : 1}}}, 'no', 'nope', 'a.b.yes'), true);
+ * assert(hasAnyKeys({a: {b: { yes : 1}}}, 'no', 'nope', 'a.b.noped'), false);
  */
-export function hasAnyKeys(object, properties) {
-	const objectKeys = keys(object);
+export function hasAnyKeys(source, ...properties) {
 	return Boolean(properties.find((item) => {
-		return objectKeys.includes(item);
+		const pathArray = toPath(item);
+		if (pathArray.length === 1) {
+			return hasOwn(source, item);
+		} else {
+			const lastPath = pathArray.pop();
+			const initialPathObject = get(pathArray, source);
+			if (initialPathObject) {
+				return hasOwn(initialPathObject, lastPath);
+			}
+			return false;
+		}
 	}));
 }
 

@@ -4,7 +4,7 @@ import { hasValue } from '../type/hasValue.js';
 /**
  * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
  *
- * @function compactMapAsync
+ * @function compactMapAsyncArray
  * @type {Function}
  * @category array
  * @async
@@ -18,7 +18,7 @@ import { hasValue } from '../type/hasValue.js';
  *   return item;
  * }), [1, 2, 3]);
  */
-export async function compactMapAsync(source, iteratee = returnValue) {
+export async function compactMapAsyncArray(source, iteratee = returnValue) {
 	const results = [];
 	await eachAsyncArray(source, async (item, index, arrayLength) => {
 		const result = await iteratee(item, index, results, arrayLength);

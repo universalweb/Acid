@@ -1,4 +1,5 @@
 import { hasValue } from '../type/hasValue.js';
+import { isArray } from '../type/isArray.js';
 import { toPath } from '../utility/toPath.js';
 import { everyArray } from '../array/every.js';
 /**
@@ -8,23 +9,28 @@ import { everyArray } from '../array/every.js';
  * @category utility
  * @type {Function}
  * @param {string} propertyString - String used to retrieve properties.
- * @param {Object} objectChain - Object which has a property retrieved from it.
+ * @param {Object} target - Object which has a property retrieved from it.
  * @returns {Object} - Returns property from the given object.
  *
  * @example
- * get('post.like[2]', {
+ * import { get, assert } from './Acid.js';
+ * const objectTarget = {
  *   post: {
  *     like: ['a','b','c']
  *   }
- * });
- * // => 'c'
+ * };
+ * assert(get('post.like[2]', objectTarget), 'c');
  */
-export const get = (propertyString, objectChain) => {
-	let link = objectChain;
-	everyArray(toPath(propertyString), (item) => {
+export function get(propertyString, target) {
+	if (!target) {
+		return false;
+	}
+	let link = target;
+	const pathArray = (isArray(propertyString)) ? propertyString : toPath(propertyString);
+	everyArray(pathArray, (item) => {
 		link = link[item];
 		return hasValue(link);
 	});
 	return link;
-};
+}
 

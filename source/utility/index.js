@@ -8,6 +8,8 @@ export * from './falsey.js';
 export * from './filter.js';
 export * from './flow.js';
 export * from './flowAsync.js';
+export * from './forOf.js';
+export * from './forOfAsync.js';
 export * from './get.js';
 export * from './has.js';
 export * from './hasDot.js';

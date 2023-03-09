@@ -2,22 +2,19 @@ import { isArray } from '../type/isArray.js';
 import { isPlainObject } from '../type/isPlainObject.js';
 import { isFunction } from '../type/isFunction.js';
 import { hasValue } from '../type/hasValue.js';
-function forEachWrap(object, callback) {
-	return object.forEach(callback);
-}
-export function generateLoop(arrayLoop, objectLoop) {
+import { isAsync } from '../type/isAsync.js';
+export function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoopAsync, forOfLoop) {
 	return (source, iteratee, results) => {
 		let returned;
-		if (!hasValue(source)) {
+		const isIterateeAsync = isAsync(iteratee);
+		if (!hasValue(source) || !iteratee) {
 			return;
 		} else if (isArray(source)) {
-			returned = arrayLoop;
-		} else if (isPlainObject(source) || isFunction(source)) {
-			returned = objectLoop;
-		} else if (source.forEach) {
-			returned = forEachWrap;
+			returned = (isIterateeAsync) ? arrayLoopAsync : arrayLoop;
+		} else if (source.forEach && forOfLoopAsync && forOfLoop) {
+			returned = (isIterateeAsync) ? forOfLoopAsync : forOfLoop;
 		} else {
-			returned = objectLoop;
+			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
 		}
 		return returned(source, iteratee, results);
 	};
