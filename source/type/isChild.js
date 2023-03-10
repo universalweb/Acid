@@ -9,24 +9,18 @@
  *
  * @example
  * import { isChild, construct, assert } from 'Acid';
- * class parentClass{}
- * class otherClass{}
- * const child1 = construct(parentClass);
- * const child2 = construct(otherClass);
- * assert(isChild(child1, parentClass), true);
- * assert(isChild(child3, parentClass), false);
- * assert(isChild(parentClass, child1), false);
+ * class Grandparent{}
+ * class Parent extends Grandparent{}
+ * class Child extends Parent{}
+ * const child = construct(Child);
+ * assert(isChild(Child, Grandparent), true);
+ * assert(isChild(Child, Parent), false);
+ * assert(isChild(Parent, Grandparent), false);
  * assert(isChild(child1, child3), false);
  */
-export function isChild(source, target) {
-	if (!source || !target) {
+export function isChild(sourceChild, targetParent) {
+	if (!sourceChild || !targetParent) {
 		return false;
 	}
-	if (target.call && !source.call) {
-		return target instanceof source;
-	}
-	if (!target.call && source.call) {
-		return source instanceof target;
-	}
-	return target.constructor === source.constructor;
+	return sourceChild instanceof targetParent;
 }

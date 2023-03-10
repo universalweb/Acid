@@ -18,7 +18,7 @@ import { returnValue } from '../utility/returnValue.js';
  * // => {b: 2, c: 3}
  */
 export async function forOfCompactMapAsync(source, iteratee = returnValue, results = {}) {
-	for (const [key, value] of source) {
+	for await (const [key, value] of source) {
 		const result = await iteratee(value, key, results, source);
 		if (hasValue(result)) {
 			results[key] = result;

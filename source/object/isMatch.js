@@ -8,18 +8,22 @@ import { keys } from '../object/keys.js';
  * @type {Function}
  * @category object
  * @param {Object} source - Source object.
- * @param {Object} compareObject - Object to compare to source.
+ * @param {Object} target - Object to compare to source.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * isMatchObject({a: 1}, {a: 1});
- * // => true
+ * import { assert, isMatchObject } from 'Acid';
+ * assert(isMatchObject({a: 1}, {a: 1}), true);
  */
-export const isMatchObject = (source, compareObject) => {
-	const sourceProperties = keys(source);
-	if (isMatchArray(sourceProperties, keys(compareObject))) {
-		return everyArray(sourceProperties, (key) => {
-			return source[key] === compareObject[key];
+export const isMatchObject = (source, target) => {
+	if (source === target) {
+		return true;
+	}
+	const sourceKeys = keys(source);
+	const targetKeys = keys(target);
+	if (sourceKeys.length === targetKeys.length) {
+		return everyArray(sourceKeys, (key) => {
+			return source[key] === target[key];
 		});
 	}
 	return false;

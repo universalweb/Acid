@@ -1,4 +1,6 @@
-import { isRelated, construct, assert } from '../../build/module/index.js';
+import {
+	isRelated, construct, assert
+} from '../build/module/index.js';
 class parentClass {}
 class otherClass {}
 const child1 = construct(parentClass);

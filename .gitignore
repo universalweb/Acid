@@ -27,6 +27,7 @@ node_modules
 # Test cases #
 ############
 tests/*
+tempCodeRunnerFile.js
 
 # Logs and databases #
 ######################

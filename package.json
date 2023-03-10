@@ -1,27 +1,7 @@
 {
     "name": "Acid",
-    "type": "module",
-    "company": "Universal Web",
     "version": "3.0.22",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library.",
-    "bugs": {
-        "url": "https://github.com/universalweb/Acid/issues"
-    },
-    "homepage": "https://acidjs.com",
-    "directories": {
-        "doc": "docs",
-        "source": "source",
-        "build": "build",
-        "npm": "npm",
-        "test": "tests"
-    },
-    "readme": "README.md",
-    "auto-changelog": {
-        "commitLimit": false,
-        "output": "CHANGELOG.md",
-        "template": "./maintenance/keepachangelog.hbs",
-        "unreleased": true
-    },
     "keywords": [
         "Acid",
         "utility",
@@ -29,26 +9,38 @@
         "modules",
         "stdlib"
     ],
-    "license": "ISC",
-    "main": "index.js",
-    "maintainers": [
-        {
-            "email": "info@universalweb.io",
-            "name": "UniversalWeb"
-        }
-    ],
+    "homepage": "https://acidjs.com",
+    "bugs": {
+        "url": "https://github.com/universalweb/Acid/issues"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/universalweb/Acid.git",
         "directory": "npm"
     },
+    "license": "ISC",
+    "maintainers": [
+        {
+            "name": "UniversalWeb",
+            "email": "info@universalweb.io"
+        }
+    ],
+    "type": "module",
+    "main": "index.js",
+    "directories": {
+        "doc": "docs",
+        "test": "tests",
+        "build": "build",
+        "npm": "npm",
+        "source": "source"
+    },
     "scripts": {
         "build": "node index.js",
-        "compile": "production=true node index.js",
-        "versionBump": "npm version patch -m \"Upgrade to %s\" --force && npm run npmVersion",
-        "npmVersion": "cd ./package/ && npm version patch --force",
         "changelog": "npx auto-changelog -p --sort-commits date-desc && git add CHANGELOG.md",
-        "pub": "npm update && npm run compile && npm run versionBump && npm run changelog && npm publish ./package/"
+        "compile": "production=true node index.js",
+        "npmVersion": "cd ./package/ && npm version patch --force",
+        "pub": "npm update && npm run compile && npm run versionBump && npm run changelog && npm publish ./package/",
+        "versionBump": "npm version patch -m \"Upgrade to %s\" --force && npm run npmVersion"
     },
     "dependencies": {
         "@babel/core": "^7.21.0",
@@ -62,16 +54,24 @@
         "daisyui": "^2.51.3",
         "docredux": "^3.0.8",
         "eslint": "^8.35.0",
+        "eslint-plugin-import": "^2.27.5",
         "eslint-plugin-jsdoc": "*",
         "express": "*",
         "magic-string": "*",
         "node-watch": "*",
         "rollup": "*",
+        "stylelint": "^15.2.0",
+        "stylelint-config-standard": "^30.0.1",
         "tailwindcss": "*",
         "testatron": "*",
         "tiny-lr": "*"
     },
-    "devDependencies": {
-        "eslint-plugin-import": "^2.27.5"
-    }
+    "auto-changelog": {
+        "commitLimit": false,
+        "output": "CHANGELOG.md",
+        "template": "./maintenance/keepachangelog.hbs",
+        "unreleased": true
+    },
+    "company": "Universal Web",
+    "readme": "README.md"
 }

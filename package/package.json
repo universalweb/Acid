@@ -1,13 +1,7 @@
 {
     "name": "Acid",
-    "company": "Universal Web, Inc",
     "version": "3.0.22",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library.",
-    "bugs": {
-        "url": "https://github.com/universalweb/Acid/issues"
-    },
-    "homepage": "https://acidjs.com",
-    "readme": "README.md",
     "keywords": [
         "Acid",
         "utility",
@@ -15,10 +9,28 @@
         "modules",
         "stdlib"
     ],
+    "homepage": "https://acidjs.com",
+    "bugs": {
+        "url": "https://github.com/universalweb/Acid/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/universalweb/Acid.git",
+        "directory": "npm"
+    },
     "license": "ISC",
-    "main": "./index.js",
-    "module": "./module/index.js",
-    "browser": "./browser.js",
+    "maintainers": [
+        {
+            "name": "UniversalWeb",
+            "email": "info@universalweb.io",
+            "url": "https://universalweb.io"
+        },
+        {
+            "name": "UniversalWeb",
+            "email": "info@universalweb",
+            "url": "uw://universalweb"
+        }
+    ],
     "exports": {
         ".": {
             "node": {
@@ -28,22 +40,18 @@
             "default": "./browser.js"
         }
     },
+    "main": "./index.js",
+    "module": "./module/index.js",
+    "browser": "./browser.js",
     "bin": {
         "Acid": "./index.js"
     },
-    "maintainers": [
-        {
-            "email": "tommarchi@protonmail.com",
-            "name": "Tom Marchi",
-            "url": "http://barnyrubble.tumblr.com/"
-        }
-    ],
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/universalweb/Acid.git",
-        "directory": "npm"
-    },
     "scripts": {
         "start": "node index.js"
-    }
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    },
+    "company": "Universal Web",
+    "readme": "README.md"
 }

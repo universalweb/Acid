@@ -1,10 +1,10 @@
 import { hasValue } from './hasValue.js';
 /**
- * Checks if the value is a plain object.
+ * Checks if the source is a plain object.
  *
  * @function isFunction
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -12,6 +12,6 @@ import { hasValue } from './hasValue.js';
  * isFunction(() => {});
  * // => true
  */
-export const isFunction = (value) => {
-	return (hasValue(value)) ? value instanceof Function : false;
+export const isFunction = (source) => {
+	return (hasValue(source)) ? source instanceof Function : false;
 };

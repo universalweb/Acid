@@ -12,7 +12,7 @@
  * without([1, 2, 2, 4], [4]);
  * // => [1, 2, 2]
  */
-export function without(target, removeThese) {
+export function without(target, ...sources) {
 	return target.filter((item) => {
 		return !removeThese.includes(item);
 	});

@@ -1,12 +1,14 @@
 import { isNumber } from './isNumber.js';
-import { hasValue } from './hasValue.js';
+import { noValue } from './noValue.js';
+import { isFunction } from './isFunction.js';
+import { hasProp } from '../internal/object.js';
 /**
  * Checks if an object has a .length property that's greater than or equal to 0 & is not a function. If strict is enabled it will check to see if there is an item returned in range of the number returned bu the length property.
  *
  * @function isArray
  * @category type
  * @param {*} source - Object to be checked.
- * @param {*} strictFlag - Strict flag to also check to see if items can be called using brackets.
+ * @param {*} strictFlag - Strict flag to also check to see if keys are whole intigers greater than or equal to 0.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -15,11 +17,17 @@ import { hasValue } from './hasValue.js';
  * assert(isArray(2), false);
  */
 export function isArrayLike(source, strictFlag) {
-	if (!hasValue()) {
+	if (noValue(source) || isFunction(source)) {
+		return false;
 	}
 	const sourceLength = source.length;
 	if (!sourceLength || !isNumber(sourceLength) || sourceLength < 0) {
 		return false;
+	}
+	if (strictFlag) {
+		return every(source, (value, index) => {
+			return index >= 0 & isNumber(index);
+		});
 	}
 	return false;
 }

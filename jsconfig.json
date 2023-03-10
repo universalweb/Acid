@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "nodenext",
+		"target": "ESNext",
+		"jsx": "react",
+		"strictNullChecks": true
+	},
+	"exclude": [
+		"**/build/*",
+		"**/docSource/*",
+		"**/docs/*",
+		"**/examples/*",
+		"**/node_modules/*",
+		"**/npm/*",
+		"**/package/*",
+		"**/target/*",
+		"node_modules"
+	]
+}

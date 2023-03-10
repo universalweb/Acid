@@ -1,7 +1,7 @@
 import { hasValue } from '../type/hasValue.js';
 import { returnValue } from '../utility/returnValue.js';
 /**
- * Iterates through the given array while the iteratee returns true.
+ * Iterates through the given array while the iteratee returns true else the loop exits & returns false.
  *
  * @function everyArray
  * @category array
@@ -13,17 +13,19 @@ import { returnValue } from '../utility/returnValue.js';
  *
  * @example
  * import { everyArray, assert } from 'Acid';
- * assert(everyArray([true, true, false], (item) => {
+ * assert(everyArray([true, true, false], (item, index, source, sourceLength, thisBind) => {
  *   return item;
  * }), false);
+ * assert(everyArray([true, true, true], (item, index, source, sourceLength, thisBind) => {
+ *   return item;
+ * }), true);
  */
 export function everyArray(source, iteratee, thisBind) {
-	const arrayLength = source.length;
-	for (let index = 0;index < arrayLength;index++) {
-		if (iteratee(source[index], index, source, arrayLength, thisBind) === false) {
+	const sourceLength = source.length;
+	for (let index = 0;index < sourceLength;index++) {
+		if (iteratee(source[index], index, source, sourceLength, thisBind) === false) {
 			return false;
 		}
 	}
 	return true;
 }
-

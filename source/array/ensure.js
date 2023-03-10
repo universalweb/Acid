@@ -1,12 +1,12 @@
 import { isArray } from '../type/isArray.js';
 import { hasValue } from '../type/hasValue.js';
 /**
-  * Ensures the object is an array. If not wraps in array.
+  * Ensures the source is an array if not the source is wrapped in a array or an empty array is returned.
   *
   * @function ensureArray
   * @category array
   * @type {Function}
-  * @param {*} object - Data to be checked.
+  * @param {*} source - Object to be checked.
   * @returns {Array} - Returns an array.
   *
   * @example
@@ -17,7 +17,7 @@ import { hasValue } from '../type/hasValue.js';
   * ensureArray({a:1, b:2})
   * // => [{a:1, b:2}]
 */
-export const ensureArray = (object) => {
-	return (isArray(object) && object) || (hasValue(object) && [object]) || [];
-};
+export function ensureArray(source) {
+	return (isArray(source) && source) || (hasValue(source) && [source]) || [];
+}
 

@@ -1,3 +1,4 @@
+import { cacheNativeMethod } from '../utility/cacheNativeMethod.js';
 /**
  * Returns an array of all properties (enumerable or not) found directly upon a given object.
  *
@@ -7,8 +8,8 @@
  * @returns {Object} - An array of strings that correspond to the properties found directly upon the given object.
  *
  * @example
- * getPropNames({ 0: 'a', 1: 'b', 2: 'c' });
- * // => ['0', '1', '2']
+ * import { getPropNames, assert } from 'Acid';
+ * assert(getPropNames({ 0: 'a', 1: 'b', 2: 'c' }), ['0', '1', '2']);
  */
 export const getPropNames = Object.getOwnPropertyNames;
 /**
@@ -45,3 +46,4 @@ export const getPropDesc = Object.getOwnPropertyDescriptor;
  * // => 'static'
  */
 export const defProp = Object.defineProperty;
+export const hasProp = cacheNativeMethod(Object.hasOwnProperty);
