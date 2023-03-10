@@ -1,6 +1,7 @@
-import { isConstructorFactory } from './isConstructor.js';
+import { isConstructorFactory, isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
- * Checks if the source is a Uint8ClampedArray.
+ * Checks if an object or objects are a Uint8ClampedArray.
  *
  * @function isU8C
  * @category type
@@ -12,4 +13,5 @@ import { isConstructorFactory } from './isConstructor.js';
  * isU8C(new Uint8ClampedArray());
  * // => true
  */
-export const isU8C = isConstructorFactory('Uint8ClampedArray');
+export const isU8CCall = isConstructorNameFactory('Uint8ClampedArray');
+export const isU8C = isTypeFactory(isU8CCall);

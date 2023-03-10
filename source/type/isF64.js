@@ -1,6 +1,7 @@
-import { isConstructorFactory } from './isConstructor.js';
+import { isConstructorFactory, isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
- * Checks if the source is a Float64Array.
+ * Checks if an object or objects are a Float64Array.
  *
  * @function isF64
  * @category type
@@ -12,4 +13,5 @@ import { isConstructorFactory } from './isConstructor.js';
  * isF64(new Float64Array());
  * // => true
  */
-export const isF64 = isConstructorFactory('Float64Array');
+export const isF64Call = isConstructorNameFactory('Float64Array');
+export const isF64 = isTypeFactory(isF64Call);

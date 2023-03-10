@@ -1,6 +1,7 @@
-import { isConstructorFactory } from './isConstructor.js';
+import { isConstructorFactory, isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
- * Checks if the source is a Float32Array.
+ * Checks if an object or objects are a Float32Array.
  *
  * @function isF32
  * @category type
@@ -12,4 +13,5 @@ import { isConstructorFactory } from './isConstructor.js';
  * isF32(new Float32Array());
  * // => true
  */
-export const isF32 = isConstructorFactory('Float32Array');
+export const isF32Call = isConstructorNameFactory('Float32Array');
+export const isF32 = isTypeFactory(isF32Call);

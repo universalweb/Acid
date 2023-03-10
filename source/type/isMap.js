@@ -1,6 +1,8 @@
 import { hasValue } from './hasValue.js';
+import { isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
- * Checks if the source is a Map.
+ * Checks if an object or objects are a Map.
  *
  * @function isMap
  * @category type
@@ -12,7 +14,5 @@ import { hasValue } from './hasValue.js';
  * isMap(new Map());
  * // => true
  */
-const objectMap = '[object Map]';
-export function isMap(source) {
-	return (hasValue(source)) ? source.toString() === objectMap : false;
-}
+export const isMapCall = isConstructorNameFactory('Map');
+export const isMap = isTypeFactory(isMapCall);

@@ -1,6 +1,6 @@
 import { hasValue } from './hasValue.js';
 /**
- * Checks if the source is a plain object.
+ * Checks if an object or objects are a plain object.
  *
  * @function isFunction
  * @category type

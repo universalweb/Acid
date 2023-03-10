@@ -1,6 +1,7 @@
-import { isConstructorFactory } from './isConstructor.js';
+import { isConstructorFactory, isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
- * Checks if the source is a Uint8Array.
+ * Checks if an object or objects are a Uint8Array.
  *
  * @function isU8
  * @category type
@@ -12,4 +13,5 @@ import { isConstructorFactory } from './isConstructor.js';
  * isU8(new Uint8Array());
  * // => true
  */
-export const isU8 = isConstructorFactory('Uint8Array');
+export const isU8Call = isConstructorNameFactory('Uint8Array');
+export const isU8 = isTypeFactory(isU8Call);

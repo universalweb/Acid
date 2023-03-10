@@ -1,12 +1,10 @@
-import { isArray } from '../type/isArray.js';
-import { isPlainObject } from '../type/isPlainObject.js';
 /**
- * Creates a structured clone of an object.
+ * Creates a structured clone of an object which is a "structured-cloneable type".
  *
  * @function clone
  * @category utility
  * @type {Function}
- * @param {Object} source - Source object to clone.
+ * @param {Object} source - Any structured-cloneable type object.
  * @returns {Object} - Returns a deep clone of an object.
  *
  * @example
@@ -14,7 +12,7 @@ import { isPlainObject } from '../type/isPlainObject.js';
  * assert(clone({a:{b:[2]}}), {a:{b:[2]}});
  */
 const structuredCloneSafe = globalThis.structuredClone;
-export function clone(item) {
-	return structuredCloneSafe(item);
+export function clone(source) {
+	return structuredCloneSafe(source);
 }
 

@@ -1,6 +1,7 @@
-import { isConstructorFactory } from './isConstructor.js';
+import { isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
- * Checks if the source is a Int32Array.
+ * Checks if an object or objects are a Int32Array.
  *
  * @function isI32
  * @category type
@@ -12,4 +13,5 @@ import { isConstructorFactory } from './isConstructor.js';
  * isI32(new Int32Array());
  * // => true
  */
-export const isI32 = isConstructorFactory('Int32Array');
+export const isI32Call = isConstructorNameFactory('Int32Array');
+export const isI32 = isTypeFactory(isI32Call);

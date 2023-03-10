@@ -8,6 +8,7 @@ export async function forEachAsync(source, callback) {
 		valuesLength++;
 	});
 	for (let index = 0; index < valuesLength; index++) {
+		await callback(values[index], properties[index]);
 	}
 	return source;
 }

@@ -1,20 +1,18 @@
 import { hasValue } from './hasValue.js';
-import { multiCall } from '../utility/multiCall.js';
+import { multiCall } from '../utility/everyArg.js';
+import { isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
- * Checks if the source is a Set.
+ * Checks if an object(s) is a Set.
  *
  * @function isSet
  * @category type
- * @param {...*} source - Object to be checked.
+ * @param {...*} sources - Objects to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isSet } from 'Acid';
- * isSet(new Set());
- * // => true
+ * import { isSet, assert } from 'Acid';
+ * assert(isSet(new Set()), true);
  */
-const constructorName = 'Set';
-export function isSetCall(source) {
-	return source?.constructor?.name === constructorName;
-}
-export const isSet = multiCall(isSetCall);
+export const isSetCall = isConstructorNameFactory('Set');
+export const isSet = isTypeFactory(isSetCall);

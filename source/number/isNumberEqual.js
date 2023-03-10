@@ -5,8 +5,8 @@ import { isBigInt } from '../type/isBigInt.js';
  * @function isTypeSame
  * @category number
  * @type {Function}
- * @param {number} item - Number to be checked against num.
- * @param {number} num - Number to be checked against item.
+ * @param {number} source - Number to be checked against num.
+ * @param {number} target - Number to be checked against item.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -14,12 +14,7 @@ import { isBigInt } from '../type/isBigInt.js';
  * isTypeSame(0, 0);
  */
 export const isTypeSame = (source, target) => {
-  const isSourceBigInt = isBigInt(source);
-  const isTargetBigInt = isBigInt(target);
-	if (isSourceBigInt && isTargetBigInt) {
-    return item === num;
-	} else if() {
-
-  }
-	return item === num;
+	const isSourceBigInt = isBigInt(source);
+	const isTargetBigInt = isBigInt(target);
+	return source === target;
 };

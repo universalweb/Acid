@@ -4,14 +4,14 @@
  * @function add
  * @category math
  * @type {Function}
- * @param {number} number - First number.
- * @param {number} value - Second number.
+ * @param {number} augend - First number.
+ * @param {number} addend - Second number which is being added to another (augend).
  * @returns {number} - Returns the sum of the arguments.
  *
  * @example
  * import { add, assert } from 'Acid';
  * assert(add(1, 1), 2);
  */
-export function add(source, value) {
-	return source + value;
+export function add(augend, addend) {
+	return augend + addend;
 }

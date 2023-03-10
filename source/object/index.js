@@ -1,6 +1,7 @@
 export * from './assign.js';
 export * from './compactKeys.js';
 export * from './compactMap.js';
+export * from './compactMapAsync.js';
 export * from './each.js';
 export * from './eachAsync.js';
 export * from './every.js';

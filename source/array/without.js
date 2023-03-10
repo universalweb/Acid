@@ -5,16 +5,17 @@
  * @type {Function}
  * @category array
  * @param {Array} target - The target array to be filtered.
- * @param {Array} removeThese - Items to be removed.
+ * @param {Array} sources - Items to be removed.
  * @returns {Array} - The target array filtered.
  *
  * @example
  * without([1, 2, 2, 4], [4]);
  * // => [1, 2, 2]
  */
-export function without(target, ...sources) {
+// Modify to generate Mapping of sources values to loop through target and filter accordingly
+export function without(target, sources) {
 	return target.filter((item) => {
-		return !removeThese.includes(item);
+		return !sources.includes(item);
 	});
 }
 

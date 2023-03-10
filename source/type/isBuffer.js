@@ -1,6 +1,7 @@
-import { isConstructorFactory } from './isConstructor.js';
+import { isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
- * Checks if the source is a ArrayBuffer.
+ * Checks if an object or objects are a ArrayBuffer.
  *
  * @function isBuffer
  * @category type
@@ -11,4 +12,5 @@ import { isConstructorFactory } from './isConstructor.js';
  * isBuffer(new ArrayBuffer());
  * // => true
 */
-export const isBuffer = isConstructorFactory('ArrayBuffer');
+export const isBufferCall = isConstructorNameFactory('ArrayBuffer');
+export const isBuffer = isTypeFactory(isBufferCall);

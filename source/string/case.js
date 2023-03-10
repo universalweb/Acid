@@ -6,7 +6,7 @@ const spaceFirstLetter = / (.)/g;
  * @function upperCase
  * @category string
  * @type {Function}
- * @param {string} string - String to be converted into upper case.
+ * @param {string} source - String to be converted into upper case.
  * @returns {string} - Converted string in upper case.
  *
  * @example
@@ -14,8 +14,8 @@ const spaceFirstLetter = / (.)/g;
  * upperCase('upper case');
  * // => 'UPPER CASE'
  */
-export function upperCase(string) {
-	return string.replace(normalizeCase, ' ')
+export function upperCase(source) {
+	return source.replace(normalizeCase, ' ')
 		.trim()
 		.toUpperCase();
 }
@@ -25,7 +25,7 @@ export function upperCase(string) {
  * @function camelCase
  * @category string
  * @type {Function}
- * @param {string} string - String to be converted into Camel case.
+ * @param {string} source - String to be converted into Camel case.
  * @returns {string} - Converted string in Camel case.
  *
  * @example
@@ -33,8 +33,8 @@ export function upperCase(string) {
  * camelCase('camel case');
  * // => 'camelCase'
  */
-export function camelCase(string) {
-	return string.toLowerCase()
+export function camelCase(source) {
+	return source.toLowerCase()
 		.replace(spaceFirstLetter, (match) => {
 			return match.toUpperCase().replace(/ /g, '');
 		});
@@ -45,7 +45,7 @@ export function camelCase(string) {
  * @function kebabCase
  * @category string
  * @type {Function}
- * @param {string} string - String to be converted into Kebab case.
+ * @param {string} source - String to be converted into Kebab case.
  * @returns {string} - Converted string in Kebab case.
  *
  * @example
@@ -53,8 +53,8 @@ export function camelCase(string) {
  * kebabCase('kebab case');
  * // => 'kebab-case'
  */
-export function kebabCase(string) {
-	return string.replace(normalizeCase, ' ')
+export function kebabCase(source) {
+	return source.replace(normalizeCase, ' ')
 		.trim()
 		.toLowerCase()
 		.replace(spaceFirstLetter, '-$1');
@@ -65,7 +65,7 @@ export function kebabCase(string) {
  * @function snakeCase
  * @category string
  * @type {Function}
- * @param {string} string - String to be converted into snake case.
+ * @param {string} source - String to be converted into snake case.
  * @returns {string} - Converted string in Snake case.
  *
  * @example
@@ -73,8 +73,8 @@ export function kebabCase(string) {
  * snakeCase('snake case');
  * // => 'snake_case'
  */
-export function snakeCase(string) {
-	return string.replace(normalizeCase, ' ')
+export function snakeCase(source) {
+	return source.replace(normalizeCase, ' ')
 		.trim()
 		.toLowerCase()
 		.replace(spaceFirstLetter, '_$1');

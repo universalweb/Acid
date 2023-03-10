@@ -1,4 +1,6 @@
 import { isPromise } from './isPromise.js';
+import { isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object is an async function.
  *
@@ -11,12 +13,8 @@ import { isPromise } from './isPromise.js';
  * import { isAsync, assert } from 'Acid';
  * assert(isAsync(async() => {}), true);
  */
-export function isAsync(value) {
-	if (value) {
-		return value.constructor?.name === 'AsyncFunction';
-	}
-	return false;
-}
+export const isAsyncCall = isConstructorNameFactory('AsyncFunction');
+export const isAsync = isTypeFactory(isAsyncCall);
 /**
  * Checks if an object is an async function or promise.
  *

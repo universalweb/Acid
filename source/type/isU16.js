@@ -1,6 +1,7 @@
-import { isConstructorFactory } from './isConstructor.js';
+import { isConstructorFactory, isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
- * Checks if the source is a Uint16Array.
+ * Checks if an object or objects are a Uint16Array.
  *
  * @function isU16
  * @category type
@@ -12,4 +13,5 @@ import { isConstructorFactory } from './isConstructor.js';
  * isU16(new Uint16Array());
  * // => true
  */
-export const isU16 = isConstructorFactory('Uint16Array');
+export const isU16Call = isConstructorNameFactory('Uint16Array');
+export const isU16 = isTypeFactory(isU16Call);

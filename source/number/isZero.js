@@ -4,7 +4,7 @@
  * @function isZero
  * @category number
  * @type {Function}
- * @param {number} item - Number to be checked.
+ * @param {number} source - Number to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -14,6 +14,6 @@
  * isZero(1);
  * // => false
  */
-export const isZero = (item) => {
-	return item === 0;
+export const isZero = (source) => {
+	return source === 0;
 };
