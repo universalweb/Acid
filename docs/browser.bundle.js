@@ -778,7 +778,7 @@
 	 * import { isEqual, assert } from 'Acid';
 	 * assert(isEqual({a: [1,2,3]}, {a: [1,2,3]}), true);
 	 */
-	// Add map & buffer Support
+	// Add map & buffer Support - Review required for performance and support for more types
 	const isEqual = (source, target) => {
 		if (source === target) {
 			return true;
@@ -4294,7 +4294,7 @@
 			return false;
 		}
 		if (strictFlag) {
-			return everyArray(source, (value, index) => {
+			return every(source, (value, index) => {
 				return index >= 0 && isNumber(index);
 			});
 		}
@@ -5378,15 +5378,14 @@
 	 * @returns {Array} - Returns an array of properties.
 	 *
 	 * @example
-	 * import { propertyMatch } from 'Acid';
-	 * propertyMatch({
+	 * import { propertyMatch, assert } from 'Acid';
+	 * assert(propertyMatch({
 	 *   a: 1,
 	 *   b: 2
 	 * }, {
 	 *   a: 1,
 	 *   b: 2
-	 * }, ['a', 'b']);
-	 * // => true
+	 * }, ['a', 'b']), true);
 	 */
 	const propertyMatch = (source, compared, properties = keys(source)) => {
 		return everyArray(properties, (property) => {

@@ -17,7 +17,7 @@ import { isPlainObject } from '../type/isPlainObject.js';
  * import { isEqual, assert } from 'Acid';
  * assert(isEqual({a: [1,2,3]}, {a: [1,2,3]}), true);
  */
-// Add map & buffer Support
+// Add map & buffer Support - Review required for performance and support for more types
 export const isEqual = (source, target) => {
 	if (source === target) {
 		return true;

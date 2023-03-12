@@ -13,15 +13,14 @@ import { keys } from '../object/keys.js';
  * @returns {Array} - Returns an array of properties.
  *
  * @example
- * import { propertyMatch } from 'Acid';
- * propertyMatch({
+ * import { propertyMatch, assert } from 'Acid';
+ * assert(propertyMatch({
  *   a: 1,
  *   b: 2
  * }, {
  *   a: 1,
  *   b: 2
- * }, ['a', 'b']);
- * // => true
+ * }, ['a', 'b']), true);
  */
 export const propertyMatch = (source, compared, properties = keys(source)) => {
 	return everyArray(properties, (property) => {
