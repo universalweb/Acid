@@ -1,5 +1,5 @@
 import { eachArray } from './each.js';
-import { each } from '../utility/each.js';
+import { forEach } from '../utility/forEach.js';
 import { flattenDeep } from './flattenDeep.js';
 import { construct } from '../class/construct.js';
 /**
@@ -36,7 +36,7 @@ export function difference(...sources) {
 			}
 		});
 	});
-	each(differencesMap, (item) => {
+	forEach(differencesMap, (item) => {
 		if (item.count === 1 && item.parentIndex === 0) {
 			differences.push(item.child);
 		}

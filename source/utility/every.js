@@ -1,6 +1,14 @@
 import { everyArray } from '../array/every.js';
 import { everyObject } from '../object/every.js';
 import { generateLoop } from './generateLoop.js';
+import { eachArray } from '../array/each.js';
+import { eachAsyncArray } from '../array/eachAsync.js';
+import { eachAsyncObject } from '../object/eachAsync.js';
+import { eachObject } from '../object/each.js';
+import { forEach } from './forEach.js';
+import { forEachAsync } from './forEachAsync.js';
+import { forOf } from './forOf.js';
+import { forOfAsync } from './forOfAsync.js';
 /**
  * Iterates through the given object while the iteratee returns true.
  *
@@ -17,4 +25,4 @@ import { generateLoop } from './generateLoop.js';
  *  return item;
  * }), false);
  */
-export const every = generateLoop(everyArray, everyObject);
+export const every = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forEach, forEachAsync, forOf, forOfAsync);

@@ -1,6 +1,4 @@
 import { hasValue } from './hasValue.js';
-import { multiCall } from '../utility/everyArg.js';
-import { isConstructorNameRegexFactory } from './isConstructor.js';
 import { isTypeFactory } from './isTypeFactory.js';
 import { isSet } from './isSet';
 /**

@@ -1,5 +1,5 @@
 import { eachArray } from './each.js';
-import { each } from '../utility/each.js';
+import { forEach } from '../utility/forEach.js';
 import { difference } from './difference.js';
 import { construct } from '../class/construct.js';
 /**
@@ -39,7 +39,7 @@ export function xor(...sources) {
 			}
 		});
 	});
-	each(xorMap, (item) => {
+	forEach(xorMap, (item) => {
 		if (item.count === 1) {
 			xored.push(item.child);
 		}

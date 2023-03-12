@@ -1,5 +1,4 @@
 import { hasValue } from './hasValue.js';
-import { multiCall } from '../utility/everyArg.js';
 import { isConstructorNameFactory } from './isConstructor.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**

@@ -1,4 +1,3 @@
-import { hasValue } from '../type/hasValue.js';
 import { returnValue } from '../utility/returnValue.js';
 /**
  * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
@@ -17,12 +16,9 @@ import { returnValue } from '../utility/returnValue.js';
  * });
  * // => {b: 2, c: 3}
  */
-export async function forOfCompactMapAsync(source, iteratee = returnValue, results = {}) {
+export async function forOfMapAsync(source, iteratee = returnValue, results = {}) {
 	for await (const [key, value] of source) {
-		const result = await iteratee(value, key, results, source);
-		if (hasValue(result)) {
-			results[key] = result;
-		}
+		results[key] = await iteratee(value, key, results, source);
 	}
 	return source;
 }

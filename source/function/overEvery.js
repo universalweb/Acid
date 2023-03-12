@@ -5,7 +5,7 @@ import { every } from '../utility/every.js';
  * @function overEvery
  * @category function
  * @type {Function}
- * @param {(Array.<function>|Object.<function>)} iteratee - The list of functions to loop through.
+ * @param {(Array.<function>|Object.<function>)} predicates - The list of functions to loop through.
  * @returns {Function} - Returns the new overEvery wrapped function.
  *
  * @example

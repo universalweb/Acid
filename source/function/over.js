@@ -1,5 +1,4 @@
 import { map } from '../utility/map.js';
-import { every } from '../utility/every.js';
 /**
  * Creates a function that invokes iteratee with the arguments it receives and returns their results.
  *

@@ -11,7 +11,7 @@ import { eachArray } from '../array/each.js';
  *
  * @example
  * import { countWithoutKey, assert } from 'Acid';
- * assert(countWithoutKey([{a:1}, {a:3}], 'b')), 2);
+ * assert(countWithoutKey([{a:1}, {a:3}], 'b'), 2);
  */
 export function countWithoutKey(collection, propertyName) {
 	let count = 0;

@@ -16,7 +16,7 @@ import { returnValue } from '../utility/returnValue.js';
  * });
  * // => {b: 2, c: 3}
  */
-export function forOfCompactMap(source, iteratee = returnValue, results = {}) {
+export function forOfMap(source, iteratee = returnValue, results = {}) {
 	for (const [key, value] of source) {
 		results[key] = iteratee(value, key, results, source);
 	}

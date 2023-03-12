@@ -24,7 +24,7 @@ export function isConstructorFactory(source) {
 export function constructorName(source) {
 	return source?.constructor?.name;
 }
-function isConstructorNameFactory(target) {
+export function isConstructorNameFactory(target) {
 	return (source) => {
 		return source && constructorName(source) === target || false;
 	};
