@@ -12,9 +12,14 @@ import { isSet } from './isSet';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isStructCloneable, assert } from 'Acid';
- * assert(isStructCloneable(new Set()), true);
+ * import { isCloneable, assert } from 'Acid';
+ * assert(isCloneable(function (){}), false);
  */
-// PlainObject Only - TypedArrays
-const constructorNames = 'Array|ArrayBuffer|Boolean|DataView|Date|Map|Object|Boolean|Number|BigInt|String|RegExp|Set';
-const errorNames = 'Error|EvalError|RangeError|ReferenceError|SyntaxError|TypeError|URIError';
+const constructorNames = /Array|ArrayBuffer|Boolean|DataView|Date|Map|Object|Boolean|Number|BigInt|String|RegExp|Set|Error|EvalError|RangeError|ReferenceError|SyntaxError|TypeError|URIError/;
+function isCloneable(source) {
+	if (hasValue(source)) {
+		const constructorName = source.constructor.name;
+		return constructorName.match(constructorName);
+	}
+	return false;
+}
