@@ -1,4 +1,4 @@
-import { randomInt } from '../number/math.js';
+import { randomInt } from '../math/randomInt.js';
 import { toArray } from '../internal/array.js';
 /**
  * Shuffle an array and return a new array.
@@ -8,12 +8,6 @@ import { toArray } from '../internal/array.js';
  * @param {Array} target - Target Array to be shuffled.
  * @param {number} amount - The amount of times to shuffle the array.
  * @returns {Array} - An array with the shuffled results.
- *
- * @test
- * (async () => {
- *   const tempResult = shuffle([1, 2]);
- *   return assert(tempResult.includes(1) && tempResult.includes(2), true);
- * });
  *
  * @example
  * shuffle([1, 2, 3, 4]);

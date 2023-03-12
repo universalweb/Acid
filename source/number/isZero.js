@@ -8,12 +8,9 @@
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { stubArray } from 'Acid';
- * isZero(0);
- * // => true
- * isZero(1);
- * // => false
+ * import { isZero, assert } from 'Acid';
+ * assert(isZero(0), true);
  */
-export const isZero = (source) => {
+export function isZero(source) {
 	return source === 0;
-};
+}

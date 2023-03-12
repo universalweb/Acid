@@ -1,3 +1,4 @@
+import { construct } from '../class/construct.js';
 /**
  * Returns a copy of the array with all instances of the values removed.
  *
@@ -9,13 +10,16 @@
  * @returns {Array} - The target array filtered.
  *
  * @example
- * without([1, 2, 2, 4], [4]);
- * // => [1, 2, 2]
+ * import { without, assert } from 'Acid';
+ * assert(without([1, 2, 2, 4], [4]), [1, 2, 2]);
  */
-// Modify to generate Mapping of sources values to loop through target and filter accordingly
 export function without(target, sources) {
+	if (!sources) {
+		return target;
+	}
+	const sourcesSet = construct(Set, sources);
 	return target.filter((item) => {
-		return !sources.includes(item);
+		return !sourcesSet.has(item);
 	});
 }
 

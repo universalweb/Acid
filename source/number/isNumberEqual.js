@@ -1,20 +1,17 @@
-import { isBigInt } from '../type/isBigInt.js';
 /**
- * Checks if two objects are the same type.
+ * Checks if two numbers are the same.
  *
- * @function isTypeSame
+ * @function isNumberEqual
  * @category number
  * @type {Function}
- * @param {number} source - Number to be checked against num.
- * @param {number} target - Number to be checked against item.
+ * @param {number} source - Number to be checked.
+ * @param {number} target - Number to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isTypeSame } from 'Acid';
- * isTypeSame(0, 0);
+ * import { isNumberEqual, assert } from 'Acid';
+ * assert(isNumberEqual(0, 0), true);
  */
-export const isTypeSame = (source, target) => {
-	const isSourceBigInt = isBigInt(source);
-	const isTargetBigInt = isBigInt(target);
+export function isNumberEqual(source, target) {
 	return source === target;
-};
+}

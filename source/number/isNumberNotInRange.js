@@ -1,7 +1,7 @@
 /**
  * Checks if a number is within a range.
  *
- * @function isNumberInRange
+ * @function isNumberNotInRange
  * @category number
  * @type {Function}
  * @param {number} source - Number to be checked.
@@ -10,10 +10,10 @@
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isNumberInRange, assert } from 'Acid';
- * assert(isNumberInRange(1, 0, 2), true);
- * assert(isNumberInRange(1, 2, 5), false);
+ * import { isNumberNotInRange, assert } from 'Acid';
+ * assert(isNumberNotInRange(1, 0, 2), false);
+ * assert(isNumberNotInRange(1, 2, 5), true);
  */
-export function isNumberInRange(source, start, end) {
-	return source > start && source < end;
+export function isNumberNotInRange(source, start, end) {
+	return source < start || source > end;
 }
