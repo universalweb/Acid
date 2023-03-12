@@ -1,5 +1,6 @@
 import { randomInt } from '../math/randomInt.js';
 import { toArray } from '../internal/array.js';
+import { isNumberEqual } from '../number/isNumberEqual.js';
 /**
  * Shuffle an array and return a new array.
  *
@@ -10,8 +11,8 @@ import { toArray } from '../internal/array.js';
  * @returns {Array} - An array with the shuffled results.
  *
  * @example
- * shuffle([1, 2, 3, 4]);
- * // => [3, 4, 2, 1]
+ * import { shuffle, assert } from 'Acid';
+ * assert(shuffle([1, 2, 3, 4]), [3, 4, 2, 1]);
  */
 export function shuffle(target, amount = target.length) {
 	if (target.length <= 1) {

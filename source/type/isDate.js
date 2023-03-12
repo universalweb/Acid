@@ -1,3 +1,5 @@
+import { isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a Date.
  *
@@ -7,10 +9,8 @@
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isDate } from 'Acid';
- * isDate(new Date());
- * // => true
+ * import { isDate, assert } from 'Acid';
+ * assert(isDate(new Date()), true);
  */
-export function isDate(value) {
-	return value instanceof Date;
-}
+export const isDateCall = isConstructorNameFactory('Date');
+export const isDate = isTypeFactory(isDateCall);

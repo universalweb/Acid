@@ -8,9 +8,9 @@ import { hasValue } from './hasValue.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isArguments } from 'Acid';
- * isArguments([]);
- * // => false
+ * import { isArguments, assert } from 'Acid';
+ * assert(isArguments((function() { return arguments;})()), true);
+ * assert(isArguments([]), false);
  */
 const objectArguments = '[object Arguments]';
 export function isArguments(source) {

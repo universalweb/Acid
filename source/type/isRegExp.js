@@ -1,3 +1,5 @@
+import { isConstructorNameFactory } from './isConstructor.js';
+import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a RegExp.
  *
@@ -7,10 +9,8 @@
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isRegExp } from 'Acid';
- * isRegExp(/test/);
- * // => true
+ * import { isRegExp, assert } from 'Acid';
+ * assert(isRegExp(/test/), true);
  */
-export function isRegExp(value) {
-	return value instanceof RegExp;
-}
+export const isRegExpCall = isConstructorNameFactory('RegExp');
+export const isRegExp = isTypeFactory(isRegExpCall);

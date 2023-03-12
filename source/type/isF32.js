@@ -9,9 +9,8 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isF32 } from 'Acid';
- * isF32(new Float32Array());
- * // => true
+ * import { isF32, assert } from 'Acid';
+ * assert(isF32(new Float32Array()), true);
  */
 export const isF32Call = isConstructorNameFactory('Float32Array');
 export const isF32 = isTypeFactory(isF32Call);

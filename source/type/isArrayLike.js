@@ -2,6 +2,7 @@ import { isNumber } from './isNumber.js';
 import { noValue } from './noValue.js';
 import { isFunction } from './isFunction.js';
 import { hasProp } from '../internal/object.js';
+import { every } from '../array/every.js';
 /**
  * Checks if an object has a .length property that's greater than or equal to 0 & is not a function. If strict is enabled it will check to see if there is an item returned in range of the number returned bu the length property.
  *
@@ -26,7 +27,7 @@ export function isArrayLike(source, strictFlag) {
 	}
 	if (strictFlag) {
 		return every(source, (value, index) => {
-			return index >= 0 & isNumber(index);
+			return index >= 0 && isNumber(index);
 		});
 	}
 	return false;
