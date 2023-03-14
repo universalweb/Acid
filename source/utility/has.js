@@ -3,6 +3,7 @@ import { isFunction } from '../type/isFunction.js';
 import { isRegex } from '../type/isRegex.js';
 import { isString } from '../type/isString.js';
 import { noValue } from '../type/noValue.js';
+import { isArray } from '../type/isArray.js';
 /**
  * Checks if an object contains something.
  *
@@ -25,14 +26,31 @@ export function has(source, search, position) {
 	if (isString(source)) {
 		if (isString(search)) {
 			return source.includes(search, position);
-		} else if (isRegex(search)) {
+		}
+		if (isRegex(search)) {
 			return search.test(source);
-		} else if (isFunction(search)) {
+		}
+		if (isFunction(search)) {
 			return Boolean(search(source));
 		}
 		return every(search, (item) => {
 			return Boolean(has(source, item));
 		});
+	}
+	if (isArray(source)) {
+		if (isString(search)) {
+			return source.includes(search, position);
+		}
+		if (isRegex(search)) {
+			return every(source, (item) => {
+				return item.test(search);
+			});
+		}
+		if (isArray(search)) {
+			return every(search, (item) => {
+				return Boolean(has(source, item));
+			});
+		}
 	}
 	return false;
 }
