@@ -29,7 +29,7 @@ export * from './isParent.js';
 export * from './isPlainObject.js';
 export * from './isPrimitive.js';
 export * from './isPromise.js';
-export * from './isRegExp.js';
+export * from './isRegex.js';
 export * from './isRelated.js';
 export * from './isSafeInt.js';
 export * from './isSameType.js';

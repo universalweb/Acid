@@ -3,14 +3,14 @@ import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a RegExp.
  *
- * @function isRegExp
+ * @function isRegex
  * @category type
  * @param {*} value - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isRegExp, assert } from 'Acid';
- * assert(isRegExp(/test/), true);
+ * import { isRegex, assert } from 'Acid';
+ * assert(isRegex(/test/), true);
  */
-export const isRegExpCall = isConstructorNameFactory('RegExp');
-export const isRegExp = isTypeFactory(isRegExpCall);
+export const isRegexCall = isConstructorNameFactory('RegExp');
+export const isRegex = isTypeFactory(isRegexCall);

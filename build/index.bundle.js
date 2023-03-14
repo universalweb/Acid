@@ -438,7 +438,7 @@
 	 * @example
 	 * import { eachRight, assert } from 'Acid';
 	 * const tempList = [];
-	 * await eachRight([1, 2, 3], (item) => {
+	 * eachRight([1, 2, 3], (item) => {
 	 *   tempList.push(item);
 	 * });
 	 * assert(tempList, [3, 2, 1]);
@@ -506,6 +506,35 @@
 		return true;
 	}
 	/**
+	 * Iterates through the given array while the iteratee returns true else the loop exits & returns false.
+	 *
+	 * @function everyAsyncArray
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+	 * @param {*} thisBind - An object to be given each time to the iteratee.
+	 * @returns {Array} - Returns true if all returns are true or false if one value returns false.
+	 *
+	 * @example
+	 * import { everyAsyncArray, assert } from 'Acid';
+	 * assert(everyAsyncArray([true, true, false], (item, index, source, sourceLength, thisBind) => {
+	 *   return item;
+	 * }), false);
+	 * assert(everyAsyncArray([true, true, true], (item, index, source, sourceLength, thisBind) => {
+	 *   return item;
+	 * }), true);
+	 */
+	async function everyAsyncArray(source, iteratee, thisBind) {
+		const sourceLength = source.length;
+		for (let index = 0; index < sourceLength; index++) {
+			if ((await iteratee(source[index], index, source, sourceLength, thisBind)) === false) {
+				return false;
+			}
+		}
+		return true;
+	}
+	/**
 	 * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
 	 *
 	 * @function filterArray
@@ -527,6 +556,33 @@
 	function filterArray(source, iteratee, results = [], thisBind) {
 		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
 			if (iteratee(item, index, results, arrayOriginal, arrayLength, thisBind) === true) {
+				results.push(item);
+			}
+		});
+		return results;
+	}
+	/**
+	 * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
+	 *
+	 * @function filterAsyncArray
+	 * @category array
+	 * @type {Function}
+	 * @category array
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
+	 * @param {Array} results - Array that will be used to assign results.
+	 * @param {*} thisBind - An object to be given each time to the iteratee.
+	 * @returns {Array} - An array with properties that passed the test.
+	 *
+	 * @example
+	 * import { filterAsyncArray, assert } from 'Acid';
+	 * assert(filterAsyncArray([false, true, true], (item) => {
+	 *   return item;
+	 * }), [true, true]);
+	 */
+	async function filterAsyncArray(source, iteratee, results = [], thisBind) {
+		await eachAsyncArray(source, async (item, index, arrayOriginal, arrayLength) => {
+			if ((await iteratee(item, index, results, arrayOriginal, arrayLength, thisBind)) === true) {
 				results.push(item);
 			}
 		});
@@ -2373,6 +2429,8 @@
 				returned = isIterateeAsync ? forEachAsync : forEach;
 			} else if (forOfLoop) {
 				returned = isIterateeAsync ? forOfLoopAsync : forOfLoop;
+			} else {
+				returned = isIterateeAsync ? objectLoopAsync : objectLoop;
 			}
 			return returned(source, iteratee, results);
 		};
@@ -3029,6 +3087,29 @@
 	/**
 	 * Iterates through the given object while the iteratee returns true.
 	 *
+	 * @function everyAsyncObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+	 *
+	 * @example
+	 * import { everyAsyncObject, assert } from 'Acid';
+	 * const result =  await everyAsyncObject({a: true, b: true, c: true}, (item) => {
+	 *   return item;
+	 * });
+	 * assert(result, true);
+	 */
+	function everyAsyncObject(source, iteratee) {
+		const objectKeys = keys(source);
+		return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
+			return iteratee(source[key], key, source, propertyCount, original);
+		});
+	}
+	/**
+	 * Iterates through the given object while the iteratee returns true.
+	 *
 	 * @function everyObject
 	 * @category object
 	 * @type {Function}
@@ -3037,10 +3118,11 @@
 	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
-	 * everyObject({a: true, b: true, c: true}, (item) => {
+	 * import { everyObject, assert } from 'Acid';
+	 * const result =  everyObject({a: true, b: true, c: true}, (item) => {
 	 *   return item;
 	 * });
-	 * // => true
+	 * assert(result, true);
 	 */
 	function everyObject(source, iteratee) {
 		const objectKeys = keys(source);
@@ -3064,7 +3146,7 @@
 	 *  return item;
 	 * }), false);
 	 */
-	const every = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forEach, forEachAsync, forOf, forOfAsync);
+	const every = generateLoop(everyArray, everyAsyncArray, everyObject, everyAsyncObject);
 	/**
 	 * Creates a function that checks if all of the predicates return truthy when invoked with the arguments it receives.
 	 *
@@ -3585,6 +3667,31 @@
 		return results;
 	}
 	/**
+	 * Iterates through the calling object and creates an object with all elements that pass the test implemented by the iteratee.
+	 *
+	 * @function filterAsyncObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Object|Function} - An object with properties that passed the test.
+	 *
+	 * @example
+	 * filterAsyncObject({a: false, b: true, c: true}, (item) => {
+	 *   return item;
+	 * });
+	 * // => {b: true, c: true}
+	 */
+	async function filterAsyncObject(source, iteratee, results = {}) {
+		await eachAsyncObject(source, async (item, key, original, propertyCount, objectKeys) => {
+			if ((await iteratee(item, key, results, original, propertyCount, objectKeys)) === true) {
+				results[key] = item;
+			}
+		});
+		return results;
+	}
+	/**
 	 * Creates an inverted version of a given object by switching it's keys and values.
 	 *
 	 * @function invert
@@ -3790,7 +3897,7 @@
 	 * @returns {string} - Converted string in upper case.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { upperCase, assert } from 'Acid';
 	 * upperCase('upper case');
 	 * // => 'UPPER CASE'
 	 */
@@ -3808,7 +3915,7 @@
 	 * @returns {string} - Converted string in Camel case.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { camelCase, assert } from 'Acid';
 	 * camelCase('camel case');
 	 * // => 'camelCase'
 	 */
@@ -3827,7 +3934,7 @@
 	 * @returns {string} - Converted string in Kebab case.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { kebabCase, assert } from 'Acid';
 	 * kebabCase('kebab case');
 	 * // => 'kebab-case'
 	 */
@@ -3846,7 +3953,7 @@
 	 * @returns {string} - Converted string in Snake case.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { snakeCase, assert } from 'Acid';
 	 * snakeCase('snake case');
 	 * // => 'snake_case'
 	 */
@@ -3867,7 +3974,7 @@
 	 * @returns {string} - The string with the text inserted at the given point.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { insertInRange, assert } from 'Acid';
 	 * insertInRange('A from Lucy.', 1, ' tab');
 	 * // => 'A tab from Lucy.'
 	 */
@@ -3885,7 +3992,7 @@
 	 * @returns {string} - A letter at the given index.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { rightString, assert } from 'Acid';
 	 * rightString('rightString');
 	 * // => 'g'
 	 * rightString('rightString', 2);
@@ -3905,7 +4012,7 @@
 	 * @returns {Array} - An array with strings that are <= size parameter.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { chunkString, assert } from 'Acid';
 	 * chunkString('chunk', 2);
 	 * // => ['ch', 'un', 'k']
 	 */
@@ -3923,7 +4030,7 @@
 	 * @returns {string} - A string with the characters before the index starting from the right.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { initialString, assert } from 'Acid';
 	 * initialString('initialString');
 	 * // => 'initialStrin'
 	 * initialString('initialString', 2);
@@ -3943,7 +4050,7 @@
 	 * @returns {string} - A string without the characters up-to to the index.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { restString, assert } from 'Acid';
 	 * restString('restString');
 	 * // => 'estString'
 	 * restString('restString', 2);
@@ -3964,7 +4071,7 @@
 	 * @returns {string} - The string with the replacement.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { replaceList, assert } from 'Acid';
 	 * replaceList('Her name was user.', ['user'], 'Lucy');
 	 * // => 'Her name was Lucy.'
 	 */
@@ -3986,7 +4093,7 @@
 	 * @returns {string} - Converted string into the decoded URI Component .
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { rawURLDecode, assert } from 'Acid';
 	 * rawURLDecode('Lucy%20saw%20diamonds%20in%20the%20sky.');
 	 * // => 'Lucy saw diamonds in the sky.'
 	 */
@@ -4007,7 +4114,7 @@
 	 * @returns {string} - Replaced string.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { htmlEntities, assert } from 'Acid';
 	 * htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`);
 	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 	 */
@@ -4026,7 +4133,7 @@
 	 * @returns {string} - Replaced string.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { sanitize, assert } from 'Acid';
 	 * sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`);
 	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 	 */
@@ -4045,7 +4152,7 @@
 	 * @returns {Array} - Array of words without white space characters.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { tokenize, assert } from 'Acid';
 	 * tokenize('I am Lucy!');
 	 * // => ["I", "am", "Lucy!"]
 	 */
@@ -4061,7 +4168,7 @@
 	 * @returns {Array} - Array of words with word characters only.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { words, assert } from 'Acid';
 	 * words('I am Lucy!');
 	 * // => ["I", "am", "Lucy"]
 	 */
@@ -4105,7 +4212,7 @@
 	 * @returns {string} - The mutated string.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { truncate, assert } from 'Acid';
 	 * truncate('Where is Lucy?', 2);
 	 * // => 'Where is'
 	 */
@@ -4124,7 +4231,7 @@
 	 * @returns {string} - The mutated string.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { truncateRight, assert } from 'Acid';
 	 * truncateRight('Where is Lucy?', 6);
 	 * // => 'Lucy?'
 	 */
@@ -4143,7 +4250,7 @@
 	 * @returns {string} - An upper case letter.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { upperFirstLetter, assert } from 'Acid';
 	 * upperFirstLetter('upper');
 	 * // => "U"
 	 */
@@ -4160,7 +4267,7 @@
 	 * @returns {string} - String with first letter capitalized.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { upperFirst, assert } from 'Acid';
 	 * upperFirst('upper');
 	 * // => 'Upper'
 	 */
@@ -4177,7 +4284,7 @@
 	 * @returns {string} - String with all first letters capitalized.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { upperFirstAll, assert } from 'Acid';
 	 * upperFirstAll('Lucy is next up.');
 	 * // => 'Lucy Is Next Up.'
 	 */
@@ -4196,7 +4303,7 @@
 	 * @returns {string} - String with first letter capitalized.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { upperFirstOnly, assert } from 'Acid';
 	 * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
 	 * // => 'Lysergic namespace diethylamide'
 	 */
@@ -4213,7 +4320,7 @@
 	 * @returns {string} - String with all first letters capitalized.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { upperFirstOnlyAll, assert } from 'Acid';
 	 * upperFirstOnlyAll('LYSERGIC ACID DIETHYLAMIDE');
 	 * // => 'Lysergic Acid Diethylamide'
 	 */
@@ -4599,17 +4706,17 @@
 	/**
 	 * Checks if the value is a RegExp.
 	 *
-	 * @function isRegExp
+	 * @function isRegex
 	 * @category type
 	 * @param {*} value - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isRegExp, assert } from 'Acid';
-	 * assert(isRegExp(/test/), true);
+	 * import { isRegex, assert } from 'Acid';
+	 * assert(isRegex(/test/), true);
 	 */
-	const isRegExpCall = isConstructorNameFactory('RegExp');
-	const isRegExp = isTypeFactory(isRegExpCall);
+	const isRegexCall = isConstructorNameFactory('RegExp');
+	const isRegex = isTypeFactory(isRegexCall);
 	/**
 	 * Checks if objects are related to each other using instanceof. There is no required order for arguments given it will check all available ways.
 	 *
@@ -4948,7 +5055,7 @@
 	 *   return item;
 	 * }), {b: true, c: true});
 	 */
-	const filter = generateLoop(filterArray, filterObject);
+	const filter = generateLoop(filterArray, filterAsyncArray, filterObject, filterAsyncObject);
 	function returnFlow$1(callable) {
 		return (...methods) => {
 			return (arg) => {
@@ -5128,20 +5235,37 @@
 		return source;
 	}
 	/**
-	 * Checks if the value includes something.
+	 * Checks if an object contains something.
 	 *
 	 * @function has
 	 * @category utility
-	 * @param {Array|String} value - Object to be checked.
-	 * @param {*} search - Object that is being searched for.
+	 * @param {Array|String|Object} source - Object to be checked.
+	 * @param {String|Array|Function|RegExp} search - Object that is being searched for.
+	 * @param {Number} fromIndex - Index at which to start searching.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * has('My name is Acidjs', 'Acidjs');
-	 * // => true
+	 * import { has, assert } from 'Acid';
+	 * assert(has('Hello World', 'Hello'), true);
+	 * assert(has(['Hello', 'World'], 'hello'), true);
 	 */
-	function has(value, ...search) {
-		return value && value.includes && value.includes(...search);
+	function has(source, search, position) {
+		if (noValue(source) || noValue(search)) {
+			return false;
+		}
+		if (isString(source)) {
+			if (isString(search)) {
+				return source.includes(search, position);
+			} else if (isRegex(search)) {
+				return search.test(source);
+			} else if (isFunction(search)) {
+				return Boolean(search(source));
+			}
+			return every(search, (item) => {
+				return Boolean(has(source, item));
+			});
+		}
+		return false;
 	}
 	/**
 	 * Checks if the string has a '.'.
@@ -5340,9 +5464,39 @@
 	 * @param {*} source - The source object.
 	 * @param {*} source - The source object.
 	 * @returns {Array} The array which holds the pair.
+	 *
+	 * @example
+	 * import { pair, assert } from 'Acid';
+	 * assert(air(1, 2), [1, 2]);
 	 */
 	function pair(argument1, argument2) {
 		return [argument1, argument2];
+	}
+	/**
+	 * Iterates through the given array in reverse.
+	 *
+	 * @function parallel
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {*} thisBind - An object to be given each time to the iteratee.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * import { parallel, assert } from 'Acid';
+	 * const tempList = [];
+	 * await parallel([1, 2], async (item) => {
+	 *   tempList.push(item);
+	 * });
+	 * assert(tempList, has(tempList, [1, 2]));
+	 */
+	function parallel(source, iteratee, thisBind) {
+		const arrayLength = source.length;
+		for (let index = arrayLength - 1; index >= 0; index--) {
+			iteratee(source[index], index, source, arrayLength, thisBind);
+		}
+		return source;
 	}
 	/**
 	 * A wrapper around the promise constructor.
@@ -5787,11 +5941,15 @@
 	exports.every = every;
 	exports.everyArg = everyArg;
 	exports.everyArray = everyArray;
+	exports.everyAsyncArray = everyAsyncArray;
+	exports.everyAsyncObject = everyAsyncObject;
 	exports.everyObject = everyObject;
 	exports.falsey = falsey;
 	exports.falsy = falsy;
 	exports.filter = filter;
 	exports.filterArray = filterArray;
+	exports.filterAsyncArray = filterAsyncArray;
+	exports.filterAsyncObject = filterAsyncObject;
 	exports.filterObject = filterObject;
 	exports.findIndex = findIndex;
 	exports.findIndexCache = findIndexCache;
@@ -5894,8 +6052,8 @@
 	exports.isPlainObject = isPlainObject;
 	exports.isPrimitive = isPrimitive;
 	exports.isPromise = isPromise;
-	exports.isRegExp = isRegExp;
-	exports.isRegExpCall = isRegExpCall;
+	exports.isRegex = isRegex;
+	exports.isRegexCall = isRegexCall;
 	exports.isRelated = isRelated;
 	exports.isSafeInt = isSafeInt;
 	exports.isSame = isSame;
@@ -5946,6 +6104,7 @@
 	exports.over = over;
 	exports.overEvery = overEvery;
 	exports.pair = pair;
+	exports.parallel = parallel;
 	exports.partition = partition;
 	exports.pick = pick;
 	exports.pluck = pluck;

@@ -10,7 +10,7 @@ const spaceFirstLetter = / (.)/g;
  * @returns {string} - An upper case letter.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { upperFirstLetter, assert } from 'Acid';
  * upperFirstLetter('upper');
  * // => "U"
  */
@@ -27,7 +27,7 @@ export function upperFirstLetter(string) {
  * @returns {string} - String with first letter capitalized.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { upperFirst, assert } from 'Acid';
  * upperFirst('upper');
  * // => 'Upper'
  */
@@ -44,7 +44,7 @@ export function upperFirst(string) {
  * @returns {string} - String with all first letters capitalized.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { upperFirstAll, assert } from 'Acid';
  * upperFirstAll('Lucy is next up.');
  * // => 'Lucy Is Next Up.'
  */
@@ -63,7 +63,7 @@ export function upperFirstAll(string) {
  * @returns {string} - String with first letter capitalized.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { upperFirstOnly, assert } from 'Acid';
  * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
  * // => 'Lysergic namespace diethylamide'
  */
@@ -80,7 +80,7 @@ export function upperFirstOnly(string) {
  * @returns {string} - String with all first letters capitalized.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { upperFirstOnlyAll, assert } from 'Acid';
  * upperFirstOnlyAll('LYSERGIC ACID DIETHYLAMIDE');
  * // => 'Lysergic Acid Diethylamide'
  */

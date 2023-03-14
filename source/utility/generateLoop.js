@@ -17,6 +17,8 @@ export function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAs
 			returned = (isIterateeAsync) ? forEachAsync : forEach;
 		} else if (forOfLoop) {
 			returned = (isIterateeAsync) ? forOfLoopAsync : forOfLoop;
+		} else {
+			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
 		}
 		return returned(source, iteratee, results);
 	};

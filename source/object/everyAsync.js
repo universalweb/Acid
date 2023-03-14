@@ -1,9 +1,10 @@
-import { everyArray } from '../array/every.js';
+import { everyAsyncArray } from '../array/everyAsync.js';
 import { keys } from '../object/keys.js';
+import { each } from '../utility/each';
 /**
  * Iterates through the given object while the iteratee returns true.
  *
- * @function everyObject
+ * @function everyAsyncObject
  * @category object
  * @type {Function}
  * @param {Object} source - Object that will be looped through.
@@ -11,15 +12,15 @@ import { keys } from '../object/keys.js';
  * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
- * import { everyObject, assert } from 'Acid';
- * const result =  everyObject({a: true, b: true, c: true}, (item) => {
+ * import { everyAsyncObject, assert } from 'Acid';
+ * const result =  await everyAsyncObject({a: true, b: true, c: true}, (item) => {
  *   return item;
  * });
  * assert(result, true);
  */
-export function everyObject(source, iteratee) {
+export function everyAsyncObject(source, iteratee) {
 	const objectKeys = keys(source);
-	return everyArray(objectKeys, (key, index, original, propertyCount) => {
+	return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
 		return iteratee(source[key], key, source, propertyCount, original);
 	});
 }

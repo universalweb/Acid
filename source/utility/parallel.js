@@ -1,9 +1,9 @@
 import { hasValue } from '../type/hasValue.js';
-import { returnValue } from '../utility/returnValue.js';
+import { returnValue } from './returnValue.js';
 /**
  * Iterates through the given array in reverse.
  *
- * @function eachRight
+ * @function parallel
  * @category array
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
@@ -12,14 +12,14 @@ import { returnValue } from '../utility/returnValue.js';
  * @returns {Array} - The originally given array.
  *
  * @example
- * import { eachRight, assert } from 'Acid';
+ * import { parallel, assert } from 'Acid';
  * const tempList = [];
- * eachRight([1, 2, 3], (item) => {
+ * await parallel([1, 2], async (item) => {
  *   tempList.push(item);
  * });
- * assert(tempList, [3, 2, 1]);
+ * assert(tempList, has(tempList, [1, 2]));
  */
-export function eachRight(source, iteratee, thisBind) {
+export function parallel(source, iteratee, thisBind) {
 	const arrayLength = source.length;
 	for (let index = arrayLength - 1;index >= 0;index--) {
 		iteratee(source[index], index, source, arrayLength, thisBind);

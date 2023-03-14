@@ -35,6 +35,7 @@ export * from './noop.js';
 export * from './notEqual.js';
 export * from './overArgs.js';
 export * from './pair.js';
+export * from './parallel.js';
 export * from './promise.js';
 export * from './propertyMatch.js';
 export * from './returnValue.js';

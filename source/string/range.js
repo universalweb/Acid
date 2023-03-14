@@ -10,7 +10,7 @@
  * @returns {string} - The string with the text inserted at the given point.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { insertInRange, assert } from 'Acid';
  * insertInRange('A from Lucy.', 1, ' tab');
  * // => 'A tab from Lucy.'
  */
@@ -28,7 +28,7 @@ export function insertInRange(string, index, text) {
  * @returns {string} - A letter at the given index.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { rightString, assert } from 'Acid';
  * rightString('rightString');
  * // => 'g'
  * rightString('rightString', 2);
@@ -48,7 +48,7 @@ export function rightString(string, index = 1) {
  * @returns {Array} - An array with strings that are <= size parameter.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { chunkString, assert } from 'Acid';
  * chunkString('chunk', 2);
  * // => ['ch', 'un', 'k']
  */
@@ -66,7 +66,7 @@ export function chunkString(string, size) {
  * @returns {string} - A string with the characters before the index starting from the right.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { initialString, assert } from 'Acid';
  * initialString('initialString');
  * // => 'initialStrin'
  * initialString('initialString', 2);
@@ -86,7 +86,7 @@ export function initialString(string, index = 1) {
  * @returns {string} - A string without the characters up-to to the index.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { restString, assert } from 'Acid';
  * restString('restString');
  * // => 'estString'
  * restString('restString', 2);

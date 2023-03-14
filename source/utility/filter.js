@@ -1,5 +1,7 @@
-import { filterArray } from '../array/filterArray.js';
-import { filterObject } from '../object/filterObject.js';
+import { filterArray } from '../array/filter.js';
+import { filterAsyncArray } from '../array/filterAsync.js';
+import { filterAsyncObject } from '../object/filterAsync.js';
+import { filterObject } from '../object/filter.js';
 import { generateLoop } from './generateLoop.js';
 /**
  * Iterates through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
@@ -18,5 +20,5 @@ import { generateLoop } from './generateLoop.js';
  *   return item;
  * }), {b: true, c: true});
  */
-export const filter = generateLoop(filterArray, filterObject);
+export const filter = generateLoop(filterArray, filterAsyncArray, filterObject, filterAsyncObject);
 

@@ -1,4 +1,4 @@
-import { filterObject } from './filterObject.js';
+import { filterObject } from './filter.js';
 /**
  * Returns a clone of the given object without the given properties.
  *
