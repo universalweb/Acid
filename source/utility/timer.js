@@ -14,7 +14,7 @@ export class Timers {
 	 * @returns {undefined} - Returns nothing.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { timer, assert } from 'Acid';
 	 * timer(() => {}, 100);
 	 * // => 0
 	 */
@@ -37,7 +37,7 @@ export class Timers {
 	 * @returns {Object} - Returns setTimeoutId ID.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { timers, assert } from 'Acid';
 	 * timers.set(() => {}, 100);
 	 * // => 0
 	 */
@@ -56,7 +56,7 @@ export class Timers {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { timers, assert } from 'Acid';
 	 * timers.clear();
 	 * // => undefined
 	 */
@@ -79,7 +79,7 @@ export const timers = construct(Timers);
  * @returns {Object} - Returns setTimeoutId ID.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { timer, assert } from 'Acid';
  * timer(() => {}, 100);
  * // => 0
  */
@@ -94,7 +94,7 @@ export function timer(callable, time) {
  * @returns {undefined} - Returns undefined.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { clearTimers, assert } from 'Acid';
  * clearTimers();
  * // => undefined
  */

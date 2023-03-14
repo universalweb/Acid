@@ -7,7 +7,7 @@
  * @returns {string} - Returns the new empty string.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { stubString } from 'Acid';
  * stubString();
  * // => ''
  */

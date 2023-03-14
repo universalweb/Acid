@@ -2682,7 +2682,7 @@
 	 * @returns {boolean} - Returns true.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { stubTrue } from 'Acid';
 	 * stubTrue();
 	 * // => true
 	 */
@@ -2699,7 +2699,7 @@
 	 * @returns {boolean} - Returns false.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { stubFalse } from 'Acid';
 	 * stubFalse();
 	 * // => false
 	 */
@@ -2780,7 +2780,7 @@
 		 * @returns {undefined} - Returns nothing.
 		 *
 		 * @example
-		 * import { stubArray } from 'Acid';
+		 * import { timer, assert } from 'Acid';
 		 * timer(() => {}, 100);
 		 * // => 0
 		 */
@@ -2803,7 +2803,7 @@
 		 * @returns {Object} - Returns setTimeoutId ID.
 		 *
 		 * @example
-		 * import { stubArray } from 'Acid';
+		 * import { timers, assert } from 'Acid';
 		 * timers.set(() => {}, 100);
 		 * // => 0
 		 */
@@ -2822,7 +2822,7 @@
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
-		 * import { stubArray } from 'Acid';
+		 * import { timers, assert } from 'Acid';
 		 * timers.clear();
 		 * // => undefined
 		 */
@@ -2845,7 +2845,7 @@
 	 * @returns {Object} - Returns setTimeoutId ID.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { timer, assert } from 'Acid';
 	 * timer(() => {}, 100);
 	 * // => 0
 	 */
@@ -2860,7 +2860,7 @@
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { clearTimers, assert } from 'Acid';
 	 * clearTimers();
 	 * // => undefined
 	 */
@@ -5610,7 +5610,7 @@
 	 * @returns {Object} - Returns the new empty object.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { stubObject } from 'Acid';
 	 * stubObject();
 	 * // => {}
 	 */
@@ -5626,7 +5626,7 @@
 	 * @returns {string} - Returns the new empty string.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { stubString } from 'Acid';
 	 * stubString();
 	 * // => ''
 	 */
@@ -5696,7 +5696,7 @@
 	 * @returns {(string|number|Object|Array)} - The opposing value to the current.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { toggle } from 'Acid';
 	 * let toggleMe = true;
 	 * toggleMe = toggle(toggleMe, true, false);
 	 * // => false
@@ -5808,7 +5808,7 @@
 	 * @returns {*} - Returns a new VirtualStorage Object.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { virtualStorage } from 'Acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * // => New Crate Object
 	 */
@@ -5855,7 +5855,7 @@
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
-		 * import { stubArray } from 'Acid';
+		 * import { virtualStorage } from 'Acid';
 		 * const myVirtualStorage = virtualStorage();
 		 * myVirtualStorage.setItem('key', 'value');
 		 * myVirtualStorage.clear();
@@ -5872,7 +5872,7 @@
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
-		 * import { stubArray } from 'Acid';
+		 * import { virtualStorage } from 'Acid';
 		 * const myVirtualStorage = virtualStorage();
 		 * myVirtualStorage.setItem('key', 'value');
 		 * myVirtualStorage.removeItem('key');

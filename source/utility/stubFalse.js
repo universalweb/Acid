@@ -7,7 +7,7 @@
  * @returns {boolean} - Returns false.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { stubFalse } from 'Acid';
  * stubFalse();
  * // => false
  */

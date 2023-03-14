@@ -2787,7 +2787,7 @@ function curryRight(callable, arity = callable.length) {
  * @returns {boolean} - Returns true.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { stubTrue } from 'Acid';
  * stubTrue();
  * // => true
  */
@@ -2805,7 +2805,7 @@ const stubTrue = () => {
  * @returns {boolean} - Returns false.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { stubFalse } from 'Acid';
  * stubFalse();
  * // => false
  */
@@ -2890,7 +2890,7 @@ class Timers {
 	 * @returns {undefined} - Returns nothing.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { timer, assert } from 'Acid';
 	 * timer(() => {}, 100);
 	 * // => 0
 	 */
@@ -2913,7 +2913,7 @@ class Timers {
 	 * @returns {Object} - Returns setTimeoutId ID.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { timers, assert } from 'Acid';
 	 * timers.set(() => {}, 100);
 	 * // => 0
 	 */
@@ -2932,7 +2932,7 @@ class Timers {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { timers, assert } from 'Acid';
 	 * timers.clear();
 	 * // => undefined
 	 */
@@ -2955,7 +2955,7 @@ const timers = construct(Timers);
  * @returns {Object} - Returns setTimeoutId ID.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { timer, assert } from 'Acid';
  * timer(() => {}, 100);
  * // => 0
  */
@@ -2970,7 +2970,7 @@ function timer(callable, time) {
  * @returns {undefined} - Returns undefined.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { clearTimers, assert } from 'Acid';
  * clearTimers();
  * // => undefined
  */
@@ -5830,7 +5830,7 @@ const stubArray = () => {
  * @returns {Object} - Returns the new empty object.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { stubObject } from 'Acid';
  * stubObject();
  * // => {}
  */
@@ -5847,7 +5847,7 @@ const stubObject = () => {
  * @returns {string} - Returns the new empty string.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { stubString } from 'Acid';
  * stubString();
  * // => ''
  */
@@ -5919,7 +5919,7 @@ async function timesMapAsync(amount, iteratee, results = []) {
  * @returns {(string|number|Object|Array)} - The opposing value to the current.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { toggle } from 'Acid';
  * let toggleMe = true;
  * toggleMe = toggle(toggleMe, true, false);
  * // => false
@@ -6033,7 +6033,7 @@ const uniqID = construct(UniqID);
  * @returns {*} - Returns a new VirtualStorage Object.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { virtualStorage } from 'Acid';
  * const myVirtualStorage = virtualStorage();
  * // => New Crate Object
  */
@@ -6080,7 +6080,7 @@ class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { virtualStorage } from 'Acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
 	 * myVirtualStorage.clear();
@@ -6097,7 +6097,7 @@ class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { virtualStorage } from 'Acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
 	 * myVirtualStorage.removeItem('key');

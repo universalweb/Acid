@@ -11,7 +11,7 @@ import { isEqual } from './isEqual.js';
  * @returns {(string|number|Object|Array)} - The opposing value to the current.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { toggle } from 'Acid';
  * let toggleMe = true;
  * toggleMe = toggle(toggleMe, true, false);
  * // => false

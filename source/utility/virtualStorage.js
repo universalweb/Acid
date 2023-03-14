@@ -7,7 +7,7 @@
  * @returns {*} - Returns a new VirtualStorage Object.
  *
  * @example
- * import { stubArray } from 'Acid';
+ * import { virtualStorage } from 'Acid';
  * const myVirtualStorage = virtualStorage();
  * // => New Crate Object
  */
@@ -54,7 +54,7 @@ export class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { virtualStorage } from 'Acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
 	 * myVirtualStorage.clear();
@@ -71,7 +71,7 @@ export class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { virtualStorage } from 'Acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
 	 * myVirtualStorage.removeItem('key');
