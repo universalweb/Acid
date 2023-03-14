@@ -2304,6 +2304,56 @@
 		});
 	}
 	/**
+	 * Asynchronously iterates through the given object.
+	 *
+	 * @function eachAsyncObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
+	 * @returns {Object|Function} - Returns source.
+	 *
+	 * @example
+	 * (async () => {
+	 *   const tempList = {};
+	 *   await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
+	 *     tempList[key] = item;
+	 *   });
+	 *   return assert(tempList, {a: 1, b: 2, c: 3});
+	 * });
+	 *
+	 */
+	const eachAsyncObject = async (source, iteratee) => {
+		const objectKeys = keys(source);
+		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
+			return iteratee(source[key], key, source, propertyCount, objectKeys);
+		});
+		return source;
+	};
+	/**
+	 * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
+	 *
+	 * @function mapObjectAsync
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Object|Function} - An object of the same calling object's type.
+	 *
+	 * @example
+	 * import { mapAsyncObject, assert } from 'Acid';
+	 * assert(await mapAsyncObject({a: 1, b: undefined, c: 3}, (item) => {
+	 *   return item;
+	 * }), {a: 1, b: undefined, c: 3});
+	 */
+	async function mapAsyncObject(source, iteratee, results = {}) {
+		await eachAsyncObject(source, async (item, key, thisObject, propertyCount, objectKeys) => {
+			results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
+		});
+		return results;
+	}
+	/**
 	 * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
 	 *
 	 * @function mapObject
@@ -2315,10 +2365,10 @@
 	 * @returns {Object|Function} - An object of the same calling object's type.
 	 *
 	 * @example
-	 * mapObject({a: 1, b: 2, c: 3}, (item) => {
-	 *   return item * 2;
-	 * });
-	 * // => {a: 2, b: 4, c: 6}
+	 * import { mapObject, assert } from 'Acid';
+	 * assert(mapObject({a: 1, b: undefined, c: 3}, (item) => {
+	 *   return item;
+	 * }), {a: 1, b: undefined, c: 3});
 	 */
 	function mapObject(source, iteratee, results = {}) {
 		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
@@ -2452,7 +2502,7 @@
 	 *   return item * 2;
 	 * }), {a: 2, b: 4, c: 6});
 	 */
-	const map = generateLoop(mapArray, mapObject);
+	const map = generateLoop(mapArray, mapAsyncArray, mapObject, mapAsyncObject);
 	/**
 	 * Loops through an object or an array and binds the given object to all functions encountered.
 	 *
@@ -2486,41 +2536,14 @@
 	 * @returns {Object} - Returns the target object.
 	 *
 	 * @example
-	 * assign({b: 2}, {a: 1});
-	 * // => {b: 2, a: 1}
+	 * import { assign, assert } from 'Acid';
+	 * assert(assign({b: 2}, {a: 1}), {b: 2, a: 1});
 	 */
 	function assign(target, ...sources) {
 		if (target) {
 			return objectAssign(target, ...sources);
 		}
 	}
-	/**
-	 * Asynchronously iterates through the given object.
-	 *
-	 * @function eachAsyncObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
-	 * @returns {Object|Function} - Returns source.
-	 *
-	 * @example
-	 * (async () => {
-	 *   const tempList = {};
-	 *   await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
-	 *     tempList[key] = item;
-	 *   });
-	 *   return assert(tempList, {a: 1, b: 2, c: 3});
-	 * });
-	 *
-	 */
-	const eachAsyncObject = async (source, iteratee) => {
-		const objectKeys = keys(source);
-		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
-			return iteratee(source[key], key, source, propertyCount, objectKeys);
-		});
-		return source;
-	};
 	async function forEachAsync(source, callback) {
 		const values = [];
 		const properties = [];
@@ -2964,8 +2987,8 @@
 	async function inAsync(source, firstArgument) {
 		const arrayLength = source.length;
 		for (let index = 0; index < arrayLength; index++) {
-			const item = source[index];
-			await item(firstArgument, index, source, arrayLength);
+			const method = source[index];
+			await method(firstArgument, index, source, arrayLength);
 		}
 		return source;
 	}
@@ -3070,16 +3093,16 @@
 	 * @function over
 	 * @category function
 	 * @type {Function}
-	 * @param {(Array.<function>|Object.<function>)} iteratee - The list of functions to loop through.
+	 * @param {(Array.<function>|Object.<function>)} iteratees - The list of functions to loop through.
 	 * @returns {Function} - Returns the new over wrapped function.
 	 *
 	 * @example
-	 * over([Math.max, Math.min])(1, 2, 3, 4);
-	 * // => [4, 1]
+	 * import { overEvery, assert } from 'Acid';
+	 * assert(over([Math.max, Math.min])(1, 2, 3, 4), [4, 1]);
 	 */
-	function over(iteratee) {
+	function over(iteratees) {
 		return (...args) => {
-			return map(iteratee, (item) => {
+			return map(iteratees, (item) => {
 				return item(...args);
 			});
 		};
@@ -3101,7 +3124,7 @@
 	 * });
 	 * assert(result, true);
 	 */
-	function everyAsyncObject(source, iteratee) {
+	async function everyAsyncObject(source, iteratee) {
 		const objectKeys = keys(source);
 		return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
 			return iteratee(source[key], key, source, propertyCount, original);
@@ -3161,9 +3184,9 @@
 	 * assert(overEvery([Boolean, isFinite])('1'), true);
 	 */
 	function overEvery(predicates) {
-		return (...args) => {
-			return every(predicates, (item) => {
-				return item(...args);
+		return (arg) => {
+			return every(predicates, (predicate) => {
+				return predicate(arg);
 			});
 		};
 	}
@@ -3562,7 +3585,7 @@
 		return source === 0;
 	}
 	/**
-	 * Extracts all keys from an object whose values are not falsey. The values false, null, 0, "", undefined, and NaN are falsey.
+	 * Extracts all keys from an object whose values are not null or undefined.
 	 *
 	 * @function compactKeys
 	 * @category object
@@ -3570,50 +3593,18 @@
 	 * @param {Object} object - Object from which keys are extracted.
 	 * @returns {Array} - Returns an array of key values.
 	 *
-	 * @test
-	 * (async () => {
-	 *   const results = compactKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: undefined, other: false, that: null});
-	 *   return assert(results.includes('Lucy') && results.includes('John'), true);
-	 * });
-	 *
 	 * @example
-	 * compactKeys({Lucy: 'Ringo', John: 'Malkovich', Thor: undefined, other: false, that: null});
-	 * // => ['Lucy', 'John']
+	 * import { compactKeys, assert } from 'Acid';
+	 * assert(compactKeys({a: 1, b: 0, c: undefined, d: false, e: null}), {a:1, b:0, d: false});
 	 */
 	function compactKeys(object) {
 		const compactedKeys = [];
 		eachObject(object, (item, key) => {
-			if (item) {
+			if (hasValue(item)) {
 				compactedKeys.push(key);
 			}
 		});
 		return compactedKeys;
-	}
-	/**
-	 * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
-	 *
-	 * @function compactMapObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
-	 *
-	 * @example
-	 * compactMapObject({a: undefined, b: 2, c: 3}, (item) => {
-	 *   return item;
-	 * });
-	 * // => {b: 2, c: 3}
-	 */
-	function compactMapObject(source, iteratee = returnValue, results = {}) {
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			const result = iteratee(item, key, results, original, propertyCount, objectKeys);
-			if (hasValue(result)) {
-				results[key] = result;
-			}
-		});
-		return results;
 	}
 	/**
 	 * Asynchronously iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
@@ -3627,14 +3618,40 @@
 	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
 	 *
 	 * @example
-	 * compactMapAsyncObject({a: undefined, b: 2, c: 3}, (item) => {
+	 * import { compactMapAsyncObject, assert } from 'Acid';
+	 * assert(await compactMapAsyncObject({a: 1, b: undefined, c: 3}, (item) => {
 	 *   return item;
-	 * });
-	 * // => {b: 2, c: 3}
+	 * }), {a: 1, c: 3});
 	 */
 	async function compactMapAsyncObject(source, iteratee = returnValue, results = {}) {
 		await eachAsyncObject(source, async (item, key, original, propertyCount, objectKeys) => {
 			const result = await iteratee(item, key, results, original, propertyCount, objectKeys);
+			if (hasValue(result)) {
+				results[key] = result;
+			}
+		});
+		return results;
+	}
+	/**
+	 * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+	 *
+	 * @function compactMapObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object|Function} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
+	 *
+	 * @example
+	 * import { compactMapObject, assert } from 'Acid';
+	 * assert(compactMapObject({a: 1, b: undefined, c: 3}, (item) => {
+	 *   return item;
+	 * }), {a: 1, c: 3});
+	 */
+	function compactMapObject(source, iteratee = returnValue, results = {}) {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			const result = iteratee(item, key, results, original, propertyCount, objectKeys);
 			if (hasValue(result)) {
 				results[key] = result;
 			}
@@ -3737,55 +3754,6 @@
 			});
 		}
 		return false;
-	};
-	/**
-	 * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
-	 *
-	 * @function mapObjectAsync
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} - An object of the same calling object's type.
-	 *
-	 * @example
-	 * mapObjectAsync({a: 1, b: 2, c: 3}, (item) => {
-	 *   return item * 2;
-	 * });
-	 * // => {a: 2, b: 4, c: 6}
-	 */
-	const mapObjectAsync = async (source, iteratee, results = {}) => {
-		await eachAsyncObject(source, async (item, key, thisObject, propertyCount, objectKeys) => {
-			results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
-		});
-		return results;
-	};
-	/**
-	 * Asynchronously iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
-	 *
-	 * @function compactMapObjectAsync
-	 * @category object
-	 * @type {Function}
-	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
-	 *
-	 * @example
-	 * compactMapObjectAsync({a: undefined, b: 2, c: 3}, (item) => {
-	 *   return item;
-	 * });
-	 * // => {b: 2, c: 3}
-	 */
-	const compactMapObjectAsync = async (source, iteratee, results = {}) => {
-		await eachAsyncObject(source, async (item, key, thisObject, propertyCount, objectKeys) => {
-			const result = await iteratee(item, key, results, propertyCount, objectKeys);
-			if (hasValue(result)) {
-				results[key] = result;
-			}
-		});
-		return results;
 	};
 	/**
 	 * Returns a clone of the given object without the given properties.
@@ -5014,11 +4982,23 @@
 	 * }), {b: 2, c: 3});
 	 */
 	const compactMap = generateLoop(compactMapArray, compactMapAsyncArray, compactMapObject, compactMapAsyncObject);
-	function everyArg(method, primarySource, ...otherSources) {
-		if (otherSources) {
-			return method(primarySource) && everyArray(otherSources, method);
+	function everyArg(...methods) {
+		if (isAsync(methods[0])) {
+			return async function(...args) {
+				return every(methods, async (method) => {
+					return every(args, async (item) => {
+						return method(item);
+					});
+				});
+			};
 		}
-		return method(primarySource);
+		return function(...args) {
+			return every(methods, (method) => {
+				return every(args, (item) => {
+					return method(item);
+				});
+			});
+		};
 	}
 	/**
 	 * Check if a value is falsey which are false, null, 0, "", undefined, and NaN.
@@ -6522,7 +6502,6 @@
 	exports.compactMapAsyncArray = compactMapAsyncArray;
 	exports.compactMapAsyncObject = compactMapAsyncObject;
 	exports.compactMapObject = compactMapObject;
-	exports.compactMapObjectAsync = compactMapObjectAsync;
 	exports.construct = construct;
 	exports.constructorName = constructorName;
 	exports.countBy = countBy;
@@ -6703,8 +6682,8 @@
 	exports.map = map;
 	exports.mapArray = mapArray;
 	exports.mapAsyncArray = mapAsyncArray;
+	exports.mapAsyncObject = mapAsyncObject;
 	exports.mapObject = mapObject;
-	exports.mapObjectAsync = mapObjectAsync;
 	exports.mapRightArray = mapRightArray;
 	exports.mapWhile = mapWhile;
 	exports.merge = merge;

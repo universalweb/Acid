@@ -23,8 +23,8 @@
 export async function inAsync(source, firstArgument) {
 	const arrayLength = source.length;
 	for (let index = 0; index < arrayLength; index++) {
-		const item = source[index];
-		await item(firstArgument, index, source, arrayLength);
+		const method = source[index];
+		await method(firstArgument, index, source, arrayLength);
 	}
 	return source;
 }

@@ -5,16 +5,16 @@ import { map } from '../utility/map.js';
  * @function over
  * @category function
  * @type {Function}
- * @param {(Array.<function>|Object.<function>)} iteratee - The list of functions to loop through.
+ * @param {(Array.<function>|Object.<function>)} iteratees - The list of functions to loop through.
  * @returns {Function} - Returns the new over wrapped function.
  *
  * @example
- * over([Math.max, Math.min])(1, 2, 3, 4);
- * // => [4, 1]
+ * import { overEvery, assert } from 'Acid';
+ * assert(over([Math.max, Math.min])(1, 2, 3, 4), [4, 1]);
  */
-export function over(iteratee) {
+export function over(iteratees) {
 	return (...args) => {
-		return map(iteratee, (item) => {
+		return map(iteratees, (item) => {
 			return item(...args);
 		});
 	};

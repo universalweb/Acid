@@ -13,9 +13,9 @@ import { every } from '../utility/every.js';
  * assert(overEvery([Boolean, isFinite])('1'), true);
  */
 export function overEvery(predicates) {
-	return (...args) => {
-		return every(predicates, (item) => {
-			return item(...args);
+	return (arg) => {
+		return every(predicates, (predicate) => {
+			return predicate(arg);
 		});
 	};
 }

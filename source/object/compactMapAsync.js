@@ -1,6 +1,7 @@
 import { eachAsyncObject } from './eachAsync.js';
 import { hasValue } from '../type/hasValue.js';
 import { returnValue } from '../utility/returnValue.js';
+import { mapAsyncObject } from './mapAsync';
 /**
  * Asynchronously iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
  *
@@ -13,10 +14,10 @@ import { returnValue } from '../utility/returnValue.js';
  * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
  *
  * @example
- * compactMapAsyncObject({a: undefined, b: 2, c: 3}, (item) => {
+ * import { compactMapAsyncObject, assert } from 'Acid';
+ * assert(await compactMapAsyncObject({a: 1, b: undefined, c: 3}, (item) => {
  *   return item;
- * });
- * // => {b: 2, c: 3}
+ * }), {a: 1, c: 3});
  */
 export async function compactMapAsyncObject(source, iteratee = returnValue, results = {}) {
 	await eachAsyncObject(source, async (item, key, original, propertyCount, objectKeys) => {

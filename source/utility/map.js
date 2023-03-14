@@ -1,6 +1,8 @@
 import { mapArray } from '../array/map.js';
 import { mapObject } from '../object/map.js';
 import { generateLoop } from './generateLoop.js';
+import { mapAsyncArray } from '../array/mapAsync.js';
+import { mapAsyncObject } from '../object/mapAsync.js';
 /**
  * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
  *
@@ -18,5 +20,5 @@ import { generateLoop } from './generateLoop.js';
  *   return item * 2;
  * }), {a: 2, b: 4, c: 6});
  */
-export const map = generateLoop(mapArray, mapObject);
+export const map = generateLoop(mapArray, mapAsyncArray, mapObject, mapAsyncObject);
 

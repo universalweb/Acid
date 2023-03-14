@@ -1,4 +1,5 @@
 import { eachObject } from './each.js';
+import { mapAsyncObject } from './mapAsync';
 /**
  * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
  *
@@ -11,10 +12,10 @@ import { eachObject } from './each.js';
  * @returns {Object|Function} - An object of the same calling object's type.
  *
  * @example
- * mapObject({a: 1, b: 2, c: 3}, (item) => {
- *   return item * 2;
- * });
- * // => {a: 2, b: 4, c: 6}
+ * import { mapObject, assert } from 'Acid';
+ * assert(mapObject({a: 1, b: undefined, c: 3}, (item) => {
+ *   return item;
+ * }), {a: 1, b: undefined, c: 3});
  */
 export function mapObject(source, iteratee, results = {}) {
 	eachObject(source, (item, key, original, propertyCount, objectKeys) => {

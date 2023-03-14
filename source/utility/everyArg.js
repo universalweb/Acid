@@ -1,7 +1,20 @@
-import { everyArray } from '../array/every.js';
-export function everyArg(method, primarySource, ...otherSources) {
-	if (otherSources) {
-		return method(primarySource) && everyArray(otherSources, method);
+import { every } from './every.js';
+import { isAsync } from '../type/isAsync.js';
+export function everyArg(...methods) {
+	if (isAsync(methods[0])) {
+		return async function(...args) {
+			return every(methods, async (method) => {
+				return every(args, async (item) => {
+					return method(item);
+				});
+			});
+		};
 	}
-	return method(primarySource);
+	return function(...args) {
+		return every(methods, (method) => {
+			return every(args, (item) => {
+				return method(item);
+			});
+		});
+	};
 }

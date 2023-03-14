@@ -14,6 +14,7 @@ export * from './isMatch.js';
 export * from './keys.js';
 export * from './map.js';
 export * from './mapAsync.js';
+export * from './mapAsync.js';
 export * from './omit.js';
 export * from './pick.js';
 export * from './pluckObject.js';
