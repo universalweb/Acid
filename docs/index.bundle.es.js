@@ -1082,8 +1082,8 @@ function numSort(numberList) {
  * @returns {Array} - Returns a completely flattened array.
  *
  * @example
- * arrayToObject([1, 2, 3], ['i', 'love', 'lucy']);
- * // => {i:1, love:2, lucy: 3}
+ * import { arrayToObject, assert } from 'Acid';
+ * assert(arrayToObject([1, 2, 3], ['a', 'b', 'c']), {a:1, b:2, c: 3});
  */
 function arrayToObject(source, properties) {
 	const sortedObject = {};
@@ -5001,6 +5001,34 @@ const isWeakMapCall = isConstructorNameFactory('WeakMap');
 const isWeakMap = isTypeFactory(isWeakMapCall);
 
 /**
+ * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.allSettled on the queue returning the values from each promise. Does not await on the async iteratee.
+ *
+ * @function concurrentStatus
+ * @category utility
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+ * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @returns {Array} - The array from Promise.allSettled.
+ *
+ * @example
+ * import { concurrentStatus, assert } from 'Acid';
+ * const tempList = [];
+ * await concurrentStatus([1, 2], async (item) => {
+ *   return item;
+ * });
+ * assert(tempList,  [{status: 'fulfilled', value: 1}, {status: 'fulfilled', value: 2}]);
+ */
+function concurrentStatus(source, iteratee, thisBind) {
+	const arrayLength = source.length;
+	const queue = [];
+	for (let index = 0;index < arrayLength; index++) {
+		queue[index] = iteratee(source[index], index, source, arrayLength, thisBind);
+	}
+	return Promise.allSettled(queue);
+}
+
+/**
  * Performs a deep comparison between two objects & determines if they're different using strict comparison.
  *
  * @function notEqual
@@ -5685,30 +5713,31 @@ function pair(argument1, argument2) {
 }
 
 /**
- * Iterates through the given array in reverse.
+ * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
  *
- * @function parallel
- * @category array
+ * @function concurrent
+ * @category utility
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
  * @param {*} thisBind - An object to be given each time to the iteratee.
- * @returns {Array} - The originally given array.
+ * @returns {Array} - The array from Promise.all.
  *
  * @example
- * import { parallel, assert } from 'Acid';
+ * import { concurrent, assert } from 'Acid';
  * const tempList = [];
- * await parallel([1, 2], async (item) => {
- *   tempList.push(item);
+ * await concurrent([1, 2], async (item) => {
+ *   return item;
  * });
- * assert(tempList, has(tempList, [1, 2]));
+ * assert(tempList,  [1, 2]);
  */
-function parallel(source, iteratee, thisBind) {
+function concurrent(source, iteratee, thisBind) {
 	const arrayLength = source.length;
-	for (let index = arrayLength - 1;index >= 0;index--) {
-		iteratee(source[index], index, source, arrayLength, thisBind);
+	const queue = [];
+	for (let index = 0;index < arrayLength; index++) {
+		queue[index] = iteratee(source[index], index, source, arrayLength, thisBind);
 	}
-	return source;
+	return Promise.all(queue);
 }
 
 /**
@@ -6106,5 +6135,5 @@ function virtualStorage(initialObject) {
 	return new VirtualStorage(initialObject);
 }
 
-export { Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, construct, constructorName, countBy, countKey, countWithoutKey, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsey, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfMap, forOfMapAsync, generateLoop, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getPropDesc, getPropNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasProp, hasValue, htmlEntities, ifInvoke, ifNotEqual, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isEmpty, isEqual, isF32, isF32Call, isF64, isF64Call, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSet, isSetCall, isString, isTypeFactory, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, minus, model, multiply, negate, noValue, noop, notEqual, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, pair, parallel, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortOldestFilter, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sub, sum, take, takeRight, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsey, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfMap, forOfMapAsync, generateLoop, get, getExtensionRegex, getFileExtension, getNewest, getOldest, getPropDesc, getPropNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasProp, hasValue, htmlEntities, ifInvoke, ifNotEqual, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isEmpty, isEqual, isF32, isF32Call, isF64, isF64Call, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSet, isSetCall, isString, isTypeFactory, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, minus, model, multiply, negate, noValue, noop, notEqual, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, rNumSort, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortOldestFilter, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sub, sum, take, takeRight, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

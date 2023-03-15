@@ -10,8 +10,8 @@ import { eachArray } from './each.js';
  * @returns {Array} - Returns a completely flattened array.
  *
  * @example
- * arrayToObject([1, 2, 3], ['i', 'love', 'lucy']);
- * // => {i:1, love:2, lucy: 3}
+ * import { arrayToObject, assert } from 'Acid';
+ * assert(arrayToObject([1, 2, 3], ['a', 'b', 'c']), {a:1, b:2, c: 3});
  */
 export function arrayToObject(source, properties) {
 	const sortedObject = {};

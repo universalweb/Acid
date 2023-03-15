@@ -1048,8 +1048,8 @@
 	 * @returns {Array} - Returns a completely flattened array.
 	 *
 	 * @example
-	 * arrayToObject([1, 2, 3], ['i', 'love', 'lucy']);
-	 * // => {i:1, love:2, lucy: 3}
+	 * import { arrayToObject, assert } from 'Acid';
+	 * assert(arrayToObject([1, 2, 3], ['a', 'b', 'c']), {a:1, b:2, c: 3});
 	 */
 	function arrayToObject(source, properties) {
 		const sortedObject = {};
@@ -4808,6 +4808,33 @@
 	const isWeakMapCall = isConstructorNameFactory('WeakMap');
 	const isWeakMap = isTypeFactory(isWeakMapCall);
 	/**
+	 * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.allSettled on the queue returning the values from each promise. Does not await on the async iteratee.
+	 *
+	 * @function concurrentStatus
+	 * @category utility
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {*} thisBind - An object to be given each time to the iteratee.
+	 * @returns {Array} - The array from Promise.allSettled.
+	 *
+	 * @example
+	 * import { concurrentStatus, assert } from 'Acid';
+	 * const tempList = [];
+	 * await concurrentStatus([1, 2], async (item) => {
+	 *   return item;
+	 * });
+	 * assert(tempList,  [{status: 'fulfilled', value: 1}, {status: 'fulfilled', value: 2}]);
+	 */
+	function concurrentStatus(source, iteratee, thisBind) {
+		const arrayLength = source.length;
+		const queue = [];
+		for (let index = 0; index < arrayLength; index++) {
+			queue[index] = iteratee(source[index], index, source, arrayLength, thisBind);
+		}
+		return Promise.allSettled(queue);
+	}
+	/**
 	 * Performs a deep comparison between two objects & determines if they're different using strict comparison.
 	 *
 	 * @function notEqual
@@ -5470,30 +5497,31 @@
 		return [argument1, argument2];
 	}
 	/**
-	 * Iterates through the given array in reverse.
+	 * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
 	 *
-	 * @function parallel
-	 * @category array
+	 * @function concurrent
+	 * @category utility
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
 	 * @param {*} thisBind - An object to be given each time to the iteratee.
-	 * @returns {Array} - The originally given array.
+	 * @returns {Array} - The array from Promise.all.
 	 *
 	 * @example
-	 * import { parallel, assert } from 'Acid';
+	 * import { concurrent, assert } from 'Acid';
 	 * const tempList = [];
-	 * await parallel([1, 2], async (item) => {
-	 *   tempList.push(item);
+	 * await concurrent([1, 2], async (item) => {
+	 *   return item;
 	 * });
-	 * assert(tempList, has(tempList, [1, 2]));
+	 * assert(tempList,  [1, 2]);
 	 */
-	function parallel(source, iteratee, thisBind) {
+	function concurrent(source, iteratee, thisBind) {
 		const arrayLength = source.length;
-		for (let index = arrayLength - 1; index >= 0; index--) {
-			iteratee(source[index], index, source, arrayLength, thisBind);
+		const queue = [];
+		for (let index = 0; index < arrayLength; index++) {
+			queue[index] = iteratee(source[index], index, source, arrayLength, thisBind);
 		}
-		return source;
+		return Promise.all(queue);
 	}
 	/**
 	 * A wrapper around the promise constructor.
@@ -6502,6 +6530,8 @@
 	exports.compactMapAsyncArray = compactMapAsyncArray;
 	exports.compactMapAsyncObject = compactMapAsyncObject;
 	exports.compactMapObject = compactMapObject;
+	exports.concurrent = concurrent;
+	exports.concurrentStatus = concurrentStatus;
 	exports.construct = construct;
 	exports.constructorName = constructorName;
 	exports.countBy = countBy;
@@ -6706,7 +6736,6 @@
 	exports.over = over;
 	exports.overEvery = overEvery;
 	exports.pair = pair;
-	exports.parallel = parallel;
 	exports.partition = partition;
 	exports.pick = pick;
 	exports.pluck = pluck;
