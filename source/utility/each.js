@@ -25,5 +25,5 @@ import { generateLoop } from './generateLoop.js';
  * });
  * assert(list, {a: 1, b: 2, c: 3});
  */
-export const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forEach, forEachAsync, forOf, forOfAsync);
+export const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
 

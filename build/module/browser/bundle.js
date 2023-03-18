@@ -2469,26 +2469,6 @@ function mapObject(source, iteratee, results = {}) {
 }
 
 /**
- * Checks if an object is a promise.
- *
- * @function isPromise
- * @category type
- * @param {*} value - Object to be checked.
- * @returns {boolean} - True or false.
- *
- * @example
- * import { isPromise } from 'Acid';
- * isPromise(new Promise(() => {}));
- * // => true
- */
-function isPromise(value) {
-	if (value) {
-		return value instanceof Promise;
-	}
-	return false;
-}
-
-/**
  * Checks to see if the constructor is that of a native object.
  *
  * @function isConstructor
@@ -2542,26 +2522,24 @@ function isTypeFactory(method) {
  */
 const isAsyncCall = isConstructorNameFactory('AsyncFunction');
 const isAsync = isTypeFactory(isAsyncCall);
+
 /**
- * Checks if an object is an async function or promise.
+ * Checks if an object or objects are a Int16Array.
  *
- * @function isKindAsync
+ * @function isGenerator
  * @category type
- * @param {*} value - Object to be checked.
- * @returns {boolean} - True or false.
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isKindAsync, assert } from 'Acid';
- * assert(isKindAsync(async() => {}), true);
+ * import { isGenerator } from 'Acid';
+ * isGenerator(function* (){});
+ * // => true
  */
-function isKindAsync(value) {
-	if (value) {
-		return isPromise(value) || isAsync(value);
-	}
-	return false;
-}
+const isGeneratorCall = isConstructorNameFactory('GeneratorFunction');
+const isGenerator = isTypeFactory(isGeneratorCall);
 
-function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forEach, forEachAsync, forOfLoopAsync, forOfLoop) {
+function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
 	return (source, iteratee, results) => {
 		let returned;
 		const isIterateeAsync = isAsync(iteratee);
@@ -2569,17 +2547,133 @@ function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, fo
 			return;
 		} else if (isArray(source)) {
 			returned = (isIterateeAsync) ? arrayLoopAsync : arrayLoop;
-		} else if (isPlainObject(source)) {
+		} else if (isPlainObject(source) || isFunction(source)) {
 			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
-		} else if (forEachAsync && source.forEach) {
-			returned = (isIterateeAsync) ? forEachAsync : forEach;
 		} else if (forOfLoop) {
 			returned = (isIterateeAsync) ? forOfLoopAsync : forOfLoop;
+		} else if (isGenerator(source)) {
+			returned = forOfLoopAsync;
 		} else {
 			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
 		}
 		return returned(source, iteratee, results);
 	};
+}
+
+function getType(source) {
+	return source?.constructor;
+}
+
+function cloneType(source, args = []) {
+	const sourceType = getType(source);
+	if (sourceType === Function) {
+		if (sourceType.name === 'function') {
+			return function() {};
+		}
+	}
+	return construct(sourceType, args);
+}
+
+/**
+ * Checks if an object(s) is a Set.
+ *
+ * @function isSet
+ * @category type
+ * @param {...*} sources - Objects to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * import { isSet, assert } from 'Acid';
+ * assert(isSet(new Set()), true);
+ */
+const isSetCall = isConstructorNameFactory('Set');
+const isSet = isTypeFactory(isSetCall);
+
+/**
+ * Iterates through (using for of) the calling object and creates an object with the results of the iteratee on every element in the calling object.
+ *
+ * @function forOfCompactMap
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @param {Object|Function|Class|Map|Set|Array} resultsObject - Object that will be used to assign results else source is type cloned.
+ * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
+ *
+ * @example
+ * forOfCompactMap({a: undefined, b: 2, c: 3}, (item) => {
+ *   return item;
+ * });
+ * // => {b: 2, c: 3}
+ */
+function forOfMap(source, iteratee = returnValue, resultsObject) {
+	const results = resultsObject || cloneType(source);
+	if (isArray(source) || isSet(source)) {
+		const methodPush = results.push || results.add;
+		const methodPushBound = methodPush && methodPush.bind(results);
+		for (const value of source) {
+			const result = iteratee(value, results, source);
+			methodPushBound(result);
+		}
+		return results;
+	}
+	const methodSet = isFunction(results.set);
+	for (const [key, value] of source) {
+		const result = iteratee(value, key, results, source);
+		if (methodSet) {
+			results.set(key, result);
+		} else {
+			results[key] = result;
+		}
+	}
+	return results;
+}
+
+/**
+ * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+ *
+ * @function forOfCompactMapAsync
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @param {Object|Function|Class|Map|Set|Array} resultsObject - Object that will be used to assign results.
+ * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
+ *
+ * @example
+ * forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
+ *   return item;
+ * });
+ * // => {b: 2, c: 3}
+ */
+async function forOfMapAsync(source, iteratee = returnValue, resultsObject, generatorArgs) {
+	if (isGenerator(source)) {
+		const resultsGenerator = [];
+		for await (const item of source(...generatorArgs)) {
+			resultsGenerator.push(await iteratee(item, resultsGenerator, source));
+		}
+		return resultsGenerator;
+	}
+	const results = resultsObject || cloneType(source);
+	if (isArray(source) || isSet(source)) {
+		const methodPush = results.push || results.add;
+		const methodPushBound = methodPush && methodPush.bind(results);
+		for (const value of source) {
+			const result = await iteratee(value, results, source);
+			methodPushBound(result);
+		}
+		return results;
+	}
+	const methodSet = isFunction(results.set);
+	for await (const [key, value] of source) {
+		const result = await iteratee(value, key, results, source);
+		if (methodSet) {
+			results.set(key, result);
+		} else {
+			results[key] = result;
+		}
+	}
+	return results;
 }
 
 /**
@@ -2599,7 +2693,7 @@ function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, fo
  *   return item * 2;
  * }), {a: 2, b: 4, c: 6});
  */
-const map = generateLoop(mapArray, mapAsyncArray, mapObject, mapAsyncObject);
+const map = generateLoop(mapArray, mapAsyncArray, mapObject, mapAsyncObject, forOfMap, forOfMapAsync);
 
 /**
  * Loops through an object or an array and binds the given object to all functions encountered.
@@ -2659,16 +2753,33 @@ async function forEachAsync(source, callback) {
 	return source;
 }
 
-function forOf(source, callback) {
+function forOf(source, iteratee) {
+	if (isSet(source)) {
+		for (const value of source) {
+			iteratee(value, source);
+		}
+		return source;
+	}
 	for (const [key, value] of source) {
-		callback(value, key, source);
+		iteratee(value, key, source);
 	}
 	return source;
 }
 
-async function forOfAsync(source, callback) {
-	for await (const [key, value] of source) {
-		await callback(value, key, source);
+async function forOfAsync(source, iteratee, generatorArgs) {
+	if (isSet(source)) {
+		for (const value of source) {
+			await iteratee(value, source);
+		}
+		return source;
+	}
+	if (isGenerator(source)) {
+		for await (const item of source(...generatorArgs)) {
+			await iteratee(item, source);
+		}
+	}
+	for (const [key, value] of source) {
+		await iteratee(value, key, source);
 	}
 	return source;
 }
@@ -2691,7 +2802,7 @@ async function forOfAsync(source, callback) {
  * });
  * assert(list, {a: 1, b: 2, c: 3});
  */
-const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forEach, forEachAsync, forOf, forOfAsync);
+const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
 
 const add$1 = (link, methods) => {
 	each(methods, (item, key) => {
@@ -3277,6 +3388,83 @@ function everyObject(source, iteratee) {
 }
 
 /**
+ * Iterates (for of) through the given object while the iteratee returns true using a for of loop.
+ *
+ * @function forOfEvery
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { every, assert } from 'Acid';
+ * assert(forOfEvery({a: false, b: true, c: true}, (item) => {
+ *  return item;
+ * }), false);
+ */
+function forOfEvery(source, iteratee = returnValue) {
+	if (isArray(source) || isSet(source)) {
+		for (const value of source) {
+			const result = iteratee(value, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	} else {
+		for (const [key, value] of source) {
+			const result = iteratee(value, key, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+/**
+ * Asynchronously iterates (for of) through the given object while the iteratee returns true using a for of loop.
+ *
+ * @function forOfEveryAsync
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { every, assert } from 'Acid';
+ * assert(forOfEveryAsync({a: false, b: true, c: true}, (item) => {
+ *  return item;
+ * }), false);
+ */
+async function forOfEveryAsync(source, iteratee = returnValue, generatorArgs) {
+	if (isGenerator(source)) {
+		for await (const item of source(...generatorArgs)) {
+			const result = await iteratee(item, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	} else if (isArray(source) || isSet(source)) {
+		for (const value of source) {
+			const result = await iteratee(value, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	} else {
+		for (const [key, value] of source) {
+			const result = await iteratee(value, key, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+/**
  * Iterates through the given object while the iteratee returns true.
  *
  * @function every
@@ -3292,7 +3480,7 @@ function everyObject(source, iteratee) {
  *  return item;
  * }), false);
  */
-const every = generateLoop(everyArray, everyAsyncArray, everyObject, everyAsyncObject);
+const every = generateLoop(everyArray, everyAsyncArray, everyObject, everyAsyncObject, forOfEvery, forOfEveryAsync);
 
 /**
  * Creates a function that checks if all of the predicates return truthy when invoked with the arguments it receives.
@@ -4460,6 +4648,10 @@ function upperFirstOnlyAll(string) {
 	});
 }
 
+function getTypeName(source) {
+	return getType(source)?.name;
+}
+
 /**
  * Checks if the value is an Arguments object.
  *
@@ -4614,21 +4806,6 @@ function isChild(sourceChild, targetParent) {
 	}
 	return sourceChild instanceof targetParent;
 }
-
-/**
- * Checks if an object(s) is a Set.
- *
- * @function isSet
- * @category type
- * @param {...*} sources - Objects to be checked.
- * @returns {boolean} - Returns true or false.
- *
- * @example
- * import { isSet, assert } from 'Acid';
- * assert(isSet(new Set()), true);
- */
-const isSetCall = isConstructorNameFactory('Set');
-const isSet = isTypeFactory(isSetCall);
 
 /**
  * Checks if the value is a Date.
@@ -4794,6 +4971,45 @@ const isI8Call = isConstructorNameFactory('Int8Array');
 const isI8 = isTypeFactory(isI8Call);
 
 /**
+ * Checks if an object is a promise.
+ *
+ * @function isPromise
+ * @category type
+ * @param {*} value - Object to be checked.
+ * @returns {boolean} - True or false.
+ *
+ * @example
+ * import { isPromise } from 'Acid';
+ * isPromise(new Promise(() => {}));
+ * // => true
+ */
+function isPromise(value) {
+	if (value) {
+		return value instanceof Promise;
+	}
+	return false;
+}
+
+/**
+ * Checks if an object is a kind of async object such as async function, promise, or generator.
+ *
+ * @function isKindAsync
+ * @category type
+ * @param {*} value - Object to be checked.
+ * @returns {boolean} - True or false.
+ *
+ * @example
+ * import { isKindAsync, assert } from 'Acid';
+ * assert(isKindAsync(async() => {}), true);
+ */
+function isKindAsync(value) {
+	if (value) {
+		return isPromise(value) || isAsync(value) || isGenerator(value);
+	}
+	return false;
+}
+
+/**
  * Checks if an object or objects are a Map.
  *
  * @function isMap
@@ -4921,6 +5137,17 @@ const { isSafeInteger } = Number;
  */
 const isSafeInt = isSafeInteger;
 
+function isSameType(source, other) {
+	const sourceType = getType(source);
+	const otherType = getType(other);
+	if (sourceType === otherType) {
+		if (sourceType.name === otherType.name) {
+			return true;
+		}
+	}
+	return false;
+}
+
 /**
  * Checks if an object or objects are a Uint16Array.
  *
@@ -4999,34 +5226,6 @@ const isU8C = isTypeFactory(isU8CCall);
  */
 const isWeakMapCall = isConstructorNameFactory('WeakMap');
 const isWeakMap = isTypeFactory(isWeakMapCall);
-
-/**
- * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.allSettled on the queue returning the values from each promise. Does not await on the async iteratee.
- *
- * @function concurrentStatus
- * @category utility
- * @type {Function}
- * @param {Array} source - Array that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
- * @returns {Array} - The array from Promise.allSettled.
- *
- * @example
- * import { concurrentStatus, assert } from 'Acid';
- * const tempList = [];
- * await concurrentStatus([1, 2], async (item) => {
- *   return item;
- * });
- * assert(tempList,  [{status: 'fulfilled', value: 1}, {status: 'fulfilled', value: 2}]);
- */
-function concurrentStatus(source, iteratee, thisBind) {
-	const arrayLength = source.length;
-	const queue = [];
-	for (let index = 0;index < arrayLength; index++) {
-		queue[index] = iteratee(source[index], index, source, arrayLength, thisBind);
-	}
-	return Promise.allSettled(queue);
-}
 
 /**
  * Performs a deep comparison between two objects & determines if they're different using strict comparison.
@@ -5189,6 +5388,108 @@ function compact(source) {
 }
 
 /**
+ * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+ *
+ * @function forOfCompactMapAsync
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @param {Object|Function|Class|Map|Set|Array} resultsObject - Object that will be used to assign results else source is type cloned.
+ * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
+ *
+ * @example
+ * import { assert,forOfCompactMapAsync } from 'Acid';
+ * const source = {a: undefined, b: 2, c: 3};
+ * const temp = await forOfCompactMapAsync(source, async (item) => {
+ *   return item;
+ * });
+ * assert(temp, {b: 2, c: 3});
+ */
+async function forOfCompactMapAsync(source, iteratee = returnValue, resultsObject, generatorArgs) {
+	if (isGenerator(source)) {
+		const resultsGenerator = [];
+		for await (const item of source(...generatorArgs)) {
+			const result = await iteratee(item, resultsGenerator, source);
+			if (hasValue(result)) {
+				resultsGenerator.push(result);
+			}
+		}
+		return resultsGenerator;
+	}
+	const results = resultsObject || cloneType(source);
+	if (isArray(source) || isSet(source)) {
+		const methodPush = results.push || results.add;
+		const methodPushBound = methodPush && methodPush.bind(results);
+		for (const value of source) {
+			const result = await iteratee(value, results, source);
+			if (hasValue(result)) {
+				methodPushBound(result);
+			}
+		}
+		return results;
+	}
+	const methodSet = isFunction(results.set);
+	for await (const [key, value] of source) {
+		const result = await iteratee(value, key, results, source);
+		if (hasValue(result)) {
+			if (methodSet) {
+				results.set(key, result);
+			} else {
+				results[key] = result;
+			}
+		}
+	}
+	return results;
+}
+
+/**
+ * Iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+ *
+ * @function forOfCompactMap
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @param {Object|Function|Class|Map|Set|Array} resultsObject - Object that will be used to assign results else source is type cloned.
+ * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
+ *
+ * @example
+ * import { assert,forOfCompactMap } from 'Acid';
+ * const source = {a: undefined, b: 2, c: 3};
+ * const temp = forOfCompactMap(source, (item) => {
+ *   return item;
+ * });
+ * assert(temp, {b: 2, c: 3});
+ */
+function forOfCompactMap(source, iteratee = returnValue, resultsObject) {
+	const results = resultsObject || cloneType(source);
+	if (isArray(source) || isSet(source)) {
+		const methodPush = results.push || results.add;
+		const methodPushBound = methodPush && methodPush.bind(results);
+		for (const value of source) {
+			const result = iteratee(value, results, source);
+			if (hasValue(result)) {
+				methodPushBound(result);
+			}
+		}
+		return results;
+	}
+	const methodSet = isFunction(results.set);
+	for (const [key, value] of source) {
+		const result = iteratee(value, key, results, source);
+		if (hasValue(result)) {
+			if (methodSet) {
+				results.set(key, result);
+			} else {
+				results[key] = result;
+			}
+		}
+	}
+	return results;
+}
+
+/**
  * Iterates through the calling object and creates a new object based on the calling object's type with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
  *
  * @function compactMap
@@ -5205,7 +5506,8 @@ function compact(source) {
  *   return item;
  * }), {b: 2, c: 3});
  */
-const compactMap = generateLoop(compactMapArray, compactMapAsyncArray, compactMapObject, compactMapAsyncObject);
+const compactMap = generateLoop(compactMapArray, compactMapAsyncArray,
+	compactMapObject, compactMapAsyncObject, forOfCompactMap, forOfCompactMapAsync);
 
 function everyArg(...methods) {
 	if (isAsync(methods[0])) {
@@ -5246,6 +5548,107 @@ function falsey(source, returnIfTrue = true) {
 }
 
 /**
+ * Iterates (for of) through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
+ *
+ * @function forOfFilter
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @param {Object|Function|Class|Map|Set|Array} resultsObject - Object that will be used to assign results else source is type cloned.
+ * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties.
+ *
+ * @example
+ * import { assert, forOfFilter } from 'Acid';
+ * const source = {a: undefined, b: 2, c: 3};
+ * const temp = forOfFilter(source, (item) => {
+ *   return Boolean(item);
+ * });
+ * assert(temp, {b: 2, c: 3});
+ */
+function forOfFilter(source, iteratee = returnValue, resultsObject) {
+	const results = resultsObject || cloneType(source);
+	if (isArray(source) || isSet(source)) {
+		const methodPush = results.push || results.add;
+		const methodPushBound = methodPush && methodPush.bind(results);
+		for (const value of source) {
+			const result = iteratee(value, results, source);
+			if (result === true) {
+				methodPushBound(value);
+			}
+		}
+	} else {
+		const methodSet = isFunction(results.set);
+		for (const [key, value] of source) {
+			const result = iteratee(value, key, results, source);
+			if (result === true) {
+				if (methodSet) {
+					results.set(key, value);
+				} else {
+					results[key] = value;
+				}
+			}
+		}
+	}
+	return results;
+}
+
+/**
+ * Asynchronously iterates (for of)through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
+ *
+ * @function forOfFilterAsync
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @param {Object|Function|Class|Map|Set|Array} resultsObject - Object that will be used to assign results else source is type cloned.
+ * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties.
+ *
+ * @example
+ * import { assert, forOfFilterAsync } from 'Acid';
+ * const source = {a: undefined, b: 2, c: 3};
+ * const temp = forOfFilterAsync(source, (item) => {
+ *   return Boolean(item);
+ * });
+ * assert(temp, {b: 2, c: 3});
+ */
+async function forOfFilterAsync(source, iteratee = returnValue, resultsObject, generatorArgs) {
+	if (isGenerator(source)) {
+		const resultsGenerator = [];
+		for await (const item of source(...generatorArgs)) {
+			if (await iteratee(item, resultsGenerator, source) === true) {
+				resultsGenerator.push(item);
+			}
+		}
+		return resultsGenerator;
+	}
+	const results = resultsObject || cloneType(source);
+	if (isArray(source) || isSet(source)) {
+		const methodPush = results.push || results.add;
+		const methodPushBound = methodPush && methodPush.bind(results);
+		for (const value of source) {
+			const result = await iteratee(value, results, source);
+			if (result === true) {
+				methodPushBound(value);
+			}
+		}
+	} else {
+		const methodSet = isFunction(results.set);
+		for await (const [key, value] of source) {
+			const result = await iteratee(value, key, results, source);
+			if (result === true) {
+				if (methodSet) {
+					results.set(key, value);
+				} else {
+					results[key] = value;
+				}
+			}
+		}
+	}
+	return results;
+}
+
+/**
  * Iterates through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
  *
  * @function filter
@@ -5262,7 +5665,7 @@ function falsey(source, returnIfTrue = true) {
  *   return item;
  * }), {b: true, c: true});
  */
-const filter = generateLoop(filterArray, filterAsyncArray, filterObject, filterAsyncObject);
+const filter = generateLoop(filterArray, filterAsyncArray, filterObject, filterAsyncObject, forOfFilter, forOfFilterAsync);
 
 function returnFlow$1(callable) {
 	return (...methods) => {
@@ -5346,106 +5749,27 @@ const flowAsync = returnFlow(eachAsyncArray);
  */
 const flowAsyncRight = returnFlow(eachRightAsync);
 
-/**
- * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
- *
- * @function forOfCompactMap
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @param {Object|Function} [results = {}] - Object that will be used to assign results.
- * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
- *
- * @example
- * forOfCompactMap({a: undefined, b: 2, c: 3}, (item) => {
- *   return item;
- * });
- * // => {b: 2, c: 3}
- */
-function forOfCompactMap(source, iteratee = returnValue, results = {}) {
-	for (const [key, value] of source) {
-		const result = iteratee(value, key, results, source);
-		if (hasValue(result)) {
-			results[key] = result;
-		}
+function forMap(source, callback) {
+	const cloned = cloneType(source);
+	const method = cloned.push || cloned.add;
+	if (method && isFunction(method)) {
+		const methodBound = method.bind(cloned);
+		source.forEach((item) => {
+			const result = callback(item, cloned);
+			methodBound(result);
+		});
+	} else if (isFunction(cloned.set)) {
+		source.forEach((item, key) => {
+			const result = callback(item, key, cloned);
+			cloned.set(key, result);
+		});
+	} else {
+		source.forEach((item, key) => {
+			const result = callback(item, key, cloned);
+			cloned[key] = result;
+		});
 	}
-	return source;
-}
-
-/**
- * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
- *
- * @function forOfCompactMapAsync
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @param {Object|Function} [results = {}] - Object that will be used to assign results.
- * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
- *
- * @example
- * forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
- *   return item;
- * });
- * // => {b: 2, c: 3}
- */
-async function forOfCompactMapAsync(source, iteratee = returnValue, results = {}) {
-	for await (const [key, value] of source) {
-		const result = await iteratee(value, key, results, source);
-		if (hasValue(result)) {
-			results[key] = result;
-		}
-	}
-	return source;
-}
-
-/**
- * Iterates through (using for of) the calling object and creates an object with the results of the iteratee on every element in the calling object.
- *
- * @function forOfCompactMap
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @param {Object|Function} [results = {}] - Object that will be used to assign results.
- * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
- *
- * @example
- * forOfCompactMap({a: undefined, b: 2, c: 3}, (item) => {
- *   return item;
- * });
- * // => {b: 2, c: 3}
- */
-function forOfMap(source, iteratee = returnValue, results = {}) {
-	for (const [key, value] of source) {
-		results[key] = iteratee(value, key, results, source);
-	}
-	return source;
-}
-
-/**
- * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
- *
- * @function forOfCompactMapAsync
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @param {Object|Function} [results = {}] - Object that will be used to assign results.
- * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
- *
- * @example
- * forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
- *   return item;
- * });
- * // => {b: 2, c: 3}
- */
-async function forOfMapAsync(source, iteratee = returnValue, results = {}) {
-	for await (const [key, value] of source) {
-		results[key] = await iteratee(value, key, results, source);
-	}
-	return source;
+	return cloned;
 }
 
 /**
@@ -5534,18 +5858,6 @@ const ifNotEqual = (rootObject, property, equalThis) => {
 	}
 	return rootObject;
 };
-
-/**
- * @function ifValue
- * @category function
- * @param {*} source - The source object to be hasValue checked.
- * @returns {source} The source object if it passes the hasValue check.
- */
-function ifValue(source) {
-	if (hasValue(source)) {
-		return source;
-	}
-}
 
 class Intervals {
 	list = construct(Map);
@@ -5741,6 +6053,34 @@ function concurrent(source, iteratee, thisBind) {
 }
 
 /**
+ * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.allSettled on the queue returning the values from each promise. Does not await on the async iteratee.
+ *
+ * @function concurrentStatus
+ * @category utility
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+ * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @returns {Array} - The array from Promise.allSettled.
+ *
+ * @example
+ * import { concurrentStatus, assert } from 'Acid';
+ * const tempList = [];
+ * await concurrentStatus([1, 2], async (item) => {
+ *   return item;
+ * });
+ * assert(tempList,  [{status: 'fulfilled', value: 1}, {status: 'fulfilled', value: 2}]);
+ */
+function concurrentStatus(source, iteratee, thisBind) {
+	const arrayLength = source.length;
+	const queue = [];
+	for (let index = 0;index < arrayLength; index++) {
+		queue[index] = iteratee(source[index], index, source, arrayLength, thisBind);
+	}
+	return Promise.allSettled(queue);
+}
+
+/**
  * A wrapper around the promise constructor.
  *
  * @function promise
@@ -5789,6 +6129,36 @@ const propertyMatch = (source, compared, properties = keys(source)) => {
 		return isEqual(source[property], compared[property]);
 	});
 };
+
+function setKey(source, key, value) {
+	if (key && isPlainObject(source)) {
+		source[key] = value;
+	} else if (isNumber(key) && isArray(source)) {
+		source[key] = value;
+	} else if (source.set) {
+		source.set(key, value);
+	} else if (source.push) {
+		source.push(value);
+	} else if (source.add) {
+		source.add(value);
+	} else {
+		source[key] = value;
+	}
+	return source;
+}
+
+function setValue(source, value, key) {
+	if (isNumber(key) && isArray(source)) {
+		source[key] = value;
+	} else if (source.push) {
+		source.push(value);
+	} else if (source.add) {
+		source.add(value);
+	} else {
+		source[key] = value;
+	}
+	return source;
+}
 
 class Store {
 	source;
@@ -6732,5 +7102,5 @@ function isNodeList(source) {
 	return (hasValue(source)) ? source.toString() === objectNodeList : false;
 }
 
-export { Crate, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsey, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getPropDesc, getPropNames, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotEqual, ifValue, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isAgent, isArguments, isArray, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isF32, isF32Call, isF64, isF64Call, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSet, isSetCall, isString, isTypeFactory, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, minus, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortOldestFilter, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sub, sum, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Crate, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cloneType, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsey, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotEqual, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isAgent, isArguments, isArray, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isF32, isF32Call, isF64, isF64Call, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTypeFactory, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, minus, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, setKey, setValue, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortOldestFilter, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sub, sum, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

@@ -1,6 +1,6 @@
 import { hasValue } from './hasValue.js';
 import { isTypeFactory } from './isTypeFactory.js';
-import { isSet } from './isSet';
+import { isSet } from './isSet.js';
 /**
  * Checks if an object or objects are a structured-cloneable type.
  *

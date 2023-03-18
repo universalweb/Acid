@@ -1,51 +1,50 @@
 import { cloneType } from '../type/cloneType.js';
 import { hasValue } from '../type/hasValue.js';
 import { returnValue } from '../utility/returnValue.js';
-import { forOfCompactMapAsync } from './forOfCompactMapAsync';
 import { isFunction } from '../type/isFunction.js';
 import { isPlainObject } from '../type/isPlainObject.js';
 import { isSet } from '../type/isSet.js';
 import { isArray } from '../type/isArray.js';
 /**
- * Iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
+ * Iterates (for of) through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
  *
- * @function forOfCompactMap
+ * @function forOfFilter
  * @category utility
  * @type {Function}
  * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
  * @param {Object|Function|Class|Map|Set|Array} resultsObject - Object that will be used to assign results else source is type cloned.
- * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
+ * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties.
  *
  * @example
- * import { assert,forOfCompactMap } from 'Acid';
+ * import { assert, forOfFilter } from 'Acid';
  * const source = {a: undefined, b: 2, c: 3};
- * const temp = forOfCompactMap(source, (item) => {
- *   return item;
+ * const temp = forOfFilter(source, (item) => {
+ *   return Boolean(item);
  * });
  * assert(temp, {b: 2, c: 3});
  */
-export function forOfCompactMap(source, iteratee = returnValue, resultsObject) {
+export function forOfFilter(source, iteratee = returnValue, resultsObject) {
 	const results = resultsObject || cloneType(source);
 	if (isArray(source) || isSet(source)) {
 		const methodPush = results.push || results.add;
 		const methodPushBound = methodPush && methodPush.bind(results);
 		for (const value of source) {
 			const result = iteratee(value, results, source);
-			if (hasValue(result)) {
-				methodPushBound(result);
+			if (result === true) {
+				methodPushBound(value);
 			}
 		}
-		return results;
-	}
-	const methodSet = isFunction(results.set);
-	for (const [key, value] of source) {
-		const result = iteratee(value, key, results, source);
-		if (hasValue(result)) {
-			if (methodSet) {
-				results.set(key, result);
-			} else {
-				results[key] = result;
+	} else {
+		const methodSet = isFunction(results.set);
+		for (const [key, value] of source) {
+			const result = iteratee(value, key, results, source);
+			if (result === true) {
+				if (methodSet) {
+					results.set(key, value);
+				} else {
+					results[key] = value;
+				}
 			}
 		}
 	}

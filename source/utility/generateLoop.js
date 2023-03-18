@@ -3,7 +3,8 @@ import { isPlainObject } from '../type/isPlainObject.js';
 import { isFunction } from '../type/isFunction.js';
 import { hasValue } from '../type/hasValue.js';
 import { isAsync } from '../type/isAsync.js';
-export function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forEach, forEachAsync, forOfLoopAsync, forOfLoop) {
+import { isGenerator } from '../type/isGenerator.js';
+export function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
 	return (source, iteratee, results) => {
 		let returned;
 		const isIterateeAsync = isAsync(iteratee);
@@ -11,12 +12,12 @@ export function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAs
 			return;
 		} else if (isArray(source)) {
 			returned = (isIterateeAsync) ? arrayLoopAsync : arrayLoop;
-		} else if (isPlainObject(source)) {
+		} else if (isPlainObject(source) || isFunction(source)) {
 			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
-		} else if (forEachAsync && source.forEach) {
-			returned = (isIterateeAsync) ? forEachAsync : forEach;
 		} else if (forOfLoop) {
 			returned = (isIterateeAsync) ? forOfLoopAsync : forOfLoop;
+		} else if (isGenerator(source)) {
+			returned = forOfLoopAsync;
 		} else {
 			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
 		}

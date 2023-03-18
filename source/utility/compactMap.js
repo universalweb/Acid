@@ -3,6 +3,8 @@ import { compactMapAsyncArray } from '../array/compactMapAsync.js';
 import { compactMapObject } from '../object/compactMap.js';
 import { compactMapAsyncObject } from '../object/compactMapAsync.js';
 import { generateLoop } from './generateLoop.js';
+import { forOfCompactMap } from './forOfCompactMap.js';
+import { forOfCompactMapAsync } from './forOfCompactMapAsync.js';
 /**
  * Iterates through the calling object and creates a new object based on the calling object's type with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
  *
@@ -20,4 +22,5 @@ import { generateLoop } from './generateLoop.js';
  *   return item;
  * }), {b: 2, c: 3});
  */
-export const compactMap = generateLoop(compactMapArray, compactMapAsyncArray, compactMapObject, compactMapAsyncObject);
+export const compactMap = generateLoop(compactMapArray, compactMapAsyncArray,
+	compactMapObject, compactMapAsyncObject, forOfCompactMap, forOfCompactMapAsync);

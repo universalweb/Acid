@@ -1,4 +1,3 @@
-import { isPromise } from './isPromise.js';
 import { isConstructorNameFactory } from './isConstructor.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
@@ -15,21 +14,4 @@ import { isTypeFactory } from './isTypeFactory.js';
  */
 export const isAsyncCall = isConstructorNameFactory('AsyncFunction');
 export const isAsync = isTypeFactory(isAsyncCall);
-/**
- * Checks if an object is an async function or promise.
- *
- * @function isKindAsync
- * @category type
- * @param {*} value - Object to be checked.
- * @returns {boolean} - True or false.
- *
- * @example
- * import { isKindAsync, assert } from 'Acid';
- * assert(isKindAsync(async() => {}), true);
- */
-export function isKindAsync(value) {
-	if (value) {
-		return isPromise(value) || isAsync(value);
-	}
-	return false;
-}
+
