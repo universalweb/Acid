@@ -6,8 +6,38 @@
 </pre>
 ---
 
-### [v3.0.22](https://github.com/universalweb/Acid/compare/v3.0.22...v3.0.22) 
-DATE: 2023-03-08
+### [v3.0.23](https://github.com/universalweb/Acid/compare/v3.0.23...v3.0.23) 
+DATE: 2023-03-18
+
+---
+### [v3.0.23](https://github.com/universalweb/Acid/compare/v3.0.22...v3.0.23) 
+DATE: 2023-03-18
+
+### Commits
+
+- Upgrade to 3.0.23 [`a9b4680`](https://github.com/universalweb/Acid/commit/a9b46803f0c1587a542c81cc33089ea3b038cd12)
+- Re-added  ifValue with Callback additon [`b7b2066`](https://github.com/universalweb/Acid/commit/b7b2066636939d00bf19e7557d2c457668207c93)
+- ForOf Patches & Additions [`a1c448e`](https://github.com/universalweb/Acid/commit/a1c448ee8e9df1db3ddfea4af5ac42cda8a638b4)
+- New Type Methods [`0256d53`](https://github.com/universalweb/Acid/commit/0256d53939680943efaa23ce0628cf3cd3acf366)
+- new concurrent fns & doc patches [`e9fc37b`](https://github.com/universalweb/Acid/commit/e9fc37b7d9a95d9f461c386f26525f8ade871051)
+- New Build, Doc updates [`47bfc4c`](https://github.com/universalweb/Acid/commit/47bfc4c0910d9a11a8e33ea2e17f6e757e1f5840)
+- Missing Docs [`7566f4e`](https://github.com/universalweb/Acid/commit/7566f4e2a3fbb5e63404579f310d95073919352a)
+- Has Patch [`55aaf41`](https://github.com/universalweb/Acid/commit/55aaf41eaff84737814a202c8c7165918bc244fd)
+- Major Patch (Loops) & Docs [`c5a3ce9`](https://github.com/universalweb/Acid/commit/c5a3ce90a33ced02fb6688cfd5006a62fe6c6fb9)
+- Build update - misuse of everyArray & every [`8ea19cb`](https://github.com/universalweb/Acid/commit/8ea19cbc8c30d64a6e3eab84c6829d5401df1aa4)
+- Major fixes - New Build - Breaking API changes [`20cd9b2`](https://github.com/universalweb/Acid/commit/20cd9b29fa3c271c965543031354bca251fb638b)
+- isCloneable & isError added [`a24440e`](https://github.com/universalweb/Acid/commit/a24440e63269f92011c6883663a44514b6b9a1b7)
+- Docs  & type checks updated [`c9b342a`](https://github.com/universalweb/Acid/commit/c9b342a02d71756279d38e1f980771dd04392adc)
+- Math, Number Patches - without optimization [`d4aad4a`](https://github.com/universalweb/Acid/commit/d4aad4a8e753e7e9464d70d05eb76b63413986f5)
+- refactor(merging in progress): Merging in progress do not build [`e6265c7`](https://github.com/universalweb/Acid/commit/e6265c73f2f65373486fd312833406c49b84940b)
+- refactor(merging in progress): Merging in progress do not build [`c4c9bb6`](https://github.com/universalweb/Acid/commit/c4c9bb6755024f690f5a242821b7179430587adb)
+- Install the CodeSee workflow. Learn more at https://docs.codesee.io [`dac2f2f`](https://github.com/universalweb/Acid/commit/dac2f2f02c6f9c3eed5e55856497b88f385fdb5e)
+- Breaking - re-org, name changes, many new methods [`9a603ef`](https://github.com/universalweb/Acid/commit/9a603ef441e3e5f80f3f06d4d205672a1deacb18)
+- Readme Patched [`f62c5e5`](https://github.com/universalweb/Acid/commit/f62c5e5c784036067815f64e1cac3da6cb060507)
+- Loops, Docs, Examples, ForOf, Each, Get, Key fix [`af67283`](https://github.com/universalweb/Acid/commit/af67283f358006ac12707f4ddf47a6095c87c521)
+- Loop, Get, Docs, forOf, Keys Patches [`0422755`](https://github.com/universalweb/Acid/commit/04227554ec0b941af045653bf87b88d093e77860)
+- Doc & Method Patches [`7ce13d9`](https://github.com/universalweb/Acid/commit/7ce13d9ca1e5e4e9aea6e46ae2c28be349613b62)
+- Doc & method patches [`fafdcfa`](https://github.com/universalweb/Acid/commit/fafdcfa18ef6990ba9eeb243a75af2a836554912)
 
 ---
 ### [v3.0.22](https://github.com/universalweb/Acid/compare/v3.0.21...v3.0.22) 
