@@ -1,4 +1,3 @@
-import { concurrentStatus } from './concurrentStatus';
 export * from './assert.js';
 export * from './cacheNativeMethod.js';
 export * from './clone.js';
@@ -13,6 +12,8 @@ export * from './flow.js';
 export * from './flowAsync.js';
 export * from './forEach.js';
 export * from './forEachAsync.js';
+export * from './forMap.js';
+export * from './forMapAsync.js';
 export * from './forOf.js';
 export * from './forOfAsync.js';
 export * from './forOfCompactMap.js';
