@@ -1,3 +1,4 @@
+import { ifValue } from './ifValue';
 export * from './assert.js';
 export * from './cacheNativeMethod.js';
 export * from './clone.js';
@@ -29,6 +30,7 @@ export * from './has.js';
 export * from './hasDot.js';
 export * from './hasLength.js';
 export * from './ifNotEqual.js';
+export * from './ifValue.js';
 export * from './interval.js';
 export * from './isEqual.js';
 export * from './json.js';
