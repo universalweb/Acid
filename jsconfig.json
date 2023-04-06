@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"baseUrl": "./source",
 		"module": "ESNext",
 		"moduleResolution": "nodenext",
 		"target": "ESNext",
@@ -15,6 +16,7 @@
 		"**/npm/*",
 		"**/package/*",
 		"**/target/*",
-		"node_modules"
+		"node_modules",
+		"**/index.js"
 	]
 }

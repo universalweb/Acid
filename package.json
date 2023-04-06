@@ -22,6 +22,11 @@
     "maintainers": [
         {
             "name": "UniversalWeb",
+            "email": "info@universalweb",
+            "url": "uw://universalweb"
+        },
+        {
+            "name": "UniversalWeb",
             "email": "info@universalweb.io"
         }
     ],

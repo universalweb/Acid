@@ -1,4 +1,5 @@
-import { ifValue } from './ifValue';
+export * from './ifValue.js';
+export * from './bindAll.js';
 export * from './assert.js';
 export * from './cacheNativeMethod.js';
 export * from './clone.js';
@@ -29,7 +30,7 @@ export * from './get.js';
 export * from './has.js';
 export * from './hasDot.js';
 export * from './hasLength.js';
-export * from './ifNotEqual.js';
+export * from './ifNotAssign.js';
 export * from './ifValue.js';
 export * from './interval.js';
 export * from './isEqual.js';

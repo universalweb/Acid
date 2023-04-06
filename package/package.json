@@ -1,6 +1,6 @@
 {
     "name": "Acid",
-    "version": "3.0.23",
+    "version": "3.0.25",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library.",
     "keywords": [
         "Acid",
@@ -16,7 +16,7 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/universalweb/Acid.git",
-        "directory": "npm"
+        "directory": "package"
     },
     "license": "ISC",
     "maintainers": [
@@ -24,11 +24,6 @@
             "name": "UniversalWeb",
             "email": "info@universalweb.io",
             "url": "https://universalweb.io"
-        },
-        {
-            "name": "UniversalWeb",
-            "email": "info@universalweb",
-            "url": "uw://universalweb"
         }
     ],
     "exports": {
@@ -48,9 +43,6 @@
     },
     "scripts": {
         "start": "node index.js"
-    },
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com"
     },
     "company": "Universal Web",
     "readme": "README.md"

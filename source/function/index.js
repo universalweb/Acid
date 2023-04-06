@@ -1,7 +1,6 @@
 export * from './after.js';
 export * from './ary.js';
 export * from './before.js';
-export * from './bind.js';
 export * from './chain.js';
 export * from './curry.js';
 export * from './debounce.js';

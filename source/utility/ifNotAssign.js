@@ -2,7 +2,7 @@ import { hasValue } from '../type/hasValue.js';
 /**
    * Checks if a property on an object has a value. If not, it will assign a value.
    *
-   * @function ifNotEqual
+   * @function ifNotAssign
    * @category utility
    * @type {Function}
    * @param {Object} rootObject - The object to check.
@@ -11,10 +11,10 @@ import { hasValue } from '../type/hasValue.js';
    * @returns {Object} - Returns the provided rootObject.
    *
    * @example
-   * ifNotEqual({}, 'a', 1);
+   * ifNotAssign({}, 'a', 1);
    * // => {a:1}
  */
-export const ifNotEqual = (rootObject, property, equalThis) => {
+export const ifNotAssign = (rootObject, property, equalThis) => {
 	if (property && !hasValue(rootObject[property])) {
 		rootObject[property] = equalThis;
 	}
