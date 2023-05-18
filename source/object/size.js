@@ -12,5 +12,8 @@ import { keys } from './keys.js';
  * // => 3
 */
 export function objectSize(source) {
+	if (!source) {
+		return;
+	}
 	return keys(source).length;
 }

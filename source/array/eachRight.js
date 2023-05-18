@@ -20,6 +20,9 @@ import { returnValue } from '../utility/returnValue.js';
  * assert(tempList, [3, 2, 1]);
  */
 export function eachRight(source, iteratee, thisBind) {
+	if (!source) {
+		return;
+	}
 	const arrayLength = source.length;
 	for (let index = arrayLength - 1;index >= 0;index--) {
 		iteratee(source[index], index, source, arrayLength, thisBind);

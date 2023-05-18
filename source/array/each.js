@@ -20,6 +20,9 @@ import { returnValue } from '../utility/returnValue.js';
  * assert(list, [1, 2, 3]);
  */
 export function eachArray(source, iteratee, thisBind) {
+	if (!source) {
+		return;
+	}
 	const arrayLength = source.length;
 	for (let index = 0;index < arrayLength;index++) {
 		iteratee(source[index], index, source, arrayLength, thisBind);

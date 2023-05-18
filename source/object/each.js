@@ -17,6 +17,9 @@ import { eachArray } from '../array/each.js';
  * }), {a: 1, b: 2, c: 3});
  */
 export function eachObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
 	const objectKeys = keys(source);
 	return eachArray(objectKeys, (key, index, original, propertyCount) => {
 		iteratee(source[key], key, source, propertyCount, original);

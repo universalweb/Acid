@@ -18,6 +18,9 @@ import { keys } from '../object/keys.js';
  * assert(result, true);
  */
 export function everyObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
 	const objectKeys = keys(source);
 	return everyArray(objectKeys, (key, index, original, propertyCount) => {
 		return iteratee(source[key], key, source, propertyCount, original);

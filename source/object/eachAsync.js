@@ -11,16 +11,17 @@ import { keys } from '../object/keys.js';
  * @returns {Object|Function} - Returns source.
  *
  * @example
- * (async () => {
- *   const tempList = {};
- *   await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
+ * import { eachAsyncObject, assert } from 'Acid';
+ * const tempList = [];
+ * await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
  *     tempList[key] = item;
  *   });
- *   return assert(tempList, {a: 1, b: 2, c: 3});
- * });
- *
+ * assert(tempList, {a: 1, b: 2, c: 3});
  */
 export const eachAsyncObject = async (source, iteratee) => {
+	if (!source) {
+		return;
+	}
 	const objectKeys = keys(source);
 	await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
 		return iteratee(source[key], key, source, propertyCount, objectKeys);

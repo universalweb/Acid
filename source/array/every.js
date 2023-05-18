@@ -21,6 +21,9 @@ import { returnValue } from '../utility/returnValue.js';
  * }), true);
  */
 export function everyArray(source, iteratee, thisBind) {
+	if (!source) {
+		return;
+	}
 	const sourceLength = source.length;
 	for (let index = 0;index < sourceLength;index++) {
 		if (iteratee(source[index], index, source, sourceLength, thisBind) === false) {

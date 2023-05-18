@@ -18,6 +18,9 @@ import { hasValue } from '../type/hasValue.js';
  * }), {a: 1, b: undefined, c: 3});
  */
 export async function mapAsyncObject(source, iteratee, results = {}) {
+	if (!source) {
+		return;
+	}
 	await eachAsyncObject(source, async (item, key, thisObject, propertyCount, objectKeys) => {
 		results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
 	});

@@ -18,6 +18,9 @@
  * assert(tempList, [1, 2, 3]);
  */
 export async function eachAsyncArray(source, iteratee) {
+	if (!source) {
+		return;
+	}
 	const arrayLength = source.length;
 	for (let index = 0; index < arrayLength; index++) {
 		await iteratee(source[index], index, source, arrayLength);

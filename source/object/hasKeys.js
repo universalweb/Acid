@@ -18,6 +18,9 @@ const hasOwn = Object.hasOwn;
  * assert(hasKeys({a: {b: { c: 1}}}, 'a', 'a.b', 'a.b.c'), true);
  */
 export function hasKeys(source, ...properties) {
+	if (!source) {
+		return;
+	}
 	return everyArray(properties, (item) => {
 		const pathArray = toPath(item);
 		if (pathArray.length === 1) {
@@ -48,6 +51,9 @@ export function hasKeys(source, ...properties) {
  * assert(hasAnyKeys({a: {b: { yes : 1}}}, 'no', 'nope', 'a.b.noped'), false);
  */
 export function hasAnyKeys(source, ...properties) {
+	if (!source) {
+		return;
+	}
 	return Boolean(properties.find((item) => {
 		const pathArray = toPath(item);
 		if (pathArray.length === 1) {

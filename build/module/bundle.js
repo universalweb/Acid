@@ -143,6 +143,9 @@ function returnValue(source) {
  * assert(list, [1, 2, 3]);
  */
 function eachArray(source, iteratee, thisBind) {
+	if (!source) {
+		return;
+	}
 	const arrayLength = source.length;
 	for (let index = 0;index < arrayLength;index++) {
 		iteratee(source[index], index, source, arrayLength, thisBind);
@@ -198,6 +201,9 @@ function compactMapArray(source, iteratee = returnValue, results = [], thisBind)
  * assert(tempList, [1, 2, 3]);
  */
 async function eachAsyncArray(source, iteratee) {
+	if (!source) {
+		return;
+	}
 	const arrayLength = source.length;
 	for (let index = 0; index < arrayLength; index++) {
 		await iteratee(source[index], index, source, arrayLength);
@@ -456,6 +462,9 @@ const dropRight = (array, amount, upTo = array.length) => {
  * assert(tempList, [3, 2, 1]);
  */
 function eachRight(source, iteratee, thisBind) {
+	if (!source) {
+		return;
+	}
 	const arrayLength = source.length;
 	for (let index = arrayLength - 1;index >= 0;index--) {
 		iteratee(source[index], index, source, arrayLength, thisBind);
@@ -470,7 +479,7 @@ function eachRight(source, iteratee, thisBind) {
  * @category array
  * @type {Function}
  * @async
- * @param {Array} callingArray - Array that will be looped through.
+ * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
  * @returns {Object} - The originally given array.
  *
@@ -482,12 +491,15 @@ function eachRight(source, iteratee, thisBind) {
  * });
  * assert(tempList, [3, 2, 1]);
  */
-async function eachRightAsync(callingArray, iteratee) {
-	const arrayLength = callingArray.length;
-	for (let index = arrayLength - 1; index >= 0; index--) {
-		await iteratee(callingArray[index], index, callingArray, arrayLength);
+async function eachRightAsync(source, iteratee) {
+	if (!source) {
+		return;
 	}
-	return callingArray;
+	const arrayLength = source.length;
+	for (let index = arrayLength - 1; index >= 0; index--) {
+		await iteratee(source[index], index, source, arrayLength);
+	}
+	return source;
 }
 
 /**
@@ -511,6 +523,9 @@ async function eachRightAsync(callingArray, iteratee) {
  * }), true);
  */
 function everyArray(source, iteratee, thisBind) {
+	if (!source) {
+		return;
+	}
 	const sourceLength = source.length;
 	for (let index = 0;index < sourceLength;index++) {
 		if (iteratee(source[index], index, source, sourceLength, thisBind) === false) {
@@ -541,6 +556,9 @@ function everyArray(source, iteratee, thisBind) {
  * }), true);
  */
 async function everyAsyncArray(source, iteratee, thisBind) {
+	if (!source) {
+		return;
+	}
 	const sourceLength = source.length;
 	for (let index = 0;index < sourceLength;index++) {
 		if (await iteratee(source[index], index, source, sourceLength, thisBind) === false) {
@@ -639,6 +657,9 @@ function first(array, upTo) {
  * assert(flatten([1, [2, [3, [4]], 5]]), [1, 2, [3, [4]], 5]);
  */
 function flatten(source, level = 1) {
+	if (!source) {
+		return;
+	}
 	let sourceArray = source;
 	for (let i = 0; i < level; i++) {
 		sourceArray = sourceArray.reduce((previousValue, currentValue) => {
@@ -779,6 +800,9 @@ const hasOwn = Object.hasOwn;
  * assert(hasKeys({a: {b: { c: 1}}}, 'a', 'a.b', 'a.b.c'), true);
  */
 function hasKeys(source, ...properties) {
+	if (!source) {
+		return;
+	}
 	return everyArray(properties, (item) => {
 		const pathArray = toPath(item);
 		if (pathArray.length === 1) {
@@ -809,6 +833,9 @@ function hasKeys(source, ...properties) {
  * assert(hasAnyKeys({a: {b: { yes : 1}}}, 'no', 'nope', 'a.b.noped'), false);
  */
 function hasAnyKeys(source, ...properties) {
+	if (!source) {
+		return;
+	}
 	return Boolean(properties.find((item) => {
 		const pathArray = toPath(item);
 		if (pathArray.length === 1) {
@@ -2103,22 +2130,25 @@ function pluck(collection, pluckThis) {
 }
 
 /**
- * Returns an array of the plucked values from the object. Values are plucked in the order given by the array.
+ * Returns an array of the plucked sources from the object. Sources are plucked in the order given by the array.
  *
  * @function pluckObject
  * @category object
  * @type {Function}
- * @param {Object} value - Array used to determine what values to be plucked.
+ * @param {Object} source - Array used to determine what sources to be plucked.
  * @param {string|Array} pluckThese - Property name.
- * @returns {Array} - An array of plucked values.
+ * @returns {Array} - An array of plucked sources.
  *
  * @example
  * pluckObject({a: 1, b:3}, ['a','b']);
  * // => [1, 3]
  */
-function pluckObject(value, pluckThese) {
+function pluckObject(source, pluckThese) {
+	if (!source) {
+		return;
+	}
 	return mapArray(pluckThese, (item) => {
-		return value[item];
+		return source[item];
 	});
 }
 
@@ -2377,16 +2407,17 @@ function assign(target, ...sources) {
  * @returns {Object|Function} - Returns source.
  *
  * @example
- * (async () => {
- *   const tempList = {};
- *   await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
+ * import { eachAsyncObject, assert } from 'Acid';
+ * const tempList = [];
+ * await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
  *     tempList[key] = item;
  *   });
- *   return assert(tempList, {a: 1, b: 2, c: 3});
- * });
- *
+ * assert(tempList, {a: 1, b: 2, c: 3});
  */
 const eachAsyncObject = async (source, iteratee) => {
+	if (!source) {
+		return;
+	}
 	const objectKeys = keys(source);
 	await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
 		return iteratee(source[key], key, source, propertyCount, objectKeys);
@@ -2411,6 +2442,9 @@ const eachAsyncObject = async (source, iteratee) => {
  * }), {a: 1, b: 2, c: 3});
  */
 function eachObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
 	const objectKeys = keys(source);
 	return eachArray(objectKeys, (key, index, original, propertyCount) => {
 		iteratee(source[key], key, source, propertyCount, original);
@@ -3139,6 +3173,9 @@ const once = (callable) => {
  * }), {a: 1, b: undefined, c: 3});
  */
 async function mapAsyncObject(source, iteratee, results = {}) {
+	if (!source) {
+		return;
+	}
 	await eachAsyncObject(source, async (item, key, thisObject, propertyCount, objectKeys) => {
 		results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
 	});
@@ -3163,6 +3200,9 @@ async function mapAsyncObject(source, iteratee, results = {}) {
  * }), {a: 1, b: undefined, c: 3});
  */
 function mapObject(source, iteratee, results = {}) {
+	if (!source) {
+		return;
+	}
 	eachObject(source, (item, key, original, propertyCount, objectKeys) => {
 		results[key] = iteratee(item, key, results, original, propertyCount, objectKeys);
 	});
@@ -3328,6 +3368,9 @@ function over(iteratees) {
  * assert(result, true);
  */
 async function everyAsyncObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
 	const objectKeys = keys(source);
 	return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
 		return iteratee(source[key], key, source, propertyCount, original);
@@ -3352,6 +3395,9 @@ async function everyAsyncObject(source, iteratee) {
  * assert(result, true);
  */
 function everyObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
 	const objectKeys = keys(source);
 	return everyArray(objectKeys, (key, index, original, propertyCount) => {
 		return iteratee(source[key], key, source, propertyCount, original);
@@ -4020,19 +4066,22 @@ async function filterAsyncObject(source, iteratee, results = {}) {
  * @function invert
  * @type {Function}
  * @category object
- * @param {Object} thisObject - Object to be inverted.
- * @param {Array} [invertedObject = {}] - Empty object to be populated with inverted values from thisObject.
+ * @param {Object} source - Object to be inverted.
+ * @param {Array} [target = {}] - Empty object to be populated with inverted values from source.
  * @returns {Object} - Returns object with keys and values switched.
  *
  * @example
- * invert({a:1});
- * // => {1:'a'}
+ * import { invert, assert } from 'Acid';
+ * assert(invert({a:1}), {1:'a'});
  */
-function invert(thisObject, invertedObject = {}) {
-	eachObject(thisObject, (item, key) => {
-		invertedObject[item] = key;
+function invert(source, target = {}) {
+	if (!source) {
+		return;
+	}
+	eachObject(source, (item, key) => {
+		target[item] = key;
 	});
-	return invertedObject;
+	return target;
 }
 
 /**
@@ -4069,17 +4118,20 @@ const isMatchObject = (source, target) => {
  * @function omit
  * @category object
  * @type {Function}
- * @param {Object} originalObject - Object from which keys are extracted.
- * @param {Array} array - Array of object keys.
+ * @param {Object} source - Object from which keys are extracted.
+ * @param {array} blacklist - List of property keys to omit from the returned object.
  * @returns {Object} - A new object with the removed.
  *
  * @example
  * omit({a:1, b:2}, ['a']);
  * // => {b:2}
  */
-function omit(originalObject, array) {
-	return filterObject(originalObject, (item, key) => {
-		return !array.includes(key);
+function omit(source, blacklist) {
+	if (!source) {
+		return;
+	}
+	return filterObject(source, (item, key) => {
+		return !blacklist.includes(key);
 	});
 }
 
@@ -4090,19 +4142,22 @@ function omit(originalObject, array) {
   * @type {Function}
   * @category object
   * @param {Object} source - Object to be cloned.
-  * @param {Array} array - Array used to determine what values to be plucked.
-  * @param {Object} [newObject = {}] - Object to be populated with plucked values.
+  * @param {Array} whitelist - Array of property names used to determine what values to pluck.
+  * @param {Object} [target = {}] - Object to be populated with plucked values.
   * @returns {Object} - A new object with plucked properties.
   *
   * @example
   * pick({a:1, b:2, c:3}, ['a','b']);
   * // => {a:1, b:2}
 */
-const pick = (source, array, newObject = {}) => {
-	eachArray(array, (item) => {
-		newObject[item] = source[item];
+const pick = (source, whitelist, target = {}) => {
+	if (!source) {
+		return;
+	}
+	eachArray(whitelist, (item) => {
+		target[item] = source[item];
 	});
-	return newObject;
+	return target;
 };
 
 /**
@@ -4118,6 +4173,9 @@ const pick = (source, array, newObject = {}) => {
  * // => 3
 */
 function objectSize(source) {
+	if (!source) {
+		return;
+	}
 	return keys(source).length;
 }
 
@@ -4619,10 +4677,6 @@ function upperFirstOnlyAll(string) {
 	});
 }
 
-function isIterable(source) {
-	return hasValue(source) && typeof source[Symbol.iterator] === 'function';
-}
-
 function getTypeName(source) {
 	return getType(source)?.name;
 }
@@ -4992,6 +5046,10 @@ const isI32 = isTypeFactory(isI32Call);
  */
 const isI8Call = isConstructorNameFactory('Int8Array');
 const isI8 = isTypeFactory(isI8Call);
+
+function isIterable(source) {
+	return hasValue(source) && typeof source[Symbol.iterator] === 'function';
+}
 
 /**
  * Checks if an object is a promise.

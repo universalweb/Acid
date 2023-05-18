@@ -6,18 +6,21 @@ import { eachArray } from '../array/each.js';
   * @type {Function}
   * @category object
   * @param {Object} source - Object to be cloned.
-  * @param {Array} array - Array used to determine what values to be plucked.
-  * @param {Object} [newObject = {}] - Object to be populated with plucked values.
+  * @param {Array} whitelist - Array of property names used to determine what values to pluck.
+  * @param {Object} [target = {}] - Object to be populated with plucked values.
   * @returns {Object} - A new object with plucked properties.
   *
   * @example
   * pick({a:1, b:2, c:3}, ['a','b']);
   * // => {a:1, b:2}
 */
-export const pick = (source, array, newObject = {}) => {
-	eachArray(array, (item) => {
-		newObject[item] = source[item];
+export const pick = (source, whitelist, target = {}) => {
+	if (!source) {
+		return;
+	}
+	eachArray(whitelist, (item) => {
+		target[item] = source[item];
 	});
-	return newObject;
+	return target;
 };
 

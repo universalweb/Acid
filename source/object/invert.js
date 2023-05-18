@@ -1,22 +1,26 @@
 import { eachObject } from './each.js';
+import { hasAnyKeys } from './hasKeys';
 /**
  * Creates an inverted version of a given object by switching it's keys and values.
  *
  * @function invert
  * @type {Function}
  * @category object
- * @param {Object} thisObject - Object to be inverted.
- * @param {Array} [invertedObject = {}] - Empty object to be populated with inverted values from thisObject.
+ * @param {Object} source - Object to be inverted.
+ * @param {Array} [target = {}] - Empty object to be populated with inverted values from source.
  * @returns {Object} - Returns object with keys and values switched.
  *
  * @example
- * invert({a:1});
- * // => {1:'a'}
+ * import { invert, assert } from 'Acid';
+ * assert(invert({a:1}), {1:'a'});
  */
-export function invert(thisObject, invertedObject = {}) {
-	eachObject(thisObject, (item, key) => {
-		invertedObject[item] = key;
+export function invert(source, target = {}) {
+	if (!source) {
+		return;
+	}
+	eachObject(source, (item, key) => {
+		target[item] = key;
 	});
-	return invertedObject;
+	return target;
 }
 

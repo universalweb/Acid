@@ -18,6 +18,9 @@ import { mapAsyncObject } from './mapAsync';
  * }), {a: 1, b: undefined, c: 3});
  */
 export function mapObject(source, iteratee, results = {}) {
+	if (!source) {
+		return;
+	}
 	eachObject(source, (item, key, original, propertyCount, objectKeys) => {
 		results[key] = iteratee(item, key, results, original, propertyCount, objectKeys);
 	});

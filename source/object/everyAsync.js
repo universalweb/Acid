@@ -19,6 +19,9 @@ import { each } from '../utility/each';
  * assert(result, true);
  */
 export async function everyAsyncObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
 	const objectKeys = keys(source);
 	return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
 		return iteratee(source[key], key, source, propertyCount, original);

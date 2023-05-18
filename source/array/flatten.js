@@ -14,6 +14,9 @@ import { ensureArray } from '../array/ensure.js';
  * assert(flatten([1, [2, [3, [4]], 5]]), [1, 2, [3, [4]], 5]);
  */
 export function flatten(source, level = 1) {
+	if (!source) {
+		return;
+	}
 	let sourceArray = source;
 	for (let i = 0; i < level; i++) {
 		sourceArray = sourceArray.reduce((previousValue, currentValue) => {
