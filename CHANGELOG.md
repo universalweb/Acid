@@ -6,8 +6,18 @@
 </pre>
 ---
 
-### [v3.0.25](https://github.com/universalweb/Acid/compare/v3.0.25...v3.0.25) 
-DATE: 2023-04-06
+### [v3.0.26](https://github.com/universalweb/Acid/compare/v3.0.26...v3.0.26) 
+DATE: 2023-05-18
+
+---
+### [v3.0.26](https://github.com/universalweb/Acid/compare/v3.0.25...v3.0.26) 
+DATE: 2023-05-18
+
+### Commits
+
+- Upgrade to 3.0.26 [`31ca843`](https://github.com/universalweb/Acid/commit/31ca8432c2f382f625d5a50b4d112dff51fd136a)
+- Version Bump 3.0.25 [`18a998c`](https://github.com/universalweb/Acid/commit/18a998c834cd1f69ca1b1dca39c2e262ab00a78c)
+- Version Bump 3.0.25 [`0a510c5`](https://github.com/universalweb/Acid/commit/0a510c5b619adf5640e186354066b79b0781c150)
 
 ---
 ### [v3.0.25](https://github.com/universalweb/Acid/compare/v3.0.24...v3.0.25) 

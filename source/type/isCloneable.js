@@ -4,7 +4,7 @@ import { isSet } from './isSet.js';
 /**
  * Checks if an object or objects are a structured-cloneable type.
  *
- * @function isStructCloneable
+ * @function isCloneable
  * @category type
  * @param {...*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.

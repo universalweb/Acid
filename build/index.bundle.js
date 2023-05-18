@@ -4450,6 +4450,9 @@
 			return match.toUpperCase();
 		});
 	}
+	function isIterable(source) {
+		return hasValue(source) && typeof source[Symbol.iterator] === 'function';
+	}
 	function getTypeName(source) {
 		return getType(source)?.name;
 	}
@@ -4503,33 +4506,79 @@
 		return !hasValue(source);
 	}
 	/**
+	 * Checks if an object or objects are a Map.
+	 *
+	 * @function isMap
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isMap } from 'Acid';
+	 * isMap(new Map());
+	 * // => true
+	 */
+	const isMapCall = isConstructorNameFactory('Map');
+	const isMap = isTypeFactory(isMapCall);
+	/**
+	 * Checks if an object is a TypedArray. A TypedArray object is an array-like view of an underlying binary data buffer.
+	 *
+	 * @function isTypedArray
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isTypedArray, assert } from 'Acid';
+	 * assert(isTypedArray([]), false);
+	 * assert(isTypedArray(new Int8Array()), true);
+	 */
+	const typedArrayRegex = /Array/;
+	const arrayConstructorName = 'Array';
+	function isTypedArray(source) {
+		if (source) {
+			const constructorName = getTypeName(source);
+			if (typedArrayRegex.test(constructorName) && constructorName !== arrayConstructorName) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
 	 * Checks if an object has a .length property that's greater than or equal to 0 & is not a function. If strict is enabled it will check to see if there is an item returned in range of the number returned bu the length property.
 	 *
-	 * @function isArray
+	 * @function isArrayLike
 	 * @category type
 	 * @param {*} source - Object to be checked.
 	 * @param {*} strictFlag - Strict flag to also check to see if keys are whole intigers greater than or equal to 0.
 	 * @returns {boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isArray, assert } from 'Acid';
-	 * assert(isArray([]), true);
-	 * assert(isArray(2), false);
+	 * import { isArrayLike, assert } from 'Acid';
+	 * assert(isArrayLike([]), true);
+	 * assert(isArrayLike(2), false);
 	 */
 	function isArrayLike(source, strictFlag) {
 		if (noValue(source) || isFunction(source)) {
 			return false;
 		}
+		if (isArray(source) || isTypedArray(source)) {
+			return true;
+		}
 		const sourceLength = source.length;
-		if (!sourceLength || !isNumber(sourceLength) || sourceLength < 0) {
+		if (!noValue(sourceLength) || !isNumber(sourceLength) || sourceLength < 0) {
 			return false;
 		}
 		if (strictFlag) {
-			return every(source, (value, index) => {
-				return index >= 0 && isNumber(index);
-			});
+			const indexes = keys(source);
+			if (indexes) {
+				return every(indexes, (value, index) => {
+					return index >= 0 && isNumber(index);
+				});
+			}
+			return false;
 		}
-		return false;
+		return true;
 	}
 	/**
 	 * Checks if an object or objects are a BigInt.
@@ -4790,21 +4839,6 @@
 		}
 		return false;
 	}
-	/**
-	 * Checks if an object or objects are a Map.
-	 *
-	 * @function isMap
-	 * @category type
-	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
-	 *
-	 * @example
-	 * import { isMap } from 'Acid';
-	 * isMap(new Map());
-	 * // => true
-	 */
-	const isMapCall = isConstructorNameFactory('Map');
-	const isMap = isTypeFactory(isMapCall);
 	/**
 	 * Checks if an object is the child of another. Typically used for classes.
 	 *
@@ -6447,6 +6481,7 @@
 	exports.isI32Call = isI32Call;
 	exports.isI8 = isI8;
 	exports.isI8Call = isI8Call;
+	exports.isIterable = isIterable;
 	exports.isKindAsync = isKindAsync;
 	exports.isMap = isMap;
 	exports.isMapCall = isMapCall;
@@ -6472,6 +6507,7 @@
 	exports.isSetCall = isSetCall;
 	exports.isString = isString;
 	exports.isTypeFactory = isTypeFactory;
+	exports.isTypedArray = isTypedArray;
 	exports.isU16 = isU16;
 	exports.isU16Call = isU16Call;
 	exports.isU32 = isU32;
