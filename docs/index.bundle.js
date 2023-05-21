@@ -343,15 +343,22 @@
 	 * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
 	 *
 	 * @example
-	 * const newClass = construct(function (a) {return a;}, []);
-	 * // => 2
+	 * import { construct, assert } from 'Acid';
+	 * class test {
+	 * constructor(a) {
+	 * return 1;
+	 * }
+	 * }
+	 * const newClass = construct(test, [1]);
+	 * assert(test, 1);
 	 */
 	const reflectConstruct = Reflect.construct;
 	function construct(target, argumentsList = [], newTarget) {
+		const args = isArray(argumentsList) ? argumentsList : [argumentsList];
 		if (newTarget) {
-			return reflectConstruct(target, argumentsList, newTarget);
+			return reflectConstruct(target, args, newTarget);
 		}
-		return reflectConstruct(target, argumentsList);
+		return reflectConstruct(target, args);
 	}
 	/**
 	 * Checks for primitive differences between a source array to other arrays, then returns a new array containing those differences.

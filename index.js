@@ -2,6 +2,7 @@ import { buildJson } from 'docredux';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const currentDirname = path.dirname(fileURLToPath(import.meta.url));
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 const buildDocs = () => {
 	return buildJson({
 		destination: `${currentDirname}/docs/`,
@@ -63,10 +64,12 @@ const build = async () => {
 	console.log('Build Client START');
 	const browserBundle = await rollup({
 		input: './source/browser.js',
+		plugins: [nodeResolve()]
 	});
 	const browserBundleProduction = await rollup({
 		input: './source/browser.js',
 		plugins: [
+			nodeResolve(),
 			terser()
 		]
 	});
@@ -102,10 +105,12 @@ const build = async () => {
 	console.log('Build Server START');
 	const index = await rollup({
 		input: './source/index.js',
+		plugins: [nodeResolve()]
 	});
 	const indexProduction = await rollup({
 		input: './source/index.js',
 		plugins: [
+			nodeResolve(),
 			terser()
 		]
 	});
