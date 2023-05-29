@@ -4842,10 +4842,8 @@
 	 * @param {*} source - Object to be checked.
 	 * @returns {boolean} - Returns true or false.
 	 *
-	 * @example
-	 * import { isI32 } from 'Acid';
-	 * isI32(new Int32Array());
-	 * // => true
+	 * import { isI32, assert } from 'Acid';
+	 * assert(isI32(new Int32Array()), true);.
 	 */
 	const isI32Call = isConstructorNameFactory('Int32Array');
 	const isI32 = isTypeFactory(isI32Call);
@@ -4864,6 +4862,20 @@
 	 */
 	const isI8Call = isConstructorNameFactory('Int8Array');
 	const isI8 = isTypeFactory(isI8Call);
+	/**
+	 * Checks if the object has inherited properties from the built-in Iterator class and which implements the Symbol.iterator interface. Built-in Iterators: String, Array, TypedArray, Map, Set, and Segments.
+	 *
+	 * @function isIterable
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isIterable, assert } from 'Acid';
+	 * assert(isIterable([]), true);
+	 * assert(isIterable(new Int8Array()), true);
+	 * assert(isIterable('test'), false);
+	 */
 	function isIterable(source) {
 		return hasValue(source) && typeof source[Symbol.iterator] === 'function';
 	}
