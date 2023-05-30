@@ -1,4 +1,4 @@
-import { cacheNativeMethod } from '../utility/cacheNativeMethod.js';
+import { cacheNativeMethod } from '../utilities/cacheNativeMethod.js';
 /**
  * Returns an array of all properties (enumerable or not) found directly upon a given object.
  *

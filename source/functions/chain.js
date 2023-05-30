@@ -1,0 +1,53 @@
+import { assign } from '../objects/assign.js';
+import { each } from '../utilities/each.js';
+const add = (link, methods) => {
+	each(methods, (item, key) => {
+		link.methods[key] = (...args) => {
+			item(link.value, ...args);
+			return link.methods;
+		};
+	});
+	return link;
+};
+/**
+ * Creates a chainable set of functions.
+ *
+ * @function chain
+ * @category function
+ * @type {Function}
+ * @param {Array|Object} methods - The object to take methods from.
+ * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
+ *
+ * @test
+ * (async () => {
+ *   const chained = chain({a(item) { return item;}});
+ *   chained('Acid').a();
+ *   return assert(chained.done(), 'Acid');
+ * });
+ *
+ * @example
+ * const chained = chain({a(item) { return item;}});
+ * chained('Acid').a();
+ * chained.done();
+ * // => 'Acid'
+ */
+export function chain(methods) {
+	const link = (value) => {
+		link.value = value;
+		return link.methods;
+	};
+	assign(link, {
+		add(addToChain) {
+			return add(link, addToChain);
+		},
+		done() {
+			const value = link.value;
+			link.value = null;
+			return value;
+		},
+		methods: {},
+	});
+	link.add(methods);
+	return link;
+}
+

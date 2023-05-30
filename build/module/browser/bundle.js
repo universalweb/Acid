@@ -66,16 +66,31 @@ function cloneArray(source) {
  *
  * @function isUndefined
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isUndefined } from 'Acid';
- * isUndefined(undefined);
- * // => true
+ * import { isUndefined, assert } from 'Acid';
+ * assert(isUndefined(undefined), true);
  */
-function isUndefined(value) {
-	return value === undefined;
+function isUndefined(source) {
+	return source === undefined;
+}
+
+/**
+ * Checks if the value has length greater than 0.
+ *
+ * @function hasLength
+ * @category utility
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * import { hasLength, assert } from 'Acid';
+ * assert(hasLength([1]), true);
+*/
+function hasLength(source) {
+	return Boolean(source.length);
 }
 
 /**
@@ -83,16 +98,15 @@ function isUndefined(value) {
  *
  * @function isNull
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { isNull } from 'Acid';
- * isNull(null);
- * // => true
+ * import { isNull, assert } from 'Acid';
+ * assert(isNull(null), true);
  */
-function isNull(value) {
-	return value === null;
+function isNull(source) {
+	return source === null;
 }
 
 /**
@@ -100,15 +114,15 @@ function isNull(value) {
  *
  * @function hasValue
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * import { hasValue } from 'Acid';
+ * import { hasValue, assert } from 'Acid';
  * assert(hasValue(1), true);
  */
-function hasValue(value) {
-	return !isUndefined(value) && !isNull(value);
+function hasValue(source) {
+	return !isUndefined(source) && !isNull(source);
 }
 
 /**
@@ -311,12 +325,8 @@ const isArray = Array.isArray;
   * @returns {Array} - Returns an array.
   *
   * @example
-  * ensureArray('Hello');
-  * // => ['Hello']
-  *
-  * @example
-  * ensureArray({a:1, b:2})
-  * // => [{a:1, b:2}]
+  * import { isArray, ensureArray, assert } from 'Acid';
+  * assert(isArray(ensureArray('test')), ['test']);
 */
 function ensureArray(source) {
 	return (isArray(source) && source) || (hasValue(source) && [source]) || [];
@@ -375,7 +385,7 @@ function construct(target, argumentsList = [], newTarget) {
  * @function difference
  * @category array
  * @type {Function}
- * @param {Array} source - Source array.
+ * @param {Array} sources - Source array.
  * @param {...Array} compare - Array(s) source array is compared against.
  * @returns {Array} - An array which contains the differences between the source and compare array.
  *
@@ -751,9 +761,8 @@ const emptyString = '';
  * @returns {Array} - Array used to go through object chain.
  *
  * @example
- * import { toPath } from 'Acid';
- * toPath('post.like[2]');
- * // => ['post', 'like', '2']
+ * import { toPath, assert } from 'Acid';
+ * assert(toPath('post.like[2]'), ['post', 'like', '2']);
  */
 function toPath(source) {
 	return source.replace(regexCloseBracket, emptyString).split(regexToPath);
@@ -863,7 +872,7 @@ function hasAnyKeys(source, ...properties) {
  *
  * @function isPlainObject
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -1788,6 +1797,77 @@ function unZip(source) {
 }
 
 /**
+ * Checks to see if the constructor is that of a native object.
+ *
+ * @function isConstructor
+ * @category type
+ * @param {Object} target - The object to be checked.
+ * @param {Object} source - The source constructor object.
+ * @returns {Object} - Returns the target object.
+ *
+ * @example
+ * import { isConstructor, assert } from 'Acid';
+ * assert(isConstructor(2, Number), true);
+ */
+function isConstructor(target, source) {
+	return target?.constructor === source || false;
+}
+function isConstructorFactory(source) {
+	return (target) => {
+		return isConstructor(target, source);
+	};
+}
+function constructorName(source) {
+	return source?.constructor?.name;
+}
+function isConstructorNameFactory(source) {
+	return (target) => {
+		return constructorName(target) === source || false;
+	};
+}
+
+function isTypeFactory(method) {
+	return function(primarySource, ...otherSources) {
+		if (otherSources) {
+			return method(primarySource) && everyArray(otherSources, method);
+		}
+		return method(primarySource);
+	};
+}
+
+/**
+ * Checks if an object or objects are a Buffer.
+ *
+ * @function isBuffer
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * import { isBuffer, assert, construct } from 'Acid';
+ * assert(isBuffer(Buffer.from('test')), true);
+*/
+const isBufferCall = isConstructorNameFactory('Buffer');
+const isBuffer = isTypeFactory(isBufferCall);
+
+/**
+  * Ensures the source is a Buffer if not the source is used to create a buffer using Buffer.from else if there's no source an empty Buffer is returned with Buffer.alloc(0). Keep in mind not all objects can be used to create a Buffer.
+  *
+  * @function ensureBuffer
+  * @category array
+  * @type {Function}
+  * @param {*} source - Object to be checked.
+  * @returns {Array} - Returns an array.
+  *
+  * @example
+  * import { isBuffer, ensureBuffer, assert } from 'Acid';
+  * assert(isBuffer(ensureBuffer('test')), true);
+*/
+function ensureBuffer(source) {
+	return (isBuffer(source) && source) || (hasValue(source) && Buffer.from(source)) || Buffer.alloc(0);
+}
+
+/**
  * Creates an object composed of keys generated from the results of running each element of collection through iteratee.
  *
  * @function countBy
@@ -2237,7 +2317,7 @@ function regexTestFactory(regexType) {
  *
  * @function isFileCSS
  * @category file
- * @param {string} value - Object to be checked.
+ * @param {string} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -2251,7 +2331,7 @@ const isFileCSS = regexTestFactory(/\.css$/);
  *
  * @function isFileHTML
  * @category file
- * @param {string} value - Object to be checked.
+ * @param {string} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -2265,7 +2345,7 @@ const isFileHTML = regexTestFactory(/\.html$/);
  *
  * @function isFileJS
  * @category file
- * @param {string} value - Object to be checked.
+ * @param {string} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -2279,7 +2359,7 @@ const isFileJS = regexTestFactory(/\.js$/);
  *
  * @function isFileJSON
  * @category file
- * @param {string} value - Object to be checked.
+ * @param {string} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -2474,46 +2554,6 @@ async function forEachAsync(source, callback) {
 }
 
 /**
- * Checks to see if the constructor is that of a native object.
- *
- * @function isConstructor
- * @category type
- * @param {Object} target - The target object.
- * @param {Object} nativeObject - The source object.
- * @returns {Object} - Returns the target object.
- *
- * @example
- * import { isConstructor, assert } from 'Acid';
- * isConstructor(2, Number);
- * // => true
- */
-function isConstructor(obj, nativeObject) {
-	return (hasValue(obj)) ? obj.constructor === nativeObject : false;
-}
-function isConstructorFactory(source) {
-	return (target) => {
-		return isConstructor(target, source);
-	};
-}
-function constructorName(source) {
-	return source?.constructor?.name;
-}
-function isConstructorNameFactory(target) {
-	return (source) => {
-		return source && constructorName(source) === target || false;
-	};
-}
-
-function isTypeFactory(method) {
-	return function(primarySource, ...otherSources) {
-		if (otherSources) {
-			return method(primarySource) && everyArray(otherSources, method);
-		}
-		return method(primarySource);
-	};
-}
-
-/**
  * Checks if an object(s) is a Set.
  *
  * @function isSet
@@ -2597,7 +2637,7 @@ const isFunction = (source) => {
  *
  * @function isAsync
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - True or false.
  *
  * @example
@@ -3216,10 +3256,34 @@ function mapObject(source, iteratee, results = {}) {
 	return results;
 }
 
+/**
+ * Returns the constructor of an object.
+ *
+ * @function getType
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * import { getType, assert } from 'Acid';
+ * assert(getType(1), true);
+ */
 function getType(source) {
 	return source?.constructor;
 }
 
+/**
+ * Returns a new empty object of the same type.
+ *
+ * @function cloneType
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * import { cloneType, assert } from 'Acid';
+ * assert(cloneType([1]), []);
+ */
 function cloneType(source, args = []) {
 	const sourceType = getType(source);
 	if (sourceType === Function) {
@@ -4684,6 +4748,18 @@ function upperFirstOnlyAll(string) {
 	});
 }
 
+/**
+ * Returns the constructor name of an object.
+ *
+ * @function getTypeName
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * import { getTypeName, assert } from 'Acid';
+ * assert(getTypeName(1), true);
+ */
 function getTypeName(source) {
 	return getType(source)?.name;
 }
@@ -4693,7 +4769,7 @@ function getTypeName(source) {
  *
  * @function isArguments
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -4711,7 +4787,7 @@ function isArguments(source) {
  *
  * @function isNumber
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -4838,7 +4914,7 @@ const isBigInt = isTypeFactory(isBigIntCall);
  *
  * @function isBoolean
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -4852,17 +4928,17 @@ const isBoolean = isTypeFactory(isBooleanCall);
 /**
  * Checks if an object or objects are a ArrayBuffer.
  *
- * @function isBuffer
+ * @function isArrayBuffer
  * @category type
  * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * isBuffer(new ArrayBuffer());
- * // => true
+ * import { isArrayBuffer, assert } from 'Acid';
+ * assert(isArrayBuffer(new ArrayBuffer()), true);
 */
-const isBufferCall = isConstructorNameFactory('ArrayBuffer');
-const isBuffer = isTypeFactory(isBufferCall);
+const isArrayBufferCall = isConstructorNameFactory('ArrayBuffer');
+const isArrayBuffer = isTypeFactory(isArrayBufferCall);
 
 /**
  * Checks if an object is the child of another. Typically used for classes.
@@ -4892,11 +4968,32 @@ function isChild(sourceChild, targetParent) {
 }
 
 /**
+ * Checks if an object or objects are a structured-cloneable type.
+ *
+ * @function isCloneable
+ * @category type
+ * @param {...*} source - Object to be checked.
+ * @returns {boolean} - Returns true or false.
+ *
+ * @example
+ * import { isCloneable, assert } from 'Acid';
+ * assert(isCloneable(function (){}), false);
+ */
+const constructorNames = RegExp('Array|ArrayBuffer|Boolean|DataView|Date|Map|Object|Boolean|Number|BigInt|String|RegExp|Set|Error|EvalError|RangeError|ReferenceError|SyntaxError|TypeError|URIError');
+function isCloneable(source) {
+	if (hasValue(source)) {
+		const constructorName = source?.constructor?.name;
+		return constructorNames.test(constructorName);
+	}
+	return false;
+}
+
+/**
  * Checks if the value is a Date.
  *
  * @function isDate
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -4911,7 +5008,7 @@ const isDate = isTypeFactory(isDateCall);
  *
  * @function isString
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -4920,22 +5017,6 @@ const isDate = isTypeFactory(isDateCall);
  * // => true
  */
 const isString = isConstructorFactory(String);
-
-/**
- * Checks if the value has length greater than 0.
- *
- * @function hasLength
- * @category utility
- * @param {*} value - Object to be checked.
- * @returns {boolean} - Returns true or false.
- *
- * @example
- * hasLength([1]);
- * // => true
-*/
-function hasLength(value) {
-	return Boolean(value.length);
-}
 
 /**
  * Checks if the value is empty.
@@ -4996,7 +5077,7 @@ const { isInteger } = Number;
  *
  * @function isFloat
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -5075,7 +5156,7 @@ function isIterable(source) {
  *
  * @function isPromise
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - True or false.
  *
  * @example
@@ -5083,9 +5164,9 @@ function isIterable(source) {
  * isPromise(new Promise(() => {}));
  * // => true
  */
-function isPromise(value) {
-	if (value) {
-		return value instanceof Promise;
+function isPromise(source) {
+	if (source) {
+		return source instanceof Promise;
 	}
 	return false;
 }
@@ -5095,16 +5176,16 @@ function isPromise(value) {
  *
  * @function isKindAsync
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - True or false.
  *
  * @example
  * import { isKindAsync, assert } from 'Acid';
  * assert(isKindAsync(async() => {}), true);
  */
-function isKindAsync(value) {
-	if (value) {
-		return isPromise(value) || isAsync(value) || isGenerator(value);
+function isKindAsync(source) {
+	if (source) {
+		return isPromise(source) || isAsync(source) || isGenerator(source);
 	}
 	return false;
 }
@@ -5141,19 +5222,17 @@ function isParent(sourceParent, targetChild) {
  *
  * @function isPrimitive
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - True or false.
  *
  * @example
- * import { isPrimitive } from 'Acid';
- * isPrimitive(1);
- * // => true
- * isPrimitive(() => {});
- * // => false
+ * import { isPrimitive, assert } from 'Acid';
+ * assert(isPrimitive(1), true);
+ * assert(isPrimitive(() => {}), false);
  */
-function isPrimitive(value) {
+function isPrimitive(source) {
 	const type = typeof value;
-	return value === null || value === undefined || (type !== 'object' && type !== 'function');
+	return source === null || source === undefined || (type !== 'object' && type !== 'function');
 }
 
 /**
@@ -5161,7 +5240,7 @@ function isPrimitive(value) {
  *
  * @function isRegex
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -5211,7 +5290,7 @@ const { isSafeInteger } = Number;
  *
  * @function isSafeInt
  * @category type
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -5952,7 +6031,7 @@ function has(source, search, position) {
  *
  * @function hasDot
  * @category utility
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
@@ -6635,14 +6714,14 @@ function virtualStorage(initialObject) {
  * @function isAgent
  * @category browser
  * @type {Function}
- * @param {string} value - The string to search for.
+ * @param {string} source - The string to search for.
  * @returns {boolean} - Returns true or false.
  * @example
  * isAgent('mobile');
  * // => false
  */
-function isAgent(value) {
-	return (value) ? isAgent[value] : keys(isAgent);
+function isAgent(source) {
+	return (source) ? isAgent[source] : keys(isAgent);
 }
 const userAgent = globalThis.navigator?.userAgentData;
 if (userAgent) {
@@ -7181,15 +7260,15 @@ const cnslTheme = (themeName, color, background) => {
  * @function isDom
  * @category browser
  * @ignoreTest
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * isDom(document.querySelectorAll('.test'));
- * // => true
+ * import { isDom, assert } from 'Acid';
+ * assert(isDom(document.querySelectorAll('head')), true);
  */
-function isDom(value) {
-	return value && value.nodeType !== 9;
+function isDom(source) {
+	return source && source.nodeType !== 9;
 }
 /**
  * Checks if the value is a HTMLCollection.
@@ -7197,12 +7276,13 @@ function isDom(value) {
  * @function isHTMLCollection
  * @category browser
  * @ignoreTest
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * isHTMLCollection(document.getElementsByClassName('test'));
- * // => true
+ * import { isHTMLCollection, assert } from 'Acid';
+ * document.body.innerHTML = '<div class="test"></div>';
+ * assert(isHTMLCollection(document.getElementsByClassName('test')), true);
  */
 const objectHTMLCollection = '[object HTMLCollection]';
 function isHTMLCollection(source) {
@@ -7214,17 +7294,18 @@ function isHTMLCollection(source) {
  * @function isNodeList
  * @category browser
  * @ignoreTest
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * isNodeList(document.querySelectorAll('.test'));
- * // => true
+ * import { isNodeList, assert } from 'Acid';
+ * document.body.innerHTML = '<div class="test"></div>';
+ * assert(isNodeList(document.querySelectorAll('.test')), true);
  */
 const objectNodeList = '[object NodeList]';
 function isNodeList(source) {
 	return (hasValue(source)) ? source.toString() === objectNodeList : false;
 }
 
-export { Crate, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cloneType, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsey, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isAgent, isArguments, isArray, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isF32, isF32Call, isF64, isF64Call, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, minus, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, setKey, setValue, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortOldestFilter, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sub, sum, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Crate, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cloneType, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsey, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isAgent, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isF32, isF32Call, isF64, isF64Call, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, minus, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, setKey, setValue, shuffle, smallest, snakeCase, sortAlphabetical, sortNewest, sortOldest, sortOldestFilter, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sub, sum, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

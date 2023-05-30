@@ -1,4 +1,5 @@
 export * from './arrays.js';
+export * from './buffers.js';
 export * from './classes.js';
 export * from './collections.js';
 export * from './file.js';

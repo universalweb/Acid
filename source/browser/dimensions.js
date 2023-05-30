@@ -1,4 +1,4 @@
-import { assign } from '../object/assign.js';
+import { assign } from '../objects/assign.js';
 import { eventAdd } from './event.js';
 import { info } from './info.js';
 import { isDocumentReady } from './ready.js';

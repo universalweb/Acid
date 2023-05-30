@@ -3,10 +3,10 @@
  *
  * @module browser/storage
  */
-import { hasValue } from '../type/hasValue.js';
-import { isString } from '../type/isString.js';
-import { stringify } from '../utility/json.js';
-import { virtualStorage } from '../utility/virtualStorage.js';
+import { hasValue } from '../types/hasValue.js';
+import { isString } from '../types/isString.js';
+import { stringify } from '../utilities/json.js';
+import { virtualStorage } from '../utilities/virtualStorage.js';
 export let hasLocal;
 function hasStorage(storeCheck) {
 	try {

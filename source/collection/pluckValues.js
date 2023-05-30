@@ -1,5 +1,5 @@
-import { mapArray } from '../array/map.js';
-import { pluckObject } from '../object/pluckObject.js';
+import { mapArray } from '../arrays/map.js';
+import { pluckObject } from '../objects/pluckObject.js';
 /**
  * Returns an array of the arrays of plucked values from the collection.
  *

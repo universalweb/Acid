@@ -1,4 +1,4 @@
-import { eachArray } from '../array/each.js';
+import { eachArray } from '../arrays/each.js';
 /**
  * Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
  * The order of grouped values is determined by the order they occur in collection.

@@ -1,1 +1,1 @@
-export * from './class/construct.js';
+export * from './classes/construct.js';

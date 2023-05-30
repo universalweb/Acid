@@ -1,19 +1,20 @@
-import { hasValue } from '../type/hasValue.js';
+import { hasValue } from '../types/hasValue.js';
+import { difference } from '../arrays/difference.js';
 /**
  * Checks if value is a plain DOM Node.
  *
  * @function isDom
  * @category browser
  * @ignoreTest
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * isDom(document.querySelectorAll('.test'));
- * // => true
+ * import { isDom, assert } from 'Acid';
+ * assert(isDom(document.querySelectorAll('head')), true);
  */
-export function isDom(value) {
-	return value && value.nodeType !== 9;
+export function isDom(source) {
+	return source && source.nodeType !== 9;
 }
 /**
  * Checks if the value is a HTMLCollection.
@@ -21,12 +22,13 @@ export function isDom(value) {
  * @function isHTMLCollection
  * @category browser
  * @ignoreTest
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * isHTMLCollection(document.getElementsByClassName('test'));
- * // => true
+ * import { isHTMLCollection, assert } from 'Acid';
+ * document.body.innerHTML = '<div class="test"></div>';
+ * assert(isHTMLCollection(document.getElementsByClassName('test')), true);
  */
 const objectHTMLCollection = '[object HTMLCollection]';
 export function isHTMLCollection(source) {
@@ -38,12 +40,13 @@ export function isHTMLCollection(source) {
  * @function isNodeList
  * @category browser
  * @ignoreTest
- * @param {*} value - Object to be checked.
+ * @param {*} source - Object to be checked.
  * @returns {boolean} - Returns true or false.
  *
  * @example
- * isNodeList(document.querySelectorAll('.test'));
- * // => true
+ * import { isNodeList, assert } from 'Acid';
+ * document.body.innerHTML = '<div class="test"></div>';
+ * assert(isNodeList(document.querySelectorAll('.test')), true);
  */
 const objectNodeList = '[object NodeList]';
 export function isNodeList(source) {

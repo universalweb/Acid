@@ -1,2 +1,2 @@
-export * from './file/getExtension.js';
-export * from './file/isFile.js';
+export * from './files/getExtension.js';
+export * from './files/isFile.js';

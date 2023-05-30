@@ -1,4 +1,4 @@
-import { mapArray } from '../array/map.js';
+import { mapArray } from '../arrays/map.js';
 /**
  * Invokes a function on the provided property name in each object in the collection.
  *

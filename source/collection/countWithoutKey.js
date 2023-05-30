@@ -1,4 +1,4 @@
-import { eachArray } from '../array/each.js';
+import { eachArray } from '../arrays/each.js';
 /**
  * Count the amount of times a key is not present in a collection.
  *

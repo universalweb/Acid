@@ -1,8 +1,8 @@
 import { append } from './append.js';
-import { hasDot } from '../utility/hasDot.js';
+import { hasDot } from '../utilities/hasDot.js';
 import { eventAdd } from './event.js';
 import { nodeAttribute } from './attribute.js';
-import { promise } from '../utility/promise.js';
+import { promise } from '../utilities/promise.js';
 import { querySelector } from './selector.js';
 const createElementCache = document.createElement.bind(document);
 const nodeAttachLoadingEvents = (node) => {

@@ -1,4 +1,4 @@
-import { restString } from '../string/range.js';
+import { restString } from '../strings/range.js';
 const dotString = '.';
 const poundString = '#';
 const classTest = /^.[\w_-]+$/;

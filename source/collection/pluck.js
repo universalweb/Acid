@@ -1,4 +1,4 @@
-import { mapArray } from '../array/map.js';
+import { mapArray } from '../arrays/map.js';
 /**
  * Returns an array of the plucked values from the collection.
  *

@@ -1,7 +1,7 @@
-import { eachObject } from '../object/each.js';
-import { isArray } from '../type/isArray.js';
-import { mapArray } from '../array/map.js';
-import { zipObject } from '../object/zip.js';
+import { eachObject } from '../objects/each.js';
+import { isArray } from '../types/isArray.js';
+import { mapArray } from '../arrays/map.js';
+import { zipObject } from '../objects/zip.js';
 /**
  * Assign attributes to a DOM node.
  *

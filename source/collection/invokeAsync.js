@@ -1,4 +1,4 @@
-import { mapAsyncArray } from '../array/mapAsync.js';
+import { mapAsyncArray } from '../arrays/mapAsync.js';
 /**
  * Asynchronously awaits & invokes a function on the provided property name in each object in the collection.
  *
