@@ -11,7 +11,7 @@ const hasOwn = Object.hasOwn;
  * @type {Function}
  * @param {Object} source - Source object to check for keys.
  * @param {...String} properties - List of strings to check.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { hasKeys, assert } from 'Acid';
@@ -43,7 +43,7 @@ export function hasKeys(source, ...properties) {
  * @type {Function}
  * @param {Object} source - Source object to check for keys.
  * @param {Array} properties - List of strings to check.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { hasAnyKeys, assert } from 'Acid';

@@ -4,10 +4,10 @@
  * @function insertInRange
  * @category string
  * @type {Function}
- * @param {string} string - String to insert the text into.
- * @param {number} index - Point of insertion.
- * @param {string} text - The string to be inserted.
- * @returns {string} - The string with the text inserted at the given point.
+ * @param {String} string - String to insert the text into.
+ * @param {Number} index - Point of insertion.
+ * @param {String} text - The string to be inserted.
+ * @returns {String} - The string with the text inserted at the given point.
  *
  * @example
  * import { insertInRange, assert } from 'Acid';
@@ -23,9 +23,9 @@ export function insertInRange(string, index, text) {
  * @function rightString
  * @category string
  * @type {Function}
- * @param {string} string - String to extract the letter from.
- * @param {number} [index=1] - The starting position.
- * @returns {string} - A letter at the given index.
+ * @param {String} string - String to extract the letter from.
+ * @param {Number} [index=1] - The starting position.
+ * @returns {String} - A letter at the given index.
  *
  * @example
  * import { rightString, assert } from 'Acid';
@@ -43,8 +43,8 @@ export function rightString(string, index = 1) {
  * @function chunkString
  * @category string
  * @type {Function}
- * @param {string} string - String to chunked.
- * @param {number} [size] - The max string length per chunk.
+ * @param {String} string - String to chunked.
+ * @param {Number} [size] - The max string length per chunk.
  * @returns {Array} - An array with strings that are <= size parameter.
  *
  * @example
@@ -61,9 +61,9 @@ export function chunkString(string, size) {
  * @function initialString
  * @category string
  * @type {Function}
- * @param {string} string - String to extract the initial letters from.
- * @param {number} [index=1] - Starting point from the right.
- * @returns {string} - A string with the characters before the index starting from the right.
+ * @param {String} string - String to extract the initial letters from.
+ * @param {Number} [index=1] - Starting point from the right.
+ * @returns {String} - A string with the characters before the index starting from the right.
  *
  * @example
  * import { initialString, assert } from 'Acid';
@@ -81,9 +81,9 @@ export function initialString(string, index = 1) {
  * @function restString
  * @category string
  * @type {Function}
- * @param {string} string - String to extract the rest of the letters from.
- * @param {number} [index=1] - Starting point.
- * @returns {string} - A string without the characters up-to to the index.
+ * @param {String} string - String to extract the rest of the letters from.
+ * @param {Number} [index=1] - Starting point.
+ * @returns {String} - A string without the characters up-to to the index.
  *
  * @example
  * import { restString, assert } from 'Acid';

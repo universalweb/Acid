@@ -5,7 +5,7 @@ import { hasValue } from './hasValue.js';
  * @function noValue
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { noValue, assert } from 'Acid';

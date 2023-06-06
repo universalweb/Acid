@@ -9,8 +9,8 @@ const doubleQuoteRegex = /"/g;
  * @function rawURLDecode
  * @category string
  * @type {Function}
- * @param {string} string - String to be replaced.
- * @returns {string} - Converted string into the decoded URI Component .
+ * @param {String} string - String to be replaced.
+ * @returns {String} - Converted string into the decoded URI Component .
  *
  * @example
  * import { rawURLDecode, assert } from 'Acid';
@@ -28,8 +28,8 @@ export function rawURLDecode(string) {
  * @function htmlEntities
  * @category string
  * @type {Function}
- * @param {string} string - String to be replaced.
- * @returns {string} - Replaced string.
+ * @param {String} string - String to be replaced.
+ * @returns {String} - Replaced string.
  *
  * @example
  * import { htmlEntities, assert } from 'Acid';
@@ -48,8 +48,8 @@ export function htmlEntities(string) {
  * @function sanitize
  * @category string
  * @type {Function}
- * @param {string} string - String to be replaced.
- * @returns {string} - Replaced string.
+ * @param {String} string - String to be replaced.
+ * @returns {String} - Replaced string.
  *
  * @example
  * import { sanitize, assert } from 'Acid';

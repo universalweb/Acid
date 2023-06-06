@@ -4,8 +4,8 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  *
  * @function isFileCSS
  * @category file
- * @param {string} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @param {String} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * isFileCSS('test.css');

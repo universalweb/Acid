@@ -8,7 +8,7 @@ import { everyArray } from '../arrays/every.js';
  * @function get
  * @category utility
  * @type {Function}
- * @param {string} propertyString - String used to retrieve properties.
+ * @param {String} propertyString - String used to retrieve properties.
  * @param {Object} target - Object which has a property retrieved from it.
  * @returns {Object} - Returns property from the given object.
  *

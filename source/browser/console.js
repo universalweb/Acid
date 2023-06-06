@@ -17,7 +17,7 @@ export const themes = {
   * @ignoreTest
   * @type {Function}
   * @param {Object} value - The value to be logged.
-  * @param {string} themeName - The name of the theme to be used.
+  * @param {String} themeName - The name of the theme to be used.
   * @returns {undefined} - Returns undefined.
   *
   * @example
@@ -38,9 +38,9 @@ export const cnsl = (value, themeName) => {
   * @category browser
   * @ignoreTest
   * @type {Function}
-  * @param {string} themeName - The name of the theme.
-  * @param {string} color - The text color.
-  * @param {string} background - The background color of the block.
+  * @param {String} themeName - The name of the theme.
+  * @param {String} color - The text color.
+  * @param {String} background - The background color of the block.
   * @returns {undefined} - Returns undefined.
   *
   * @example

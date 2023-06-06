@@ -6,7 +6,7 @@ import { noValue } from './noValue.js';
  * @category type
  * @param {*} targetOne - Object to be checked.
  * @param {*} targetTwo - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isRelated, construct, assert } from 'Acid';

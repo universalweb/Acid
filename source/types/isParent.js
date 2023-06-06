@@ -5,7 +5,7 @@
  * @category type
  * @param {*} sourceParent - Object to be checked as the child.
  * @param {*} targetChild - Object to be checked as the parent.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isParent, construct, assert } from 'Acid';

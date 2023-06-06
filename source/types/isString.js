@@ -5,7 +5,7 @@ import { isConstructorFactory } from './isConstructor.js';
  * @function isString
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isString } from 'Acid';

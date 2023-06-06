@@ -5,7 +5,7 @@ import { isUndefined } from '../types/isUndefined.js';
  * @function hasLength
  * @category utility
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { hasLength, assert } from 'Acid';

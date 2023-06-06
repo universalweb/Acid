@@ -5,7 +5,7 @@
  * @type {Function}
  * @category array
  * @param {Array} array - Array to have items extracted from.
- * @param {number} [indexFrom = 0] - Value which determines how many items are extracted from the array.
+ * @param {Number} [indexFrom = 0] - Value which determines how many items are extracted from the array.
  * @returns {Array} - Items from the array.
  *
  * @example

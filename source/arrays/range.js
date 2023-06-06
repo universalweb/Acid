@@ -23,9 +23,9 @@ export function rangeDown(start, end, incrementArg) {
  * @function range
  * @category array
  * @type {Function}
- * @param {number} start - Value which determines the start of the range.
- * @param {number} end - Value which determines the end of the range.
- * @param {number} step - Value used to step between integers.
+ * @param {Number} start - Value which determines the start of the range.
+ * @param {Number} end - Value which determines the end of the range.
+ * @param {Number} step - Value used to step between integers.
  * @returns {Array} - An array of integers.
  *
  * @example

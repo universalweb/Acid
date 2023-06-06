@@ -8,7 +8,7 @@ import { isEqual } from '../utilities/isEqual.js';
  * @category array
  * @param {Array} source - Source object.
  * @param {Array} compareArray - Object to compare to source.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isMatchArray, assert } from 'Acid';

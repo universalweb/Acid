@@ -10,7 +10,7 @@ import { hasValue } from './hasValue.js';
  * @function isEmpty
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isEmpty } from 'Acid';

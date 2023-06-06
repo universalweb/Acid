@@ -9,7 +9,7 @@ import { keys } from './keys.js';
  * @category object
  * @param {Object} source - Source object.
  * @param {Object} target - Object to compare to source.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { assert, isMatchObject } from 'Acid';

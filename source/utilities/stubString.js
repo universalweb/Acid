@@ -4,7 +4,7 @@
  * @function stubString
  * @category utility
  * @type {Function}
- * @returns {string} - Returns the new empty string.
+ * @returns {String} - Returns the new empty string.
  *
  * @example
  * import { stubString } from 'Acid';

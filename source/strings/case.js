@@ -6,8 +6,8 @@ const spaceFirstLetter = / (.)/g;
  * @function upperCase
  * @category string
  * @type {Function}
- * @param {string} source - String to be converted into upper case.
- * @returns {string} - Converted string in upper case.
+ * @param {String} source - String to be converted into upper case.
+ * @returns {String} - Converted string in upper case.
  *
  * @example
  * import { upperCase, assert } from 'Acid';
@@ -25,8 +25,8 @@ export function upperCase(source) {
  * @function camelCase
  * @category string
  * @type {Function}
- * @param {string} source - String to be converted into Camel case.
- * @returns {string} - Converted string in Camel case.
+ * @param {String} source - String to be converted into Camel case.
+ * @returns {String} - Converted string in Camel case.
  *
  * @example
  * import { camelCase, assert } from 'Acid';
@@ -45,8 +45,8 @@ export function camelCase(source) {
  * @function kebabCase
  * @category string
  * @type {Function}
- * @param {string} source - String to be converted into Kebab case.
- * @returns {string} - Converted string in Kebab case.
+ * @param {String} source - String to be converted into Kebab case.
+ * @returns {String} - Converted string in Kebab case.
  *
  * @example
  * import { kebabCase, assert } from 'Acid';
@@ -65,8 +65,8 @@ export function kebabCase(source) {
  * @function snakeCase
  * @category string
  * @type {Function}
- * @param {string} source - String to be converted into snake case.
- * @returns {string} - Converted string in Snake case.
+ * @param {String} source - String to be converted into snake case.
+ * @returns {String} - Converted string in Snake case.
  *
  * @example
  * import { snakeCase, assert } from 'Acid';

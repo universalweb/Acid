@@ -7,7 +7,7 @@ import { difference } from '../arrays/difference.js';
  * @category browser
  * @ignoreTest
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isDom, assert } from 'Acid';
@@ -23,7 +23,7 @@ export function isDom(source) {
  * @category browser
  * @ignoreTest
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isHTMLCollection, assert } from 'Acid';
@@ -41,7 +41,7 @@ export function isHTMLCollection(source) {
  * @category browser
  * @ignoreTest
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isNodeList, assert } from 'Acid';

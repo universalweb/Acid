@@ -6,7 +6,7 @@ import { ensureArray } from './ensure.js';
  * @type {Function}
  * @category array
  * @param {Array} source - Array to flatten.
- * @param {number} [level = 1] - Number which determines how deep the array nest can be.
+ * @param {Number} [level = 1] - Number which determines how deep the array nest can be.
  * @returns {Array} - Returns an array.
  *
  * @example

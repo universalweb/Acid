@@ -4,7 +4,7 @@
  * @function isPrimitive
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - True or false.
+ * @returns {Boolean} - True or false.
  *
  * @example
  * import { isPrimitive, assert } from 'Acid';

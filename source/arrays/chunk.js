@@ -5,7 +5,7 @@
  * @category Array
  * @type {Function}
  * @param {Array} array - Array to be chunked.
- * @param {number} size - Number which determines the size of each chunk.
+ * @param {Number} size - Number which determines the size of each chunk.
  * @returns {Array} - A chunked version of the source array.
  *
  * @example

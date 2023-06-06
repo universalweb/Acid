@@ -11,7 +11,7 @@ import { returnValue } from './returnValue.js';
  * @type {Function}
  * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+ * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
  * import { every, assert } from 'Acid';

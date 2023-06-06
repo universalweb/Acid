@@ -5,7 +5,7 @@
  * @category browser
  * @type {Function}
  * @param {Node} node - Given node.
- * @param {string} eventName - A string representing the event type.
+ * @param {String} eventName - A string representing the event type.
  * @param {Object|Function} callback - The object which receives a notification when an event of the specified type occurs.
  * @param {Boolean} useCapture - The default value is false, which will use the bubbling propagation, when the value is set to true, the event uses the capturing propagation.
  * @returns {Node} - Returns given node.
@@ -25,7 +25,7 @@ export function eventAdd(node, eventName, callback, useCapture) {
  * @category browser
  * @type {Function}
  * @param {Node} node - Given node.
- * @param {string} eventName - A string representing the event type.
+ * @param {String} eventName - A string representing the event type.
  * @param {Object|Function} callback - The object which receives a notification when an event of the specified type occurs.
  * @param {Boolean} useCapture - The default value is false, which will use the bubbling propagation, when the value is set to true, the event uses the capturing propagation.
  * @returns {Node} - Returns given node.

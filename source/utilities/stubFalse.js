@@ -4,7 +4,7 @@
  * @function stubFalse
  * @category utility
  * @type {Function}
- * @returns {boolean} - Returns false.
+ * @returns {Boolean} - Returns false.
  *
  * @example
  * import { stubFalse } from 'Acid';

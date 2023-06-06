@@ -11,7 +11,7 @@ import { isPlainObject } from '../types/isPlainObject.js';
  * @category utility
  * @param {*} source - Source object.
  * @param {*} target - Object to be compared.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isEqual, assert } from 'Acid';

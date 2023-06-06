@@ -6,7 +6,7 @@ import { shuffle } from './shuffle.js';
  * @function sample
  * @category array
  * @param {Array} source - The array to pull sample(s) from.
- * @param {number} amount - The amount of samples to take.
+ * @param {Number} amount - The amount of samples to take.
  * @returns {Array} - An array of randomly pulled samples.
  *
  * @test

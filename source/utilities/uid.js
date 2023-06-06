@@ -9,7 +9,7 @@ import { construct } from '../classes/construct.js';
  * Creates a unique numerical recyclable ID generator. The IDs are numerically ascending however freed ids are recycled when available.
  *
  * @class UniqID
- * @type {class}
+ * @type {Class}
  * @category utility
  * @returns {UniqID} - Returns a new instance of UniqID.
  *
@@ -32,7 +32,7 @@ export class UniqID {
 	 * @class UniqID
 	 * @category utility
 	 * @type {Function}
-	 * @returns {number} - Returns a unique id.
+	 * @returns {Number} - Returns a unique id.
 	 *
 	 * @example
 	 * import { UniqID, construct, assert } from 'Acid';
@@ -56,7 +56,7 @@ export class UniqID {
 	 * @class UniqID
 	 * @category utility
 	 * @type {Function}
-	 * @param {number} id - Number to be freed.
+	 * @param {Number} id - Number to be freed.
 	 * @returns {undefined} - Nothing is returned.
 	 *
 	 * @example

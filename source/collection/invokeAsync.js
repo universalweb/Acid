@@ -7,7 +7,7 @@ import { mapAsyncArray } from '../arrays/mapAsync.js';
  * @type {Function}
  * @async
  * @param {Array} collection - Collection from which method will be taken.
- * @param {string} property - Value used to pluck method from object.
+ * @param {String} property - Value used to pluck method from object.
  * @param {*} value - Value to be passed to callable property.
  * @returns {Array} - Returns the results of the invoked method.
  *

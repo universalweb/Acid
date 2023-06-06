@@ -8,9 +8,9 @@ const {
  * @function randomInt
  * @category number
  * @type {Function}
- * @param {number} max - The highest possible value for the random number.
- * @param {number} [min = 0] - Establishes lowest possible value for the random number.
- * @returns {number} - Returns random integer between the max and min range.
+ * @param {Number} max - The highest possible value for the random number.
+ * @param {Number} [min = 0] - Establishes lowest possible value for the random number.
+ * @returns {Number} - Returns random integer between the max and min range.
  *
  * @example
  * import { randomInt, assert } from 'Acid';

@@ -4,7 +4,7 @@
  * @function after
  * @category function
  * @type {Function}
- * @param {number} amount - The number of calls until method is invoked.
+ * @param {Number} amount - The number of calls until method is invoked.
  * @param {Function} callable - The function to be called.
  * @returns {Function} - Returns the new pass-thru function.
  *

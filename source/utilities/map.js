@@ -13,7 +13,7 @@ import { forOfMapAsync } from './forOfMapAsync.js';
  * @type {Function}
  * @param {Array | object | Function} source - Object that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
- * @param {object | Function} [results = {}] - Object that will be used to assign results.
+ * @param {Object | Function} [results = {}] - Object that will be used to assign results.
  * @returns {Array | object | Function} - A new object of the same calling object's type.'.
  *
  * @example

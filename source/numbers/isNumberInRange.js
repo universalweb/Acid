@@ -4,10 +4,10 @@
  * @function isNumberInRange
  * @category number
  * @type {Function}
- * @param {number} source - Number to be checked.
- * @param {number} start - Beginning of range.
- * @param {number} end - End of range.
- * @returns {boolean} - Returns true or false.
+ * @param {Number} source - Number to be checked.
+ * @param {Number} start - Beginning of range.
+ * @param {Number} end - End of range.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isNumberInRange, assert } from 'Acid';

@@ -290,10 +290,7 @@
         "no-continue": "off",
         "no-inline-comments": "error",
         "no-lonely-if": "error",
-        "no-mixed-spaces-and-tabs": [
-            "error",
-            "smart-tabs"
-        ],
+        "no-mixed-spaces-and-tabs": "error",
         "no-multiple-empty-lines": [
             "error",
             {
@@ -496,10 +493,10 @@
             }
         ],
         "jsdoc/check-access": 1,
-        "jsdoc/check-alignment": 0,
+        "jsdoc/check-alignment": 1,
         "jsdoc/check-examples": "off",
         "jsdoc/check-indentation": 1,
-        "jsdoc/check-line-alignment": 0,
+        "jsdoc/check-line-alignment": 1,
         "jsdoc/check-param-names": 1,
         "jsdoc/check-property-names": 1,
         "jsdoc/check-syntax": 1,

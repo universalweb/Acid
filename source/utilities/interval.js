@@ -10,7 +10,7 @@ export class Intervals {
 	/**
     * Remove a setInterval that was created using the intervals function.
     *
-    * @param {number} id - The id of the setInterval to remove.
+    * @param {Number} id - The id of the setInterval to remove.
     * @returns {undefined} - Returns nothing.
     *
     * @example
@@ -32,7 +32,7 @@ export class Intervals {
     *
     * @type {Function}
     * @param {Function} callable - The function to be invoked.
-    * @param {number} time - The time in milliseconds.
+    * @param {Number} time - The time in milliseconds.
     * @returns {Object} - Returns setTimeoutId ID.
     *
     * @example
@@ -71,7 +71,7 @@ export const intervals = construct(Intervals);
   * @category function
   * @type {Function}
   * @param {Function} callable - The function to be invoked.
-  * @param {number} time - The time in milliseconds.
+  * @param {Number} time - The time in milliseconds.
   * @returns {Object} - Returns setInterval ID.
   *
   * @example

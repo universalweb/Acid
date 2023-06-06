@@ -6,7 +6,7 @@ import { clear } from '../arrays/clear.js';
  * @category function
  * @type {Function}
  * @param {Function} callable - The function to curry.
- * @param {number} arity - The arity of method.
+ * @param {Number} arity - The arity of method.
  * @returns {*} - Returns the new curried function.
  *
  * @example
@@ -34,7 +34,7 @@ export function curry(callable, arity = callable.length) {
  * @function curryRight
  * @type {Function}
  * @param {Function} callable - The function to curry.
- * @param {number} arity - The arity of method.
+ * @param {Number} arity - The arity of method.
  * @returns {*} - Returns the new curried function.
  *
  * @example

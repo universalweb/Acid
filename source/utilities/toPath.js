@@ -7,7 +7,7 @@ const emptyString = '';
  * @function toPath
  * @type {Function}
  * @category utility
- * @param {string} source - String to be broken up.
+ * @param {String} source - String to be broken up.
  * @returns {Array} - Array used to go through object chain.
  *
  * @example

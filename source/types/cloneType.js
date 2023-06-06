@@ -6,7 +6,7 @@ import { construct } from '../classes/construct.js';
  * @function cloneType
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { cloneType, assert } from 'Acid';

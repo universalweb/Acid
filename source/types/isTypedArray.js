@@ -5,7 +5,7 @@ import { getTypeName } from './getTypeName.js';
  * @function isTypedArray
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isTypedArray, assert } from 'Acid';

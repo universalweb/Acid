@@ -14,7 +14,7 @@ import { isTypedArray } from './isTypedArray.js';
  * @category type
  * @param {*} source - Object to be checked.
  * @param {*} strictFlag - Strict flag to also check to see if keys are whole intigers greater than or equal to 0.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isArrayLike, assert } from 'Acid';

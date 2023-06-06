@@ -12,7 +12,7 @@ import { isArray } from '../types/isArray.js';
  * @param {Array|String|Object} source - Object to be checked.
  * @param {String|Array|Function|RegExp} search - Object that is being searched for.
  * @param {Number} fromIndex - Index at which to start searching.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { has, assert } from 'Acid';

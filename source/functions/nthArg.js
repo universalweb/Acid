@@ -4,7 +4,7 @@
  * @function nthArg
  * @category function
  * @type {Function}
- * @param {number} [index = 0] - The index of the argument to return.
+ * @param {Number} [index = 0] - The index of the argument to return.
  * @returns {Function} - Returns the new pass-thru function.
  *
  * @example

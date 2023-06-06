@@ -5,7 +5,7 @@
   * @function timesAsync
   * @category utility
   * @type {Function}
-  * @param {number} amount - The amount of times to loop invoking the iteratee.
+  * @param {Number} amount - The amount of times to loop invoking the iteratee.
   * @param {Function} iteratee - Transformation function which is passed index and amount.
   * @returns {undefined} - Nothing.
   *
@@ -31,7 +31,7 @@ export async function timesAsync(amount, iteratee) {
   * @function timesMapAsync
   * @category array
   * @type {Function}
-  * @param {number} amount - The amount of times to loop invoking the iteratee.
+  * @param {Number} amount - The amount of times to loop invoking the iteratee.
   * @param {Function} iteratee - Transformation function which is passed index and amount.
   * @param {Array} [results = []] - Array that will have iteratee return pushed to.
   * @returns {Array} - An array with iteratee's returned values.

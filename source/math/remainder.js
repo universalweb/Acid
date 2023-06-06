@@ -4,9 +4,9 @@
  * @function remainder
  * @category math
  * @type {Function}
- * @param {number} number - First number.
- * @param {number} value - Second number.
- * @returns {number} - Returns the remainder of the arguments.
+ * @param {Number} number - First number.
+ * @param {Number} value - Second number.
+ * @returns {Number} - Returns the remainder of the arguments.
  *
  * @example
  * import { multiply, assert } from 'Acid';

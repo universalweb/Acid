@@ -6,7 +6,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @function isArrayBuffer
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isArrayBuffer, assert } from 'Acid';

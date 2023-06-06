@@ -55,7 +55,7 @@ export const querySelectorAll = document.querySelectorAll.bind(document);
  * @function selector
  * @category browser
  * @ignoreTest
- * @param {string} select - String to be evaluated.
+ * @param {String} select - String to be evaluated.
  * @type {Function}
  * @returns {Node} - Returns a DOM node.
  *

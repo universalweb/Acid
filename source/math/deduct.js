@@ -4,8 +4,8 @@
  * @function deduct
  * @category math
  * @type {Function}
- * @param {number} number - First number.
- * @returns {number} - Returns a decremented version of the number.
+ * @param {Number} number - First number.
+ * @returns {Number} - Returns a decremented version of the number.
  *
  * @example
  * import { multiply, assert } from 'Acid';

@@ -7,7 +7,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @function isSet
  * @category type
  * @param {...*} sources - Objects to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isSet, assert } from 'Acid';

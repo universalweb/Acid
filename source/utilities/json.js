@@ -5,8 +5,8 @@ const jsonNative = JSON;
  * @function jsonParse
  * @category utility
  * @type {Function}
- * @param {string} source - String to be parsed.
- * @param {function} reviver - A function that prescribes how each value originally produced by parsing is transformed before being returned.
+ * @param {String} source - String to be parsed.
+ * @param {Function} reviver - A function that prescribes how each value originally produced by parsing is transformed before being returned.
  * @returns {Object} - Returns the parsed object.
  *
  * @example
@@ -25,7 +25,7 @@ export function jsonParse(source, reviver) {
  * @category utility
  * @type {Function}
  * @param {Object} object - Object to Stringify.
- * @returns {string} - Returns the object as a valid JSON string.
+ * @returns {String} - Returns the object as a valid JSON string.
  *
  * @example
  * import { stringify, assert } from 'Acid';

@@ -8,8 +8,8 @@ import { construct } from '../classes/construct.js';
  * @function model
  * @type {Function}
  * @category utility
- * @param {string} modelName - Name of the model.
- * @param {object} modelValue - The model object.
+ * @param {String} modelName - Name of the model.
+ * @param {Object} modelValue - The model object.
  * @returns {*} - Returns the associated model.
  * @example
  * model('test', {a: 1}) && model('test');
@@ -30,7 +30,7 @@ export class Model {
 /**
  * Returns the model with the given name.
  *
- * @param {string} modelName - The name of the model to return.
+ * @param {String} modelName - The name of the model to return.
  * @param {any} [modelValue] - The value of the model to return.
  * @returns {Model} - The model with the given name.
  */

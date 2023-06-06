@@ -6,7 +6,7 @@ import { hasValue } from '../types/hasValue.js';
    * @category utility
    * @type {Function}
    * @param {Object} rootObject - The object to check.
-   * @param {string} property - The property name which is to be checked.
+   * @param {String} property - The property name which is to be checked.
    * @param {*} equalThis - The reassignment value for the property being checked.
    * @returns {Object} - Returns the provided rootObject.
    *

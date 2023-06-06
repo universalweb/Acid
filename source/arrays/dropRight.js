@@ -6,8 +6,8 @@ import { drop } from './drop.js';
  * @type {Function}
  * @category array
  * @param {Array} array - Source array.
- * @param {number} amount - Amount of items to drop from the array.
- * @param {number} [upTo = array.length] - Index to stop at.
+ * @param {Number} amount - Amount of items to drop from the array.
+ * @param {Number} [upTo = array.length] - Index to stop at.
  * @returns {Array} - An array with all values removed before a user defined index.
  *
  * @example

@@ -6,7 +6,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @function isU8C
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isU8C } from 'Acid';

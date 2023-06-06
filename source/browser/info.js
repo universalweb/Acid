@@ -7,8 +7,8 @@ const hostname = location.hostname;
  * @memberof $
  * @category browser
  * @ignoreTest
- * @property {object} info - Client hardware & host info.
- * @type {object}
+ * @property {Object} info - Client hardware & host info.
+ * @type {Object}
  */
 export const info = {
 	hardware: {

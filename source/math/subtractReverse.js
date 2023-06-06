@@ -1,0 +1,17 @@
+/**
+ * Subtracts the subtrahend (first argument) from the minuend (second argument). The arguments are reversed compared to the subtract function.
+ *
+ * @function subtractReverse
+ * @category math
+ * @type {Function}
+ * @param {Number} minuend - The minuend.
+ * @param {Number} subtrahend - The subtrahend.
+ * @returns {Number} - Returns the difference.
+ *
+ * @example
+ * import { subtractReverse, assert } from 'Acid';
+ * assert(subtractReverse(1, 3), 2);
+ */
+export function subtractReverse(subtrahend, minuend) {
+	return minuend - subtrahend;
+}

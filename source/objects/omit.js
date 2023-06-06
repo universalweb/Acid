@@ -1,4 +1,10 @@
 import { filterObject } from './filter.js';
+import { isArray } from '../types/isArray.js';
+import { isString } from '../types/isString.js';
+import { isNumber } from '../types/isNumber.js';
+import { isFunction } from '../types/isFunction.js';
+import { isRegex } from '../types/isRegex.js';
+import { arrayToRegex } from '../regexps/arrayToRegex.js';
 /**
  * Returns a clone of the given object without the given properties.
  *
@@ -6,19 +12,39 @@ import { filterObject } from './filter.js';
  * @category object
  * @type {Function}
  * @param {Object} source - Object from which keys are extracted.
- * @param {array} blacklist - List of property keys to omit from the returned object.
+ * @param {Array|RegExp|String} blacklist - List of property keys to omit from the returned object.
  * @returns {Object} - A new object with the removed.
  *
  * @example
- * omit({a:1, b:2}, ['a']);
- * // => {b:2}
+ * import { omit, assert } from 'Acid';
+ * assert(omit({a:1, b:2}, ['a']), {b:2});
+ * assert(omit({a:1, b:2}, 'a'), {b:2});
+ * assert(omit({1:'test', b:2}, 1), {b:2});
  */
 export function omit(source, blacklist) {
 	if (!source) {
 		return;
 	}
-	return filterObject(source, (item, key) => {
-		return !blacklist.includes(key);
-	});
+	if (isArray(blacklist)) {
+		const blacklistRegex = arrayToRegex(blacklist);
+		return filterObject(source, (item, key) => {
+			return !key.test(blacklistRegex);
+		});
+	}
+	if (isRegex(blacklist)) {
+		return filterObject(source, (item, key) => {
+			return !key.test(blacklist);
+		});
+	}
+	if (isString(blacklist) || isNumber(blacklist)) {
+		return filterObject(source, (item, key) => {
+			return key !== blacklist;
+		});
+	}
+	if (isFunction(blacklist)) {
+		return filterObject(source, (item, key) => {
+			return !blacklist(item, key);
+		});
+	}
 }
 

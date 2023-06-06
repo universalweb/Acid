@@ -4,7 +4,7 @@
  * @function remove
  * @category array
  * @param {Array} array - Array to be mutated.
- * @param {string|Array} removeThese - Items to remove from the array.
+ * @param {String|Array} removeThese - Items to remove from the array.
  * @returns {Array} - The array this method was called on.
  *
  * @example

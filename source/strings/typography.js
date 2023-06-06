@@ -6,8 +6,8 @@ const spaceFirstLetter = / (.)/g;
  * @function upperFirstLetter
  * @type {Function}
  * @category string
- * @param {string} string - String to extract first letter from.
- * @returns {string} - An upper case letter.
+ * @param {String} string - String to extract first letter from.
+ * @returns {String} - An upper case letter.
  *
  * @example
  * import { upperFirstLetter, assert } from 'Acid';
@@ -23,8 +23,8 @@ export function upperFirstLetter(string) {
  * @function upperFirst
  * @type {Function}
  * @category string
- * @param {string} string - String to be mutated.
- * @returns {string} - String with first letter capitalized.
+ * @param {String} string - String to be mutated.
+ * @returns {String} - String with first letter capitalized.
  *
  * @example
  * import { upperFirst, assert } from 'Acid';
@@ -40,8 +40,8 @@ export function upperFirst(string) {
  * @function upperFirstAll
  * @type {Function}
  * @category string
- * @param {string} string - String to be mutated.
- * @returns {string} - String with all first letters capitalized.
+ * @param {String} string - String to be mutated.
+ * @returns {String} - String with all first letters capitalized.
  *
  * @example
  * import { upperFirstAll, assert } from 'Acid';
@@ -59,8 +59,8 @@ export function upperFirstAll(string) {
  * @function upperFirstOnly
  * @type {Function}
  * @category string
- * @param {string} string - String to be mutated.
- * @returns {string} - String with first letter capitalized.
+ * @param {String} string - String to be mutated.
+ * @returns {String} - String with first letter capitalized.
  *
  * @example
  * import { upperFirstOnly, assert } from 'Acid';
@@ -76,8 +76,8 @@ export function upperFirstOnly(string) {
  * @function upperFirstOnlyAll
  * @type {Function}
  * @category string
- * @param {string} string - String to be mutated.
- * @returns {string} - String with all first letters capitalized.
+ * @param {String} string - String to be mutated.
+ * @returns {String} - String with all first letters capitalized.
  *
  * @example
  * import { upperFirstOnlyAll, assert } from 'Acid';

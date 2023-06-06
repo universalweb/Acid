@@ -6,7 +6,7 @@ const wordsRegEx = /\w+/g;
  * @function tokenize
  * @type {Function}
  * @category string
- * @param {string} string - String to be broken up.
+ * @param {String} string - String to be broken up.
  * @returns {Array} - Array of words without white space characters.
  *
  * @example
@@ -22,7 +22,7 @@ export function tokenize(string) {
  *
  * @function words
  * @type {Function}
- * @param {string} string - String to be broken up.
+ * @param {String} string - String to be broken up.
  * @returns {Array} - Array of words with word characters only.
  *
  * @example

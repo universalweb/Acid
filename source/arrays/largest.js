@@ -6,7 +6,7 @@ const mathNativeMax = Math.max;
  * @type {Function}
  * @category array
  * @param {Array} array - Array from which largest number is taken.
- * @returns {number} - The largest number.
+ * @returns {Number} - The largest number.
  *
  * @example
  * import { largest, assert } from 'Acid';

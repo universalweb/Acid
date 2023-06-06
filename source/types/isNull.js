@@ -5,7 +5,7 @@ import { hasLength } from '../utilities/hasLength.js';
  * @function isNull
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isNull, assert } from 'Acid';

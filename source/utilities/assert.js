@@ -10,8 +10,8 @@ function createAssertError(source, expected, localOptions) {
 		errorTitle = `${options.title || options.method.name} -> ${options.file}`;
 	}
 	return new Error(`Test Failed: ${errorTitle}
-		Result: ${stringify(source)}
-		Expected: ${stringify(expected)}`, options);
+		Result: ${Stringify(source)}
+		Expected: ${Stringify(expected)}`, options);
 }
 /**
  * Check if source value matches the expected value.

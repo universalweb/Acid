@@ -49,7 +49,7 @@ export class Crate {
 	 * @function setItem
 	 * @class Crate
 	 * @category browser
-	 * @param {string} key - The key used to store the data.
+	 * @param {String} key - The key used to store the data.
 	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
 	 * @returns {undefined} - Returns undefined.
 	 *
@@ -71,7 +71,7 @@ export class Crate {
 	 * @function getItem
 	 * @class Crate
 	 * @category browser
-	 * @param {string} key - The key used to store the data.
+	 * @param {String} key - The key used to store the data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
@@ -95,7 +95,7 @@ export class Crate {
 	 * @function clear
 	 * @class Crate
 	 * @category browser
-	 * @param {string} key - The key used to remove data.
+	 * @param {String} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
@@ -118,7 +118,7 @@ export class Crate {
 	 * @class Crate
 	 * @category browser
 	 * @function removeItem
-	 * @param {string} key - The key used to remove data.
+	 * @param {String} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example

@@ -8,7 +8,7 @@ import { timer, timers } from '../utilities/timer.js';
   * @category function
   * @type {Function}
   * @param {Function} callable - The function to be invoked.
-  * @param {number} time - The time in milliseconds.
+  * @param {Number} time - The time in milliseconds.
   * @returns {Function} - The throttled function.
   *
   * @example

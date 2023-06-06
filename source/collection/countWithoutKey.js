@@ -6,8 +6,8 @@ import { eachArray } from '../arrays/each.js';
  * @category collection
  * @type {Function}
  * @param {Array} collection - Array of objects.
- * @param {string} propertyName - The name of the key.
- * @returns {number} - The count.
+ * @param {String} propertyName - The name of the key.
+ * @returns {Number} - The count.
  *
  * @example
  * import { countWithoutKey, assert } from 'Acid';

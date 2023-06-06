@@ -6,7 +6,7 @@ import { mapArray } from '../arrays/map.js';
  * @category object
  * @type {Function}
  * @param {Object} source - Array used to determine what sources to be plucked.
- * @param {string|Array} pluckThese - Property name.
+ * @param {String|Array} pluckThese - Property name.
  * @returns {Array} - An array of plucked sources.
  *
  * @example

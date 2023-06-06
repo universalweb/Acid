@@ -13,7 +13,7 @@
 	 * @category Array
 	 * @type {Function}
 	 * @param {Array} array - Array to be chunked.
-	 * @param {number} size - Number which determines the size of each chunk.
+	 * @param {Number} size - Number which determines the size of each chunk.
 	 * @returns {Array} - A chunked version of the source array.
 	 *
 	 * @example
@@ -72,7 +72,7 @@
 	 * @function isUndefined
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isUndefined, assert } from 'Acid';
@@ -87,7 +87,7 @@
 	 * @function hasLength
 	 * @category utility
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { hasLength, assert } from 'Acid';
@@ -102,7 +102,7 @@
 	 * @function isNull
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isNull, assert } from 'Acid';
@@ -117,7 +117,7 @@
 	 * @function hasValue
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { hasValue, assert } from 'Acid';
@@ -274,9 +274,9 @@
 	 * @function range
 	 * @category array
 	 * @type {Function}
-	 * @param {number} start - Value which determines the start of the range.
-	 * @param {number} end - Value which determines the end of the range.
-	 * @param {number} step - Value used to step between integers.
+	 * @param {Number} start - Value which determines the start of the range.
+	 * @param {Number} end - Value which determines the end of the range.
+	 * @param {Number} step - Value used to step between integers.
 	 * @returns {Array} - An array of integers.
 	 *
 	 * @example
@@ -300,7 +300,7 @@
 	 * @function isArray
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isArray, assert } from 'Acid';
@@ -417,8 +417,8 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} array - Source array.
-	 * @param {number} amount - Amount of items to drop from the array.
-	 * @param {number} [upTo = array.length] - Index to stop at.
+	 * @param {Number} amount - Amount of items to drop from the array.
+	 * @param {Number} [upTo = array.length] - Index to stop at.
 	 * @returns {Array} - An array with all values removed after a user defined index.
 	 *
 	 * @example
@@ -435,8 +435,8 @@
 	 * @type {Function}
 	 * @category array
 	 * @param {Array} array - Source array.
-	 * @param {number} amount - Amount of items to drop from the array.
-	 * @param {number} [upTo = array.length] - Index to stop at.
+	 * @param {Number} amount - Amount of items to drop from the array.
+	 * @param {Number} [upTo = array.length] - Index to stop at.
 	 * @returns {Array} - An array with all values removed before a user defined index.
 	 *
 	 * @example
@@ -629,7 +629,7 @@
 	 * @type {Function}
 	 * @category array
 	 * @param {Array} array - Array to extract from.
-	 * @param {number} upTo - Number which determines how many items after the first item are extracted from the array.
+	 * @param {Number} upTo - Number which determines how many items after the first item are extracted from the array.
 	 * @returns {Array} - Returns an array.
 	 *
 	 * @example
@@ -646,7 +646,7 @@
 	 * @type {Function}
 	 * @category array
 	 * @param {Array} source - Array to flatten.
-	 * @param {number} [level = 1] - Number which determines how deep the array nest can be.
+	 * @param {Number} [level = 1] - Number which determines how deep the array nest can be.
 	 * @returns {Array} - Returns an array.
 	 *
 	 * @example
@@ -733,7 +733,7 @@
 	 * @function toPath
 	 * @type {Function}
 	 * @category utility
-	 * @param {string} source - String to be broken up.
+	 * @param {String} source - String to be broken up.
 	 * @returns {Array} - Array used to go through object chain.
 	 *
 	 * @example
@@ -749,7 +749,7 @@
 	 * @function get
 	 * @category utility
 	 * @type {Function}
-	 * @param {string} propertyString - String used to retrieve properties.
+	 * @param {String} propertyString - String used to retrieve properties.
 	 * @param {Object} target - Object which has a property retrieved from it.
 	 * @returns {Object} - Returns property from the given object.
 	 *
@@ -783,7 +783,7 @@
 	 * @type {Function}
 	 * @param {Object} source - Source object to check for keys.
 	 * @param {...String} properties - List of strings to check.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { hasKeys, assert } from 'Acid';
@@ -815,7 +815,7 @@
 	 * @type {Function}
 	 * @param {Object} source - Source object to check for keys.
 	 * @param {Array} properties - List of strings to check.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { hasAnyKeys, assert } from 'Acid';
@@ -848,7 +848,7 @@
 	 * @function isPlainObject
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isPlainObject } from 'Acid';
@@ -870,7 +870,7 @@
 	 * @category utility
 	 * @param {*} source - Source object.
 	 * @param {*} target - Object to be compared.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isEqual, assert } from 'Acid';
@@ -906,7 +906,7 @@
 	 * @category array
 	 * @param {Array} source - Source object.
 	 * @param {Array} compareArray - Object to compare to source.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isMatchArray, assert } from 'Acid';
@@ -928,7 +928,7 @@
 	 * @type {Function}
 	 * @category array
 	 * @param {Array} array - Array from which largest number is taken.
-	 * @returns {number} - The largest number.
+	 * @returns {Number} - The largest number.
 	 *
 	 * @example
 	 * import { largest, assert } from 'Acid';
@@ -944,7 +944,7 @@
 	 * @type {Function}
 	 * @category array
 	 * @param {Array} array - Array to have items extracted from.
-	 * @param {number} [indexFrom = 0] - Value which determines how many items are extracted from the array.
+	 * @param {Number} [indexFrom = 0] - Value which determines how many items are extracted from the array.
 	 * @returns {Array} - Items from the array.
 	 *
 	 * @example
@@ -1157,7 +1157,7 @@
 	 * @function remove
 	 * @category array
 	 * @param {Array} array - Array to be mutated.
-	 * @param {string|Array} removeThese - Items to remove from the array.
+	 * @param {String|Array} removeThese - Items to remove from the array.
 	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
@@ -1227,7 +1227,7 @@
 	 * @type {Function}
 	 * @category array
 	 * @param {Array} source - Array to be sliced.
-	 * @param {number} amount - Amount from the right.
+	 * @param {Number} amount - Amount from the right.
 	 * @returns {*} - Returns the object at the evaluated position.
 	 *
 	 * @example
@@ -1246,9 +1246,9 @@
 	 * @function randomInt
 	 * @category number
 	 * @type {Function}
-	 * @param {number} max - The highest possible value for the random number.
-	 * @param {number} [min = 0] - Establishes lowest possible value for the random number.
-	 * @returns {number} - Returns random integer between the max and min range.
+	 * @param {Number} max - The highest possible value for the random number.
+	 * @param {Number} [min = 0] - Establishes lowest possible value for the random number.
+	 * @returns {Number} - Returns random integer between the max and min range.
 	 *
 	 * @example
 	 * import { randomInt, assert } from 'Acid';
@@ -1277,9 +1277,9 @@
 	 * @function isNumberEqual
 	 * @category number
 	 * @type {Function}
-	 * @param {number} source - Number to be checked.
-	 * @param {number} target - Number to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @param {Number} source - Number to be checked.
+	 * @param {Number} target - Number to be checked.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isNumberEqual, assert } from 'Acid';
@@ -1294,7 +1294,7 @@
 	 * @function shuffle
 	 * @category array
 	 * @param {Array} target - Target Array to be shuffled.
-	 * @param {number} amount - The amount of times to shuffle the array.
+	 * @param {Number} amount - The amount of times to shuffle the array.
 	 * @returns {Array} - An array with the shuffled results.
 	 *
 	 * @example
@@ -1324,7 +1324,7 @@
 	 * @function sample
 	 * @category array
 	 * @param {Array} source - The array to pull sample(s) from.
-	 * @param {number} amount - The amount of samples to take.
+	 * @param {Number} amount - The amount of samples to take.
 	 * @returns {Array} - An array of randomly pulled samples.
 	 *
 	 * @test
@@ -1370,7 +1370,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} array - Array from which smallest number is taken.
-	 * @returns {number} - The smallest number.
+	 * @returns {Number} - The smallest number.
 	 *
 	 * @example
 	 * smallest([1,2,3]);
@@ -1386,8 +1386,8 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} array - Array to be sorted.
-	 * @param {number} insertThis - Number to be inserted.
-	 * @returns {number} - The index at which to insert.
+	 * @param {Number} insertThis - Number to be inserted.
+	 * @returns {Number} - The index at which to insert.
 	 *
 	 * @example
 	 * sortedIndex([30, 50], 40);
@@ -1778,7 +1778,7 @@
 	 * @function isBuffer
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isBuffer, assert, construct } from 'Acid';
@@ -1836,7 +1836,7 @@
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
 	 * @param {Function} propertyName - The name of the key.
-	 * @returns {number} - The count.
+	 * @returns {Number} - The count.
 	 *
 	 * @example
 	 * import { countKey, assert } from 'Acid';
@@ -1858,8 +1858,8 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
-	 * @param {string} propertyName - The name of the key.
-	 * @returns {number} - The count.
+	 * @param {String} propertyName - The name of the key.
+	 * @returns {Number} - The count.
 	 *
 	 * @example
 	 * import { countWithoutKey, assert } from 'Acid';
@@ -1886,9 +1886,9 @@
 	 * @type {Function}
 	 * @category collection
 	 * @param {Array} collection - Collection to be checked for an item.
-	 * @param {number|string} id - The value to look for.
-	 * @param {string} [propertyName = 'id'] - The name of the property to compare.
-	 * @returns {number} - The index of the object.
+	 * @param {Number|string} id - The value to look for.
+	 * @param {String} [propertyName = 'id'] - The name of the property to compare.
+	 * @returns {Number} - The index of the object.
 	 *
 	 * @example
 	 * findIndex([{id: 1}, {id: 2}], 1);
@@ -1907,8 +1907,8 @@
 	 * @type {Function}
 	 * @category collection
 	 * @param {Array} collection - Collection to be checked for an item.
-	 * @param {number|string} id - The value to look for.
-	 * @param {string} [propertyName = 'id'] - The name of the property to compare.
+	 * @param {Number|string} id - The value to look for.
+	 * @param {String} [propertyName = 'id'] - The name of the property to compare.
 	 * @returns {Object} - The found object.
 	 *
 	 * @example
@@ -1928,8 +1928,8 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} propertyName - The property name to sort by based on it's value.
-	 * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
+	 * @param {String} propertyName - The property name to sort by based on it's value.
+	 * @param {Boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
 	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
 	 * @example
@@ -1961,7 +1961,7 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} propertyName - The property name to sort by based on it's value.
+	 * @param {String} propertyName - The property name to sort by based on it's value.
 	 * @returns {Object} - The newest object in the collection.
 	 *
 	 * @example
@@ -1978,8 +1978,8 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} propertyName - The property name to sort by based on it's value.
-	 * @param {boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
+	 * @param {String} propertyName - The property name to sort by based on it's value.
+	 * @param {Boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
 	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
 	 * @example
@@ -2011,7 +2011,7 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} key - The property name to sort by based on it's value.
+	 * @param {String} key - The property name to sort by based on it's value.
 	 * @returns {Object} - The newest object in the collection.
 	 *
 	 * @example
@@ -2055,7 +2055,7 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Array of objects.
-	 * @param {string} propertyName - The property name to index by.
+	 * @param {String} propertyName - The property name to index by.
 	 * @returns {Object} - Returns the composed aggregate object.
 	 *
 	 * @example
@@ -2076,7 +2076,7 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection from which method will be taken.
-	 * @param {string} property - Value used to pluck method from object.
+	 * @param {String} property - Value used to pluck method from object.
 	 * @param {*} value - Value to be passed to callable property.
 	 * @returns {Array} - Returns the results of the invoked method.
 	 *
@@ -2097,7 +2097,7 @@
 	 * @type {Function}
 	 * @async
 	 * @param {Array} collection - Collection from which method will be taken.
-	 * @param {string} property - Value used to pluck method from object.
+	 * @param {String} property - Value used to pluck method from object.
 	 * @param {*} value - Value to be passed to callable property.
 	 * @returns {Array} - Returns the results of the invoked method.
 	 *
@@ -2123,7 +2123,7 @@
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Array used to determine what value to be plucked.
-	 * @param {string} pluckThis - Property name.
+	 * @param {String} pluckThis - Property name.
 	 * @returns {Array} - An array of plucked values.
 	 *
 	 * @example
@@ -2143,7 +2143,7 @@
 	 * @category object
 	 * @type {Function}
 	 * @param {Object} source - Array used to determine what sources to be plucked.
-	 * @param {string|Array} pluckThese - Property name.
+	 * @param {String|Array} pluckThese - Property name.
 	 * @returns {Array} - An array of plucked sources.
 	 *
 	 * @example
@@ -2180,18 +2180,18 @@
 	/**
 	 * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
 	 *
-	 * @function sortAlphabetical
+	 * @function indexedAlphabetically
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {string} propertyName - Name of property to compare.
+	 * @param {String} propertyName - Name of property to compare.
 	 * @returns {Array} - The sorted array.
 	 *
 	 * @example
-	 * sortAlphabetical([{letter:'a'}, {letter:'f'}, {letter:'c'}], 'letter');
+	 * indexedAlphabetically([{letter:'a'}, {letter:'f'}, {letter:'c'}], 'letter');
 	 * // => [{"letter":"a"},{"letter":"c"},{"letter":"f"}]
 	 */
-	function sortAlphabetical(collection, propertyName) {
+	function indexedAlphabetically(collection, propertyName) {
 		return collection.sort((current, next) => {
 			const currentKey = current[propertyName];
 			const nextKey = next[propertyName];
@@ -2210,7 +2210,7 @@
 	 * @function getFileExtension
 	 * @category file
 	 * @param {*} source - Object to be checked.
-	 * @returns {string} - Returns the extension.
+	 * @returns {String} - Returns the extension.
 	 *
 	 * @example
 	 * getFileExtension('test.js');
@@ -2232,8 +2232,8 @@
 	 *
 	 * @function isFileCSS
 	 * @category file
-	 * @param {string} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @param {String} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFileCSS('test.css');
@@ -2245,8 +2245,8 @@
 	 *
 	 * @function isFileHTML
 	 * @category file
-	 * @param {string} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @param {String} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFileHTML('test.html');
@@ -2258,8 +2258,8 @@
 	 *
 	 * @function isFileJS
 	 * @category file
-	 * @param {string} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @param {String} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFileJS('test.js');
@@ -2271,8 +2271,8 @@
 	 *
 	 * @function isFileJSON
 	 * @category file
-	 * @param {string} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @param {String} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * isFileJSON('test.json');
@@ -2285,7 +2285,7 @@
 	 * @function after
 	 * @category function
 	 * @type {Function}
-	 * @param {number} amount - The number of calls until method is invoked.
+	 * @param {Number} amount - The number of calls until method is invoked.
 	 * @param {Function} callable - The function to be called.
 	 * @returns {Function} - Returns the new pass-thru function.
 	 *
@@ -2324,7 +2324,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Function} callable - The function to cap arguments for.
-	 * @param {number} amount - The arity cap.
+	 * @param {Number} amount - The arity cap.
 	 * @returns {Object} - Returns the new capped function.
 	 *
 	 * @example
@@ -2342,7 +2342,7 @@
 	 * @function before
 	 * @category function
 	 * @type {Function}
-	 * @param {number} amount - The number of calls before n.
+	 * @param {Number} amount - The number of calls before n.
 	 * @param {Function} callable - The function to be called.
 	 * @returns {Function} - Returns the new pass-thru function.
 	 *
@@ -2463,7 +2463,7 @@
 	 * @function isSet
 	 * @category type
 	 * @param {...*} sources - Objects to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isSet, assert } from 'Acid';
@@ -2489,7 +2489,7 @@
 	 * @function isGenerator
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isGenerator } from 'Acid';
@@ -2521,7 +2521,7 @@
 	 * @function isFunction
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isFunction } from 'Acid';
@@ -2537,7 +2537,7 @@
 	 * @function isAsync
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - True or false.
+	 * @returns {Boolean} - True or false.
 	 *
 	 * @example
 	 * import { isAsync, assert } from 'Acid';
@@ -2641,7 +2641,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Function} callable - The function to curry.
-	 * @param {number} arity - The arity of method.
+	 * @param {Number} arity - The arity of method.
 	 * @returns {*} - Returns the new curried function.
 	 *
 	 * @example
@@ -2669,7 +2669,7 @@
 	 * @function curryRight
 	 * @type {Function}
 	 * @param {Function} callable - The function to curry.
-	 * @param {number} arity - The arity of method.
+	 * @param {Number} arity - The arity of method.
 	 * @returns {*} - Returns the new curried function.
 	 *
 	 * @example
@@ -2697,7 +2697,7 @@
 	 * @function stubTrue
 	 * @category utility
 	 * @type {Function}
-	 * @returns {boolean} - Returns true.
+	 * @returns {Boolean} - Returns true.
 	 *
 	 * @example
 	 * import { stubTrue } from 'Acid';
@@ -2714,7 +2714,7 @@
 	 * @function stubFalse
 	 * @category utility
 	 * @type {Function}
-	 * @returns {boolean} - Returns false.
+	 * @returns {Boolean} - Returns false.
 	 *
 	 * @example
 	 * import { stubFalse } from 'Acid';
@@ -2745,7 +2745,7 @@
 	 * @function times
 	 * @category utility
 	 * @type {Function}
-	 * @param {number} amount - The amount of times to loop invoking the iteratee.
+	 * @param {Number} amount - The amount of times to loop invoking the iteratee.
 	 * @param {Function} iteratee - Transformation function which is passed index and amount.
 	 * @returns {undefined} - Nothing.
 	 *
@@ -2770,7 +2770,7 @@
 	 * @function timesMap
 	 * @category utility
 	 * @type {Function}
-	 * @param {number} amount - The amount of times to loop invoking the iteratee.
+	 * @param {Number} amount - The amount of times to loop invoking the iteratee.
 	 * @param {Function} iteratee - Transformation function which is passed index and amount.
 	 * @param {Array} [results = []] - Array that will have iteratee return pushed to.
 	 * @returns {Array} - An array with iteratee's returned values.
@@ -2794,7 +2794,7 @@
 		/**
 		 * Remove a timer that was created using the timer function.
 		 *
-		 * @param {number} id - The id of the timer to remove.
+		 * @param {Number} id - The id of the timer to remove.
 		 * @returns {undefined} - Returns nothing.
 		 *
 		 * @example
@@ -2817,7 +2817,7 @@
 		 *
 		 * @type {Function}
 		 * @param {Function} callable - The function to be invoked.
-		 * @param {number} time - The time in milliseconds.
+		 * @param {Number} time - The time in milliseconds.
 		 * @returns {Object} - Returns setTimeoutId ID.
 		 *
 		 * @example
@@ -2859,7 +2859,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
-	 * @param {number} time - The time in milliseconds.
+	 * @param {Number} time - The time in milliseconds.
 	 * @returns {Object} - Returns setTimeoutId ID.
 	 *
 	 * @example
@@ -2910,7 +2910,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
-	 * @param {number} time - The time in milliseconds.
+	 * @param {Number} time - The time in milliseconds.
 	 * @returns {Function} - The debounced function.
 	 *
 	 * @example
@@ -2967,7 +2967,7 @@
 	 * @param {Array} source - Array of async functions that will be looped through.
 	 * Functions are given the supplied object, index, the calling array, and the array length.
 	 * @param {*} firstArgument - The first argument given to each function.
-	 * @returns {object} - The originally given array.
+	 * @returns {Object} - The originally given array.
 	 *
 	 * @example
 	 * import { inAsync, assert } from 'Acid';
@@ -3039,7 +3039,7 @@
 	 * @function nthArg
 	 * @category function
 	 * @type {Function}
-	 * @param {number} [index = 0] - The index of the argument to return.
+	 * @param {Number} [index = 0] - The index of the argument to return.
 	 * @returns {Function} - Returns the new pass-thru function.
 	 *
 	 * @example
@@ -3140,7 +3140,7 @@
 	 * @function getType
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { getType, assert } from 'Acid';
@@ -3155,7 +3155,7 @@
 	 * @function cloneType
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { cloneType, assert } from 'Acid';
@@ -3263,7 +3263,7 @@
 	 * @type {Function}
 	 * @param {Array | object | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
+	 * @param {Object | Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Array | object | Function} - A new object of the same calling object's type.'.
 	 *
 	 * @example
@@ -3301,7 +3301,7 @@
 	 * @type {Function}
 	 * @param {Object} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * import { everyAsyncObject, assert } from 'Acid';
@@ -3327,7 +3327,7 @@
 	 * @type {Function}
 	 * @param {Object} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * import { everyObject, assert } from 'Acid';
@@ -3353,7 +3353,7 @@
 	 * @type {Function}
 	 * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * import { every, assert } from 'Acid';
@@ -3387,7 +3387,7 @@
 	 * @type {Function}
 	 * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
-	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * import { every, assert } from 'Acid';
@@ -3426,9 +3426,9 @@
 	 * @function every
 	 * @category utility
 	 * @type {Function}
-	 * @param {object | Array | Function} source - Object that will be looped through.
+	 * @param {Object | Array | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {boolean} - Returns true if all values returned are true or false if one value returns false.
+	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
 	 * import { every, assert } from 'Acid';
@@ -3489,7 +3489,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
-	 * @param {number} time - The time in milliseconds.
+	 * @param {Number} time - The time in milliseconds.
 	 * @returns {Function} - The throttled function.
 	 *
 	 * @example
@@ -3625,9 +3625,9 @@
 	 * @function add
 	 * @category math
 	 * @type {Function}
-	 * @param {number} augend - First number.
-	 * @param {number} addend - Second number which is being added to another (augend).
-	 * @returns {number} - Returns the sum of the arguments.
+	 * @param {Number} augend - First number.
+	 * @param {Number} addend - Second number which is being added to another (augend).
+	 * @returns {Number} - Returns the sum of the arguments.
 	 *
 	 * @example
 	 * import { add, assert } from 'Acid';
@@ -3642,8 +3642,8 @@
 	 * @function deduct
 	 * @category math
 	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @returns {number} - Returns a decremented version of the number.
+	 * @param {Number} number - First number.
+	 * @returns {Number} - Returns a decremented version of the number.
 	 *
 	 * @example
 	 * import { multiply, assert } from 'Acid';
@@ -3660,9 +3660,9 @@
 	 * @function divide
 	 * @category math
 	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @param {number} value - Second number.
-	 * @returns {number} - Returns the quotient of the arguments.
+	 * @param {Number} number - First number.
+	 * @param {Number} value - Second number.
+	 * @returns {Number} - Returns the quotient of the arguments.
 	 *
 	 * @example
 	 * import { divide, assert } from 'Acid';
@@ -3677,8 +3677,8 @@
 	 * @function increment
 	 * @category math
 	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @returns {number} - Returns an incremented version of the number.
+	 * @param {Number} number - First number.
+	 * @returns {Number} - Returns an incremented version of the number.
 	 *
 	 * @example
 	 * import { multiply, assert } from 'Acid';
@@ -3695,9 +3695,9 @@
 	 * @function minus
 	 * @category math
 	 * @type {Function}
-	 * @param {number} minuend - The minuend.
-	 * @param {number} subtrahend - The subtrahend.
-	 * @returns {number} - Returns the difference.
+	 * @param {Number} minuend - The minuend.
+	 * @param {Number} subtrahend - The subtrahend.
+	 * @returns {Number} - Returns the difference.
 	 *
 	 * @example
 	 * import { minus, assert } from 'Acid';
@@ -3712,9 +3712,9 @@
 	 * @function multiply
 	 * @category math
 	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @param {number} value - Second number.
-	 * @returns {number} - Returns the product of the arguments.
+	 * @param {Number} number - First number.
+	 * @param {Number} value - Second number.
+	 * @returns {Number} - Returns the product of the arguments.
 	 *
 	 * @example
 	 * import { multiply, assert } from 'Acid';
@@ -3730,9 +3730,9 @@
 	 * @function randomFloat
 	 * @category math
 	 * @type {Function}
-	 * @param {number} max - Establishes highest possible value for the random number.
-	 * @param {number} [min = 0] - Establishes lowest possible value for the random number.
-	 * @returns {number} - Returns random integer between the max and min range.
+	 * @param {Number} max - Establishes highest possible value for the random number.
+	 * @param {Number} [min = 0] - Establishes lowest possible value for the random number.
+	 * @returns {Number} - Returns random integer between the max and min range.
 	 *
 	 * @example
 	 * import { randomFloat, assert } from 'Acid';
@@ -3748,9 +3748,9 @@
 	 * @function remainder
 	 * @category math
 	 * @type {Function}
-	 * @param {number} number - First number.
-	 * @param {number} value - Second number.
-	 * @returns {number} - Returns the remainder of the arguments.
+	 * @param {Number} number - First number.
+	 * @param {Number} value - Second number.
+	 * @returns {Number} - Returns the remainder of the arguments.
 	 *
 	 * @example
 	 * import { multiply, assert } from 'Acid';
@@ -3767,8 +3767,8 @@
 	 * @function sub
 	 * @category math
 	 * @type {Function}
-	 * @param {number[]} source - Array of numbers.
-	 * @returns {number} - Returns the final difference.
+	 * @param {Number[]} source - Array of numbers.
+	 * @returns {Number} - Returns the final difference.
 	 *
 	 * @example
 	 * import { sub, assert } from 'Acid';
@@ -3785,8 +3785,8 @@
 	 * @function sum
 	 * @category math
 	 * @type {Function}
-	 * @param {number[]} source - Array of numbers.
-	 * @returns {number} - Returns a single number.
+	 * @param {Number[]} source - Array of numbers.
+	 * @returns {Number} - Returns a single number.
 	 *
 	 * @example
 	 * import { sum, assert } from 'Acid';
@@ -3803,10 +3803,10 @@
 	 * @function isNumberInRange
 	 * @category number
 	 * @type {Function}
-	 * @param {number} source - Number to be checked.
-	 * @param {number} start - Beginning of range.
-	 * @param {number} end - End of range.
-	 * @returns {boolean} - Returns true or false.
+	 * @param {Number} source - Number to be checked.
+	 * @param {Number} start - Beginning of range.
+	 * @param {Number} end - End of range.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isNumberInRange, assert } from 'Acid';
@@ -3822,10 +3822,10 @@
 	 * @function isNumberNotInRange
 	 * @category number
 	 * @type {Function}
-	 * @param {number} source - Number to be checked.
-	 * @param {number} start - Beginning of range.
-	 * @param {number} end - End of range.
-	 * @returns {boolean} - Returns true or false.
+	 * @param {Number} source - Number to be checked.
+	 * @param {Number} start - Beginning of range.
+	 * @param {Number} end - End of range.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isNumberNotInRange, assert } from 'Acid';
@@ -3841,8 +3841,8 @@
 	 * @function isZero
 	 * @category number
 	 * @type {Function}
-	 * @param {number} source - Number to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @param {Number} source - Number to be checked.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isZero, assert } from 'Acid';
@@ -4006,7 +4006,7 @@
 	 * @category object
 	 * @param {Object} source - Source object.
 	 * @param {Object} target - Object to compare to source.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { assert, isMatchObject } from 'Acid';
@@ -4032,16 +4032,20 @@
 	 * @category object
 	 * @type {Function}
 	 * @param {Object} source - Object from which keys are extracted.
-	 * @param {array} blacklist - List of property keys to omit from the returned object.
+	 * @param {Array|RegExp|String} blacklist - List of property keys to omit from the returned object.
 	 * @returns {Object} - A new object with the removed.
 	 *
 	 * @example
-	 * omit({a:1, b:2}, ['a']);
-	 * // => {b:2}
+	 * import { omit, assert } from 'Acid';
+	 * assert(omit({a:1, b:2}, ['a']), {b:2});
 	 */
-	function omit(source, blacklist) {
+	function omit(source, blacklistArg) {
 		if (!source) {
 			return;
+		}
+		let blacklist = blacklistArg;
+		if (isArray(blacklist)) {
+			blacklist = RegExp(blacklist.join('|'));
 		}
 		return filterObject(source, (item, key) => {
 			return !blacklist.includes(key);
@@ -4077,7 +4081,7 @@
 	 * @function objectSize
 	 * @category object
 	 * @param {Object} source - The source object.
-	 * @returns {number} - The amount of keys.
+	 * @returns {Number} - The amount of keys.
 	 *
 	 * @example
 	 * objectSize({ 0: 'a', 1: 'b', 2: 'c' });
@@ -4140,8 +4144,8 @@
 	 * @function upperCase
 	 * @category string
 	 * @type {Function}
-	 * @param {string} source - String to be converted into upper case.
-	 * @returns {string} - Converted string in upper case.
+	 * @param {String} source - String to be converted into upper case.
+	 * @returns {String} - Converted string in upper case.
 	 *
 	 * @example
 	 * import { upperCase, assert } from 'Acid';
@@ -4158,8 +4162,8 @@
 	 * @function camelCase
 	 * @category string
 	 * @type {Function}
-	 * @param {string} source - String to be converted into Camel case.
-	 * @returns {string} - Converted string in Camel case.
+	 * @param {String} source - String to be converted into Camel case.
+	 * @returns {String} - Converted string in Camel case.
 	 *
 	 * @example
 	 * import { camelCase, assert } from 'Acid';
@@ -4177,8 +4181,8 @@
 	 * @function kebabCase
 	 * @category string
 	 * @type {Function}
-	 * @param {string} source - String to be converted into Kebab case.
-	 * @returns {string} - Converted string in Kebab case.
+	 * @param {String} source - String to be converted into Kebab case.
+	 * @returns {String} - Converted string in Kebab case.
 	 *
 	 * @example
 	 * import { kebabCase, assert } from 'Acid';
@@ -4196,8 +4200,8 @@
 	 * @function snakeCase
 	 * @category string
 	 * @type {Function}
-	 * @param {string} source - String to be converted into snake case.
-	 * @returns {string} - Converted string in Snake case.
+	 * @param {String} source - String to be converted into snake case.
+	 * @returns {String} - Converted string in Snake case.
 	 *
 	 * @example
 	 * import { snakeCase, assert } from 'Acid';
@@ -4215,10 +4219,10 @@
 	 * @function insertInRange
 	 * @category string
 	 * @type {Function}
-	 * @param {string} string - String to insert the text into.
-	 * @param {number} index - Point of insertion.
-	 * @param {string} text - The string to be inserted.
-	 * @returns {string} - The string with the text inserted at the given point.
+	 * @param {String} string - String to insert the text into.
+	 * @param {Number} index - Point of insertion.
+	 * @param {String} text - The string to be inserted.
+	 * @returns {String} - The string with the text inserted at the given point.
 	 *
 	 * @example
 	 * import { insertInRange, assert } from 'Acid';
@@ -4234,9 +4238,9 @@
 	 * @function rightString
 	 * @category string
 	 * @type {Function}
-	 * @param {string} string - String to extract the letter from.
-	 * @param {number} [index=1] - The starting position.
-	 * @returns {string} - A letter at the given index.
+	 * @param {String} string - String to extract the letter from.
+	 * @param {Number} [index=1] - The starting position.
+	 * @returns {String} - A letter at the given index.
 	 *
 	 * @example
 	 * import { rightString, assert } from 'Acid';
@@ -4254,8 +4258,8 @@
 	 * @function chunkString
 	 * @category string
 	 * @type {Function}
-	 * @param {string} string - String to chunked.
-	 * @param {number} [size] - The max string length per chunk.
+	 * @param {String} string - String to chunked.
+	 * @param {Number} [size] - The max string length per chunk.
 	 * @returns {Array} - An array with strings that are <= size parameter.
 	 *
 	 * @example
@@ -4272,9 +4276,9 @@
 	 * @function initialString
 	 * @category string
 	 * @type {Function}
-	 * @param {string} string - String to extract the initial letters from.
-	 * @param {number} [index=1] - Starting point from the right.
-	 * @returns {string} - A string with the characters before the index starting from the right.
+	 * @param {String} string - String to extract the initial letters from.
+	 * @param {Number} [index=1] - Starting point from the right.
+	 * @returns {String} - A string with the characters before the index starting from the right.
 	 *
 	 * @example
 	 * import { initialString, assert } from 'Acid';
@@ -4292,9 +4296,9 @@
 	 * @function restString
 	 * @category string
 	 * @type {Function}
-	 * @param {string} string - String to extract the rest of the letters from.
-	 * @param {number} [index=1] - Starting point.
-	 * @returns {string} - A string without the characters up-to to the index.
+	 * @param {String} string - String to extract the rest of the letters from.
+	 * @param {Number} [index=1] - Starting point.
+	 * @returns {String} - A string without the characters up-to to the index.
 	 *
 	 * @example
 	 * import { restString, assert } from 'Acid';
@@ -4312,10 +4316,10 @@
 	 * @function replaceList
 	 * @category string
 	 * @type {Function}
-	 * @param {string} string - String to be replaced.
+	 * @param {String} string - String to be replaced.
 	 * @param {Array} words - Strings to replace.
-	 * @param {string} value - The match replacement.
-	 * @returns {string} - The string with the replacement.
+	 * @param {String} value - The match replacement.
+	 * @returns {String} - The string with the replacement.
 	 *
 	 * @example
 	 * import { replaceList, assert } from 'Acid';
@@ -4336,8 +4340,8 @@
 	 * @function rawURLDecode
 	 * @category string
 	 * @type {Function}
-	 * @param {string} string - String to be replaced.
-	 * @returns {string} - Converted string into the decoded URI Component .
+	 * @param {String} string - String to be replaced.
+	 * @returns {String} - Converted string into the decoded URI Component .
 	 *
 	 * @example
 	 * import { rawURLDecode, assert } from 'Acid';
@@ -4357,8 +4361,8 @@
 	 * @function htmlEntities
 	 * @category string
 	 * @type {Function}
-	 * @param {string} string - String to be replaced.
-	 * @returns {string} - Replaced string.
+	 * @param {String} string - String to be replaced.
+	 * @returns {String} - Replaced string.
 	 *
 	 * @example
 	 * import { htmlEntities, assert } from 'Acid';
@@ -4376,8 +4380,8 @@
 	 * @function sanitize
 	 * @category string
 	 * @type {Function}
-	 * @param {string} string - String to be replaced.
-	 * @returns {string} - Replaced string.
+	 * @param {String} string - String to be replaced.
+	 * @returns {String} - Replaced string.
 	 *
 	 * @example
 	 * import { sanitize, assert } from 'Acid';
@@ -4395,7 +4399,7 @@
 	 * @function tokenize
 	 * @type {Function}
 	 * @category string
-	 * @param {string} string - String to be broken up.
+	 * @param {String} string - String to be broken up.
 	 * @returns {Array} - Array of words without white space characters.
 	 *
 	 * @example
@@ -4411,7 +4415,7 @@
 	 *
 	 * @function words
 	 * @type {Function}
-	 * @param {string} string - String to be broken up.
+	 * @param {String} string - String to be broken up.
 	 * @returns {Array} - Array of words with word characters only.
 	 *
 	 * @example
@@ -4454,9 +4458,9 @@
 	 * @function truncate
 	 * @type {Function}
 	 * @category string
-	 * @param {string} string - String to be truncated.
-	 * @param {number} maxLength - The desired max length of the string.
-	 * @returns {string} - The mutated string.
+	 * @param {String} string - String to be truncated.
+	 * @param {Number} maxLength - The desired max length of the string.
+	 * @returns {String} - The mutated string.
 	 *
 	 * @example
 	 * import { truncate, assert } from 'Acid';
@@ -4473,9 +4477,9 @@
 	 * @function truncateRight
 	 * @type {Function}
 	 * @category string
-	 * @param {string} string - String to be truncated.
-	 * @param {number} maxLength - The desired max length of the string.
-	 * @returns {string} - The mutated string.
+	 * @param {String} string - String to be truncated.
+	 * @param {Number} maxLength - The desired max length of the string.
+	 * @returns {String} - The mutated string.
 	 *
 	 * @example
 	 * import { truncateRight, assert } from 'Acid';
@@ -4493,8 +4497,8 @@
 	 * @function upperFirstLetter
 	 * @type {Function}
 	 * @category string
-	 * @param {string} string - String to extract first letter from.
-	 * @returns {string} - An upper case letter.
+	 * @param {String} string - String to extract first letter from.
+	 * @returns {String} - An upper case letter.
 	 *
 	 * @example
 	 * import { upperFirstLetter, assert } from 'Acid';
@@ -4510,8 +4514,8 @@
 	 * @function upperFirst
 	 * @type {Function}
 	 * @category string
-	 * @param {string} string - String to be mutated.
-	 * @returns {string} - String with first letter capitalized.
+	 * @param {String} string - String to be mutated.
+	 * @returns {String} - String with first letter capitalized.
 	 *
 	 * @example
 	 * import { upperFirst, assert } from 'Acid';
@@ -4527,8 +4531,8 @@
 	 * @function upperFirstAll
 	 * @type {Function}
 	 * @category string
-	 * @param {string} string - String to be mutated.
-	 * @returns {string} - String with all first letters capitalized.
+	 * @param {String} string - String to be mutated.
+	 * @returns {String} - String with all first letters capitalized.
 	 *
 	 * @example
 	 * import { upperFirstAll, assert } from 'Acid';
@@ -4546,8 +4550,8 @@
 	 * @function upperFirstOnly
 	 * @type {Function}
 	 * @category string
-	 * @param {string} string - String to be mutated.
-	 * @returns {string} - String with first letter capitalized.
+	 * @param {String} string - String to be mutated.
+	 * @returns {String} - String with first letter capitalized.
 	 *
 	 * @example
 	 * import { upperFirstOnly, assert } from 'Acid';
@@ -4563,8 +4567,8 @@
 	 * @function upperFirstOnlyAll
 	 * @type {Function}
 	 * @category string
-	 * @param {string} string - String to be mutated.
-	 * @returns {string} - String with all first letters capitalized.
+	 * @param {String} string - String to be mutated.
+	 * @returns {String} - String with all first letters capitalized.
 	 *
 	 * @example
 	 * import { upperFirstOnlyAll, assert } from 'Acid';
@@ -4582,7 +4586,7 @@
 	 * @function getTypeName
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { getTypeName, assert } from 'Acid';
@@ -4597,7 +4601,7 @@
 	 * @function isArguments
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isArguments, assert } from 'Acid';
@@ -4614,7 +4618,7 @@
 	 * @function isNumber
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isNumber, assert } from 'Acid';
@@ -4628,7 +4632,7 @@
 	 * @function noValue
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { noValue, assert } from 'Acid';
@@ -4646,7 +4650,7 @@
 	 * @function isMap
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isMap } from 'Acid';
@@ -4661,7 +4665,7 @@
 	 * @function isTypedArray
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isTypedArray, assert } from 'Acid';
@@ -4686,7 +4690,7 @@
 	 * @category type
 	 * @param {*} source - Object to be checked.
 	 * @param {*} strictFlag - Strict flag to also check to see if keys are whole intigers greater than or equal to 0.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isArrayLike, assert } from 'Acid';
@@ -4721,7 +4725,7 @@
 	 * @function isBigInt
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isBigInt, assert } from 'Acid';
@@ -4735,7 +4739,7 @@
 	 * @function isBoolean
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isBoolean } from 'Acid';
@@ -4750,7 +4754,7 @@
 	 * @function isArrayBuffer
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isArrayBuffer, assert } from 'Acid';
@@ -4765,7 +4769,7 @@
 	 * @category type
 	 * @param {*} sourceChild - Object to be checked as the child.
 	 * @param {*} targetParent - Object to be checked as the parent.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isChild, construct, assert } from 'Acid';
@@ -4790,7 +4794,7 @@
 	 * @function isCloneable
 	 * @category type
 	 * @param {...*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isCloneable, assert } from 'Acid';
@@ -4812,7 +4816,7 @@
 	 * @function isDate
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isDate, assert } from 'Acid';
@@ -4826,7 +4830,7 @@
 	 * @function isString
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isString } from 'Acid';
@@ -4840,7 +4844,7 @@
 	 * @function isEmpty
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isEmpty } from 'Acid';
@@ -4861,7 +4865,7 @@
 	 * @function isF32
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isF32, assert } from 'Acid';
@@ -4875,7 +4879,7 @@
 	 * @function isF64
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isF64 } from 'Acid';
@@ -4891,7 +4895,7 @@
 	 * @function isFloat
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isFloat } from 'Acid';
@@ -4905,7 +4909,7 @@
 	 * @function isI16
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isI16 } from 'Acid';
@@ -4920,7 +4924,7 @@
 	 * @function isI32
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * import { isI32, assert } from 'Acid';
 	 * assert(isI32(new Int32Array()), true);.
@@ -4933,7 +4937,7 @@
 	 * @function isI8
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isInt8 } from 'Acid';
@@ -4948,7 +4952,7 @@
 	 * @function isIterable
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isIterable, assert } from 'Acid';
@@ -4965,7 +4969,7 @@
 	 * @function isPromise
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - True or false.
+	 * @returns {Boolean} - True or false.
 	 *
 	 * @example
 	 * import { isPromise } from 'Acid';
@@ -4984,7 +4988,7 @@
 	 * @function isKindAsync
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - True or false.
+	 * @returns {Boolean} - True or false.
 	 *
 	 * @example
 	 * import { isKindAsync, assert } from 'Acid';
@@ -5003,7 +5007,7 @@
 	 * @category type
 	 * @param {*} sourceParent - Object to be checked as the child.
 	 * @param {*} targetChild - Object to be checked as the parent.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isParent, construct, assert } from 'Acid';
@@ -5028,7 +5032,7 @@
 	 * @function isPrimitive
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - True or false.
+	 * @returns {Boolean} - True or false.
 	 *
 	 * @example
 	 * import { isPrimitive, assert } from 'Acid';
@@ -5045,7 +5049,7 @@
 	 * @function isRegex
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isRegex, assert } from 'Acid';
@@ -5060,7 +5064,7 @@
 	 * @category type
 	 * @param {*} targetOne - Object to be checked.
 	 * @param {*} targetTwo - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isRelated, construct, assert } from 'Acid';
@@ -5093,7 +5097,7 @@
 	 * @function isSafeInt
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isSafeInt } from 'Acid';
@@ -5117,7 +5121,7 @@
 	 * @function isU16
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isU16 } from 'Acid';
@@ -5132,7 +5136,7 @@
 	 * @function isU32
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isU32 } from 'Acid';
@@ -5147,7 +5151,7 @@
 	 * @function isU8
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isU8 } from 'Acid';
@@ -5162,7 +5166,7 @@
 	 * @function isU8C
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isU8C } from 'Acid';
@@ -5177,7 +5181,7 @@
 	 * @function isWeakMap
 	 * @category type
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { isWeakMap } from 'Acid';
@@ -5209,7 +5213,7 @@
 	 * @category utility
 	 * @param {*} source - Source object.
 	 * @param {*} target - Object to be compared.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { notEqual, assert } from 'Acid';
@@ -5225,8 +5229,8 @@
 	 * @function jsonParse
 	 * @category utility
 	 * @type {Function}
-	 * @param {string} source - String to be parsed.
-	 * @param {function} reviver - A function that prescribes how each value originally produced by parsing is transformed before being returned.
+	 * @param {String} source - String to be parsed.
+	 * @param {Function} reviver - A function that prescribes how each value originally produced by parsing is transformed before being returned.
 	 * @returns {Object} - Returns the parsed object.
 	 *
 	 * @example
@@ -5245,7 +5249,7 @@
 	 * @category utility
 	 * @type {Function}
 	 * @param {Object} object - Object to Stringify.
-	 * @returns {string} - Returns the object as a valid JSON string.
+	 * @returns {String} - Returns the object as a valid JSON string.
 	 *
 	 * @example
 	 * import { stringify, assert } from 'Acid';
@@ -5262,8 +5266,8 @@
 		}
 		return new Error(
 			`Test Failed: ${errorTitle}
-		Result: ${stringify(source)}
-		Expected: ${stringify(expected)}`,
+		Result: ${Stringify(source)}
+		Expected: ${Stringify(expected)}`,
 			options
 		);
 	}
@@ -5338,7 +5342,7 @@
 	 * @type {Function}
 	 * @param {*} source - Item to be truey checked.
 	 * @param {*} [returnIfTrue = true] - Item to be returned if item is truey.
-	 * @returns {boolean|*} - Returns true if the item is truey or returnIfTrue if provided otherwise returns false.
+	 * @returns {Boolean|*} - Returns true if the item is truey or returnIfTrue if provided otherwise returns false.
 	 *
 	 * @example
 	 * import { truey, assert } from 'Acid';
@@ -5488,7 +5492,7 @@
 	 * @type {Function}
 	 * @param {Array | object | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
+	 * @param {Object | Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Array | object | Function} - A new object of the same calling object's type.
 	 *
 	 * @example
@@ -5531,7 +5535,7 @@
 	 * @type {Function}
 	 * @param {*} source - Item to be falsey checked.
 	 * @param {*} [returnIfTrue = true] - Item to be returned if item is falsey.
-	 * @returns {boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
+	 * @returns {Boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
 	 *
 	 * @example
 	 * import { falsey, assert } from 'Acid';
@@ -5648,7 +5652,7 @@
 	 * @type {Function}
 	 * @param {Array | object | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
-	 * @param {object | Function} [results = {}] - Object that will be used to assign results.
+	 * @param {Object | Function} [results = {}] - Object that will be used to assign results.
 	 * @returns {Array | object | Function} - A new object of the same calling object's type.
 	 *
 	 * @example
@@ -5768,7 +5772,7 @@
 	 * @param {Array|String|Object} source - Object to be checked.
 	 * @param {String|Array|Function|RegExp} search - Object that is being searched for.
 	 * @param {Number} fromIndex - Index at which to start searching.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * import { has, assert } from 'Acid';
@@ -5816,7 +5820,7 @@
 	 * @function hasDot
 	 * @category utility
 	 * @param {*} source - Object to be checked.
-	 * @returns {boolean} - Returns true or false.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
 	 * hasDot('test.js');
@@ -5830,7 +5834,7 @@
 	 * @category utility
 	 * @type {Function}
 	 * @param {Object} rootObject - The object to check.
-	 * @param {string} property - The property name which is to be checked.
+	 * @param {String} property - The property name which is to be checked.
 	 * @param {*} equalThis - The reassignment value for the property being checked.
 	 * @returns {Object} - Returns the provided rootObject.
 	 *
@@ -5850,7 +5854,7 @@
 		/**
 		 * Remove a setInterval that was created using the intervals function.
 		 *
-		 * @param {number} id - The id of the setInterval to remove.
+		 * @param {Number} id - The id of the setInterval to remove.
 		 * @returns {undefined} - Returns nothing.
 		 *
 		 * @example
@@ -5872,7 +5876,7 @@
 		 *
 		 * @type {Function}
 		 * @param {Function} callable - The function to be invoked.
-		 * @param {number} time - The time in milliseconds.
+		 * @param {Number} time - The time in milliseconds.
 		 * @returns {Object} - Returns setTimeoutId ID.
 		 *
 		 * @example
@@ -5910,7 +5914,7 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked.
-	 * @param {number} time - The time in milliseconds.
+	 * @param {Number} time - The time in milliseconds.
 	 * @returns {Object} - Returns setInterval ID.
 	 *
 	 * @example
@@ -5956,8 +5960,8 @@
 	 * @function model
 	 * @type {Function}
 	 * @category utility
-	 * @param {string} modelName - Name of the model.
-	 * @param {object} modelValue - The model object.
+	 * @param {String} modelName - Name of the model.
+	 * @param {Object} modelValue - The model object.
 	 * @returns {*} - Returns the associated model.
 	 * @example
 	 * model('test', {a: 1}) && model('test');
@@ -5978,7 +5982,7 @@
 	/**
 	 * Returns the model with the given name.
 	 *
-	 * @param {string} modelName - The name of the model to return.
+	 * @param {String} modelName - The name of the model to return.
 	 * @param {any} [modelValue] - The value of the model to return.
 	 * @returns {Model} - The model with the given name.
 	 */
@@ -6194,7 +6198,7 @@
 	 * @function stubString
 	 * @category utility
 	 * @type {Function}
-	 * @returns {string} - Returns the new empty string.
+	 * @returns {String} - Returns the new empty string.
 	 *
 	 * @example
 	 * import { stubString } from 'Acid';
@@ -6211,7 +6215,7 @@
 	 * @function timesAsync
 	 * @category utility
 	 * @type {Function}
-	 * @param {number} amount - The amount of times to loop invoking the iteratee.
+	 * @param {Number} amount - The amount of times to loop invoking the iteratee.
 	 * @param {Function} iteratee - Transformation function which is passed index and amount.
 	 * @returns {undefined} - Nothing.
 	 *
@@ -6237,7 +6241,7 @@
 	 * @function timesMapAsync
 	 * @category array
 	 * @type {Function}
-	 * @param {number} amount - The amount of times to loop invoking the iteratee.
+	 * @param {Number} amount - The amount of times to loop invoking the iteratee.
 	 * @param {Function} iteratee - Transformation function which is passed index and amount.
 	 * @param {Array} [results = []] - Array that will have iteratee return pushed to.
 	 * @returns {Array} - An array with iteratee's returned values.
@@ -6284,7 +6288,7 @@
 	 * Creates a unique numerical recyclable ID generator. The IDs are numerically ascending however freed ids are recycled when available.
 	 *
 	 * @class UniqID
-	 * @type {class}
+	 * @type {Class}
 	 * @category utility
 	 * @returns {UniqID} - Returns a new instance of UniqID.
 	 *
@@ -6307,7 +6311,7 @@
 		 * @class UniqID
 		 * @category utility
 		 * @type {Function}
-		 * @returns {number} - Returns a unique id.
+		 * @returns {Number} - Returns a unique id.
 		 *
 		 * @example
 		 * import { UniqID, construct, assert } from 'Acid';
@@ -6331,7 +6335,7 @@
 		 * @class UniqID
 		 * @category utility
 		 * @type {Function}
-		 * @param {number} id - Number to be freed.
+		 * @param {Number} id - Number to be freed.
 		 * @returns {undefined} - Nothing is returned.
 		 *
 		 * @example
@@ -6390,7 +6394,7 @@
 		/**
 		 * Get an item from a virtual storage object.
 		 *
-		 * @param {string} key - The key used to store the data.
+		 * @param {String} key - The key used to store the data.
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
@@ -6406,7 +6410,7 @@
 		/**
 		 * Save an item to a virtual storage object.
 		 *
-		 * @param {string} key - The key used to store the data.
+		 * @param {String} key - The key used to store the data.
 		 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
 		 * @returns {undefined} - Returns undefined.
 		 *
@@ -6422,7 +6426,7 @@
 		/**
 		 * Clears all data from the virtual storage object by replacing with a new object.
 		 *
-		 * @param {string} key - The key used to remove data.
+		 * @param {String} key - The key used to remove data.
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
@@ -6439,7 +6443,7 @@
 		/**
 		 * Remove an item from a virtual storage object.
 		 *
-		 * @param {string} key - The key used to remove data.
+		 * @param {String} key - The key used to remove data.
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
@@ -6591,6 +6595,7 @@
 	exports.inSync = inSync;
 	exports.increment = increment;
 	exports.indexBy = indexBy;
+	exports.indexedAlphabetically = indexedAlphabetically;
 	exports.initial = initial;
 	exports.initialString = initialString;
 	exports.insertInRange = insertInRange;
@@ -6742,7 +6747,6 @@
 	exports.shuffle = shuffle;
 	exports.smallest = smallest;
 	exports.snakeCase = snakeCase;
-	exports.sortAlphabetical = sortAlphabetical;
 	exports.sortNewest = sortNewest;
 	exports.sortOldest = sortOldest;
 	exports.sortOldestFilter = sortOldestFilter;

@@ -8,7 +8,7 @@
  * @param {Array} source - Array of async functions that will be looped through.
  * Functions are given the supplied object, index, the calling array, and the array length.
  * @param {*} firstArgument - The first argument given to each function.
- * @returns {object} - The originally given array.
+ * @returns {Object} - The originally given array.
  *
  * @example
  * import { inAsync, assert } from 'Acid';

@@ -4,8 +4,8 @@
  * @function isZero
  * @category number
  * @type {Function}
- * @param {number} source - Number to be checked.
- * @returns {boolean} - Returns true or false.
+ * @param {Number} source - Number to be checked.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isZero, assert } from 'Acid';

@@ -6,7 +6,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @function isI32
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * import { isI32, assert } from 'Acid';
  * assert(isI32(new Int32Array()), true);.

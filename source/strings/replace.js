@@ -4,10 +4,10 @@
  * @function replaceList
  * @category string
  * @type {Function}
- * @param {string} string - String to be replaced.
+ * @param {String} string - String to be replaced.
  * @param {Array} words - Strings to replace.
- * @param {string} value - The match replacement.
- * @returns {string} - The string with the replacement.
+ * @param {String} value - The match replacement.
+ * @returns {String} - The string with the replacement.
  *
  * @example
  * import { replaceList, assert } from 'Acid';

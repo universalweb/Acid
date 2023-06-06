@@ -5,9 +5,9 @@ const { random } = Math;
  * @function randomFloat
  * @category math
  * @type {Function}
- * @param {number} max - Establishes highest possible value for the random number.
- * @param {number} [min = 0] - Establishes lowest possible value for the random number.
- * @returns {number} - Returns random integer between the max and min range.
+ * @param {Number} max - Establishes highest possible value for the random number.
+ * @param {Number} [min = 0] - Establishes lowest possible value for the random number.
+ * @returns {Number} - Returns random integer between the max and min range.
  *
  * @example
  * import { randomFloat, assert } from 'Acid';

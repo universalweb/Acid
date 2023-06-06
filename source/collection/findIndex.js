@@ -6,9 +6,9 @@ import { findIndexCache } from './findIndexCache.js';
  * @type {Function}
  * @category collection
  * @param {Array} collection - Collection to be checked for an item.
- * @param {number|string} id - The value to look for.
- * @param {string} [propertyName = 'id'] - The name of the property to compare.
- * @returns {number} - The index of the object.
+ * @param {Number|string} id - The value to look for.
+ * @param {String} [propertyName = 'id'] - The name of the property to compare.
+ * @returns {Number} - The index of the object.
  *
  * @example
  * findIndex([{id: 1}, {id: 2}], 1);

@@ -6,7 +6,7 @@
  * @type {Function}
  * @param {*} source - Item to be falsey checked.
  * @param {*} [returnIfTrue = true] - Item to be returned if item is falsey.
- * @returns {boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
+ * @returns {Boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
  *
  * @example
  * import { falsey, assert } from 'Acid';

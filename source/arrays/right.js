@@ -5,7 +5,7 @@
  * @type {Function}
  * @category array
  * @param {Array} source - Array to be sliced.
- * @param {number} amount - Amount from the right.
+ * @param {Number} amount - Amount from the right.
  * @returns {*} - Returns the object at the evaluated position.
  *
  * @example

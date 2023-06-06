@@ -18,7 +18,7 @@ export class VirtualStorage {
 	/**
 	 * Get an item from a virtual storage object.
 	 *
-	 * @param {string} key - The key used to store the data.
+	 * @param {String} key - The key used to store the data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
@@ -34,7 +34,7 @@ export class VirtualStorage {
 	/**
 	 * Save an item to a virtual storage object.
 	 *
-	 * @param {string} key - The key used to store the data.
+	 * @param {String} key - The key used to store the data.
 	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
 	 * @returns {undefined} - Returns undefined.
 	 *
@@ -50,7 +50,7 @@ export class VirtualStorage {
 	/**
 	 * Clears all data from the virtual storage object by replacing with a new object.
 	 *
-	 * @param {string} key - The key used to remove data.
+	 * @param {String} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
@@ -67,7 +67,7 @@ export class VirtualStorage {
 	/**
 	 * Remove an item from a virtual storage object.
 	 *
-	 * @param {string} key - The key used to remove data.
+	 * @param {String} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example

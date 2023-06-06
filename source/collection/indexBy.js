@@ -6,7 +6,7 @@ import { eachArray } from '../arrays/each.js';
  * @category collection
  * @type {Function}
  * @param {Array} collection - Array of objects.
- * @param {string} propertyName - The property name to index by.
+ * @param {String} propertyName - The property name to index by.
  * @returns {Object} - Returns the composed aggregate object.
  *
  * @example

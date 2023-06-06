@@ -5,7 +5,7 @@
  * @category function
  * @type {Function}
  * @param {Function} callable - The function to cap arguments for.
- * @param {number} amount - The arity cap.
+ * @param {Number} amount - The arity cap.
  * @returns {Object} - Returns the new capped function.
  *
  * @example

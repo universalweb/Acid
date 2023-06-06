@@ -5,7 +5,7 @@ import { keys } from './keys.js';
  * @function objectSize
  * @category object
  * @param {Object} source - The source object.
- * @returns {number} - The amount of keys.
+ * @returns {Number} - The amount of keys.
  *
  * @example
  * objectSize({ 0: 'a', 1: 'b', 2: 'c' });

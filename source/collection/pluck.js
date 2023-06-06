@@ -6,7 +6,7 @@ import { mapArray } from '../arrays/map.js';
  * @category collection
  * @type {Function}
  * @param {Array} collection - Array used to determine what value to be plucked.
- * @param {string} pluckThis - Property name.
+ * @param {String} pluckThis - Property name.
  * @returns {Array} - An array of plucked values.
  *
  * @example

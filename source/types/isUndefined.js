@@ -3,7 +3,7 @@
  * @function isUndefined
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isUndefined, assert } from 'Acid';

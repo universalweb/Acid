@@ -4,9 +4,9 @@
  * @function isNumberEqual
  * @category number
  * @type {Function}
- * @param {number} source - Number to be checked.
- * @param {number} target - Number to be checked.
- * @returns {boolean} - Returns true or false.
+ * @param {Number} source - Number to be checked.
+ * @param {Number} target - Number to be checked.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { isNumberEqual, assert } from 'Acid';

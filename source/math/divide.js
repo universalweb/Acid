@@ -4,9 +4,9 @@
  * @function divide
  * @category math
  * @type {Function}
- * @param {number} number - First number.
- * @param {number} value - Second number.
- * @returns {number} - Returns the quotient of the arguments.
+ * @param {Number} number - First number.
+ * @param {Number} value - Second number.
+ * @returns {Number} - Returns the quotient of the arguments.
  *
  * @example
  * import { divide, assert } from 'Acid';

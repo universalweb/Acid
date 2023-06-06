@@ -4,7 +4,7 @@
  * @function before
  * @category function
  * @type {Function}
- * @param {number} amount - The number of calls before n.
+ * @param {Number} amount - The number of calls before n.
  * @param {Function} callable - The function to be called.
  * @returns {Function} - Returns the new pass-thru function.
  *

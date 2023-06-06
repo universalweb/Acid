@@ -8,8 +8,8 @@ import { keys } from '../objects/keys.js';
  * @function isAgent
  * @category browser
  * @type {Function}
- * @param {string} source - The string to search for.
- * @returns {boolean} - Returns true or false.
+ * @param {String} source - The string to search for.
+ * @returns {Boolean} - Returns true or false.
  * @example
  * isAgent('mobile');
  * // => false

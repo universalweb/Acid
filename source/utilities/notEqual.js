@@ -7,7 +7,7 @@ import { isEqual } from './isEqual.js';
  * @category utility
  * @param {*} source - Source object.
  * @param {*} target - Object to be compared.
- * @returns {boolean} - Returns true or false.
+ * @returns {Boolean} - Returns true or false.
  *
  * @example
  * import { notEqual, assert } from 'Acid';
