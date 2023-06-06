@@ -1,4 +1,3 @@
-import { sortCollectionAlphabetically } from './indexedAlphabetically';
 /**
  * Sorts an array in place using a key in ascending order.
  *

@@ -10,8 +10,10 @@ import { eachArray } from '../arrays/each.js';
  * @returns {Object} - Returns the composed aggregate object.
  *
  * @example
- * indexBy([{name: 'Lucy', id: 0}, {name: 'Erick', id: 1}], 'id');
- * // => { "0": {name: 'Lucy', id: 0}, "1": {name: 'Erick', id: 1}}
+ * import { indexBy, assert } from 'Acid';
+ * const result = { "0": {name: 'test', id: 0}, "1": {name: 'test2', id: 1}};
+ * const indexed = indexBy([{name: 'test', id: 0}, {name: 'test2', id: 1}], 'id');
+ * assert(indexed, result);
  */
 export function indexBy(collection, propertyName = 'id') {
 	const sortedObject = {};

@@ -11,24 +11,18 @@ import { everyArray } from '../arrays/every.js';
  *
  * @example
  * import { getCollectionInsertIndex, assert } from 'Acid';
- * assert(getCollectionInsertIndex([{a:1},{a:3}}], {a:2}), 1);
+ * assert(getCollectionInsertIndex([{a:1},{a:3},{a:4}], {a:2}), 1);
  */
 export function getCollectionInsertIndex(source, target, propertyName) {
 	let insertIndex = 0;
 	everyArray(source, (item, index) => {
-		if (target >= item) {
-			insertIndex = index;
-			return false;
-		} else {
+		insertIndex = index;
+		if (target[propertyName] >= item[propertyName]) {
+			insertIndex = index + 1;
 			return true;
+		} else {
+			return false;
 		}
 	});
 	return insertIndex;
 }
-console.log(getCollectionInsertIndex([{
-	a: 1
-}, {
-	a: 3
-}], {
-	a: 2
-}));

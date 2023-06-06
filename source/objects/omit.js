@@ -28,17 +28,23 @@ export function omit(source, blacklist) {
 	if (isArray(blacklist)) {
 		const blacklistRegex = arrayToRegex(blacklist);
 		return filterObject(source, (item, key) => {
-			return !key.test(blacklistRegex);
+			return !blacklistRegex.test(key);
 		});
 	}
 	if (isRegex(blacklist)) {
 		return filterObject(source, (item, key) => {
-			return !key.test(blacklist);
+			return !blacklist.test(key);
 		});
 	}
-	if (isString(blacklist) || isNumber(blacklist)) {
+	if (isString(blacklist)) {
 		return filterObject(source, (item, key) => {
 			return key !== blacklist;
+		});
+	}
+	if (isNumber(blacklist)) {
+		const numberToString = blacklist.toString();
+		return filterObject(source, (item, key) => {
+			return key !== numberToString;
 		});
 	}
 	if (isFunction(blacklist)) {

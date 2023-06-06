@@ -8,6 +8,7 @@ export * from './builtin.js';
 export * from './math.js';
 export * from './numbers.js';
 export * from './objects.js';
+export * from './regex.js';
 export * from './strings.js';
 export * from './types.js';
 export * from './utilities.js';

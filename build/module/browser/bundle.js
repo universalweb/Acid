@@ -1094,24 +1094,38 @@ function mapWhile(source, iteratee, results = [], thisBind) {
 	return results;
 }
 
-const numericalCompare = (a, b) => {
-	return a - b;
-};
 /**
- * Sorts an array in place using a numerical comparison algorithm from lowest to highest.
+ * Subtracts the subtrahend (second argument) from the minuend (first argument).
  *
- * @function numSort
- * @category array
+ * @function subtract
+ * @category math
  * @type {Function}
+ * @param {Number} minuend - The minuend.
+ * @param {Number} subtrahend - The subtrahend.
+ * @returns {Number} - Returns the difference.
+ *
+ * @example
+ * import { subtract, assert } from 'Acid';
+ * assert(subtract(3, 1), 2);
+ */
+function subtract(minuend, subtrahend) {
+	return minuend - subtrahend;
+}
+
+/**
+ * Sorts an array of numbers in ascending order. Smallest to largest.
+ *
+ * @function sortNumberAscending
+ * @category array
  * @param {Array} numberList - Array of numbers.
  * @returns {Array} - The array this method was called on.
  *
  * @example
- * numSort([10, 0, 2, 1]);
- * // => [0, 1, 2, 10]
+ * import { sortNumberAscending, assert } from 'Acid';
+ * assert(sortNumberAscending([10, 0, 2, 1]),  [0, 1, 2, 10]);
  */
-function numSort(numberList) {
-	return numberList.sort(numericalCompare);
+function sortNumberAscending(numberList) {
+	return numberList.sort(subtract);
 }
 
 /**
@@ -1170,23 +1184,38 @@ function partition(array, funct) {
 	];
 }
 
-const numericalCompareReverse = (a, b) => {
-	return b - a;
-};
 /**
- * Sorts an array in place using a reverse numerical comparison algorithm from highest to lowest.
+ * Subtracts the subtrahend (first argument) from the minuend (second argument). The arguments are reversed compared to the subtract function.
  *
- * @function rNumSort
+ * @function subtractReverse
+ * @category math
+ * @type {Function}
+ * @param {Number} minuend - The minuend.
+ * @param {Number} subtrahend - The subtrahend.
+ * @returns {Number} - Returns the difference.
+ *
+ * @example
+ * import { subtractReverse, assert } from 'Acid';
+ * assert(subtractReverse(1, 3), 2);
+ */
+function subtractReverse(subtrahend, minuend) {
+	return minuend - subtrahend;
+}
+
+/**
+ * Sorts an array of numbers in descending order. Largest to smallest.
+ *
+ * @function sortNumberDescening
  * @category array
  * @param {Array} numberList - Array of numbers.
  * @returns {Array} - The array this method was called on.
  *
  * @example
- * rNumSort([10, 0, 2, 1]);
- * // => [10, 2, 1, 0]
+ * import { sortNumberDescening, assert } from 'Acid';
+ * assert(sortNumberDescening([10, 0, 2, 1]), [10, 2, 1, 0]);
  */
-function rNumSort(numberList) {
-	return numberList.sort(numericalCompareReverse);
+function sortNumberDescening(numberList) {
+	return numberList.sort(subtractReverse);
 }
 
 /**
@@ -1428,30 +1457,31 @@ function smallest(array) {
 }
 
 /**
- * Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
+ * What index should the number be inserted at to keep a sorted array still sorted.
  *
- * @function sortedIndex
+ * @function getNumberInsertIndex
  * @category array
  * @type {Function}
- * @param {Array} array - Array to be sorted.
- * @param {Number} insertThis - Number to be inserted.
+ * @param {Array} source - Array to be checked.
+ * @param {Number} target - Number to check where to be inserted.
  * @returns {Number} - The index at which to insert.
  *
  * @example
- * sortedIndex([30, 50], 40);
- * // => 1
+ * import { getNumberInsertIndex, assert } from 'Acid';
+ * assert(getNumberInsertIndex([30, 39, 50], 40), 1);
  */
-function sortedIndex(array, insertThis) {
-	let min = 0;
-	everyArray(array, (item, index) => {
-		min = index;
-		if (insertThis > item) {
+function getNumberInsertIndex(source, target) {
+	let insertIndex = 0;
+	everyArray(source, (item, index) => {
+		insertIndex = index;
+		if (target >= item) {
+			insertIndex = index + 1;
 			return true;
 		} else {
 			return false;
 		}
 	});
-	return min;
+	return insertIndex;
 }
 
 /**
@@ -1993,107 +2023,161 @@ function findItem(collection, id, propertyName = 'id') {
 }
 
 /**
-  * Sorts an array in place using a key from newest to oldest.
-  *
-  * @function sortNewest
-  * @category collection
-  * @type {Function}
-  * @param {Array} collection - Collection to be sorted.
-  * @param {String} propertyName - The property name to sort by based on it's value.
-  * @param {Boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
-  * @returns {Array} - The sorted array and or a clone of the array sorted.
-  *
-  * @example
-  * sortNewest([{id: 1}, {id: 0}], 'id');
-  * // => [{id: 1}, {id: 0}]
-*/
-function sortNewestFilter(previous, next, propertyName) {
-	if (!next[propertyName]) {
+ * Sorts an array in place using a key in descending order.
+ *
+ * @function sortCollectionDescending
+ * @category collection
+ * @type {Function}
+ * @param {Array} collection - Collection to be sorted.
+ * @param {String} propertyName - The property name to sort by based on it's value.
+ * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
+ * @returns {Array} - The sorted array and or a clone of the array sorted.
+ *
+ * @example
+ * import { sortCollectionDescending, assert } from 'Acid';
+ * const result = [{id: 1}, {id: 0}];
+ * const collect = [{id: 0}, {id: 1}];
+ * const prop = 'id';
+ * assert(sortCollectionDescending(collect, prop), result);
+ */
+function sortCollectionDescendingFilter(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	if (!nextKey) {
 		return -1;
-	} else if (!previous[propertyName]) {
+	} else if (!previousKey) {
 		return 1;
-	} else if (previous[propertyName] < next[propertyName]) {
+	} else if (previousKey < nextKey) {
 		return 1;
-	} else if (previous[propertyName] > next[propertyName]) {
+	} else if (previousKey > nextKey) {
 		return -1;
 	}
 	return 0;
 }
-function sortNewest(collection, propertyName, pureMode = true) {
-	const array = (pureMode) ? collection : [...collection];
-	return array.sort((previous, next) => {
-		return sortNewestFilter(previous, next, propertyName);
+function sortCollectionDescending(collection, propertyName = 'id', ifMatch) {
+	return collection.sort((previous, next) => {
+		return sortCollectionDescendingFilter(previous, next, propertyName, ifMatch);
 	});
 }
 
 /**
-  * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
-  *
-  * @function getNewest
-  * @category collection
-  * @type {Function}
-  * @param {Array} collection - Collection to be sorted.
-  * @param {String} propertyName - The property name to sort by based on it's value.
-  * @returns {Object} - The newest object in the collection.
-  *
-  * @example
-  * getNewest([{id: 1}, {id: 0}], 'id');
-  * // => {id: 1}
-*/
-function getNewest(collection, propertyName) {
-	return sortNewest(collection, propertyName, false)[0];
+ * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
+ *
+ * @function sortCollectionAlphabetically
+ * @category collection
+ * @type {Function}
+ * @param {Array} collection - Collection to be sorted.
+ * @param {String} propertyName - Name of property to compare.
+ * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
+ * @returns {Array} - The sorted array.
+ *
+ * @example
+ * import { sortCollectionAlphabetically, assert } from 'Acid';
+ * const result = [{"letter":"a"},{"letter":"c", g: 0},{"letter":"c", g: 2}, {letter:'f'}];
+ * const collect = [{letter:'a'}, {letter:'f'}, {"letter":"c", g: 2}, {letter:'c', g: 0}];
+ * const prop = 'letter';
+ * function ifMatchSort(c, n) {
+ * if (c.g < n.g) {
+ * return -1;
+ * }
+ * if (c.g > n.g) {
+ * return 1;
+	* }
+ * }
+ * assert(sortCollectionAlphabetically(collect, prop, ifMatchSort), result);
+ */
+function sortObjectsAlphabetically(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	return previousKey.localeCompare(nextKey);
+}
+function sortCollectionAlphabetically(collection, propertyName = 'id', ifMatch) {
+	return collection.sort((previous, next) => {
+		return sortObjectsAlphabetically(previous, next, propertyName, ifMatch);
+	});
 }
 
 /**
-  * Sorts an array in place using a key from oldest to newest.
-  *
-  * @function sortOldest
-  * @category collection
-  * @type {Function}
-  * @param {Array} collection - Collection to be sorted.
-  * @param {String} propertyName - The property name to sort by based on it's value.
-  * @param {Boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
-  * @returns {Array} - The sorted array and or a clone of the array sorted.
-  *
-  * @example
-  * sortOldest([{id: 1}, {id: 0}], 'id');
-  * // => [{id: 0}, {id: 1}]
-*/
-function sortOldestFilter(previous, next, propertyName) {
-	if (!next[propertyName]) {
+ * Sorts an array in place using a key in ascending order.
+ *
+ * @function sortCollectionAscending
+ * @category collection
+ * @type {Function}
+ * @param {Array} collection - Collection to be sorted.
+ * @param {String} propertyName - The property name to sort by based on it's value.
+ * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
+ * @returns {Array} - The sorted array and or a clone of the array sorted.
+ *
+ * @example
+ * import { sortCollectionAscending, assert } from 'Acid';
+ * const result = [{id: 0}, {id: 1}];
+ * const collect = [{id: 1}, {id: 0}];
+ * const prop = 'id';
+ * assert(sortCollectionAscending(collect, prop), result);
+ */
+function sortCollectionAscendingFilter(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	if (!nextKey) {
 		return 1;
-	} else if (!previous[propertyName]) {
+	} else if (!previousKey) {
 		return -1;
-	} else if (previous[propertyName] < next[propertyName]) {
+	} else if (previousKey < nextKey) {
 		return -1;
-	} else if (previous[propertyName] > next[propertyName]) {
+	} else if (previousKey > nextKey) {
 		return 1;
 	}
 	return 0;
 }
-function sortOldest(collection, key = 'id', pureMode = true) {
-	const source = (pureMode) ? collection : [...collection];
-	return source.sort((previous, next) => {
-		return sortOldestFilter(previous, next, key);
+function sortCollectionAscending(collection, propertyName = 'id', ifMatch) {
+	return collection.sort((previous, next) => {
+		return sortCollectionAscendingFilter(previous, next, propertyName, ifMatch);
 	});
 }
 
 /**
-  * Sorts an array in place using a key from oldest to newest and returns the oldest. Does not mutate the array.
-  *
-  * @function getOldest
-  * @category collection
-  * @type {Function}
-  * @param {Array} collection - Collection to be sorted.
-  * @param {String} key - The property name to sort by based on it's value.
-  * @returns {Object} - The newest object in the collection.
-  *
-  * @example
-  * getOldest([{id: 1}, {id: 0}], 'id');
-  * // => {id: 0}
-*/
-function getOldest(collection, key = 'id') {
-	return sortOldest(collection, key)[0];
+ * Sorts an array in place using a key from oldest to newest and returns the oldest. Does not mutate the array.
+ *
+ * @function getHighest
+ * @category collection
+ * @type {Function}
+ * @param {Array} collection - Collection to be sorted.
+ * @param {String} propertyName - The property name to sort by based on it's value.
+ * @returns {Object} - The newest object in the collection.
+ *
+ * @example
+ * import { getHighest, assert } from 'Acid';
+ * assert(getHighest([{id: 1}, {id: 0}], 'id'), {id: 0});
+ */
+function getHighest(collection, propertyName = 'id') {
+	return sortCollectionAscending(collection, propertyName)[0];
+}
+
+/**
+ * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
+ *
+ * @function getLowest
+ * @category collection
+ * @type {Function}
+ * @param {Array} collection - Collection to be sorted.
+ * @param {String} propertyName - The property name to sort by based on it's value.
+ * @returns {Object} - The newest object in the collection.
+ *
+ * @example
+ * import { getLowest, assert } from 'Acid';
+ * assert(getLowest([{id: 1}, {id: 0}], 'id'), {id: 1});
+ */
+function getLowest(collection, propertyName) {
+	return sortCollectionDescending(collection, propertyName, false)[0];
 }
 
 /**
@@ -2135,8 +2219,10 @@ function groupBy(collection, iteratee) {
  * @returns {Object} - Returns the composed aggregate object.
  *
  * @example
- * indexBy([{name: 'Lucy', id: 0}, {name: 'Erick', id: 1}], 'id');
- * // => { "0": {name: 'Lucy', id: 0}, "1": {name: 'Erick', id: 1}}
+ * import { indexBy, assert } from 'Acid';
+ * const result = { "0": {name: 'test', id: 0}, "1": {name: 'test2', id: 1}};
+ * const indexed = indexBy([{name: 'test', id: 0}, {name: 'test2', id: 1}], 'id');
+ * assert(indexed, result);
  */
 function indexBy(collection, propertyName = 'id') {
 	const sortedObject = {};
@@ -2256,33 +2342,6 @@ function pluckObject(source, pluckThese) {
 function pluckValues(collection, pluckThese) {
 	return mapArray(collection, (item) => {
 		return pluckObject(item, pluckThese);
-	});
-}
-
-/**
-   * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
-   *
-   * @function indexedAlphabetically
-   * @category collection
-   * @type {Function}
-   * @param {Array} collection - Collection to be sorted.
-   * @param {String} propertyName - Name of property to compare.
-   * @returns {Array} - The sorted array.
-   *
-   * @example
-   * indexedAlphabetically([{letter:'a'}, {letter:'f'}, {letter:'c'}], 'letter');
-   * // => [{"letter":"a"},{"letter":"c"},{"letter":"f"}]
- */
-function indexedAlphabetically(collection, propertyName) {
-	return collection.sort((current, next) => {
-		const currentKey = current[propertyName];
-		const nextKey = next[propertyName];
-		if (currentKey < nextKey) {
-			return -1;
-		} else if (currentKey > nextKey) {
-			return 1;
-		}
-		return 0;
 	});
 }
 
@@ -3832,24 +3891,6 @@ function increment(source) {
 }
 
 /**
- * Subtracts two numbers.
- *
- * @function minus
- * @category math
- * @type {Function}
- * @param {Number} minuend - The minuend.
- * @param {Number} subtrahend - The subtrahend.
- * @returns {Number} - Returns the difference.
- *
- * @example
- * import { minus, assert } from 'Acid';
- * assert(minus(3, 1), 2);
- */
-function minus(minuend, subtrahend) {
-	return minuend - subtrahend;
-}
-
-/**
  * Multiplies two numbers.
  *
  * @function multiply
@@ -3910,17 +3951,17 @@ function remainder(source, value) {
 /**
  * Subtract all numbers in the array starting from left to right & return the difference.
  *
- * @function sub
+ * @function subtractAll
  * @category math
  * @type {Function}
  * @param {Number[]} source - Array of numbers.
  * @returns {Number} - Returns the final difference.
  *
  * @example
- * import { sub, assert } from 'Acid';
- * assert(sub([10, 1, 2, 3]), 5);
+ * import { subtractAll, assert } from 'Acid';
+ * assert(subtractAll([10, 1, 2, 3]), 5);
  */
-function sub(source) {
+function subtractAll(source) {
 	return source.reduce((a, b) => {
 		return a - b;
 	}, 0);
@@ -3929,17 +3970,17 @@ function sub(source) {
 /**
  * Sum all numbers in a given array.
  *
- * @function sum
+ * @function sumAll
  * @category math
  * @type {Function}
  * @param {Number[]} source - Array of numbers.
  * @returns {Number} - Returns a single number.
  *
  * @example
- * import { sum, assert } from 'Acid';
- * assert(sum([10, 1, 2, 3]), 5);
+ * import { sumAll, assert } from 'Acid';
+ * assert(sumAll([10, 1, 2, 3]), 5);
  */
-function sum(source) {
+function sumAll(source) {
 	return source.reduce((a, b) => {
 		return a + b;
 	}, 0);
@@ -4184,6 +4225,89 @@ const isMatchObject = (source, target) => {
 };
 
 /**
+ * Checks if the value is a string.
+ *
+ * @function isString
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isString } from 'Acid';
+ * isString('Lucy');
+ * // => true
+ */
+const isString = isConstructorFactory(String);
+
+/**
+ * Checks if the value is a number.
+ *
+ * @function isNumber
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isNumber, assert } from 'Acid';
+ * assert(isNumber(1), true);
+ */
+const isNumberCall = isConstructorNameFactory('Number');
+const isNumber = isTypeFactory(isNumberCall);
+
+/**
+ * Checks if the value is a RegExp.
+ *
+ * @function isRegex
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isRegex, assert } from 'Acid';
+ * assert(isRegex(/test/), true);
+ */
+const isRegexCall = isConstructorNameFactory('RegExp');
+const isRegex = isTypeFactory(isRegexCall);
+
+/**
+ * Returns a regex safe special characters escaped version of a string.
+ *
+ * @function regexSafe
+ * @category object
+ * @type {Function}
+ * @param {Object} source - String to make safe.
+ * @returns {Object} - Returns a regex safe version of the string.
+ *
+ * @example
+ * import { regexSafe, assert } from 'Acid';
+ * assert(regexSafe(/.+/), '\/\.\+\/');
+ */
+const escapeRegexRegex = /[()[\]{}*+?^$|#.,/\\\s-]/g;
+function escapeRegex(source) {
+	return source.replace(escapeRegexRegex, '\\$&');
+}
+
+/**
+ * Convert array of strings to regex.
+ *
+ * @function arrayToRegex
+ * @category object
+ * @type {Function}
+ * @param {Object} source - Array of strings.
+ * @returns {Object} - Returns a regex safe version of the string.
+ *
+ * @example
+ * import { arrayToRegex, assert } from 'Acid';
+ * assert(String(arrayToRegex(['a','b'])), String(/a|b/));
+ */
+function arrayToRegex(source, makeSafe) {
+	if (makeSafe) {
+		return arrayToRegex(mapArray(source, escapeRegex));
+	}
+	return RegExp(source.join('|'));
+}
+
+/**
  * Returns a clone of the given object without the given properties.
  *
  * @function omit
@@ -4196,18 +4320,40 @@ const isMatchObject = (source, target) => {
  * @example
  * import { omit, assert } from 'Acid';
  * assert(omit({a:1, b:2}, ['a']), {b:2});
+ * assert(omit({a:1, b:2}, 'a'), {b:2});
+ * assert(omit({1:'test', b:2}, 1), {b:2});
  */
-function omit(source, blacklistArg) {
+function omit(source, blacklist) {
 	if (!source) {
 		return;
 	}
-	let blacklist = blacklistArg;
 	if (isArray(blacklist)) {
-		blacklist = RegExp(blacklist.join('|'));
+		const blacklistRegex = arrayToRegex(blacklist);
+		return filterObject(source, (item, key) => {
+			return !blacklistRegex.test(key);
+		});
 	}
-	return filterObject(source, (item, key) => {
-		return !blacklist.includes(key);
-	});
+	if (isRegex(blacklist)) {
+		return filterObject(source, (item, key) => {
+			return !blacklist.test(key);
+		});
+	}
+	if (isString(blacklist)) {
+		return filterObject(source, (item, key) => {
+			return key !== blacklist;
+		});
+	}
+	if (isNumber(blacklist)) {
+		const numberToString = blacklist.toString();
+		return filterObject(source, (item, key) => {
+			return key !== numberToString;
+		});
+	}
+	if (isFunction(blacklist)) {
+		return filterObject(source, (item, key) => {
+			return !blacklist(item, key);
+		});
+	}
 }
 
 /**
@@ -4787,21 +4933,6 @@ function isArguments(source) {
 }
 
 /**
- * Checks if the value is a number.
- *
- * @function isNumber
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isNumber, assert } from 'Acid';
- * assert(isNumber(1), true);
- */
-const isNumberCall = isConstructorNameFactory('Number');
-const isNumber = isTypeFactory(isNumberCall);
-
-/**
  * Checks if an object is null or undefined.
  *
  * @function noValue
@@ -5008,21 +5139,6 @@ const isDateCall = isConstructorNameFactory('Date');
 const isDate = isTypeFactory(isDateCall);
 
 /**
- * Checks if the value is a string.
- *
- * @function isString
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isString } from 'Acid';
- * isString('Lucy');
- * // => true
- */
-const isString = isConstructorFactory(String);
-
-/**
  * Checks if the value is empty.
  *
  * @function isEmpty
@@ -5042,6 +5158,25 @@ function isEmpty(source) {
 		return !objectSize(source);
 	}
 	return !hasValue(source);
+}
+
+/**
+ * Check if a value equals false using strict comparison.
+ *
+ * @function isFalse
+ * @category Utility
+ * @type {Function}
+ * @param {Boolean} source - Item to compare.
+ * @returns {Boolean} - Returns true if the item equals false.
+ *
+ * @example
+ * import { isFalse, assert } from 'Acid';
+ * assert(isFalse(1), false);
+ * assert(isFalse(true), false);
+ * assert(isFalse(false), true);
+ */
+function isFalse(source) {
+	return source === false;
 }
 
 /**
@@ -5240,21 +5375,6 @@ function isPrimitive(source) {
 }
 
 /**
- * Checks if the value is a RegExp.
- *
- * @function isRegex
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isRegex, assert } from 'Acid';
- * assert(isRegex(/test/), true);
- */
-const isRegexCall = isConstructorNameFactory('RegExp');
-const isRegex = isTypeFactory(isRegexCall);
-
-/**
  * Checks if objects are related to each other using instanceof. There is no required order for arguments given it will check all available ways.
  *
  * @function isRelated
@@ -5313,6 +5433,25 @@ function isSameType(source, other) {
 		}
 	}
 	return false;
+}
+
+/**
+ * Check if a value equals true using strict comparison.
+ *
+ * @function isTrue
+ * @category Utility
+ * @type {Function}
+ * @param {Boolean} source - Item to check.
+ * @returns {Boolean} - Returns true if the item is true.
+ *
+ * @example
+ * import { isTrue, assert } from 'Acid';
+ * assert(isTrue(1), false);
+ * assert(isTrue(true), true);
+ * assert(isTrue(false), false);
+ */
+function isTrue(source) {
+	return source === true;
 }
 
 /**
@@ -7311,5 +7450,5 @@ function isNodeList(source) {
 	return (hasValue(source)) ? source.toString() === objectNodeList : false;
 }
 
-export { Crate, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToObject, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cloneType, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsey, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getNewest, getOldest, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, importjs, inAsync, inSync, increment, indexBy, indexedAlphabetically, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isAgent, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isF32, isF32Call, isF64, isF64Call, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, minus, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, numSort, numericalCompare, numericalCompareReverse, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, rNumSort, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, setKey, setValue, shuffle, smallest, snakeCase, sortNewest, sortOldest, sortOldestFilter, sortUnique, sortedIndex, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, sub, sum, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Crate, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToObject, arrayToRegex, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clear, clearIntervals, clearTimers, clone, cloneArray, cloneType, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, crate, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, escapeRegex, escapeRegexRegex, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsey, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getExtensionRegex, getFileExtension, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isAgent, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isF32, isF32Call, isF64, isF64Call, isFalse, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNodeList, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, pluckValues, promise, propertyMatch, querySelector, querySelectorAll, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truey, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

@@ -1060,24 +1060,37 @@
 		}
 		return results;
 	}
-	const numericalCompare = (a, b) => {
-		return a - b;
-	};
 	/**
-	 * Sorts an array in place using a numerical comparison algorithm from lowest to highest.
+	 * Subtracts the subtrahend (second argument) from the minuend (first argument).
 	 *
-	 * @function numSort
-	 * @category array
+	 * @function subtract
+	 * @category math
 	 * @type {Function}
+	 * @param {Number} minuend - The minuend.
+	 * @param {Number} subtrahend - The subtrahend.
+	 * @returns {Number} - Returns the difference.
+	 *
+	 * @example
+	 * import { subtract, assert } from 'Acid';
+	 * assert(subtract(3, 1), 2);
+	 */
+	function subtract(minuend, subtrahend) {
+		return minuend - subtrahend;
+	}
+	/**
+	 * Sorts an array of numbers in ascending order. Smallest to largest.
+	 *
+	 * @function sortNumberAscending
+	 * @category array
 	 * @param {Array} numberList - Array of numbers.
 	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
-	 * numSort([10, 0, 2, 1]);
-	 * // => [0, 1, 2, 10]
+	 * import { sortNumberAscending, assert } from 'Acid';
+	 * assert(sortNumberAscending([10, 0, 2, 1]),  [0, 1, 2, 10]);
 	 */
-	function numSort(numberList) {
-		return numberList.sort(numericalCompare);
+	function sortNumberAscending(numberList) {
+		return numberList.sort(subtract);
 	}
 	/**
 	 * Takes all but the last item in the array.
@@ -1133,23 +1146,37 @@
 			failed
 		];
 	}
-	const numericalCompareReverse = (a, b) => {
-		return b - a;
-	};
 	/**
-	 * Sorts an array in place using a reverse numerical comparison algorithm from highest to lowest.
+	 * Subtracts the subtrahend (first argument) from the minuend (second argument). The arguments are reversed compared to the subtract function.
 	 *
-	 * @function rNumSort
+	 * @function subtractReverse
+	 * @category math
+	 * @type {Function}
+	 * @param {Number} minuend - The minuend.
+	 * @param {Number} subtrahend - The subtrahend.
+	 * @returns {Number} - Returns the difference.
+	 *
+	 * @example
+	 * import { subtractReverse, assert } from 'Acid';
+	 * assert(subtractReverse(1, 3), 2);
+	 */
+	function subtractReverse(subtrahend, minuend) {
+		return minuend - subtrahend;
+	}
+	/**
+	 * Sorts an array of numbers in descending order. Largest to smallest.
+	 *
+	 * @function sortNumberDescening
 	 * @category array
 	 * @param {Array} numberList - Array of numbers.
 	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
-	 * rNumSort([10, 0, 2, 1]);
-	 * // => [10, 2, 1, 0]
+	 * import { sortNumberDescening, assert } from 'Acid';
+	 * assert(sortNumberDescening([10, 0, 2, 1]), [10, 2, 1, 0]);
 	 */
-	function rNumSort(numberList) {
-		return numberList.sort(numericalCompareReverse);
+	function sortNumberDescening(numberList) {
+		return numberList.sort(subtractReverse);
 	}
 	/**
 	 * Removes all occurrences of the passed in items from the array and returns the array. This mutates the given array. Clone the array if you desire to avoid mutation.
@@ -1380,30 +1407,31 @@
 		return mathNativeMin(...array);
 	}
 	/**
-	 * Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list's sorted order.
+	 * What index should the number be inserted at to keep a sorted array still sorted.
 	 *
-	 * @function sortedIndex
+	 * @function getNumberInsertIndex
 	 * @category array
 	 * @type {Function}
-	 * @param {Array} array - Array to be sorted.
-	 * @param {Number} insertThis - Number to be inserted.
+	 * @param {Array} source - Array to be checked.
+	 * @param {Number} target - Number to check where to be inserted.
 	 * @returns {Number} - The index at which to insert.
 	 *
 	 * @example
-	 * sortedIndex([30, 50], 40);
-	 * // => 1
+	 * import { getNumberInsertIndex, assert } from 'Acid';
+	 * assert(getNumberInsertIndex([30, 39, 50], 40), 1);
 	 */
-	function sortedIndex(array, insertThis) {
-		let min = 0;
-		everyArray(array, (item, index) => {
-			min = index;
-			if (insertThis > item) {
+	function getNumberInsertIndex(source, target) {
+		let insertIndex = 0;
+		everyArray(source, (item, index) => {
+			insertIndex = index;
+			if (target >= item) {
+				insertIndex = index + 1;
 				return true;
 			} else {
 				return false;
 			}
 		});
-		return min;
+		return insertIndex;
 	}
 	/**
 	 * Returns a shallow copy of the array up to an amount.
@@ -1922,104 +1950,157 @@
 		return result === -1 ? false : result;
 	}
 	/**
-	 * Sorts an array in place using a key from newest to oldest.
+	 * Sorts an array in place using a key in descending order.
 	 *
-	 * @function sortNewest
+	 * @function sortCollectionDescending
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
 	 * @param {String} propertyName - The property name to sort by based on it's value.
-	 * @param {Boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
+	 * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
 	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
 	 * @example
-	 * sortNewest([{id: 1}, {id: 0}], 'id');
-	 * // => [{id: 1}, {id: 0}]
+	 * import { sortCollectionDescending, assert } from 'Acid';
+	 * const result = [{id: 1}, {id: 0}];
+	 * const collect = [{id: 0}, {id: 1}];
+	 * const prop = 'id';
+	 * assert(sortCollectionDescending(collect, prop), result);
 	 */
-	function sortNewestFilter(previous, next, propertyName) {
-		if (!next[propertyName]) {
+	function sortCollectionDescendingFilter(previous, next, propertyName, ifMatch) {
+		const previousKey = previous[propertyName];
+		const nextKey = next[propertyName];
+		if (previousKey === nextKey && ifMatch) {
+			return ifMatch(previous, next, propertyName);
+		}
+		if (!nextKey) {
 			return -1;
-		} else if (!previous[propertyName]) {
+		} else if (!previousKey) {
 			return 1;
-		} else if (previous[propertyName] < next[propertyName]) {
+		} else if (previousKey < nextKey) {
 			return 1;
-		} else if (previous[propertyName] > next[propertyName]) {
+		} else if (previousKey > nextKey) {
 			return -1;
 		}
 		return 0;
 	}
-	function sortNewest(collection, propertyName, pureMode = true) {
-		const array = pureMode ? collection : [...collection];
-		return array.sort((previous, next) => {
-			return sortNewestFilter(previous, next, propertyName);
+	function sortCollectionDescending(collection, propertyName = 'id', ifMatch) {
+		return collection.sort((previous, next) => {
+			return sortCollectionDescendingFilter(previous, next, propertyName, ifMatch);
 		});
 	}
 	/**
-	 * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
+	 * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
 	 *
-	 * @function getNewest
+	 * @function sortCollectionAlphabetically
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {String} propertyName - The property name to sort by based on it's value.
-	 * @returns {Object} - The newest object in the collection.
+	 * @param {String} propertyName - Name of property to compare.
+	 * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
+	 * @returns {Array} - The sorted array.
 	 *
 	 * @example
-	 * getNewest([{id: 1}, {id: 0}], 'id');
-	 * // => {id: 1}
+	 * import { sortCollectionAlphabetically, assert } from 'Acid';
+	 * const result = [{"letter":"a"},{"letter":"c", g: 0},{"letter":"c", g: 2}, {letter:'f'}];
+	 * const collect = [{letter:'a'}, {letter:'f'}, {"letter":"c", g: 2}, {letter:'c', g: 0}];
+	 * const prop = 'letter';
+	 * function ifMatchSort(c, n) {
+	 * if (c.g < n.g) {
+	 * return -1;
+	 * }
+	 * if (c.g > n.g) {
+	 * return 1;
+	 * }
+	 * }
+	 * assert(sortCollectionAlphabetically(collect, prop, ifMatchSort), result);
 	 */
-	function getNewest(collection, propertyName) {
-		return sortNewest(collection, propertyName, false)[0];
+	function sortObjectsAlphabetically(previous, next, propertyName, ifMatch) {
+		const previousKey = previous[propertyName];
+		const nextKey = next[propertyName];
+		if (previousKey === nextKey && ifMatch) {
+			return ifMatch(previous, next, propertyName);
+		}
+		return previousKey.localeCompare(nextKey);
+	}
+	function sortCollectionAlphabetically(collection, propertyName = 'id', ifMatch) {
+		return collection.sort((previous, next) => {
+			return sortObjectsAlphabetically(previous, next, propertyName, ifMatch);
+		});
 	}
 	/**
-	 * Sorts an array in place using a key from oldest to newest.
+	 * Sorts an array in place using a key in ascending order.
 	 *
-	 * @function sortOldest
+	 * @function sortCollectionAscending
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
 	 * @param {String} propertyName - The property name to sort by based on it's value.
-	 * @param {Boolean} [pureMode = true] - Mutates the source array. If set to false creates a new array.
+	 * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
 	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
 	 * @example
-	 * sortOldest([{id: 1}, {id: 0}], 'id');
-	 * // => [{id: 0}, {id: 1}]
+	 * import { sortCollectionAscending, assert } from 'Acid';
+	 * const result = [{id: 0}, {id: 1}];
+	 * const collect = [{id: 1}, {id: 0}];
+	 * const prop = 'id';
+	 * assert(sortCollectionAscending(collect, prop), result);
 	 */
-	function sortOldestFilter(previous, next, propertyName) {
-		if (!next[propertyName]) {
+	function sortCollectionAscendingFilter(previous, next, propertyName, ifMatch) {
+		const previousKey = previous[propertyName];
+		const nextKey = next[propertyName];
+		if (previousKey === nextKey && ifMatch) {
+			return ifMatch(previous, next, propertyName);
+		}
+		if (!nextKey) {
 			return 1;
-		} else if (!previous[propertyName]) {
+		} else if (!previousKey) {
 			return -1;
-		} else if (previous[propertyName] < next[propertyName]) {
+		} else if (previousKey < nextKey) {
 			return -1;
-		} else if (previous[propertyName] > next[propertyName]) {
+		} else if (previousKey > nextKey) {
 			return 1;
 		}
 		return 0;
 	}
-	function sortOldest(collection, key = 'id', pureMode = true) {
-		const source = pureMode ? collection : [...collection];
-		return source.sort((previous, next) => {
-			return sortOldestFilter(previous, next, key);
+	function sortCollectionAscending(collection, propertyName = 'id', ifMatch) {
+		return collection.sort((previous, next) => {
+			return sortCollectionAscendingFilter(previous, next, propertyName, ifMatch);
 		});
 	}
 	/**
 	 * Sorts an array in place using a key from oldest to newest and returns the oldest. Does not mutate the array.
 	 *
-	 * @function getOldest
+	 * @function getHighest
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {String} key - The property name to sort by based on it's value.
+	 * @param {String} propertyName - The property name to sort by based on it's value.
 	 * @returns {Object} - The newest object in the collection.
 	 *
 	 * @example
-	 * getOldest([{id: 1}, {id: 0}], 'id');
-	 * // => {id: 0}
+	 * import { getHighest, assert } from 'Acid';
+	 * assert(getHighest([{id: 1}, {id: 0}], 'id'), {id: 0});
 	 */
-	function getOldest(collection, key = 'id') {
-		return sortOldest(collection, key)[0];
+	function getHighest(collection, propertyName = 'id') {
+		return sortCollectionAscending(collection, propertyName)[0];
+	}
+	/**
+	 * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
+	 *
+	 * @function getLowest
+	 * @category collection
+	 * @type {Function}
+	 * @param {Array} collection - Collection to be sorted.
+	 * @param {String} propertyName - The property name to sort by based on it's value.
+	 * @returns {Object} - The newest object in the collection.
+	 *
+	 * @example
+	 * import { getLowest, assert } from 'Acid';
+	 * assert(getLowest([{id: 1}, {id: 0}], 'id'), {id: 1});
+	 */
+	function getLowest(collection, propertyName) {
+		return sortCollectionDescending(collection, propertyName, false)[0];
 	}
 	/**
 	 * Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
@@ -2059,8 +2140,10 @@
 	 * @returns {Object} - Returns the composed aggregate object.
 	 *
 	 * @example
-	 * indexBy([{name: 'Lucy', id: 0}, {name: 'Erick', id: 1}], 'id');
-	 * // => { "0": {name: 'Lucy', id: 0}, "1": {name: 'Erick', id: 1}}
+	 * import { indexBy, assert } from 'Acid';
+	 * const result = { "0": {name: 'test', id: 0}, "1": {name: 'test2', id: 1}};
+	 * const indexed = indexBy([{name: 'test', id: 0}, {name: 'test2', id: 1}], 'id');
+	 * assert(indexed, result);
 	 */
 	function indexBy(collection, propertyName = 'id') {
 		const sortedObject = {};
@@ -2175,32 +2258,6 @@
 	function pluckValues(collection, pluckThese) {
 		return mapArray(collection, (item) => {
 			return pluckObject(item, pluckThese);
-		});
-	}
-	/**
-	 * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
-	 *
-	 * @function indexedAlphabetically
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Collection to be sorted.
-	 * @param {String} propertyName - Name of property to compare.
-	 * @returns {Array} - The sorted array.
-	 *
-	 * @example
-	 * indexedAlphabetically([{letter:'a'}, {letter:'f'}, {letter:'c'}], 'letter');
-	 * // => [{"letter":"a"},{"letter":"c"},{"letter":"f"}]
-	 */
-	function indexedAlphabetically(collection, propertyName) {
-		return collection.sort((current, next) => {
-			const currentKey = current[propertyName];
-			const nextKey = next[propertyName];
-			if (currentKey < nextKey) {
-				return -1;
-			} else if (currentKey > nextKey) {
-				return 1;
-			}
-			return 0;
 		});
 	}
 	const getExtensionRegex = /\.([0-9a-z]+)/;
@@ -3690,23 +3747,6 @@
 		return source + 1;
 	}
 	/**
-	 * Subtracts two numbers.
-	 *
-	 * @function minus
-	 * @category math
-	 * @type {Function}
-	 * @param {Number} minuend - The minuend.
-	 * @param {Number} subtrahend - The subtrahend.
-	 * @returns {Number} - Returns the difference.
-	 *
-	 * @example
-	 * import { minus, assert } from 'Acid';
-	 * assert(minus(3, 1), 2);
-	 */
-	function minus(minuend, subtrahend) {
-		return minuend - subtrahend;
-	}
-	/**
 	 * Multiplies two numbers.
 	 *
 	 * @function multiply
@@ -3764,17 +3804,17 @@
 	/**
 	 * Subtract all numbers in the array starting from left to right & return the difference.
 	 *
-	 * @function sub
+	 * @function subtractAll
 	 * @category math
 	 * @type {Function}
 	 * @param {Number[]} source - Array of numbers.
 	 * @returns {Number} - Returns the final difference.
 	 *
 	 * @example
-	 * import { sub, assert } from 'Acid';
-	 * assert(sub([10, 1, 2, 3]), 5);
+	 * import { subtractAll, assert } from 'Acid';
+	 * assert(subtractAll([10, 1, 2, 3]), 5);
 	 */
-	function sub(source) {
+	function subtractAll(source) {
 		return source.reduce((a, b) => {
 			return a - b;
 		}, 0);
@@ -3782,17 +3822,17 @@
 	/**
 	 * Sum all numbers in a given array.
 	 *
-	 * @function sum
+	 * @function sumAll
 	 * @category math
 	 * @type {Function}
 	 * @param {Number[]} source - Array of numbers.
 	 * @returns {Number} - Returns a single number.
 	 *
 	 * @example
-	 * import { sum, assert } from 'Acid';
-	 * assert(sum([10, 1, 2, 3]), 5);
+	 * import { sumAll, assert } from 'Acid';
+	 * assert(sumAll([10, 1, 2, 3]), 5);
 	 */
-	function sum(source) {
+	function sumAll(source) {
 		return source.reduce((a, b) => {
 			return a + b;
 		}, 0);
@@ -4026,6 +4066,84 @@
 		return false;
 	};
 	/**
+	 * Checks if the value is a string.
+	 *
+	 * @function isString
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isString } from 'Acid';
+	 * isString('Lucy');
+	 * // => true
+	 */
+	const isString = isConstructorFactory(String);
+	/**
+	 * Checks if the value is a number.
+	 *
+	 * @function isNumber
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isNumber, assert } from 'Acid';
+	 * assert(isNumber(1), true);
+	 */
+	const isNumberCall = isConstructorNameFactory('Number');
+	const isNumber = isTypeFactory(isNumberCall);
+	/**
+	 * Checks if the value is a RegExp.
+	 *
+	 * @function isRegex
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isRegex, assert } from 'Acid';
+	 * assert(isRegex(/test/), true);
+	 */
+	const isRegexCall = isConstructorNameFactory('RegExp');
+	const isRegex = isTypeFactory(isRegexCall);
+	/**
+	 * Returns a regex safe special characters escaped version of a string.
+	 *
+	 * @function regexSafe
+	 * @category object
+	 * @type {Function}
+	 * @param {Object} source - String to make safe.
+	 * @returns {Object} - Returns a regex safe version of the string.
+	 *
+	 * @example
+	 * import { regexSafe, assert } from 'Acid';
+	 * assert(regexSafe(/.+/), '\/\.\+\/');
+	 */
+	const escapeRegexRegex = /[()[\]{}*+?^$|#.,/\\\s-]/g;
+	function escapeRegex(source) {
+		return source.replace(escapeRegexRegex, '\\$&');
+	}
+	/**
+	 * Convert array of strings to regex.
+	 *
+	 * @function arrayToRegex
+	 * @category object
+	 * @type {Function}
+	 * @param {Object} source - Array of strings.
+	 * @returns {Object} - Returns a regex safe version of the string.
+	 *
+	 * @example
+	 * import { arrayToRegex, assert } from 'Acid';
+	 * assert(String(arrayToRegex(['a','b'])), String(/a|b/));
+	 */
+	function arrayToRegex(source, makeSafe) {
+		if (makeSafe) {
+			return arrayToRegex(mapArray(source, escapeRegex));
+		}
+		return RegExp(source.join('|'));
+	}
+	/**
 	 * Returns a clone of the given object without the given properties.
 	 *
 	 * @function omit
@@ -4038,18 +4156,40 @@
 	 * @example
 	 * import { omit, assert } from 'Acid';
 	 * assert(omit({a:1, b:2}, ['a']), {b:2});
+	 * assert(omit({a:1, b:2}, 'a'), {b:2});
+	 * assert(omit({1:'test', b:2}, 1), {b:2});
 	 */
-	function omit(source, blacklistArg) {
+	function omit(source, blacklist) {
 		if (!source) {
 			return;
 		}
-		let blacklist = blacklistArg;
 		if (isArray(blacklist)) {
-			blacklist = RegExp(blacklist.join('|'));
+			const blacklistRegex = arrayToRegex(blacklist);
+			return filterObject(source, (item, key) => {
+				return !blacklistRegex.test(key);
+			});
 		}
-		return filterObject(source, (item, key) => {
-			return !blacklist.includes(key);
-		});
+		if (isRegex(blacklist)) {
+			return filterObject(source, (item, key) => {
+				return !blacklist.test(key);
+			});
+		}
+		if (isString(blacklist)) {
+			return filterObject(source, (item, key) => {
+				return key !== blacklist;
+			});
+		}
+		if (isNumber(blacklist)) {
+			const numberToString = blacklist.toString();
+			return filterObject(source, (item, key) => {
+				return key !== numberToString;
+			});
+		}
+		if (isFunction(blacklist)) {
+			return filterObject(source, (item, key) => {
+				return !blacklist(item, key);
+			});
+		}
 	}
 	/**
 	 * Returns a clone of the source object with the plucked properties.
@@ -4613,20 +4753,6 @@
 		return hasValue(source) ? source.toString() === objectArguments : false;
 	}
 	/**
-	 * Checks if the value is a number.
-	 *
-	 * @function isNumber
-	 * @category type
-	 * @param {*} source - Object to be checked.
-	 * @returns {Boolean} - Returns true or false.
-	 *
-	 * @example
-	 * import { isNumber, assert } from 'Acid';
-	 * assert(isNumber(1), true);
-	 */
-	const isNumberCall = isConstructorNameFactory('Number');
-	const isNumber = isTypeFactory(isNumberCall);
-	/**
 	 * Checks if an object is null or undefined.
 	 *
 	 * @function noValue
@@ -4825,20 +4951,6 @@
 	const isDateCall = isConstructorNameFactory('Date');
 	const isDate = isTypeFactory(isDateCall);
 	/**
-	 * Checks if the value is a string.
-	 *
-	 * @function isString
-	 * @category type
-	 * @param {*} source - Object to be checked.
-	 * @returns {Boolean} - Returns true or false.
-	 *
-	 * @example
-	 * import { isString } from 'Acid';
-	 * isString('Lucy');
-	 * // => true
-	 */
-	const isString = isConstructorFactory(String);
-	/**
 	 * Checks if the value is empty.
 	 *
 	 * @function isEmpty
@@ -4858,6 +4970,24 @@
 			return !objectSize(source);
 		}
 		return !hasValue(source);
+	}
+	/**
+	 * Check if a value equals false using strict comparison.
+	 *
+	 * @function isFalse
+	 * @category Utility
+	 * @type {Function}
+	 * @param {Boolean} source - Item to compare.
+	 * @returns {Boolean} - Returns true if the item equals false.
+	 *
+	 * @example
+	 * import { isFalse, assert } from 'Acid';
+	 * assert(isFalse(1), false);
+	 * assert(isFalse(true), false);
+	 * assert(isFalse(false), true);
+	 */
+	function isFalse(source) {
+		return source === false;
 	}
 	/**
 	 * Checks if an object or objects are a Float32Array.
@@ -5044,20 +5174,6 @@
 		return source === null || source === undefined || (type !== 'object' && type !== 'function');
 	}
 	/**
-	 * Checks if the value is a RegExp.
-	 *
-	 * @function isRegex
-	 * @category type
-	 * @param {*} source - Object to be checked.
-	 * @returns {Boolean} - Returns true or false.
-	 *
-	 * @example
-	 * import { isRegex, assert } from 'Acid';
-	 * assert(isRegex(/test/), true);
-	 */
-	const isRegexCall = isConstructorNameFactory('RegExp');
-	const isRegex = isTypeFactory(isRegexCall);
-	/**
 	 * Checks if objects are related to each other using instanceof. There is no required order for arguments given it will check all available ways.
 	 *
 	 * @function isRelated
@@ -5114,6 +5230,24 @@
 			}
 		}
 		return false;
+	}
+	/**
+	 * Check if a value equals true using strict comparison.
+	 *
+	 * @function isTrue
+	 * @category Utility
+	 * @type {Function}
+	 * @param {Boolean} source - Item to check.
+	 * @returns {Boolean} - Returns true if the item is true.
+	 *
+	 * @example
+	 * import { isTrue, assert } from 'Acid';
+	 * assert(isTrue(1), false);
+	 * assert(isTrue(true), true);
+	 * assert(isTrue(false), false);
+	 */
+	function isTrue(source) {
+		return source === true;
 	}
 	/**
 	 * Checks if an object or objects are a Uint16Array.
@@ -7075,6 +7209,7 @@
 	exports.append = append;
 	exports.apply = apply;
 	exports.arrayToObject = arrayToObject;
+	exports.arrayToRegex = arrayToRegex;
 	exports.ary = ary;
 	exports.assert = assert;
 	exports.assign = assign;
@@ -7127,6 +7262,8 @@
 	exports.eachRightAsync = eachRightAsync;
 	exports.ensureArray = ensureArray;
 	exports.ensureBuffer = ensureBuffer;
+	exports.escapeRegex = escapeRegex;
+	exports.escapeRegexRegex = escapeRegexRegex;
 	exports.eventAdd = eventAdd;
 	exports.eventRemove = eventRemove;
 	exports.every = every;
@@ -7172,8 +7309,9 @@
 	exports.getByTag = getByTag;
 	exports.getExtensionRegex = getExtensionRegex;
 	exports.getFileExtension = getFileExtension;
-	exports.getNewest = getNewest;
-	exports.getOldest = getOldest;
+	exports.getHighest = getHighest;
+	exports.getLowest = getLowest;
+	exports.getNumberInsertIndex = getNumberInsertIndex;
 	exports.getPropDesc = getPropDesc;
 	exports.getPropNames = getPropNames;
 	exports.getType = getType;
@@ -7195,7 +7333,6 @@
 	exports.inSync = inSync;
 	exports.increment = increment;
 	exports.indexBy = indexBy;
-	exports.indexedAlphabetically = indexedAlphabetically;
 	exports.info = info;
 	exports.initial = initial;
 	exports.initialString = initialString;
@@ -7236,6 +7373,7 @@
 	exports.isF32Call = isF32Call;
 	exports.isF64 = isF64;
 	exports.isF64Call = isF64Call;
+	exports.isFalse = isFalse;
 	exports.isFileCSS = isFileCSS;
 	exports.isFileHTML = isFileHTML;
 	exports.isFileJS = isFileJS;
@@ -7277,6 +7415,7 @@
 	exports.isSet = isSet;
 	exports.isSetCall = isSetCall;
 	exports.isString = isString;
+	exports.isTrue = isTrue;
 	exports.isTypeFactory = isTypeFactory;
 	exports.isTypedArray = isTypedArray;
 	exports.isU16 = isU16;
@@ -7304,7 +7443,6 @@
 	exports.mapRightArray = mapRightArray;
 	exports.mapWhile = mapWhile;
 	exports.merge = merge;
-	exports.minus = minus;
 	exports.model = model;
 	exports.multiply = multiply;
 	exports.negate = negate;
@@ -7313,9 +7451,6 @@
 	exports.noop = noop;
 	exports.notEqual = notEqual;
 	exports.nthArg = nthArg;
-	exports.numSort = numSort;
-	exports.numericalCompare = numericalCompare;
-	exports.numericalCompareReverse = numericalCompareReverse;
 	exports.objectSize = objectSize;
 	exports.omit = omit;
 	exports.once = once;
@@ -7332,7 +7467,6 @@
 	exports.propertyMatch = propertyMatch;
 	exports.querySelector = querySelector;
 	exports.querySelectorAll = querySelectorAll;
-	exports.rNumSort = rNumSort;
 	exports.randomFloat = randomFloat;
 	exports.randomInt = randomInt;
 	exports.range = range;
@@ -7359,19 +7493,25 @@
 	exports.shuffle = shuffle;
 	exports.smallest = smallest;
 	exports.snakeCase = snakeCase;
-	exports.sortNewest = sortNewest;
-	exports.sortOldest = sortOldest;
-	exports.sortOldestFilter = sortOldestFilter;
+	exports.sortCollectionAlphabetically = sortCollectionAlphabetically;
+	exports.sortCollectionAscending = sortCollectionAscending;
+	exports.sortCollectionAscendingFilter = sortCollectionAscendingFilter;
+	exports.sortCollectionDescending = sortCollectionDescending;
+	exports.sortCollectionDescendingFilter = sortCollectionDescendingFilter;
+	exports.sortNumberAscending = sortNumberAscending;
+	exports.sortNumberDescening = sortNumberDescening;
+	exports.sortObjectsAlphabetically = sortObjectsAlphabetically;
 	exports.sortUnique = sortUnique;
-	exports.sortedIndex = sortedIndex;
 	exports.stringify = stringify;
 	exports.stubArray = stubArray;
 	exports.stubFalse = stubFalse;
 	exports.stubObject = stubObject;
 	exports.stubString = stubString;
 	exports.stubTrue = stubTrue;
-	exports.sub = sub;
-	exports.sum = sum;
+	exports.subtract = subtract;
+	exports.subtractAll = subtractAll;
+	exports.subtractReverse = subtractReverse;
+	exports.sumAll = sumAll;
 	exports.take = take;
 	exports.takeRight = takeRight;
 	exports.themes = themes;

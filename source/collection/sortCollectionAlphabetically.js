@@ -30,12 +30,7 @@ export function sortObjectsAlphabetically(previous, next, propertyName, ifMatch)
 	if (previousKey === nextKey && ifMatch) {
 		return ifMatch(previous, next, propertyName);
 	}
-	if (previousKey < nextKey) {
-		return -1;
-	} else if (previousKey > nextKey) {
-		return 1;
-	}
-	return 0;
+	return previousKey.localeCompare(nextKey);
 }
 export function sortCollectionAlphabetically(collection, propertyName = 'id', ifMatch) {
 	return collection.sort((previous, next) => {

@@ -11,18 +11,18 @@ import { everyArray } from './every.js';
  *
  * @example
  * import { getNumberInsertIndex, assert } from 'Acid';
- * assert(getNumberInsertIndex([50,35, 30], 40), 1);
+ * assert(getNumberInsertIndex([30, 39, 50], 40), 1);
  */
 export function getNumberInsertIndex(source, target) {
 	let insertIndex = 0;
 	everyArray(source, (item, index) => {
+		insertIndex = index;
 		if (target >= item) {
-			insertIndex = index;
-			return false;
-		} else {
+			insertIndex = index + 1;
 			return true;
+		} else {
+			return false;
 		}
 	});
 	return insertIndex;
 }
-
