@@ -6,8 +6,17 @@
 </pre>
 ---
 
-### [v3.0.30](https://github.com/universalweb/Acid/compare/v3.0.30...v3.0.30) 
-DATE: 2023-06-06
+### [v3.0.31](https://github.com/universalweb/Acid/compare/v3.0.31...v3.0.31) 
+DATE: 2023-06-07
+
+---
+### [v3.0.31](https://github.com/universalweb/Acid/compare/v3.0.30...v3.0.31) 
+DATE: 2023-06-07
+
+### Commits
+
+- Upgrade to 3.0.31 [`f1d3e04`](https://github.com/universalweb/Acid/commit/f1d3e04cba036fb179c525b53e70ffa93889d9f8)
+- Version Update [`8a8b128`](https://github.com/universalweb/Acid/commit/8a8b128c8ba9d5b75405c372dd03e4369c622958)
 
 ---
 ### [v3.0.30](https://github.com/universalweb/Acid/compare/v3.0.29...v3.0.30) 
