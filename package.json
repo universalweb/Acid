@@ -1,6 +1,6 @@
 {
-    "name": "Acid",
-    "version": "3.0.30",
+    "name": "@universalweb/acid",
+    "version": "3.0.31",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library.",
     "keywords": [
         "Acid",
@@ -16,13 +16,13 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/universalweb/Acid.git",
-        "directory": "npm"
+        "directory": "package"
     },
     "license": "ISC",
     "maintainers": [
         {
             "name": "UniversalWeb",
-            "email": "info@universalweb",
+            "email": "info@universal.web",
             "url": "uw://universalweb"
         },
         {
@@ -44,7 +44,9 @@
         "changelog": "npx auto-changelog -p --sort-commits date-desc && git add CHANGELOG.md",
         "compile": "production=true node index.js",
         "npmVersion": "cd ./package/ && npm version patch --force",
-        "pub": "npm update && npm run compile && npm run versionBump && npm run changelog && npm publish ./package/",
+        "pubNPM": "npm publish ./npm/",
+        "pubGithub": "npm publish ./github/",
+        "pubit": "npm run versionBump && npm run compile && npm run changelog && npm run pubNPM && npm run pubGithub",
         "versionBump": "npm version patch -m \"Upgrade to %s\" --force && npm run npmVersion"
     },
     "dependencies": {
@@ -54,15 +56,15 @@
         "@microsoft/eslint-formatter-sarif": "^3.0.0",
         "@rollup/plugin-node-resolve": "^15.0.2",
         "@rollup/plugin-terser": "*",
+        "@universalweb/docredux": "^3.0.9",
         "auto-changelog": "^2.4.0",
         "body-parser": "1.20.2",
         "connect-livereload": "0.6.1",
         "daisyui": "^2.51.3",
-        "docredux": "^3.0.8",
         "eslint": "^8.35.0",
         "eslint-plugin-import": "^2.27.5",
         "eslint-plugin-jsdoc": "*",
-        "express": "*",
+        "express": "^4.18.2",
         "magic-string": "*",
         "node-watch": "*",
         "rollup": "*",
@@ -82,5 +84,8 @@
         "#type/*": "./source/type/*.js"
     },
     "company": "Universal Web",
-    "readme": "README.md"
+    "readme": "README.md",
+    "devDependencies": {
+        "rollup-plugin-node-externals": "^6.1.1"
+    }
 }
