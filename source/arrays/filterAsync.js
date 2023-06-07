@@ -15,7 +15,7 @@ import { eachAsyncArray } from './eachAsync.js';
  * @returns {Array} - An array with properties that passed the test.
  *
  * @example
- * import { filterAsyncArray, assert } from 'Acid';
+ * import { filterAsyncArray, assert } from '@universalweb/acid';
  * assert(filterAsyncArray([false, true, true], (item) => {
  *   return item;
  * }), [true, true]);

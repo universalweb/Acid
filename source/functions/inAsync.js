@@ -11,7 +11,7 @@
  * @returns {Object} - The originally given array.
  *
  * @example
- * import { inAsync, assert } from 'Acid';
+ * import { inAsync, assert } from '@universalweb/acid';
  * const list = [];
  * await inAsync([async (firstArgument, item, index) => {
  *   list.push(index + firstArgument.a);

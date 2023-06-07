@@ -6,7 +6,7 @@
  * @type {Function}
  * @returns {Array} - Returns the new empty array.
  * @example
- * import { stubArray } from 'Acid';
+ * import { stubArray } from '@universalweb/acid';
  * stubArray();
  * // => []
  */

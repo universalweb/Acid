@@ -8,7 +8,7 @@ import { hasValue } from './hasValue.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isIterable, assert } from 'Acid';
+ * import { isIterable, assert } from '@universalweb/acid';
  * assert(isIterable([]), true);
  * assert(isIterable(new Int8Array()), true);
  * assert(isIterable('test'), false);

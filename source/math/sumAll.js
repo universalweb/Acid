@@ -8,7 +8,7 @@
  * @returns {Number} - Returns a single number.
  *
  * @example
- * import { sumAll, assert } from 'Acid';
+ * import { sumAll, assert } from '@universalweb/acid';
  * assert(sumAll([10, 1, 2, 3]), 5);
  */
 export function sumAll(source) {

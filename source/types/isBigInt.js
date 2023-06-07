@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isBigInt, assert } from 'Acid';
+ * import { isBigInt, assert } from '@universalweb/acid';
  * assert(isBigInt(BigInt(123)), true);
  */
 export const isBigIntCall = isConstructorNameFactory('BigInt');

@@ -10,7 +10,7 @@ import { isFunction } from '../types/isFunction.js';
  * @returns {*} - Returns the method invoked or undefined.
  *
  * @example
- * import { ifInvoke, assert } from 'Acid';
+ * import { ifInvoke, assert } from '@universalweb/acid';
  * assert(ifInvoke((...args) => { return args;}, 1, 2), [1, 2]);
  */
 export function ifInvoke(callable, ...args) {

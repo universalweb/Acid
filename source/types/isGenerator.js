@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isGenerator } from 'Acid';
+ * import { isGenerator } from '@universalweb/acid';
  * isGenerator(function* (){});
  * // => true
  */

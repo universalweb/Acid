@@ -8,7 +8,7 @@
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isChild, construct, assert } from 'Acid';
+ * import { isChild, construct, assert } from '@universalweb/acid';
  * class Grandparent{}
  * class Parent extends Grandparent{}
  * class Child extends Parent{}

@@ -17,7 +17,7 @@ import { isTypedArray } from './isTypedArray.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isArrayLike, assert } from 'Acid';
+ * import { isArrayLike, assert } from '@universalweb/acid';
  * assert(isArrayLike([]), true);
  * assert(isArrayLike(2), false);
  */

@@ -8,7 +8,7 @@
  * @returns {Number} - Returns the final difference.
  *
  * @example
- * import { subtractAll, assert } from 'Acid';
+ * import { subtractAll, assert } from '@universalweb/acid';
  * assert(subtractAll([10, 1, 2, 3]), 5);
  */
 export function subtractAll(source) {

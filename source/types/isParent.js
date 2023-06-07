@@ -8,7 +8,7 @@
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isParent, construct, assert } from 'Acid';
+ * import { isParent, construct, assert } from '@universalweb/acid';
  * class parentClass{}
  * class otherClass{}
  * const child1 = construct(parentClass);

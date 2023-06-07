@@ -14,7 +14,7 @@ import { construct } from '../classes/construct.js';
  * @returns {UniqID} - Returns a new instance of UniqID.
  *
  * @example
- * import { UniqID, construct, assert } from 'Acid';
+ * import { UniqID, construct, assert } from '@universalweb/acid';
  * const gen = construct(UniqID);
  * assert(gen.get(), 0);
  * assert(gen.get(), 1);
@@ -35,7 +35,7 @@ export class UniqID {
 	 * @returns {Number} - Returns a unique id.
 	 *
 	 * @example
-	 * import { UniqID, construct, assert } from 'Acid';
+	 * import { UniqID, construct, assert } from '@universalweb/acid';
 	 * const gen = construct(UniqID);
 	 * assert(gen.get(), 0);
 	 */
@@ -60,7 +60,7 @@ export class UniqID {
 	 * @returns {undefined} - Nothing is returned.
 	 *
 	 * @example
-	 * import { UniqID, construct, assert } from 'Acid';
+	 * import { UniqID, construct, assert } from '@universalweb/acid';
 	 * const gen = construct(UniqID);
 	 * assert(gen.get(), 0);
 	 * gen.free(0);
@@ -88,7 +88,7 @@ export class UniqID {
  * @category utility
  *
  * @example
- * import { uniqID, assert } from 'Acid';
+ * import { uniqID, assert } from '@universalweb/acid';
  * assert(uniqID.get(), 0);
  * assert(uniqID.get(), 1);
  * uniqID.free(0);

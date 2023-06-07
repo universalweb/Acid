@@ -14,7 +14,7 @@ import { eachArray } from './each.js';
  * @returns {Array} - An array of the same calling array's type.
  *
  * @example
- * import { mapRightArray, assert } from 'Acid';
+ * import { mapRightArray, assert } from '@universalweb/acid';
  * assert(mapRightArray([1, 2, 3], (item) => {
  *   return item * 2;
  * }), [6, 4, 2]);

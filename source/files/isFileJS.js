@@ -8,7 +8,7 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * isFileJS('test.js');
- * // => true
-*/
+ * import { isFileJS, assert } from '@universalweb/acid';
+ * assert(isFileJS('test.js'), true);
+ */
 export const isFileJS = regexTestFactory(/\.js$/);

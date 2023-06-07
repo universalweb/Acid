@@ -8,7 +8,7 @@ import { isConstructorFactory } from './isConstructor.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isString } from 'Acid';
+ * import { isString } from '@universalweb/acid';
  * isString('Lucy');
  * // => true
  */

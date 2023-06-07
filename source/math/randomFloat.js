@@ -10,7 +10,7 @@ const { random } = Math;
  * @returns {Number} - Returns random integer between the max and min range.
  *
  * @example
- * import { randomFloat, assert } from 'Acid';
+ * import { randomFloat, assert } from '@universalweb/acid';
  * assert(randomFloat(10, 0), (value) => { return value > 0 && value < 10;});
  * // => 9.1
  */

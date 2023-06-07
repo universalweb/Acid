@@ -14,7 +14,7 @@ import { assert } from './assert.js';
  * @returns {Object|Function|Array} - Returns the collection of bound functions or the assign target provided.
  *
  * @example
- * import { assert, bindAll } from 'Acid';
+ * import { assert, bindAll } from '@universalweb/acid';
  * const bounded = bindAll([function () { return this;}], 'Bounded');
  * assert(bounded[0](), 'Bounded');
  */

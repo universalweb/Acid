@@ -7,7 +7,7 @@
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isArray, assert } from 'Acid';
+ * import { isArray, assert } from '@universalweb/acid';
  * assert(isArray([]), true);
  * assert(isArray(2), false);
  */

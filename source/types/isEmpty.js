@@ -13,7 +13,7 @@ import { hasValue } from './hasValue.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isEmpty } from 'Acid';
+ * import { isEmpty } from '@universalweb/acid';
  * isEmpty([]);
  * // => true
  */

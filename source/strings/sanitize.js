@@ -13,7 +13,7 @@ const doubleQuoteRegex = /"/g;
  * @returns {String} - Converted string into the decoded URI Component .
  *
  * @example
- * import { rawURLDecode, assert } from 'Acid';
+ * import { rawURLDecode, assert } from '@universalweb/acid';
  * rawURLDecode('Lucy%20saw%20diamonds%20in%20the%20sky.');
  * // => 'Lucy saw diamonds in the sky.'
  */
@@ -32,7 +32,7 @@ export function rawURLDecode(string) {
  * @returns {String} - Replaced string.
  *
  * @example
- * import { htmlEntities, assert } from 'Acid';
+ * import { htmlEntities, assert } from '@universalweb/acid';
  * htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`);
  * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
  */
@@ -52,7 +52,7 @@ export function htmlEntities(string) {
  * @returns {String} - Replaced string.
  *
  * @example
- * import { sanitize, assert } from 'Acid';
+ * import { sanitize, assert } from '@universalweb/acid';
  * sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`);
  * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
  */

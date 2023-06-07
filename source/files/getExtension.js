@@ -1,4 +1,3 @@
-export const getExtensionRegex = /\.([0-9a-z]+)/;
 /**
  * Return the file extension.
  *
@@ -8,12 +7,11 @@ export const getExtensionRegex = /\.([0-9a-z]+)/;
  * @returns {String} - Returns the extension.
  *
  * @example
- * getFileExtension('test.js');
- * // => 'js'
-*/
+ * import { getFileExtension, assert } from '@universalweb/acid';
+ * assert(getFileExtension('test.js'),'js');
+ */
 export function getFileExtension(source) {
-	const match = source.match(getExtensionRegex);
-	if (match) {
-		return match[1];
+	if (source) {
+		return source.substring(source.lastIndexOf('.') + 1);
 	}
 }

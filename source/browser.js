@@ -1,4 +1,4 @@
-export * from './index.js';
+export * from './basic.js';
 export * from './browser/agent.js';
 export * from './browser/event.js';
 export * from './browser/isEnter.js';

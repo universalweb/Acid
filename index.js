@@ -1,4 +1,4 @@
-import { buildJson } from 'docredux';
+import { buildJson } from '@universalweb/docredux';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const currentDirname = path.dirname(fileURLToPath(import.meta.url));
@@ -17,9 +17,11 @@ import liveReload from 'connect-livereload';
 import fs from 'fs';
 import watch from 'node-watch';
 import express from 'express';
+import { copyFolder } from './source/filesystem/copyFolder.js';
 const app = express();
 const expressRoot = '/';
 const expressPort = 8890;
+import nodeExternals from 'rollup-plugin-node-externals';
 async function liveServer() {
 	const port = 35729;
 	const server = await (new tinyLR.Server({
@@ -105,38 +107,43 @@ const build = async () => {
 	console.log('Build Server START');
 	const index = await rollup({
 		input: './source/index.js',
-		plugins: [nodeResolve()]
+		plugins: [nodeExternals({
+			builtinsPrefix: 'ignore'
+		}), nodeResolve()],
 	});
 	const indexProduction = await rollup({
 		input: './source/index.js',
 		plugins: [
+			nodeExternals({
+				builtinsPrefix: 'ignore'
+			}),
 			nodeResolve(),
 			terser()
-		]
+		],
 	});
 	await index.write({
 		file: './build/index.bundle.js',
 		format: 'umd',
 		name: '$',
-		sourcemap: true
+		sourcemap: true,
 	});
 	await index.write({
 		file: './build/module/bundle.js',
 		format: 'es',
 		name: '$',
-		sourcemap: true
+		sourcemap: true,
 	});
 	await indexProduction.write({
 		file: './build/index.js',
 		format: 'umd',
 		name: '$',
-		sourcemap: true
+		sourcemap: true,
 	});
 	await indexProduction.write({
 		file: './build/module/index.js',
 		format: 'es',
 		name: '$',
-		sourcemap: true
+		sourcemap: true,
 	});
 	await beautify('./build/index.bundle.js');
 	copyFile('./build/index.bundle.js', './docs/index.bundle.js');
@@ -155,6 +162,8 @@ const build = async () => {
 	copyFile('./LICENSE', './package/LICENSE');
 	copyFile('./README.md', './package/README.md');
 	console.log('package Complete');
+	await copyFolder(path.join(currentDirname, './package/'), path.join(currentDirname, './github/'));
+	await copyFolder(path.join(currentDirname, './package/'), path.join(currentDirname, './npm/'));
 	console.log('Build Complete');
 };
 build();

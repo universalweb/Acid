@@ -13,7 +13,7 @@ const {
  * @returns {Number} - Returns random integer between the max and min range.
  *
  * @example
- * import { randomInt, assert } from 'Acid';
+ * import { randomInt, assert } from '@universalweb/acid';
  * assert(randomInt(10, 0), (value) => { return value > 0 && value < 10;});
  */
 export function randomInt(max, min = 0) {

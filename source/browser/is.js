@@ -10,7 +10,7 @@ import { difference } from '../arrays/difference.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isDom, assert } from 'Acid';
+ * import { isDom, assert } from '@universalweb/acid';
  * assert(isDom(document.querySelectorAll('head')), true);
  */
 export function isDom(source) {
@@ -26,7 +26,7 @@ export function isDom(source) {
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isHTMLCollection, assert } from 'Acid';
+ * import { isHTMLCollection, assert } from '@universalweb/acid';
  * document.body.innerHTML = '<div class="test"></div>';
  * assert(isHTMLCollection(document.getElementsByClassName('test')), true);
  */
@@ -44,7 +44,7 @@ export function isHTMLCollection(source) {
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isNodeList, assert } from 'Acid';
+ * import { isNodeList, assert } from '@universalweb/acid';
  * document.body.innerHTML = '<div class="test"></div>';
  * assert(isNodeList(document.querySelectorAll('.test')), true);
  */

@@ -7,7 +7,7 @@
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { getType, assert } from 'Acid';
+ * import { getType, assert } from '@universalweb/acid';
  * assert(getType(1), true);
  */
 export function getType(source) {

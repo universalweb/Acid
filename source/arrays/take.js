@@ -9,7 +9,7 @@
  * @returns {Array} - The aggregated array.
  *
  * @example
- * import { take, assert } from 'Acid';
+ * import { take, assert } from '@universalweb/acid';
  * assert(take([1,2,3], 2), [1, 2]);
  */
 export function take(source, endIndex = 1) {

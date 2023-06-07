@@ -9,7 +9,7 @@ import { map } from '../utilities/map.js';
  * @returns {Function} - Returns the new over wrapped function.
  *
  * @example
- * import { overEvery, assert } from 'Acid';
+ * import { overEvery, assert } from '@universalweb/acid';
  * assert(over([Math.max, Math.min])(1, 2, 3, 4), [4, 1]);
  */
 export function over(iteratees) {

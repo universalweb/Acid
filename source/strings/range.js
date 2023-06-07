@@ -10,7 +10,7 @@
  * @returns {String} - The string with the text inserted at the given point.
  *
  * @example
- * import { insertInRange, assert } from 'Acid';
+ * import { insertInRange, assert } from '@universalweb/acid';
  * insertInRange('A from Lucy.', 1, ' tab');
  * // => 'A tab from Lucy.'
  */
@@ -28,7 +28,7 @@ export function insertInRange(string, index, text) {
  * @returns {String} - A letter at the given index.
  *
  * @example
- * import { rightString, assert } from 'Acid';
+ * import { rightString, assert } from '@universalweb/acid';
  * rightString('rightString');
  * // => 'g'
  * rightString('rightString', 2);
@@ -48,7 +48,7 @@ export function rightString(string, index = 1) {
  * @returns {Array} - An array with strings that are <= size parameter.
  *
  * @example
- * import { chunkString, assert } from 'Acid';
+ * import { chunkString, assert } from '@universalweb/acid';
  * chunkString('chunk', 2);
  * // => ['ch', 'un', 'k']
  */
@@ -66,7 +66,7 @@ export function chunkString(string, size) {
  * @returns {String} - A string with the characters before the index starting from the right.
  *
  * @example
- * import { initialString, assert } from 'Acid';
+ * import { initialString, assert } from '@universalweb/acid';
  * initialString('initialString');
  * // => 'initialStrin'
  * initialString('initialString', 2);
@@ -86,7 +86,7 @@ export function initialString(string, index = 1) {
  * @returns {String} - A string without the characters up-to to the index.
  *
  * @example
- * import { restString, assert } from 'Acid';
+ * import { restString, assert } from '@universalweb/acid';
  * restString('restString');
  * // => 'estString'
  * restString('restString', 2);

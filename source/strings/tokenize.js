@@ -10,7 +10,7 @@ const wordsRegEx = /\w+/g;
  * @returns {Array} - Array of words without white space characters.
  *
  * @example
- * import { tokenize, assert } from 'Acid';
+ * import { tokenize, assert } from '@universalweb/acid';
  * tokenize('I am Lucy!');
  * // => ["I", "am", "Lucy!"]
  */
@@ -26,7 +26,7 @@ export function tokenize(string) {
  * @returns {Array} - Array of words with word characters only.
  *
  * @example
- * import { words, assert } from 'Acid';
+ * import { words, assert } from '@universalweb/acid';
  * words('I am Lucy!');
  * // => ["I", "am", "Lucy"]
  */

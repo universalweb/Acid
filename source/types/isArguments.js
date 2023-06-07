@@ -8,7 +8,7 @@ import { hasValue } from './hasValue.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isArguments, assert } from 'Acid';
+ * import { isArguments, assert } from '@universalweb/acid';
  * assert(isArguments((function() { return arguments;})()), true);
  * assert(isArguments([]), false);
  */

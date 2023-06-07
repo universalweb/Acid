@@ -12,7 +12,7 @@ import { returnValue } from './returnValue.js';
  * @returns {Array} - The array from Promise.allSettled.
  *
  * @example
- * import { concurrentStatus, assert } from 'Acid';
+ * import { concurrentStatus, assert } from '@universalweb/acid';
  * const tempList = [];
  * await concurrentStatus([1, 2], async (item) => {
  *   return item;

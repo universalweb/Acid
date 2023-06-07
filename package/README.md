@@ -1,26 +1,26 @@
 
-# What is Acid?
+# What is Acidjs?
 
-**[Acid](https://acidjs.com) is a robust, modern, modular, & async focused Javascript utility library.**
+**[Acidjs](https://acidjs.com) is a robust, modern, modular, & async focused Javascript utility library.**
 
-### INSTALL Acid
+### INSTALL Acidjs
 
 `npm i Acid` (Case sensitive)
 
 ### NodeJS Module Import Syntax
 
-`const { isArray } = require('Acid');`  
-`const utility = require('Acid');`  
+`const { isArray } = require('@universalweb@acid');`  
+`const utility = require('@universalweb@acid');`  
 
 ### ES Module Import Syntax
 
-`import { isArray } from 'Acid';`  
-`import * as utility from 'Acid';`  
+`import { isArray } from '@universalweb@acid';`  
+`import * as utility from '@universalweb@acid';`  
 
 ### ES Browser Module Import Syntax
 
-`import { isArray } from './Acid/browser.es.js';`  
-`import * as utility from './Acid/browser.es.js';`  
+`import { isArray } from './browser.es.js';`  
+`import * as utility from './browser.es.js';`  
 
 ### Script tag
 

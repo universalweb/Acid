@@ -10,7 +10,7 @@ import { mapArray } from '../arrays/map.js';
  * @returns {Object} - Returns a regex safe version of the string.
  *
  * @example
- * import { arrayToRegex, assert } from 'Acid';
+ * import { arrayToRegex, assert } from '@universalweb/acid';
  * assert(String(arrayToRegex(['a','b'])), String(/a|b/));
  */
 export function arrayToRegex(source, makeSafe) {

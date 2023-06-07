@@ -8,7 +8,7 @@
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isZero, assert } from 'Acid';
+ * import { isZero, assert } from '@universalweb/acid';
  * assert(isZero(0), true);
  */
 export function isZero(source) {

@@ -8,7 +8,7 @@ const { isInteger } = Number;
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isFloat } from 'Acid';
+ * import { isFloat } from '@universalweb/acid';
  * isFloat(1.01);
  * // => true
  */

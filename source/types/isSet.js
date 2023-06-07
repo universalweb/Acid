@@ -10,7 +10,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isSet, assert } from 'Acid';
+ * import { isSet, assert } from '@universalweb/acid';
  * assert(isSet(new Set()), true);
  */
 export const isSetCall = isConstructorNameFactory('Set');

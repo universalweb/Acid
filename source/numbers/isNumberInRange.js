@@ -10,7 +10,7 @@
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isNumberInRange, assert } from 'Acid';
+ * import { isNumberInRange, assert } from '@universalweb/acid';
  * assert(isNumberInRange(1, 0, 2), true);
  * assert(isNumberInRange(1, 2, 5), false);
  */

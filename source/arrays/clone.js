@@ -8,7 +8,7 @@
  * @returns {Array} - The newly cloned array with assigned items.
  *
  * @example
- * import { cloneArray, assert } from 'Acid';
+ * import { cloneArray, assert } from '@universalweb/acid';
  * assert(cloneArray([1,'B', 'Cat']), [1, 'B', 'Cat']);
  */
 export function cloneArray(source) {

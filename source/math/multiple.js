@@ -9,7 +9,7 @@
  * @returns {Number} - Returns the product of the arguments.
  *
  * @example
- * import { multiply, assert } from 'Acid';
+ * import { multiply, assert } from '@universalweb/acid';
  * assert(multiply(10, 5), 50);
  */
 export function multiply(source, value) {

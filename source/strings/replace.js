@@ -10,7 +10,7 @@
  * @returns {String} - The string with the replacement.
  *
  * @example
- * import { replaceList, assert } from 'Acid';
+ * import { replaceList, assert } from '@universalweb/acid';
  * replaceList('Her name was user.', ['user'], 'Lucy');
  * // => 'Her name was Lucy.'
  */

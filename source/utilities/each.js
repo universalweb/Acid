@@ -18,7 +18,7 @@ import { generateLoop } from './generateLoop.js';
  * @returns {Array | object | Function} - The originally given object.
  *
  * @example
- * import { each, assert } from 'Acid';
+ * import { each, assert } from '@universalweb/acid';
  * const list = {};
  * each({a: 1, b: 2, c: 3}, (item, key) => {
  *   list[key] = item;

@@ -9,7 +9,7 @@
  * @returns {Number} - Returns the sum of the arguments.
  *
  * @example
- * import { add, assert } from 'Acid';
+ * import { add, assert } from '@universalweb/acid';
  * assert(add(1, 1), 2);
  */
 export function add(augend, addend) {

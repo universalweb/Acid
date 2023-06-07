@@ -8,7 +8,7 @@ import { hasValue } from './hasValue.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isFunction } from 'Acid';
+ * import { isFunction } from '@universalweb/acid';
  * isFunction(() => {});
  * // => true
  */

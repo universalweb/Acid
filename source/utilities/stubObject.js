@@ -7,7 +7,7 @@
  * @returns {Object} - Returns the new empty object.
  *
  * @example
- * import { stubObject } from 'Acid';
+ * import { stubObject } from '@universalweb/acid';
  * stubObject();
  * // => {}
  */

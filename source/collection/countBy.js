@@ -11,7 +11,7 @@ import { chunk } from '../arrays/chunk.js';
  * @returns {Object} - Returns the composed aggregate object.
  *
  * @example
- * import { countBy, assert } from 'Acid';
+ * import { countBy, assert } from '@universalweb/acid';
  * assert(countBy([{a:1}, {a:3}], (item) => { return 'a';}), {a: 2});
  */
 export function countBy(collection, iteratee) {

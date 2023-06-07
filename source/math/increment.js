@@ -8,7 +8,7 @@
  * @returns {Number} - Returns an incremented version of the number.
  *
  * @example
- * import { multiply, assert } from 'Acid';
+ * import { multiply, assert } from '@universalweb/acid';
  * assert(multiply(10, 5), 50);
  * increment(10);
  * // => 11

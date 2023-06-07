@@ -9,7 +9,7 @@ import { isNull } from './isNull.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { hasValue, assert } from 'Acid';
+ * import { hasValue, assert } from '@universalweb/acid';
  * assert(hasValue(1), true);
  */
 export function hasValue(source) {

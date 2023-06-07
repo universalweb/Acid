@@ -7,7 +7,7 @@
  * @returns {Boolean} - True or false.
  *
  * @example
- * import { isPromise } from 'Acid';
+ * import { isPromise } from '@universalweb/acid';
  * isPromise(new Promise(() => {}));
  * // => true
  */

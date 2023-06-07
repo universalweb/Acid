@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - True or false.
  *
  * @example
- * import { isAsync, assert } from 'Acid';
+ * import { isAsync, assert } from '@universalweb/acid';
  * assert(isAsync(async() => {}), true);
  */
 export const isAsyncCall = isConstructorNameFactory('AsyncFunction');

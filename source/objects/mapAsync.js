@@ -12,7 +12,7 @@ import { hasValue } from '../types/hasValue.js';
  * @returns {Object|Function} - An object of the same calling object's type.
  *
  * @example
- * import { mapAsyncObject, assert } from 'Acid';
+ * import { mapAsyncObject, assert } from '@universalweb/acid';
  * assert(await mapAsyncObject({a: 1, b: undefined, c: 3}, (item) => {
  *   return item;
  * }), {a: 1, b: undefined, c: 3});

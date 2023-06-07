@@ -9,7 +9,7 @@
  * @returns {Boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
  *
  * @example
- * import { falsey, assert } from 'Acid';
+ * import { falsey, assert } from '@universalweb/acid';
  * assert(falsey(0), true);
  * assert(falsey(1), false);
  */

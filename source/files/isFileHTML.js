@@ -8,7 +8,7 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * isFileHTML('test.html');
- * // => true
-*/
+ * import { isFileHTML, assert } from '@universalweb/acid';
+ * assert(isFileHTML('test.html'), true);
+ */
 export const isFileHTML = regexTestFactory(/\.html$/);

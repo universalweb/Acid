@@ -10,7 +10,7 @@ import { eachArray } from '../arrays/each.js';
  * @returns {Number} - The count.
  *
  * @example
- * import { countKey, assert } from 'Acid';
+ * import { countKey, assert } from '@universalweb/acid';
  * assert(countKey([{a:1}, {a:3}], 'a'), 2);
  */
 export function countKey(collection, propertyName) {

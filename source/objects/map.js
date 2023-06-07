@@ -12,7 +12,7 @@ import { mapAsyncObject } from './mapAsync.js';
  * @returns {Object|Function} - An object of the same calling object's type.
  *
  * @example
- * import { mapObject, assert } from 'Acid';
+ * import { mapObject, assert } from '@universalweb/acid';
  * assert(mapObject({a: 1, b: undefined, c: 3}, (item) => {
  *   return item;
  * }), {a: 1, b: undefined, c: 3});

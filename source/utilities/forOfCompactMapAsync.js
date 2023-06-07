@@ -18,7 +18,7 @@ import { isGenerator } from '../types/isGenerator.js';
  * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
  *
  * @example
- * import { assert,forOfCompactMapAsync } from 'Acid';
+ * import { assert,forOfCompactMapAsync } from '@universalweb/acid';
  * const source = {a: undefined, b: 2, c: 3};
  * const temp = await forOfCompactMapAsync(source, async (item) => {
  *   return item;

@@ -9,7 +9,7 @@ import { every } from '../utilities/every.js';
  * @returns {Function} - Returns the new overEvery wrapped function.
  *
  * @example
- * import { overEvery, assert } from 'Acid';
+ * import { overEvery, assert } from '@universalweb/acid';
  * assert(overEvery([Boolean, isFinite])('1'), true);
  */
 export function overEvery(predicates) {

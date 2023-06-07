@@ -9,7 +9,7 @@ import { hasValue } from './hasValue.js';
  * @returns {Object} - Returns the target object.
  *
  * @example
- * import { isConstructor, assert } from 'Acid';
+ * import { isConstructor, assert } from '@universalweb/acid';
  * assert(isConstructor(2, Number), true);
  */
 export function isConstructor(target, source) {

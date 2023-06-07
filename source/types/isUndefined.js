@@ -6,7 +6,7 @@
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isUndefined, assert } from 'Acid';
+ * import { isUndefined, assert } from '@universalweb/acid';
  * assert(isUndefined(undefined), true);
  */
 export function isUndefined(source) {

@@ -11,7 +11,7 @@ import { assign } from './assign.js';
  * @returns {Array} - Returns an array of key values.
  *
  * @example
- * import { compactKeys, assert } from 'Acid';
+ * import { compactKeys, assert } from '@universalweb/acid';
  * assert(compactKeys({a: 1, b: 0, c: undefined, d: false, e: null}), {a:1, b:0, d: false});
  */
 export function compactKeys(object) {

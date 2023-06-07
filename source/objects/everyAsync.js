@@ -12,7 +12,7 @@ import { each } from '../utilities/each.js';
  * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
- * import { everyAsyncObject, assert } from 'Acid';
+ * import { everyAsyncObject, assert } from '@universalweb/acid';
  * const result =  await everyAsyncObject({a: true, b: true, c: true}, (item) => {
  *   return item;
  * });

@@ -8,9 +8,9 @@ import { isUndefined } from '../types/isUndefined.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { hasLength, assert } from 'Acid';
+ * import { hasLength, assert } from '@universalweb/acid';
  * assert(hasLength([1]), true);
-*/
+ */
 export function hasLength(source) {
 	return Boolean(source.length);
 }

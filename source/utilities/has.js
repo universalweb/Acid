@@ -15,10 +15,10 @@ import { isArray } from '../types/isArray.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { has, assert } from 'Acid';
+ * import { has, assert } from '@universalweb/acid';
  * assert(has('Hello World', 'Hello'), true);
  * assert(has(['Hello', 'World'], 'hello'), true);
-*/
+ */
 export function has(source, search, position) {
 	if (noValue(source) || noValue(search)) {
 		return false;

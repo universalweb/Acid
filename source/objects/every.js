@@ -11,7 +11,7 @@ import { keys } from './keys.js';
  * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
- * import { everyObject, assert } from 'Acid';
+ * import { everyObject, assert } from '@universalweb/acid';
  * const result =  everyObject({a: true, b: true, c: true}, (item) => {
  *   return item;
  * });

@@ -11,7 +11,7 @@ import { eachAsyncArray } from './eachAsync.js';
  * @returns {Array} - An array of the same calling array's type.
  *
  * @example
- * import { mapAsyncArray, assert } from 'Acid';
+ * import { mapAsyncArray, assert } from '@universalweb/acid';
  * assert(await mapAsyncArray([1, 2, 3], async (item) => {
  *   return item * 2;
  * }), [2, 4, 6]);

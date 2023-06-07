@@ -10,7 +10,7 @@ import { isEqual } from './isEqual.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { notEqual, assert } from 'Acid';
+ * import { notEqual, assert } from '@universalweb/acid';
  * assert(notEqual({a: [1,2,3]}, {a: [1,3,3]}), true);
  */
 export function notEqual(source, target) {

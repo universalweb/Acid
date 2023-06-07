@@ -16,7 +16,7 @@ import { forOfEveryAsync } from './forOfEveryAsync.js';
  * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
- * import { every, assert } from 'Acid';
+ * import { every, assert } from '@universalweb/acid';
  * assert(every({a: false, b: true, c: true}, (item) => {
  *  return item;
  * }), false);

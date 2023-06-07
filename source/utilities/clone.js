@@ -8,7 +8,7 @@
  * @returns {Object} - Returns a deep clone of an object.
  *
  * @example
- * import { clone, assert } from 'Acid';
+ * import { clone, assert } from '@universalweb/acid';
  * assert(clone({a:{b:[2]}}), {a:{b:[2]}});
  */
 const structuredCloneSafe = globalThis.structuredClone;

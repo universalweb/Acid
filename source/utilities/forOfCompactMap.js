@@ -18,7 +18,7 @@ import { isArray } from '../types/isArray.js';
  * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
  *
  * @example
- * import { assert,forOfCompactMap } from 'Acid';
+ * import { assert,forOfCompactMap } from '@universalweb/acid';
  * const source = {a: undefined, b: 2, c: 3};
  * const temp = forOfCompactMap(source, (item) => {
  *   return item;

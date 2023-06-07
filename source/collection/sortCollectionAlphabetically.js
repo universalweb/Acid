@@ -1,5 +1,5 @@
 /**
- * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
+ * Perform alphabetical A-Z sort on a collection with the provided key name. Mutates the array.
  *
  * @function sortCollectionAlphabetically
  * @category collection
@@ -10,7 +10,7 @@
  * @returns {Array} - The sorted array.
  *
  * @example
- * import { sortCollectionAlphabetically, assert } from 'Acid';
+ * import { sortCollectionAlphabetically, assert } from '@universalweb/acid';
  * const result = [{"letter":"a"},{"letter":"c", g: 0},{"letter":"c", g: 2}, {letter:'f'}];
  * const collect = [{letter:'a'}, {letter:'f'}, {"letter":"c", g: 2}, {letter:'c', g: 0}];
  * const prop = 'letter';

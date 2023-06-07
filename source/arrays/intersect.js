@@ -12,7 +12,7 @@ import { everyArray } from './every.js';
  * @returns {Array} - The new array of unique values shared by all of the arrays.
  *
  * @example
- * import { intersection, assert } from 'Acid';
+ * import { intersection, assert } from '@universalweb/acid';
  * assert(intersection([1, 2, 3], [2, 3, 4]), [2, 3]);
  */
 export function intersection(array, ...arrays) {

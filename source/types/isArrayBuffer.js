@@ -9,8 +9,8 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isArrayBuffer, assert } from 'Acid';
+ * import { isArrayBuffer, assert } from '@universalweb/acid';
  * assert(isArrayBuffer(new ArrayBuffer()), true);
-*/
+ */
 export const isArrayBufferCall = isConstructorNameFactory('ArrayBuffer');
 export const isArrayBuffer = isTypeFactory(isArrayBufferCall);

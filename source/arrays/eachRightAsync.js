@@ -10,7 +10,7 @@
  * @returns {Object} - The originally given array.
  *
  * @example
- * import { eachRightAsync, assert } from 'Acid';
+ * import { eachRightAsync, assert } from '@universalweb/acid';
  * const tempList = [];
  * await eachRightAsync([1, 2, 3], async (item) => {
  *   tempList.push(item);

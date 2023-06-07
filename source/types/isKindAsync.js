@@ -10,7 +10,7 @@ import { isAsync } from './isAsync.js';
  * @returns {Boolean} - True or false.
  *
  * @example
- * import { isKindAsync, assert } from 'Acid';
+ * import { isKindAsync, assert } from '@universalweb/acid';
  * assert(isKindAsync(async() => {}), true);
  */
 export function isKindAsync(source) {

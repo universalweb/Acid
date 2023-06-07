@@ -11,7 +11,7 @@ import { sortCollectionAlphabetically } from './sortCollectionAlphabetically';
  * @returns {Object} - The newest object in the collection.
  *
  * @example
- * import { getHighest, assert } from 'Acid';
+ * import { getHighest, assert } from '@universalweb/acid';
  * assert(getHighest([{id: 1}, {id: 0}], 'id'), {id: 0});
  */
 export function getHighest(collection, propertyName = 'id') {

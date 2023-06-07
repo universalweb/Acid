@@ -9,7 +9,7 @@
  * @returns {Number} - Returns the quotient of the arguments.
  *
  * @example
- * import { divide, assert } from 'Acid';
+ * import { divide, assert } from '@universalweb/acid';
  * assert(divide(10, 5), 2);
  */
 export function divide(source, value) {

@@ -11,7 +11,7 @@ import { drop } from './drop.js';
  * @returns {Array} - An array with all values removed before a user defined index.
  *
  * @example
- * import { dropRight, assert } from 'Acid';
+ * import { dropRight, assert } from '@universalweb/acid';
  * assert(dropRight([1, 2, 3], 1), [1, 2]);
  */
 export const dropRight = (array, amount, upTo = array.length) => {

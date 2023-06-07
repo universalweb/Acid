@@ -13,7 +13,7 @@ import { construct } from '../classes/construct.js';
  * @returns {Array} - An array which contains the differences between the source and compare array.
  *
  * @example
- * import { difference, assert } from 'Acid';
+ * import { difference, assert } from '@universalweb/acid';
  * assert(difference([1, 2, 3], [1, 2]));
  */
 export function difference(...sources) {

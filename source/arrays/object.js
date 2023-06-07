@@ -10,7 +10,7 @@ import { eachArray } from './each.js';
  * @returns {Array} - Returns a completely flattened array.
  *
  * @example
- * import { arrayToObject, assert } from 'Acid';
+ * import { arrayToObject, assert } from '@universalweb/acid';
  * assert(arrayToObject([1, 2, 3], ['a', 'b', 'c']), {a:1, b:2, c: 3});
  */
 export function arrayToObject(source, properties) {

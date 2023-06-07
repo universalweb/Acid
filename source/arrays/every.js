@@ -12,7 +12,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @returns {Array} - Returns true if all returns are true or false if one value returns false.
  *
  * @example
- * import { everyArray, assert } from 'Acid';
+ * import { everyArray, assert } from '@universalweb/acid';
  * assert(everyArray([true, true, false], (item, index, source, sourceLength, thisBind) => {
  *   return item;
  * }), false);

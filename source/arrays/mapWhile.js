@@ -14,7 +14,7 @@ import { eachArray } from './each.js';
  * @returns {Array} - An array with properties that passed the test.
  *
  * @example
- * import { mapWhile, assert } from 'Acid';
+ * import { mapWhile, assert } from '@universalweb/acid';
  * assert(mapWhile([1, 2, 0], (item) => {
  *   return Boolean(item);
  * }), [1, 2]);

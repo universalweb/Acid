@@ -8,7 +8,7 @@ import { subtractReverse } from '../math/subtractReverse.js';
  * @returns {Array} - The array this method was called on.
  *
  * @example
- * import { sortNumberDescening, assert } from 'Acid';
+ * import { sortNumberDescening, assert } from '@universalweb/acid';
  * assert(sortNumberDescening([10, 0, 2, 1]), [10, 2, 1, 0]);
  */
 export function sortNumberDescening(numberList) {

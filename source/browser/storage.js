@@ -30,7 +30,7 @@ hasStorage(() => {
  * @returns {Crate} - Returns a new instance of Crate.
  *
  * @example
- * import { Crate, construct, assert } from 'Acid';
+ * import { Crate, construct, assert } from '@universalweb/acid';
  * const storageCrate = construct(Crate);
  * storageCrate.setItem('key', 'value');
  * assert(storageCrate.getItem('key'), 'value');
@@ -54,7 +54,7 @@ export class Crate {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { Crate, construct, assert } from 'Acid';
+	 * import { Crate, construct, assert } from '@universalweb/acid';
 	 * const storageCrate = construct(Crate);
 	 * storageCrate.setItem('key', 'value');
 	 * assert(storageCrate.getItem('key'), 'value');
@@ -75,7 +75,7 @@ export class Crate {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { Crate, construct, assert } from 'Acid';
+	 * import { Crate, construct, assert } from '@universalweb/acid';
 	 * const storageCrate = construct(Crate);
 	 * storageCrate.setItem('key', 'value');
 	 * assert(storageCrate.getItem('key'), 'value');
@@ -99,7 +99,7 @@ export class Crate {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { Crate, construct, assert } from 'Acid';
+	 * import { Crate, construct, assert } from '@universalweb/acid';
 	 * const storageCrate = construct(Crate);
 	 * storageCrate.setItem('key', 'value');
 	 * assert(storageCrate.getItem('key'), 'value');
@@ -122,7 +122,7 @@ export class Crate {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { Crate, construct, assert } from 'Acid';
+	 * import { Crate, construct, assert } from '@universalweb/acid';
 	 * const storageCrate = construct(Crate);
 	 * storageCrate.setItem('key', 'value');
 	 * assert(storageCrate.getItem('key'), 'value');

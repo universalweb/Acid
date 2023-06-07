@@ -12,7 +12,7 @@ import { getHighest } from './getHighest';
  * @returns {Object} - The newest object in the collection.
  *
  * @example
- * import { getLowest, assert } from 'Acid';
+ * import { getLowest, assert } from '@universalweb/acid';
  * assert(getLowest([{id: 1}, {id: 0}], 'id'), {id: 1});
  */
 export function getLowest(collection, propertyName) {

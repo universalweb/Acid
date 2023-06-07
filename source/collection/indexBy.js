@@ -10,7 +10,7 @@ import { eachArray } from '../arrays/each.js';
  * @returns {Object} - Returns the composed aggregate object.
  *
  * @example
- * import { indexBy, assert } from 'Acid';
+ * import { indexBy, assert } from '@universalweb/acid';
  * const result = { "0": {name: 'test', id: 0}, "1": {name: 'test2', id: 1}};
  * const indexed = indexBy([{name: 'test', id: 0}, {name: 'test2', id: 1}], 'id');
  * assert(indexed, result);

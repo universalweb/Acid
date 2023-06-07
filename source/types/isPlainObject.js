@@ -8,7 +8,7 @@ import { hasValue } from './hasValue.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isPlainObject } from 'Acid';
+ * import { isPlainObject } from '@universalweb/acid';
  * isPlainObject({});
  * // => true
  */

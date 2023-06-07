@@ -10,7 +10,7 @@ const spaceFirstLetter = / (.)/g;
  * @returns {String} - An upper case letter.
  *
  * @example
- * import { upperFirstLetter, assert } from 'Acid';
+ * import { upperFirstLetter, assert } from '@universalweb/acid';
  * upperFirstLetter('upper');
  * // => "U"
  */
@@ -27,7 +27,7 @@ export function upperFirstLetter(string) {
  * @returns {String} - String with first letter capitalized.
  *
  * @example
- * import { upperFirst, assert } from 'Acid';
+ * import { upperFirst, assert } from '@universalweb/acid';
  * upperFirst('upper');
  * // => 'Upper'
  */
@@ -44,7 +44,7 @@ export function upperFirst(string) {
  * @returns {String} - String with all first letters capitalized.
  *
  * @example
- * import { upperFirstAll, assert } from 'Acid';
+ * import { upperFirstAll, assert } from '@universalweb/acid';
  * upperFirstAll('Lucy is next up.');
  * // => 'Lucy Is Next Up.'
  */
@@ -63,7 +63,7 @@ export function upperFirstAll(string) {
  * @returns {String} - String with first letter capitalized.
  *
  * @example
- * import { upperFirstOnly, assert } from 'Acid';
+ * import { upperFirstOnly, assert } from '@universalweb/acid';
  * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
  * // => 'Lysergic namespace diethylamide'
  */
@@ -80,7 +80,7 @@ export function upperFirstOnly(string) {
  * @returns {String} - String with all first letters capitalized.
  *
  * @example
- * import { upperFirstOnlyAll, assert } from 'Acid';
+ * import { upperFirstOnlyAll, assert } from '@universalweb/acid';
  * upperFirstOnlyAll('LYSERGIC ACID DIETHYLAMIDE');
  * // => 'Lysergic Acid Diethylamide'
  */

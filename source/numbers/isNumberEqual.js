@@ -9,7 +9,7 @@
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isNumberEqual, assert } from 'Acid';
+ * import { isNumberEqual, assert } from '@universalweb/acid';
  * assert(isNumberEqual(0, 0), true);
  */
 export function isNumberEqual(source, target) {

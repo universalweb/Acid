@@ -11,7 +11,7 @@ import { keys } from './keys.js';
  * @returns {Object|Function} - Returns source.
  *
  * @example
- * import { eachAsyncObject, assert } from 'Acid';
+ * import { eachAsyncObject, assert } from '@universalweb/acid';
  * const tempList = [];
  * await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
  *     tempList[key] = item;

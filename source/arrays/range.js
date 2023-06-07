@@ -29,7 +29,7 @@ export function rangeDown(start, end, incrementArg) {
  * @returns {Array} - An array of integers.
  *
  * @example
- * import { range, assert } from 'Acid';
+ * import { range, assert } from '@universalweb/acid';
  * assert(range(0, 30, 5), [0, 5, 10, 15, 20, 25]);
  */
 export function range(start, end, step = 1) {

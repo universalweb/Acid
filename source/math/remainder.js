@@ -9,7 +9,7 @@
  * @returns {Number} - Returns the remainder of the arguments.
  *
  * @example
- * import { multiply, assert } from 'Acid';
+ * import { multiply, assert } from '@universalweb/acid';
  * assert(multiply(10, 5), 50);
  * remainder(10, 6);
  * // => 4

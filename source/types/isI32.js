@@ -8,7 +8,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @param {*} source - Object to be checked.
  * @returns {Boolean} - Returns true or false.
  *
- * import { isI32, assert } from 'Acid';
+ * import { isI32, assert } from '@universalweb/acid';
  * assert(isI32(new Int32Array()), true);.
  */
 export const isI32Call = isConstructorNameFactory('Int32Array');

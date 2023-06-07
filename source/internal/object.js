@@ -8,7 +8,7 @@ import { cacheNativeMethod } from '../utilities/cacheNativeMethod.js';
  * @returns {Object} - An array of strings that correspond to the properties found directly upon the given object.
  *
  * @example
- * import { getPropNames, assert } from 'Acid';
+ * import { getPropNames, assert } from '@universalweb/acid';
  * assert(getPropNames({ 0: 'a', 1: 'b', 2: 'c' }), ['0', '1', '2']);
  */
 export const getPropNames = Object.getOwnPropertyNames;

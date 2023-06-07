@@ -8,7 +8,7 @@ import { getTypeName } from './getTypeName.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isTypedArray, assert } from 'Acid';
+ * import { isTypedArray, assert } from '@universalweb/acid';
  * assert(isTypedArray([]), false);
  * assert(isTypedArray(new Int8Array()), true);
  */

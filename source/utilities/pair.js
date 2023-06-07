@@ -9,7 +9,7 @@ import { eachRight } from '../arrays/eachRight.js';
  * @returns {Array} The array which holds the pair.
  *
  * @example
- * import { pair, assert } from 'Acid';
+ * import { pair, assert } from '@universalweb/acid';
  * assert(air(1, 2), [1, 2]);
  */
 export function pair(argument1, argument2) {

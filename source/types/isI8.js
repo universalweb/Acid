@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isInt8 } from 'Acid';
+ * import { isInt8 } from '@universalweb/acid';
  * isInt8(new Int8Array());
  * // => true
  */

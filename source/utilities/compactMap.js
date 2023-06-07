@@ -17,7 +17,7 @@ import { forOfCompactMapAsync } from './forOfCompactMapAsync.js';
  * @returns {Array | object | Function} - A new object of the same calling object's type.
  *
  * @example
- * import { compactMap, assert } from 'Acid';
+ * import { compactMap, assert } from '@universalweb/acid';
  * assert(compactMap({a: null, b: 2, c: 3}, (item) => {
  *   return item;
  * }), {b: 2, c: 3});

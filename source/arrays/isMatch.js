@@ -11,7 +11,7 @@ import { isEqual } from '../utilities/isEqual.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isMatchArray, assert } from 'Acid';
+ * import { isMatchArray, assert } from '@universalweb/acid';
  * assert(isMatchArray([1, 2, 3], [1, 2, 3]), true);
  */
 export function isMatchArray(source, compareArray) {

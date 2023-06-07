@@ -8,7 +8,7 @@ import { hasValue } from './hasValue.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { noValue, assert } from 'Acid';
+ * import { noValue, assert } from '@universalweb/acid';
  * assert(noValue(null), true);
  * assert(noValue(undefined), true);
  * assert(noValue(1), false);

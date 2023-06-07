@@ -10,7 +10,7 @@ import { everyArray } from '../arrays/every.js';
  * @returns {Number} - The index at which to insert.
  *
  * @example
- * import { getCollectionInsertIndex, assert } from 'Acid';
+ * import { getCollectionInsertIndex, assert } from '@universalweb/acid';
  * assert(getCollectionInsertIndex([{a:1},{a:3},{a:4}], {a:2}), 1);
  */
 export function getCollectionInsertIndex(source, target, propertyName) {

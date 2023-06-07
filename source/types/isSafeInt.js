@@ -8,7 +8,7 @@ const { isSafeInteger } = Number;
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isSafeInt } from 'Acid';
+ * import { isSafeInt } from '@universalweb/acid';
  * isSafeInt(1.01);
  * // => true
  */

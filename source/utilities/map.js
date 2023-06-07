@@ -17,7 +17,7 @@ import { forOfMapAsync } from './forOfMapAsync.js';
  * @returns {Array | object | Function} - A new object of the same calling object's type.'.
  *
  * @example
- * import { map, assert } from 'Acid';
+ * import { map, assert } from '@universalweb/acid';
  * assert(map({a: 1, b: 2, c: 3}, (item) => {
  *   return item * 2;
  * }), {a: 2, b: 4, c: 6});

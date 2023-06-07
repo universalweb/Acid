@@ -11,7 +11,7 @@ import { hasAnyKeys } from './hasKeys.js';
  * @returns {Object} - Returns object with keys and values switched.
  *
  * @example
- * import { invert, assert } from 'Acid';
+ * import { invert, assert } from '@universalweb/acid';
  * assert(invert({a:1}), {1:'a'});
  */
 export function invert(source, target = {}) {

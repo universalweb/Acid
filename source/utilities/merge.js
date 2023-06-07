@@ -12,7 +12,7 @@ import { each } from './each.js';
  * @returns {Object} - Returns target.
  *
  * @example
- * import { merge, assert } from 'Acid';
+ * import { merge, assert } from '@universalweb/acid';
  * assert(merge([1,2,4],[3]), [3, 2, 4]);
  */
 const structuredCloneSafe = globalThis.structuredClone;

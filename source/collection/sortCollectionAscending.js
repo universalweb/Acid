@@ -10,7 +10,7 @@
  * @returns {Array} - The sorted array and or a clone of the array sorted.
  *
  * @example
- * import { sortCollectionAscending, assert } from 'Acid';
+ * import { sortCollectionAscending, assert } from '@universalweb/acid';
  * const result = [{id: 0}, {id: 1}];
  * const collect = [{id: 1}, {id: 0}];
  * const prop = 'id';

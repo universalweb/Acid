@@ -11,7 +11,7 @@ import { isNumberEqual } from '../numbers/isNumberEqual.js';
  * @returns {Array} - An array with the shuffled results.
  *
  * @example
- * import { shuffle, assert } from 'Acid';
+ * import { shuffle, assert } from '@universalweb/acid';
  * assert(shuffle([1, 2, 3, 4]), [3, 4, 2, 1]);
  */
 export function shuffle(target, amount = target.length) {

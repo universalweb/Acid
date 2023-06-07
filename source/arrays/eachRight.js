@@ -12,7 +12,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @returns {Array} - The originally given array.
  *
  * @example
- * import { eachRight, assert } from 'Acid';
+ * import { eachRight, assert } from '@universalweb/acid';
  * const tempList = [];
  * eachRight([1, 2, 3], (item) => {
  *   tempList.push(item);

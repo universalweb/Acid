@@ -8,7 +8,7 @@
  * @returns {Object} - Returns a regex safe version of the string.
  *
  * @example
- * import { regexSafe, assert } from 'Acid';
+ * import { regexSafe, assert } from '@universalweb/acid';
  * assert(regexSafe(/.+/), '\/\.\+\/');
  */
 export const escapeRegexRegex = /[()[\]{}*+?^$|#.,/\\\s-]/g;

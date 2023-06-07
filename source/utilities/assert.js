@@ -10,8 +10,8 @@ function createAssertError(source, expected, localOptions) {
 		errorTitle = `${options.title || options.method.name} -> ${options.file}`;
 	}
 	return new Error(`Test Failed: ${errorTitle}
-		Result: ${Stringify(source)}
-		Expected: ${Stringify(expected)}`, options);
+		Result: ${stringify(source)}
+		Expected: ${stringify(expected)}`, options);
 }
 /**
  * Check if source value matches the expected value.
@@ -25,7 +25,7 @@ function createAssertError(source, expected, localOptions) {
  * @returns {Object} - Returns a deep clone of an object.
  *
  * @example
- * import { assert } from 'Acid';
+ * import { assert } from '@universalweb/acid';
  * if (!assert(1,1)) {
  * 	new Error('Assert Method Failed');
  * }

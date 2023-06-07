@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isF64 } from 'Acid';
+ * import { isF64 } from '@universalweb/acid';
  * isF64(new Float64Array());
  * // => true
  */

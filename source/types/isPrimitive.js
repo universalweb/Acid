@@ -7,7 +7,7 @@
  * @returns {Boolean} - True or false.
  *
  * @example
- * import { isPrimitive, assert } from 'Acid';
+ * import { isPrimitive, assert } from '@universalweb/acid';
  * assert(isPrimitive(1), true);
  * assert(isPrimitive(() => {}), false);
  */

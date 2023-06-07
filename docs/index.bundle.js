@@ -1,10 +1,11 @@
 (function(global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ?
-		factory(exports) :
+		factory(exports, require('fs/promises'), require('path'), require('url')) :
 		typeof define === 'function' && define.amd ?
-			define(['exports'], factory) :
-			((global = typeof globalThis !== 'undefined' ? globalThis : global || self), factory((global.$ = {})));
-})(this, (exports) => {
+			define(['exports', 'fs/promises', 'path', 'url'], factory) :
+			((global = typeof globalThis !== 'undefined' ? globalThis : global || self),
+		  factory((global.$ = {}), global.promises, global.path, global.url));
+})(this, (exports, promises, path, url) => {
 	'use strict';
 	/**
 	 * Chunks an array according to a user defined number.
@@ -17,7 +18,7 @@
 	 * @returns {Array} - A chunked version of the source array.
 	 *
 	 * @example
-	 * import { chunk, assert } from 'Acid';
+	 * import { chunk, assert } from '@universalweb/acid';
 	 * assert(chunk([1,2,3], 1), [[1],[2],[3]]);
 	 */
 	function chunk(array, size = 1) {
@@ -44,7 +45,7 @@
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
-	 * import { clear, assert } from 'Acid';
+	 * import { clear, assert } from '@universalweb/acid';
 	 * assert(clear([1,'B', 'Cat']), []);
 	 */
 	function clear(array) {
@@ -61,7 +62,7 @@
 	 * @returns {Array} - The newly cloned array with assigned items.
 	 *
 	 * @example
-	 * import { cloneArray, assert } from 'Acid';
+	 * import { cloneArray, assert } from '@universalweb/acid';
 	 * assert(cloneArray([1,'B', 'Cat']), [1, 'B', 'Cat']);
 	 */
 	function cloneArray(source) {
@@ -75,7 +76,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isUndefined, assert } from 'Acid';
+	 * import { isUndefined, assert } from '@universalweb/acid';
 	 * assert(isUndefined(undefined), true);
 	 */
 	function isUndefined(source) {
@@ -90,7 +91,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { hasLength, assert } from 'Acid';
+	 * import { hasLength, assert } from '@universalweb/acid';
 	 * assert(hasLength([1]), true);
 	 */
 	function hasLength(source) {
@@ -105,7 +106,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isNull, assert } from 'Acid';
+	 * import { isNull, assert } from '@universalweb/acid';
 	 * assert(isNull(null), true);
 	 */
 	function isNull(source) {
@@ -120,7 +121,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { hasValue, assert } from 'Acid';
+	 * import { hasValue, assert } from '@universalweb/acid';
 	 * assert(hasValue(1), true);
 	 */
 	function hasValue(source) {
@@ -149,7 +150,7 @@
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
-	 * import { eachArray, assert } from 'Acid';
+	 * import { eachArray, assert } from '@universalweb/acid';
 	 * const list = [];
 	 * eachArray([1, 2, 3], (item, index) => {
 	 *   list[index] = item;
@@ -179,7 +180,7 @@
 	 * @returns {Array} - An array with mapped properties that are not null or undefined.
 	 *
 	 * @example
-	 * import { compactMapArray, assert } from 'Acid';
+	 * import { compactMapArray, assert } from '@universalweb/acid';
 	 * assert(compactMapArray([null, 2, 3], (item) => {
 	 *   return item;
 	 * }), [2, 3]);
@@ -205,7 +206,7 @@
 	 * @returns {Array} - Returns source the originally given array.
 	 *
 	 * @example
-	 * import { eachAsyncArray, assert } from 'Acid';
+	 * import { eachAsyncArray, assert } from '@universalweb/acid';
 	 * const tempList = [];
 	 * await eachAsyncArray([1, 2, 3], async (item) => {
 	 *   tempList.push(item);
@@ -234,7 +235,7 @@
 	 * @returns {Array} - Array values after being put through an iterator.
 	 *
 	 * @example
-	 * import { compactMapAsync, assert } from 'Acid';
+	 * import { compactMapAsync, assert } from '@universalweb/acid';
 	 * assert(await compactMapAsync([1, 2, 3, null], async (item) => {
 	 *   return item;
 	 * }), [1, 2, 3]);
@@ -280,7 +281,7 @@
 	 * @returns {Array} - An array of integers.
 	 *
 	 * @example
-	 * import { range, assert } from 'Acid';
+	 * import { range, assert } from '@universalweb/acid';
 	 * assert(range(0, 30, 5), [0, 5, 10, 15, 20, 25]);
 	 */
 	function range(start, end, step = 1) {
@@ -303,7 +304,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isArray, assert } from 'Acid';
+	 * import { isArray, assert } from '@universalweb/acid';
 	 * assert(isArray([]), true);
 	 * assert(isArray(2), false);
 	 */
@@ -318,7 +319,7 @@
 	 * @returns {Array} - Returns an array.
 	 *
 	 * @example
-	 * import { isArray, ensureArray, assert } from 'Acid';
+	 * import { isArray, ensureArray, assert } from '@universalweb/acid';
 	 * assert(isArray(ensureArray('test')), ['test']);
 	 */
 	function ensureArray(source) {
@@ -334,7 +335,7 @@
 	 * @returns {Array} - Returns a completely flattened array.
 	 *
 	 * @example
-	 * import { flattenDeep, assert } from 'Acid';
+	 * import { flattenDeep, assert } from '@universalweb/acid';
 	 * assert(flattenDeep([1, [2, [3, [4]], 5]]), [1, 2, 3, 4, 5]);
 	 */
 	function flattenDeep(source) {
@@ -352,7 +353,7 @@
 	 * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
 	 *
 	 * @example
-	 * import { construct, assert } from 'Acid';
+	 * import { construct, assert } from '@universalweb/acid';
 	 * class test {
 	 * constructor(a) {
 	 * return 1;
@@ -380,7 +381,7 @@
 	 * @returns {Array} - An array which contains the differences between the source and compare array.
 	 *
 	 * @example
-	 * import { difference, assert } from 'Acid';
+	 * import { difference, assert } from '@universalweb/acid';
 	 * assert(difference([1, 2, 3], [1, 2]));
 	 */
 	function difference(...sources) {
@@ -422,7 +423,7 @@
 	 * @returns {Array} - An array with all values removed after a user defined index.
 	 *
 	 * @example
-	 * import { drop, assert } from 'Acid';
+	 * import { drop, assert } from '@universalweb/acid';
 	 * assert(drop([1, 2, 3], 1), [2, 3]);
 	 */
 	function drop(array, amount, upTo = array.length) {
@@ -440,7 +441,7 @@
 	 * @returns {Array} - An array with all values removed before a user defined index.
 	 *
 	 * @example
-	 * import { dropRight, assert } from 'Acid';
+	 * import { dropRight, assert } from '@universalweb/acid';
 	 * assert(dropRight([1, 2, 3], 1), [1, 2]);
 	 */
 	const dropRight = (array, amount, upTo = array.length) => {
@@ -458,7 +459,7 @@
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
-	 * import { eachRight, assert } from 'Acid';
+	 * import { eachRight, assert } from '@universalweb/acid';
 	 * const tempList = [];
 	 * eachRight([1, 2, 3], (item) => {
 	 *   tempList.push(item);
@@ -487,7 +488,7 @@
 	 * @returns {Object} - The originally given array.
 	 *
 	 * @example
-	 * import { eachRightAsync, assert } from 'Acid';
+	 * import { eachRightAsync, assert } from '@universalweb/acid';
 	 * const tempList = [];
 	 * await eachRightAsync([1, 2, 3], async (item) => {
 	 *   tempList.push(item);
@@ -516,7 +517,7 @@
 	 * @returns {Array} - Returns true if all returns are true or false if one value returns false.
 	 *
 	 * @example
-	 * import { everyArray, assert } from 'Acid';
+	 * import { everyArray, assert } from '@universalweb/acid';
 	 * assert(everyArray([true, true, false], (item, index, source, sourceLength, thisBind) => {
 	 *   return item;
 	 * }), false);
@@ -548,7 +549,7 @@
 	 * @returns {Array} - Returns true if all returns are true or false if one value returns false.
 	 *
 	 * @example
-	 * import { everyAsyncArray, assert } from 'Acid';
+	 * import { everyAsyncArray, assert } from '@universalweb/acid';
 	 * assert(everyAsyncArray([true, true, false], (item, index, source, sourceLength, thisBind) => {
 	 *   return item;
 	 * }), false);
@@ -582,7 +583,7 @@
 	 * @returns {Array} - An array with properties that passed the test.
 	 *
 	 * @example
-	 * import { filterArray, assert } from 'Acid';
+	 * import { filterArray, assert } from '@universalweb/acid';
 	 * assert(filterArray([false, true, true], (item) => {
 	 *   return item;
 	 * }), [true, true]);
@@ -609,7 +610,7 @@
 	 * @returns {Array} - An array with properties that passed the test.
 	 *
 	 * @example
-	 * import { filterAsyncArray, assert } from 'Acid';
+	 * import { filterAsyncArray, assert } from '@universalweb/acid';
 	 * assert(filterAsyncArray([false, true, true], (item) => {
 	 *   return item;
 	 * }), [true, true]);
@@ -633,7 +634,7 @@
 	 * @returns {Array} - Returns an array.
 	 *
 	 * @example
-	 * import { first, assert } from 'Acid';
+	 * import { first, assert } from '@universalweb/acid';
 	 * assert(first([1, 2, 3]), 1);
 	 */
 	function first(array, upTo) {
@@ -650,7 +651,7 @@
 	 * @returns {Array} - Returns an array.
 	 *
 	 * @example
-	 * import { flatten, assert } from 'Acid';
+	 * import { flatten, assert } from '@universalweb/acid';
 	 * assert(flatten([1, [2, [3, [4]], 5]]), [1, 2, [3, [4]], 5]);
 	 */
 	function flatten(source, level = 1) {
@@ -675,7 +676,7 @@
 	 * @returns {Array} - Returns a completely flattened array.
 	 *
 	 * @example
-	 * import { initial, assert } from 'Acid';
+	 * import { initial, assert } from '@universalweb/acid';
 	 * assert(initial([1, 2, 3, 4, 5]), [1, 2, 3, 4]);
 	 */
 	function initial(array) {
@@ -693,7 +694,7 @@
 	 * @returns {Array} - The new array of unique values shared by all of the arrays.
 	 *
 	 * @example
-	 * import { intersection, assert } from 'Acid';
+	 * import { intersection, assert } from '@universalweb/acid';
 	 * assert(intersection([1, 2, 3], [2, 3, 4]), [2, 3]);
 	 */
 	function intersection(array, ...arrays) {
@@ -737,7 +738,7 @@
 	 * @returns {Array} - Array used to go through object chain.
 	 *
 	 * @example
-	 * import { toPath, assert } from 'Acid';
+	 * import { toPath, assert } from '@universalweb/acid';
 	 * assert(toPath('post.like[2]'), ['post', 'like', '2']);
 	 */
 	function toPath(source) {
@@ -754,7 +755,7 @@
 	 * @returns {Object} - Returns property from the given object.
 	 *
 	 * @example
-	 * import { get, assert } from 'Acid';
+	 * import { get, assert } from '@universalweb/acid';
 	 * const objectTarget = {
 	 *   post: {
 	 *     like: ['a','b','c']
@@ -786,7 +787,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { hasKeys, assert } from 'Acid';
+	 * import { hasKeys, assert } from '@universalweb/acid';
 	 * assert(hasKeys({a: {b: { c: 1}}}, 'a', 'a.b', 'a.b.c'), true);
 	 */
 	function hasKeys(source, ...properties) {
@@ -818,7 +819,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { hasAnyKeys, assert } from 'Acid';
+	 * import { hasAnyKeys, assert } from '@universalweb/acid';
 	 * assert(hasAnyKeys({a: {b: { yes : 1}}}, 'no', 'nope', 'a.b.yes'), true);
 	 * assert(hasAnyKeys({a: {b: { yes : 1}}}, 'no', 'nope', 'a.b.noped'), false);
 	 */
@@ -851,7 +852,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isPlainObject } from 'Acid';
+	 * import { isPlainObject } from '@universalweb/acid';
 	 * isPlainObject({});
 	 * // => true
 	 */
@@ -873,7 +874,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isEqual, assert } from 'Acid';
+	 * import { isEqual, assert } from '@universalweb/acid';
 	 * assert(isEqual({a: [1,2,3]}, {a: [1,2,3]}), true);
 	 */
 	// Add map & buffer Support - Review required for performance and support for more types
@@ -909,7 +910,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isMatchArray, assert } from 'Acid';
+	 * import { isMatchArray, assert } from '@universalweb/acid';
 	 * assert(isMatchArray([1, 2, 3], [1, 2, 3]), true);
 	 */
 	function isMatchArray(source, compareArray) {
@@ -931,7 +932,7 @@
 	 * @returns {Number} - The largest number.
 	 *
 	 * @example
-	 * import { largest, assert } from 'Acid';
+	 * import { largest, assert } from '@universalweb/acid';
 	 * assert(largest([1,2,3]), 3);
 	 */
 	function largest(array) {
@@ -948,7 +949,7 @@
 	 * @returns {Array} - Items from the array.
 	 *
 	 * @example
-	 * import { last, assert } from 'Acid';
+	 * import { last, assert } from '@universalweb/acid';
 	 * assert(last([1, 2, 3, 4, 5] , 2), [4, 5]);
 	 */
 	function last(array, indexFrom) {
@@ -968,7 +969,7 @@
 	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
-	 * import { mapArray, assert } from 'Acid';
+	 * import { mapArray, assert } from '@universalweb/acid';
 	 * assert(mapArray([1, 2, 3], (item) => {
 	 *   return item * 2;
 	 * }), [2, 4, 6]);
@@ -991,7 +992,7 @@
 	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
-	 * import { mapAsyncArray, assert } from 'Acid';
+	 * import { mapAsyncArray, assert } from '@universalweb/acid';
 	 * assert(await mapAsyncArray([1, 2, 3], async (item) => {
 	 *   return item * 2;
 	 * }), [2, 4, 6]);
@@ -1016,7 +1017,7 @@
 	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
-	 * import { mapRightArray, assert } from 'Acid';
+	 * import { mapRightArray, assert } from '@universalweb/acid';
 	 * assert(mapRightArray([1, 2, 3], (item) => {
 	 *   return item * 2;
 	 * }), [6, 4, 2]);
@@ -1043,7 +1044,7 @@
 	 * @returns {Array} - An array with properties that passed the test.
 	 *
 	 * @example
-	 * import { mapWhile, assert } from 'Acid';
+	 * import { mapWhile, assert } from '@universalweb/acid';
 	 * assert(mapWhile([1, 2, 0], (item) => {
 	 *   return Boolean(item);
 	 * }), [1, 2]);
@@ -1071,7 +1072,7 @@
 	 * @returns {Number} - Returns the difference.
 	 *
 	 * @example
-	 * import { subtract, assert } from 'Acid';
+	 * import { subtract, assert } from '@universalweb/acid';
 	 * assert(subtract(3, 1), 2);
 	 */
 	function subtract(minuend, subtrahend) {
@@ -1086,7 +1087,7 @@
 	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
-	 * import { sortNumberAscending, assert } from 'Acid';
+	 * import { sortNumberAscending, assert } from '@universalweb/acid';
 	 * assert(sortNumberAscending([10, 0, 2, 1]),  [0, 1, 2, 10]);
 	 */
 	function sortNumberAscending(numberList) {
@@ -1103,7 +1104,7 @@
 	 * @returns {Array} - Returns a completely flattened array.
 	 *
 	 * @example
-	 * import { arrayToObject, assert } from 'Acid';
+	 * import { arrayToObject, assert } from '@universalweb/acid';
 	 * assert(arrayToObject([1, 2, 3], ['a', 'b', 'c']), {a:1, b:2, c: 3});
 	 */
 	function arrayToObject(source, properties) {
@@ -1157,7 +1158,7 @@
 	 * @returns {Number} - Returns the difference.
 	 *
 	 * @example
-	 * import { subtractReverse, assert } from 'Acid';
+	 * import { subtractReverse, assert } from '@universalweb/acid';
 	 * assert(subtractReverse(1, 3), 2);
 	 */
 	function subtractReverse(subtrahend, minuend) {
@@ -1172,7 +1173,7 @@
 	 * @returns {Array} - The array this method was called on.
 	 *
 	 * @example
-	 * import { sortNumberDescening, assert } from 'Acid';
+	 * import { sortNumberDescening, assert } from '@universalweb/acid';
 	 * assert(sortNumberDescening([10, 0, 2, 1]), [10, 2, 1, 0]);
 	 */
 	function sortNumberDescening(numberList) {
@@ -1278,7 +1279,7 @@
 	 * @returns {Number} - Returns random integer between the max and min range.
 	 *
 	 * @example
-	 * import { randomInt, assert } from 'Acid';
+	 * import { randomInt, assert } from '@universalweb/acid';
 	 * assert(randomInt(10, 0), (value) => { return value > 0 && value < 10;});
 	 */
 	function randomInt(max, min = 0) {
@@ -1309,7 +1310,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isNumberEqual, assert } from 'Acid';
+	 * import { isNumberEqual, assert } from '@universalweb/acid';
 	 * assert(isNumberEqual(0, 0), true);
 	 */
 	function isNumberEqual(source, target) {
@@ -1325,7 +1326,7 @@
 	 * @returns {Array} - An array with the shuffled results.
 	 *
 	 * @example
-	 * import { shuffle, assert } from 'Acid';
+	 * import { shuffle, assert } from '@universalweb/acid';
 	 * assert(shuffle([1, 2, 3, 4]), [3, 4, 2, 1]);
 	 */
 	function shuffle(target, amount = target.length) {
@@ -1417,7 +1418,7 @@
 	 * @returns {Number} - The index at which to insert.
 	 *
 	 * @example
-	 * import { getNumberInsertIndex, assert } from 'Acid';
+	 * import { getNumberInsertIndex, assert } from '@universalweb/acid';
 	 * assert(getNumberInsertIndex([30, 39, 50], 40), 1);
 	 */
 	function getNumberInsertIndex(source, target) {
@@ -1444,7 +1445,7 @@
 	 * @returns {Array} - The aggregated array.
 	 *
 	 * @example
-	 * import { take, assert } from 'Acid';
+	 * import { take, assert } from '@universalweb/acid';
 	 * assert(take([1,2,3], 2), [1, 2]);
 	 */
 	function take(source, endIndex = 1) {
@@ -1461,7 +1462,7 @@
 	 * @returns {Array} - The aggregated array.
 	 *
 	 * @example
-	 * import { takeRight, assert } from 'Acid';
+	 * import { takeRight, assert } from '@universalweb/acid';
 	 * assert(takeRight([1,2,3], 2), [2, 3]);
 	 */
 	function takeRight(source, indexRight = 1) {
@@ -1522,7 +1523,7 @@
 	 * @returns {Array} - Returns true if all returns are true or false if one value returns false.
 	 *
 	 * @example
-	 * import { untilFalseArray, assert } from 'Acid';
+	 * import { untilFalseArray, assert } from '@universalweb/acid';
 	 * assert(untilFalseArray([true, true, false], (item) => {
 	 *   return item;
 	 * }), false);
@@ -1551,7 +1552,7 @@
 	 * @returns {Array} - Returns true if all returns are false or false if one value returns true.
 	 *
 	 * @example
-	 * import { untilTrueArray, assert } from 'Acid';
+	 * import { untilTrueArray, assert } from '@universalweb/acid';
 	 * assert(untilTrueArray([true], (item) => {
 	 *   return item;
 	 * }), false);
@@ -1583,7 +1584,7 @@
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
-	 * import { whileCompactMap, assert } from 'Acid';
+	 * import { whileCompactMap, assert } from '@universalweb/acid';
 	 * assert(whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
 	 *   return item;
 	 * }), [1, 2, 3, false]);
@@ -1611,7 +1612,7 @@
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
-	 * import { whileEachArray, assert } from 'Acid';
+	 * import { whileEachArray, assert } from '@universalweb/acid';
 	 * const list = [];
 	 * whileEachArray([1, 2, 3], (item, index) => {
 	 *   list[index] = item;
@@ -1640,7 +1641,7 @@
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
-	 * import { whileMapArray, assert } from 'Acid';
+	 * import { whileMapArray, assert } from '@universalweb/acid';
 	 * assert(whileMapArray([1, 2, 3], (item, index, source) => {
 	 *   if (index === 0) {
 	 *     source.push(4);
@@ -1667,7 +1668,7 @@
 	 * @returns {Array} - The target array filtered.
 	 *
 	 * @example
-	 * import { without, assert } from 'Acid';
+	 * import { without, assert } from '@universalweb/acid';
 	 * assert(without([1, 2, 2, 4], [4]), [1, 2, 2]);
 	 */
 	function without(target, sources) {
@@ -1773,7 +1774,7 @@
 	 * @returns {Object} - Returns the target object.
 	 *
 	 * @example
-	 * import { isConstructor, assert } from 'Acid';
+	 * import { isConstructor, assert } from '@universalweb/acid';
 	 * assert(isConstructor(2, Number), true);
 	 */
 	function isConstructor(target, source) {
@@ -1809,7 +1810,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isBuffer, assert, construct } from 'Acid';
+	 * import { isBuffer, assert, construct } from '@universalweb/acid';
 	 * assert(isBuffer(Buffer.from('test')), true);
 	 */
 	const isBufferCall = isConstructorNameFactory('Buffer');
@@ -1824,7 +1825,7 @@
 	 * @returns {Array} - Returns an array.
 	 *
 	 * @example
-	 * import { isBuffer, ensureBuffer, assert } from 'Acid';
+	 * import { isBuffer, ensureBuffer, assert } from '@universalweb/acid';
 	 * assert(isBuffer(ensureBuffer('test')), true);
 	 */
 	function ensureBuffer(source) {
@@ -1841,7 +1842,7 @@
 	 * @returns {Object} - Returns the composed aggregate object.
 	 *
 	 * @example
-	 * import { countBy, assert } from 'Acid';
+	 * import { countBy, assert } from '@universalweb/acid';
 	 * assert(countBy([{a:1}, {a:3}], (item) => { return 'a';}), {a: 2});
 	 */
 	function countBy(collection, iteratee) {
@@ -1867,7 +1868,7 @@
 	 * @returns {Number} - The count.
 	 *
 	 * @example
-	 * import { countKey, assert } from 'Acid';
+	 * import { countKey, assert } from '@universalweb/acid';
 	 * assert(countKey([{a:1}, {a:3}], 'a'), 2);
 	 */
 	function countKey(collection, propertyName) {
@@ -1890,7 +1891,7 @@
 	 * @returns {Number} - The count.
 	 *
 	 * @example
-	 * import { countWithoutKey, assert } from 'Acid';
+	 * import { countWithoutKey, assert } from '@universalweb/acid';
 	 * assert(countWithoutKey([{a:1}, {a:3}], 'b'), 2);
 	 */
 	function countWithoutKey(collection, propertyName) {
@@ -1961,7 +1962,7 @@
 	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
 	 * @example
-	 * import { sortCollectionDescending, assert } from 'Acid';
+	 * import { sortCollectionDescending, assert } from '@universalweb/acid';
 	 * const result = [{id: 1}, {id: 0}];
 	 * const collect = [{id: 0}, {id: 1}];
 	 * const prop = 'id';
@@ -1990,7 +1991,7 @@
 		});
 	}
 	/**
-	 * Perform alphabetical sort on a collection with the provided key name. Mutates the array.
+	 * Perform alphabetical A-Z sort on a collection with the provided key name. Mutates the array.
 	 *
 	 * @function sortCollectionAlphabetically
 	 * @category collection
@@ -2001,7 +2002,7 @@
 	 * @returns {Array} - The sorted array.
 	 *
 	 * @example
-	 * import { sortCollectionAlphabetically, assert } from 'Acid';
+	 * import { sortCollectionAlphabetically, assert } from '@universalweb/acid';
 	 * const result = [{"letter":"a"},{"letter":"c", g: 0},{"letter":"c", g: 2}, {letter:'f'}];
 	 * const collect = [{letter:'a'}, {letter:'f'}, {"letter":"c", g: 2}, {letter:'c', g: 0}];
 	 * const prop = 'letter';
@@ -2040,7 +2041,7 @@
 	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
 	 * @example
-	 * import { sortCollectionAscending, assert } from 'Acid';
+	 * import { sortCollectionAscending, assert } from '@universalweb/acid';
 	 * const result = [{id: 0}, {id: 1}];
 	 * const collect = [{id: 1}, {id: 0}];
 	 * const prop = 'id';
@@ -2079,7 +2080,7 @@
 	 * @returns {Object} - The newest object in the collection.
 	 *
 	 * @example
-	 * import { getHighest, assert } from 'Acid';
+	 * import { getHighest, assert } from '@universalweb/acid';
 	 * assert(getHighest([{id: 1}, {id: 0}], 'id'), {id: 0});
 	 */
 	function getHighest(collection, propertyName = 'id') {
@@ -2096,7 +2097,7 @@
 	 * @returns {Object} - The newest object in the collection.
 	 *
 	 * @example
-	 * import { getLowest, assert } from 'Acid';
+	 * import { getLowest, assert } from '@universalweb/acid';
 	 * assert(getLowest([{id: 1}, {id: 0}], 'id'), {id: 1});
 	 */
 	function getLowest(collection, propertyName) {
@@ -2140,7 +2141,7 @@
 	 * @returns {Object} - Returns the composed aggregate object.
 	 *
 	 * @example
-	 * import { indexBy, assert } from 'Acid';
+	 * import { indexBy, assert } from '@universalweb/acid';
 	 * const result = { "0": {name: 'test', id: 0}, "1": {name: 'test2', id: 1}};
 	 * const indexed = indexBy([{name: 'test', id: 0}, {name: 'test2', id: 1}], 'id');
 	 * assert(indexed, result);
@@ -2260,7 +2261,37 @@
 			return pluckObject(item, pluckThese);
 		});
 	}
-	const getExtensionRegex = /\.([0-9a-z]+)/;
+	/**
+	 * Perform alphabetical in reverse Z-A sort on a collection with the provided key name. Mutates the array.
+	 *
+	 * @function sortCollectionAlphabeticallyReverse
+	 * @category collection
+	 * @type {Function}
+	 * @param {Array} collection - Collection to be sorted.
+	 * @param {String} propertyName - Name of property to compare.
+	 * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
+	 * @returns {Array} - The sorted array.
+	 *
+	 * @example
+	 * import { sortCollectionAlphabeticallyReverse, assert } from '@universalweb/acid';
+	 * const result = [{letter:'f'},{"letter":"c"}, {"letter":"a"}];
+	 * const collect = [{letter:'a'}, {letter:'f'}, {"letter":"c"}];
+	 * const prop = 'letter';
+	 * assert(sortCollectionAlphabeticallyReverse(collect, prop), result);
+	 */
+	function sortObjectsAlphabeticallyReverse(previous, next, propertyName, ifMatch) {
+		const previousKey = previous[propertyName];
+		const nextKey = next[propertyName];
+		if (previousKey === nextKey && ifMatch) {
+			return ifMatch(previous, next, propertyName);
+		}
+		return nextKey.localeCompare(previousKey);
+	}
+	function sortCollectionAlphabeticallyReverse(collection, propertyName = 'id', ifMatch) {
+		return collection.sort((previous, next) => {
+			return sortObjectsAlphabeticallyReverse(previous, next, propertyName, ifMatch);
+		});
+	}
 	/**
 	 * Return the file extension.
 	 *
@@ -2270,13 +2301,29 @@
 	 * @returns {String} - Returns the extension.
 	 *
 	 * @example
-	 * getFileExtension('test.js');
-	 * // => 'js'
+	 * import { getFileExtension, assert } from '@universalweb/acid';
+	 * assert(getFileExtension('test.js'),'js');
 	 */
 	function getFileExtension(source) {
-		const match = source.match(getExtensionRegex);
-		if (match) {
-			return match[1];
+		if (source) {
+			return source.substring(source.lastIndexOf('.') + 1);
+		}
+	}
+	/**
+	 * Return the file extension.
+	 *
+	 * @function getFilename
+	 * @category file
+	 * @param {*} source - Object to be checked.
+	 * @returns {String} - Returns the extension.
+	 *
+	 * @example
+	 * import { getFilename, assert } from '@universalweb/acid';
+	 * assert(getFilename('./universalweb/test.js'),'test.js');
+	 */
+	function getFilename(source) {
+		if (source) {
+			return source.substring(source.lastIndexOf('/') + 1);
 		}
 	}
 	function regexTestFactory(regexType) {
@@ -2293,8 +2340,8 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * isFileCSS('test.css');
-	 * // => true
+	 * import { isFileCSS, assert } from '@universalweb/acid';
+	 * assert(isFileCSS('test.css'), true);
 	 */
 	const isFileCSS = regexTestFactory(/\.css$/);
 	/**
@@ -2306,8 +2353,8 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * isFileHTML('test.html');
-	 * // => true
+	 * import { isFileHTML, assert } from '@universalweb/acid';
+	 * assert(isFileHTML('test.html'), true);
 	 */
 	const isFileHTML = regexTestFactory(/\.html$/);
 	/**
@@ -2319,8 +2366,8 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * isFileJS('test.js');
-	 * // => true
+	 * import { isFileJS, assert } from '@universalweb/acid';
+	 * assert(isFileJS('test.js'), true);
 	 */
 	const isFileJS = regexTestFactory(/\.js$/);
 	/**
@@ -2332,8 +2379,8 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * isFileJSON('test.json');
-	 * // => true
+	 * import { isFileJSON, assert } from '@universalweb/acid';
+	 * assert(isFileJSON('test.json'), true);
 	 */
 	const isFileJSON = regexTestFactory(/\.json$/);
 	/**
@@ -2439,7 +2486,7 @@
 	 * @returns {Object} - Returns the target object.
 	 *
 	 * @example
-	 * import { assign, assert } from 'Acid';
+	 * import { assign, assert } from '@universalweb/acid';
 	 * assert(assign({b: 2}, {a: 1}), {b: 2, a: 1});
 	 */
 	function assign(target, ...sources) {
@@ -2458,7 +2505,7 @@
 	 * @returns {Object|Function} - Returns source.
 	 *
 	 * @example
-	 * import { eachAsyncObject, assert } from 'Acid';
+	 * import { eachAsyncObject, assert } from '@universalweb/acid';
 	 * const tempList = [];
 	 * await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
 	 *     tempList[key] = item;
@@ -2486,7 +2533,7 @@
 	 * @returns {Object|Function} - Returns the calling object.
 	 *
 	 * @example
-	 * import { eachObject, assert } from 'Acid';
+	 * import { eachObject, assert } from '@universalweb/acid';
 	 * assert(eachObject({a: 1, b: 2, c: 3}, (item) => {
 	 *   console.log(item);
 	 * }), {a: 1, b: 2, c: 3});
@@ -2523,7 +2570,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isSet, assert } from 'Acid';
+	 * import { isSet, assert } from '@universalweb/acid';
 	 * assert(isSet(new Set()), true);
 	 */
 	const isSetCall = isConstructorNameFactory('Set');
@@ -2549,7 +2596,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isGenerator } from 'Acid';
+	 * import { isGenerator } from '@universalweb/acid';
 	 * isGenerator(function* (){});
 	 * // => true
 	 */
@@ -2581,7 +2628,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isFunction } from 'Acid';
+	 * import { isFunction } from '@universalweb/acid';
 	 * isFunction(() => {});
 	 * // => true
 	 */
@@ -2597,7 +2644,7 @@
 	 * @returns {Boolean} - True or false.
 	 *
 	 * @example
-	 * import { isAsync, assert } from 'Acid';
+	 * import { isAsync, assert } from '@universalweb/acid';
 	 * assert(isAsync(async() => {}), true);
 	 */
 	const isAsyncCall = isConstructorNameFactory('AsyncFunction');
@@ -2633,7 +2680,7 @@
 	 * @returns {Array | object | Function} - The originally given object.
 	 *
 	 * @example
-	 * import { each, assert } from 'Acid';
+	 * import { each, assert } from '@universalweb/acid';
 	 * const list = {};
 	 * each({a: 1, b: 2, c: 3}, (item, key) => {
 	 *   list[key] = item;
@@ -2757,7 +2804,7 @@
 	 * @returns {Boolean} - Returns true.
 	 *
 	 * @example
-	 * import { stubTrue } from 'Acid';
+	 * import { stubTrue } from '@universalweb/acid';
 	 * stubTrue();
 	 * // => true
 	 */
@@ -2774,7 +2821,7 @@
 	 * @returns {Boolean} - Returns false.
 	 *
 	 * @example
-	 * import { stubFalse } from 'Acid';
+	 * import { stubFalse } from '@universalweb/acid';
 	 * stubFalse();
 	 * // => false
 	 */
@@ -2807,7 +2854,7 @@
 	 * @returns {undefined} - Nothing.
 	 *
 	 * @example
-	 * import { times } from 'Acid';
+	 * import { times } from '@universalweb/acid';
 	 * times(3, (item) => {
 	 *   console.log(item);
 	 * });
@@ -2833,7 +2880,7 @@
 	 * @returns {Array} - An array with iteratee's returned values.
 	 *
 	 * @example
-	 * import { timesMap } from 'Acid';
+	 * import { timesMap } from '@universalweb/acid';
 	 * timesMap(3, (item) => {
 	 *   return item;
 	 * });
@@ -2855,7 +2902,7 @@
 		 * @returns {undefined} - Returns nothing.
 		 *
 		 * @example
-		 * import { timer, assert } from 'Acid';
+		 * import { timer, assert } from '@universalweb/acid';
 		 * timer(() => {}, 100);
 		 * // => 0
 		 */
@@ -2878,7 +2925,7 @@
 		 * @returns {Object} - Returns setTimeoutId ID.
 		 *
 		 * @example
-		 * import { timers, assert } from 'Acid';
+		 * import { timers, assert } from '@universalweb/acid';
 		 * timers.set(() => {}, 100);
 		 * // => 0
 		 */
@@ -2897,7 +2944,7 @@
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
-		 * import { timers, assert } from 'Acid';
+		 * import { timers, assert } from '@universalweb/acid';
 		 * timers.clear();
 		 * // => undefined
 		 */
@@ -2920,7 +2967,7 @@
 	 * @returns {Object} - Returns setTimeoutId ID.
 	 *
 	 * @example
-	 * import { timer, assert } from 'Acid';
+	 * import { timer, assert } from '@universalweb/acid';
 	 * timer(() => {}, 100);
 	 * // => 0
 	 */
@@ -2935,7 +2982,7 @@
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { clearTimers, assert } from 'Acid';
+	 * import { clearTimers, assert } from '@universalweb/acid';
 	 * clearTimers();
 	 * // => undefined
 	 */
@@ -3006,7 +3053,7 @@
 	 * @returns {*} - Returns the method invoked or undefined.
 	 *
 	 * @example
-	 * import { ifInvoke, assert } from 'Acid';
+	 * import { ifInvoke, assert } from '@universalweb/acid';
 	 * assert(ifInvoke((...args) => { return args;}, 1, 2), [1, 2]);
 	 */
 	function ifInvoke(callable, ...args) {
@@ -3027,7 +3074,7 @@
 	 * @returns {Object} - The originally given array.
 	 *
 	 * @example
-	 * import { inAsync, assert } from 'Acid';
+	 * import { inAsync, assert } from '@universalweb/acid';
 	 * const list = [];
 	 * await inAsync([async (firstArgument, item, index) => {
 	 *   list.push(index + firstArgument.a);
@@ -3151,7 +3198,7 @@
 	 * @returns {Object|Function} - An object of the same calling object's type.
 	 *
 	 * @example
-	 * import { mapAsyncObject, assert } from 'Acid';
+	 * import { mapAsyncObject, assert } from '@universalweb/acid';
 	 * assert(await mapAsyncObject({a: 1, b: undefined, c: 3}, (item) => {
 	 *   return item;
 	 * }), {a: 1, b: undefined, c: 3});
@@ -3177,7 +3224,7 @@
 	 * @returns {Object|Function} - An object of the same calling object's type.
 	 *
 	 * @example
-	 * import { mapObject, assert } from 'Acid';
+	 * import { mapObject, assert } from '@universalweb/acid';
 	 * assert(mapObject({a: 1, b: undefined, c: 3}, (item) => {
 	 *   return item;
 	 * }), {a: 1, b: undefined, c: 3});
@@ -3200,7 +3247,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { getType, assert } from 'Acid';
+	 * import { getType, assert } from '@universalweb/acid';
 	 * assert(getType(1), true);
 	 */
 	function getType(source) {
@@ -3215,7 +3262,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { cloneType, assert } from 'Acid';
+	 * import { cloneType, assert } from '@universalweb/acid';
 	 * assert(cloneType([1]), []);
 	 */
 	function cloneType(source, args = []) {
@@ -3324,7 +3371,7 @@
 	 * @returns {Array | object | Function} - A new object of the same calling object's type.'.
 	 *
 	 * @example
-	 * import { map, assert } from 'Acid';
+	 * import { map, assert } from '@universalweb/acid';
 	 * assert(map({a: 1, b: 2, c: 3}, (item) => {
 	 *   return item * 2;
 	 * }), {a: 2, b: 4, c: 6});
@@ -3340,7 +3387,7 @@
 	 * @returns {Function} - Returns the new over wrapped function.
 	 *
 	 * @example
-	 * import { overEvery, assert } from 'Acid';
+	 * import { overEvery, assert } from '@universalweb/acid';
 	 * assert(over([Math.max, Math.min])(1, 2, 3, 4), [4, 1]);
 	 */
 	function over(iteratees) {
@@ -3361,7 +3408,7 @@
 	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
-	 * import { everyAsyncObject, assert } from 'Acid';
+	 * import { everyAsyncObject, assert } from '@universalweb/acid';
 	 * const result =  await everyAsyncObject({a: true, b: true, c: true}, (item) => {
 	 *   return item;
 	 * });
@@ -3387,7 +3434,7 @@
 	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
-	 * import { everyObject, assert } from 'Acid';
+	 * import { everyObject, assert } from '@universalweb/acid';
 	 * const result =  everyObject({a: true, b: true, c: true}, (item) => {
 	 *   return item;
 	 * });
@@ -3413,7 +3460,7 @@
 	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
-	 * import { every, assert } from 'Acid';
+	 * import { every, assert } from '@universalweb/acid';
 	 * assert(forOfEvery({a: false, b: true, c: true}, (item) => {
 	 *  return item;
 	 * }), false);
@@ -3447,7 +3494,7 @@
 	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
-	 * import { every, assert } from 'Acid';
+	 * import { every, assert } from '@universalweb/acid';
 	 * assert(forOfEveryAsync({a: false, b: true, c: true}, (item) => {
 	 *  return item;
 	 * }), false);
@@ -3488,7 +3535,7 @@
 	 * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
 	 *
 	 * @example
-	 * import { every, assert } from 'Acid';
+	 * import { every, assert } from '@universalweb/acid';
 	 * assert(every({a: false, b: true, c: true}, (item) => {
 	 *  return item;
 	 * }), false);
@@ -3504,7 +3551,7 @@
 	 * @returns {Function} - Returns the new overEvery wrapped function.
 	 *
 	 * @example
-	 * import { overEvery, assert } from 'Acid';
+	 * import { overEvery, assert } from '@universalweb/acid';
 	 * assert(overEvery([Boolean, isFinite])('1'), true);
 	 */
 	function overEvery(predicates) {
@@ -3622,7 +3669,7 @@
 	 * @returns {Function} - Cached method.
 	 *
 	 * @example
-	 * import { cacheNativeMethod, assert } from 'Acid';
+	 * import { cacheNativeMethod, assert } from '@universalweb/acid';
 	 * assert(cacheNativeMethod(Array.prototype.push)([], 1), 1);
 	 */
 	function cacheNativeMethod(method) {
@@ -3637,7 +3684,7 @@
 	 * @returns {Object} - An array of strings that correspond to the properties found directly upon the given object.
 	 *
 	 * @example
-	 * import { getPropNames, assert } from 'Acid';
+	 * import { getPropNames, assert } from '@universalweb/acid';
 	 * assert(getPropNames({ 0: 'a', 1: 'b', 2: 'c' }), ['0', '1', '2']);
 	 */
 	const getPropNames = Object.getOwnPropertyNames;
@@ -3687,7 +3734,7 @@
 	 * @returns {Number} - Returns the sum of the arguments.
 	 *
 	 * @example
-	 * import { add, assert } from 'Acid';
+	 * import { add, assert } from '@universalweb/acid';
 	 * assert(add(1, 1), 2);
 	 */
 	function add(augend, addend) {
@@ -3703,7 +3750,7 @@
 	 * @returns {Number} - Returns a decremented version of the number.
 	 *
 	 * @example
-	 * import { multiply, assert } from 'Acid';
+	 * import { multiply, assert } from '@universalweb/acid';
 	 * assert(multiply(10, 5), 50);
 	 * deduct(10);
 	 * // => 9
@@ -3722,7 +3769,7 @@
 	 * @returns {Number} - Returns the quotient of the arguments.
 	 *
 	 * @example
-	 * import { divide, assert } from 'Acid';
+	 * import { divide, assert } from '@universalweb/acid';
 	 * assert(divide(10, 5), 2);
 	 */
 	function divide(source, value) {
@@ -3738,7 +3785,7 @@
 	 * @returns {Number} - Returns an incremented version of the number.
 	 *
 	 * @example
-	 * import { multiply, assert } from 'Acid';
+	 * import { multiply, assert } from '@universalweb/acid';
 	 * assert(multiply(10, 5), 50);
 	 * increment(10);
 	 * // => 11
@@ -3757,7 +3804,7 @@
 	 * @returns {Number} - Returns the product of the arguments.
 	 *
 	 * @example
-	 * import { multiply, assert } from 'Acid';
+	 * import { multiply, assert } from '@universalweb/acid';
 	 * assert(multiply(10, 5), 50);
 	 */
 	function multiply(source, value) {
@@ -3775,7 +3822,7 @@
 	 * @returns {Number} - Returns random integer between the max and min range.
 	 *
 	 * @example
-	 * import { randomFloat, assert } from 'Acid';
+	 * import { randomFloat, assert } from '@universalweb/acid';
 	 * assert(randomFloat(10, 0), (value) => { return value > 0 && value < 10;});
 	 * // => 9.1
 	 */
@@ -3793,7 +3840,7 @@
 	 * @returns {Number} - Returns the remainder of the arguments.
 	 *
 	 * @example
-	 * import { multiply, assert } from 'Acid';
+	 * import { multiply, assert } from '@universalweb/acid';
 	 * assert(multiply(10, 5), 50);
 	 * remainder(10, 6);
 	 * // => 4
@@ -3811,7 +3858,7 @@
 	 * @returns {Number} - Returns the final difference.
 	 *
 	 * @example
-	 * import { subtractAll, assert } from 'Acid';
+	 * import { subtractAll, assert } from '@universalweb/acid';
 	 * assert(subtractAll([10, 1, 2, 3]), 5);
 	 */
 	function subtractAll(source) {
@@ -3829,7 +3876,7 @@
 	 * @returns {Number} - Returns a single number.
 	 *
 	 * @example
-	 * import { sumAll, assert } from 'Acid';
+	 * import { sumAll, assert } from '@universalweb/acid';
 	 * assert(sumAll([10, 1, 2, 3]), 5);
 	 */
 	function sumAll(source) {
@@ -3849,7 +3896,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isNumberInRange, assert } from 'Acid';
+	 * import { isNumberInRange, assert } from '@universalweb/acid';
 	 * assert(isNumberInRange(1, 0, 2), true);
 	 * assert(isNumberInRange(1, 2, 5), false);
 	 */
@@ -3868,7 +3915,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isNumberNotInRange, assert } from 'Acid';
+	 * import { isNumberNotInRange, assert } from '@universalweb/acid';
 	 * assert(isNumberNotInRange(1, 0, 2), false);
 	 * assert(isNumberNotInRange(1, 2, 5), true);
 	 */
@@ -3885,7 +3932,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isZero, assert } from 'Acid';
+	 * import { isZero, assert } from '@universalweb/acid';
 	 * assert(isZero(0), true);
 	 */
 	function isZero(source) {
@@ -3901,7 +3948,7 @@
 	 * @returns {Array} - Returns an array of key values.
 	 *
 	 * @example
-	 * import { compactKeys, assert } from 'Acid';
+	 * import { compactKeys, assert } from '@universalweb/acid';
 	 * assert(compactKeys({a: 1, b: 0, c: undefined, d: false, e: null}), {a:1, b:0, d: false});
 	 */
 	function compactKeys(object) {
@@ -3925,7 +3972,7 @@
 	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
 	 *
 	 * @example
-	 * import { compactMapAsyncObject, assert } from 'Acid';
+	 * import { compactMapAsyncObject, assert } from '@universalweb/acid';
 	 * assert(await compactMapAsyncObject({a: 1, b: undefined, c: 3}, (item) => {
 	 *   return item;
 	 * }), {a: 1, c: 3});
@@ -3951,7 +3998,7 @@
 	 * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
 	 *
 	 * @example
-	 * import { compactMapObject, assert } from 'Acid';
+	 * import { compactMapObject, assert } from '@universalweb/acid';
 	 * assert(compactMapObject({a: 1, b: undefined, c: 3}, (item) => {
 	 *   return item;
 	 * }), {a: 1, c: 3});
@@ -4026,7 +4073,7 @@
 	 * @returns {Object} - Returns object with keys and values switched.
 	 *
 	 * @example
-	 * import { invert, assert } from 'Acid';
+	 * import { invert, assert } from '@universalweb/acid';
 	 * assert(invert({a:1}), {1:'a'});
 	 */
 	function invert(source, target = {}) {
@@ -4049,7 +4096,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { assert, isMatchObject } from 'Acid';
+	 * import { assert, isMatchObject } from '@universalweb/acid';
 	 * assert(isMatchObject({a: 1}, {a: 1}), true);
 	 */
 	const isMatchObject = (source, target) => {
@@ -4074,7 +4121,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isString } from 'Acid';
+	 * import { isString } from '@universalweb/acid';
 	 * isString('Lucy');
 	 * // => true
 	 */
@@ -4088,7 +4135,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isNumber, assert } from 'Acid';
+	 * import { isNumber, assert } from '@universalweb/acid';
 	 * assert(isNumber(1), true);
 	 */
 	const isNumberCall = isConstructorNameFactory('Number');
@@ -4102,7 +4149,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isRegex, assert } from 'Acid';
+	 * import { isRegex, assert } from '@universalweb/acid';
 	 * assert(isRegex(/test/), true);
 	 */
 	const isRegexCall = isConstructorNameFactory('RegExp');
@@ -4117,7 +4164,7 @@
 	 * @returns {Object} - Returns a regex safe version of the string.
 	 *
 	 * @example
-	 * import { regexSafe, assert } from 'Acid';
+	 * import { regexSafe, assert } from '@universalweb/acid';
 	 * assert(regexSafe(/.+/), '\/\.\+\/');
 	 */
 	const escapeRegexRegex = /[()[\]{}*+?^$|#.,/\\\s-]/g;
@@ -4134,7 +4181,7 @@
 	 * @returns {Object} - Returns a regex safe version of the string.
 	 *
 	 * @example
-	 * import { arrayToRegex, assert } from 'Acid';
+	 * import { arrayToRegex, assert } from '@universalweb/acid';
 	 * assert(String(arrayToRegex(['a','b'])), String(/a|b/));
 	 */
 	function arrayToRegex(source, makeSafe) {
@@ -4154,7 +4201,7 @@
 	 * @returns {Object} - A new object with the removed.
 	 *
 	 * @example
-	 * import { omit, assert } from 'Acid';
+	 * import { omit, assert } from '@universalweb/acid';
 	 * assert(omit({a:1, b:2}, ['a']), {b:2});
 	 * assert(omit({a:1, b:2}, 'a'), {b:2});
 	 * assert(omit({1:'test', b:2}, 1), {b:2});
@@ -4288,7 +4335,7 @@
 	 * @returns {String} - Converted string in upper case.
 	 *
 	 * @example
-	 * import { upperCase, assert } from 'Acid';
+	 * import { upperCase, assert } from '@universalweb/acid';
 	 * upperCase('upper case');
 	 * // => 'UPPER CASE'
 	 */
@@ -4306,7 +4353,7 @@
 	 * @returns {String} - Converted string in Camel case.
 	 *
 	 * @example
-	 * import { camelCase, assert } from 'Acid';
+	 * import { camelCase, assert } from '@universalweb/acid';
 	 * camelCase('camel case');
 	 * // => 'camelCase'
 	 */
@@ -4325,7 +4372,7 @@
 	 * @returns {String} - Converted string in Kebab case.
 	 *
 	 * @example
-	 * import { kebabCase, assert } from 'Acid';
+	 * import { kebabCase, assert } from '@universalweb/acid';
 	 * kebabCase('kebab case');
 	 * // => 'kebab-case'
 	 */
@@ -4344,7 +4391,7 @@
 	 * @returns {String} - Converted string in Snake case.
 	 *
 	 * @example
-	 * import { snakeCase, assert } from 'Acid';
+	 * import { snakeCase, assert } from '@universalweb/acid';
 	 * snakeCase('snake case');
 	 * // => 'snake_case'
 	 */
@@ -4365,7 +4412,7 @@
 	 * @returns {String} - The string with the text inserted at the given point.
 	 *
 	 * @example
-	 * import { insertInRange, assert } from 'Acid';
+	 * import { insertInRange, assert } from '@universalweb/acid';
 	 * insertInRange('A from Lucy.', 1, ' tab');
 	 * // => 'A tab from Lucy.'
 	 */
@@ -4383,7 +4430,7 @@
 	 * @returns {String} - A letter at the given index.
 	 *
 	 * @example
-	 * import { rightString, assert } from 'Acid';
+	 * import { rightString, assert } from '@universalweb/acid';
 	 * rightString('rightString');
 	 * // => 'g'
 	 * rightString('rightString', 2);
@@ -4403,7 +4450,7 @@
 	 * @returns {Array} - An array with strings that are <= size parameter.
 	 *
 	 * @example
-	 * import { chunkString, assert } from 'Acid';
+	 * import { chunkString, assert } from '@universalweb/acid';
 	 * chunkString('chunk', 2);
 	 * // => ['ch', 'un', 'k']
 	 */
@@ -4421,7 +4468,7 @@
 	 * @returns {String} - A string with the characters before the index starting from the right.
 	 *
 	 * @example
-	 * import { initialString, assert } from 'Acid';
+	 * import { initialString, assert } from '@universalweb/acid';
 	 * initialString('initialString');
 	 * // => 'initialStrin'
 	 * initialString('initialString', 2);
@@ -4441,7 +4488,7 @@
 	 * @returns {String} - A string without the characters up-to to the index.
 	 *
 	 * @example
-	 * import { restString, assert } from 'Acid';
+	 * import { restString, assert } from '@universalweb/acid';
 	 * restString('restString');
 	 * // => 'estString'
 	 * restString('restString', 2);
@@ -4462,7 +4509,7 @@
 	 * @returns {String} - The string with the replacement.
 	 *
 	 * @example
-	 * import { replaceList, assert } from 'Acid';
+	 * import { replaceList, assert } from '@universalweb/acid';
 	 * replaceList('Her name was user.', ['user'], 'Lucy');
 	 * // => 'Her name was Lucy.'
 	 */
@@ -4484,7 +4531,7 @@
 	 * @returns {String} - Converted string into the decoded URI Component .
 	 *
 	 * @example
-	 * import { rawURLDecode, assert } from 'Acid';
+	 * import { rawURLDecode, assert } from '@universalweb/acid';
 	 * rawURLDecode('Lucy%20saw%20diamonds%20in%20the%20sky.');
 	 * // => 'Lucy saw diamonds in the sky.'
 	 */
@@ -4505,7 +4552,7 @@
 	 * @returns {String} - Replaced string.
 	 *
 	 * @example
-	 * import { htmlEntities, assert } from 'Acid';
+	 * import { htmlEntities, assert } from '@universalweb/acid';
 	 * htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`);
 	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 	 */
@@ -4524,7 +4571,7 @@
 	 * @returns {String} - Replaced string.
 	 *
 	 * @example
-	 * import { sanitize, assert } from 'Acid';
+	 * import { sanitize, assert } from '@universalweb/acid';
 	 * sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`);
 	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
 	 */
@@ -4543,7 +4590,7 @@
 	 * @returns {Array} - Array of words without white space characters.
 	 *
 	 * @example
-	 * import { tokenize, assert } from 'Acid';
+	 * import { tokenize, assert } from '@universalweb/acid';
 	 * tokenize('I am Lucy!');
 	 * // => ["I", "am", "Lucy!"]
 	 */
@@ -4559,7 +4606,7 @@
 	 * @returns {Array} - Array of words with word characters only.
 	 *
 	 * @example
-	 * import { words, assert } from 'Acid';
+	 * import { words, assert } from '@universalweb/acid';
 	 * words('I am Lucy!');
 	 * // => ["I", "am", "Lucy"]
 	 */
@@ -4603,7 +4650,7 @@
 	 * @returns {String} - The mutated string.
 	 *
 	 * @example
-	 * import { truncate, assert } from 'Acid';
+	 * import { truncate, assert } from '@universalweb/acid';
 	 * truncate('Where is Lucy?', 2);
 	 * // => 'Where is'
 	 */
@@ -4622,7 +4669,7 @@
 	 * @returns {String} - The mutated string.
 	 *
 	 * @example
-	 * import { truncateRight, assert } from 'Acid';
+	 * import { truncateRight, assert } from '@universalweb/acid';
 	 * truncateRight('Where is Lucy?', 6);
 	 * // => 'Lucy?'
 	 */
@@ -4641,7 +4688,7 @@
 	 * @returns {String} - An upper case letter.
 	 *
 	 * @example
-	 * import { upperFirstLetter, assert } from 'Acid';
+	 * import { upperFirstLetter, assert } from '@universalweb/acid';
 	 * upperFirstLetter('upper');
 	 * // => "U"
 	 */
@@ -4658,7 +4705,7 @@
 	 * @returns {String} - String with first letter capitalized.
 	 *
 	 * @example
-	 * import { upperFirst, assert } from 'Acid';
+	 * import { upperFirst, assert } from '@universalweb/acid';
 	 * upperFirst('upper');
 	 * // => 'Upper'
 	 */
@@ -4675,7 +4722,7 @@
 	 * @returns {String} - String with all first letters capitalized.
 	 *
 	 * @example
-	 * import { upperFirstAll, assert } from 'Acid';
+	 * import { upperFirstAll, assert } from '@universalweb/acid';
 	 * upperFirstAll('Lucy is next up.');
 	 * // => 'Lucy Is Next Up.'
 	 */
@@ -4694,7 +4741,7 @@
 	 * @returns {String} - String with first letter capitalized.
 	 *
 	 * @example
-	 * import { upperFirstOnly, assert } from 'Acid';
+	 * import { upperFirstOnly, assert } from '@universalweb/acid';
 	 * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
 	 * // => 'Lysergic namespace diethylamide'
 	 */
@@ -4711,7 +4758,7 @@
 	 * @returns {String} - String with all first letters capitalized.
 	 *
 	 * @example
-	 * import { upperFirstOnlyAll, assert } from 'Acid';
+	 * import { upperFirstOnlyAll, assert } from '@universalweb/acid';
 	 * upperFirstOnlyAll('LYSERGIC ACID DIETHYLAMIDE');
 	 * // => 'Lysergic Acid Diethylamide'
 	 */
@@ -4729,7 +4776,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { getTypeName, assert } from 'Acid';
+	 * import { getTypeName, assert } from '@universalweb/acid';
 	 * assert(getTypeName(1), true);
 	 */
 	function getTypeName(source) {
@@ -4744,7 +4791,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isArguments, assert } from 'Acid';
+	 * import { isArguments, assert } from '@universalweb/acid';
 	 * assert(isArguments((function() { return arguments;})()), true);
 	 * assert(isArguments([]), false);
 	 */
@@ -4761,7 +4808,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { noValue, assert } from 'Acid';
+	 * import { noValue, assert } from '@universalweb/acid';
 	 * assert(noValue(null), true);
 	 * assert(noValue(undefined), true);
 	 * assert(noValue(1), false);
@@ -4779,7 +4826,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isMap } from 'Acid';
+	 * import { isMap } from '@universalweb/acid';
 	 * isMap(new Map());
 	 * // => true
 	 */
@@ -4794,7 +4841,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isTypedArray, assert } from 'Acid';
+	 * import { isTypedArray, assert } from '@universalweb/acid';
 	 * assert(isTypedArray([]), false);
 	 * assert(isTypedArray(new Int8Array()), true);
 	 */
@@ -4819,7 +4866,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isArrayLike, assert } from 'Acid';
+	 * import { isArrayLike, assert } from '@universalweb/acid';
 	 * assert(isArrayLike([]), true);
 	 * assert(isArrayLike(2), false);
 	 */
@@ -4854,7 +4901,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isBigInt, assert } from 'Acid';
+	 * import { isBigInt, assert } from '@universalweb/acid';
 	 * assert(isBigInt(BigInt(123)), true);
 	 */
 	const isBigIntCall = isConstructorNameFactory('BigInt');
@@ -4868,7 +4915,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isBoolean } from 'Acid';
+	 * import { isBoolean } from '@universalweb/acid';
 	 * isBoolean(true);
 	 * // => true
 	 */
@@ -4883,7 +4930,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isArrayBuffer, assert } from 'Acid';
+	 * import { isArrayBuffer, assert } from '@universalweb/acid';
 	 * assert(isArrayBuffer(new ArrayBuffer()), true);
 	 */
 	const isArrayBufferCall = isConstructorNameFactory('ArrayBuffer');
@@ -4898,7 +4945,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isChild, construct, assert } from 'Acid';
+	 * import { isChild, construct, assert } from '@universalweb/acid';
 	 * class Grandparent{}
 	 * class Parent extends Grandparent{}
 	 * class Child extends Parent{}
@@ -4923,7 +4970,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isCloneable, assert } from 'Acid';
+	 * import { isCloneable, assert } from '@universalweb/acid';
 	 * assert(isCloneable(function (){}), false);
 	 */
 	const constructorNames = RegExp(
@@ -4945,7 +4992,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isDate, assert } from 'Acid';
+	 * import { isDate, assert } from '@universalweb/acid';
 	 * assert(isDate(new Date()), true);
 	 */
 	const isDateCall = isConstructorNameFactory('Date');
@@ -4959,7 +5006,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isEmpty } from 'Acid';
+	 * import { isEmpty } from '@universalweb/acid';
 	 * isEmpty([]);
 	 * // => true
 	 */
@@ -4981,7 +5028,7 @@
 	 * @returns {Boolean} - Returns true if the item equals false.
 	 *
 	 * @example
-	 * import { isFalse, assert } from 'Acid';
+	 * import { isFalse, assert } from '@universalweb/acid';
 	 * assert(isFalse(1), false);
 	 * assert(isFalse(true), false);
 	 * assert(isFalse(false), true);
@@ -4998,7 +5045,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isF32, assert } from 'Acid';
+	 * import { isF32, assert } from '@universalweb/acid';
 	 * assert(isF32(new Float32Array()), true);
 	 */
 	const isF32Call = isConstructorNameFactory('Float32Array');
@@ -5012,7 +5059,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isF64 } from 'Acid';
+	 * import { isF64 } from '@universalweb/acid';
 	 * isF64(new Float64Array());
 	 * // => true
 	 */
@@ -5028,7 +5075,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isFloat } from 'Acid';
+	 * import { isFloat } from '@universalweb/acid';
 	 * isFloat(1.01);
 	 * // => true
 	 */
@@ -5042,7 +5089,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isI16 } from 'Acid';
+	 * import { isI16 } from '@universalweb/acid';
 	 * isI16(new Int16Array());
 	 * // => true
 	 */
@@ -5056,7 +5103,7 @@
 	 * @param {*} source - Object to be checked.
 	 * @returns {Boolean} - Returns true or false.
 	 *
-	 * import { isI32, assert } from 'Acid';
+	 * import { isI32, assert } from '@universalweb/acid';
 	 * assert(isI32(new Int32Array()), true);.
 	 */
 	const isI32Call = isConstructorNameFactory('Int32Array');
@@ -5070,7 +5117,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isInt8 } from 'Acid';
+	 * import { isInt8 } from '@universalweb/acid';
 	 * isInt8(new Int8Array());
 	 * // => true
 	 */
@@ -5085,7 +5132,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isIterable, assert } from 'Acid';
+	 * import { isIterable, assert } from '@universalweb/acid';
 	 * assert(isIterable([]), true);
 	 * assert(isIterable(new Int8Array()), true);
 	 * assert(isIterable('test'), false);
@@ -5102,7 +5149,7 @@
 	 * @returns {Boolean} - True or false.
 	 *
 	 * @example
-	 * import { isPromise } from 'Acid';
+	 * import { isPromise } from '@universalweb/acid';
 	 * isPromise(new Promise(() => {}));
 	 * // => true
 	 */
@@ -5121,7 +5168,7 @@
 	 * @returns {Boolean} - True or false.
 	 *
 	 * @example
-	 * import { isKindAsync, assert } from 'Acid';
+	 * import { isKindAsync, assert } from '@universalweb/acid';
 	 * assert(isKindAsync(async() => {}), true);
 	 */
 	function isKindAsync(source) {
@@ -5140,7 +5187,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isParent, construct, assert } from 'Acid';
+	 * import { isParent, construct, assert } from '@universalweb/acid';
 	 * class parentClass{}
 	 * class otherClass{}
 	 * const child1 = construct(parentClass);
@@ -5165,7 +5212,7 @@
 	 * @returns {Boolean} - True or false.
 	 *
 	 * @example
-	 * import { isPrimitive, assert } from 'Acid';
+	 * import { isPrimitive, assert } from '@universalweb/acid';
 	 * assert(isPrimitive(1), true);
 	 * assert(isPrimitive(() => {}), false);
 	 */
@@ -5183,7 +5230,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isRelated, construct, assert } from 'Acid';
+	 * import { isRelated, construct, assert } from '@universalweb/acid';
 	 * class parentClass{}
 	 * class otherClass{}
 	 * const child1 = construct(parentClass);
@@ -5216,7 +5263,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isSafeInt } from 'Acid';
+	 * import { isSafeInt } from '@universalweb/acid';
 	 * isSafeInt(1.01);
 	 * // => true
 	 */
@@ -5241,7 +5288,7 @@
 	 * @returns {Boolean} - Returns true if the item is true.
 	 *
 	 * @example
-	 * import { isTrue, assert } from 'Acid';
+	 * import { isTrue, assert } from '@universalweb/acid';
 	 * assert(isTrue(1), false);
 	 * assert(isTrue(true), true);
 	 * assert(isTrue(false), false);
@@ -5258,7 +5305,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isU16 } from 'Acid';
+	 * import { isU16 } from '@universalweb/acid';
 	 * isU16(new Uint16Array());
 	 * // => true
 	 */
@@ -5273,7 +5320,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isU32 } from 'Acid';
+	 * import { isU32 } from '@universalweb/acid';
 	 * isU32(new Uint32Array());
 	 * // => true
 	 */
@@ -5288,7 +5335,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isU8 } from 'Acid';
+	 * import { isU8 } from '@universalweb/acid';
 	 * isU8(new Uint8Array());
 	 * // => true
 	 */
@@ -5303,7 +5350,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isU8C } from 'Acid';
+	 * import { isU8C } from '@universalweb/acid';
 	 * isU8C(new Uint8ClampedArray());
 	 * // => true
 	 */
@@ -5318,7 +5365,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isWeakMap } from 'Acid';
+	 * import { isWeakMap } from '@universalweb/acid';
 	 * assert(isWeakMap(new WeakMap()), true);
 	 */
 	const isWeakMapCall = isConstructorNameFactory('WeakMap');
@@ -5350,7 +5397,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { notEqual, assert } from 'Acid';
+	 * import { notEqual, assert } from '@universalweb/acid';
 	 * assert(notEqual({a: [1,2,3]}, {a: [1,3,3]}), true);
 	 */
 	function notEqual(source, target) {
@@ -5368,7 +5415,7 @@
 	 * @returns {Object} - Returns the parsed object.
 	 *
 	 * @example
-	 * import { jsonParse, assert } from 'Acid';
+	 * import { jsonParse, assert } from '@universalweb/acid';
 	 * assert(jsonParse('{a:1}'), {a:1});
 	 */
 	function jsonParse(source, reviver) {
@@ -5386,7 +5433,7 @@
 	 * @returns {String} - Returns the object as a valid JSON string.
 	 *
 	 * @example
-	 * import { stringify, assert } from 'Acid';
+	 * import { stringify, assert } from '@universalweb/acid';
 	 * assert(stringify({a:1}), '{a:1}');
 	 */
 	const stringify = jsonNative.stringify;
@@ -5400,8 +5447,8 @@
 		}
 		return new Error(
 			`Test Failed: ${errorTitle}
-		Result: ${Stringify(source)}
-		Expected: ${Stringify(expected)}`,
+		Result: ${stringify(source)}
+		Expected: ${stringify(expected)}`,
 			options
 		);
 	}
@@ -5417,7 +5464,7 @@
 	 * @returns {Object} - Returns a deep clone of an object.
 	 *
 	 * @example
-	 * import { assert } from 'Acid';
+	 * import { assert } from '@universalweb/acid';
 	 * if (!assert(1,1)) {
 	 * 	new Error('Assert Method Failed');
 	 * }
@@ -5441,7 +5488,7 @@
 	 * @returns {Object|Function|Array} - Returns the collection of bound functions or the assign target provided.
 	 *
 	 * @example
-	 * import { assert, bindAll } from 'Acid';
+	 * import { assert, bindAll } from '@universalweb/acid';
 	 * const bounded = bindAll([function () { return this;}], 'Bounded');
 	 * assert(bounded[0](), 'Bounded');
 	 */
@@ -5461,7 +5508,7 @@
 	 * @returns {Object} - Returns a deep clone of an object.
 	 *
 	 * @example
-	 * import { clone, assert } from 'Acid';
+	 * import { clone, assert } from '@universalweb/acid';
 	 * assert(clone({a:{b:[2]}}), {a:{b:[2]}});
 	 */
 	const structuredCloneSafe = globalThis.structuredClone;
@@ -5479,7 +5526,7 @@
 	 * @returns {Boolean|*} - Returns true if the item is truey or returnIfTrue if provided otherwise returns false.
 	 *
 	 * @example
-	 * import { truey, assert } from 'Acid';
+	 * import { truey, assert } from '@universalweb/acid';
 	 * assert(truey(1), true);
 	 * assert(truey(0), false);
 	 */
@@ -5496,7 +5543,7 @@
 	 * @returns {Array|Object} - A new object or array containing the filtered values.
 	 *
 	 * @example
-	 * import { compact, assert } from 'Acid';
+	 * import { compact, assert } from '@universalweb/acid';
 	 * assert(compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]), [1, 'B', 'Cat']);
 	 */
 	function compact(source) {
@@ -5530,7 +5577,7 @@
 	 * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
 	 *
 	 * @example
-	 * import { assert,forOfCompactMapAsync } from 'Acid';
+	 * import { assert,forOfCompactMapAsync } from '@universalweb/acid';
 	 * const source = {a: undefined, b: 2, c: 3};
 	 * const temp = await forOfCompactMapAsync(source, async (item) => {
 	 *   return item;
@@ -5585,7 +5632,7 @@
 	 * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
 	 *
 	 * @example
-	 * import { assert,forOfCompactMap } from 'Acid';
+	 * import { assert,forOfCompactMap } from '@universalweb/acid';
 	 * const source = {a: undefined, b: 2, c: 3};
 	 * const temp = forOfCompactMap(source, (item) => {
 	 *   return item;
@@ -5630,7 +5677,7 @@
 	 * @returns {Array | object | Function} - A new object of the same calling object's type.
 	 *
 	 * @example
-	 * import { compactMap, assert } from 'Acid';
+	 * import { compactMap, assert } from '@universalweb/acid';
 	 * assert(compactMap({a: null, b: 2, c: 3}, (item) => {
 	 *   return item;
 	 * }), {b: 2, c: 3});
@@ -5672,7 +5719,7 @@
 	 * @returns {Boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
 	 *
 	 * @example
-	 * import { falsey, assert } from 'Acid';
+	 * import { falsey, assert } from '@universalweb/acid';
 	 * assert(falsey(0), true);
 	 * assert(falsey(1), false);
 	 */
@@ -5691,7 +5738,7 @@
 	 * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties.
 	 *
 	 * @example
-	 * import { assert, forOfFilter } from 'Acid';
+	 * import { assert, forOfFilter } from '@universalweb/acid';
 	 * const source = {a: undefined, b: 2, c: 3};
 	 * const temp = forOfFilter(source, (item) => {
 	 *   return Boolean(item);
@@ -5736,7 +5783,7 @@
 	 * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties.
 	 *
 	 * @example
-	 * import { assert, forOfFilterAsync } from 'Acid';
+	 * import { assert, forOfFilterAsync } from '@universalweb/acid';
 	 * const source = {a: undefined, b: 2, c: 3};
 	 * const temp = forOfFilterAsync(source, (item) => {
 	 *   return Boolean(item);
@@ -5790,7 +5837,7 @@
 	 * @returns {Array | object | Function} - A new object of the same calling object's type.
 	 *
 	 * @example
-	 * import { filter, assert } from 'Acid';
+	 * import { filter, assert } from '@universalweb/acid';
 	 * assert(filter({a: false, b: true, c: true}, (item) => {
 	 *   return item;
 	 * }), {b: true, c: true});
@@ -5909,7 +5956,7 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { has, assert } from 'Acid';
+	 * import { has, assert } from '@universalweb/acid';
 	 * assert(has('Hello World', 'Hello'), true);
 	 * assert(has(['Hello', 'World'], 'hello'), true);
 	 */
@@ -6136,7 +6183,7 @@
 	 * @returns {Array} The array which holds the pair.
 	 *
 	 * @example
-	 * import { pair, assert } from 'Acid';
+	 * import { pair, assert } from '@universalweb/acid';
 	 * assert(air(1, 2), [1, 2]);
 	 */
 	function pair(argument1, argument2) {
@@ -6154,7 +6201,7 @@
 	 * @returns {Array} - The array from Promise.all.
 	 *
 	 * @example
-	 * import { concurrent, assert } from 'Acid';
+	 * import { concurrent, assert } from '@universalweb/acid';
 	 * const tempList = [];
 	 * await concurrent([1, 2], async (item) => {
 	 *   return item;
@@ -6181,7 +6228,7 @@
 	 * @returns {Array} - The array from Promise.allSettled.
 	 *
 	 * @example
-	 * import { concurrentStatus, assert } from 'Acid';
+	 * import { concurrentStatus, assert } from '@universalweb/acid';
 	 * const tempList = [];
 	 * await concurrentStatus([1, 2], async (item) => {
 	 *   return item;
@@ -6230,7 +6277,7 @@
 	 * @returns {Array} - Returns an array of properties.
 	 *
 	 * @example
-	 * import { propertyMatch, assert } from 'Acid';
+	 * import { propertyMatch, assert } from '@universalweb/acid';
 	 * assert(propertyMatch({
 	 *   a: 1,
 	 *   b: 2
@@ -6303,7 +6350,7 @@
 	 * @type {Function}
 	 * @returns {Array} - Returns the new empty array.
 	 * @example
-	 * import { stubArray } from 'Acid';
+	 * import { stubArray } from '@universalweb/acid';
 	 * stubArray();
 	 * // => []
 	 */
@@ -6319,7 +6366,7 @@
 	 * @returns {Object} - Returns the new empty object.
 	 *
 	 * @example
-	 * import { stubObject } from 'Acid';
+	 * import { stubObject } from '@universalweb/acid';
 	 * stubObject();
 	 * // => {}
 	 */
@@ -6335,7 +6382,7 @@
 	 * @returns {String} - Returns the new empty string.
 	 *
 	 * @example
-	 * import { stubString } from 'Acid';
+	 * import { stubString } from '@universalweb/acid';
 	 * stubString();
 	 * // => ''
 	 */
@@ -6354,7 +6401,7 @@
 	 * @returns {undefined} - Nothing.
 	 *
 	 * @example
-	 * import { timesAsync } from 'Acid';
+	 * import { timesAsync } from '@universalweb/acid';
 	 * await timesAsync(3, async (item) => {
 	 *   console.log(item);
 	 * });
@@ -6381,7 +6428,7 @@
 	 * @returns {Array} - An array with iteratee's returned values.
 	 *
 	 * @example
-	 * import { timesMapAsync } from 'Acid';
+	 * import { timesMapAsync } from '@universalweb/acid';
 	 * await timesMapAsync(3, (item) => {
 	 *   return item;
 	 * });
@@ -6405,7 +6452,7 @@
 	 * @returns {(string|number|Object|Array)} - The opposing value to the current.
 	 *
 	 * @example
-	 * import { toggle } from 'Acid';
+	 * import { toggle } from '@universalweb/acid';
 	 * let toggleMe = true;
 	 * toggleMe = toggle(toggleMe, true, false);
 	 * // => false
@@ -6427,7 +6474,7 @@
 	 * @returns {UniqID} - Returns a new instance of UniqID.
 	 *
 	 * @example
-	 * import { UniqID, construct, assert } from 'Acid';
+	 * import { UniqID, construct, assert } from '@universalweb/acid';
 	 * const gen = construct(UniqID);
 	 * assert(gen.get(), 0);
 	 * assert(gen.get(), 1);
@@ -6448,7 +6495,7 @@
 		 * @returns {Number} - Returns a unique id.
 		 *
 		 * @example
-		 * import { UniqID, construct, assert } from 'Acid';
+		 * import { UniqID, construct, assert } from '@universalweb/acid';
 		 * const gen = construct(UniqID);
 		 * assert(gen.get(), 0);
 		 */
@@ -6473,7 +6520,7 @@
 		 * @returns {undefined} - Nothing is returned.
 		 *
 		 * @example
-		 * import { UniqID, construct, assert } from 'Acid';
+		 * import { UniqID, construct, assert } from '@universalweb/acid';
 		 * const gen = construct(UniqID);
 		 * assert(gen.get(), 0);
 		 * gen.free(0);
@@ -6501,7 +6548,7 @@
 	 * @category utility
 	 *
 	 * @example
-	 * import { uniqID, assert } from 'Acid';
+	 * import { uniqID, assert } from '@universalweb/acid';
 	 * assert(uniqID.get(), 0);
 	 * assert(uniqID.get(), 1);
 	 * uniqID.free(0);
@@ -6517,7 +6564,7 @@
 	 * @returns {*} - Returns a new VirtualStorage Object.
 	 *
 	 * @example
-	 * import { virtualStorage } from 'Acid';
+	 * import { virtualStorage } from '@universalweb/acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * // => New Crate Object
 	 */
@@ -6532,7 +6579,7 @@
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
-		 * import { VirtualStorage } from 'Acid';
+		 * import { VirtualStorage } from '@universalweb/acid';
 		 * const myVirtualStorage = virtualStorage();
 		 * myVirtualStorage.setItem('key', 'value');
 		 * myVirtualStorage.getItem('key');
@@ -6549,7 +6596,7 @@
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
-		 * import { VirtualStorage, assert } from 'Acid';
+		 * import { VirtualStorage, assert } from '@universalweb/acid';
 		 * const vStorage = new VirtualStorage();
 		 * vStorage.setItem('title', 'value');
 		 * assert(vStorage.getItem('title'), 'value');
@@ -6564,7 +6611,7 @@
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
-		 * import { virtualStorage } from 'Acid';
+		 * import { virtualStorage } from '@universalweb/acid';
 		 * const myVirtualStorage = virtualStorage();
 		 * myVirtualStorage.setItem('key', 'value');
 		 * myVirtualStorage.clear();
@@ -6581,7 +6628,7 @@
 		 * @returns {undefined} - Returns undefined.
 		 *
 		 * @example
-		 * import { virtualStorage } from 'Acid';
+		 * import { virtualStorage } from '@universalweb/acid';
 		 * const myVirtualStorage = virtualStorage();
 		 * myVirtualStorage.setItem('key', 'value');
 		 * myVirtualStorage.removeItem('key');
@@ -6601,13 +6648,47 @@
 	 * @returns {*} - Returns a new VirtualStorage Object.
 	 *
 	 * @example
-	 * import { virtualStorage, assert } from 'Acid';
+	 * import { virtualStorage, assert } from '@universalweb/acid';
 	 * const vStorage = virtualStorage();
 	 * vStorage.setItem('title', 'value');
 	 * assert(vStorage.getItem('title'), 'value');
 	 */
 	function virtualStorage(initialObject) {
 		return new VirtualStorage(initialObject);
+	}
+	async function copyToPath(sourceFolder, destinationFolder, file) {
+		const sourcePath = path.join(sourceFolder, file);
+		const destinationPath = path.join(destinationFolder, file);
+		await promises.copyFile(sourcePath, destinationPath);
+	}
+	async function copyFolder(sourceFolder, destinationFolder) {
+		const files = await promises.readdir(sourceFolder);
+		await eachAsyncArray(files, async (file) => {
+			const sourcePath = path.join(sourceFolder, file);
+			const filestats = await promises.stat(sourcePath);
+			if (filestats.isDirectory()) {
+				const folderDestination = path.join(destinationFolder, file.replace(sourceFolder, ''));
+				await promises.mkdir(folderDestination, {
+					recursive: true
+				});
+				await copyFolder(sourcePath, folderDestination);
+			} else {
+				await copyToPath(sourceFolder, destinationFolder, file);
+			}
+		});
+		return true;
+	}
+	function currentFile(importMeta) {
+		if (globalThis.__filename) {
+			return __filename;
+		}
+		return url.fileURLToPath(importMeta.url);
+	}
+	function currentPath(importMeta) {
+		if (globalThis.__dirname) {
+			return __dirname;
+		}
+		return path.dirname(url.fileURLToPath(importMeta.url));
 	}
 	exports.Intervals = Intervals;
 	exports.Model = Model;
@@ -6647,9 +6728,12 @@
 	exports.concurrentStatus = concurrentStatus;
 	exports.construct = construct;
 	exports.constructorName = constructorName;
+	exports.copyFolder = copyFolder;
 	exports.countBy = countBy;
 	exports.countKey = countKey;
 	exports.countWithoutKey = countWithoutKey;
+	exports.currentFile = currentFile;
+	exports.currentPath = currentPath;
 	exports.curry = curry;
 	exports.curryRight = curryRight;
 	exports.debounce = debounce;
@@ -6708,8 +6792,8 @@
 	exports.forOfMapAsync = forOfMapAsync;
 	exports.generateLoop = generateLoop;
 	exports.get = get;
-	exports.getExtensionRegex = getExtensionRegex;
 	exports.getFileExtension = getFileExtension;
+	exports.getFilename = getFilename;
 	exports.getHighest = getHighest;
 	exports.getLowest = getLowest;
 	exports.getNumberInsertIndex = getNumberInsertIndex;
@@ -6882,6 +6966,7 @@
 	exports.smallest = smallest;
 	exports.snakeCase = snakeCase;
 	exports.sortCollectionAlphabetically = sortCollectionAlphabetically;
+	exports.sortCollectionAlphabeticallyReverse = sortCollectionAlphabeticallyReverse;
 	exports.sortCollectionAscending = sortCollectionAscending;
 	exports.sortCollectionAscendingFilter = sortCollectionAscendingFilter;
 	exports.sortCollectionDescending = sortCollectionDescending;
@@ -6889,6 +6974,7 @@
 	exports.sortNumberAscending = sortNumberAscending;
 	exports.sortNumberDescening = sortNumberDescening;
 	exports.sortObjectsAlphabetically = sortObjectsAlphabetically;
+	exports.sortObjectsAlphabeticallyReverse = sortObjectsAlphabeticallyReverse;
 	exports.sortUnique = sortUnique;
 	exports.stringify = stringify;
 	exports.stubArray = stubArray;

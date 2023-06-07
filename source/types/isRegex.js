@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isRegex, assert } from 'Acid';
+ * import { isRegex, assert } from '@universalweb/acid';
  * assert(isRegex(/test/), true);
  */
 export const isRegexCall = isConstructorNameFactory('RegExp');

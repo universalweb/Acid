@@ -8,7 +8,7 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * isFileCSS('test.css');
- * // => true
-*/
+ * import { isFileCSS, assert } from '@universalweb/acid';
+ * assert(isFileCSS('test.css'), true);
+ */
 export const isFileCSS = regexTestFactory(/\.css$/);

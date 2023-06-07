@@ -11,7 +11,7 @@ const emptyString = '';
  * @returns {Array} - Array used to go through object chain.
  *
  * @example
- * import { toPath, assert } from 'Acid';
+ * import { toPath, assert } from '@universalweb/acid';
  * assert(toPath('post.like[2]'), ['post', 'like', '2']);
  */
 export function toPath(source) {

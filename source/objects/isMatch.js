@@ -12,7 +12,7 @@ import { keys } from './keys.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { assert, isMatchObject } from 'Acid';
+ * import { assert, isMatchObject } from '@universalweb/acid';
  * assert(isMatchObject({a: 1}, {a: 1}), true);
  */
 export const isMatchObject = (source, target) => {

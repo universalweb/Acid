@@ -9,9 +9,9 @@ const objectAssign = Object.assign;
  * @returns {Object} - Returns the target object.
  *
  * @example
- * import { assign, assert } from 'Acid';
+ * import { assign, assert } from '@universalweb/acid';
  * assert(assign({b: 2}, {a: 1}), {b: 2, a: 1});
-*/
+ */
 export function assign(target, ...sources) {
 	if (target) {
 		return objectAssign(target, ...sources);

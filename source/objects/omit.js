@@ -16,7 +16,7 @@ import { arrayToRegex } from '../regexps/arrayToRegex.js';
  * @returns {Object} - A new object with the removed.
  *
  * @example
- * import { omit, assert } from 'Acid';
+ * import { omit, assert } from '@universalweb/acid';
  * assert(omit({a:1, b:2}, ['a']), {b:2});
  * assert(omit({a:1, b:2}, 'a'), {b:2});
  * assert(omit({1:'test', b:2}, 1), {b:2});

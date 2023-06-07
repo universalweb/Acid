@@ -28,6 +28,7 @@ node_modules
 ############
 tests/*
 tempCodeRunnerFile.js
+eslint-results.sarif
 
 # Logs and databases #
 ######################

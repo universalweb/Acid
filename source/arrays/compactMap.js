@@ -14,7 +14,7 @@ import { eachArray } from './each.js';
  * @returns {Array} - An array with mapped properties that are not null or undefined.
  *
  * @example
- * import { compactMapArray, assert } from 'Acid';
+ * import { compactMapArray, assert } from '@universalweb/acid';
  * assert(compactMapArray([null, 2, 3], (item) => {
  *   return item;
  * }), [2, 3]);

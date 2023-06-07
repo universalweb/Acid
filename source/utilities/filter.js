@@ -17,7 +17,7 @@ import { forOfFilterAsync } from './forOfFilterAsync.js';
  * @returns {Array | object | Function} - A new object of the same calling object's type.
  *
  * @example
- * import { filter, assert } from 'Acid';
+ * import { filter, assert } from '@universalweb/acid';
  * assert(filter({a: false, b: true, c: true}, (item) => {
  *   return item;
  * }), {b: true, c: true});

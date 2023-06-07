@@ -9,7 +9,7 @@ import { noValue } from './noValue.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isRelated, construct, assert } from 'Acid';
+ * import { isRelated, construct, assert } from '@universalweb/acid';
  * class parentClass{}
  * class otherClass{}
  * const child1 = construct(parentClass);

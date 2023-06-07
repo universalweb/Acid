@@ -13,5 +13,6 @@ export * from './collection/invokeAsync.js';
 export * from './collection/pluck.js';
 export * from './collection/pluckValues.js';
 export * from './collection/sortCollectionAlphabetically.js';
+export * from './collection/sortCollectionAlphabeticallyReverse.js';
 export * from './collection/sortCollectionDescending.js';
 export * from './collection/sortCollectionAscending.js';

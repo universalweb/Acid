@@ -10,7 +10,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isMap } from 'Acid';
+ * import { isMap } from '@universalweb/acid';
  * isMap(new Map());
  * // => true
  */

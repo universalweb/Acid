@@ -8,7 +8,7 @@ import { getType } from './getType.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { getTypeName, assert } from 'Acid';
+ * import { getTypeName, assert } from '@universalweb/acid';
  * assert(getTypeName(1), true);
  */
 export function getTypeName(source) {

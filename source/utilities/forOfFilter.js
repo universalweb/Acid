@@ -17,7 +17,7 @@ import { isArray } from '../types/isArray.js';
  * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties.
  *
  * @example
- * import { assert, forOfFilter } from 'Acid';
+ * import { assert, forOfFilter } from '@universalweb/acid';
  * const source = {a: undefined, b: 2, c: 3};
  * const temp = forOfFilter(source, (item) => {
  *   return Boolean(item);

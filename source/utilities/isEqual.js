@@ -14,7 +14,7 @@ import { isPlainObject } from '../types/isPlainObject.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isEqual, assert } from 'Acid';
+ * import { isEqual, assert } from '@universalweb/acid';
  * assert(isEqual({a: [1,2,3]}, {a: [1,2,3]}), true);
  */
 // Add map & buffer Support - Review required for performance and support for more types

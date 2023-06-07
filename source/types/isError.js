@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isError } from 'Acid';
+ * import { isError } from '@universalweb/acid';
  * isError(new Error());
  * // => true
  */

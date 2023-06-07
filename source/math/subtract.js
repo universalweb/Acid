@@ -9,7 +9,7 @@
  * @returns {Number} - Returns the difference.
  *
  * @example
- * import { subtract, assert } from 'Acid';
+ * import { subtract, assert } from '@universalweb/acid';
  * assert(subtract(3, 1), 2);
  */
 export function subtract(minuend, subtrahend) {

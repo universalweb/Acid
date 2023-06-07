@@ -10,7 +10,7 @@ import { construct } from '../classes/construct.js';
  * @returns {Array} - The target array filtered.
  *
  * @example
- * import { without, assert } from 'Acid';
+ * import { without, assert } from '@universalweb/acid';
  * assert(without([1, 2, 2, 4], [4]), [1, 2, 2]);
  */
 export function without(target, sources) {

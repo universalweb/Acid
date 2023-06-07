@@ -8,7 +8,7 @@
  * @returns {Boolean} - Returns true if the item equals false.
  *
  * @example
- * import { isFalse, assert } from 'Acid';
+ * import { isFalse, assert } from '@universalweb/acid';
  * assert(isFalse(1), false);
  * assert(isFalse(true), false);
  * assert(isFalse(false), true);

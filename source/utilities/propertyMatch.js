@@ -13,7 +13,7 @@ import { keys } from '../objects/keys.js';
  * @returns {Array} - Returns an array of properties.
  *
  * @example
- * import { propertyMatch, assert } from 'Acid';
+ * import { propertyMatch, assert } from '@universalweb/acid';
  * assert(propertyMatch({
  *   a: 1,
  *   b: 2

@@ -10,11 +10,11 @@
  * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
  *
  * @example
- * import { construct, assert } from 'Acid';
+ * import { construct, assert } from '@universalweb/acid';
  * class test {
-	* constructor(a) {
-		* return 1;
-	* }
+ * constructor(a) {
+ * return 1;
+ * }
  * }
  * const newClass = construct(test, [1]);
  * assert(test, 1);

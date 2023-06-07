@@ -14,7 +14,7 @@ import { returnValue } from './returnValue.js';
  * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
- * import { every, assert } from 'Acid';
+ * import { every, assert } from '@universalweb/acid';
  * assert(forOfEvery({a: false, b: true, c: true}, (item) => {
  *  return item;
  * }), false);

@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isNumber, assert } from 'Acid';
+ * import { isNumber, assert } from '@universalweb/acid';
  * assert(isNumber(1), true);
  */
 export const isNumberCall = isConstructorNameFactory('Number');

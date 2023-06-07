@@ -9,7 +9,7 @@
  * @returns {Array} - Returns an array.
  *
  * @example
- * import { first, assert } from 'Acid';
+ * import { first, assert } from '@universalweb/acid';
  * assert(first([1, 2, 3]), 1);
  */
 export function first(array, upTo) {

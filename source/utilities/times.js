@@ -9,7 +9,7 @@
  * @returns {undefined} - Nothing.
  *
  * @example
- * import { times } from 'Acid';
+ * import { times } from '@universalweb/acid';
  * times(3, (item) => {
  *   console.log(item);
  * });
@@ -35,7 +35,7 @@ export function times(amount, iteratee) {
  * @returns {Array} - An array with iteratee's returned values.
  *
  * @example
- * import { timesMap } from 'Acid';
+ * import { timesMap } from '@universalweb/acid';
  * timesMap(3, (item) => {
  *   return item;
  * });

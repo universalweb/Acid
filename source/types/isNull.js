@@ -8,7 +8,7 @@ import { hasLength } from '../utilities/hasLength.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isNull, assert } from 'Acid';
+ * import { isNull, assert } from '@universalweb/acid';
  * assert(isNull(null), true);
  */
 export function isNull(source) {

@@ -18,7 +18,7 @@ import { isGenerator } from '../types/isGenerator.js';
  * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties.
  *
  * @example
- * import { assert, forOfFilterAsync } from 'Acid';
+ * import { assert, forOfFilterAsync } from '@universalweb/acid';
  * const source = {a: undefined, b: 2, c: 3};
  * const temp = forOfFilterAsync(source, (item) => {
  *   return Boolean(item);

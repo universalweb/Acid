@@ -10,7 +10,7 @@ import { eachArray } from '../arrays/each.js';
  * @returns {Number} - The count.
  *
  * @example
- * import { countWithoutKey, assert } from 'Acid';
+ * import { countWithoutKey, assert } from '@universalweb/acid';
  * assert(countWithoutKey([{a:1}, {a:3}], 'b'), 2);
  */
 export function countWithoutKey(collection, propertyName) {

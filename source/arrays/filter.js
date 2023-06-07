@@ -15,7 +15,7 @@ import { eachArray } from './each.js';
  * @returns {Array} - An array with properties that passed the test.
  *
  * @example
- * import { filterArray, assert } from 'Acid';
+ * import { filterArray, assert } from '@universalweb/acid';
  * assert(filterArray([false, true, true], (item) => {
  *   return item;
  * }), [true, true]);

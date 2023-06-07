@@ -14,7 +14,7 @@ import { mapAsyncObject } from './mapAsync.js';
  * @returns {Object|Function} - An object with mapped properties that are not null or undefined.
  *
  * @example
- * import { compactMapAsyncObject, assert } from 'Acid';
+ * import { compactMapAsyncObject, assert } from '@universalweb/acid';
  * assert(await compactMapAsyncObject({a: 1, b: undefined, c: 3}, (item) => {
  *   return item;
  * }), {a: 1, c: 3});

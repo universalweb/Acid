@@ -9,7 +9,7 @@ import { map } from '../utilities/map.js';
  * @returns {Function} - Returns the new over wrapped function.
  *
  * @example
- * import { overAsync, assert } from 'Acid';
+ * import { overAsync, assert } from '@universalweb/acid';
  * assert(overAsync([async(...items) => {return Math.max(item);}])(1, 2, 3, 4), [4]);
  */
 export function overAsync(iteratees) {

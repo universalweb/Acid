@@ -15,7 +15,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @returns {Array} - The originally given array.
  *
  * @example
- * import { whileCompactMap, assert } from 'Acid';
+ * import { whileCompactMap, assert } from '@universalweb/acid';
  * assert(whileCompactMap([1, 2, 3, false, undefined, null], (item) => {
  *   return item;
  * }), [1, 2, 3, false]);

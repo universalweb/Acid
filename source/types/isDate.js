@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isDate, assert } from 'Acid';
+ * import { isDate, assert } from '@universalweb/acid';
  * assert(isDate(new Date()), true);
  */
 export const isDateCall = isConstructorNameFactory('Date');

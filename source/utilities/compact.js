@@ -11,7 +11,7 @@ import { truey } from './truey.js';
  * @returns {Array|Object} - A new object or array containing the filtered values.
  *
  * @example
- * import { compact, assert } from 'Acid';
+ * import { compact, assert } from '@universalweb/acid';
  * assert(compact([1,'B', 'Cat', false, null, 0 , '', undefined, NaN]), [1, 'B', 'Cat']);
  */
 export function compact(source) {

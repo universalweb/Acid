@@ -7,7 +7,7 @@
  * @returns {Boolean} - Returns false.
  *
  * @example
- * import { stubFalse } from 'Acid';
+ * import { stubFalse } from '@universalweb/acid';
  * stubFalse();
  * // => false
  */

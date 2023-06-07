@@ -10,7 +10,7 @@ import { everyArray } from './every.js';
  * @returns {Number} - The index at which to insert.
  *
  * @example
- * import { getNumberInsertIndex, assert } from 'Acid';
+ * import { getNumberInsertIndex, assert } from '@universalweb/acid';
  * assert(getNumberInsertIndex([30, 39, 50], 40), 1);
  */
 export function getNumberInsertIndex(source, target) {

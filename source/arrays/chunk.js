@@ -9,7 +9,7 @@
  * @returns {Array} - A chunked version of the source array.
  *
  * @example
- * import { chunk, assert } from 'Acid';
+ * import { chunk, assert } from '@universalweb/acid';
  * assert(chunk([1,2,3], 1), [[1],[2],[3]]);
  */
 export function chunk(array, size = 1) {

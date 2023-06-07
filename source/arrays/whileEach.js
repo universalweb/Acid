@@ -12,7 +12,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @returns {Array} - The originally given array.
  *
  * @example
- * import { whileEachArray, assert } from 'Acid';
+ * import { whileEachArray, assert } from '@universalweb/acid';
  * const list = [];
  * whileEachArray([1, 2, 3], (item, index) => {
  *   list[index] = item;

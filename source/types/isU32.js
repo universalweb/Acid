@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isU32 } from 'Acid';
+ * import { isU32 } from '@universalweb/acid';
  * isU32(new Uint32Array());
  * // => true
  */

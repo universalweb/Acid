@@ -9,7 +9,7 @@ import { construct } from '../classes/construct.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { cloneType, assert } from 'Acid';
+ * import { cloneType, assert } from '@universalweb/acid';
  * assert(cloneType([1]), []);
  */
 export function cloneType(source, args = []) {

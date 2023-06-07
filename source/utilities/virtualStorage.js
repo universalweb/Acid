@@ -7,7 +7,7 @@
  * @returns {*} - Returns a new VirtualStorage Object.
  *
  * @example
- * import { virtualStorage } from 'Acid';
+ * import { virtualStorage } from '@universalweb/acid';
  * const myVirtualStorage = virtualStorage();
  * // => New Crate Object
  */
@@ -22,7 +22,7 @@ export class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { VirtualStorage } from 'Acid';
+	 * import { VirtualStorage } from '@universalweb/acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
 	 * myVirtualStorage.getItem('key');
@@ -39,7 +39,7 @@ export class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { VirtualStorage, assert } from 'Acid';
+	 * import { VirtualStorage, assert } from '@universalweb/acid';
 	 * const vStorage = new VirtualStorage();
 	 * vStorage.setItem('title', 'value');
 	 * assert(vStorage.getItem('title'), 'value');
@@ -54,7 +54,7 @@ export class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { virtualStorage } from 'Acid';
+	 * import { virtualStorage } from '@universalweb/acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
 	 * myVirtualStorage.clear();
@@ -71,7 +71,7 @@ export class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { virtualStorage } from 'Acid';
+	 * import { virtualStorage } from '@universalweb/acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
 	 * myVirtualStorage.removeItem('key');
@@ -91,7 +91,7 @@ export class VirtualStorage {
  * @returns {*} - Returns a new VirtualStorage Object.
  *
  * @example
- * import { virtualStorage, assert } from 'Acid';
+ * import { virtualStorage, assert } from '@universalweb/acid';
  * const vStorage = virtualStorage();
  * vStorage.setItem('title', 'value');
  * assert(vStorage.getItem('title'), 'value');

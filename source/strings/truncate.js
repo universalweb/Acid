@@ -35,7 +35,7 @@ const truncateUp = (string, maxLength, stringLength) => {
  * @returns {String} - The mutated string.
  *
  * @example
- * import { truncate, assert } from 'Acid';
+ * import { truncate, assert } from '@universalweb/acid';
  * truncate('Where is Lucy?', 2);
  * // => 'Where is'
  */
@@ -54,7 +54,7 @@ export function truncate(string, maxLength) {
  * @returns {String} - The mutated string.
  *
  * @example
- * import { truncateRight, assert } from 'Acid';
+ * import { truncateRight, assert } from '@universalweb/acid';
  * truncateRight('Where is Lucy?', 6);
  * // => 'Lucy?'
  */

@@ -12,7 +12,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @returns {Array} - Returns true if all returns are false or false if one value returns true.
  *
  * @example
- * import { untilTrueArray, assert } from 'Acid';
+ * import { untilTrueArray, assert } from '@universalweb/acid';
  * assert(untilTrueArray([true], (item) => {
  *   return item;
  * }), false);
