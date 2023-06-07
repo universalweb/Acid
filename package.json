@@ -18,6 +18,11 @@
         "url": "git+https://github.com/universalweb/Acid.git",
         "directory": "github"
     },
+    "company": "Universal Web",
+    "readme": "README.md",
+    "publishConfig": {
+        "access": "public"
+    },
     "license": "ISC",
     "maintainers": [
         {
@@ -81,8 +86,6 @@
     "imports": {
         "#type/*": "./source/type/*.js"
     },
-    "company": "Universal Web",
-    "readme": "README.md",
     "devDependencies": {
         "rollup-plugin-node-externals": "^6.1.1"
     }
