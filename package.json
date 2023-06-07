@@ -1,6 +1,6 @@
 {
     "name": "@universalweb/acid",
-    "version": "3.0.36",
+    "version": "3.0.37",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library.",
     "keywords": [
         "Acid",
@@ -44,7 +44,7 @@
         "changelog": "npx auto-changelog -p --sort-commits date-desc && git add CHANGELOG.md",
         "buildProduction": "production=true node index.js",
         "bumpVersion": "npm version patch --force && cd ./package/ && npm version patch --force",
-        "puball": "npm publish ./npm/ && npm publish ./github/",
+        "puball": "npm publish ./npm/ && cd ./github/ && npm publish ./github/  && cd ../",
         "pubit": "npm run bumpVersion && npm run buildProduction && npm run changelog && npm run puball"
     },
     "dependencies": {
