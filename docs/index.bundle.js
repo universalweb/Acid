@@ -6690,6 +6690,8 @@
 		}
 		return path.dirname(url.fileURLToPath(importMeta.url));
 	}
+	const isDeno = typeof globalThis.Deno !== 'undefined';
+	const isNodejs = typeof globalThis.process !== 'undefined' && process.versions && process.versions.node;
 	exports.Intervals = Intervals;
 	exports.Model = Model;
 	exports.Store = Store;
@@ -6846,6 +6848,7 @@
 	exports.isConstructorNameFactory = isConstructorNameFactory;
 	exports.isDate = isDate;
 	exports.isDateCall = isDateCall;
+	exports.isDeno = isDeno;
 	exports.isEmpty = isEmpty;
 	exports.isEqual = isEqual;
 	exports.isF32 = isF32;
@@ -6873,6 +6876,7 @@
 	exports.isMapCall = isMapCall;
 	exports.isMatchArray = isMatchArray;
 	exports.isMatchObject = isMatchObject;
+	exports.isNodejs = isNodejs;
 	exports.isNull = isNull;
 	exports.isNumber = isNumber;
 	exports.isNumberCall = isNumberCall;

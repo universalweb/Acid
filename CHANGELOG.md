@@ -6,8 +6,21 @@
 </pre>
 ---
 
-### [v3.0.39](https://github.com/universalweb/Acid/compare/v3.0.39...v3.0.39) 
-DATE: 2023-06-07
+### [v3.0.41](https://github.com/universalweb/Acid/compare/v3.0.41...v3.0.41) 
+DATE: 2023-06-11
+
+---
+### [v3.0.41](https://github.com/universalweb/Acid/compare/v3.0.40...v3.0.41) 
+DATE: 2023-06-11
+
+---
+### [v3.0.40](https://github.com/universalweb/Acid/compare/v3.0.39...v3.0.40) 
+DATE: 2023-06-10
+
+### Commits
+
+- quick pkg.json patch [`c0a387a`](https://github.com/universalweb/Acid/commit/c0a387a44ca611eea374588b960c3748c4ce5f35)
+- Automated build & publish [`f29d44b`](https://github.com/universalweb/Acid/commit/f29d44b5a0fd8d93ede7b1ccae868169350d7b7b)
 
 ---
 ### [v3.0.39](https://github.com/universalweb/Acid/compare/v3.0.38...v3.0.39) 

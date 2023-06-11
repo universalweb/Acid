@@ -121,6 +121,16 @@ const build = async () => {
 			terser()
 		],
 	});
+	const basicProduction = await rollup({
+		input: './source/basic.js',
+		plugins: [
+			nodeExternals({
+				builtinsPrefix: 'ignore'
+			}),
+			nodeResolve(),
+			terser()
+		],
+	});
 	await index.write({
 		file: './build/index.bundle.js',
 		format: 'umd',
@@ -145,10 +155,24 @@ const build = async () => {
 		name: '$',
 		sourcemap: true,
 	});
+	await basicProduction.write({
+		file: './build/basic.js',
+		format: 'umd',
+		name: '$',
+		sourcemap: true,
+	});
+	await basicProduction.write({
+		file: './build/module/basic.js',
+		format: 'es',
+		name: '$',
+		sourcemap: true,
+	});
 	await beautify('./build/index.bundle.js');
 	copyFile('./build/index.bundle.js', './docs/index.bundle.js');
 	copyFile('./build/module/bundle.js', './docs/index.bundle.es.js');
+	copyFile('./build/module/basic.js', './docs/basic.es.js');
 	copyFile('./build/index.js', './docs/index.js');
+	copyFile('./build/basic.js', './docs/basic.js');
 	console.log('Build Server END');
 	console.log('Build Complete');
 	console.log('Docs Started');
@@ -156,7 +180,9 @@ const build = async () => {
 	console.log('Docs Complete');
 	console.log('package Started');
 	copyFile('./build/index.js', './package/index.js');
+	copyFile('./build/basic.js', './package/basic.js');
 	copyFile('./build/module/index.js', './package/module/index.js');
+	copyFile('./build/module/basic.js', './package/module/basic.js');
 	copyFile('./build/browser.js', './package/browser.js');
 	copyFile('./build/module/browser/index.js', './package/module/browser/index.js');
 	copyFile('./LICENSE', './package/LICENSE');
