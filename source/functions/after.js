@@ -15,11 +15,10 @@
  * });
  *
  * @example
+ * import { after, assert } from '@universalweb/acid';
  * const onlyAfter = after(1, (item) => { return item;});
- * onlyAfter(1);
- * // => undefined
- * onlyAfter(2);
- * // => 2
+ * assert(onlyAfter(1), undefined);
+ * assert(onlyAfter(2), 2);
  */
 export function after(amount, callable) {
 	let point = amount;

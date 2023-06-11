@@ -54,3 +54,5 @@ export * from './types/isWeakMap.js';
 export * from './types/noValue.js';
 export * from './types/sameClass.js';
 export * from './types/sameType.js';
+export * from './types/isDeno.js';
+export * from './types/isNode.js';

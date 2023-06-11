@@ -6,8 +6,17 @@
 </pre>
 ---
 
-### [v3.0.41](https://github.com/universalweb/Acid/compare/v3.0.41...v3.0.41) 
+### [v3.0.42](https://github.com/universalweb/Acid/compare/v3.0.42...v3.0.42) 
 DATE: 2023-06-11
+
+---
+### [v3.0.42](https://github.com/universalweb/Acid/compare/v3.0.41...v3.0.42) 
+DATE: 2023-06-11
+
+### Commits
+
+- dep updates [`c2fda5d`](https://github.com/universalweb/Acid/commit/c2fda5d05263c576b7cbe29c3ebdb33f08555a06)
+- Version update [`badd386`](https://github.com/universalweb/Acid/commit/badd386a9baa12cb8973beb007262238e86ec8c5)
 
 ---
 ### [v3.0.41](https://github.com/universalweb/Acid/compare/v3.0.40...v3.0.41) 

@@ -9,13 +9,9 @@
  * @returns {Function} - Returns the new pass-thru function.
  *
  * @example
+ * import { before, assert } from '@universalweb/acid';
  * const onlyBefore = before(3, () => { return 1;});
- * onlyBefore(1);
- * // => 1
- * onlyBefore(2);
- * // => 2
- * onlyBefore(3);
- * // => 2
+ * assert(onlyBefore(1), 1);
  */
 export function before(amount, callable) {
 	let point = amount;

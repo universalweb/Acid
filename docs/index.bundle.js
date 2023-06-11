@@ -2400,11 +2400,10 @@
 	 * });
 	 *
 	 * @example
+	 * import { after, assert } from '@universalweb/acid';
 	 * const onlyAfter = after(1, (item) => { return item;});
-	 * onlyAfter(1);
-	 * // => undefined
-	 * onlyAfter(2);
-	 * // => 2
+	 * assert(onlyAfter(1), undefined);
+	 * assert(onlyAfter(2), 2);
 	 */
 	function after(amount, callable) {
 		let point = amount;
@@ -2432,8 +2431,8 @@
 	 * @returns {Object} - Returns the new capped function.
 	 *
 	 * @example
-	 * ary((...args) => { return args;}, 2)(1, 2, 3);
-	 * // => [1, 2]
+	 * import { ary, assert } from '@universalweb/acid';
+	 * assert(ary((...args) => { return args;}, 2)(1, 2, 3), [1, 2]);
 	 */
 	function ary(callable, amount) {
 		return (...args) => {
@@ -2451,13 +2450,9 @@
 	 * @returns {Function} - Returns the new pass-thru function.
 	 *
 	 * @example
+	 * import { before, assert } from '@universalweb/acid';
 	 * const onlyBefore = before(3, () => { return 1;});
-	 * onlyBefore(1);
-	 * // => 1
-	 * onlyBefore(2);
-	 * // => 2
-	 * onlyBefore(3);
-	 * // => 2
+	 * assert(onlyBefore(1), 1);
 	 */
 	function before(amount, callable) {
 		let point = amount;
@@ -2688,15 +2683,30 @@
 	 * assert(list, {a: 1, b: 2, c: 3});
 	 */
 	const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
-	const add$1 = (link, methods) => {
-		each(methods, (item, key) => {
-			link.methods[key] = (...args) => {
-				item(link.value, ...args);
-				return link.methods;
-			};
-		});
-		return link;
-	};
+	class Chain {
+		constructor(methods) {
+			this.addChainMethod(methods);
+		}
+		addChainMethod(methods) {
+			const thisChain = this;
+			each(methods, (method, methodName) => {
+				thisChain[methodName] = function(...args) {
+					this.value = method.call(thisChain, thisChain.value, ...args);
+					return thisChain;
+				};
+			});
+		}
+		setValue(value) {
+			this.value = value;
+			return this;
+		}
+		done() {
+			const value = this.value;
+			this.value = null;
+			return value;
+		}
+		value = null;
+	}
 	/**
 	 * Creates a chainable set of functions.
 	 *
@@ -2706,37 +2716,17 @@
 	 * @param {Array|Object} methods - The object to take methods from.
 	 * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
 	 *
-	 * @test
-	 * (async () => {
-	 *   const chained = chain({a(item) { return item;}});
-	 *   chained('Acid').a();
-	 *   return assert(chained.done(), 'Acid');
-	 * });
-	 *
 	 * @example
-	 * const chained = chain({a(item) { return item;}});
-	 * chained('Acid').a();
-	 * chained.done();
-	 * // => 'Acid'
+	 * import { chain, assert } from '@universalweb/acid';
+	 * const chained = chain({
+	 * 	a(value, c) {
+	 * 		return value + c;
+	 * 	}
+	 * }).setValue(2).a(1).done();
+	 * assert(chained, 3);
 	 */
-	function chain(methods) {
-		const link = (value) => {
-			link.value = value;
-			return link.methods;
-		};
-		assign(link, {
-			add(addToChain) {
-				return add$1(link, addToChain);
-			},
-			done() {
-				const value = link.value;
-				link.value = null;
-				return value;
-			},
-			methods: {}
-		});
-		link.add(methods);
-		return link;
+	function chain(config) {
+		return construct(Chain, [config]);
 	}
 	/**
 	 * Creates a function that accepts arguments of method and either invokes method returning its result, if at least arity number of arguments have been provided, or returns a function that accepts the remaining method arguments, and so on. The arity of method may be specified if method length is not sufficient.
@@ -2749,10 +2739,11 @@
 	 * @returns {*} - Returns the new curried function.
 	 *
 	 * @example
-	 * curry((a, b, c) => {
+	 * import { curry, assert } from '@universalweb/acid';
+	 * const result = curry((a, b, c) => {
 	 *   return [a, b, c];
 	 * })(1)(2)(3);
-	 * // => [1, 2, 3]
+	 * assert(result, [1, 2, 3]);
 	 */
 	function curry(callable, arity = callable.length) {
 		const curries = [];
@@ -2777,10 +2768,11 @@
 	 * @returns {*} - Returns the new curried function.
 	 *
 	 * @example
-	 * curryRight((a, b, c) => {
+	 * import { curryRight, assert } from '@universalweb/acid';
+	 * const result = curryRight((a, b, c) => {
 	 *   return [a, b, c];
 	 * })(1)(2)(3);
-	 * // => [3, 2, 1]
+	 * assert(result, [3, 2, 1]);
 	 */
 	function curryRight(callable, arity = callable.length) {
 		const curries = [];
@@ -3018,9 +3010,11 @@
 	 * @returns {Function} - The debounced function.
 	 *
 	 * @example
-	 * const debounced = debounce(() => { console.log('debounced'); }, 0);
-	 * debounced();
-	 * // 'debounced'
+	 * import { debounce, promise, assert } from '@universalweb/acid';
+	 * const promised = promise((a) => {
+	 * 		const debounced = debounce(() => { debounced.clear(); a('debounced'); }, 0);
+	 * });
+	 * assert(await promised(), 'debounced');
 	 */
 	function debounce(callable, time) {
 		function debounced(...args) {
@@ -5370,6 +5364,8 @@
 	 */
 	const isWeakMapCall = isConstructorNameFactory('WeakMap');
 	const isWeakMap = isTypeFactory(isWeakMapCall);
+	const isDeno = typeof globalThis.Deno !== 'undefined';
+	const isNodejs = typeof globalThis.process !== 'undefined' && process.versions && process.versions.node;
 	/**
 	 * If source has a value then return source or invoke a function (if present) with source as the argument.
 	 *
@@ -6690,8 +6686,7 @@
 		}
 		return path.dirname(url.fileURLToPath(importMeta.url));
 	}
-	const isDeno = typeof globalThis.Deno !== 'undefined';
-	const isNodejs = typeof globalThis.process !== 'undefined' && process.versions && process.versions.node;
+	exports.Chain = Chain;
 	exports.Intervals = Intervals;
 	exports.Model = Model;
 	exports.Store = Store;

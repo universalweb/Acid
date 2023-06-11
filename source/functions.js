@@ -3,6 +3,7 @@ export * from './functions/ary.js';
 export * from './functions/before.js';
 export * from './functions/chain.js';
 export * from './functions/curry.js';
+export * from './functions/curryRight.js';
 export * from './functions/debounce.js';
 export * from './functions/ifInvoke.js';
 export * from './functions/inAsync.js';

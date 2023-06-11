@@ -1,14 +1,33 @@
 import { assign } from '../objects/assign.js';
 import { each } from '../utilities/each.js';
-const add = (link, methods) => {
-	each(methods, (item, key) => {
-		link.methods[key] = (...args) => {
-			item(link.value, ...args);
-			return link.methods;
-		};
-	});
-	return link;
-};
+import { isPlainObject } from '../types/isPlainObject.js';
+import { isFunction } from '../types/isFunction.js';
+import { construct } from '../classes/construct.js';
+import { isArray } from '../types/isArray.js';
+export class Chain {
+	constructor(methods) {
+		this.addChainMethod(methods);
+	}
+	addChainMethod(methods) {
+		const thisChain = this;
+		each(methods, (method, methodName) => {
+			thisChain[methodName] = function(...args) {
+				this.value = method.call(thisChain, thisChain.value, ...args);
+				return thisChain;
+			};
+		});
+	}
+	setValue(value) {
+		this.value = value;
+		return this;
+	}
+	done() {
+		const value = this.value;
+		this.value = null;
+		return value;
+	}
+	value = null;
+}
 /**
  * Creates a chainable set of functions.
  *
@@ -18,36 +37,16 @@ const add = (link, methods) => {
  * @param {Array|Object} methods - The object to take methods from.
  * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
  *
- * @test
- * (async () => {
- *   const chained = chain({a(item) { return item;}});
- *   chained('Acid').a();
- *   return assert(chained.done(), 'Acid');
- * });
- *
  * @example
- * const chained = chain({a(item) { return item;}});
- * chained('Acid').a();
- * chained.done();
- * // => 'Acid'
+ * import { chain, assert } from '@universalweb/acid';
+ * const chained = chain({
+ * 	a(value, c) {
+ * 		return value + c;
+ * 	}
+ * }).setValue(2).a(1).done();
+ * assert(chained, 3);
  */
-export function chain(methods) {
-	const link = (value) => {
-		link.value = value;
-		return link.methods;
-	};
-	assign(link, {
-		add(addToChain) {
-			return add(link, addToChain);
-		},
-		done() {
-			const value = link.value;
-			link.value = null;
-			return value;
-		},
-		methods: {},
-	});
-	link.add(methods);
-	return link;
+export function chain(config) {
+	return construct(Chain, [config]);
 }
 

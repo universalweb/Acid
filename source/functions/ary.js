@@ -9,8 +9,8 @@
  * @returns {Object} - Returns the new capped function.
  *
  * @example
- * ary((...args) => { return args;}, 2)(1, 2, 3);
- * // => [1, 2]
+ * import { ary, assert } from '@universalweb/acid';
+ * assert(ary((...args) => { return args;}, 2)(1, 2, 3), [1, 2]);
  */
 export function ary(callable, amount) {
 	return (...args) => {
