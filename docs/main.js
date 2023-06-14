@@ -75,7 +75,7 @@
 		data() {
 			return {
 				libraryName: 'Acid',
-				npmName: 'Acid',
+				npmName: '@universalweb/acid',
 				description: `Acid is a robust, modern, modular, & async focused Javascript utility library.`,
 				github: 'https://github.com/universalweb/Acid',
 				npm: 'https://www.npmjs.com/package/@universalweb/acid',

@@ -4,7 +4,7 @@
       <div class="uk-padding-small">
         <h2 class="uk-heading-line uk-text-center  uk-margin-remove-bottom"><span>{{libraryName}}</span></h2>
         <h6 class="uk-text-center uk-margin-bottom uk-margin-remove-top">Total Methods: {{methodCount}}</h6>
-        <p class="uk-text uk-text-center">{{description}}</p> Case sensitive NPM name <code class="uk-width-1-1 uk-text-center uk-margin-bottom">npm install {{npmName}}</code>
+        <p class="uk-text uk-text-center">{{description}}</p>
         <h6 class="uk-text-center uk-margin-bottom"><a href="{{github}}">GITHUB</a> | <a href="{{npm}}">NPM</a></h6>
         <hr class="uk-divider-icon">
         <h4 class="uk-text-center"><span>Search</span></h4>
@@ -43,6 +43,7 @@
     </div>
     <div class="uk-position-right scroll uk-overflow-auto uk-width-3-4 uk-container uk-position-absolute uk-height-1-1 uk-background-muted">
       <div class="uk-container-xsmall uk-margin-auto uk-padding">
+        <code class="uk-width-1-1 uk-text-center uk-margin-bottom">npm install {{npmName}}</code>
         {{#categories}}
           {{#this.items}}
             {{#getDocItem(this)}}
