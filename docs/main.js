@@ -78,7 +78,7 @@
 				npmName: 'Acid',
 				description: `Acid is a robust, modern, modular, & async focused Javascript utility library.`,
 				github: 'https://github.com/universalweb/Acid',
-				npm: 'https://www.npmjs.com/package/Acid',
+				npm: 'https://www.npmjs.com/package/@universalweb/acid',
 				search: '',
 				$: window.$,
 				categories: window.docMap.categories,

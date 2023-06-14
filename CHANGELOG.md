@@ -6,7 +6,11 @@
 </pre>
 ---
 
-### [v3.0.45](https://github.com/universalweb/Acid/compare/v3.0.45...v3.0.45) 
+### [v3.0.46](https://github.com/universalweb/Acid/compare/v3.0.46...v3.0.46) 
+DATE: 2023-06-14
+
+---
+### [v3.0.46](https://github.com/universalweb/Acid/compare/v3.0.45...v3.0.46) 
 DATE: 2023-06-14
 
 ---
