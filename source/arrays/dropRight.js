@@ -12,9 +12,10 @@ import { drop } from './drop.js';
  *
  * @example
  * import { dropRight, assert } from '@universalweb/acid';
- * assert(dropRight([1, 2, 3], 1), [1, 2]);
+ * assert(dropRight([1, 2, 3]), [1, 2]);
+ * assert(dropRight([1, 2, 3], 2), [1]);
  */
-export const dropRight = (array, amount, upTo = array.length) => {
+export const dropRight = (array, amount = 1, upTo = array.length) => {
 	return drop(array, 0, upTo - amount);
 };
 

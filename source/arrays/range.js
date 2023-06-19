@@ -1,21 +1,19 @@
-export function rangeUp(start, end, incrementArg) {
-	const rangeArray = [];
+import { isNegative } from '../numbers/isNegative.js';
+export function rangeUp(start, end, step, sourceArray) {
 	let position = start;
 	while (position < end) {
-		rangeArray.push(position);
-		position += incrementArg;
+		sourceArray.push(position);
+		position += step;
 	}
-	return rangeArray;
+	return sourceArray;
 }
-export function rangeDown(start, end, incrementArg) {
-	const increment = (incrementArg < 0) ? incrementArg * -1 : incrementArg;
-	const rangeArray = [];
+export function rangeDown(start, end, step, sourceArray) {
 	let position = start;
 	while (position > end) {
-		rangeArray.push(position);
-		position -= increment;
+		sourceArray.push(position);
+		position -= step;
 	}
-	return rangeArray;
+	return sourceArray;
 }
 /**
  * Create a numbered list of integers.
@@ -32,11 +30,13 @@ export function rangeDown(start, end, incrementArg) {
  * import { range, assert } from '@universalweb/acid';
  * assert(range(0, 30, 5), [0, 5, 10, 15, 20, 25]);
  */
-export function range(start, end, step = 1) {
+export function range(start, end, step = 1, sourceArray = []) {
+	if (isNegative(step)) {
+		return sourceArray;
+	}
 	if (start < end) {
-		return rangeUp(start, end, step);
+		return rangeUp(start, end, step, sourceArray);
 	} else {
-		return rangeDown(start, end, step);
+		return rangeDown(start, end, step, sourceArray);
 	}
 }
-

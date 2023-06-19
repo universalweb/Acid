@@ -250,24 +250,38 @@
 		});
 		return results;
 	}
-	function rangeUp(start, end, incrementArg) {
-		const rangeArray = [];
+	/**
+	 * Checks if a number is negative & returns true or false.
+	 *
+	 * @function isNegative
+	 * @category number
+	 * @type {Function}
+	 * @param {Number} source - Number to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isNegative, assert } from '@universalweb/acid';
+	 * assert(isNegative(-1), true);
+	 */
+	const { sign: sign$1 } = Math;
+	function isNegative(source) {
+		return sign$1(source) === -1;
+	}
+	function rangeUp(start, end, step, sourceArray) {
 		let position = start;
 		while (position < end) {
-			rangeArray.push(position);
-			position += incrementArg;
+			sourceArray.push(position);
+			position += step;
 		}
-		return rangeArray;
+		return sourceArray;
 	}
-	function rangeDown(start, end, incrementArg) {
-		const increment = incrementArg < 0 ? incrementArg * -1 : incrementArg;
-		const rangeArray = [];
+	function rangeDown(start, end, step, sourceArray) {
 		let position = start;
 		while (position > end) {
-			rangeArray.push(position);
-			position -= increment;
+			sourceArray.push(position);
+			position -= step;
 		}
-		return rangeArray;
+		return sourceArray;
 	}
 	/**
 	 * Create a numbered list of integers.
@@ -284,11 +298,14 @@
 	 * import { range, assert } from '@universalweb/acid';
 	 * assert(range(0, 30, 5), [0, 5, 10, 15, 20, 25]);
 	 */
-	function range(start, end, step = 1) {
+	function range(start, end, step = 1, sourceArray = []) {
+		if (isNegative(step)) {
+			return sourceArray;
+		}
 		if (start < end) {
-			return rangeUp(start, end, step);
+			return rangeUp(start, end, step, sourceArray);
 		} else {
-			return rangeDown(start, end, step);
+			return rangeDown(start, end, step, sourceArray);
 		}
 	}
 	function forEach(source, callback) {
@@ -424,9 +441,10 @@
 	 *
 	 * @example
 	 * import { drop, assert } from '@universalweb/acid';
-	 * assert(drop([1, 2, 3], 1), [2, 3]);
+	 * assert(drop([1, 2, 3]), [2, 3]);
+	 * assert(drop([1, 2, 3], 2), [3]);
 	 */
-	function drop(array, amount, upTo = array.length) {
+	function drop(array, amount = 1, upTo = array.length) {
 		return array.splice(amount, upTo);
 	}
 	/**
@@ -442,9 +460,10 @@
 	 *
 	 * @example
 	 * import { dropRight, assert } from '@universalweb/acid';
-	 * assert(dropRight([1, 2, 3], 1), [1, 2]);
+	 * assert(dropRight([1, 2, 3]), [1, 2]);
+	 * assert(dropRight([1, 2, 3], 2), [1]);
 	 */
-	const dropRight = (array, amount, upTo = array.length) => {
+	const dropRight = (array, amount = 1, upTo = array.length) => {
 		return drop(array, 0, upTo - amount);
 	};
 	/**
@@ -1121,30 +1140,30 @@
 	 * @type {Function}
 	 * @category array
 	 * @param {Array} array - Takes an array to split.
-	 * @param {Function} funct - Function run on each item in array.
+	 * @param {Function} predicate - Function run on each item in the array.
 	 * @returns {Array} - One array split into two arrays.
 	 *
 	 * @example
-	 * partition([
+	 * import { partition, assert } from '@universalweb/acid';
+	 * const result = partition([
 	 *  {user: 'barney', age: 36, active: false},
 	 *  {user: 'fred', age: 40, active: true},
 	 *  {user: 'pebbles', age: 1,  active: false}
 	 * ], (item) => { return item.active; });
-	 * // => [
-	 * [{"user":"fred","age":40,"active":true}],
+	 * assert(result, [{"user":"fred","age":40,"active":true}],
 	 *   [{"user":"barney","age":36,"active":false},
-	 *   {"user":"pebbles","age":1,"active":false}]]
+	 *   {"user":"pebbles","age":1,"active":false}]);
 	 */
-	function partition(array, funct) {
-		const failed = [];
+	function partition(array, predicate) {
+		const rejected = [];
 		return [
-			compactMapArray(array, (item) => {
-				if (funct(item)) {
+			compactMapArray(array, (item, index) => {
+				if (predicate(item, index)) {
 					return item;
 				}
-				failed.push(item);
+				rejected.push(item);
 			}),
-			failed
+			rejected
 		];
 	}
 	/**
@@ -3917,6 +3936,23 @@
 		return source < start || source > end;
 	}
 	/**
+	 * Checks if a number is negative & returns true or false.
+	 *
+	 * @function isPositive
+	 * @category number
+	 * @type {Function}
+	 * @param {Number} source - Number to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isPositive, assert } from '@universalweb/acid';
+	 * assert(isPositive(1), true);
+	 */
+	const { sign } = Math;
+	function isPositive(source) {
+		return sign(source) === 1;
+	}
+	/**
 	 * Strictly checks if a number is zero.
 	 *
 	 * @function isZero
@@ -4317,26 +4353,7 @@
 		});
 		return [unZippedKeys, values];
 	};
-	const normalizeCase = /[-_]/g;
-	const spaceFirstLetter$1 = / (.)/g;
-	/**
-	 * Converts a string and converts it entirely into uppercase.
-	 *
-	 * @function upperCase
-	 * @category string
-	 * @type {Function}
-	 * @param {String} source - String to be converted into upper case.
-	 * @returns {String} - Converted string in upper case.
-	 *
-	 * @example
-	 * import { upperCase, assert } from '@universalweb/acid';
-	 * upperCase('upper case');
-	 * // => 'UPPER CASE'
-	 */
-	function upperCase(source) {
-		return source.replace(normalizeCase, ' ').trim()
-			.toUpperCase();
-	}
+	const normalizeCase$4 = /[ _-]+/g;
 	/**
 	 * Converts a string into Camel case format.
 	 *
@@ -4348,16 +4365,27 @@
 	 *
 	 * @example
 	 * import { camelCase, assert } from '@universalweb/acid';
-	 * camelCase('camel case');
-	 * // => 'camelCase'
+	 * assert(camelCase('camel case'), 'camelCase');
 	 */
 	function camelCase(source) {
-		return source.toLowerCase().replace(spaceFirstLetter$1, (match) => {
-			return match.toUpperCase().replace(/ /g, '');
-		});
+		let result = '';
+		source
+			.replace(normalizeCase$4, ' ')
+			.trim()
+			.split(' ')
+			.forEach((item, index) => {
+				if (index === 0) {
+					result += item.toLowerCase();
+				} else {
+					result += item[0].toUpperCase() + item.slice(1).toLowerCase();
+				}
+			});
+		return result;
 	}
+	const normalizeCase$3 = /[ _-]+/g;
+	const space$1 = /[ ]+/g;
 	/**
-	 * Converts a string into Kebab case format.
+	 * Converts a string into single space sepperated words in Kebab case.
 	 *
 	 * @function kebabCase
 	 * @category string
@@ -4367,16 +4395,20 @@
 	 *
 	 * @example
 	 * import { kebabCase, assert } from '@universalweb/acid';
-	 * kebabCase('kebab case');
-	 * // => 'kebab-case'
+	 * assert(kebabCase('kebab case'), 'kebab-case');
 	 */
 	function kebabCase(source) {
-		return source.replace(normalizeCase, ' ').trim()
+		return source
+			.replace(/([A-Z]+)/g, ' $1')
+			.replace(normalizeCase$3, ' ')
+			.trim()
 			.toLowerCase()
-			.replace(spaceFirstLetter$1, '-$1');
+			.replace(space$1, '-');
 	}
+	const normalizeCase$2 = /[ _-]+/g;
+	const space = /[ ]+/g;
 	/**
-	 * Converts a string into snake case format.
+	 * Converts a string into single space sepperated words in snake case.
 	 *
 	 * @function snakeCase
 	 * @category string
@@ -4386,13 +4418,59 @@
 	 *
 	 * @example
 	 * import { snakeCase, assert } from '@universalweb/acid';
-	 * snakeCase('snake case');
-	 * // => 'snake_case'
+	 * assert(snakeCase('snake case'), 'snake_case');
 	 */
 	function snakeCase(source) {
-		return source.replace(normalizeCase, ' ').trim()
+		return source
+			.replace(/([A-Z]+)/g, ' $1')
+			.replace(normalizeCase$2, ' ')
+			.trim()
 			.toLowerCase()
-			.replace(spaceFirstLetter$1, '_$1');
+			.replace(space, '_');
+	}
+	const normalizeCase$1 = /[ _-]+/g;
+	/**
+	 * Converts a string into single space sepperated words in uppercase.
+	 *
+	 * @function upperCase
+	 * @category string
+	 * @type {Function}
+	 * @param {String} source - String to be converted into upper case.
+	 * @returns {String} - Converted string in upper case.
+	 *
+	 * @example
+	 * import { upperCase, assert } from '@universalweb/acid';
+	 * assert(upperCase('upper-case'), 'UPPER CASE');
+	 * assert(upperCase('upper_case'), 'UPPER CASE');
+	 */
+	function upperCase(source) {
+		return source
+			.replace(/([A-Z]+)/g, ' $1')
+			.replace(normalizeCase$1, ' ')
+			.trim()
+			.toUpperCase();
+	}
+	const normalizeCase = /[ _-]+/g;
+	/**
+	 * Converts a string into single space sepperated words in lowerCase.
+	 *
+	 * @function lowerCase
+	 * @category string
+	 * @type {Function}
+	 * @param {String} source - String to be converted into upper case.
+	 * @returns {String} - Converted string in upper case.
+	 *
+	 * @example
+	 * import { lowerCase, assert } from '@universalweb/acid';
+	 * assert(lowerCase('upper-case'), 'upper case');
+	 * assert(lowerCase('upper_case'), 'upper case');
+	 */
+	function lowerCase(source) {
+		return source
+			.replace(/([A-Z]+)/g, ' $1')
+			.replace(normalizeCase, ' ')
+			.trim()
+			.toLowerCase();
 	}
 	/**
 	 * Inserts text into a string at a given position.
@@ -6871,6 +6949,7 @@
 	exports.isMapCall = isMapCall;
 	exports.isMatchArray = isMatchArray;
 	exports.isMatchObject = isMatchObject;
+	exports.isNegative = isNegative;
 	exports.isNodejs = isNodejs;
 	exports.isNull = isNull;
 	exports.isNumber = isNumber;
@@ -6880,6 +6959,7 @@
 	exports.isNumberNotInRange = isNumberNotInRange;
 	exports.isParent = isParent;
 	exports.isPlainObject = isPlainObject;
+	exports.isPositive = isPositive;
 	exports.isPrimitive = isPrimitive;
 	exports.isPromise = isPromise;
 	exports.isRegex = isRegex;
@@ -6911,6 +6991,7 @@
 	exports.keys = keys;
 	exports.largest = largest;
 	exports.last = last;
+	exports.lowerCase = lowerCase;
 	exports.map = map;
 	exports.mapArray = mapArray;
 	exports.mapAsyncArray = mapAsyncArray;

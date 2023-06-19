@@ -11,9 +11,9 @@
  *
  * @example
  * import { drop, assert } from '@universalweb/acid';
- * assert(drop([1, 2, 3], 1), [2, 3]);
+ * assert(drop([1, 2, 3]), [2, 3]);
+ * assert(drop([1, 2, 3], 2), [3]);
  */
-export function drop(array, amount, upTo = array.length) {
+export function drop(array, amount = 1, upTo = array.length) {
 	return array.splice(amount, upTo);
 }
-
