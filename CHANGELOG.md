@@ -6,8 +6,17 @@
 </pre>
 ---
 
-### [v3.0.46](https://github.com/universalweb/Acid/compare/v3.0.46...v3.0.46) 
+### [v3.0.47](https://github.com/universalweb/Acid/compare/v3.0.47...v3.0.47) 
 DATE: 2023-06-14
+
+---
+### [v3.0.47](https://github.com/universalweb/Acid/compare/v3.0.46...v3.0.47) 
+DATE: 2023-06-14
+
+### Commits
+
+- docs site fix [`eaead35`](https://github.com/universalweb/Acid/commit/eaead35bf1ed487c746935b39f49efddaf646088)
+- Docs & Info patched [`995965a`](https://github.com/universalweb/Acid/commit/995965aabfaf52ac766f6f92a188d7a522d295d1)
 
 ---
 ### [v3.0.46](https://github.com/universalweb/Acid/compare/v3.0.45...v3.0.46) 
