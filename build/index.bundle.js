@@ -2220,25 +2220,19 @@
 		});
 	}
 	/**
-	 * Returns an array of the plucked values from the collection.
+	 * Checks if the value is a string.
 	 *
-	 * @function pluck
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Array used to determine what value to be plucked.
-	 * @param {String} pluckThis - Property name.
-	 * @returns {Array} - An array of plucked values.
+	 * @function isString
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * pluck([{lucy: 'Ants moving around on the walls.'}, {lucy: 'In the sky with diamonds.'}], 'lucy');
-	 * // => ['Ants moving around on the walls.', 'In the sky with diamonds.']
+	 * import { isString } from '@universalweb/acid';
+	 * isString('Lucy');
+	 * // => true
 	 */
-	function pluck(collection, pluckThis) {
-		return mapArray(collection, (item) => {
-			const result = item[pluckThis];
-			return result;
-		});
-	}
+	const isString = isConstructorFactory(String);
 	/**
 	 * Returns an array of the plucked sources from the object. Sources are plucked in the order given by the array.
 	 *
@@ -2246,38 +2240,41 @@
 	 * @category object
 	 * @type {Function}
 	 * @param {Object} source - Array used to determine what sources to be plucked.
-	 * @param {String|Array} pluckThese - Property name.
+	 * @param {String|Array} targets - Property name.
 	 * @returns {Array} - An array of plucked sources.
 	 *
 	 * @example
-	 * pluckObject({a: 1, b:3}, ['a','b']);
-	 * // => [1, 3]
+	 * import { pluckObject, assert } from '@universalweb/acid';
+	 * assert(pluckObject({a: 1, b:3}, ['a','b']), [1, 3]);
 	 */
-	function pluckObject(source, pluckThese) {
+	function pluckObject(source, targets) {
 		if (!source) {
 			return;
+		} else if (isString(targets)) {
+			return source[targets];
 		}
-		return mapArray(pluckThese, (item) => {
+		return mapArray(targets, (item) => {
 			return source[item];
 		});
 	}
 	/**
-	 * Returns an array of the arrays of plucked values from the collection.
+	 * Returns an array of the plucked values from the collection.
 	 *
-	 * @function pluckValues
+	 * @function pluck
 	 * @category collection
 	 * @type {Function}
-	 * @param {Array} collection - Array used to determine what values to be plucked.
-	 * @param {Array} pluckThese - Property names.
-	 * @returns {Array} - An array of arrays of plucked values.
+	 * @param {Array} collection - Array used to determine what value to be plucked.
+	 * @param {(String|Number|Array.<string, number>)} targets - Property name.
+	 * @returns {Array} - An array of plucked values.
 	 *
 	 * @example
-	 * pluckValues([{a: 1, b:3}, {a: 1, b:3}], ['a','b']);
-	 * // => [[1, 3], [1, 3]]
+	 * import { pluck, assert } from '@universalweb/acid';
+	 * assert(pluck([{a: 1}, {a: 2}], 'a'), [1, 2]);
+	 * assert(pluck([{a: 1, b:3}, {a: 1, b:3}], ['a','b']), [[1, 3], [1, 3]]);
 	 */
-	function pluckValues(collection, pluckThese) {
+	function pluck(collection, targets) {
 		return mapArray(collection, (item) => {
-			return pluckObject(item, pluckThese);
+			return pluckObject(item, targets);
 		});
 	}
 	/**
@@ -3979,7 +3976,7 @@
 	 *
 	 * @example
 	 * import { compactKeys, assert } from '@universalweb/acid';
-	 * assert(compactKeys({a: 1, b: 0, c: undefined, d: false, e: null}), {a:1, b:0, d: false});
+	 * assert(compactKeys({a: 1, b: 0, c: undefined, d: false, e: null}), ['a', 'b', 'd']);
 	 */
 	function compactKeys(object) {
 		const compactedKeys = [];
@@ -4142,20 +4139,6 @@
 		}
 		return false;
 	};
-	/**
-	 * Checks if the value is a string.
-	 *
-	 * @function isString
-	 * @category type
-	 * @param {*} source - Object to be checked.
-	 * @returns {Boolean} - Returns true or false.
-	 *
-	 * @example
-	 * import { isString } from '@universalweb/acid';
-	 * isString('Lucy');
-	 * // => true
-	 */
-	const isString = isConstructorFactory(String);
 	/**
 	 * Checks if the value is a number.
 	 *
@@ -5078,9 +5061,8 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isEmpty } from '@universalweb/acid';
-	 * isEmpty([]);
-	 * // => true
+	 * import { isEmpty, assert } from '@universalweb/acid';
+	 * assert(isEmpty([]), true);
 	 */
 	function isEmpty(source) {
 		if (isString(source) || isArray(source)) {
@@ -7018,7 +7000,6 @@
 	exports.pick = pick;
 	exports.pluck = pluck;
 	exports.pluckObject = pluckObject;
-	exports.pluckValues = pluckValues;
 	exports.promise = promise;
 	exports.propertyMatch = propertyMatch;
 	exports.randomFloat = randomFloat;

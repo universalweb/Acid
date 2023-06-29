@@ -4,7 +4,6 @@ import { isPlainObject } from './isPlainObject.js';
 import { hasLength } from '../utilities/hasLength.js';
 import { objectSize } from '../objects/size.js';
 import { hasValue } from './hasValue.js';
-import { notEmpty } from './notEmpty';
 /**
  * Checks if the value is empty.
  *
@@ -14,7 +13,7 @@ import { notEmpty } from './notEmpty';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isEmpty assert } from '@universalweb/acid';
+ * import { isEmpty, assert } from '@universalweb/acid';
  * assert(isEmpty([]), true);
  */
 export function isEmpty(source) {

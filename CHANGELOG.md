@@ -6,8 +6,17 @@
 </pre>
 ---
 
-### [v3.0.48](https://github.com/universalweb/Acid/compare/v3.0.48...v3.0.48) 
-DATE: 2023-06-19
+### [v3.0.49](https://github.com/universalweb/Acid/compare/v3.0.49...v3.0.49) 
+DATE: 2023-06-29
+
+---
+### [v3.0.49](https://github.com/universalweb/Acid/compare/v3.0.48...v3.0.49) 
+DATE: 2023-06-29
+
+### Commits
+
+- docs update [`307baf1`](https://github.com/universalweb/Acid/commit/307baf15338268bb9acb5c010588d0270b029c9b)
+- String cases patched [`7ec0e46`](https://github.com/universalweb/Acid/commit/7ec0e46c132fe78288c069187606b4feeceb6f5d)
 
 ---
 ### [v3.0.48](https://github.com/universalweb/Acid/compare/v3.0.47...v3.0.48) 
