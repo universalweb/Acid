@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"baseUrl": "./source",
-		"module": "ESNext",
-		"moduleResolution": "nodenext",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"target": "ESNext",
 		"jsx": "react",
 		"strictNullChecks": true

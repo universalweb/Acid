@@ -5571,25 +5571,25 @@
 		return structuredCloneSafe(source);
 	}
 	/**
-	 * Check if a value is truey which is anything but false, null, 0, "", undefined, and NaN.
+	 * Check if a value is isTruthy which is anything but false, null, 0, "", undefined, and NaN.
 	 *
-	 * @function truey
+	 * @function isTruthy
 	 * @category Utility
 	 * @type {Function}
-	 * @param {*} source - Item to be truey checked.
-	 * @param {*} [returnIfTrue = true] - Item to be returned if item is truey.
-	 * @returns {Boolean|*} - Returns true if the item is truey or returnIfTrue if provided otherwise returns false.
+	 * @param {*} source - Item to be isTruthy checked.
+	 * @param {*} [returnIfTrue = true] - Item to be returned if item is isTruthy.
+	 * @returns {Boolean|*} - Returns true if the item is isTruthy or returnIfTrue if provided otherwise returns false.
 	 *
 	 * @example
-	 * import { truey, assert } from '@universalweb/acid';
-	 * assert(truey(1), true);
-	 * assert(truey(0), false);
+	 * import { isTruthy, assert } from '@universalweb/acid';
+	 * assert(isTruthy(1), true);
+	 * assert(isTruthy(0), false);
 	 */
-	function truey(source, returnIfTrue = true) {
+	function isTruthy(source, returnIfTrue = true) {
 		return Boolean(source) && returnIfTrue;
 	}
 	/**
-	 * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
+	 * Creates an array with all isFalsy values removed. The values false, null, 0, "", undefined, and NaN are isFalsy.
 	 *
 	 * @function compact
 	 * @category Utility
@@ -5609,15 +5609,15 @@
 			for (let i = 0; i < sourceKeysLength; i++) {
 				const keyName = sourceKeys[i];
 				const item = source[keyName];
-				const isTruey = truey(item);
-				if (isTruey) {
+				const isisTruthy = isTruthy(item);
+				if (isisTruthy) {
 					targetObject[keyName] = item;
 				}
 			}
 			return targetObject;
 		}
 		return source.filter((item) => {
-			return truey(item);
+			return isTruthy(item);
 		});
 	}
 	/**
@@ -5764,21 +5764,21 @@
 		};
 	}
 	/**
-	 * Check if a value is falsey which are false, null, 0, "", undefined, and NaN.
+	 * Check if a value is isFalsy which are false, null, 0, "", undefined, and NaN.
 	 *
-	 * @function falsey
+	 * @function isFalsy
 	 * @category Utility
 	 * @type {Function}
-	 * @param {*} source - Item to be falsey checked.
-	 * @param {*} [returnIfTrue = true] - Item to be returned if item is falsey.
-	 * @returns {Boolean|*} - Returns true if the item is falsey or returnIfTrue if provided otherwise returns false.
+	 * @param {*} source - Item to be isFalsy checked.
+	 * @param {*} [returnIfTrue = true] - Item to be returned if item is isFalsy.
+	 * @returns {Boolean|*} - Returns true if the item is isFalsy or returnIfTrue if provided otherwise returns false.
 	 *
 	 * @example
-	 * import { falsey, assert } from '@universalweb/acid';
-	 * assert(falsey(0), true);
-	 * assert(falsey(1), false);
+	 * import { isFalsy, assert } from '@universalweb/acid';
+	 * assert(isFalsy(0), true);
+	 * assert(isFalsy(1), false);
 	 */
-	function falsey(source, returnIfTrue = true) {
+	function isFalsy(source, returnIfTrue = true) {
 		return Boolean(source) === false && returnIfTrue;
 	}
 	/**
@@ -7375,7 +7375,6 @@
 	exports.everyAsyncArray = everyAsyncArray;
 	exports.everyAsyncObject = everyAsyncObject;
 	exports.everyObject = everyObject;
-	exports.falsey = falsey;
 	exports.falsy = falsy;
 	exports.filter = filter;
 	exports.filterArray = filterArray;
@@ -7478,6 +7477,7 @@
 	exports.isF64 = isF64;
 	exports.isF64Call = isF64Call;
 	exports.isFalse = isFalse;
+	exports.isFalsy = isFalsy;
 	exports.isFileCSS = isFileCSS;
 	exports.isFileHTML = isFileHTML;
 	exports.isFileJS = isFileJS;
@@ -7523,6 +7523,7 @@
 	exports.isSetCall = isSetCall;
 	exports.isString = isString;
 	exports.isTrue = isTrue;
+	exports.isTruthy = isTruthy;
 	exports.isTypeFactory = isTypeFactory;
 	exports.isTypedArray = isTypedArray;
 	exports.isU16 = isU16;
@@ -7635,7 +7636,6 @@
 	exports.toPath = toPath;
 	exports.toggle = toggle;
 	exports.tokenize = tokenize;
-	exports.truey = truey;
 	exports.truncate = truncate;
 	exports.truncateRight = truncateRight;
 	exports.truth = truth;

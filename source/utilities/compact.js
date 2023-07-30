@@ -1,8 +1,8 @@
 import { isPlainObject } from '../types/isPlainObject.js';
 import { keys } from '../objects/keys.js';
-import { truey } from './truey.js';
+import { isTruthy } from './isTruthy.js';
 /**
- * Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
+ * Creates an array with all isFalsy values removed. The values false, null, 0, "", undefined, and NaN are isFalsy.
  *
  * @function compact
  * @category Utility
@@ -22,15 +22,15 @@ export function compact(source) {
 		for (let i = 0; i < sourceKeysLength; i++) {
 			const keyName = sourceKeys[i];
 			const item = source[keyName];
-			const isTruey = truey(item);
-			if (isTruey) {
+			const isisTruthy = isTruthy(item);
+			if (isisTruthy) {
 				targetObject[keyName] = item;
 			}
 		}
 		return targetObject;
 	}
 	return source.filter((item) => {
-		return truey(item);
+		return isTruthy(item);
 	});
 }
 
