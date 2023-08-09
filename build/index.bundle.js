@@ -38,19 +38,19 @@
 	/**
 	 * Clears the values out of an array.
 	 *
-	 * @function clear
+	 * @function clearArray
 	 * @category Array
 	 * @type {Function}
-	 * @param {Array} array - Takes an array to be emptied.
+	 * @param {Array} source - Takes an array to be emptied.
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
-	 * import { clear, assert } from '@universalweb/acid';
-	 * assert(clear([1,'B', 'Cat']), []);
+	 * import { clearArray, assert } from '@universalweb/acid';
+	 * assert(clearArray([1,'B', 'Cat']), []);
 	 */
-	function clear(array) {
-		array.length = 0;
-		return array;
+	function clearArray(source) {
+		source.length = 0;
+		return source;
 	}
 	/**
 	 * Clone an array (uses .slice()) and assign the source arrays values to the new array.
@@ -883,6 +883,57 @@
 		return false;
 	};
 	/**
+	 * Checks to see if the constructor is that of a native object.
+	 *
+	 * @function isConstructor
+	 * @category type
+	 * @param {Object} target - The object to be checked.
+	 * @param {Object} source - The source constructor object.
+	 * @returns {Object} - Returns the target object.
+	 *
+	 * @example
+	 * import { isConstructor, assert } from '@universalweb/acid';
+	 * assert(isConstructor(2, Number), true);
+	 */
+	function isConstructor(target, source) {
+		return target?.constructor === source || false;
+	}
+	function isConstructorFactory(source) {
+		return (target) => {
+			return isConstructor(target, source);
+		};
+	}
+	function constructorName(source) {
+		return source?.constructor?.name;
+	}
+	function isConstructorNameFactory(source) {
+		return (target) => {
+			return constructorName(target) === source || false;
+		};
+	}
+	function isTypeFactory(method) {
+		return function(primarySource, ...otherSources) {
+			if (otherSources) {
+				return method(primarySource) && everyArray(otherSources, method);
+			}
+			return method(primarySource);
+		};
+	}
+	/**
+	 * Checks if an object or objects are a Buffer.
+	 *
+	 * @function isBuffer
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isBuffer, assert } from '@universalweb/acid';
+	 * assert(isBuffer(Buffer.from('test')), true);
+	 */
+	const isBufferCall = isConstructorNameFactory('Buffer');
+	const isBuffer = isTypeFactory(isBufferCall);
+	/**
 	 * Performs a deep comparison between two objects & determines if the value is the same using strict comparison.
 	 *
 	 * @function isEqual
@@ -900,6 +951,8 @@
 	const isEqual = (source, target) => {
 		if (source === target) {
 			return true;
+		} else if (isBuffer(source)) {
+			return source.equals(target);
 		} else if (source.toString() === target.toString()) {
 			if (isPlainObject(source)) {
 				const sourceProperties = keys(source);
@@ -1784,61 +1837,10 @@
 		});
 	}
 	/**
-	 * Checks to see if the constructor is that of a native object.
-	 *
-	 * @function isConstructor
-	 * @category type
-	 * @param {Object} target - The object to be checked.
-	 * @param {Object} source - The source constructor object.
-	 * @returns {Object} - Returns the target object.
-	 *
-	 * @example
-	 * import { isConstructor, assert } from '@universalweb/acid';
-	 * assert(isConstructor(2, Number), true);
-	 */
-	function isConstructor(target, source) {
-		return target?.constructor === source || false;
-	}
-	function isConstructorFactory(source) {
-		return (target) => {
-			return isConstructor(target, source);
-		};
-	}
-	function constructorName(source) {
-		return source?.constructor?.name;
-	}
-	function isConstructorNameFactory(source) {
-		return (target) => {
-			return constructorName(target) === source || false;
-		};
-	}
-	function isTypeFactory(method) {
-		return function(primarySource, ...otherSources) {
-			if (otherSources) {
-				return method(primarySource) && everyArray(otherSources, method);
-			}
-			return method(primarySource);
-		};
-	}
-	/**
-	 * Checks if an object or objects are a Buffer.
-	 *
-	 * @function isBuffer
-	 * @category type
-	 * @param {*} source - Object to be checked.
-	 * @returns {Boolean} - Returns true or false.
-	 *
-	 * @example
-	 * import { isBuffer, assert, construct } from '@universalweb/acid';
-	 * assert(isBuffer(Buffer.from('test')), true);
-	 */
-	const isBufferCall = isConstructorNameFactory('Buffer');
-	const isBuffer = isTypeFactory(isBufferCall);
-	/**
 	 * Ensures the source is a Buffer if not the source is used to create a buffer using Buffer.from else if there's no source an empty Buffer is returned with Buffer.alloc(0). Keep in mind not all objects can be used to create a Buffer.
 	 *
 	 * @function ensureBuffer
-	 * @category array
+	 * @category buffer
 	 * @type {Function}
 	 * @param {*} source - Object to be checked.
 	 * @returns {Array} - Returns an array.
@@ -1849,6 +1851,23 @@
 	 */
 	function ensureBuffer(source) {
 		return (isBuffer(source) && source) || (hasValue(source) && Buffer.from(source)) || Buffer.alloc(0);
+	}
+	/**
+	 * Clears the values out of a buffer.
+	 *
+	 * @function clearBuffer
+	 * @category buffer
+	 * @type {Function}
+	 * @param {Array} source - Takes an array to be emptied.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * import { clearBuffer, assert } from '@universalweb/acid';
+	 * assert(clearBuffer(Buffer.from([1,'B', 'Cat'])), Buffer.from([]));
+	 */
+	function clearBuffer(source) {
+		source.fill(0);
+		return source;
 	}
 	/**
 	 * Creates an object composed of keys generated from the results of running each element of collection through iteratee.
@@ -2767,7 +2786,7 @@
 			curries.push(...curryArgs);
 			if (curries.length === arity) {
 				const result = callable(...curries);
-				clear(curries);
+				clearArray(curries);
 				return result;
 			}
 			return curried;
@@ -2796,7 +2815,7 @@
 			curries.unshift(...curryArgs);
 			if (curries.length === arity) {
 				const result = callable(...curries);
-				clear(curries);
+				clearArray(curries);
 				return result;
 			}
 			return curried;
@@ -4171,7 +4190,7 @@
 	 * Returns a regex safe special characters escaped version of a string.
 	 *
 	 * @function regexSafe
-	 * @category object
+	 * @category regex
 	 * @type {Function}
 	 * @param {Object} source - String to make safe.
 	 * @returns {Object} - Returns a regex safe version of the string.
@@ -4188,7 +4207,7 @@
 	 * Convert array of strings to regex.
 	 *
 	 * @function arrayToRegex
-	 * @category object
+	 * @category regex
 	 * @type {Function}
 	 * @param {Object} source - Array of strings.
 	 * @returns {Object} - Returns a regex safe version of the string.
@@ -5427,6 +5446,42 @@
 	const isDeno = typeof globalThis.Deno !== 'undefined';
 	const isNodejs = typeof globalThis.process !== 'undefined' && process.versions && process.versions.node;
 	/**
+	 * Check if a value is isTruthy which is anything but false, null, 0, "", undefined, and NaN.
+	 *
+	 * @function isTruthy
+	 * @category type
+	 * @type {Function}
+	 * @param {*} source - Item to be isTruthy checked.
+	 * @param {*} [returnIfTrue = true] - Item to be returned if item is isTruthy.
+	 * @returns {Boolean|*} - Returns true if the item is isTruthy or returnIfTrue if provided otherwise returns false.
+	 *
+	 * @example
+	 * import { isTruthy, assert } from '@universalweb/acid';
+	 * assert(isTruthy(1), true);
+	 * assert(isTruthy(0), false);
+	 */
+	function isTruthy(source, returnIfTrue = true) {
+		return Boolean(source) && returnIfTrue;
+	}
+	/**
+	 * Check if a value is isFalsy which are false, null, 0, "", undefined, and NaN.
+	 *
+	 * @function isFalsy
+	 * @category type
+	 * @type {Function}
+	 * @param {*} source - Item to be isFalsy checked.
+	 * @param {*} [returnIfTrue = true] - Item to be returned if item is isFalsy.
+	 * @returns {Boolean|*} - Returns true if the item is isFalsy or returnIfTrue if provided otherwise returns false.
+	 *
+	 * @example
+	 * import { isFalsy, assert } from '@universalweb/acid';
+	 * assert(isFalsy(0), true);
+	 * assert(isFalsy(1), false);
+	 */
+	function isFalsy(source, returnIfTrue = true) {
+		return Boolean(source) === false && returnIfTrue;
+	}
+	/**
 	 * If source has a value then return source or invoke a function (if present) with source as the argument.
 	 *
 	 * @function ifValue
@@ -5457,7 +5512,7 @@
 	 * assert(notEqual({a: [1,2,3]}, {a: [1,3,3]}), true);
 	 */
 	function notEqual(source, target) {
-		return isEqual(source, target) === false;
+		return isFalse(isEqual(source, target));
 	}
 	const jsonNative = JSON;
 	/**
@@ -5570,24 +5625,6 @@
 	const structuredCloneSafe = globalThis.structuredClone;
 	function clone(source) {
 		return structuredCloneSafe(source);
-	}
-	/**
-	 * Check if a value is isTruthy which is anything but false, null, 0, "", undefined, and NaN.
-	 *
-	 * @function isTruthy
-	 * @category Utility
-	 * @type {Function}
-	 * @param {*} source - Item to be isTruthy checked.
-	 * @param {*} [returnIfTrue = true] - Item to be returned if item is isTruthy.
-	 * @returns {Boolean|*} - Returns true if the item is isTruthy or returnIfTrue if provided otherwise returns false.
-	 *
-	 * @example
-	 * import { isTruthy, assert } from '@universalweb/acid';
-	 * assert(isTruthy(1), true);
-	 * assert(isTruthy(0), false);
-	 */
-	function isTruthy(source, returnIfTrue = true) {
-		return Boolean(source) && returnIfTrue;
 	}
 	/**
 	 * Creates an array with all isFalsy values removed. The values false, null, 0, "", undefined, and NaN are isFalsy.
@@ -5763,24 +5800,6 @@
 				});
 			});
 		};
-	}
-	/**
-	 * Check if a value is isFalsy which are false, null, 0, "", undefined, and NaN.
-	 *
-	 * @function isFalsy
-	 * @category Utility
-	 * @type {Function}
-	 * @param {*} source - Item to be isFalsy checked.
-	 * @param {*} [returnIfTrue = true] - Item to be returned if item is isFalsy.
-	 * @returns {Boolean|*} - Returns true if the item is isFalsy or returnIfTrue if provided otherwise returns false.
-	 *
-	 * @example
-	 * import { isFalsy, assert } from '@universalweb/acid';
-	 * assert(isFalsy(0), true);
-	 * assert(isFalsy(1), false);
-	 */
-	function isFalsy(source, returnIfTrue = true) {
-		return Boolean(source) === false && returnIfTrue;
 	}
 	/**
 	 * Iterates (for of) through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
@@ -6768,7 +6787,8 @@
 	exports.chain = chain;
 	exports.chunk = chunk;
 	exports.chunkString = chunkString;
-	exports.clear = clear;
+	exports.clearArray = clearArray;
+	exports.clearBuffer = clearBuffer;
 	exports.clearIntervals = clearIntervals;
 	exports.clearTimers = clearTimers;
 	exports.clone = clone;

@@ -4,7 +4,7 @@ import { hasValue } from '../types/hasValue.js';
  * Ensures the source is a Buffer if not the source is used to create a buffer using Buffer.from else if there's no source an empty Buffer is returned with Buffer.alloc(0). Keep in mind not all objects can be used to create a Buffer.
  *
  * @function ensureBuffer
- * @category array
+ * @category buffer
  * @type {Function}
  * @param {*} source - Object to be checked.
  * @returns {Array} - Returns an array.

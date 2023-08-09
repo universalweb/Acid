@@ -56,3 +56,5 @@ export * from './types/sameClass.js';
 export * from './types/sameType.js';
 export * from './types/isDeno.js';
 export * from './types/isNode.js';
+export * from './types/isTruthy.js';
+export * from './types/isFalsy.js';

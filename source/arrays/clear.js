@@ -1,18 +1,18 @@
 /**
  * Clears the values out of an array.
  *
- * @function clear
+ * @function clearArray
  * @category Array
  * @type {Function}
- * @param {Array} array - Takes an array to be emptied.
+ * @param {Array} source - Takes an array to be emptied.
  * @returns {Array} - The originally given array.
  *
  * @example
- * import { clear, assert } from '@universalweb/acid';
- * assert(clear([1,'B', 'Cat']), []);
+ * import { clearArray, assert } from '@universalweb/acid';
+ * assert(clearArray([1,'B', 'Cat']), []);
  */
-export function clear(array) {
-	array.length = 0;
-	return array;
+export function clearArray(source) {
+	source.length = 0;
+	return source;
 }
 

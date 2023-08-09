@@ -2,7 +2,7 @@
  * Check if a value is isFalsy which are false, null, 0, "", undefined, and NaN.
  *
  * @function isFalsy
- * @category Utility
+ * @category type
  * @type {Function}
  * @param {*} source - Item to be isFalsy checked.
  * @param {*} [returnIfTrue = true] - Item to be returned if item is isFalsy.

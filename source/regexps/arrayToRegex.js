@@ -4,7 +4,7 @@ import { mapArray } from '../arrays/map.js';
  * Convert array of strings to regex.
  *
  * @function arrayToRegex
- * @category object
+ * @category regex
  * @type {Function}
  * @param {Object} source - Array of strings.
  * @returns {Object} - Returns a regex safe version of the string.

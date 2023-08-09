@@ -2,7 +2,7 @@
  * Check if a value is isTruthy which is anything but false, null, 0, "", undefined, and NaN.
  *
  * @function isTruthy
- * @category Utility
+ * @category type
  * @type {Function}
  * @param {*} source - Item to be isTruthy checked.
  * @param {*} [returnIfTrue = true] - Item to be returned if item is isTruthy.

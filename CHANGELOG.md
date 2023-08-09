@@ -6,8 +6,16 @@
 </pre>
 ---
 
-### [v3.0.51](https://github.com/universalweb/Acid/compare/v3.0.51...v3.0.51) 
-DATE: 2023-07-30
+### [v3.0.52](https://github.com/universalweb/Acid/compare/v3.0.52...v3.0.52) 
+DATE: 2023-08-09
+
+---
+### [v3.0.52](https://github.com/universalweb/Acid/compare/v3.0.51...v3.0.52) 
+DATE: 2023-08-08
+
+### Commits
+
+- Falsy & Truthy Name Updated [`dffb50d`](https://github.com/universalweb/Acid/commit/dffb50df73f57b9ac27483703734039b388f0238)
 
 ---
 ### [v3.0.51](https://github.com/universalweb/Acid/compare/v3.0.50...v3.0.51) 

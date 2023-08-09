@@ -3,6 +3,7 @@ import { everyArray } from '../arrays/every.js';
 import { keys } from '../objects/keys.js';
 import { isArray } from '../types/isArray.js';
 import { isPlainObject } from '../types/isPlainObject.js';
+import { isBuffer } from '../types/isBuffer.js';
 /**
  * Performs a deep comparison between two objects & determines if the value is the same using strict comparison.
  *
@@ -21,6 +22,8 @@ import { isPlainObject } from '../types/isPlainObject.js';
 export const isEqual = (source, target) => {
 	if (source === target) {
 		return true;
+	} else if (isBuffer(source)) {
+		return source.equals(target);
 	} else if (source.toString() === target.toString()) {
 		if (isPlainObject(source)) {
 			const sourceProperties = keys(source);
@@ -39,4 +42,3 @@ export const isEqual = (source, target) => {
 	}
 	return false;
 };
-

@@ -1,4 +1,4 @@
-import { clear } from '../arrays/clear.js';
+import { clearArray } from '../arrays/clear.js';
 /**
  * Creates a function that accepts arguments of method and either invokes method returning its result, if at least arity number of arguments have been provided, or returns a function that accepts the remaining method arguments, and so on. The arity of method may be specified if method length is not sufficient.
  *
@@ -22,7 +22,7 @@ export function curry(callable, arity = callable.length) {
 		curries.push(...curryArgs);
 		if (curries.length === arity) {
 			const result = callable(...curries);
-			clear(curries);
+			clearArray(curries);
 			return result;
 		}
 		return curried;

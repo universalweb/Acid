@@ -2,7 +2,7 @@
  * Returns a regex safe special characters escaped version of a string.
  *
  * @function regexSafe
- * @category object
+ * @category regex
  * @type {Function}
  * @param {Object} source - String to make safe.
  * @returns {Object} - Returns a regex safe version of the string.

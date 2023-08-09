@@ -1,4 +1,5 @@
 import { isEqual } from './isEqual.js';
+import { isFalse } from '../types/isFalse.js';
 /**
  * Performs a deep comparison between two objects & determines if they're different using strict comparison.
  *
@@ -14,6 +15,6 @@ import { isEqual } from './isEqual.js';
  * assert(notEqual({a: [1,2,3]}, {a: [1,3,3]}), true);
  */
 export function notEqual(source, target) {
-	return isEqual(source, target) === false;
+	return isFalse(isEqual(source, target));
 }
 
