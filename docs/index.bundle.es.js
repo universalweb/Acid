@@ -3489,10 +3489,10 @@ function forOfMap(source, iteratee = returnValue, resultsObject) {
  * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
  *
  * @example
- * forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
+ * import { forOfCompactMapAsync, assert } from '@universalweb/acid';
+ * assert(forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
  *   return item;
- * });
- * // => {b: 2, c: 3}
+ * }), {b: 2, c: 3});
  */
 async function forOfMapAsync(source, iteratee = returnValue, resultsObject, generatorArgs) {
 	if (isGenerator(source)) {
@@ -3990,6 +3990,30 @@ function increment(source) {
  */
 function multiply(source, value) {
 	return source * value;
+}
+
+/**
+ * Calculate the progress from a given total and current amount.
+ *
+ * @function calcProgress
+ * @category utility
+ * @type {Function}
+ * @param {Number} total - The total amount.
+ * @param {Number} currentAmount - The current amount.
+ * @returns {Number} - The progress as a percentage.
+ *
+ * @example
+ * import { calcProgress, assert } from '@universalweb/acid';
+ * assert(calcProgress(100, 1), 1);
+ */
+function calcProgress(total, currentAmount) {
+	if (total === 0) {
+		return false;
+	}
+	if (currentAmount === 0) {
+		return 0;
+	}
+	return (currentAmount / total) * 100;
 }
 
 const { random } = Math;
@@ -5700,19 +5724,31 @@ function isFalsy(source, returnIfTrue = true) {
 }
 
 /**
- * If source has a value then return source or invoke a function (if present) with source as the argument.
+ * If source has a value then assign it to an object or call a function.
  *
  * @function ifValue
- * @category function
+ * @category utility
  * @param {*} source - The source object to be hasValue checked.
+ * @param {Function|Object} target - The target which is either a function or object.
+ * @param {*|String} optional - If target is a plain object then it must be a string and is used to assign the property name. Else it's used as the this for the provided function (target).
+ * @param {Array} args - The args that would be used if the target is a function and is the params that is applied to the function.
  * @returns {source} The source object if it passes the hasValue check.
+ *
+ * @example
+ * import { ifValue, assert } from '@universalweb/acid';
+ * assert(ifValue(1, {}, 'a'), {a:1});
  */
-function ifValue(source, callback) {
+function ifValue(source, target, optional, args) {
 	if (hasValue(source)) {
-		if (callback) {
-			return callback(source);
+		if (isFunction(target)) {
+			if (optional) {
+				return apply(target, optional, args);
+			}
+			return target(...args);
+		} else if (isPlainObject(target)) {
+			target[optional] = source;
+			return target;
 		}
-		return source;
 	}
 }
 
@@ -5827,6 +5863,32 @@ function bindAll(collection, bindThis, targetAssign) {
 		return isFunction(item) ? item.bind(bindThis) : item;
 	});
 	return (targetAssign) ? assign(targetAssign, results) : results;
+}
+
+/**
+ * Clears the values out of an array, buffer, and objects like Map that have a clear method.
+ *
+ * @function clear
+ * @category utility
+ * @type {Function}
+ * @param {Array} source - Takes an array to be emptied.
+ * @returns {Array} - The originally given array.
+ *
+ * @example
+ * import { clear, assert } from '@universalweb/acid';
+ * assert(clear(Buffer.from([1,'B', 'Cat'])), []);
+ */
+function clear(source) {
+	if (isBuffer(source)) {
+		return clearBuffer(source);
+	} else if (isArray(source)) {
+		return clearArray(source);
+	} else if (source.clear) {
+		source.clear();
+		return source;
+	}
+	source.length = 0;
+	return source;
 }
 
 /**
@@ -6306,25 +6368,25 @@ function has(source, search, position) {
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * hasDot('test.js');
- * // => true
-*/
+ * import { hasDot, assert } from '@universalweb/acid';
+ * assert(hasDot('test.js'), true);
+ */
 const hasDot = regexTestFactory(/\./);
 
 /**
-   * Checks if a property on an object has a value. If not, it will assign a value.
-   *
-   * @function ifNotAssign
-   * @category utility
-   * @type {Function}
-   * @param {Object} rootObject - The object to check.
-   * @param {String} property - The property name which is to be checked.
-   * @param {*} equalThis - The reassignment value for the property being checked.
-   * @returns {Object} - Returns the provided rootObject.
-   *
-   * @example
-   * ifNotAssign({}, 'a', 1);
-   * // => {a:1}
+ * Checks if a property on an object has a value. If not, it will assign a value.
+ *
+ * @function ifNotAssign
+ * @category utility
+ * @type {Function}
+ * @param {Object} rootObject - The object to check.
+ * @param {String} property - The property name which is to be checked.
+ * @param {*} equalThis - The reassignment value for the property being checked.
+ * @returns {Object} - Returns the provided rootObject.
+ *
+ * @example
+ * import { ifNotAssign, assert } from '@universalweb/acid';
+ * assert(ifNotAssign({}, 'a', 1), {a:1});
  */
 const ifNotAssign = (rootObject, property, equalThis) => {
 	if (property && !hasValue(rootObject[property])) {
@@ -6338,15 +6400,15 @@ class Intervals {
 	construct() {
 	}
 	/**
-    * Remove a setInterval that was created using the intervals function.
-    *
-    * @param {Number} id - The id of the setInterval to remove.
-    * @returns {undefined} - Returns nothing.
-    *
-    * @example
-    * timer(() => {}, 100);
-    * // => 0
-  */
+	 * Remove a setInterval that was created using the intervals function.
+	 *
+	 * @param {Number} id - The id of the setInterval to remove.
+	 * @returns {undefined} - Returns nothing.
+	 *
+	 * @example
+	 * timer(() => {}, 100);
+	 * // => 0
+	 */
 	remove(id) {
 		clearInterval(id);
 		this.list.delete(id);
@@ -6358,17 +6420,17 @@ class Intervals {
 		return this.list.get(id);
 	}
 	/**
-    * Create a setInterval & add it to the list of interval timers.
-    *
-    * @type {Function}
-    * @param {Function} callable - The function to be invoked.
-    * @param {Number} time - The time in milliseconds.
-    * @returns {Object} - Returns setTimeoutId ID.
-    *
-    * @example
-    * timers.set(() => {}, 100);
-    * // => 0
-  */
+	 * Create a setInterval & add it to the list of interval timers.
+	 *
+	 * @type {Function}
+	 * @param {Function} callable - The function to be invoked.
+	 * @param {Number} time - The time in milliseconds.
+	 * @returns {Object} - Returns setTimeoutId ID.
+	 *
+	 * @example
+	 * timers.set(() => {}, 100);
+	 * // => 0
+	 */
 	set(callable, time) {
 		const id = setInterval(() => {
 			callable();
@@ -6377,14 +6439,14 @@ class Intervals {
 		return id;
 	}
 	/**
-    * Clear all active setIntervals.
-    *
-    * @returns {undefined} - Returns undefined.
-    *
-    * @example
-    * intervals.clear();
-    * // => undefined
-  */
+	 * Clear all active setIntervals.
+	 *
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * intervals.clear();
+	 * // => undefined
+	 */
 	clear() {
 		const currentThis = this;
 		currentThis.list.forEach((id) => {
@@ -6394,33 +6456,33 @@ class Intervals {
 }
 const intervals = construct(Intervals);
 /**
-  * Create an interval timer.
-  *
-  * @function interval
-  * @category function
-  * @type {Function}
-  * @param {Function} callable - The function to be invoked.
-  * @param {Number} time - The time in milliseconds.
-  * @returns {Object} - Returns setInterval ID.
-  *
-  * @example
-  * interval(() => {}, 100);
-  * // => 0
-*/
+ * Create an interval timer.
+ *
+ * @function interval
+ * @category function
+ * @type {Function}
+ * @param {Function} callable - The function to be invoked.
+ * @param {Number} time - The time in milliseconds.
+ * @returns {Object} - Returns setInterval ID.
+ *
+ * @example
+ * interval(() => {}, 100);
+ * // => 0
+ */
 function interval(callable, time) {
 	return intervals.set(callable, time);
 }
 /**
-  * Clear all active interval timers.
-  *
-  * @function clearIntervals
-  * @category function
-  * @returns {undefined} - Returns undefined.
-  *
-  * @example
-  * clearIntervals();
-  * // => undefined
-*/
+ * Clear all active interval timers.
+ *
+ * @function clearIntervals
+ * @category function
+ * @returns {undefined} - Returns undefined.
+ *
+ * @example
+ * clearIntervals();
+ * // => undefined
+ */
 function clearIntervals() {
 	const id = setTimeout(noop, 0);
 	times(id, (index) => {
@@ -7015,5 +7077,5 @@ function currentPath(importMeta) {
 	return path.dirname(fileURLToPath(importMeta.url));
 }
 
-export { Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, apply, arrayToObject, arrayToRegex, ary, assert, assign, before, bindAll, cacheNativeMethod, camelCase, chain, chunk, chunkString, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, copyFolder, countBy, countKey, countWithoutKey, currentFile, currentPath, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, escapeRegex, escapeRegexRegex, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDeno, isEmpty, isEqual, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodejs, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, noop, notEqual, nthArg, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, apply, arrayToObject, arrayToRegex, ary, assert, assign, before, bindAll, cacheNativeMethod, calcProgress, camelCase, chain, chunk, chunkString, clear, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, copyFolder, countBy, countKey, countWithoutKey, currentFile, currentPath, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, escapeRegex, escapeRegexRegex, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invoke, invokeAsync, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDeno, isEmpty, isEqual, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodejs, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, noop, notEqual, nthArg, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

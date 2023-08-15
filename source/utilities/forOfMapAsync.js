@@ -17,10 +17,10 @@ import { isArray } from '../types/isArray.js';
  * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
  *
  * @example
- * forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
+ * import { forOfCompactMapAsync, assert } from '@universalweb/acid';
+ * assert(forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
  *   return item;
- * });
- * // => {b: 2, c: 3}
+ * }), {b: 2, c: 3});
  */
 export async function forOfMapAsync(source, iteratee = returnValue, resultsObject, generatorArgs) {
 	if (isGenerator(source)) {

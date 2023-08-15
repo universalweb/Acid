@@ -3354,10 +3354,10 @@
 	 * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
 	 *
 	 * @example
-	 * forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
+	 * import { forOfCompactMapAsync, assert } from '@universalweb/acid';
+	 * assert(forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
 	 *   return item;
-	 * });
-	 * // => {b: 2, c: 3}
+	 * }), {b: 2, c: 3});
 	 */
 	async function forOfMapAsync(source, iteratee = returnValue, resultsObject, generatorArgs) {
 		if (isGenerator(source)) {
@@ -3838,6 +3838,29 @@
 	 */
 	function multiply(source, value) {
 		return source * value;
+	}
+	/**
+	 * Calculate the progress from a given total and current amount.
+	 *
+	 * @function calcProgress
+	 * @category utility
+	 * @type {Function}
+	 * @param {Number} total - The total amount.
+	 * @param {Number} currentAmount - The current amount.
+	 * @returns {Number} - The progress as a percentage.
+	 *
+	 * @example
+	 * import { calcProgress, assert } from '@universalweb/acid';
+	 * assert(calcProgress(100, 1), 1);
+	 */
+	function calcProgress(total, currentAmount) {
+		if (total === 0) {
+			return false;
+		}
+		if (currentAmount === 0) {
+			return 0;
+		}
+		return (currentAmount / total) * 100;
 	}
 	const { random } = Math;
 	/**
@@ -5482,19 +5505,31 @@
 		return Boolean(source) === false && returnIfTrue;
 	}
 	/**
-	 * If source has a value then return source or invoke a function (if present) with source as the argument.
+	 * If source has a value then assign it to an object or call a function.
 	 *
 	 * @function ifValue
-	 * @category function
+	 * @category utility
 	 * @param {*} source - The source object to be hasValue checked.
+	 * @param {Function|Object} target - The target which is either a function or object.
+	 * @param {*|String} optional - If target is a plain object then it must be a string and is used to assign the property name. Else it's used as the this for the provided function (target).
+	 * @param {Array} args - The args that would be used if the target is a function and is the params that is applied to the function.
 	 * @returns {source} The source object if it passes the hasValue check.
+	 *
+	 * @example
+	 * import { ifValue, assert } from '@universalweb/acid';
+	 * assert(ifValue(1, {}, 'a'), {a:1});
 	 */
-	function ifValue(source, callback) {
+	function ifValue(source, target, optional, args) {
 		if (hasValue(source)) {
-			if (callback) {
-				return callback(source);
+			if (isFunction(target)) {
+				if (optional) {
+					return apply(target, optional, args);
+				}
+				return target(...args);
+			} else if (isPlainObject(target)) {
+				target[optional] = source;
+				return target;
 			}
-			return source;
 		}
 	}
 	/**
@@ -5608,6 +5643,31 @@
 			return isFunction(item) ? item.bind(bindThis) : item;
 		});
 		return targetAssign ? assign(targetAssign, results) : results;
+	}
+	/**
+	 * Clears the values out of an array, buffer, and objects like Map that have a clear method.
+	 *
+	 * @function clear
+	 * @category utility
+	 * @type {Function}
+	 * @param {Array} source - Takes an array to be emptied.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * import { clear, assert } from '@universalweb/acid';
+	 * assert(clear(Buffer.from([1,'B', 'Cat'])), []);
+	 */
+	function clear(source) {
+		if (isBuffer(source)) {
+			return clearBuffer(source);
+		} else if (isArray(source)) {
+			return clearArray(source);
+		} else if (source.clear) {
+			source.clear();
+			return source;
+		}
+		source.length = 0;
+		return source;
 	}
 	/**
 	 * Creates a structured clone of an object which is a "structured-cloneable type".
@@ -6079,8 +6139,8 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * hasDot('test.js');
-	 * // => true
+	 * import { hasDot, assert } from '@universalweb/acid';
+	 * assert(hasDot('test.js'), true);
 	 */
 	const hasDot = regexTestFactory(/\./);
 	/**
@@ -6095,8 +6155,8 @@
 	 * @returns {Object} - Returns the provided rootObject.
 	 *
 	 * @example
-	 * ifNotAssign({}, 'a', 1);
-	 * // => {a:1}
+	 * import { ifNotAssign, assert } from '@universalweb/acid';
+	 * assert(ifNotAssign({}, 'a', 1), {a:1});
 	 */
 	const ifNotAssign = (rootObject, property, equalThis) => {
 		if (property && !hasValue(rootObject[property])) {
@@ -6783,10 +6843,12 @@
 	exports.before = before;
 	exports.bindAll = bindAll;
 	exports.cacheNativeMethod = cacheNativeMethod;
+	exports.calcProgress = calcProgress;
 	exports.camelCase = camelCase;
 	exports.chain = chain;
 	exports.chunk = chunk;
 	exports.chunkString = chunkString;
+	exports.clear = clear;
 	exports.clearArray = clearArray;
 	exports.clearBuffer = clearBuffer;
 	exports.clearIntervals = clearIntervals;

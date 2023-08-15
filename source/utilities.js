@@ -2,6 +2,7 @@ export * from './utilities/ifValue.js';
 export * from './utilities/bindAll.js';
 export * from './utilities/assert.js';
 export * from './utilities/cacheNativeMethod.js';
+export * from './utilities/clear.js';
 export * from './utilities/clone.js';
 export * from './utilities/compact.js';
 export * from './utilities/compactMap.js';

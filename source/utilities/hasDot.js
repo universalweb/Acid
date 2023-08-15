@@ -8,7 +8,7 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * hasDot('test.js');
- * // => true
-*/
+ * import { hasDot, assert } from '@universalweb/acid';
+ * assert(hasDot('test.js'), true);
+ */
 export const hasDot = regexTestFactory(/\./);

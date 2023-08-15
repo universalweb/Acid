@@ -3,6 +3,7 @@ export * from './math/deduct.js';
 export * from './math/divide.js';
 export * from './math/increment.js';
 export * from './math/multiple.js';
+export * from './math/progress.js';
 export * from './math/randomFloat.js';
 export * from './math/randomInt.js';
 export * from './math/remainder.js';
