@@ -6,8 +6,16 @@
 </pre>
 ---
 
-### [v3.0.52](https://github.com/universalweb/Acid/compare/v3.0.52...v3.0.52) 
+### [v3.0.53](https://github.com/universalweb/Acid/compare/v3.0.53...v3.0.53) 
 DATE: 2023-08-09
+
+---
+### [v3.0.53](https://github.com/universalweb/Acid/compare/v3.0.52...v3.0.53) 
+DATE: 2023-08-08
+
+### Commits
+
+- Clear Array, Buffer, Map [`ea06549`](https://github.com/universalweb/Acid/commit/ea06549dbc9f13aced77dd45b5c55b041e658b83)
 
 ---
 ### [v3.0.52](https://github.com/universalweb/Acid/compare/v3.0.51...v3.0.52) 
