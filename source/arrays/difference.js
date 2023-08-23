@@ -14,7 +14,7 @@ import { construct } from '../classes/construct.js';
  *
  * @example
  * import { difference, assert } from '@universalweb/acid';
- * assert(difference([1, 2, 3], [1, 2]));
+ * assert(difference([1, 2, 3], [1, 2]), [3]);
  */
 export function difference(...sources) {
 	const differencesMap = construct(Map);

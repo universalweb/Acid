@@ -16,15 +16,17 @@ import { clearArray } from '../arrays/clear.js';
  * assert(clear(Buffer.from([1,'B', 'Cat'])), []);
  */
 export function clear(source) {
-	if (isBuffer(source)) {
-		return clearBuffer(source);
-	} else if (isArray(source)) {
-		return clearArray(source);
-	} else if (source.clear) {
-		source.clear();
-		return source;
+	if (source) {
+		if (isBuffer(source)) {
+			return clearBuffer(source);
+		} else if (isArray(source)) {
+			return clearArray(source);
+		} else if (source.clear) {
+			source.clear();
+		} else if (source.length) {
+			source.length = 0;
+		}
 	}
-	source.length = 0;
 	return source;
 }
 
