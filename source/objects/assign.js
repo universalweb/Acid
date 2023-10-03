@@ -1,4 +1,5 @@
-const objectAssign = Object.assign;
+import { hasValue } from '../types/hasValue.js';
+export const objectAssign = Object.assign;
 /**
  * Copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
  *
@@ -13,7 +14,7 @@ const objectAssign = Object.assign;
  * assert(assign({b: 2}, {a: 1}), {b: 2, a: 1});
  */
 export function assign(target, ...sources) {
-	if (target) {
+	if (hasValue(target)) {
 		return objectAssign(target, ...sources);
 	}
 }

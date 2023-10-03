@@ -1,19 +1,19 @@
-import { eachArray } from './each.js';
+import { eachArray } from '../arrays/each.js';
 /**
  * Takes all but the last item in the array.
  *
- * @function arrayToObject
+ * @function arraysToObject
  * @type {Function}
- * @category array
+ * @category utility
  * @param {Array} source - Array to have items extracted from.
  * @param {Array} properties - Array to have items extracted from.
  * @returns {Array} - Returns a completely flattened array.
  *
  * @example
- * import { arrayToObject, assert } from '@universalweb/acid';
- * assert(arrayToObject([1, 2, 3], ['a', 'b', 'c']), {a:1, b:2, c: 3});
+ * import { arraysToObject, assert } from '@universalweb/acid';
+ * assert(arraysToObject([1, 2, 3], ['a', 'b', 'c']), {a:1, b:2, c: 3});
  */
-export function arrayToObject(source, properties) {
+export function arraysToObject(source, properties) {
 	const sortedObject = {};
 	eachArray(source, (item, key) => {
 		sortedObject[properties[key]] = item;

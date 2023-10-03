@@ -1,3 +1,4 @@
+import { getPropNames } from './object';
 /**
  * Determines whether two values are the same value.
  *
@@ -8,7 +9,7 @@
  * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
  *
  * @example
- * isSame('foo', 'foo');
- * // => true
-*/
+ * import { isSame, assert } from '@universalweb/acid';
+ * assert(isSame('foo', 'foo'), true);
+ */
 export const isSame = Object.is;

@@ -1,4 +1,5 @@
 export * from './objects/assign.js';
+export * from './objects/getEntries.js';
 export * from './objects/compactKeys.js';
 export * from './objects/compactMap.js';
 export * from './objects/compactMapAsync.js';

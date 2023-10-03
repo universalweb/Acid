@@ -16,6 +16,7 @@ export * from './utilities/forEach.js';
 export * from './utilities/forEachAsync.js';
 export * from './utilities/forMap.js';
 export * from './utilities/forOf.js';
+export * from './utilities/arraysToObject.js';
 export * from './utilities/forOfAsync.js';
 export * from './utilities/forOfCompactMap.js';
 export * from './utilities/forOfCompactMapAsync.js';

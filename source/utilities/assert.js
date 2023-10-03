@@ -1,6 +1,7 @@
 import { isFunction } from '../types/isFunction.js';
 import { notEqual } from './notEqual.js';
 import { stringify } from './json.js';
+import { isKindAsync } from '../types/isKindAsync.js';
 function createAssertError(source, expected, localOptions) {
 	const options = globalThis.options || localOptions;
 	let errorTitle;
@@ -12,6 +13,14 @@ function createAssertError(source, expected, localOptions) {
 	return new Error(`Test Failed: ${errorTitle}
 		Result: ${stringify(source)}
 		Expected: ${stringify(expected)}`, options);
+}
+export async function assertAsync(sourceArg, expected, options) {
+	const source = await sourceArg;
+	const expectedFunction = isFunction(expected) && await expected(source, options) === false;
+	if (expectedFunction || notEqual(source, expected)) {
+		return createAssertError(source, expected, options);
+	}
+	return true;
 }
 /**
  * Check if source value matches the expected value.
@@ -31,6 +40,9 @@ function createAssertError(source, expected, localOptions) {
  * }
  */
 export function assert(source, expected, options) {
+	if (isKindAsync(source) || isKindAsync(expected)) {
+		return assertAsync(source, expected, options);
+	}
 	const expectedFunction = isFunction(expected) && expected(source, options) === false;
 	if (expectedFunction || notEqual(source, expected)) {
 		return createAssertError(source, expected, options);

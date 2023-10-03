@@ -372,9 +372,9 @@
 	 * @example
 	 * import { construct, assert } from '@universalweb/acid';
 	 * class test {
-	 * constructor(a) {
-	 * return 1;
-	 * }
+	 * 	constructor(a) {
+	 * 		return 1;
+	 * 	}
 	 * }
 	 * const newClass = construct(test, [1]);
 	 * assert(test, 1);
@@ -1166,27 +1166,6 @@
 		return numberList.sort(subtract);
 	}
 	/**
-	 * Takes all but the last item in the array.
-	 *
-	 * @function arrayToObject
-	 * @type {Function}
-	 * @category array
-	 * @param {Array} source - Array to have items extracted from.
-	 * @param {Array} properties - Array to have items extracted from.
-	 * @returns {Array} - Returns a completely flattened array.
-	 *
-	 * @example
-	 * import { arrayToObject, assert } from '@universalweb/acid';
-	 * assert(arrayToObject([1, 2, 3], ['a', 'b', 'c']), {a:1, b:2, c: 3});
-	 */
-	function arrayToObject(source, properties) {
-		const sortedObject = {};
-		eachArray(source, (item, key) => {
-			sortedObject[properties[key]] = item;
-		});
-		return sortedObject;
-	}
-	/**
 	 * Split array into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
 	 *
 	 * @function partition
@@ -1357,20 +1336,26 @@
 	function randomInt(max, min = 0) {
 		return floor(random$1() * (max - min)) + min;
 	}
-	const arrayNative = Array;
+	const arrayFrom = Array.from;
 	/**
-	 * Takes an array like object and creates a new Array from it.
+	 * The Array.from() static method creates a new, shallow-copied Array instance from an iterable or array-like object. This just has a null & undefined safety check.
 	 *
 	 * @function toArray
 	 * @category array
 	 * @param {*} arrayLike - Array like object.
-	 * @returns {*} - New array.
+	 * @param {Function} mapFn - Function to map over the array.
+	 * @param {*} thisArg - MapFn's "this".
+	 * @returns {Array} - New array.
 	 *
 	 * @example
-	 * toArray([1, 2, 3]);
-	 * // => [1, 2, 3]
+	 * import { toArray, assert } from '@universalweb/acid';
+	 * assert(toArray(new Map([[1, 2]])), [[1, 2]]);
 	 */
-	const toArray = arrayNative.from;
+	function toArray(arrayLike, mapFn, thisArg) {
+		if (hasValue(arrayLike)) {
+			return arrayFrom(arrayLike, mapFn, thisArg);
+		}
+	}
 	/**
 	 * Checks if two numbers are the same.
 	 *
@@ -2520,7 +2505,7 @@
 	 * assert(assign({b: 2}, {a: 1}), {b: 2, a: 1});
 	 */
 	function assign(target, ...sources) {
-		if (target) {
+		if (hasValue(target)) {
 			return objectAssign(target, ...sources);
 		}
 	}
@@ -3019,8 +3004,9 @@
 			timers.remove(index);
 		});
 	}
+	const applyNative = Reflect.apply;
 	/**
-	 * Calls a target function with arguments as specified.
+	 * Calls a target function with an optional "this" and optional arguments as specified. Same as Reflect.apply but with a function check.
 	 *
 	 * @function apply
 	 * @category function
@@ -3030,10 +3016,14 @@
 	 * @returns {*} - The result of calling the given target function with the specified this value and arguments.
 	 *
 	 * @example
-	 * apply(function (a) {return a;}, undefined, [2]);
-	 * // => 2
+	 * import { apply, assert } from '@universalweb/acid';
+	 * assert(apply(function (a) {return a;}, undefined, [2]), 2);
 	 */
-	const apply = Reflect.apply;
+	function apply(target, thisArgument, argumentsList) {
+		if (isFunction(target)) {
+			return applyNative(target, thisArgument, argumentsList);
+		}
+	}
 	/**
 	 * Creates a debounced function that delays invoking callable until after milliseconds have elapsed since the last time the debounced function was invoked. The debounce function has a clear method to cancel the timer.
 	 *
@@ -3673,20 +3663,6 @@
 			return wrapper(value, ...arg);
 		};
 	}
-	/**
-	 * Determines whether two values are the same value.
-	 *
-	 * @function isSame
-	 * @category object
-	 * @param {*} source - Value to compare to.
-	 * @param {*} target - A value to compare.
-	 * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
-	 *
-	 * @example
-	 * isSame('foo', 'foo');
-	 * // => true
-	 */
-	const isSame = Object.is;
 	const functionPrototype = Function.prototype;
 	/**
 	 * Caches a prototype method.
@@ -3752,6 +3728,20 @@
 	 */
 	const defProp = Object.defineProperty;
 	const hasProp = cacheNativeMethod(Object.hasOwnProperty);
+	/**
+	 * Determines whether two values are the same value.
+	 *
+	 * @function isSame
+	 * @category object
+	 * @param {*} source - Value to compare to.
+	 * @param {*} target - A value to compare.
+	 * @returns {Boolean} - A Boolean indicating whether or not the two arguments are the same value.
+	 *
+	 * @example
+	 * import { isSame, assert } from '@universalweb/acid';
+	 * assert(isSame('foo', 'foo'), true);
+	 */
+	const isSame = Object.is;
 	/**
 	 * Adds two numbers.
 	 *
@@ -4006,6 +3996,24 @@
 	 */
 	function isZero(source) {
 		return source === 0;
+	}
+	const objectEntries = Object.entries;
+	/**
+	 * Return turns an array of arrays of key & value pairs. The first element in each key & value pair is the property key, and the second element is the associated value. If source is null or undefined it will not crash or error.
+	 *
+	 * @function getEntries
+	 * @category object
+	 * @param {Object} source - The source object.
+	 * @returns {Array} - Returns the Object.entries of the source object.
+	 *
+	 * @example
+	 * import { getEntries, assert } from '@universalweb/acid';
+	 * assert(getEntries({b: 2, a: 1}), [['b', 2],['a', 1]]);
+	 */
+	function getEntries(source) {
+		if (hasValue(source)) {
+			return objectEntries(source);
+		}
 	}
 	/**
 	 * Extracts all keys from an object whose values are not null or undefined.
@@ -5598,6 +5606,14 @@
 			options
 		);
 	}
+	async function assertAsync(sourceArg, expected, options) {
+		const source = await sourceArg;
+		const expectedFunction = isFunction(expected) && (await expected(source, options)) === false;
+		if (expectedFunction || notEqual(source, expected)) {
+			return createAssertError(source, expected, options);
+		}
+		return true;
+	}
 	/**
 	 * Check if source value matches the expected value.
 	 *
@@ -5616,6 +5632,9 @@
 	 * }
 	 */
 	function assert(source, expected, options) {
+		if (isKindAsync(source) || isKindAsync(expected)) {
+			return assertAsync(source, expected, options);
+		}
 		const expectedFunction = isFunction(expected) && expected(source, options) === false;
 		if (expectedFunction || notEqual(source, expected)) {
 			return createAssertError(source, expected, options);
@@ -6081,6 +6100,27 @@
 			});
 		}
 		return cloned;
+	}
+	/**
+	 * Takes all but the last item in the array.
+	 *
+	 * @function arraysToObject
+	 * @type {Function}
+	 * @category utility
+	 * @param {Array} source - Array to have items extracted from.
+	 * @param {Array} properties - Array to have items extracted from.
+	 * @returns {Array} - Returns a completely flattened array.
+	 *
+	 * @example
+	 * import { arraysToObject, assert } from '@universalweb/acid';
+	 * assert(arraysToObject([1, 2, 3], ['a', 'b', 'c']), {a:1, b:2, c: 3});
+	 */
+	function arraysToObject(source, properties) {
+		const sortedObject = {};
+		eachArray(source, (item, key) => {
+			sortedObject[properties[key]] = item;
+		});
+		return sortedObject;
 	}
 	/**
 	 * Checks if an object contains something.
@@ -6837,10 +6877,11 @@
 	exports.add = add;
 	exports.after = after;
 	exports.apply = apply;
-	exports.arrayToObject = arrayToObject;
 	exports.arrayToRegex = arrayToRegex;
+	exports.arraysToObject = arraysToObject;
 	exports.ary = ary;
 	exports.assert = assert;
+	exports.assertAsync = assertAsync;
 	exports.assign = assign;
 	exports.before = before;
 	exports.bindAll = bindAll;
@@ -6932,6 +6973,7 @@
 	exports.forOfMapAsync = forOfMapAsync;
 	exports.generateLoop = generateLoop;
 	exports.get = get;
+	exports.getEntries = getEntries;
 	exports.getFileExtension = getFileExtension;
 	exports.getFilename = getFilename;
 	exports.getHighest = getHighest;
@@ -7074,6 +7116,8 @@
 	exports.noop = noop;
 	exports.notEqual = notEqual;
 	exports.nthArg = nthArg;
+	exports.objectAssign = objectAssign;
+	exports.objectEntries = objectEntries;
 	exports.objectSize = objectSize;
 	exports.omit = omit;
 	exports.once = once;

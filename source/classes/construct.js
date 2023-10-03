@@ -12,9 +12,9 @@
  * @example
  * import { construct, assert } from '@universalweb/acid';
  * class test {
- * constructor(a) {
- * return 1;
- * }
+ * 	constructor(a) {
+ * 		return 1;
+ * 	}
  * }
  * const newClass = construct(test, [1]);
  * assert(test, 1);

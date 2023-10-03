@@ -29,7 +29,6 @@ export * from './arrays/mapAsync.js';
 export * from './arrays/mapRight.js';
 export * from './arrays/mapWhile.js';
 export * from './arrays/sortNumberAscending.js';
-export * from './arrays/object.js';
 export * from './arrays/partition.js';
 export * from './arrays/sortNumberDescening.js';
 export * from './arrays/remove.js';
