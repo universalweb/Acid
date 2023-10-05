@@ -4494,8 +4494,7 @@
 	 *
 	 * @example
 	 * import { lowerCase, assert } from '@universalweb/acid';
-	 * assert(lowerCase('upper-case'), 'upper case');
-	 * assert(lowerCase('upper_case'), 'upper case');
+	 * assert(lowerCase('lower-CASE'), 'lower case');
 	 */
 	function lowerCase(source) {
 		return source
@@ -4517,8 +4516,7 @@
 	 *
 	 * @example
 	 * import { insertInRange, assert } from '@universalweb/acid';
-	 * insertInRange('A from Lucy.', 1, ' tab');
-	 * // => 'A tab from Lucy.'
+	 * assert(insertInRange('A from Lucy.', 1, ' tab'), 'A tab from Lucy.');
 	 */
 	function insertInRange(string, index, text) {
 		return string.slice(0, index) + text + string.slice(index, string.length);
@@ -4535,10 +4533,8 @@
 	 *
 	 * @example
 	 * import { rightString, assert } from '@universalweb/acid';
-	 * rightString('rightString');
-	 * // => 'g'
-	 * rightString('rightString', 2);
-	 * // => 'n'
+	 * assert(rightString('rightString'), 'g');
+	 * assert(rightString('rightString', 2), 'n');
 	 */
 	function rightString(string, index = 1) {
 		return string[string.length - index];
@@ -4555,8 +4551,7 @@
 	 *
 	 * @example
 	 * import { chunkString, assert } from '@universalweb/acid';
-	 * chunkString('chunk', 2);
-	 * // => ['ch', 'un', 'k']
+	 * assert(chunkString('chunk', 2), ['ch', 'un', 'k']);
 	 */
 	function chunkString(string, size) {
 		return string.match(new RegExp(`(.|[\r\n]){1,${size}}`, 'g'));
@@ -4573,10 +4568,7 @@
 	 *
 	 * @example
 	 * import { initialString, assert } from '@universalweb/acid';
-	 * initialString('initialString');
-	 * // => 'initialStrin'
-	 * initialString('initialString', 2);
-	 * // => 'initialStri'
+	 * assert(initialString('initialString', 2), 'initialStri');
 	 */
 	function initialString(string, index = 1) {
 		return string.slice(0, index * -1);
@@ -4593,13 +4585,10 @@
 	 *
 	 * @example
 	 * import { restString, assert } from '@universalweb/acid';
-	 * restString('restString');
-	 * // => 'estString'
-	 * restString('restString', 2);
-	 * // => 'stString'
+	 * assert(restString('restString', 2), 'stString');
 	 */
 	function restString(string, index = 1) {
-		return string.substr(index);
+		return string.substring(index);
 	}
 	/**
 	 * Replaces all occurrences of strings in an array with a value.
@@ -4614,108 +4603,10 @@
 	 *
 	 * @example
 	 * import { replaceList, assert } from '@universalweb/acid';
-	 * replaceList('Her name was user.', ['user'], 'Lucy');
-	 * // => 'Her name was Lucy.'
+	 * assert(replaceList('user name was user.', ['user'], 'this'), 'this name was this.');
 	 */
 	function replaceList(string, words, value) {
 		return string.replace(new RegExp(`\\b${words.join('|')}\\b`, 'gi'), value);
-	}
-	const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
-	const andRegex = /&/g;
-	const lessThanRegex = /</g;
-	const moreThanRegex = />/g;
-	const doubleQuoteRegex = /"/g;
-	/**
-	 * Raw URL decoder.
-	 *
-	 * @function rawURLDecode
-	 * @category string
-	 * @type {Function}
-	 * @param {String} string - String to be replaced.
-	 * @returns {String} - Converted string into the decoded URI Component .
-	 *
-	 * @example
-	 * import { rawURLDecode, assert } from '@universalweb/acid';
-	 * rawURLDecode('Lucy%20saw%20diamonds%20in%20the%20sky.');
-	 * // => 'Lucy saw diamonds in the sky.'
-	 */
-	function rawURLDecode(string) {
-		return decodeURIComponent(
-			string.replace(rawURLDecodeRegex, () => {
-				return '%25';
-			})
-		);
-	}
-	/**
-	 * Replaced sensitive characters with their matching html entity.
-	 *
-	 * @function htmlEntities
-	 * @category string
-	 * @type {Function}
-	 * @param {String} string - String to be replaced.
-	 * @returns {String} - Replaced string.
-	 *
-	 * @example
-	 * import { htmlEntities, assert } from '@universalweb/acid';
-	 * htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`);
-	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
-	 */
-	function htmlEntities(string) {
-		return string.replace(andRegex, '&amp;').replace(lessThanRegex, '&lt;')
-			.replace(moreThanRegex, '&gt;')
-			.replace(doubleQuoteRegex, '&quot;');
-	}
-	/**
-	 * Executes rawURLDecode followd by htmlEntities methods on a string.
-	 *
-	 * @function sanitize
-	 * @category string
-	 * @type {Function}
-	 * @param {String} string - String to be replaced.
-	 * @returns {String} - Replaced string.
-	 *
-	 * @example
-	 * import { sanitize, assert } from '@universalweb/acid';
-	 * sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`);
-	 * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
-	 */
-	function sanitize(string) {
-		return htmlEntities(rawURLDecode(string));
-	}
-	const tokenizeRegEx = /\S+/g;
-	const wordsRegEx = /\w+/g;
-	/**
-	 * Break string by non-white space characters matches.
-	 *
-	 * @function tokenize
-	 * @type {Function}
-	 * @category string
-	 * @param {String} string - String to be broken up.
-	 * @returns {Array} - Array of words without white space characters.
-	 *
-	 * @example
-	 * import { tokenize, assert } from '@universalweb/acid';
-	 * tokenize('I am Lucy!');
-	 * // => ["I", "am", "Lucy!"]
-	 */
-	function tokenize(string) {
-		return string.match(tokenizeRegEx) || [];
-	}
-	/**
-	 * Break string into word matches.
-	 *
-	 * @function words
-	 * @type {Function}
-	 * @param {String} string - String to be broken up.
-	 * @returns {Array} - Array of words with word characters only.
-	 *
-	 * @example
-	 * import { words, assert } from '@universalweb/acid';
-	 * words('I am Lucy!');
-	 * // => ["I", "am", "Lucy"]
-	 */
-	function words(string) {
-		return string.match(wordsRegEx) || [];
 	}
 	const truncateDown = (string, maxLength, stringLength) => {
 		const breakAll = string.split('');
@@ -4741,7 +4632,7 @@
 				break;
 			}
 		}
-		return string.substr(index, stringLength).trim();
+		return string.substring(index, stringLength).trim();
 	};
 	/**
 	 * Truncates the string, accounting for word placement and character count.
@@ -4755,8 +4646,7 @@
 	 *
 	 * @example
 	 * import { truncate, assert } from '@universalweb/acid';
-	 * truncate('Where is Lucy?', 2);
-	 * // => 'Where is'
+	 * assert(truncate('Where is Lucy?', 2), 'Where is');
 	 */
 	function truncate(string, maxLength) {
 		const stringLength = string.length;
@@ -4774,14 +4664,105 @@
 	 *
 	 * @example
 	 * import { truncateRight, assert } from '@universalweb/acid';
-	 * truncateRight('Where is Lucy?', 6);
-	 * // => 'Lucy?'
+	 * assert(truncateRight('Where is Lucy?', 6), 'Lucy?');
 	 */
 	function truncateRight(string, maxLength) {
 		const stringLength = string.length;
 		return stringLength > maxLength ? truncateUp(string, maxLength, stringLength) : string;
 	}
-	const spaceFirstLetter = / (.)/g;
+	const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
+	const andRegex = /&/g;
+	const lessThanRegex = /</g;
+	const moreThanRegex = />/g;
+	const doubleQuoteRegex = /"/g;
+	/**
+	 * Raw URL decoder.
+	 *
+	 * @function rawURLDecode
+	 * @category string
+	 * @type {Function}
+	 * @param {String} string - String to be replaced.
+	 * @returns {String} - Converted string into the decoded URI Component .
+	 *
+	 * @example
+	 * import { rawURLDecode, assert } from '@universalweb/acid';
+	 * assert(rawURLDecode('Lucy%20saw%20diamonds%20in%20the%20sky.'), 'Lucy saw diamonds in the sky.');
+	 */
+	function rawURLDecode(string) {
+		return decodeURIComponent(
+			string.replace(rawURLDecodeRegex, () => {
+				return '%25';
+			})
+		);
+	}
+	/**
+	 * Replaced sensitive characters with their matching html entity.
+	 *
+	 * @function htmlEntities
+	 * @category string
+	 * @type {Function}
+	 * @param {String} string - String to be replaced.
+	 * @returns {String} - Replaced string.
+	 *
+	 * @example
+	 * import { htmlEntities, assert } from '@universalweb/acid';
+	 * assert(htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`), `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`);
+	 */
+	function htmlEntities(string) {
+		return string.replace(andRegex, '&amp;').replace(lessThanRegex, '&lt;')
+			.replace(moreThanRegex, '&gt;')
+			.replace(doubleQuoteRegex, '&quot;');
+	}
+	/**
+	 * Executes rawURLDecode followd by htmlEntities methods on a string.
+	 *
+	 * @function sanitize
+	 * @category string
+	 * @type {Function}
+	 * @param {String} string - String to be replaced.
+	 * @returns {String} - Replaced string.
+	 *
+	 * @example
+	 * import { sanitize, assert } from '@universalweb/acid';
+	 * assert(sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`),`&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`);
+	 */
+	function sanitize(string) {
+		return htmlEntities(rawURLDecode(string));
+	}
+	const tokenizeRegEx = /\S+/g;
+	const wordsRegEx = /\w+/g;
+	/**
+	 * Break string by non-white space characters matches.
+	 *
+	 * @function tokenize
+	 * @type {Function}
+	 * @category string
+	 * @param {String} string - String to be broken up.
+	 * @returns {Array} - Array of words without white space characters.
+	 *
+	 * @example
+	 * import { tokenize, assert } from '@universalweb/acid';
+	 * assert(tokenize('I am Lucy!'), ["I", "am", "Acid!"]);
+	 */
+	function tokenize(string) {
+		return string.match(tokenizeRegEx) || [];
+	}
+	/**
+	 * Break string into word matches.
+	 *
+	 * @function words
+	 * @type {Function}
+	 * @param {String} string - String to be broken up.
+	 * @returns {Array} - Array of words with word characters only.
+	 *
+	 * @example
+	 * import { words, assert } from '@universalweb/acid';
+	 * assert(words('I am Acid!'), ["I", "am", "Acid"]);
+	 */
+	function words(string) {
+		return string.match(wordsRegEx) || [];
+	}
+	const getWords = /\w+/g;
 	/**
 	 * Returns the first letter capitalized.
 	 *
@@ -4793,8 +4774,7 @@
 	 *
 	 * @example
 	 * import { upperFirstLetter, assert } from '@universalweb/acid';
-	 * upperFirstLetter('upper');
-	 * // => "U"
+	 * assert(upperFirstLetter('upper'), 'U');
 	 */
 	function upperFirstLetter(string) {
 		return string[0].toUpperCase();
@@ -4810,30 +4790,12 @@
 	 *
 	 * @example
 	 * import { upperFirst, assert } from '@universalweb/acid';
+	 * assert(upperFirstLetter('upper'), 'U');
 	 * upperFirst('upper');
 	 * // => 'Upper'
 	 */
 	function upperFirst(string) {
 		return upperFirstLetter(string) + restString(string);
-	}
-	/**
-	 * Capitalize all first letters.
-	 *
-	 * @function upperFirstAll
-	 * @type {Function}
-	 * @category string
-	 * @param {String} string - String to be mutated.
-	 * @returns {String} - String with all first letters capitalized.
-	 *
-	 * @example
-	 * import { upperFirstAll, assert } from '@universalweb/acid';
-	 * upperFirstAll('Lucy is next up.');
-	 * // => 'Lucy Is Next Up.'
-	 */
-	function upperFirstAll(string) {
-		return string.replace(spaceFirstLetter, (match) => {
-			return match.toUpperCase();
-		});
 	}
 	/**
 	 * Capitalize first letter and lower case the rest.
@@ -4846,11 +4808,28 @@
 	 *
 	 * @example
 	 * import { upperFirstOnly, assert } from '@universalweb/acid';
-	 * upperFirstOnly('LYSERGIC ACID DIETHYLAMIDE');
-	 * // => 'Lysergic namespace diethylamide'
+	 * assert(upperFirstOnly('upper'), 'Upper');
 	 */
 	function upperFirstOnly(string) {
 		return upperFirstLetter(string) + restString(string).toLowerCase();
+	}
+	/**
+	 * Capitalize all first letters.
+	 *
+	 * @function upperFirstAll
+	 * @type {Function}
+	 * @category string
+	 * @param {String} string - String to be mutated.
+	 * @returns {String} - String with all first letters capitalized.
+	 *
+	 * @example
+	 * import { upperFirstAll, assert } from '@universalweb/acid';
+	 * assert(upperFirstAll('uPPer'), 'UPPer');
+	 */
+	function upperFirstAll(string) {
+		return string.replace(getWords, (match) => {
+			return upperFirst(match);
+		});
 	}
 	/**
 	 * Capitalize all first letters and lower case the rest.
@@ -4863,12 +4842,11 @@
 	 *
 	 * @example
 	 * import { upperFirstOnlyAll, assert } from '@universalweb/acid';
-	 * upperFirstOnlyAll('LYSERGIC ACID DIETHYLAMIDE');
-	 * // => 'Lysergic Acid Diethylamide'
+	 * assert(upperFirstOnlyAll('this is'), 'This Is');
 	 */
 	function upperFirstOnlyAll(string) {
-		return upperFirstOnly(string.toLowerCase()).replace(spaceFirstLetter, (match) => {
-			return match.toUpperCase();
+		return string.replace(getWords, (match) => {
+			return upperFirstOnly(match);
 		});
 	}
 	/**

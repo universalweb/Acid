@@ -11,8 +11,7 @@
  *
  * @example
  * import { insertInRange, assert } from '@universalweb/acid';
- * insertInRange('A from Lucy.', 1, ' tab');
- * // => 'A tab from Lucy.'
+ * assert(insertInRange('A from Lucy.', 1, ' tab'), 'A tab from Lucy.');
  */
 export function insertInRange(string, index, text) {
 	return string.slice(0, index) + text + string.slice(index, string.length);
@@ -29,10 +28,8 @@ export function insertInRange(string, index, text) {
  *
  * @example
  * import { rightString, assert } from '@universalweb/acid';
- * rightString('rightString');
- * // => 'g'
- * rightString('rightString', 2);
- * // => 'n'
+ * assert(rightString('rightString'), 'g');
+ * assert(rightString('rightString', 2), 'n');
  */
 export function rightString(string, index = 1) {
 	return string[string.length - index];
@@ -49,8 +46,7 @@ export function rightString(string, index = 1) {
  *
  * @example
  * import { chunkString, assert } from '@universalweb/acid';
- * chunkString('chunk', 2);
- * // => ['ch', 'un', 'k']
+ * assert(chunkString('chunk', 2), ['ch', 'un', 'k']);
  */
 export function chunkString(string, size) {
 	return string.match(new RegExp(`(.|[\r\n]){1,${size}}`, 'g'));
@@ -67,10 +63,7 @@ export function chunkString(string, size) {
  *
  * @example
  * import { initialString, assert } from '@universalweb/acid';
- * initialString('initialString');
- * // => 'initialStrin'
- * initialString('initialString', 2);
- * // => 'initialStri'
+ * assert(initialString('initialString', 2), 'initialStri');
  */
 export function initialString(string, index = 1) {
 	return string.slice(0, index * -1);
@@ -87,12 +80,8 @@ export function initialString(string, index = 1) {
  *
  * @example
  * import { restString, assert } from '@universalweb/acid';
- * restString('restString');
- * // => 'estString'
- * restString('restString', 2);
- * // => 'stString'
+ * assert(restString('restString', 2), 'stString');
  */
 export function restString(string, index = 1) {
-	return string.substr(index);
+	return string.substring(index);
 }
-

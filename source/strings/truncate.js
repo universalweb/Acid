@@ -22,7 +22,7 @@ const truncateUp = (string, maxLength, stringLength) => {
 			break;
 		}
 	}
-	return string.substr(index, stringLength).trim();
+	return string.substring(index, stringLength).trim();
 };
 /**
  * Truncates the string, accounting for word placement and character count.
@@ -36,8 +36,7 @@ const truncateUp = (string, maxLength, stringLength) => {
  *
  * @example
  * import { truncate, assert } from '@universalweb/acid';
- * truncate('Where is Lucy?', 2);
- * // => 'Where is'
+ * assert(truncate('Where is Lucy?', 2), 'Where is');
  */
 export function truncate(string, maxLength) {
 	const stringLength = string.length;
@@ -55,11 +54,9 @@ export function truncate(string, maxLength) {
  *
  * @example
  * import { truncateRight, assert } from '@universalweb/acid';
- * truncateRight('Where is Lucy?', 6);
- * // => 'Lucy?'
+ * assert(truncateRight('Where is Lucy?', 6), 'Lucy?');
  */
 export function truncateRight(string, maxLength) {
 	const stringLength = string.length;
 	return (stringLength > maxLength) ? truncateUp(string, maxLength, stringLength) : string;
 }
-

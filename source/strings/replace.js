@@ -11,10 +11,8 @@
  *
  * @example
  * import { replaceList, assert } from '@universalweb/acid';
- * replaceList('Her name was user.', ['user'], 'Lucy');
- * // => 'Her name was Lucy.'
+ * assert(replaceList('user name was user.', ['user'], 'this'), 'this name was this.');
  */
 export function replaceList(string, words, value) {
 	return string.replace(new RegExp(`\\b${words.join('|')}\\b`, 'gi'), value);
 }
-

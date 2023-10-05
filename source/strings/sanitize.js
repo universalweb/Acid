@@ -1,3 +1,4 @@
+import { truncateRight } from './truncate';
 const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
 const andRegex = /&/g;
 const lessThanRegex = /</g;
@@ -14,8 +15,7 @@ const doubleQuoteRegex = /"/g;
  *
  * @example
  * import { rawURLDecode, assert } from '@universalweb/acid';
- * rawURLDecode('Lucy%20saw%20diamonds%20in%20the%20sky.');
- * // => 'Lucy saw diamonds in the sky.'
+ * assert(rawURLDecode('Lucy%20saw%20diamonds%20in%20the%20sky.'), 'Lucy saw diamonds in the sky.');
  */
 export function rawURLDecode(string) {
 	return decodeURIComponent(string.replace(rawURLDecodeRegex, () => {
@@ -33,8 +33,7 @@ export function rawURLDecode(string) {
  *
  * @example
  * import { htmlEntities, assert } from '@universalweb/acid';
- * htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`);
- * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
+ * assert(htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`), `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`);
  */
 export function htmlEntities(string) {
 	return string.replace(andRegex, '&amp;')
@@ -53,8 +52,7 @@ export function htmlEntities(string) {
  *
  * @example
  * import { sanitize, assert } from '@universalweb/acid';
- * sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`);
- * // => `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`
+ * assert(sanitize(`<script>console.log('Lucy%20&%20diamonds.')</script>`),`&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`);
  */
 export function sanitize(string) {
 	return htmlEntities(rawURLDecode(string));

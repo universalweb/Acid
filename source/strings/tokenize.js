@@ -11,8 +11,7 @@ const wordsRegEx = /\w+/g;
  *
  * @example
  * import { tokenize, assert } from '@universalweb/acid';
- * tokenize('I am Lucy!');
- * // => ["I", "am", "Lucy!"]
+ * assert(tokenize('I am Lucy!'), ["I", "am", "Acid!"]);
  */
 export function tokenize(string) {
 	return string.match(tokenizeRegEx) || [];
@@ -27,8 +26,7 @@ export function tokenize(string) {
  *
  * @example
  * import { words, assert } from '@universalweb/acid';
- * words('I am Lucy!');
- * // => ["I", "am", "Lucy"]
+ * assert(words('I am Acid!'), ["I", "am", "Acid"]);
  */
 export function words(string) {
 	return string.match(wordsRegEx) || [];

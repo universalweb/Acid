@@ -10,8 +10,7 @@ const normalizeCase = /[ _-]+/g;
  *
  * @example
  * import { lowerCase, assert } from '@universalweb/acid';
- * assert(lowerCase('upper-case'), 'upper case');
- * assert(lowerCase('upper_case'), 'upper case');
+ * assert(lowerCase('lower-CASE'), 'lower case');
  */
 export function lowerCase(source) {
 	return source
