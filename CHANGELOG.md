@@ -6,8 +6,20 @@
 </pre>
 ---
 
-### [v3.0.57](https://github.com/universalweb/Acid/compare/v3.0.57...v3.0.57) 
-DATE: 2023-10-03
+### [v3.0.59](https://github.com/universalweb/Acid/compare/v3.0.59...v3.0.59) 
+DATE: 2023-10-05
+
+---
+### [v3.0.59](https://github.com/universalweb/Acid/compare/v3.0.58...v3.0.59) 
+DATE: 2023-10-05
+
+---
+### [v3.0.58](https://github.com/universalweb/Acid/compare/v3.0.57...v3.0.58) 
+DATE: 2023-10-05
+
+### Commits
+
+- Assign patch to check for hasValue [`88a402d`](https://github.com/universalweb/Acid/commit/88a402d217b79fffe23a5412474ca9b4c85a95f3)
 
 ---
 ### [v3.0.57](https://github.com/universalweb/Acid/compare/v3.0.56...v3.0.57) 
