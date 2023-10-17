@@ -5,7 +5,7 @@ import { hasValue } from '../types/hasValue.js';
 import { isAsync } from '../types/isAsync.js';
 import { isGenerator } from '../types/isGenerator.js';
 export function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
-	return (source, iteratee, results) => {
+	return (source, iteratee, argument1, argument2, argument3) => {
 		let returned;
 		const isIterateeAsync = isAsync(iteratee);
 		if (!hasValue(source) || !iteratee) {
@@ -21,7 +21,7 @@ export function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAs
 		} else {
 			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
 		}
-		return returned(source, iteratee, results);
+		return returned(source, iteratee, argument1, argument2, argument3);
 	};
 }
 

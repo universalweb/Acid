@@ -9,8 +9,9 @@ import { eachArray } from './each.js';
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
- * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {Array = []} results - Array that will be used to assign results. Default value is a new empty array.
+ * @param {*} thisCall - An object to be given each time to the iteratee.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
  * @returns {Array} - An array with mapped properties that are not null or undefined.
  *
  * @example
@@ -19,13 +20,21 @@ import { eachArray } from './each.js';
  *   return item;
  * }), [2, 3]);
  */
-export function compactMapArray(source, iteratee = returnValue, results = [], thisBind) {
-	eachArray(source, (item, index, arrayOriginal, arrayLength) => {
-		const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
-		if (hasValue(returned)) {
-			results.push(returned);
-		}
-	});
+export function compactMapArray(source, iteratee = returnValue, results = [], thisCall, additionalArg) {
+	if (hasValue(thisCall)) {
+		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+			const returned = iteratee.call(thisCall, item, index, results, arrayOriginal, arrayLength, additionalArg);
+			if (hasValue(returned)) {
+				results.push(returned);
+			}
+		});
+	} else {
+		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+			const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisCall, additionalArg);
+			if (hasValue(returned)) {
+				results.push(returned);
+			}
+		});
+	}
 	return results;
 }
-

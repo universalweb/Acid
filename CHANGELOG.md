@@ -6,8 +6,18 @@
 </pre>
 ---
 
-### [v3.0.60](https://github.com/universalweb/Acid/compare/v3.0.60...v3.0.60) 
-DATE: 2023-10-05
+### [v3.0.61](https://github.com/universalweb/Acid/compare/v3.0.61...v3.0.61) 
+DATE: 2023-10-17
+
+---
+### [v3.0.61](https://github.com/universalweb/Acid/compare/v3.0.60...v3.0.61) 
+DATE: 2023-10-17
+
+### Commits
+
+- TEST [`132e937`](https://github.com/universalweb/Acid/commit/132e9372b27056b317ee114eed918177fee717a9)
+- Update README.md [`d414b28`](https://github.com/universalweb/Acid/commit/d414b287b297ea931fb30a2e9eaf6805cc05b926)
+- Bug patching for strings [`d17cc45`](https://github.com/universalweb/Acid/commit/d17cc45de73a0c052cefc1ebf1cffa0fdb044a45)
 
 ---
 ### [v3.0.60](https://github.com/universalweb/Acid/compare/v3.0.59...v3.0.60) 

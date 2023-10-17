@@ -14,7 +14,9 @@ import { forOfMapAsync } from './forOfMapAsync.js';
  * @param {Array | object | Function} source - Object that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
  * @param {Object | Function} [results = {}] - Object that will be used to assign results.
- * @returns {Array | object | Function} - A new object of the same calling object's type.'.
+ * @param {*} thisCall - An object to be given each time to the iteratee.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
+ * @returns {Array | object | Function} - A new object of the same calling object's type.
  *
  * @example
  * import { map, assert } from '@universalweb/acid';

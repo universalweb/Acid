@@ -145,7 +145,8 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {*} thisBind - An object to be given each time to the iteratee.
+	 * @param {*} thisCall - Iteratee called with thisCall as this.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
 	 *
 	 * @example
@@ -156,13 +157,19 @@
 	 * });
 	 * assert(list, [1, 2, 3]);
 	 */
-	function eachArray(source, iteratee, thisBind) {
+	function eachArray(source, iteratee, thisCall, additionalArg) {
 		if (!source) {
 			return;
 		}
 		const arrayLength = source.length;
-		for (let index = 0; index < arrayLength; index++) {
-			iteratee(source[index], index, source, arrayLength, thisBind);
+		if (hasValue(thisCall)) {
+			for (let index = 0; index < arrayLength; index++) {
+				iteratee.call(thisCall, source[index], index, source, arrayLength, additionalArg);
+			}
+		} else {
+			for (let index = 0; index < arrayLength; index++) {
+				iteratee(source[index], index, source, arrayLength, additionalArg);
+			}
 		}
 		return source;
 	}
@@ -174,8 +181,9 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
-	 * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
-	 * @param {*} thisBind - An object to be given each time to the iteratee.
+	 * @param {Array = []} results - Array that will be used to assign results. Default value is a new empty array.
+	 * @param {*} thisCall - An object to be given each time to the iteratee.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Array} - An array with mapped properties that are not null or undefined.
 	 *
 	 * @example
@@ -184,13 +192,22 @@
 	 *   return item;
 	 * }), [2, 3]);
 	 */
-	function compactMapArray(source, iteratee = returnValue, results = [], thisBind) {
-		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
-			const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
-			if (hasValue(returned)) {
-				results.push(returned);
-			}
-		});
+	function compactMapArray(source, iteratee = returnValue, results = [], thisCall, additionalArg) {
+		if (hasValue(thisCall)) {
+			eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+				const returned = iteratee.call(thisCall, item, index, results, arrayOriginal, arrayLength, additionalArg);
+				if (hasValue(returned)) {
+					results.push(returned);
+				}
+			});
+		} else {
+			eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+				const returned = iteratee(item, index, results, arrayOriginal, arrayLength, thisCall, additionalArg);
+				if (hasValue(returned)) {
+					results.push(returned);
+				}
+			});
+		}
 		return results;
 	}
 	/**
@@ -1036,7 +1053,8 @@
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
 	 * @param {Array} results - Array that will be used to assign results.
-	 * @param {*} thisBind - An object to be given each time to the iteratee.
+	 * @param {*} thisCall - An object to be given each time to the iteratee.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Array} - An array of the same calling array's type.
 	 *
 	 * @example
@@ -1045,10 +1063,16 @@
 	 *   return item * 2;
 	 * }), [2, 4, 6]);
 	 */
-	function mapArray(source, iteratee, results = [], thisBind) {
-		eachArray(source, (item, index, arrayOriginal, arrayLength) => {
-			results[index] = iteratee(item, index, results, arrayOriginal, arrayLength, thisBind);
-		});
+	function mapArray(source, iteratee, results = [], thisCall, additionalArg) {
+		if (hasValue(thisCall)) {
+			eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+				results[index] = iteratee.call(thisCall, item, index, results, arrayOriginal, arrayLength, additionalArg);
+			});
+		} else {
+			eachArray(source, (item, index, arrayOriginal, arrayLength) => {
+				results[index] = iteratee(item, index, results, arrayOriginal, arrayLength, additionalArg);
+			});
+		}
 		return results;
 	}
 	/**
@@ -2544,6 +2568,8 @@
 	 * @type {Function}
 	 * @param {Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
+	 * @param {*} thisCall - An object to be given each time to the iteratee.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Object|Function} - Returns the calling object.
 	 *
 	 * @example
@@ -2552,14 +2578,21 @@
 	 *   console.log(item);
 	 * }), {a: 1, b: 2, c: 3});
 	 */
-	function eachObject(source, iteratee) {
+	function eachObject(source, iteratee, thisCall, additionalArg) {
 		if (!source) {
 			return;
 		}
 		const objectKeys = keys(source);
-		return eachArray(objectKeys, (key, index, original, propertyCount) => {
-			iteratee(source[key], key, source, propertyCount, original);
-		});
+		if (hasValue(thisCall)) {
+			eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
+				iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeysArray, additionalArg);
+			});
+		} else {
+			eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
+				iteratee(source[key], key, source, propertyCount, objectKeysArray, additionalArg);
+			});
+		}
+		return source;
 	}
 	async function forEachAsync(source, callback) {
 		const values = [];
@@ -2664,7 +2697,7 @@
 	const isAsyncCall = isConstructorNameFactory('AsyncFunction');
 	const isAsync = isTypeFactory(isAsyncCall);
 	function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
-		return (source, iteratee, results) => {
+		return (source, iteratee, argument1, argument2, argument3) => {
 			let returned;
 			const isIterateeAsync = isAsync(iteratee);
 			if (!hasValue(source) || !iteratee) {
@@ -2680,7 +2713,7 @@
 			} else {
 				returned = isIterateeAsync ? objectLoopAsync : objectLoop;
 			}
-			return returned(source, iteratee, results);
+			return returned(source, iteratee, argument1, argument2, argument3);
 		};
 	}
 	/**
@@ -2691,6 +2724,8 @@
 	 * @type {Function}
 	 * @param {Array | object | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+	 * @param {*} thisCall - An object to be given each time to the iteratee.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Array | object | Function} - The originally given object.
 	 *
 	 * @example
@@ -3239,6 +3274,8 @@
 	 * @param {Object|Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
 	 * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+	 * @param {*} thisCall - An object to be given each time to the iteratee.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Object|Function} - An object of the same calling object's type.
 	 *
 	 * @example
@@ -3247,13 +3284,19 @@
 	 *   return item;
 	 * }), {a: 1, b: undefined, c: 3});
 	 */
-	function mapObject(source, iteratee, results = {}) {
+	function mapObject(source, iteratee, results = {}, thisCall, additionalArg) {
 		if (!source) {
 			return;
 		}
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			results[key] = iteratee(item, key, results, original, propertyCount, objectKeys);
-		});
+		if (hasValue(thisCall)) {
+			eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+				results[key] = iteratee.call(thisCall, item, key, results, original, propertyCount, objectKeys, additionalArg);
+			});
+		} else {
+			eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+				results[key] = iteratee(item, key, results, original, propertyCount, objectKeys, additionalArg);
+			});
+		}
 		return results;
 	}
 	/**
@@ -3386,7 +3429,9 @@
 	 * @param {Array | object | Function} source - Object that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
 	 * @param {Object | Function} [results = {}] - Object that will be used to assign results.
-	 * @returns {Array | object | Function} - A new object of the same calling object's type.'.
+	 * @param {*} thisCall - An object to be given each time to the iteratee.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
+	 * @returns {Array | object | Function} - A new object of the same calling object's type.
 	 *
 	 * @example
 	 * import { map, assert } from '@universalweb/acid';

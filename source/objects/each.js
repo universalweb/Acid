@@ -1,5 +1,6 @@
 import { keys } from './keys.js';
 import { eachArray } from '../arrays/each.js';
+import { hasValue } from '../types/hasValue.js';
 /**
  * Iterates through the given object.
  *
@@ -8,6 +9,8 @@ import { eachArray } from '../arrays/each.js';
  * @type {Function}
  * @param {Object|Function} source - Object that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
+ * @param {*} thisCall - An object to be given each time to the iteratee.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
  * @returns {Object|Function} - Returns the calling object.
  *
  * @example
@@ -16,13 +19,20 @@ import { eachArray } from '../arrays/each.js';
  *   console.log(item);
  * }), {a: 1, b: 2, c: 3});
  */
-export function eachObject(source, iteratee) {
+export function eachObject(source, iteratee, thisCall, additionalArg) {
 	if (!source) {
 		return;
 	}
 	const objectKeys = keys(source);
-	return eachArray(objectKeys, (key, index, original, propertyCount) => {
-		iteratee(source[key], key, source, propertyCount, original);
-	});
+	if (hasValue(thisCall)) {
+		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
+			iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeysArray, additionalArg);
+		});
+	} else {
+		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
+			iteratee(source[key], key, source, propertyCount, objectKeysArray, additionalArg);
+		});
+	}
+	return source;
 }
 
