@@ -144,7 +144,7 @@
 	 * @category array
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
 	 * @param {*} thisCall - Iteratee called with thisCall as this.
 	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Array} - The originally given array.
@@ -218,7 +218,9 @@
 	 * @type {Function}
 	 * @async
 	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
+	 * @param {*} thisCall - Iteratee called with thisCall as this.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Array} - Returns source the originally given array.
 	 *
 	 * @example
@@ -229,13 +231,19 @@
 	 * });
 	 * assert(tempList, [1, 2, 3]);
 	 */
-	async function eachAsyncArray(source, iteratee) {
+	async function eachAsyncArray(source, iteratee, thisCall, additionalArg) {
 		if (!source) {
 			return;
 		}
 		const arrayLength = source.length;
-		for (let index = 0; index < arrayLength; index++) {
-			await iteratee(source[index], index, source, arrayLength);
+		if (hasValue(thisCall)) {
+			for (let index = 0; index < arrayLength; index++) {
+				await iteratee.call(thisCall, source[index], index, source, arrayLength, additionalArg);
+			}
+		} else {
+			for (let index = 0; index < arrayLength; index++) {
+				await iteratee(source[index], index, source, arrayLength, additionalArg);
+			}
 		}
 		return source;
 	}
@@ -2539,7 +2547,9 @@
 	 * @category object
 	 * @type {Function}
 	 * @param {Object|Function} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, array of keys, and additionalArg.
+	 * @param {*} thisCall - Iteratee called with thisCall as this.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Object|Function} - Returns source.
 	 *
 	 * @example
@@ -2550,14 +2560,20 @@
 	 *   });
 	 * assert(tempList, {a: 1, b: 2, c: 3});
 	 */
-	const eachAsyncObject = async (source, iteratee) => {
+	const eachAsyncObject = async (source, iteratee, thisCall, additionalArg) => {
 		if (!source) {
 			return;
 		}
 		const objectKeys = keys(source);
-		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
-			return iteratee(source[key], key, source, propertyCount, objectKeys);
-		});
+		if (hasValue(thisCall)) {
+			await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
+				return iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeys, additionalArg);
+			});
+		} else {
+			await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
+				return iteratee(source[key], key, source, propertyCount, objectKeys, additionalArg);
+			});
+		}
 		return source;
 	};
 	/**

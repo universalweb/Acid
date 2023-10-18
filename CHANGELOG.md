@@ -6,8 +6,16 @@
 </pre>
 ---
 
-### [v3.0.61](https://github.com/universalweb/Acid/compare/v3.0.61...v3.0.61) 
+### [v3.0.62](https://github.com/universalweb/Acid/compare/v3.0.62...v3.0.62) 
+DATE: 2023-10-18
+
+---
+### [v3.0.62](https://github.com/universalweb/Acid/compare/v3.0.61...v3.0.62) 
 DATE: 2023-10-17
+
+### Commits
+
+- Version bump [`3be5f64`](https://github.com/universalweb/Acid/commit/3be5f6462eccf49b4c40cfd7e4531c13140ed2f4)
 
 ---
 ### [v3.0.61](https://github.com/universalweb/Acid/compare/v3.0.60...v3.0.61) 

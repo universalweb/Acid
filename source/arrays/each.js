@@ -7,7 +7,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @category array
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
+ * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
  * @param {*} thisCall - Iteratee called with thisCall as this.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
  * @returns {Array} - The originally given array.
@@ -26,11 +26,11 @@ export function eachArray(source, iteratee, thisCall, additionalArg) {
 	}
 	const arrayLength = source.length;
 	if (hasValue(thisCall)) {
-		for (let index = 0;index < arrayLength;index++) {
+		for (let index = 0; index < arrayLength; index++) {
 			iteratee.call(thisCall, source[index], index, source, arrayLength, additionalArg);
 		}
 	} else {
-		for (let index = 0;index < arrayLength;index++) {
+		for (let index = 0; index < arrayLength; index++) {
 			iteratee(source[index], index, source, arrayLength, additionalArg);
 		}
 	}
