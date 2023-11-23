@@ -2,9 +2,9 @@
 	typeof exports === 'object' && typeof module !== 'undefined' ?
 		factory(exports, require('fs/promises'), require('path'), require('url')) :
 		typeof define === 'function' && define.amd ?
-			define(['exports', 'fs/promises', 'path', 'url'], factory) :
-			((global = typeof globalThis !== 'undefined' ? globalThis : global || self),
-		  factory((global.$ = {}), global.promises, global.path, global.url));
+		  define(['exports', 'fs/promises', 'path', 'url'], factory) :
+		  ((global = typeof globalThis !== 'undefined' ? globalThis : global || self),
+		    factory((global.$ = {}), global.promises, global.path, global.url));
 })(this, (exports, promises, path, url) => {
 	'use strict';
 	/**
@@ -351,6 +351,22 @@
 	 * assert(isArray(2), false);
 	 */
 	const isArray = Array.isArray;
+	/**
+	 * Checks if the value is not an array. This references Array.isArray.
+	 *
+	 * @function isNotArray
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isNotArray, assert } from '@universalweb/acid';
+	 * assert(isNotArray([]), false);
+	 * assert(isNotArray(2), true);
+	 */
+	function isNotArray(source) {
+		return !isArray(source);
+	}
 	/**
 	 * Ensures the source is an array if not the source is wrapped in a array or an empty array is returned.
 	 *
@@ -2256,6 +2272,35 @@
 		});
 	}
 	/**
+	 * Checks if the value is a number.
+	 *
+	 * @function isNumber
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isNumber, assert } from '@universalweb/acid';
+	 * assert(isNumber(1), true);
+	 */
+	const isNumberCall = isConstructorNameFactory('Number');
+	const isNumber = isTypeFactory(isNumberCall);
+	/**
+	 * Checks if the value is not a number.
+	 *
+	 * @function isNotNumber
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isNotNumber, assert } from '@universalweb/acid';
+	 * assert(isNotNumber(1), false);
+	 */
+	function isNotNumber(source) {
+		return !isNumber(source);
+	}
+	/**
 	 * Checks if the value is a string.
 	 *
 	 * @function isString
@@ -2264,11 +2309,27 @@
 	 * @returns {Boolean} - Returns true or false.
 	 *
 	 * @example
-	 * import { isString } from '@universalweb/acid';
-	 * isString('Lucy');
-	 * // => true
+	 * import { isString, assert } from '@universalweb/acid';
+	 * assert(isString('hello'), true);
+	 * assert(isString(1), false);
 	 */
 	const isString = isConstructorFactory(String);
+	/**
+	 * Checks if the value is not a string.
+	 *
+	 * @function isNotString
+	 * @category type
+	 * @param {*} source - Object to be checked.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isNotString, assert } from '@universalweb/acid';
+	 * assert(isNotString(1), true);
+	 * assert(isNotString('hello'), false);
+	 */
+	function isNotString(source) {
+		return !isString(source);
+	}
 	/**
 	 * Returns an array of the plucked sources from the object. Sources are plucked in the order given by the array.
 	 *
@@ -4250,20 +4311,6 @@
 		}
 		return false;
 	};
-	/**
-	 * Checks if the value is a number.
-	 *
-	 * @function isNumber
-	 * @category type
-	 * @param {*} source - Object to be checked.
-	 * @returns {Boolean} - Returns true or false.
-	 *
-	 * @example
-	 * import { isNumber, assert } from '@universalweb/acid';
-	 * assert(isNumber(1), true);
-	 */
-	const isNumberCall = isConstructorNameFactory('Number');
-	const isNumber = isTypeFactory(isNumberCall);
 	/**
 	 * Checks if the value is a RegExp.
 	 *
@@ -7098,6 +7145,9 @@
 	exports.isMatchObject = isMatchObject;
 	exports.isNegative = isNegative;
 	exports.isNodejs = isNodejs;
+	exports.isNotArray = isNotArray;
+	exports.isNotNumber = isNotNumber;
+	exports.isNotString = isNotString;
 	exports.isNull = isNull;
 	exports.isNumber = isNumber;
 	exports.isNumberCall = isNumberCall;

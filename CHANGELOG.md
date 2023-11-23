@@ -6,8 +6,16 @@
 </pre>
 ---
 
-### [v3.0.62](https://github.com/universalweb/Acid/compare/v3.0.62...v3.0.62) 
-DATE: 2023-10-18
+### [v3.0.63](https://github.com/universalweb/Acid/compare/v3.0.63...v3.0.63) 
+DATE: 2023-11-20
+
+---
+### [v3.0.63](https://github.com/universalweb/Acid/compare/v3.0.62...v3.0.63) 
+DATE: 2023-11-20
+
+### Commits
+
+- This patches for loops [`c862db5`](https://github.com/universalweb/Acid/commit/c862db5c6034005a626181bc8a614ce0b81b9e71)
 
 ---
 ### [v3.0.62](https://github.com/universalweb/Acid/compare/v3.0.61...v3.0.62) 

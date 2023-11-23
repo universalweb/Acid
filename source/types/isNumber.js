@@ -14,3 +14,18 @@ import { isTypeFactory } from './isTypeFactory.js';
  */
 export const isNumberCall = isConstructorNameFactory('Number');
 export const isNumber = isTypeFactory(isNumberCall);
+/**
+ * Checks if the value is not a number.
+ *
+ * @function isNotNumber
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isNotNumber, assert } from '@universalweb/acid';
+ * assert(isNotNumber(1), false);
+ */
+export function isNotNumber(source) {
+	return !isNumber(source);
+}
