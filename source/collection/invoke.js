@@ -17,9 +17,14 @@ import { mapArray } from '../arrays/map.js';
  * }], 'test', ['EXAMPLE']);
  * assert(results, [['EXAMPLE', 0]]);
  */
-export function invokeCollection(collection, property, value) {
+export function invokeCollection(collection, property, value, thisBind) {
+	if (thisBind) {
+		return mapArray(collection, (item, index) => {
+			return item[property].call(thisBind, value);
+		});
+	}
 	return mapArray(collection, (item, index) => {
-		return item[property](value, index);
+		return item[property](value);
 	});
 }
 

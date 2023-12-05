@@ -2,7 +2,7 @@ import { mapAsyncArray } from '../arrays/mapAsync.js';
 /**
  * Asynchronously awaits & invokes a function on the provided property name in each object in the collection.
  *
- * @function invokeAsync
+ * @function invokeCollectionAsync
  * @category collection
  * @type {Function}
  * @async
@@ -12,18 +12,20 @@ import { mapAsyncArray } from '../arrays/mapAsync.js';
  * @returns {Array} - Returns the results of the invoked method.
  *
  * @test
- * (async () => {
- *   const result = await invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
- *   return assert(result, [['EXAMPLE', 0], ['EXAMPLE', 1]]);
- * });
- *
- * @example
- * invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
- * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
+ * import { invokeCollectionAsync, assert } from '@universalweb/acid';
+ * const results = await invokeCollectionAsync([{
+ *	async test(item, index) { return [item, index];}
+ * }], 'test', ['EXAMPLE']);
+ * assert(results, [['EXAMPLE', 0]]);
  */
-export function invokeAsync(collection, property, value) {
-	return mapAsyncArray(collection, async (item, index) => {
-		return item[property](value, index);
+export function invokeCollectionAsync(collection, property, value, thisBind) {
+	if (thisBind) {
+		return mapAsyncArray(collection, (item) => {
+			return item[property].call(thisBind, value);
+		});
+	}
+	return mapAsyncArray(collection, async (item) => {
+		return item[property](value);
 	});
 }
 

@@ -1,6 +1,6 @@
 {
     "name": "@universalweb/acid",
-    "version": "3.0.63",
+    "version": "3.0.65",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library.",
     "keywords": [
         "Acid",
@@ -39,7 +39,7 @@
     "module": "./module/index.js",
     "browser": "./browser.js",
     "bin": {
-        "Acid": "./index.js"
+        "@universalweb/acid": "./index.js"
     },
     "publishConfig": {
         "access": "public"

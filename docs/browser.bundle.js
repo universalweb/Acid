@@ -1,11 +1,12 @@
-(function(global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ?
-		factory(exports) :
-		typeof define === 'function' && define.amd ?
-		  define(['exports'], factory) :
-		  ((global = typeof globalThis !== 'undefined' ? globalThis : global || self), factory((global.$ = {})));
-})(this, (exports) => {
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined'
+		? factory(exports)
+		: typeof define === 'function' && define.amd
+		  ? define(['exports'], factory)
+		  : ((global = typeof globalThis !== 'undefined' ? globalThis : global || self), factory((global.$ = {})));
+})(this, function (exports) {
 	'use strict';
+
 	/**
 	 * Chunks an array according to a user defined number.
 	 *
@@ -34,6 +35,7 @@
 		});
 		return chunked;
 	}
+
 	/**
 	 * Clears the values out of an array.
 	 *
@@ -51,6 +53,7 @@
 		source.length = 0;
 		return source;
 	}
+
 	/**
 	 * Clone an array (uses .slice()) and assign the source arrays values to the new array.
 	 *
@@ -67,6 +70,7 @@
 	function cloneArray(source) {
 		return source.slice();
 	}
+
 	/** Checks if the value is undefined.
 	 *
 	 * @function isUndefined
@@ -81,6 +85,7 @@
 	function isUndefined(source) {
 		return source === undefined;
 	}
+
 	/**
 	 * Checks if the value has length greater than 0.
 	 *
@@ -96,6 +101,7 @@
 	function hasLength(source) {
 		return Boolean(source.length);
 	}
+
 	/**
 	 * Checks if the value is null.
 	 *
@@ -111,6 +117,7 @@
 	function isNull(source) {
 		return source === null;
 	}
+
 	/**
 	 * Checks if the value is not null or undefined.
 	 *
@@ -126,6 +133,7 @@
 	function hasValue(source) {
 		return !isUndefined(source) && !isNull(source);
 	}
+
 	/**
 	 * A simple function which returns the value it's given.
 	 *
@@ -137,6 +145,7 @@
 	function returnValue(source) {
 		return source;
 	}
+
 	/**
 	 * Iterates through the given array.
 	 *
@@ -173,6 +182,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
 	 *
@@ -210,6 +220,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Asynchronously Iterates through the given array. Each async function is awaited as to ensure synchronous order.
 	 *
@@ -247,6 +258,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Asynchronously iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
 	 *
@@ -274,6 +286,7 @@
 		});
 		return results;
 	}
+
 	/**
 	 * Checks if a number is negative & returns true or false.
 	 *
@@ -291,6 +304,7 @@
 	function isNegative(source) {
 		return sign$1(source) === -1;
 	}
+
 	function rangeUp(start, end, step, sourceArray) {
 		let position = start;
 		while (position < end) {
@@ -332,10 +346,12 @@
 			return rangeDown(start, end, step, sourceArray);
 		}
 	}
+
 	function forEach(source, callback) {
 		source.forEach(callback);
 		return source;
 	}
+
 	/**
 	 * Checks if the value is an array. This references Array.isArray.
 	 *
@@ -366,6 +382,7 @@
 	function isNotArray(source) {
 		return !isArray(source);
 	}
+
 	/**
 	 * Ensures the source is an array if not the source is wrapped in a array or an empty array is returned.
 	 *
@@ -382,6 +399,7 @@
 	function ensureArray(source) {
 		return (isArray(source) && source) || (hasValue(source) && [source]) || [];
 	}
+
 	/**
 	 * Flattens an array to a single level.
 	 *
@@ -398,6 +416,7 @@
 	function flattenDeep(source) {
 		return source.flat(Infinity);
 	}
+
 	/**
 	 * A function which acts like the "new" operator and can pass arguments. This is a safe version of the original which will error if given undefined
 	 * This is useful when working with classes and prefering to avoid the new operator and it's potential side effects.
@@ -427,6 +446,7 @@
 		}
 		return reflectConstruct(target, args);
 	}
+
 	/**
 	 * Checks for primitive differences between a source array to other arrays, then returns a new array containing those differences.
 	 *
@@ -468,6 +488,7 @@
 		});
 		return differences;
 	}
+
 	/**
 	 * Removes all items from an array after a specified index.
 	 *
@@ -487,6 +508,7 @@
 	function drop(array, amount = 1, upTo = array.length) {
 		return array.splice(amount, upTo);
 	}
+
 	/**
 	 * Removes all items from an array before a specified index.
 	 *
@@ -506,6 +528,7 @@
 	const dropRight = (array, amount = 1, upTo = array.length) => {
 		return drop(array, 0, upTo - amount);
 	};
+
 	/**
 	 * Iterates through the given array in reverse.
 	 *
@@ -535,6 +558,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Asynchronously Iterates through the given array in reverse. Each async function is awaited as to ensure synchronous order.
 	 *
@@ -564,6 +588,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Iterates through the given array while the iteratee returns true else the loop exits & returns false.
 	 *
@@ -596,6 +621,7 @@
 		}
 		return true;
 	}
+
 	/**
 	 * Iterates through the given array while the iteratee returns true else the loop exits & returns false.
 	 *
@@ -628,6 +654,7 @@
 		}
 		return true;
 	}
+
 	/**
 	 * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
 	 *
@@ -655,6 +682,7 @@
 		});
 		return results;
 	}
+
 	/**
 	 * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
 	 *
@@ -682,6 +710,7 @@
 		});
 		return results;
 	}
+
 	/**
 	 * Takes the first or multiple items from an array.
 	 *
@@ -699,6 +728,7 @@
 	function first(array, upTo) {
 		return upTo ? array.slice(0, upTo) : array[0];
 	}
+
 	/**
 	 * Flattens an array up to the provided level.
 	 *
@@ -725,6 +755,7 @@
 		}
 		return sourceArray;
 	}
+
 	/**
 	 * Takes all but the last item in the array.
 	 *
@@ -741,6 +772,7 @@
 	function initial(array) {
 		return array.slice(0, array.length - 1);
 	}
+
 	// Add intersectionBy & intersectionWith
 	/**
 	 * Returns an new array that is the [set intersection](http://en.wikipedia.org/wiki/Intersection_(set_theory))
@@ -766,6 +798,44 @@
 			}
 		});
 	}
+
+	/**
+	 * Invoke each function in the given array.
+	 *
+	 * @function invokeArray
+	 * @category array
+	 * @type {Function}
+	 * @param {Array} source - Array that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
+	 * @param {*} thisCall - Iteratee called with thisCall as this.
+	 * @param {*} additionalArg - An object to be given each time to the iteratee.
+	 * @returns {Array} - The originally given array.
+	 *
+	 * @example
+	 * import { invokeArray, assert } from '@universalweb/acid';
+	 * function test(arg){
+	 * 	return [this, arg];
+	 * }
+	 * const results = invokeArray([test], 1, test);
+	 * assert(results, [test, 1]);
+	 */
+	function invokeArray(source, arg, thisCall) {
+		if (!source) {
+			return;
+		}
+		const arrayLength = source.length;
+		if (hasValue(thisCall)) {
+			for (let index = 0; index < arrayLength; index++) {
+				source[index].call(thisCall, arg);
+			}
+		} else {
+			for (let index = 0; index < arrayLength; index++) {
+				source[index](arg);
+			}
+		}
+		return source;
+	}
+
 	/**
 	 * Get object's keys.
 	 *
@@ -784,6 +854,7 @@
 			return objectKeys(source);
 		}
 	}
+
 	const regexToPath = /\.|\[/;
 	const regexCloseBracket = /]/g;
 	const emptyString = '';
@@ -803,6 +874,7 @@
 	function toPath(source) {
 		return source.replace(regexCloseBracket, emptyString).split(regexToPath);
 	}
+
 	/**
 	 * Returns property on an object.
 	 *
@@ -834,6 +906,7 @@
 		});
 		return link;
 	}
+
 	const hasOwn = Object.hasOwn;
 	/**
 	 * Checks to see if an object has all of the given property names.
@@ -902,6 +975,7 @@
 			})
 		);
 	}
+
 	/**
 	 * Checks if the value is a plain object.
 	 *
@@ -917,11 +991,11 @@
 	 */
 	const isPlainObject = (value) => {
 		if (hasValue(value)) {
-			return value.constructor.toString().trim()
-				.slice(9, 16) === 'Object(';
+			return value.constructor.toString().trim().slice(9, 16) === 'Object(';
 		}
 		return false;
 	};
+
 	/**
 	 * Checks to see if the constructor is that of a native object.
 	 *
@@ -951,14 +1025,16 @@
 			return constructorName(target) === source || false;
 		};
 	}
+
 	function isTypeFactory(method) {
-		return function(primarySource, ...otherSources) {
+		return function (primarySource, ...otherSources) {
 			if (otherSources) {
 				return method(primarySource) && everyArray(otherSources, method);
 			}
 			return method(primarySource);
 		};
 	}
+
 	/**
 	 * Checks if an object or objects are a Buffer.
 	 *
@@ -973,6 +1049,7 @@
 	 */
 	const isBufferCall = isConstructorNameFactory('Buffer');
 	const isBuffer = isTypeFactory(isBufferCall);
+
 	/**
 	 * Performs a deep comparison between two objects & determines if the value is the same using strict comparison.
 	 *
@@ -1011,6 +1088,7 @@
 		}
 		return false;
 	};
+
 	/**
 	 * Performs a shallow strict comparison between two objects.
 	 *
@@ -1033,6 +1111,7 @@
 		}
 		return false;
 	}
+
 	const mathNativeMax = Math.max;
 	/**
 	 * Plucks the largest value from an array.
@@ -1050,6 +1129,7 @@
 	function largest(array) {
 		return mathNativeMax(...array);
 	}
+
 	/**
 	 * Extracts item(s) from an array starting from the last item in the array.
 	 *
@@ -1068,6 +1148,7 @@
 		const arrayLength = array.length;
 		return indexFrom ? array.slice(arrayLength - indexFrom, arrayLength) : array[arrayLength - 1];
 	}
+
 	/**
 	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
 	 *
@@ -1099,6 +1180,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Asynchronously iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
 	 *
@@ -1123,6 +1205,7 @@
 		});
 		return results;
 	}
+
 	/**
 	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array in reverse.
 	 *
@@ -1150,6 +1233,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Iterates through the given and creates an object with all elements that pass the test implemented by the iteratee.
 	 *
@@ -1180,6 +1264,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Subtracts the subtrahend (second argument) from the minuend (first argument).
 	 *
@@ -1197,6 +1282,7 @@
 	function subtract(minuend, subtrahend) {
 		return minuend - subtrahend;
 	}
+
 	/**
 	 * Sorts an array of numbers in ascending order. Smallest to largest.
 	 *
@@ -1212,6 +1298,7 @@
 	function sortNumberAscending(numberList) {
 		return numberList.sort(subtract);
 	}
+
 	/**
 	 * Split array into two arrays: one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
 	 *
@@ -1245,6 +1332,7 @@
 			rejected
 		];
 	}
+
 	/**
 	 * Subtracts the subtrahend (first argument) from the minuend (second argument). The arguments are reversed compared to the subtract function.
 	 *
@@ -1262,6 +1350,7 @@
 	function subtractReverse(subtrahend, minuend) {
 		return minuend - subtrahend;
 	}
+
 	/**
 	 * Sorts an array of numbers in descending order. Largest to smallest.
 	 *
@@ -1277,6 +1366,7 @@
 	function sortNumberDescening(numberList) {
 		return numberList.sort(subtractReverse);
 	}
+
 	/**
 	 * Removes all occurrences of the passed in items from the array and returns the array. This mutates the given array. Clone the array if you desire to avoid mutation.
 	 *
@@ -1330,6 +1420,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Extracts all items in array except the first and last item.
 	 *
@@ -1346,6 +1437,7 @@
 	function rest(array) {
 		return array.slice(1, array.length);
 	}
+
 	/**
 	 * Get the item at the supplied index starting at the end of the array.
 	 *
@@ -1363,9 +1455,8 @@
 	function right(source, amount) {
 		return source[source.length - 1 - amount];
 	}
-	const {
-		floor, random: random$1
-	} = Math;
+
+	const { floor, random: random$1 } = Math;
 	/**
 	 *  Produces a random whole number between min (included) and max (excluded). Do not use for security or encryption.
 	 *
@@ -1383,6 +1474,7 @@
 	function randomInt(max, min = 0) {
 		return floor(random$1() * (max - min)) + min;
 	}
+
 	const arrayFrom = Array.from;
 	/**
 	 * The Array.from() static method creates a new, shallow-copied Array instance from an iterable or array-like object. This just has a null & undefined safety check.
@@ -1403,6 +1495,7 @@
 			return arrayFrom(arrayLike, mapFn, thisArg);
 		}
 	}
+
 	/**
 	 * Checks if two numbers are the same.
 	 *
@@ -1420,6 +1513,7 @@
 	function isNumberEqual(source, target) {
 		return source === target;
 	}
+
 	/**
 	 * Shuffle an array and return a new array.
 	 *
@@ -1450,6 +1544,7 @@
 		}
 		return shuffleArray;
 	}
+
 	/**
 	 * Produce a random sample from the list. Pass a number to return n random elements from the list. Otherwise a single random item will be returned.
 	 *
@@ -1494,6 +1589,7 @@
 		}
 		return sampleArray;
 	}
+
 	const mathNativeMin = Math.min;
 	/**
 	 * Plucks the smallest value from an array.
@@ -1511,6 +1607,7 @@
 	function smallest(array) {
 		return mathNativeMin(...array);
 	}
+
 	/**
 	 * What index should the number be inserted at to keep a sorted array still sorted.
 	 *
@@ -1538,6 +1635,7 @@
 		});
 		return insertIndex;
 	}
+
 	/**
 	 * Returns a shallow copy of the array up to an amount.
 	 *
@@ -1555,6 +1653,7 @@
 	function take(source, endIndex = 1) {
 		return source.slice(0, endIndex);
 	}
+
 	/**
 	 * Returns a shallow copy of the array up to an amount starting from the right.
 	 *
@@ -1573,6 +1672,7 @@
 		const arrayLength = source.length;
 		return source.slice(arrayLength - indexRight, arrayLength);
 	}
+
 	function onlyUnique(value, index, array) {
 		return array.indexOf(value) === index;
 	}
@@ -1599,6 +1699,7 @@
 		}
 		return source.filter(onlyUnique);
 	}
+
 	/**
 	 * Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
 	 *
@@ -1615,6 +1716,7 @@
 	function union(...arrays) {
 		return unique(flattenDeep(arrays));
 	}
+
 	/**
 	 * Loops through an array invoking an iteratee with (value, key). If the iteratee always yields true then true is returned.
 	 * If and when the iteratee yields false the loop stops & false is returned.
@@ -1644,6 +1746,7 @@
 		}
 		return true;
 	}
+
 	/**
 	 * Loops through an array invoking an iteratee with (value, key). If the iteratee always yields false then true is returned.
 	 * If and when the iteratee yields true the loop stops & false is returned.
@@ -1673,6 +1776,7 @@
 		}
 		return true;
 	}
+
 	/**
 	 * Iterates through the calling object and creates a new object based on the calling object's type with the results,
 	 * (excludes results which are null or undefined), of the iteratee on every element in the calling object.
@@ -1704,6 +1808,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Iterates through the given array but re-checks the length each loop. Usefull while mutating the same array being looped over.
 	 *
@@ -1731,6 +1836,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
 	 * Re-checks the length each loop.
@@ -1761,6 +1867,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Returns a copy of the array with all instances of the values removed.
 	 *
@@ -1784,6 +1891,7 @@
 			return !sourcesSet.has(item);
 		});
 	}
+
 	/**
 	 * Creates an array that is the symmetric difference of the provided arrays.
 	 *
@@ -1828,6 +1936,7 @@
 		});
 		return xored;
 	}
+
 	/**
 	 * Merges together the values of each of the arrays with the values at the corresponding position.
 	 *
@@ -1868,6 +1977,7 @@
 			});
 		});
 	}
+
 	/**
 	 * Ensures the source is a Buffer if not the source is used to create a buffer using Buffer.from else if there's no source an empty Buffer is returned with Buffer.alloc(0). Keep in mind not all objects can be used to create a Buffer.
 	 *
@@ -1884,6 +1994,7 @@
 	function ensureBuffer(source) {
 		return (isBuffer(source) && source) || (hasValue(source) && Buffer.from(source)) || Buffer.alloc(0);
 	}
+
 	/**
 	 * Clears the values out of a buffer.
 	 *
@@ -1901,6 +2012,7 @@
 		source.fill(0);
 		return source;
 	}
+
 	/**
 	 * Creates an object composed of keys generated from the results of running each element of collection through iteratee.
 	 *
@@ -1927,6 +2039,7 @@
 		});
 		return object;
 	}
+
 	/**
 	 * Count the amount of times a key is present in a collection.
 	 *
@@ -1950,6 +2063,7 @@
 		});
 		return count;
 	}
+
 	/**
 	 * Count the amount of times a key is not present in a collection.
 	 *
@@ -1973,11 +2087,13 @@
 		});
 		return count;
 	}
+
 	function findIndexCache(element, index, array, indexMatch, propertyName) {
 		if (element[propertyName] === indexMatch) {
 			return true;
 		}
 	}
+
 	/**
 	 * Finds an object in a collection by the given id and property name and returns the array index of the object.
 	 *
@@ -1999,6 +2115,7 @@
 		});
 		return result === -1 ? false : result;
 	}
+
 	/**
 	 * Finds an object in a collection by the given id and property name.
 	 *
@@ -2020,6 +2137,7 @@
 		});
 		return result === -1 ? false : result;
 	}
+
 	/**
 	 * Sorts an array in place using a key in descending order.
 	 *
@@ -2060,6 +2178,7 @@
 			return sortCollectionDescendingFilter(previous, next, propertyName, ifMatch);
 		});
 	}
+
 	/**
 	 * Perform alphabetical A-Z sort on a collection with the provided key name. Mutates the array.
 	 *
@@ -2099,6 +2218,7 @@
 			return sortObjectsAlphabetically(previous, next, propertyName, ifMatch);
 		});
 	}
+
 	/**
 	 * Sorts an array in place using a key in ascending order.
 	 *
@@ -2139,6 +2259,7 @@
 			return sortCollectionAscendingFilter(previous, next, propertyName, ifMatch);
 		});
 	}
+
 	/**
 	 * Sorts an array in place using a key from oldest to newest and returns the oldest. Does not mutate the array.
 	 *
@@ -2156,6 +2277,7 @@
 	function getHighest(collection, propertyName = 'id') {
 		return sortCollectionAscending(collection, propertyName)[0];
 	}
+
 	/**
 	 * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
 	 *
@@ -2173,6 +2295,7 @@
 	function getLowest(collection, propertyName) {
 		return sortCollectionDescending(collection, propertyName, false)[0];
 	}
+
 	/**
 	 * Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
 	 * The order of grouped values is determined by the order they occur in collection.
@@ -2200,6 +2323,7 @@
 		});
 		return sortedObject;
 	}
+
 	/**
 	 * Given a list, and an iteratee function that returns a key for each element in the list (or a property name), returns an object with an index of each item. Just like groupBy, but for when you know the keys are unique.
 	 *
@@ -2223,10 +2347,11 @@
 		});
 		return sortedObject;
 	}
+
 	/**
 	 * Invokes a function on the provided property name in each object in the collection.
 	 *
-	 * @function invoke
+	 * @function invokeCollection
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection from which method will be taken.
@@ -2235,18 +2360,27 @@
 	 * @returns {Array} - Returns the results of the invoked method.
 	 *
 	 * @example
-	 * invoke([{lucy(item, index) { return [item, index];}}, {lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
-	 * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
+	 * import { invokeCollection, assert } from '@universalweb/acid';
+	 * const results = invokeCollection([{
+	 *	test(item, index) { return [item, index];}
+	 * }], 'test', ['EXAMPLE']);
+	 * assert(results, [['EXAMPLE', 0]]);
 	 */
-	function invoke(collection, property, value) {
+	function invokeCollection(collection, property, value, thisBind) {
+		if (thisBind) {
+			return mapArray(collection, (item, index) => {
+				return item[property].call(thisBind, value);
+			});
+		}
 		return mapArray(collection, (item, index) => {
-			return item[property](value, index);
+			return item[property](value);
 		});
 	}
+
 	/**
 	 * Asynchronously awaits & invokes a function on the provided property name in each object in the collection.
 	 *
-	 * @function invokeAsync
+	 * @function invokeCollectionAsync
 	 * @category collection
 	 * @type {Function}
 	 * @async
@@ -2256,20 +2390,23 @@
 	 * @returns {Array} - Returns the results of the invoked method.
 	 *
 	 * @test
-	 * (async () => {
-	 *   const result = await invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
-	 *   return assert(result, [['EXAMPLE', 0], ['EXAMPLE', 1]]);
-	 * });
-	 *
-	 * @example
-	 * invokeAsync([{async lucy(item, index) { return [item, index];}}, {async lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
-	 * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
+	 * import { invokeCollectionAsync, assert } from '@universalweb/acid';
+	 * const results = await invokeCollectionAsync([{
+	 *	async test(item, index) { return [item, index];}
+	 * }], 'test', ['EXAMPLE']);
+	 * assert(results, [['EXAMPLE', 0]]);
 	 */
-	function invokeAsync(collection, property, value) {
-		return mapAsyncArray(collection, async (item, index) => {
-			return item[property](value, index);
+	function invokeCollectionAsync(collection, property, value, thisBind) {
+		if (thisBind) {
+			return mapAsyncArray(collection, (item) => {
+				return item[property].call(thisBind, value);
+			});
+		}
+		return mapAsyncArray(collection, async (item) => {
+			return item[property](value);
 		});
 	}
+
 	/**
 	 * Checks if the value is a number.
 	 *
@@ -2299,6 +2436,7 @@
 	function isNotNumber(source) {
 		return !isNumber(source);
 	}
+
 	/**
 	 * Checks if the value is a string.
 	 *
@@ -2329,6 +2467,7 @@
 	function isNotString(source) {
 		return !isString(source);
 	}
+
 	/**
 	 * Returns an array of the plucked sources from the object. Sources are plucked in the order given by the array.
 	 *
@@ -2353,6 +2492,7 @@
 			return source[item];
 		});
 	}
+
 	/**
 	 * Returns an array of the plucked values from the collection.
 	 *
@@ -2373,6 +2513,7 @@
 			return pluckObject(item, targets);
 		});
 	}
+
 	/**
 	 * Perform alphabetical in reverse Z-A sort on a collection with the provided key name. Mutates the array.
 	 *
@@ -2404,6 +2545,7 @@
 			return sortObjectsAlphabeticallyReverse(previous, next, propertyName, ifMatch);
 		});
 	}
+
 	/**
 	 * Return the file extension.
 	 *
@@ -2421,6 +2563,7 @@
 			return source.substring(source.lastIndexOf('.') + 1);
 		}
 	}
+
 	/**
 	 * Return the file extension.
 	 *
@@ -2438,11 +2581,13 @@
 			return source.substring(source.lastIndexOf('/') + 1);
 		}
 	}
+
 	function regexTestFactory(regexType) {
 		return (item) => {
 			return hasValue(item) ? regexType.test(item) : false;
 		};
 	}
+
 	/**
 	 * Checks if the string has a .css extension.
 	 *
@@ -2456,6 +2601,7 @@
 	 * assert(isFileCSS('test.css'), true);
 	 */
 	const isFileCSS = regexTestFactory(/\.css$/);
+
 	/**
 	 * Checks if the string has a .html extension.
 	 *
@@ -2469,6 +2615,7 @@
 	 * assert(isFileHTML('test.html'), true);
 	 */
 	const isFileHTML = regexTestFactory(/\.html$/);
+
 	/**
 	 * Checks if the string has a .js extension.
 	 *
@@ -2482,6 +2629,7 @@
 	 * assert(isFileJS('test.js'), true);
 	 */
 	const isFileJS = regexTestFactory(/\.js$/);
+
 	/**
 	 * Checks if the string has a .json extension.
 	 *
@@ -2495,6 +2643,7 @@
 	 * assert(isFileJSON('test.json'), true);
 	 */
 	const isFileJSON = regexTestFactory(/\.json$/);
+
 	/**
 	 * Creates a function that executes callable, only after being called n times.
 	 *
@@ -2532,6 +2681,7 @@
 		};
 		return onlyAfter;
 	}
+
 	/**
 	 * Creates a function that invokes callable, with up to n arguments, ignoring any additional arguments.
 	 *
@@ -2551,6 +2701,7 @@
 			return callable(...args.splice(0, amount));
 		};
 	}
+
 	/**
 	 * Creates a function that executes callable, only before n times.
 	 *
@@ -2582,6 +2733,7 @@
 		};
 		return onlyBefore;
 	}
+
 	const objectAssign = Object.assign;
 	/**
 	 * Copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
@@ -2601,6 +2753,7 @@
 			return objectAssign(target, ...sources);
 		}
 	}
+
 	/**
 	 * Asynchronously iterates through the given object.
 	 *
@@ -2637,6 +2790,7 @@
 		}
 		return source;
 	};
+
 	/**
 	 * Iterates through the given object.
 	 *
@@ -2671,6 +2825,7 @@
 		}
 		return source;
 	}
+
 	async function forEachAsync(source, callback) {
 		const values = [];
 		const properties = [];
@@ -2685,6 +2840,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Checks if an object(s) is a Set.
 	 *
@@ -2699,6 +2855,7 @@
 	 */
 	const isSetCall = isConstructorNameFactory('Set');
 	const isSet = isTypeFactory(isSetCall);
+
 	function forOf(source, iteratee) {
 		if (isSet(source)) {
 			for (const value of source) {
@@ -2711,6 +2868,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Checks if an object or objects are a Int16Array.
 	 *
@@ -2726,6 +2884,7 @@
 	 */
 	const isGeneratorCall = isConstructorNameFactory('GeneratorFunction');
 	const isGenerator = isTypeFactory(isGeneratorCall);
+
 	async function forOfAsync(source, iteratee, generatorArgs) {
 		if (isSet(source)) {
 			for (const value of source) {
@@ -2743,6 +2902,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Checks if an object or objects are a plain object.
 	 *
@@ -2759,6 +2919,7 @@
 	const isFunction = (source) => {
 		return hasValue(source) ? source instanceof Function : false;
 	};
+
 	/**
 	 * Checks if an object is an async function.
 	 *
@@ -2773,6 +2934,7 @@
 	 */
 	const isAsyncCall = isConstructorNameFactory('AsyncFunction');
 	const isAsync = isTypeFactory(isAsyncCall);
+
 	function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
 		return (source, iteratee, argument1, argument2, argument3) => {
 			let returned;
@@ -2793,6 +2955,7 @@
 			return returned(source, iteratee, argument1, argument2, argument3);
 		};
 	}
+
 	/**
 	 * Iterates through the given object.
 	 *
@@ -2814,6 +2977,7 @@
 	 * assert(list, {a: 1, b: 2, c: 3});
 	 */
 	const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
+
 	class Chain {
 		constructor(methods) {
 			this.addChainMethod(methods);
@@ -2821,7 +2985,7 @@
 		addChainMethod(methods) {
 			const thisChain = this;
 			each(methods, (method, methodName) => {
-				thisChain[methodName] = function(...args) {
+				thisChain[methodName] = function (...args) {
 					this.value = method.call(thisChain, thisChain.value, ...args);
 					return thisChain;
 				};
@@ -2859,6 +3023,7 @@
 	function chain(config) {
 		return construct(Chain, [config]);
 	}
+
 	/**
 	 * Creates a function that accepts arguments of method and either invokes method returning its result, if at least arity number of arguments have been provided, or returns a function that accepts the remaining method arguments, and so on. The arity of method may be specified if method length is not sufficient.
 	 *
@@ -2889,6 +3054,7 @@
 		};
 		return curried;
 	}
+
 	/**
 	 * Creates a function that accepts arguments of method and either invokes method returning its result, if at least arity number of arguments have been provided, or returns a function that accepts the remaining method arguments, and so on. The arity of method may be specified if method.length is not sufficient. The arguments are given in reverse order.
 	 *
@@ -2918,6 +3084,7 @@
 		};
 		return curried;
 	}
+
 	/**
 	 * This method returns true.
 	 *
@@ -2935,6 +3102,7 @@
 	const stubTrue = () => {
 		return truth;
 	};
+
 	/**
 	 * This method returns false.
 	 *
@@ -2952,6 +3120,7 @@
 	const stubFalse = () => {
 		return falsy;
 	};
+
 	/**
 	 * This method returns undefined.
 	 *
@@ -2966,6 +3135,7 @@
 	const noop = () => {
 		return;
 	};
+
 	/**
 	 * Iterates based on the amount given invoking the iteratee with the current index as an argument.
 	 *
@@ -3015,6 +3185,7 @@
 		}
 		return results;
 	}
+
 	class Timers {
 		list = construct(Map);
 		construct() {}
@@ -3115,6 +3286,7 @@
 			timers.remove(index);
 		});
 	}
+
 	const applyNative = Reflect.apply;
 	/**
 	 * Calls a target function with an optional "this" and optional arguments as specified. Same as Reflect.apply but with a function check.
@@ -3135,6 +3307,7 @@
 			return applyNative(target, thisArgument, argumentsList);
 		}
 	}
+
 	/**
 	 * Creates a debounced function that delays invoking callable until after milliseconds have elapsed since the last time the debounced function was invoked. The debounce function has a clear method to cancel the timer.
 	 *
@@ -3172,6 +3345,7 @@
 		};
 		return debounced;
 	}
+
 	/**
 	 * Checks if the given method is a function. If it is then it invokes it with the given arguments.
 	 *
@@ -3191,6 +3365,7 @@
 			return callable(...args);
 		}
 	}
+
 	/**
 	 * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
 	 *
@@ -3221,6 +3396,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Invoke an array of functions.
 	 *
@@ -3249,6 +3425,7 @@
 			item(value);
 		});
 	};
+
 	/**
 	 * Creates a function that negates the result of the predicate callable.
 	 *
@@ -3267,6 +3444,7 @@
 			return !callable(...args);
 		};
 	}
+
 	/**
 	 * Creates a function that gets the argument at index n. If n is negative, the nth argument from the end is returned.
 	 *
@@ -3285,6 +3463,7 @@
 			return args[index];
 		};
 	}
+
 	/**
 	 * Creates a function that is restricted to execute method once. Repeat calls to the function will return the value of the first call. The method is executed with the this binding of the created function.
 	 *
@@ -3316,6 +3495,7 @@
 		};
 		return onlyOnce;
 	};
+
 	/**
 	 * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
 	 *
@@ -3342,6 +3522,7 @@
 		});
 		return results;
 	}
+
 	/**
 	 * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
 	 *
@@ -3376,6 +3557,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Returns the constructor of an object.
 	 *
@@ -3391,6 +3573,7 @@
 	function getType(source) {
 		return source?.constructor;
 	}
+
 	/**
 	 * Returns a new empty object of the same type.
 	 *
@@ -3407,11 +3590,12 @@
 		const sourceType = getType(source);
 		if (sourceType === Function) {
 			if (sourceType.name === 'function') {
-				return function() {};
+				return function () {};
 			}
 		}
 		return construct(sourceType, args);
 	}
+
 	/**
 	 * Iterates through (using for of) the calling object and creates an object with the results of the iteratee on every element in the calling object.
 	 *
@@ -3451,6 +3635,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
 	 *
@@ -3497,6 +3682,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
 	 *
@@ -3517,6 +3703,7 @@
 	 * }), {a: 2, b: 4, c: 6});
 	 */
 	const map = generateLoop(mapArray, mapAsyncArray, mapObject, mapAsyncObject, forOfMap, forOfMapAsync);
+
 	/**
 	 * Creates a function that invokes iteratee with the arguments it receives and returns their results.
 	 *
@@ -3537,6 +3724,7 @@
 			});
 		};
 	}
+
 	/**
 	 * Iterates through the given object while the iteratee returns true.
 	 *
@@ -3563,6 +3751,7 @@
 			return iteratee(source[key], key, source, propertyCount, original);
 		});
 	}
+
 	/**
 	 * Iterates through the given object while the iteratee returns true.
 	 *
@@ -3589,6 +3778,7 @@
 			return iteratee(source[key], key, source, propertyCount, original);
 		});
 	}
+
 	/**
 	 * Iterates (for of) through the given object while the iteratee returns true using a for of loop.
 	 *
@@ -3623,6 +3813,7 @@
 		}
 		return true;
 	}
+
 	/**
 	 * Asynchronously iterates (for of) through the given object while the iteratee returns true using a for of loop.
 	 *
@@ -3664,6 +3855,7 @@
 		}
 		return true;
 	}
+
 	/**
 	 * Iterates through the given object while the iteratee returns true.
 	 *
@@ -3681,6 +3873,7 @@
 	 * }), false);
 	 */
 	const every = generateLoop(everyArray, everyAsyncArray, everyObject, everyAsyncObject, forOfEvery, forOfEveryAsync);
+
 	/**
 	 * Creates a function that checks if all of the predicates return truthy when invoked with the arguments it receives.
 	 *
@@ -3701,6 +3894,7 @@
 			});
 		};
 	}
+
 	/**
 	 * Creates a function that invokes method with arguments arranged according to the specified indexes where the argument value at the first index is provided as the first argument, the argument value at the second index is provided as the second argument, and so on.
 	 *
@@ -3726,6 +3920,7 @@
 			);
 		};
 	}
+
 	/**
 	 * Creates a throttled function that only invokes callable at most once per every milliseconds. The throttle function has a clear method to cancel the timer.
 	 *
@@ -3763,6 +3958,7 @@
 		};
 		return throttled;
 	}
+
 	/**
 	 * Creates a function that provides value to wrapper as its first argument. The wrapper function is given two arguments the value and the provided argument from the newly created function.
 	 *
@@ -3784,6 +3980,7 @@
 			return wrapper(value, ...arg);
 		};
 	}
+
 	const functionPrototype = Function.prototype;
 	/**
 	 * Caches a prototype method.
@@ -3801,6 +3998,7 @@
 	function cacheNativeMethod(method) {
 		return functionPrototype.call.bind(method);
 	}
+
 	/**
 	 * Returns an array of all properties (enumerable or not) found directly upon a given object.
 	 *
@@ -3849,6 +4047,7 @@
 	 */
 	const defProp = Object.defineProperty;
 	const hasProp = cacheNativeMethod(Object.hasOwnProperty);
+
 	/**
 	 * Determines whether two values are the same value.
 	 *
@@ -3863,6 +4062,7 @@
 	 * assert(isSame('foo', 'foo'), true);
 	 */
 	const isSame = Object.is;
+
 	/**
 	 * Adds two numbers.
 	 *
@@ -3880,6 +4080,7 @@
 	function add(augend, addend) {
 		return augend + addend;
 	}
+
 	/**
 	 *  Decrements a number.
 	 *
@@ -3898,6 +4099,7 @@
 	function deduct(source) {
 		return source - 1;
 	}
+
 	/**
 	 * Divides two numbers.
 	 *
@@ -3915,6 +4117,7 @@
 	function divide(source, value) {
 		return source / value;
 	}
+
 	/**
 	 *  Increments a number.
 	 *
@@ -3933,6 +4136,7 @@
 	function increment(source) {
 		return source + 1;
 	}
+
 	/**
 	 * Multiplies two numbers.
 	 *
@@ -3950,6 +4154,7 @@
 	function multiply(source, value) {
 		return source * value;
 	}
+
 	/**
 	 * Calculate the progress from a given total and current amount.
 	 *
@@ -3973,6 +4178,7 @@
 		}
 		return (currentAmount / total) * 100;
 	}
+
 	const { random } = Math;
 	/**
 	 *  Produces a random floating-point number between min (included) and max (excluded). Do not use for security or encryption.
@@ -3992,6 +4198,7 @@
 	function randomFloat(max, min = 0) {
 		return random() * (max - min) + min;
 	}
+
 	/**
 	 *  Extracts the remainder between two numbers.
 	 *
@@ -4011,6 +4218,7 @@
 	function remainder(source, value) {
 		return source % value;
 	}
+
 	/**
 	 * Subtract all numbers in the array starting from left to right & return the difference.
 	 *
@@ -4029,6 +4237,7 @@
 			return a - b;
 		}, 0);
 	}
+
 	/**
 	 * Sum all numbers in a given array.
 	 *
@@ -4047,6 +4256,7 @@
 			return a + b;
 		}, 0);
 	}
+
 	/**
 	 * Checks if a number is within a range.
 	 *
@@ -4066,6 +4276,7 @@
 	function isNumberInRange(source, start, end) {
 		return source > start && source < end;
 	}
+
 	/**
 	 * Checks if a number is within a range.
 	 *
@@ -4085,6 +4296,7 @@
 	function isNumberNotInRange(source, start, end) {
 		return source < start || source > end;
 	}
+
 	/**
 	 * Checks if a number is negative & returns true or false.
 	 *
@@ -4102,6 +4314,7 @@
 	function isPositive(source) {
 		return sign(source) === 1;
 	}
+
 	/**
 	 * Strictly checks if a number is zero.
 	 *
@@ -4118,6 +4331,7 @@
 	function isZero(source) {
 		return source === 0;
 	}
+
 	const objectEntries = Object.entries;
 	/**
 	 * Return turns an array of arrays of key & value pairs. The first element in each key & value pair is the property key, and the second element is the associated value. If source is null or undefined it will not crash or error.
@@ -4136,6 +4350,7 @@
 			return objectEntries(source);
 		}
 	}
+
 	/**
 	 * Extracts all keys from an object whose values are not null or undefined.
 	 *
@@ -4158,6 +4373,7 @@
 		});
 		return compactedKeys;
 	}
+
 	/**
 	 * Asynchronously iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
 	 *
@@ -4184,6 +4400,7 @@
 		});
 		return results;
 	}
+
 	/**
 	 * Iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
 	 *
@@ -4210,6 +4427,7 @@
 		});
 		return results;
 	}
+
 	/**
 	 * Iterates through the calling object and creates an object with all elements that pass the test implemented by the iteratee.
 	 *
@@ -4235,6 +4453,7 @@
 		});
 		return results;
 	}
+
 	/**
 	 * Iterates through the calling object and creates an object with all elements that pass the test implemented by the iteratee.
 	 *
@@ -4260,6 +4479,7 @@
 		});
 		return results;
 	}
+
 	/**
 	 * Creates an inverted version of a given object by switching it's keys and values.
 	 *
@@ -4283,6 +4503,7 @@
 		});
 		return target;
 	}
+
 	/**
 	 * Performs a shallow strict comparison between two objects.
 	 *
@@ -4310,6 +4531,7 @@
 		}
 		return false;
 	};
+
 	/**
 	 * Checks if the value is a RegExp.
 	 *
@@ -4324,6 +4546,7 @@
 	 */
 	const isRegexCall = isConstructorNameFactory('RegExp');
 	const isRegex = isTypeFactory(isRegexCall);
+
 	/**
 	 * Returns a regex safe special characters escaped version of a string.
 	 *
@@ -4341,6 +4564,7 @@
 	function escapeRegex(source) {
 		return source.replace(escapeRegexRegex, '\\$&');
 	}
+
 	/**
 	 * Convert array of strings to regex.
 	 *
@@ -4360,6 +4584,7 @@
 		}
 		return RegExp(source.join('|'));
 	}
+
 	/**
 	 * Returns a clone of the given object without the given properties.
 	 *
@@ -4408,6 +4633,7 @@
 			});
 		}
 	}
+
 	/**
 	 * Returns a clone of the source object with the plucked properties.
 	 *
@@ -4432,6 +4658,7 @@
 		});
 		return target;
 	};
+
 	/**
 	 * Returns the amount of keys on the object.
 	 *
@@ -4450,6 +4677,7 @@
 		}
 		return keys(source).length;
 	}
+
 	/**
 	 * Creates an object from two arrays, one of property identifiers and one of corresponding values.
 	 *
@@ -4493,6 +4721,7 @@
 		});
 		return [unZippedKeys, values];
 	};
+
 	const normalizeCase$4 = /[ _-]+/g;
 	/**
 	 * Converts a string into Camel case format.
@@ -4522,6 +4751,7 @@
 			});
 		return result;
 	}
+
 	const normalizeCase$3 = /[ _-]+/g;
 	const space$1 = /[ ]+/g;
 	/**
@@ -4545,6 +4775,7 @@
 			.toLowerCase()
 			.replace(space$1, '-');
 	}
+
 	const normalizeCase$2 = /[ _-]+/g;
 	const space = /[ ]+/g;
 	/**
@@ -4568,6 +4799,7 @@
 			.toLowerCase()
 			.replace(space, '_');
 	}
+
 	const normalizeCase$1 = /[ _-]+/g;
 	/**
 	 * Converts a string into single space sepperated words in uppercase.
@@ -4590,6 +4822,7 @@
 			.trim()
 			.toUpperCase();
 	}
+
 	const normalizeCase = /[ _-]+/g;
 	/**
 	 * Converts a string into single space sepperated words in lowerCase.
@@ -4611,6 +4844,7 @@
 			.trim()
 			.toLowerCase();
 	}
+
 	/**
 	 * Inserts text into a string at a given position.
 	 *
@@ -4698,6 +4932,7 @@
 	function restString(string, index = 1) {
 		return string.substring(index);
 	}
+
 	/**
 	 * Replaces all occurrences of strings in an array with a value.
 	 *
@@ -4716,6 +4951,7 @@
 	function replaceList(string, words, value) {
 		return string.replace(new RegExp(`\\b${words.join('|')}\\b`, 'gi'), value);
 	}
+
 	const truncateDown = (string, maxLength, stringLength) => {
 		const breakAll = string.split('');
 		const breakAllLength = breakAll.length;
@@ -4778,6 +5014,7 @@
 		const stringLength = string.length;
 		return stringLength > maxLength ? truncateUp(string, maxLength, stringLength) : string;
 	}
+
 	const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
 	const andRegex = /&/g;
 	const lessThanRegex = /</g;
@@ -4817,9 +5054,7 @@
 	 * assert(htmlEntities(`<script>console.log('Lucy & diamonds.')</script>`), `&lt;script&gt;console.log('Lucy &amp; diamonds.')&lt;/script&gt;`);
 	 */
 	function htmlEntities(string) {
-		return string.replace(andRegex, '&amp;').replace(lessThanRegex, '&lt;')
-			.replace(moreThanRegex, '&gt;')
-			.replace(doubleQuoteRegex, '&quot;');
+		return string.replace(andRegex, '&amp;').replace(lessThanRegex, '&lt;').replace(moreThanRegex, '&gt;').replace(doubleQuoteRegex, '&quot;');
 	}
 	/**
 	 * Executes rawURLDecode followd by htmlEntities methods on a string.
@@ -4837,6 +5072,7 @@
 	function sanitize(string) {
 		return htmlEntities(rawURLDecode(string));
 	}
+
 	const tokenizeRegEx = /\S+/g;
 	const wordsRegEx = /\w+/g;
 	/**
@@ -4870,6 +5106,7 @@
 	function words(string) {
 		return string.match(wordsRegEx) || [];
 	}
+
 	const getWords = /\w+/g;
 	/**
 	 * Returns the first letter capitalized.
@@ -4957,6 +5194,7 @@
 			return upperFirstOnly(match);
 		});
 	}
+
 	/**
 	 * Returns the constructor name of an object.
 	 *
@@ -4972,6 +5210,7 @@
 	function getTypeName(source) {
 		return getType(source)?.name;
 	}
+
 	/**
 	 * Checks if the value is an Arguments object.
 	 *
@@ -4989,6 +5228,7 @@
 	function isArguments(source) {
 		return hasValue(source) ? source.toString() === objectArguments : false;
 	}
+
 	/**
 	 * Checks if an object is null or undefined.
 	 *
@@ -5007,6 +5247,7 @@
 	function noValue(source) {
 		return !hasValue(source);
 	}
+
 	/**
 	 * Checks if an object or objects are a Map.
 	 *
@@ -5022,6 +5263,7 @@
 	 */
 	const isMapCall = isConstructorNameFactory('Map');
 	const isMap = isTypeFactory(isMapCall);
+
 	/**
 	 * Checks if an object is a TypedArray. A TypedArray object is an array-like view of an underlying binary data buffer.
 	 *
@@ -5046,6 +5288,7 @@
 		}
 		return false;
 	}
+
 	/**
 	 * Checks if an object has a .length property that's greater than or equal to 0 & is not a function. If strict is enabled it will check to see if there is an item returned in range of the number returned bu the length property.
 	 *
@@ -5082,6 +5325,7 @@
 		}
 		return true;
 	}
+
 	/**
 	 * Checks if an object or objects are a BigInt.
 	 *
@@ -5096,6 +5340,7 @@
 	 */
 	const isBigIntCall = isConstructorNameFactory('BigInt');
 	const isBigInt = isTypeFactory(isBigIntCall);
+
 	/**
 	 * Checks if the value is a Boolean.
 	 *
@@ -5111,6 +5356,7 @@
 	 */
 	const isBooleanCall = isConstructorNameFactory('Boolean');
 	const isBoolean = isTypeFactory(isBooleanCall);
+
 	/**
 	 * Checks if an object or objects are a ArrayBuffer.
 	 *
@@ -5125,6 +5371,7 @@
 	 */
 	const isArrayBufferCall = isConstructorNameFactory('ArrayBuffer');
 	const isArrayBuffer = isTypeFactory(isArrayBufferCall);
+
 	/**
 	 * Checks if an object is the child of another. Typically used for classes.
 	 *
@@ -5151,6 +5398,7 @@
 		}
 		return sourceChild instanceof targetParent;
 	}
+
 	/**
 	 * Checks if an object or objects are a structured-cloneable type.
 	 *
@@ -5173,6 +5421,7 @@
 		}
 		return false;
 	}
+
 	/**
 	 * Checks if the value is a Date.
 	 *
@@ -5187,6 +5436,7 @@
 	 */
 	const isDateCall = isConstructorNameFactory('Date');
 	const isDate = isTypeFactory(isDateCall);
+
 	/**
 	 * Checks if the value is empty.
 	 *
@@ -5207,6 +5457,7 @@
 		}
 		return !hasValue(source);
 	}
+
 	/**
 	 * Check if a value equals false using strict comparison.
 	 *
@@ -5225,6 +5476,7 @@
 	function isFalse(source) {
 		return source === false;
 	}
+
 	/**
 	 * Checks if an object or objects are a Float32Array.
 	 *
@@ -5239,6 +5491,7 @@
 	 */
 	const isF32Call = isConstructorNameFactory('Float32Array');
 	const isF32 = isTypeFactory(isF32Call);
+
 	/**
 	 * Checks if an object or objects are a Float64Array.
 	 *
@@ -5254,6 +5507,7 @@
 	 */
 	const isF64Call = isConstructorNameFactory('Float64Array');
 	const isF64 = isTypeFactory(isF64Call);
+
 	const { isInteger } = Number;
 	/**
 	 * Checks if the value (typically a number) as a string has a decimal point. Alias of Number.isInteger.
@@ -5269,6 +5523,7 @@
 	 * // => true
 	 */
 	const isFloat = isInteger;
+
 	/**
 	 * Checks if an object or objects are a Int16Array.
 	 *
@@ -5284,6 +5539,7 @@
 	 */
 	const isI16Call = isConstructorNameFactory('Int16Array');
 	const isI16 = isTypeFactory(isI16Call);
+
 	/**
 	 * Checks if an object or objects are a Int32Array.
 	 *
@@ -5297,6 +5553,7 @@
 	 */
 	const isI32Call = isConstructorNameFactory('Int32Array');
 	const isI32 = isTypeFactory(isI32Call);
+
 	/**
 	 * Checks if an object or objects are a Int8Array.
 	 *
@@ -5312,6 +5569,7 @@
 	 */
 	const isI8Call = isConstructorNameFactory('Int8Array');
 	const isI8 = isTypeFactory(isI8Call);
+
 	/**
 	 * Checks if the object has inherited properties from the built-in Iterator class and which implements the Symbol.iterator interface. Built-in Iterators: String, Array, TypedArray, Map, Set, and Segments.
 	 *
@@ -5329,6 +5587,7 @@
 	function isIterable(source) {
 		return hasValue(source) && typeof source[Symbol.iterator] === 'function';
 	}
+
 	/**
 	 * Checks if an object is a promise.
 	 *
@@ -5348,6 +5607,7 @@
 		}
 		return false;
 	}
+
 	/**
 	 * Checks if an object is a kind of async object such as async function, promise, or generator.
 	 *
@@ -5366,6 +5626,7 @@
 		}
 		return false;
 	}
+
 	/**
 	 * Checks if an object is the child of another. Typically used for classes.
 	 *
@@ -5392,6 +5653,7 @@
 		}
 		return sourceParent instanceof targetChild;
 	}
+
 	/**
 	 * Checks if an object is a primitive.
 	 *
@@ -5409,6 +5671,7 @@
 		const type = typeof value;
 		return source === null || source === undefined || (type !== 'object' && type !== 'function');
 	}
+
 	/**
 	 * Checks if objects are related to each other using instanceof. There is no required order for arguments given it will check all available ways.
 	 *
@@ -5442,6 +5705,7 @@
 		}
 		return targetTwo.constructor === targetOne.constructor;
 	}
+
 	const { isSafeInteger } = Number;
 	/**
 	 * Checks if the value (typically a number) as a string has a decimal point. Alias of Number.isInteger.
@@ -5457,6 +5721,7 @@
 	 * // => true
 	 */
 	const isSafeInt = isSafeInteger;
+
 	function isSameType(source, other) {
 		const sourceType = getType(source);
 		const otherType = getType(other);
@@ -5467,6 +5732,7 @@
 		}
 		return false;
 	}
+
 	/**
 	 * Check if a value equals true using strict comparison.
 	 *
@@ -5485,6 +5751,7 @@
 	function isTrue(source) {
 		return source === true;
 	}
+
 	/**
 	 * Checks if an object or objects are a Uint16Array.
 	 *
@@ -5500,6 +5767,7 @@
 	 */
 	const isU16Call = isConstructorNameFactory('Uint16Array');
 	const isU16 = isTypeFactory(isU16Call);
+
 	/**
 	 * Checks if an object or objects are a Uint32Array.
 	 *
@@ -5515,6 +5783,7 @@
 	 */
 	const isU32Call = isConstructorNameFactory('Uint32Array');
 	const isU32 = isTypeFactory(isU32Call);
+
 	/**
 	 * Checks if an object or objects are a Uint8Array.
 	 *
@@ -5530,6 +5799,7 @@
 	 */
 	const isU8Call = isConstructorNameFactory('Uint8Array');
 	const isU8 = isTypeFactory(isU8Call);
+
 	/**
 	 * Checks if an object or objects are a Uint8ClampedArray.
 	 *
@@ -5545,6 +5815,7 @@
 	 */
 	const isU8CCall = isConstructorNameFactory('Uint8ClampedArray');
 	const isU8C = isTypeFactory(isU8CCall);
+
 	/**
 	 * Checks if an object or objects are a WeakMap.
 	 *
@@ -5559,8 +5830,11 @@
 	 */
 	const isWeakMapCall = isConstructorNameFactory('WeakMap');
 	const isWeakMap = isTypeFactory(isWeakMapCall);
+
 	const isDeno = typeof globalThis.Deno !== 'undefined';
+
 	const isNodejs = typeof globalThis.process !== 'undefined' && process.versions && process.versions.node;
+
 	/**
 	 * Check if a value is isTruthy which is anything but false, null, 0, "", undefined, and NaN.
 	 *
@@ -5579,6 +5853,7 @@
 	function isTruthy(source, returnIfTrue = true) {
 		return Boolean(source) && returnIfTrue;
 	}
+
 	/**
 	 * Check if a value is isFalsy which are false, null, 0, "", undefined, and NaN.
 	 *
@@ -5597,6 +5872,7 @@
 	function isFalsy(source, returnIfTrue = true) {
 		return Boolean(source) === false && returnIfTrue;
 	}
+
 	/**
 	 * If source has a value then assign it to an object or call a function.
 	 *
@@ -5625,6 +5901,7 @@
 			}
 		}
 	}
+
 	/**
 	 * Performs a deep comparison between two objects & determines if they're different using strict comparison.
 	 *
@@ -5642,6 +5919,7 @@
 	function notEqual(source, target) {
 		return isFalse(isEqual(source, target));
 	}
+
 	const jsonNative = JSON;
 	/**
 	 * Parses JSON string with safety check for undefined.
@@ -5676,6 +5954,7 @@
 	 * assert(stringify({a:1}), '{a:1}');
 	 */
 	const stringify = jsonNative.stringify;
+
 	function createAssertError(source, expected, localOptions) {
 		const options = globalThis.options || localOptions;
 		let errorTitle;
@@ -5726,6 +6005,7 @@
 		}
 		return true;
 	}
+
 	/**
 	 * Loops through an object or an array and binds the given object to all functions encountered. Optionally accepts an object which to assign the newly bound functions to.
 	 *
@@ -5748,6 +6028,7 @@
 		});
 		return targetAssign ? assign(targetAssign, results) : results;
 	}
+
 	/**
 	 * Clears the values out of an array, buffer, and objects like Map that have a clear method.
 	 *
@@ -5775,6 +6056,7 @@
 		}
 		return source;
 	}
+
 	/**
 	 * Creates a structured clone of an object which is a "structured-cloneable type".
 	 *
@@ -5792,6 +6074,7 @@
 	function clone(source) {
 		return structuredCloneSafe(source);
 	}
+
 	/**
 	 * Creates an array with all isFalsy values removed. The values false, null, 0, "", undefined, and NaN are isFalsy.
 	 *
@@ -5824,6 +6107,7 @@
 			return isTruthy(item);
 		});
 	}
+
 	/**
 	 * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
 	 *
@@ -5879,6 +6163,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
 	 *
@@ -5924,6 +6209,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Iterates through the calling object and creates a new object based on the calling object's type with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
 	 *
@@ -5949,9 +6235,10 @@
 		forOfCompactMap,
 		forOfCompactMapAsync
 	);
+
 	function everyArg(...methods) {
 		if (isAsync(methods[0])) {
-			return async function(...args) {
+			return async function (...args) {
 				return every(methods, async (method) => {
 					return every(args, async (item) => {
 						return method(item);
@@ -5959,7 +6246,7 @@
 				});
 			};
 		}
-		return function(...args) {
+		return function (...args) {
 			return every(methods, (method) => {
 				return every(args, (item) => {
 					return method(item);
@@ -5967,6 +6254,7 @@
 			});
 		};
 	}
+
 	/**
 	 * Iterates (for of) through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
 	 *
@@ -6012,6 +6300,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Asynchronously iterates (for of)through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
 	 *
@@ -6066,6 +6355,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Iterates through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
 	 *
@@ -6084,6 +6374,7 @@
 	 * }), {b: true, c: true});
 	 */
 	const filter = generateLoop(filterArray, filterAsyncArray, filterObject, filterAsyncObject, forOfFilter, forOfFilterAsync);
+
 	function returnFlow$1(callable) {
 		return (...methods) => {
 			return (arg) => {
@@ -6123,6 +6414,7 @@
 	 * // => 1
 	 */
 	const flowRight = returnFlow$1(eachRight);
+
 	function returnFlow(callable) {
 		return (...methods) => {
 			return async (arg) => {
@@ -6164,6 +6456,7 @@
 	 * // => 2
 	 */
 	const flowAsyncRight = returnFlow(eachRightAsync);
+
 	function forMap(source, callback) {
 		const cloned = cloneType(source);
 		const method = cloned.push || cloned.add;
@@ -6186,6 +6479,7 @@
 		}
 		return cloned;
 	}
+
 	/**
 	 * Takes all but the last item in the array.
 	 *
@@ -6207,6 +6501,7 @@
 		});
 		return sortedObject;
 	}
+
 	/**
 	 * Checks if an object contains something.
 	 *
@@ -6257,6 +6552,7 @@
 		}
 		return false;
 	}
+
 	/**
 	 * Checks if the string has a '.'.
 	 *
@@ -6270,6 +6566,7 @@
 	 * assert(hasDot('test.js'), true);
 	 */
 	const hasDot = regexTestFactory(/\./);
+
 	/**
 	 * Checks if a property on an object has a value. If not, it will assign a value.
 	 *
@@ -6291,6 +6588,7 @@
 		}
 		return rootObject;
 	};
+
 	class Intervals {
 		list = construct(Map);
 		construct() {}
@@ -6384,6 +6682,7 @@
 			intervals.remove(index);
 		});
 	}
+
 	function merge(target, ...sources) {
 		each(sources, (currentSource) => {
 			each(currentSource, (sourceItem, sourceKey) => {
@@ -6397,6 +6696,7 @@
 		});
 		return target;
 	}
+
 	/**
 	 * Set & Get a model.
 	 *
@@ -6435,6 +6735,7 @@
 		}
 		return get(modelName, Model.models);
 	}
+
 	/**
 	 * Takes the first two arguments given and returns them inside a new array.
 	 *
@@ -6451,6 +6752,7 @@
 	function pair(argument1, argument2) {
 		return [argument1, argument2];
 	}
+
 	/**
 	 * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
 	 *
@@ -6478,6 +6780,7 @@
 		}
 		return Promise.all(queue);
 	}
+
 	/**
 	 * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.allSettled on the queue returning the values from each promise. Does not await on the async iteratee.
 	 *
@@ -6505,6 +6808,7 @@
 		}
 		return Promise.allSettled(queue);
 	}
+
 	/**
 	 * A wrapper around the promise constructor.
 	 *
@@ -6527,6 +6831,7 @@
 	function promise(callback) {
 		return new Promise(callback);
 	}
+
 	/**
 	 * Using a deep comparison it checks if properties of two objects using an array are equal.
 	 *
@@ -6553,6 +6858,7 @@
 			return isEqual(source[property], compared[property]);
 		});
 	};
+
 	function setKey(source, key, value) {
 		if (key && isPlainObject(source)) {
 			source[key] = value;
@@ -6569,6 +6875,7 @@
 		}
 		return source;
 	}
+
 	function setValue(source, value, key) {
 		if (isNumber(key) && isArray(source)) {
 			source[key] = value;
@@ -6581,6 +6888,7 @@
 		}
 		return source;
 	}
+
 	class Store {
 		source;
 		constructor(source = {}) {
@@ -6604,6 +6912,7 @@
 			});
 		}
 	}
+
 	/**
 	 * This method returns a new empty array.
 	 *
@@ -6619,6 +6928,7 @@
 	const stubArray = () => {
 		return [];
 	};
+
 	/**
 	 * This method returns a new empty object.
 	 *
@@ -6635,6 +6945,7 @@
 	const stubObject = () => {
 		return {};
 	};
+
 	/**
 	 * This method returns a new empty string.
 	 *
@@ -6651,6 +6962,7 @@
 	const stubString = () => {
 		return '';
 	};
+
 	/**
 	 * Asynchronously iterates based on the amount given awaiting on the iteratee with the current index as an argument.
 	 *
@@ -6702,6 +7014,7 @@
 		}
 		return results;
 	}
+
 	/**
 	 * Performs a toggle between 2 values using a deep or strict comparison.
 	 *
@@ -6722,6 +7035,7 @@
 	function toggle(value, on = true, off = false) {
 		return isEqual(on, value) ? off : on;
 	}
+
 	/**
 	 * Unique ID Generator Module.
 	 *
@@ -6817,6 +7131,7 @@
 	 * assert(uniqID.get(), 0);
 	 */
 	const uniqID = construct(UniqID);
+
 	/**
 	 * Class representing a virtual storage. A drop in replacement for localStorage.
 	 * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
@@ -6918,6 +7233,7 @@
 	function virtualStorage(initialObject) {
 		return new VirtualStorage(initialObject);
 	}
+
 	/**
 	 * Checks to see of the browser agent has a string.
 	 *
@@ -6952,6 +7268,7 @@
 			isAgent[item] = true;
 		});
 	}
+
 	/**
 	 * Attaches an event listener to a node.
 	 *
@@ -6992,6 +7309,7 @@
 		node.removeEventListener(eventName, callback, useCapture);
 		return node;
 	}
+
 	/**
 	 * Checks if the keycode of the event is strictly equal to 13.
 	 *
@@ -7008,6 +7326,7 @@
 	function isEnter(eventObject) {
 		return eventObject.keyCode === 13;
 	}
+
 	/**
 	 * Create a document fragment.
 	 *
@@ -7018,6 +7337,7 @@
 	 * @returns {Fragment} - Returns a new document fragment.
 	 */
 	const createFragment = document.createDocumentFragment.bind(document);
+
 	/**
 	 * Append a DOM node.
 	 *
@@ -7034,6 +7354,7 @@
 		parentNode.appendChild(child);
 		return child;
 	}
+
 	/**
 	 * Assign attributes to a DOM node.
 	 *
@@ -7063,6 +7384,7 @@
 		});
 		return node;
 	}
+
 	const dotString = '.';
 	const poundString = '#';
 	const classTest = /^.[\w_-]+$/;
@@ -7130,23 +7452,24 @@
 	function selector(select) {
 		const firstLetter = select[0];
 		switch (firstLetter) {
-		case poundString:
-			if (!regexSpace.test(select)) {
-				return getById(restString(select));
-			}
-			break;
-		case dotString:
-			if (classTest.test(select)) {
-				return getByClass(restString(select));
-			}
-			break;
-		default:
-			if (tagTest.test(select)) {
-				return getByTag(select);
-			}
+			case poundString:
+				if (!regexSpace.test(select)) {
+					return getById(restString(select));
+				}
+				break;
+			case dotString:
+				if (classTest.test(select)) {
+					return getByClass(restString(select));
+				}
+				break;
+			default:
+				if (tagTest.test(select)) {
+					return getByTag(select);
+				}
 		}
 		return querySelectorAll(select);
 	}
+
 	const createElementCache = document.createElement.bind(document);
 	const nodeAttachLoadingEvents = (node) => {
 		return promise((accept) => {
@@ -7178,6 +7501,7 @@
 		});
 		return nodeAttachLoadingEvents(node);
 	}
+
 	/**
 	 * Runs a function if the document has finished loading. If not, add an eventlistener.
 	 *
@@ -7208,6 +7532,7 @@
 		const scriptName = (scriptTag && scriptTag.getAttribute('data-index')) || '/index';
 		importjs(scriptName);
 	});
+
 	const protocol = location.protocol;
 	const protocolSocket = protocol === 'http:' ? 'ws' : 'wss';
 	const hostname = location.hostname;
@@ -7230,6 +7555,7 @@
 			protocolSocket
 		}
 	};
+
 	function saveDimensions() {
 		assign(info, {
 			bodyHeight: document.body.offsetHeight,
@@ -7256,6 +7582,7 @@
 	isDocumentReady(updateDimensions);
 	eventAdd(window, 'load', updateDimensions, true);
 	eventAdd(window, 'resize', updateDimensions, true);
+
 	/**
 	 * LocalStorage Module..
 	 *
@@ -7405,6 +7732,7 @@
 	function crate(virtualFlag) {
 		return new Crate(virtualFlag);
 	}
+
 	const generateTheme = (color, bg) => {
 		return `color:${color};background:${bg};`;
 	};
@@ -7454,6 +7782,7 @@
 	const cnslTheme = (themeName, color, background) => {
 		themes[themeName] = generateTheme(color, background);
 	};
+
 	/**
 	 * Checks if value is a plain DOM Node.
 	 *
@@ -7506,6 +7835,7 @@
 	function isNodeList(source) {
 		return hasValue(source) ? source.toString() === objectNodeList : false;
 	}
+
 	exports.Chain = Chain;
 	exports.Crate = Crate;
 	exports.Intervals = Intervals;
@@ -7655,8 +7985,9 @@
 	exports.interval = interval;
 	exports.intervals = intervals;
 	exports.invert = invert;
-	exports.invoke = invoke;
-	exports.invokeAsync = invokeAsync;
+	exports.invokeArray = invokeArray;
+	exports.invokeCollection = invokeCollection;
+	exports.invokeCollectionAsync = invokeCollectionAsync;
 	exports.isAgent = isAgent;
 	exports.isArguments = isArguments;
 	exports.isArray = isArray;
@@ -7881,4 +8212,4 @@
 	exports.zip = zip;
 	exports.zipObject = zipObject;
 });
-// # sourceMappingURL=browser.bundle.js.map
+//# sourceMappingURL=browser.bundle.js.map

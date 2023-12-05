@@ -22,7 +22,7 @@ const globalsArray = [globals.browser, globals.commonjs, globals.node, globals.s
 globalsArray.forEach(addGlobals);
 Object.assign(globalsObject, customGlobals);
 export default [{
-	ignores: ['node_modules/*', '.eslintignore', '**/*.mjs'],
+	ignores: ['acid.js', 'bundle.js', '/build/**', '**.min.js', 'node_modules/*', '.eslintignore', '**/*.mjs'],
 	files: ['**/*.js'],
 	languageOptions: {
 		parser: babelParser,

@@ -22,6 +22,8 @@ const app = express();
 const expressRoot = '/';
 const expressPort = 8890;
 import nodeExternals from 'rollup-plugin-node-externals';
+import eslintConfigRaw from './eslint.config.js';
+const eslintConfig = eslintConfigRaw[0];
 async function liveServer() {
 	const port = 35729;
 	const server = await (new tinyLR.Server({
@@ -38,15 +40,9 @@ async function liveServer() {
 async function beautify(source, destination) {
 	console.log('Beautify');
 	const text = fs.readFileSync(source).toString();
-	const eslintConfigLocation = (source.includes('/module/') && './source/.eslintrc') || './.eslintrc';
-	console.log('GET ESLINT CONFIG', source, eslintConfigLocation);
-	const eslintConfig = JSON.parse(fs.readFileSync(eslintConfigLocation).toString());
-	const cleanedEslintConfig = {};
-	Object.entries(eslintConfig).forEach(([key, value]) => {
-		if (!key.match(/plugins|extends/)) {
-			cleanedEslintConfig[key] = value;
-		}
-	});
+	const cleanedEslintConfig = {
+		rules: eslintConfig.rules,
+	};
 	console.log('GOT ESLINT CONFIG');
 	const formattedCode = await format({
 		eslintConfig: cleanedEslintConfig,

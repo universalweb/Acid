@@ -21,6 +21,7 @@ export * from './arrays/flatten.js';
 export * from './arrays/flattenDeep.js';
 export * from './arrays/initial.js';
 export * from './arrays/intersect.js';
+export * from './arrays/invoke.js';
 export * from './arrays/isMatch.js';
 export * from './arrays/largest.js';
 export * from './arrays/last.js';
