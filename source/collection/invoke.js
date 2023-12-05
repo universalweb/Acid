@@ -1,8 +1,9 @@
 import { mapArray } from '../arrays/map.js';
+import { indexBy } from './indexBy';
 /**
  * Invokes a function on the provided property name in each object in the collection.
  *
- * @function invoke
+ * @function invokeCollection
  * @category collection
  * @type {Function}
  * @param {Array} collection - Collection from which method will be taken.
@@ -11,10 +12,13 @@ import { mapArray } from '../arrays/map.js';
  * @returns {Array} - Returns the results of the invoked method.
  *
  * @example
- * invoke([{lucy(item, index) { return [item, index];}}, {lucy(item, index) { return [item, index];}}], 'lucy', 'EXAMPLE');
- * // => [['EXAMPLE', 0], ['EXAMPLE', 1]]
+ * import { invokeCollection, assert } from '@universalweb/acid';
+ * const results = invokeCollection([{
+ *	test(item, index) { return [item, index];}
+ * }], 'test', ['EXAMPLE']);
+ * assert(results, [['EXAMPLE', 0]]);
  */
-export function invoke(collection, property, value) {
+export function invokeCollection(collection, property, value) {
 	return mapArray(collection, (item, index) => {
 		return item[property](value, index);
 	});
