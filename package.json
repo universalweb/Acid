@@ -1,6 +1,6 @@
 {
     "name": "@universalweb/acid",
-    "version": "3.0.64",
+    "version": "3.0.65",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library. Acidjs includes utilities for all environments: Web Browser, Nodejs, Deno, Web Workers, & Electron.",
     "keywords": [
         "Acid",
