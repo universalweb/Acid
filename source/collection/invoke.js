@@ -1,5 +1,4 @@
 import { mapArray } from '../arrays/map.js';
-import { indexBy } from './indexBy';
 /**
  * Invokes a function on the provided property name in each object in the collection.
  *
