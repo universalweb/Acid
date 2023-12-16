@@ -1,6 +1,6 @@
 {
     "name": "@universalweb/acid",
-    "version": "3.0.65",
+    "version": "3.0.66",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library. Acidjs includes utilities for all environments: Web Browser, Nodejs, Deno, Web Workers, & Electron.",
     "keywords": [
         "Acid",
@@ -67,6 +67,7 @@
         "eslint": "^8.35.0",
         "eslint-plugin-import": "^2.27.5",
         "eslint-plugin-jsdoc": "*",
+        "eslint-plugin-simple-import-sort": "^10.0.0",
         "express": "^4.18.2",
         "magic-string": "*",
         "node-watch": "*",
