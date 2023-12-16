@@ -1,7 +1,7 @@
-import { isFunction } from '../types/isFunction.js';
 import { isArray } from '../types/isArray.js';
-import { isPlainObject } from '../types/isPlainObject.js';
+import { isFunction } from '../types/isFunction.js';
 import { isNumber } from '../types/isNumber.js';
+import { isPlainObject } from '../types/isPlainObject.js';
 export function setKey(source, key, value) {
 	if (key && isPlainObject(source)) {
 		source[key] = value;

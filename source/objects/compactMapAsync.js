@@ -1,7 +1,7 @@
 import { eachAsyncObject } from './eachAsync.js';
 import { hasValue } from '../types/hasValue.js';
-import { returnValue } from '../utilities/returnValue.js';
 import { mapAsyncObject } from './mapAsync.js';
+import { returnValue } from '../utilities/returnValue.js';
 /**
  * Asynchronously iterates through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
  *

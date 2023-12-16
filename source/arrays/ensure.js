@@ -1,5 +1,5 @@
-import { isArray } from '../types/isArray.js';
 import { hasValue } from '../types/hasValue.js';
+import { isArray } from '../types/isArray.js';
 /**
  * Ensures the source is an array if not the source is wrapped in a array or an empty array is returned.
  *

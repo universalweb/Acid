@@ -1,3 +1,4 @@
+import { stubArray } from './stubArray';
 /**
  * This method returns false.
  *
@@ -7,9 +8,8 @@
  * @returns {Boolean} - Returns false.
  *
  * @example
- * import { stubFalse } from '@universalweb/acid';
- * stubFalse();
- * // => false
+ * import { stubFalse, assert } from '@universalweb/acid';
+ * assert(stubFalse(), false);
  */
 export const falsy = false;
 export const stubFalse = () => {

@@ -1,3 +1,4 @@
+import { everyObject } from '../objects/every';
 /**
  * This method returns undefined.
  *
@@ -5,11 +6,12 @@
  * @category function
  * @type {Function}
  * @returns {undefined} - Returns undefined.
+ *
  * @example
- * noop();
- * // => undefined
+ * import { noop, assert } from '@universalweb/acid';
+ * assert(noop(), undefined);
  */
-export const noop = () => {
+export function noop() {
 	return;
-};
+}
 

@@ -10,7 +10,7 @@ import { hasValue } from '../types/hasValue.js';
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
  * @param {*} thisCall - Iteratee called with thisCall as this.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Array} - Returns source the originally given array.
+ * @returns {Array|undefined} - Returns source the originally given array.
  *
  * @example
  * import { eachAsyncArray, assert } from '@universalweb/acid';

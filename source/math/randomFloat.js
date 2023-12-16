@@ -1,6 +1,6 @@
 const { random } = Math;
 /**
- *  Produces a random floating-point number between min (included) and max (excluded). Do not use for security or encryption.
+ * Roduces a random floating-point number between min (included) and max (excluded). Do not use for security or encryption..
  *
  * @function randomFloat
  * @category math

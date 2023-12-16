@@ -4,7 +4,7 @@
  * @function getFileExtension
  * @category file
  * @param {*} source - Object to be checked.
- * @returns {String} - Returns the extension.
+ * @returns {String|undefined} - Returns the extension.
  *
  * @example
  * import { getFileExtension, assert } from '@universalweb/acid';

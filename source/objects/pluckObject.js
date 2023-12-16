@@ -8,7 +8,7 @@ import { mapArray } from '../arrays/map.js';
  * @type {Function}
  * @param {Object} source - Array used to determine what sources to be plucked.
  * @param {String|Array} targets - Property name.
- * @returns {Array} - An array of plucked sources.
+ * @returns {Array|undefined} - An array of plucked sources.
  *
  * @example
  * import { pluckObject, assert } from '@universalweb/acid';

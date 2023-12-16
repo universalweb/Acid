@@ -1,6 +1,6 @@
 import { eventAdd } from './event.js';
-import { importjs } from './importScript.js';
 import { getById } from './selector.js';
+import { importjs } from './importScript.js';
 /**
  * Runs a function if the document has finished loading. If not, add an eventlistener.
  *

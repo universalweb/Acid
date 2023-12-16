@@ -8,7 +8,7 @@ const arrayFrom = Array.from;
  * @param {*} arrayLike - Array like object.
  * @param {Function} mapFn - Function to map over the array.
  * @param {*} thisArg - MapFn's "this".
- * @returns {Array} - New array.
+ * @returns {Array|undefined} - New array.
  *
  * @example
  * import { toArray, assert } from '@universalweb/acid';

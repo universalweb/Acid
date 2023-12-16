@@ -6,7 +6,7 @@ export const objectEntries = Object.entries;
  * @function getEntries
  * @category object
  * @param {Object} source - The source object.
- * @returns {Array} - Returns the Object.entries of the source object.
+ * @returns {Array|undefined} - Returns the Object.entries of the source object.
  *
  * @example
  * import { getEntries, assert } from '@universalweb/acid';

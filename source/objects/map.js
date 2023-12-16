@@ -1,6 +1,6 @@
 import { eachObject } from './each.js';
-import { mapAsyncObject } from './mapAsync.js';
 import { hasValue } from '../types/hasValue.js';
+import { mapAsyncObject } from './mapAsync.js';
 /**
  * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
  *
@@ -12,7 +12,7 @@ import { hasValue } from '../types/hasValue.js';
  * @param {Object|Function} [results = {}] - Object that will be used to assign results.
  * @param {*} thisCall - An object to be given each time to the iteratee.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function} - An object of the same calling object's type.
+ * @returns {Object|Function|undefined} - An object of the same calling object's type.
  *
  * @example
  * import { mapObject, assert } from '@universalweb/acid';

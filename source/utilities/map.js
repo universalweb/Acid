@@ -1,10 +1,10 @@
-import { mapArray } from '../arrays/map.js';
-import { mapObject } from '../objects/map.js';
-import { generateLoop } from './generateLoop.js';
-import { mapAsyncArray } from '../arrays/mapAsync.js';
-import { mapAsyncObject } from '../objects/mapAsync.js';
 import { forOfMap } from './forOfMap.js';
 import { forOfMapAsync } from './forOfMapAsync.js';
+import { generateLoop } from './generateLoop.js';
+import { mapArray } from '../arrays/map.js';
+import { mapAsyncArray } from '../arrays/mapAsync.js';
+import { mapAsyncObject } from '../objects/mapAsync.js';
+import { mapObject } from '../objects/map.js';
 /**
  * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
  *

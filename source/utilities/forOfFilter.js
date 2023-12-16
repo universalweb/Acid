@@ -1,10 +1,10 @@
 import { cloneType } from '../types/cloneType.js';
 import { hasValue } from '../types/hasValue.js';
-import { returnValue } from './returnValue.js';
+import { isArray } from '../types/isArray.js';
 import { isFunction } from '../types/isFunction.js';
 import { isPlainObject } from '../types/isPlainObject.js';
 import { isSet } from '../types/isSet.js';
-import { isArray } from '../types/isArray.js';
+import { returnValue } from './returnValue.js';
 /**
  * Iterates (for of) through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
  *

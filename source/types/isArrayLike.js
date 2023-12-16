@@ -1,12 +1,12 @@
-import { isNumber } from './isNumber.js';
-import { noValue } from './noValue.js';
-import { isFunction } from './isFunction.js';
-import { hasProp } from '../internal/object.js';
 import { every } from '../utilities/every.js';
-import { keys } from '../objects/keys.js';
+import { hasProp } from '../internal/object.js';
 import { isArray } from './isArray.js';
+import { isFunction } from './isFunction.js';
 import { isMap } from './isMap.js';
+import { isNumber } from './isNumber.js';
 import { isTypedArray } from './isTypedArray.js';
+import { keys } from '../objects/keys.js';
+import { noValue } from './noValue.js';
 /**
  * Checks if an object has a .length property that's greater than or equal to 0 & is not a function. If strict is enabled it will check to see if there is an item returned in range of the number returned bu the length property.
  *

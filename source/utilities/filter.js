@@ -2,9 +2,9 @@ import { filterArray } from '../arrays/filter.js';
 import { filterAsyncArray } from '../arrays/filterAsync.js';
 import { filterAsyncObject } from '../objects/filterAsync.js';
 import { filterObject } from '../objects/filter.js';
-import { generateLoop } from './generateLoop.js';
 import { forOfFilter } from './forOfFilter.js';
 import { forOfFilterAsync } from './forOfFilterAsync.js';
+import { generateLoop } from './generateLoop.js';
 /**
  * Iterates through the calling object and creates a new object of the same calling object's type with all elements that pass the test implemented by the iteratee.
  *

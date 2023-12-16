@@ -1,5 +1,5 @@
-import { isEqual } from './isEqual.js';
 import { everyArray } from '../arrays/every.js';
+import { isEqual } from './isEqual.js';
 import { keys } from '../objects/keys.js';
 /**
  * Using a deep comparison it checks if properties of two objects using an array are equal.

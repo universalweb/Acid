@@ -7,7 +7,7 @@ import { ensureArray } from './ensure.js';
  * @category array
  * @param {Array} source - Array to flatten.
  * @param {Number} [level = 1] - Number which determines how deep the array nest can be.
- * @returns {Array} - Returns an array.
+ * @returns {Array|undefined} - Returns an array.
  *
  * @example
  * import { flatten, assert } from '@universalweb/acid';

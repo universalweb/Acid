@@ -1,7 +1,7 @@
-import { isFunction } from '../types/isFunction.js';
-import { assign } from '../objects/assign.js';
-import { map } from './map.js';
 import { assert } from './assert.js';
+import { assign } from '../objects/assign.js';
+import { isFunction } from '../types/isFunction.js';
+import { map } from './map.js';
 /**
  * Loops through an object or an array and binds the given object to all functions encountered. Optionally accepts an object which to assign the newly bound functions to.
  *

@@ -11,7 +11,7 @@ import { mapAsyncArray } from '../arrays/mapAsync.js';
  * @param {*} value - Value to be passed to callable property.
  * @returns {Array} - Returns the results of the invoked method.
  *
- * @test
+ * @example
  * import { invokeCollectionAsync, assert } from '@universalweb/acid';
  * const results = await invokeCollectionAsync([{
  *	async test(item, index) { return [item, index];}

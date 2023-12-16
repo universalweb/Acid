@@ -2,9 +2,9 @@ import { everyArray } from '../arrays/every.js';
 import { everyAsyncArray } from '../arrays/everyAsync.js';
 import { everyAsyncObject } from '../objects/everyAsync.js';
 import { everyObject } from '../objects/every.js';
-import { generateLoop } from './generateLoop.js';
 import { forOfEvery } from './forOfEvery.js';
 import { forOfEveryAsync } from './forOfEveryAsync.js';
+import { generateLoop } from './generateLoop.js';
 /**
  * Iterates through the given object while the iteratee returns true.
  *

@@ -1,11 +1,11 @@
-import { hasValue } from '../types/hasValue.js';
-import { returnValue } from './returnValue.js';
 import { cloneType } from '../types/cloneType.js';
+import { hasValue } from '../types/hasValue.js';
+import { isArray } from '../types/isArray.js';
 import { isFunction } from '../types/isFunction.js';
+import { isGenerator } from '../types/isGenerator.js';
 import { isPlainObject } from '../types/isPlainObject.js';
 import { isSet } from '../types/isSet.js';
-import { isArray } from '../types/isArray.js';
-import { isGenerator } from '../types/isGenerator.js';
+import { returnValue } from './returnValue.js';
 /**
  * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
  *

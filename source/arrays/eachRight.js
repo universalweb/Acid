@@ -9,7 +9,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
  * @param {*} thisBind - An object to be given each time to the iteratee.
- * @returns {Array} - The originally given array.
+ * @returns {Array|undefined} - The originally given array.
  *
  * @example
  * import { eachRight, assert } from '@universalweb/acid';

@@ -1,6 +1,6 @@
-import { isFunction } from '../types/isFunction.js';
 import { cloneType } from '../type/cloneType';
 import { hasValue } from '../types/hasValue.js';
+import { isFunction } from '../types/isFunction.js';
 export function forCompactMap(source, callback) {
 	const cloned = cloneType(source);
 	const method = cloned.push || cloned.add;

@@ -1,6 +1,6 @@
+import { eachArray } from './each.js';
 import { hasValue } from '../types/hasValue.js';
 import { returnValue } from '../utilities/returnValue.js';
-import { eachArray } from './each.js';
 /**
  * Iterates through the calling array and creates an array with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling array.
  *

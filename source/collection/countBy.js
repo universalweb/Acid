@@ -1,5 +1,5 @@
-import { eachArray } from '../arrays/each.js';
 import { chunk } from '../arrays/chunk.js';
+import { eachArray } from '../arrays/each.js';
 /**
  * Creates an object composed of keys generated from the results of running each element of collection through iteratee.
  *

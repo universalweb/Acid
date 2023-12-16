@@ -4,7 +4,7 @@
  * @function divide
  * @category math
  * @type {Function}
- * @param {Number} number - First number.
+ * @param {Number} source - First number.
  * @param {Number} value - Second number.
  * @returns {Number} - Returns the quotient of the arguments.
  *

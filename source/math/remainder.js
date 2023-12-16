@@ -1,10 +1,10 @@
 /**
- *  Extracts the remainder between two numbers.
+ * Extracts the remainder between two numbers.
  *
  * @function remainder
  * @category math
  * @type {Function}
- * @param {Number} number - First number.
+ * @param {Number} source - First number.
  * @param {Number} value - Second number.
  * @returns {Number} - Returns the remainder of the arguments.
  *

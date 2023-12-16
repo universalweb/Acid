@@ -1,3 +1,20 @@
+export function sortCollectionDescendingFilter(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	if (!nextKey) {
+		return -1;
+	} else if (!previousKey) {
+		return 1;
+	} else if (previousKey < nextKey) {
+		return 1;
+	} else if (previousKey > nextKey) {
+		return -1;
+	}
+	return 0;
+}
 /**
  * Sorts an array in place using a key in descending order.
  *
@@ -16,23 +33,6 @@
  * const prop = 'id';
  * assert(sortCollectionDescending(collect, prop), result);
  */
-export function sortCollectionDescendingFilter(previous, next, propertyName, ifMatch) {
-	const previousKey = previous[propertyName];
-	const nextKey = next[propertyName];
-	if (previousKey === nextKey && ifMatch) {
-		return ifMatch(previous, next, propertyName);
-	}
-	if (!nextKey) {
-		return -1;
-	} else if (!previousKey) {
-		return 1;
-	} else if (previousKey < nextKey) {
-		return 1;
-	} else if (previousKey > nextKey) {
-		return -1;
-	}
-	return 0;
-}
 export function sortCollectionDescending(collection, propertyName = 'id', ifMatch) {
 	return collection.sort((previous, next) => {
 		return sortCollectionDescendingFilter(previous, next, propertyName, ifMatch);

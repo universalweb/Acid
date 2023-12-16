@@ -21,21 +21,21 @@ hasStorage(() => {
 });
 /**
  * Constructs a virtual storage container with localStorage support.
- * Crate will fallback to strictly virtual storage if localStorage isn't supported.
+ * BrowserStorage will fallback to strictly virtual storage if localStorage isn't supported.
  * If localStorage is supported virtual storage will be used first & only fallback to localStorage when needed.
- * Crate is ideal as a seemless drop in replacement for localStorage when not supported or allowed.
+ * BrowserStorage is ideal as a seemless drop in replacement for localStorage when not supported or allowed.
  *
- * @class Crate
+ * @class BrowserStorage
  * @category browser
- * @returns {Crate} - Returns a new instance of Crate.
+ * @returns {BrowserStorage} - Returns a new instance of BrowserStorage.
  *
  * @example
- * import { Crate, construct, assert } from '@universalweb/acid';
- * const storageCrate = construct(Crate);
- * storageCrate.setItem('key', 'value');
- * assert(storageCrate.getItem('key'), 'value');
+ * import { BrowserStorage, construct, assert } from '@universalweb/acid';
+ * const storageBrowserStorage = construct(BrowserStorage);
+ * storageBrowserStorage.setItem('key', 'value');
+ * assert(storageBrowserStorage.getItem('key'), 'value');
  */
-export class Crate {
+export class BrowserStorage {
 	constructor(initialObject) {
 		if (this.hasLocal) {
 			this.local = localStorage;
@@ -44,20 +44,20 @@ export class Crate {
 	}
 	hasLocal = hasLocal;
 	/**
-	 * Save an item to a crate.
+	 * Save an item to a browserStorage.
 	 *
 	 * @function setItem
-	 * @class Crate
+	 * @class BrowserStorage
 	 * @category browser
 	 * @param {String} key - The key used to store the data.
 	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { Crate, construct, assert } from '@universalweb/acid';
-	 * const storageCrate = construct(Crate);
-	 * storageCrate.setItem('key', 'value');
-	 * assert(storageCrate.getItem('key'), 'value');
+	 * import { BrowserStorage, construct, assert } from '@universalweb/acid';
+	 * const storageBrowserStorage = construct(BrowserStorage);
+	 * storageBrowserStorage.setItem('key', 'value');
+	 * assert(storageBrowserStorage.getItem('key'), 'value');
 	 */
 	setItem(key, value) {
 		if (this.hasLocal) {
@@ -66,19 +66,19 @@ export class Crate {
 		return this.storage.setItem(key, value);
 	}
 	/**
-	 * Get an item from a crate.
+	 * Get an item from a browserStorage.
 	 *
 	 * @function getItem
-	 * @class Crate
+	 * @class BrowserStorage
 	 * @category browser
 	 * @param {String} key - The key used to store the data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { Crate, construct, assert } from '@universalweb/acid';
-	 * const storageCrate = construct(Crate);
-	 * storageCrate.setItem('key', 'value');
-	 * assert(storageCrate.getItem('key'), 'value');
+	 * import { BrowserStorage, construct, assert } from '@universalweb/acid';
+	 * const storageBrowserStorage = construct(BrowserStorage);
+	 * storageBrowserStorage.setItem('key', 'value');
+	 * assert(storageBrowserStorage.getItem('key'), 'value');
 	 */
 	getItem(key) {
 		const item = this.storage.getItem(key);
@@ -90,21 +90,20 @@ export class Crate {
 		}
 	}
 	/**
-	 * Clears all data for the crate including all of localStorage if supported.
+	 * Clears all data for the browserStorage including all of localStorage if supported.
 	 *
 	 * @function clear
-	 * @class Crate
+	 * @class BrowserStorage
 	 * @category browser
-	 * @param {String} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { Crate, construct, assert } from '@universalweb/acid';
-	 * const storageCrate = construct(Crate);
-	 * storageCrate.setItem('key', 'value');
-	 * assert(storageCrate.getItem('key'), 'value');
-	 * storageCrate.clear();
-	 * assert(storageCrate.getItem('key'), undefined);
+	 * import { BrowserStorage, construct, assert } from '@universalweb/acid';
+	 * const storageBrowserStorage = construct(BrowserStorage);
+	 * storageBrowserStorage.setItem('key', 'value');
+	 * assert(storageBrowserStorage.getItem('key'), 'value');
+	 * storageBrowserStorage.clear();
+	 * assert(storageBrowserStorage.getItem('key'), undefined);
 	 */
 	clear() {
 		if (this.hasLocal) {
@@ -113,21 +112,21 @@ export class Crate {
 		this.storage.clear();
 	}
 	/**
-	 * Remove an item from a crate.
+	 * Remove an item from a browserStorage.
 	 *
-	 * @class Crate
+	 * @class BrowserStorage
 	 * @category browser
 	 * @function removeItem
 	 * @param {String} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { Crate, construct, assert } from '@universalweb/acid';
-	 * const storageCrate = construct(Crate);
-	 * storageCrate.setItem('key', 'value');
-	 * assert(storageCrate.getItem('key'), 'value');
-	 * storageCrate.removeItem('key');
-	 * assert(storageCrate.getItem('key'), undefined);
+	 * import { BrowserStorage, construct, assert } from '@universalweb/acid';
+	 * const storageBrowserStorage = construct(BrowserStorage);
+	 * storageBrowserStorage.setItem('key', 'value');
+	 * assert(storageBrowserStorage.getItem('key'), 'value');
+	 * storageBrowserStorage.removeItem('key');
+	 * assert(storageBrowserStorage.getItem('key'), undefined);
 	 */
 	removeItem(key) {
 		if (this.hasLocal) {
@@ -137,18 +136,18 @@ export class Crate {
 	}
 }
 /**
- *  The crate function is a factory which wraps the Crate class constructor.
+ * The browserStorage function is a factory which wraps the BrowserStorage class constructor.
  *
- * @function crate
+ * @function browserStorage
  * @category browser
  * @type {Function}
- * @returns {*} - Returns a new Crate Object.
+ * @returns {*} - Returns a new BrowserStorage Object.
  *
  * @example
- * const storageCrate = crate();
- * // => New Crate Object
+ * const storageBrowserStorage = browserStorage();
+ * // => New BrowserStorage Object
  */
-export function crate(virtualFlag) {
-	return new Crate(virtualFlag);
+export function browserStorage(virtualFlag) {
+	return new BrowserStorage(virtualFlag);
 }
 

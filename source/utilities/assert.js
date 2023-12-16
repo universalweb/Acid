@@ -1,7 +1,7 @@
 import { isFunction } from '../types/isFunction.js';
+import { isKindAsync } from '../types/isKindAsync.js';
 import { notEqual } from './notEqual.js';
 import { stringify } from './json.js';
-import { isKindAsync } from '../types/isKindAsync.js';
 function createAssertError(source, expected, localOptions) {
 	const options = globalThis.options || localOptions;
 	let errorTitle;

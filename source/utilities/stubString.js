@@ -1,3 +1,4 @@
+import { stubObject } from './stubObject';
 /**
  * This method returns a new empty string.
  *
@@ -7,9 +8,8 @@
  * @returns {String} - Returns the new empty string.
  *
  * @example
- * import { stubString } from '@universalweb/acid';
- * stubString();
- * // => ''
+ * import { stubString, assert } from '@universalweb/acid';
+ * assert(stubString(), '');
  */
 export const stubString = () => {
 	return '';

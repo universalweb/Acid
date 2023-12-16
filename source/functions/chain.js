@@ -1,9 +1,9 @@
 import { assign } from '../objects/assign.js';
-import { each } from '../utilities/each.js';
-import { isPlainObject } from '../types/isPlainObject.js';
-import { isFunction } from '../types/isFunction.js';
 import { construct } from '../classes/construct.js';
+import { each } from '../utilities/each.js';
 import { isArray } from '../types/isArray.js';
+import { isFunction } from '../types/isFunction.js';
+import { isPlainObject } from '../types/isPlainObject.js';
 export class Chain {
 	constructor(methods) {
 		this.addChainMethod(methods);
@@ -34,7 +34,7 @@ export class Chain {
  * @function chain
  * @category function
  * @type {Function}
- * @param {Array|Object} methods - The object to take methods from.
+ * @param {Array|Object} config - The object to take methods from.
  * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
  *
  * @example

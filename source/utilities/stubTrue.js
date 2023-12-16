@@ -1,3 +1,4 @@
+import { stubString } from './stubString';
 /**
  * This method returns true.
  *
@@ -7,9 +8,8 @@
  * @returns {Boolean} - Returns true.
  *
  * @example
- * import { stubTrue } from '@universalweb/acid';
- * stubTrue();
- * // => true
+ * import { stubTrue, assert } from '@universalweb/acid';
+ * assert(stubString(), true);
  */
 export const truth = true;
 export const stubTrue = () => {

@@ -12,9 +12,9 @@ import { hasValue } from './hasValue.js';
  * isPlainObject({});
  * // => true
  */
-export const isPlainObject = (value) => {
-	if (hasValue(value)) {
-		return value.constructor.toString().trim()
+export const isPlainObject = (source) => {
+	if (hasValue(source)) {
+		return source.constructor.toString().trim()
 			.slice(9, 16) === 'Object(';
 	}
 	return false;

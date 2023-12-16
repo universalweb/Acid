@@ -1,6 +1,6 @@
+import { isNumberEqual } from '../numbers/isNumberEqual.js';
 import { randomInt } from '../math/randomInt.js';
 import { toArray } from '../internal/array.js';
-import { isNumberEqual } from '../numbers/isNumberEqual.js';
 /**
  * Shuffle an array and return a new array.
  *

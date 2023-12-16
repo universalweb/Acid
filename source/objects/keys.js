@@ -9,7 +9,7 @@
  * @example
  * keys({a: 1, b: 2});
  * // => ['a', 'b']
-*/
+ */
 const objectKeys = Object.keys;
 export function keys(source) {
 	if (source) {

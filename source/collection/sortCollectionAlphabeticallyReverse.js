@@ -1,3 +1,11 @@
+export function sortObjectsAlphabeticallyReverse(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	return nextKey.localeCompare(previousKey);
+}
 /**
  * Perform alphabetical in reverse Z-A sort on a collection with the provided key name. Mutates the array.
  *
@@ -16,14 +24,6 @@
  * const prop = 'letter';
  * assert(sortCollectionAlphabeticallyReverse(collect, prop), result);
  */
-export function sortObjectsAlphabeticallyReverse(previous, next, propertyName, ifMatch) {
-	const previousKey = previous[propertyName];
-	const nextKey = next[propertyName];
-	if (previousKey === nextKey && ifMatch) {
-		return ifMatch(previous, next, propertyName);
-	}
-	return nextKey.localeCompare(previousKey);
-}
 export function sortCollectionAlphabeticallyReverse(collection, propertyName = 'id', ifMatch) {
 	return collection.sort((previous, next) => {
 		return sortObjectsAlphabeticallyReverse(previous, next, propertyName, ifMatch);

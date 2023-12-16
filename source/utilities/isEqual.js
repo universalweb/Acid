@@ -1,9 +1,9 @@
-import { hasKeys } from '../objects/hasKeys.js';
 import { everyArray } from '../arrays/every.js';
-import { keys } from '../objects/keys.js';
+import { hasKeys } from '../objects/hasKeys.js';
 import { isArray } from '../types/isArray.js';
-import { isPlainObject } from '../types/isPlainObject.js';
 import { isBuffer } from '../types/isBuffer.js';
+import { isPlainObject } from '../types/isPlainObject.js';
+import { keys } from '../objects/keys.js';
 /**
  * Performs a deep comparison between two objects & determines if the value is the same using strict comparison.
  *

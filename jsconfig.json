@@ -5,7 +5,8 @@
 		"moduleResolution": "NodeNext",
 		"target": "ESNext",
 		"jsx": "react",
-		"strictNullChecks": true
+		"strictNullChecks": true,
+		"experimentalDecorators": true
 	},
 	"exclude": [
 		"**/build/*",
@@ -16,7 +17,8 @@
 		"**/npm/*",
 		"**/package/*",
 		"**/target/*",
-		"node_modules",
-		"**/index.js"
+		"**/index.js",
+		"**/basic.js",
+		"**/browser.js"
 	]
 }

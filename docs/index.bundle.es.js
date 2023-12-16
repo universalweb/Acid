@@ -1,3 +1,5 @@
+import { hasValue as hasValue$1 } from 'types/hasValue.js';
+import { isPlainObject as isPlainObject$1 } from 'types/isPlainObject.js';
 import { readdir, stat, mkdir, copyFile } from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -151,7 +153,7 @@ function returnValue(source) {
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
  * @param {*} thisCall - Iteratee called with thisCall as this.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Array} - The originally given array.
+ * @returns {Array|undefined} - The originally given array.
  *
  * @example
  * import { eachArray, assert } from '@universalweb/acid';
@@ -227,7 +229,7 @@ function compactMapArray(source, iteratee = returnValue, results = [], thisCall,
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
  * @param {*} thisCall - Iteratee called with thisCall as this.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Array} - Returns source the originally given array.
+ * @returns {Array|undefined} - Returns source the originally given array.
  *
  * @example
  * import { eachAsyncArray, assert } from '@universalweb/acid';
@@ -342,11 +344,6 @@ function range(start, end, step = 1, sourceArray = []) {
 	}
 }
 
-function forEach(source, callback) {
-	source.forEach(callback);
-	return source;
-}
-
 /**
  * Checks if the value is an array. This references Array.isArray.
  *
@@ -376,6 +373,36 @@ const isArray = Array.isArray;
  */
 function isNotArray(source) {
 	return !isArray(source);
+}
+
+/**
+ * A function which acts like the "new" operator and can pass arguments. This is a safe version of the original which will error if given undefined
+ * This is useful when working with classes and prefering to avoid the new operator and it's potential side effects.
+ *
+ * @function construct
+ * @category class
+ * @param {Function} target - The target function or class.
+ * @param {Array} [argumentsList =[]] - An array-like object specifying the arguments with which target should be called. Default value is a new empty array.
+ * @param {Array} newTarget - The constructor whose prototype should be used. See also the new.target operator. If newTarget is not present, its value defaults to target.
+ * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
+ *
+ * @example
+ * import { construct, assert } from '@universalweb/acid';
+ * class test {
+ * 	constructor(a) {
+ * 		return 1;
+ * 	}
+ * }
+ * const newClass = construct(test, [1]);
+ * assert(test, 1);
+ */
+const reflectConstruct = Reflect.construct;
+function construct(target, argumentsList = [], newTarget) {
+	const args = (isArray(argumentsList)) ? argumentsList : [argumentsList];
+	if (newTarget) {
+		return reflectConstruct(target, args, newTarget);
+	}
+	return reflectConstruct(target, args);
 }
 
 /**
@@ -412,34 +439,9 @@ function flattenDeep(source) {
 	return source.flat(Infinity);
 }
 
-/**
- * A function which acts like the "new" operator and can pass arguments. This is a safe version of the original which will error if given undefined
- * This is useful when working with classes and prefering to avoid the new operator and it's potential side effects.
- *
- * @function construct
- * @category class
- * @param {Function} target - The target function or class.
- * @param {Array} [argumentsList =[]] - An array-like object specifying the arguments with which target should be called. Default value is a new empty array.
- * @param {Array} newTarget - The constructor whose prototype should be used. See also the new.target operator. If newTarget is not present, its value defaults to target.
- * @returns {*} - A new instance of target (or newTarget, if present), initialized by target as a constructor with the given argumentsList.
- *
- * @example
- * import { construct, assert } from '@universalweb/acid';
- * class test {
- * 	constructor(a) {
- * 		return 1;
- * 	}
- * }
- * const newClass = construct(test, [1]);
- * assert(test, 1);
- */
-const reflectConstruct = Reflect.construct;
-function construct(target, argumentsList = [], newTarget) {
-	const args = (isArray(argumentsList)) ? argumentsList : [argumentsList];
-	if (newTarget) {
-		return reflectConstruct(target, args, newTarget);
-	}
-	return reflectConstruct(target, args);
+function forEach(source, callback) {
+	source.forEach(callback);
+	return source;
 }
 
 /**
@@ -448,9 +450,8 @@ function construct(target, argumentsList = [], newTarget) {
  * @function difference
  * @category array
  * @type {Function}
- * @param {Array} sources - Source array.
- * @param {...Array} compare - Array(s) source array is compared against.
- * @returns {Array} - An array which contains the differences between the source and compare array.
+ * @param {...Array} sources - List of arrays to be compared.
+ * @returns {Array|undefined} - An array which contains the differences between the source and compare array.
  *
  * @example
  * import { difference, assert } from '@universalweb/acid';
@@ -533,7 +534,7 @@ const dropRight = (array, amount = 1, upTo = array.length) => {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
  * @param {*} thisBind - An object to be given each time to the iteratee.
- * @returns {Array} - The originally given array.
+ * @returns {Array|undefined} - The originally given array.
  *
  * @example
  * import { eachRight, assert } from '@universalweb/acid';
@@ -563,7 +564,7 @@ function eachRight(source, iteratee, thisBind) {
  * @async
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @returns {Object} - The originally given array.
+ * @returns {Object|undefined} - The originally given array.
  *
  * @example
  * import { eachRightAsync, assert } from '@universalweb/acid';
@@ -593,7 +594,7 @@ async function eachRightAsync(source, iteratee) {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
  * @param {*} thisBind - An object to be given each time to the iteratee.
- * @returns {Array} - Returns true if all returns are true or false if one value returns false.
+ * @returns {Array|undefined} - Returns true if all returns are true or false if one value returns false.
  *
  * @example
  * import { everyArray, assert } from '@universalweb/acid';
@@ -626,7 +627,7 @@ function everyArray(source, iteratee, thisBind) {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
  * @param {*} thisBind - An object to be given each time to the iteratee.
- * @returns {Array} - Returns true if all returns are true or false if one value returns false.
+ * @returns {Array|undefined} - Returns true if all returns are true or false if one value returns false.
  *
  * @example
  * import { everyAsyncArray, assert } from '@universalweb/acid';
@@ -732,7 +733,7 @@ function first(array, upTo) {
  * @category array
  * @param {Array} source - Array to flatten.
  * @param {Number} [level = 1] - Number which determines how deep the array nest can be.
- * @returns {Array} - Returns an array.
+ * @returns {Array|undefined} - Returns an array.
  *
  * @example
  * import { flatten, assert } from '@universalweb/acid';
@@ -801,10 +802,9 @@ function intersection(array, ...arrays) {
  * @category array
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
+ * @param {Function} additionalArg - An object to be given each time to the iteratee.
  * @param {*} thisCall - Iteratee called with thisCall as this.
- * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Array} - The originally given array.
+ * @returns {Array|undefined} - The originally given array.
  *
  * @example
  * import { invokeArray, assert } from '@universalweb/acid';
@@ -814,40 +814,21 @@ function intersection(array, ...arrays) {
  * const results = invokeArray([test], 1, test);
  * assert(results, [test, 1]);
  */
-function invokeArray(source, arg, thisCall) {
+function invokeArray(source, additionalArg, thisCall) {
 	if (!source) {
 		return;
 	}
 	const arrayLength = source.length;
 	if (hasValue(thisCall)) {
 		for (let index = 0; index < arrayLength; index++) {
-			source[index].call(thisCall, arg);
+			source[index].call(thisCall, additionalArg);
 		}
 	} else {
 		for (let index = 0; index < arrayLength; index++) {
-			source[index](arg);
+			source[index](additionalArg);
 		}
 	}
 	return source;
-}
-
-/**
- * Get object's keys.
- *
- * @function keys
- * @category object
- * @param {*} source - The source object to pull keys from.
- * @returns {Array} - Array of keys.
- *
- * @example
- * keys({a: 1, b: 2});
- * // => ['a', 'b']
-*/
-const objectKeys = Object.keys;
-function keys(source) {
-	if (source) {
-		return objectKeys(source);
-	}
 }
 
 const regexToPath = /\.|\[/;
@@ -902,6 +883,25 @@ function get(propertyString, target) {
 	return link;
 }
 
+/**
+ * Get object's keys.
+ *
+ * @function keys
+ * @category object
+ * @param {*} source - The source object to pull keys from.
+ * @returns {Array} - Array of keys.
+ *
+ * @example
+ * keys({a: 1, b: 2});
+ * // => ['a', 'b']
+ */
+const objectKeys = Object.keys;
+function keys(source) {
+	if (source) {
+		return objectKeys(source);
+	}
+}
+
 const hasOwn = Object.hasOwn;
 /**
  * Checks to see if an object has all of the given property names.
@@ -911,7 +911,7 @@ const hasOwn = Object.hasOwn;
  * @type {Function}
  * @param {Object} source - Source object to check for keys.
  * @param {...String} properties - List of strings to check.
- * @returns {Boolean} - Returns true or false.
+ * @returns {Boolean|undefined} - Returns true or false.
  *
  * @example
  * import { hasKeys, assert } from '@universalweb/acid';
@@ -943,7 +943,7 @@ function hasKeys(source, ...properties) {
  * @type {Function}
  * @param {Object} source - Source object to check for keys.
  * @param {Array} properties - List of strings to check.
- * @returns {Boolean} - Returns true or false.
+ * @returns {Boolean|undefined} - Returns true or false.
  *
  * @example
  * import { hasAnyKeys, assert } from '@universalweb/acid';
@@ -968,27 +968,6 @@ function hasAnyKeys(source, ...properties) {
 		}
 	}));
 }
-
-/**
- * Checks if the value is a plain object.
- *
- * @function isPlainObject
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isPlainObject } from '@universalweb/acid';
- * isPlainObject({});
- * // => true
- */
-const isPlainObject = (value) => {
-	if (hasValue(value)) {
-		return value.constructor.toString().trim()
-			.slice(9, 16) === 'Object(';
-	}
-	return false;
-};
 
 /**
  * Checks to see if the constructor is that of a native object.
@@ -1043,6 +1022,27 @@ function isTypeFactory(method) {
  */
 const isBufferCall = isConstructorNameFactory('Buffer');
 const isBuffer = isTypeFactory(isBufferCall);
+
+/**
+ * Checks if the value is a plain object.
+ *
+ * @function isPlainObject
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isPlainObject } from '@universalweb/acid';
+ * isPlainObject({});
+ * // => true
+ */
+const isPlainObject = (source) => {
+	if (hasValue(source)) {
+		return source.constructor.toString().trim()
+			.slice(9, 16) === 'Object(';
+	}
+	return false;
+};
 
 /**
  * Performs a deep comparison between two objects & determines if the value is the same using strict comparison.
@@ -1333,8 +1333,8 @@ function partition(array, predicate) {
  * @function subtractReverse
  * @category math
  * @type {Function}
- * @param {Number} minuend - The minuend.
  * @param {Number} subtrahend - The subtrahend.
+ * @param {Number} minuend - The minuend.
  * @returns {Number} - Returns the difference.
  *
  * @example
@@ -1455,7 +1455,7 @@ const {
 	random: random$1
 } = Math;
 /**
- *  Produces a random whole number between min (included) and max (excluded). Do not use for security or encryption.
+ * Roduces a random whole number between min (included) and max (excluded). Do not use for security or encryption..
  *
  * @function randomInt
  * @category number
@@ -1470,27 +1470,6 @@ const {
  */
 function randomInt(max, min = 0) {
 	return floor(random$1() * (max - min)) + min;
-}
-
-const arrayFrom = Array.from;
-/**
- * The Array.from() static method creates a new, shallow-copied Array instance from an iterable or array-like object. This just has a null & undefined safety check.
- *
- * @function toArray
- * @category array
- * @param {*} arrayLike - Array like object.
- * @param {Function} mapFn - Function to map over the array.
- * @param {*} thisArg - MapFn's "this".
- * @returns {Array} - New array.
- *
- * @example
- * import { toArray, assert } from '@universalweb/acid';
- * assert(toArray(new Map([[1, 2]])), [[1, 2]]);
- */
-function toArray(arrayLike, mapFn, thisArg) {
-	if (hasValue(arrayLike)) {
-		return arrayFrom(arrayLike, mapFn, thisArg);
-	}
 }
 
 /**
@@ -1509,6 +1488,27 @@ function toArray(arrayLike, mapFn, thisArg) {
  */
 function isNumberEqual(source, target) {
 	return source === target;
+}
+
+const arrayFrom = Array.from;
+/**
+ * The Array.from() static method creates a new, shallow-copied Array instance from an iterable or array-like object. This just has a null & undefined safety check.
+ *
+ * @function toArray
+ * @category array
+ * @param {*} arrayLike - Array like object.
+ * @param {Function} mapFn - Function to map over the array.
+ * @param {*} thisArg - MapFn's "this".
+ * @returns {Array|undefined} - New array.
+ *
+ * @example
+ * import { toArray, assert } from '@universalweb/acid';
+ * assert(toArray(new Map([[1, 2]])), [[1, 2]]);
+ */
+function toArray(arrayLike, mapFn, thisArg) {
+	if (hasValue(arrayLike)) {
+		return arrayFrom(arrayLike, mapFn, thisArg);
+	}
 }
 
 /**
@@ -1550,12 +1550,6 @@ function shuffle(target, amount = target.length) {
  * @param {Array} source - The array to pull sample(s) from.
  * @param {Number} amount - The amount of samples to take.
  * @returns {Array} - An array of randomly pulled samples.
- *
- * @test
- * (async () => {
- *   const tempResult = sample([1, 2] , 2);
- *   return assert(tempResult.includes(1) && tempResult.includes(2), true);
- * });
  *
  * @example
  * sample([1, 2, 3, 4] , 2);
@@ -1895,8 +1889,8 @@ function without(target, sources) {
  * @function xor
  * @category array
  * @type {Function}
- * @param {...Array} arrays - The array(s) to be filtered.
- * @returns {Array} - The filtered array.
+ * @param {...Array} sources - The array(s) to be filtered.
+ * @returns {Array|undefined} - The filtered array.
  *
  * @example
  * xor([2, 1], [2, 3, 5], [6]);
@@ -2008,6 +2002,161 @@ function ensureBuffer(source) {
 function clearBuffer(source) {
 	source.fill(0);
 	return source;
+}
+
+/**
+ * Checks if an object or objects are a plain object.
+ *
+ * @function isFunction
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isFunction } from '@universalweb/acid';
+ * isFunction(() => {});
+ * // => true
+ */
+const isFunction = (source) => {
+	return (hasValue(source)) ? source instanceof Function : false;
+};
+
+/**
+ * Checks if the value is a number.
+ *
+ * @function isNumber
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isNumber, assert } from '@universalweb/acid';
+ * assert(isNumber(1), true);
+ */
+const isNumberCall = isConstructorNameFactory('Number');
+const isNumber = isTypeFactory(isNumberCall);
+/**
+ * Checks if the value is not a number.
+ *
+ * @function isNotNumber
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isNotNumber, assert } from '@universalweb/acid';
+ * assert(isNotNumber(1), false);
+ */
+function isNotNumber(source) {
+	return !isNumber(source);
+}
+
+/**
+ * Checks if the value is a string.
+ *
+ * @function isString
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isString, assert } from '@universalweb/acid';
+ * assert(isString('hello'), true);
+ * assert(isString(1), false);
+ */
+const isString = isConstructorFactory(String);
+/**
+ * Checks if the value is not a string.
+ *
+ * @function isNotString
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isNotString, assert } from '@universalweb/acid';
+ * assert(isNotString(1), true);
+ * assert(isNotString('hello'), false);
+ */
+function isNotString(source) {
+	return !isString(source);
+}
+
+const objectAssign = Object.assign;
+function assignToObject(target, source) {
+	if (isPlainObject(source)) {
+		objectAssign(target, source);
+	} else if (isFunction(source)) {
+		const key = source.name;
+		if (key) {
+			target[key] = source;
+		} else {
+			objectAssign(target, source);
+		}
+	} else if (isString(source) || isNumber(source)) {
+		target[source] = source;
+	}
+	return target;
+}
+/**
+ * Copy the values of all enumerable own properties from one or more source objects to a target object. However, if an object is a function it will try and use its name as the key and the function itself as the value to assign to the target object. If it's a function without a name then it will do a straight object assign. It will do the same for strings and numbers except that it will use for both the key and the value the provided string or number. It will return the target object. If a raw object.assign is needed just import objectAssign from this module.
+ *
+ * @function assign
+ * @category object
+ * @param {Object} target - The target object.
+ * @param {...Object} sources - The source object(s).
+ * @returns {Object} - Returns the target object.
+ *
+ * @example
+ * import { assign, assert } from '@universalweb/acid';
+ * assert(assign({a: 1}, {b: 2}, function c() { return 3; }, 'd', 5), {a: 1, b: 2, c, d: 'd', 5: 5});
+ */
+function assign(target, ...sources) {
+	const sourceLength = sources.length;
+	for (let index = 0; index < sourceLength; index++) {
+		assignToObject(target, sources[index]);
+	}
+	return target;
+}
+
+function assignToClass(target, source) {
+	if (isPlainObject(source)) {
+		objectAssign(target.prototype, source);
+	} else if (isFunction(source)) {
+		const key = source.name;
+		if (key) {
+			target.prototype[key] = source;
+		}
+	} else if (isConstructor(source)) {
+		const key = source.constructor?.name;
+		if (key) {
+			target.prototype[key] = source;
+		}
+	} else if (isString(source) || isNumber(source)) {
+		target.prototype[source] = source;
+	}
+	return target;
+}
+/**
+ * The function adds a new method to a class.
+ * @param {Class} target - The target parameter refers to the Class or constructor function to which you want
+ * to add a new method.
+ * @param {Function|Object|String|Number} sources - What you want to add to the class.
+ * @returns {Class} - Returns the Class provided in the target parameter.
+ *
+ * @example
+ * import { extendClass, assert } from '@universalweb/acid';
+ * class Test {}
+ * function a(){return 1;}
+ * extendClass(Test, a)
+ * assert((new Test()).a(), 1);
+ */
+function extendClass(target, ...sources) {
+	const sourceLength = sources.length;
+	for (let index = 0; index < sourceLength; index++) {
+		assignToClass(target, sources[index]);
+	}
+	return target;
 }
 
 /**
@@ -2135,47 +2284,14 @@ function findItem(collection, id, propertyName = 'id') {
 	return (result === -1) ? false : result;
 }
 
-/**
- * Sorts an array in place using a key in descending order.
- *
- * @function sortCollectionDescending
- * @category collection
- * @type {Function}
- * @param {Array} collection - Collection to be sorted.
- * @param {String} propertyName - The property name to sort by based on it's value.
- * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
- * @returns {Array} - The sorted array and or a clone of the array sorted.
- *
- * @example
- * import { sortCollectionDescending, assert } from '@universalweb/acid';
- * const result = [{id: 1}, {id: 0}];
- * const collect = [{id: 0}, {id: 1}];
- * const prop = 'id';
- * assert(sortCollectionDescending(collect, prop), result);
- */
-function sortCollectionDescendingFilter(previous, next, propertyName, ifMatch) {
+function sortObjectsAlphabetically(previous, next, propertyName, ifMatch) {
 	const previousKey = previous[propertyName];
 	const nextKey = next[propertyName];
 	if (previousKey === nextKey && ifMatch) {
 		return ifMatch(previous, next, propertyName);
 	}
-	if (!nextKey) {
-		return -1;
-	} else if (!previousKey) {
-		return 1;
-	} else if (previousKey < nextKey) {
-		return 1;
-	} else if (previousKey > nextKey) {
-		return -1;
-	}
-	return 0;
+	return previousKey.localeCompare(nextKey);
 }
-function sortCollectionDescending(collection, propertyName = 'id', ifMatch) {
-	return collection.sort((previous, next) => {
-		return sortCollectionDescendingFilter(previous, next, propertyName, ifMatch);
-	});
-}
-
 /**
  * Perform alphabetical A-Z sort on a collection with the provided key name. Mutates the array.
  *
@@ -2202,20 +2318,29 @@ function sortCollectionDescending(collection, propertyName = 'id', ifMatch) {
  * }
  * assert(sortCollectionAlphabetically(collect, prop, ifMatchSort), result);
  */
-function sortObjectsAlphabetically(previous, next, propertyName, ifMatch) {
-	const previousKey = previous[propertyName];
-	const nextKey = next[propertyName];
-	if (previousKey === nextKey && ifMatch) {
-		return ifMatch(previous, next, propertyName);
-	}
-	return previousKey.localeCompare(nextKey);
-}
 function sortCollectionAlphabetically(collection, propertyName = 'id', ifMatch) {
 	return collection.sort((previous, next) => {
 		return sortObjectsAlphabetically(previous, next, propertyName, ifMatch);
 	});
 }
 
+function sortCollectionAscendingFilter(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	if (!nextKey) {
+		return 1;
+	} else if (!previousKey) {
+		return -1;
+	} else if (previousKey < nextKey) {
+		return -1;
+	} else if (previousKey > nextKey) {
+		return 1;
+	}
+	return 0;
+}
 /**
  * Sorts an array in place using a key in ascending order.
  *
@@ -2234,23 +2359,6 @@ function sortCollectionAlphabetically(collection, propertyName = 'id', ifMatch) 
  * const prop = 'id';
  * assert(sortCollectionAscending(collect, prop), result);
  */
-function sortCollectionAscendingFilter(previous, next, propertyName, ifMatch) {
-	const previousKey = previous[propertyName];
-	const nextKey = next[propertyName];
-	if (previousKey === nextKey && ifMatch) {
-		return ifMatch(previous, next, propertyName);
-	}
-	if (!nextKey) {
-		return 1;
-	} else if (!previousKey) {
-		return -1;
-	} else if (previousKey < nextKey) {
-		return -1;
-	} else if (previousKey > nextKey) {
-		return 1;
-	}
-	return 0;
-}
 function sortCollectionAscending(collection, propertyName = 'id', ifMatch) {
 	return collection.sort((previous, next) => {
 		return sortCollectionAscendingFilter(previous, next, propertyName, ifMatch);
@@ -2273,6 +2381,47 @@ function sortCollectionAscending(collection, propertyName = 'id', ifMatch) {
  */
 function getHighest(collection, propertyName = 'id') {
 	return sortCollectionAscending(collection, propertyName)[0];
+}
+
+function sortCollectionDescendingFilter(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	if (!nextKey) {
+		return -1;
+	} else if (!previousKey) {
+		return 1;
+	} else if (previousKey < nextKey) {
+		return 1;
+	} else if (previousKey > nextKey) {
+		return -1;
+	}
+	return 0;
+}
+/**
+ * Sorts an array in place using a key in descending order.
+ *
+ * @function sortCollectionDescending
+ * @category collection
+ * @type {Function}
+ * @param {Array} collection - Collection to be sorted.
+ * @param {String} propertyName - The property name to sort by based on it's value.
+ * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
+ * @returns {Array} - The sorted array and or a clone of the array sorted.
+ *
+ * @example
+ * import { sortCollectionDescending, assert } from '@universalweb/acid';
+ * const result = [{id: 1}, {id: 0}];
+ * const collect = [{id: 0}, {id: 1}];
+ * const prop = 'id';
+ * assert(sortCollectionDescending(collect, prop), result);
+ */
+function sortCollectionDescending(collection, propertyName = 'id', ifMatch) {
+	return collection.sort((previous, next) => {
+		return sortCollectionDescendingFilter(previous, next, propertyName, ifMatch);
+	});
 }
 
 /**
@@ -2386,7 +2535,7 @@ function invokeCollection(collection, property, value, thisBind) {
  * @param {*} value - Value to be passed to callable property.
  * @returns {Array} - Returns the results of the invoked method.
  *
- * @test
+ * @example
  * import { invokeCollectionAsync, assert } from '@universalweb/acid';
  * const results = await invokeCollectionAsync([{
  *	async test(item, index) { return [item, index];}
@@ -2405,67 +2554,6 @@ function invokeCollectionAsync(collection, property, value, thisBind) {
 }
 
 /**
- * Checks if the value is a number.
- *
- * @function isNumber
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isNumber, assert } from '@universalweb/acid';
- * assert(isNumber(1), true);
- */
-const isNumberCall = isConstructorNameFactory('Number');
-const isNumber = isTypeFactory(isNumberCall);
-/**
- * Checks if the value is not a number.
- *
- * @function isNotNumber
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isNotNumber, assert } from '@universalweb/acid';
- * assert(isNotNumber(1), false);
- */
-function isNotNumber(source) {
-	return !isNumber(source);
-}
-
-/**
- * Checks if the value is a string.
- *
- * @function isString
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isString, assert } from '@universalweb/acid';
- * assert(isString('hello'), true);
- * assert(isString(1), false);
- */
-const isString = isConstructorFactory(String);
-/**
- * Checks if the value is not a string.
- *
- * @function isNotString
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isNotString, assert } from '@universalweb/acid';
- * assert(isNotString(1), true);
- * assert(isNotString('hello'), false);
- */
-function isNotString(source) {
-	return !isString(source);
-}
-
-/**
  * Returns an array of the plucked sources from the object. Sources are plucked in the order given by the array.
  *
  * @function pluckObject
@@ -2473,7 +2561,7 @@ function isNotString(source) {
  * @type {Function}
  * @param {Object} source - Array used to determine what sources to be plucked.
  * @param {String|Array} targets - Property name.
- * @returns {Array} - An array of plucked sources.
+ * @returns {Array|undefined} - An array of plucked sources.
  *
  * @example
  * import { pluckObject, assert } from '@universalweb/acid';
@@ -2511,6 +2599,14 @@ function pluck(collection, targets) {
 	});
 }
 
+function sortObjectsAlphabeticallyReverse(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	return nextKey.localeCompare(previousKey);
+}
 /**
  * Perform alphabetical in reverse Z-A sort on a collection with the provided key name. Mutates the array.
  *
@@ -2529,14 +2625,6 @@ function pluck(collection, targets) {
  * const prop = 'letter';
  * assert(sortCollectionAlphabeticallyReverse(collect, prop), result);
  */
-function sortObjectsAlphabeticallyReverse(previous, next, propertyName, ifMatch) {
-	const previousKey = previous[propertyName];
-	const nextKey = next[propertyName];
-	if (previousKey === nextKey && ifMatch) {
-		return ifMatch(previous, next, propertyName);
-	}
-	return nextKey.localeCompare(previousKey);
-}
 function sortCollectionAlphabeticallyReverse(collection, propertyName = 'id', ifMatch) {
 	return collection.sort((previous, next) => {
 		return sortObjectsAlphabeticallyReverse(previous, next, propertyName, ifMatch);
@@ -2549,7 +2637,7 @@ function sortCollectionAlphabeticallyReverse(collection, propertyName = 'id', if
  * @function getFileExtension
  * @category file
  * @param {*} source - Object to be checked.
- * @returns {String} - Returns the extension.
+ * @returns {String|undefined} - Returns the extension.
  *
  * @example
  * import { getFileExtension, assert } from '@universalweb/acid';
@@ -2567,7 +2655,7 @@ function getFileExtension(source) {
  * @function getFilename
  * @category file
  * @param {*} source - Object to be checked.
- * @returns {String} - Returns the extension.
+ * @returns {String|undefined} - Returns the extension.
  *
  * @example
  * import { getFilename, assert } from '@universalweb/acid';
@@ -2651,12 +2739,6 @@ const isFileJSON = regexTestFactory(/\.json$/);
  * @param {Function} callable - The function to be called.
  * @returns {Function} - Returns the new pass-thru function.
  *
- * @test
- * (async () => {
- *   const onlyAfter = after(2, (item) => { return item;});
- *   return await assert(onlyAfter(1), undefined) && await assert(onlyAfter(2), 2);
- * });
- *
  * @example
  * import { after, assert } from '@universalweb/acid';
  * const onlyAfter = after(1, (item) => { return item;});
@@ -2731,26 +2813,6 @@ function before(amount, callable) {
 	return onlyBefore;
 }
 
-const objectAssign = Object.assign;
-/**
- * Copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
- *
- * @function assign
- * @category object
- * @param {Object} target - The target object.
- * @param {...Object} sources - The source object(s).
- * @returns {Object} - Returns the target object.
- *
- * @example
- * import { assign, assert } from '@universalweb/acid';
- * assert(assign({b: 2}, {a: 1}), {b: 2, a: 1});
- */
-function assign(target, ...sources) {
-	if (hasValue(target)) {
-		return objectAssign(target, ...sources);
-	}
-}
-
 /**
  * Asynchronously iterates through the given object.
  *
@@ -2761,7 +2823,7 @@ function assign(target, ...sources) {
  * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, array of keys, and additionalArg.
  * @param {*} thisCall - Iteratee called with thisCall as this.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function} - Returns source.
+ * @returns {Object|Function|undefined} - Returns source.
  *
  * @example
  * import { eachAsyncObject, assert } from '@universalweb/acid';
@@ -2798,7 +2860,7 @@ const eachAsyncObject = async (source, iteratee, thisCall, additionalArg) => {
  * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
  * @param {*} thisCall - An object to be given each time to the iteratee.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function} - Returns the calling object.
+ * @returns {Object|Function|undefined} - Returns the calling object.
  *
  * @example
  * import { eachObject, assert } from '@universalweb/acid';
@@ -2901,23 +2963,6 @@ async function forOfAsync(source, iteratee, generatorArgs) {
 }
 
 /**
- * Checks if an object or objects are a plain object.
- *
- * @function isFunction
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isFunction } from '@universalweb/acid';
- * isFunction(() => {});
- * // => true
- */
-const isFunction = (source) => {
-	return (hasValue(source)) ? source instanceof Function : false;
-};
-
-/**
  * Checks if an object is an async function.
  *
  * @function isAsync
@@ -3005,7 +3050,7 @@ class Chain {
  * @function chain
  * @category function
  * @type {Function}
- * @param {Array|Object} methods - The object to take methods from.
+ * @param {Array|Object} config - The object to take methods from.
  * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
  *
  * @example
@@ -3083,21 +3128,62 @@ function curryRight(callable, arity = callable.length) {
 }
 
 /**
- * This method returns true.
+ * Iterates through the given object while the iteratee returns true.
  *
- * @function stubTrue
- * @category utility
+ * @function everyObject
+ * @category object
  * @type {Function}
- * @returns {Boolean} - Returns true.
+ * @param {Object} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
- * import { stubTrue } from '@universalweb/acid';
- * stubTrue();
- * // => true
+ * import { everyObject, assert } from '@universalweb/acid';
+ * const result =  everyObject({a: true, b: true, c: true}, (item) => {
+ *   return item;
+ * });
+ * assert(result, true);
  */
-const truth = true;
-const stubTrue = () => {
-	return truth;
+function everyObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
+	const objectKeys = keys(source);
+	return everyArray(objectKeys, (key, index, original, propertyCount) => {
+		return iteratee(source[key], key, source, propertyCount, original);
+	});
+}
+
+/**
+ * This method returns undefined.
+ *
+ * @function noop
+ * @category function
+ * @type {Function}
+ * @returns {undefined} - Returns undefined.
+ *
+ * @example
+ * import { noop, assert } from '@universalweb/acid';
+ * assert(noop(), undefined);
+ */
+function noop() {
+	return;
+}
+
+/**
+ * This method returns a new empty array.
+ *
+ * @function stubArray
+ * @category utility
+ * @type {Function}
+ * @returns {Array} - Returns the new empty array.
+ *
+ * @example
+ * import { stubArray, assert } from '@universalweb/acid';
+ * assert(stubArray(), []);
+ */
+const stubArray = () => {
+	return [];
 };
 
 /**
@@ -3109,28 +3195,12 @@ const stubTrue = () => {
  * @returns {Boolean} - Returns false.
  *
  * @example
- * import { stubFalse } from '@universalweb/acid';
- * stubFalse();
- * // => false
+ * import { stubFalse, assert } from '@universalweb/acid';
+ * assert(stubFalse(), false);
  */
 const falsy = false;
 const stubFalse = () => {
 	return falsy;
-};
-
-/**
- * This method returns undefined.
- *
- * @function noop
- * @category function
- * @type {Function}
- * @returns {undefined} - Returns undefined.
- * @example
- * noop();
- * // => undefined
- */
-const noop = () => {
-	return;
 };
 
 /**
@@ -3182,6 +3252,55 @@ function timesMap(amount, iteratee, results = []) {
 	}
 	return results;
 }
+
+/**
+ * This method returns a new empty object.
+ *
+ * @function stubObject
+ * @category utility
+ * @type {Function}
+ * @returns {Object} - Returns the new empty object.
+ *
+ * @example
+ * import { stubObject, assert } from '@universalweb/acid';
+ * assert(stubObject(), {});
+ */
+const stubObject = () => {
+	return {};
+};
+
+/**
+ * This method returns a new empty string.
+ *
+ * @function stubString
+ * @category utility
+ * @type {Function}
+ * @returns {String} - Returns the new empty string.
+ *
+ * @example
+ * import { stubString, assert } from '@universalweb/acid';
+ * assert(stubString(), '');
+ */
+const stubString = () => {
+	return '';
+};
+
+/**
+ * This method returns true.
+ *
+ * @function stubTrue
+ * @category utility
+ * @type {Function}
+ * @returns {Boolean} - Returns true.
+ *
+ * @example
+ * import { stubTrue, assert } from '@universalweb/acid';
+ * assert(stubString(), true);
+ */
+const truth = true;
+const stubTrue = () => {
+	return truth;
+};
 
 class Timers {
 	list = construct(Map);
@@ -3405,13 +3524,6 @@ async function inAsync(source, firstArgument) {
  * @param {*} value - The object passed as an argument to each method.
  * @returns {undefined} - Returns undefined.
  *
- * @test
- * (() => {
- *   const tempList = [];
- *   inSync([() => {tempList.push(1);}, () => {tempList.push(2);}]);
- *   return assert(tempList, [1, 2]);
- * });
- *
  * @example
  * inSync([() => {console.log(1);}, () => {console.log(2);}]);
  * // 1
@@ -3463,26 +3575,20 @@ function nthArg(index = 0) {
 }
 
 /**
-  * Creates a function that is restricted to execute method once. Repeat calls to the function will return the value of the first call. The method is executed with the this binding of the created function.
-  *
-  * @function once
-  * @category function
-  * @type {Function}
-  * @param {Function} callable - The function to be called.
-  * @returns {Function} - Returns the new pass-thru function.
-  *
-  * @test
-  * (async () => {
-  *   const onceOnly = once((item) => { return item;});
-  *   return await assert(onceOnly(5), 5) && await assert(onceOnly(2), 5);
-  * });
-  *
-  * @example
-  * const onceOnly = once((item) => { return item;});
-  * onceOnly(5);
-  * onceOnly(3);
-  * // => 5
-*/
+ * Creates a function that is restricted to execute method once. Repeat calls to the function will return the value of the first call. The method is executed with the this binding of the created function.
+ *
+ * @function once
+ * @category function
+ * @type {Function}
+ * @param {Function} callable - The function to be called.
+ * @returns {Function} - Returns the new pass-thru function.
+ *
+ * @example
+ * const onceOnly = once((item) => { return item;});
+ * onceOnly(5);
+ * onceOnly(3);
+ * // => 5
+ */
 const once = (callable) => {
 	let value;
 	const onlyOnce = (...args) => {
@@ -3493,68 +3599,6 @@ const once = (callable) => {
 	};
 	return onlyOnce;
 };
-
-/**
- * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
- *
- * @function mapObjectAsync
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @param {Object|Function} [results = {}] - Object that will be used to assign results.
- * @returns {Object|Function} - An object of the same calling object's type.
- *
- * @example
- * import { mapAsyncObject, assert } from '@universalweb/acid';
- * assert(await mapAsyncObject({a: 1, b: undefined, c: 3}, (item) => {
- *   return item;
- * }), {a: 1, b: undefined, c: 3});
- */
-async function mapAsyncObject(source, iteratee, results = {}) {
-	if (!source) {
-		return;
-	}
-	await eachAsyncObject(source, async (item, key, thisObject, propertyCount, objectKeys) => {
-		results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
-	});
-	return results;
-}
-
-/**
- * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
- *
- * @function mapObject
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @param {Object|Function} [results = {}] - Object that will be used to assign results.
- * @param {*} thisCall - An object to be given each time to the iteratee.
- * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function} - An object of the same calling object's type.
- *
- * @example
- * import { mapObject, assert } from '@universalweb/acid';
- * assert(mapObject({a: 1, b: undefined, c: 3}, (item) => {
- *   return item;
- * }), {a: 1, b: undefined, c: 3});
- */
-function mapObject(source, iteratee, results = {}, thisCall, additionalArg) {
-	if (!source) {
-		return;
-	}
-	if (hasValue(thisCall)) {
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			results[key] = iteratee.call(thisCall, item, key, results, original, propertyCount, objectKeys, additionalArg);
-		});
-	} else {
-		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
-			results[key] = iteratee(item, key, results, original, propertyCount, objectKeys, additionalArg);
-		});
-	}
-	return results;
-}
 
 /**
  * Returns the constructor of an object.
@@ -3682,6 +3726,68 @@ async function forOfMapAsync(source, iteratee = returnValue, resultsObject, gene
 }
 
 /**
+ * Asynchronously iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
+ *
+ * @function mapObjectAsync
+ * @category object
+ * @type {Function}
+ * @param {Object|Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+ * @returns {Object|Function|undefined} - An object of the same calling object's type.
+ *
+ * @example
+ * import { mapAsyncObject, assert } from '@universalweb/acid';
+ * assert(await mapAsyncObject({a: 1, b: undefined, c: 3}, (item) => {
+ *   return item;
+ * }), {a: 1, b: undefined, c: 3});
+ */
+async function mapAsyncObject(source, iteratee, results = {}) {
+	if (!source) {
+		return;
+	}
+	await eachAsyncObject(source, async (item, key, thisObject, propertyCount, objectKeys) => {
+		results[key] = await iteratee(item, key, results, thisObject, propertyCount, objectKeys);
+	});
+	return results;
+}
+
+/**
+ * Iterates through the calling object and creates an object with the results of the iteratee on every element in the calling object.
+ *
+ * @function mapObject
+ * @category object
+ * @type {Function}
+ * @param {Object|Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @param {Object|Function} [results = {}] - Object that will be used to assign results.
+ * @param {*} thisCall - An object to be given each time to the iteratee.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
+ * @returns {Object|Function|undefined} - An object of the same calling object's type.
+ *
+ * @example
+ * import { mapObject, assert } from '@universalweb/acid';
+ * assert(mapObject({a: 1, b: undefined, c: 3}, (item) => {
+ *   return item;
+ * }), {a: 1, b: undefined, c: 3});
+ */
+function mapObject(source, iteratee, results = {}, thisCall, additionalArg) {
+	if (!source) {
+		return;
+	}
+	if (hasValue(thisCall)) {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			results[key] = iteratee.call(thisCall, item, key, results, original, propertyCount, objectKeys, additionalArg);
+		});
+	} else {
+		eachObject(source, (item, key, original, propertyCount, objectKeys) => {
+			results[key] = iteratee(item, key, results, original, propertyCount, objectKeys, additionalArg);
+		});
+	}
+	return results;
+}
+
+/**
  * Iterates through the calling object and creates a new object based on the calling object's type with the results of the iteratee on every element in the calling object.
  *
  * @function map
@@ -3731,7 +3837,7 @@ function over(iteratees) {
  * @type {Function}
  * @param {Object} source - Object that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
+ * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
  * import { everyAsyncObject, assert } from '@universalweb/acid';
@@ -3746,33 +3852,6 @@ async function everyAsyncObject(source, iteratee) {
 	}
 	const objectKeys = keys(source);
 	return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
-		return iteratee(source[key], key, source, propertyCount, original);
-	});
-}
-
-/**
- * Iterates through the given object while the iteratee returns true.
- *
- * @function everyObject
- * @category object
- * @type {Function}
- * @param {Object} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { everyObject, assert } from '@universalweb/acid';
- * const result =  everyObject({a: true, b: true, c: true}, (item) => {
- *   return item;
- * });
- * assert(result, true);
- */
-function everyObject(source, iteratee) {
-	if (!source) {
-		return;
-	}
-	const objectKeys = keys(source);
-	return everyArray(objectKeys, (key, index, original, propertyCount) => {
 		return iteratee(source[key], key, source, propertyCount, original);
 	});
 }
@@ -3918,20 +3997,20 @@ function reArg(callable, indexes) {
 }
 
 /**
-  * Creates a throttled function that only invokes callable at most once per every milliseconds. The throttle function has a clear method to cancel the timer.
-  *
-  * @function throttle
-  * @category function
-  * @type {Function}
-  * @param {Function} callable - The function to be invoked.
-  * @param {Number} time - The time in milliseconds.
-  * @returns {Function} - The throttled function.
-  *
-  * @example
-  * const throttled = throttle(() => { console.log('throttle'); }, 0)();
-  * throttled();
-  * // 'throttle'
-*/
+ * Creates a throttled function that only invokes callable at most once per every milliseconds. The throttle function has a clear method to cancel the timer.
+ *
+ * @function throttle
+ * @category function
+ * @type {Function}
+ * @param {Function} callable - The function to be invoked.
+ * @param {Number} time - The time in milliseconds.
+ * @returns {Function|undefined} - The throttled function.
+ *
+ * @example
+ * const throttled = throttle(() => { console.log('throttle'); }, 0)();
+ * throttled();
+ * // 'throttle'
+ */
 function throttle(callable, time) {
 	function throttled(...args) {
 		if (throttled.id) {
@@ -4078,12 +4157,12 @@ function add(augend, addend) {
 }
 
 /**
- *  Decrements a number.
+ * Decrements a number.
  *
  * @function deduct
  * @category math
  * @type {Function}
- * @param {Number} number - First number.
+ * @param {Number} source - First number.
  * @returns {Number} - Returns a decremented version of the number.
  *
  * @example
@@ -4102,7 +4181,7 @@ function deduct(source) {
  * @function divide
  * @category math
  * @type {Function}
- * @param {Number} number - First number.
+ * @param {Number} source - First number.
  * @param {Number} value - Second number.
  * @returns {Number} - Returns the quotient of the arguments.
  *
@@ -4115,12 +4194,12 @@ function divide(source, value) {
 }
 
 /**
- *  Increments a number.
+ * Increments a number.
  *
  * @function increment
  * @category math
  * @type {Function}
- * @param {Number} number - First number.
+ * @param {Number} source - First number.
  * @returns {Number} - Returns an incremented version of the number.
  *
  * @example
@@ -4139,7 +4218,7 @@ function increment(source) {
  * @function multiply
  * @category math
  * @type {Function}
- * @param {Number} number - First number.
+ * @param {Number} source - First number.
  * @param {Number} value - Second number.
  * @returns {Number} - Returns the product of the arguments.
  *
@@ -4177,7 +4256,7 @@ function calcProgress(total, currentAmount) {
 
 const { random } = Math;
 /**
- *  Produces a random floating-point number between min (included) and max (excluded). Do not use for security or encryption.
+ * Roduces a random floating-point number between min (included) and max (excluded). Do not use for security or encryption..
  *
  * @function randomFloat
  * @category math
@@ -4196,12 +4275,12 @@ function randomFloat(max, min = 0) {
 }
 
 /**
- *  Extracts the remainder between two numbers.
+ * Extracts the remainder between two numbers.
  *
  * @function remainder
  * @category math
  * @type {Function}
- * @param {Number} number - First number.
+ * @param {Number} source - First number.
  * @param {Number} value - Second number.
  * @returns {Number} - Returns the remainder of the arguments.
  *
@@ -4335,7 +4414,7 @@ const objectEntries = Object.entries;
  * @function getEntries
  * @category object
  * @param {Object} source - The source object.
- * @returns {Array} - Returns the Object.entries of the source object.
+ * @returns {Array|undefined} - Returns the Object.entries of the source object.
  *
  * @example
  * import { getEntries, assert } from '@universalweb/acid';
@@ -4484,7 +4563,7 @@ async function filterAsyncObject(source, iteratee, results = {}) {
  * @category object
  * @param {Object} source - Object to be inverted.
  * @param {Array} [target = {}] - Empty object to be populated with inverted values from source.
- * @returns {Object} - Returns object with keys and values switched.
+ * @returns {Object|undefined} - Returns object with keys and values switched.
  *
  * @example
  * import { invert, assert } from '@universalweb/acid';
@@ -4529,21 +4608,6 @@ const isMatchObject = (source, target) => {
 };
 
 /**
- * Checks if the value is a RegExp.
- *
- * @function isRegex
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isRegex, assert } from '@universalweb/acid';
- * assert(isRegex(/test/), true);
- */
-const isRegexCall = isConstructorNameFactory('RegExp');
-const isRegex = isTypeFactory(isRegexCall);
-
-/**
  * Returns a regex safe special characters escaped version of a string.
  *
  * @function regexSafe
@@ -4582,6 +4646,21 @@ function arrayToRegex(source, makeSafe) {
 }
 
 /**
+ * Checks if the value is a RegExp.
+ *
+ * @function isRegex
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isRegex, assert } from '@universalweb/acid';
+ * assert(isRegex(/test/), true);
+ */
+const isRegexCall = isConstructorNameFactory('RegExp');
+const isRegex = isTypeFactory(isRegexCall);
+
+/**
  * Returns a clone of the given object without the given properties.
  *
  * @function omit
@@ -4589,7 +4668,7 @@ function arrayToRegex(source, makeSafe) {
  * @type {Function}
  * @param {Object} source - Object from which keys are extracted.
  * @param {Array|RegExp|String} blacklist - List of property keys to omit from the returned object.
- * @returns {Object} - A new object with the removed.
+ * @returns {Object|undefined} - A new object with the removed.
  *
  * @example
  * import { omit, assert } from '@universalweb/acid';
@@ -4599,7 +4678,7 @@ function arrayToRegex(source, makeSafe) {
  */
 function omit(source, blacklist) {
 	if (!source) {
-		return;
+		return {};
 	}
 	if (isArray(blacklist)) {
 		const blacklistRegex = arrayToRegex(blacklist);
@@ -4628,23 +4707,24 @@ function omit(source, blacklist) {
 			return !blacklist(item, key);
 		});
 	}
+	return objectAssign({}, source);
 }
 
 /**
-  * Returns a clone of the source object with the plucked properties.
-  *
-  * @function pick
-  * @type {Function}
-  * @category object
-  * @param {Object} source - Object to be cloned.
-  * @param {Array} whitelist - Array of property names used to determine what values to pluck.
-  * @param {Object} [target = {}] - Object to be populated with plucked values.
-  * @returns {Object} - A new object with plucked properties.
-  *
-  * @example
-  * pick({a:1, b:2, c:3}, ['a','b']);
-  * // => {a:1, b:2}
-*/
+ * Returns a clone of the source object with the plucked properties.
+ *
+ * @function pick
+ * @type {Function}
+ * @category object
+ * @param {Object} source - Object to be cloned.
+ * @param {Array} whitelist - Array of property names used to determine what values to pluck.
+ * @param {Object} [target = {}] - Object to be populated with plucked values.
+ * @returns {Object|undefined} - A new object with plucked properties.
+ *
+ * @example
+ * import { pick, assert } from '@universalweb/acid';
+ * assert(pick({a:1, b:2, c:3}, ['a','b']), {a:1, b:2});
+ */
 const pick = (source, whitelist, target = {}) => {
 	if (!source) {
 		return;
@@ -4656,20 +4736,31 @@ const pick = (source, whitelist, target = {}) => {
 };
 
 /**
- * Returns the amount of keys on the object.
+ * Returns the amount of keys on an object or if the length or size property of an object is present it will return it else it will default to returning the amount of keys on an object.
  *
  * @function objectSize
  * @category object
  * @param {Object} source - The source object.
- * @returns {Number} - The amount of keys.
+ * @returns {Number|undefined} - The amount of keys.
  *
  * @example
- * objectSize({ 0: 'a', 1: 'b', 2: 'c' });
- * // => 3
-*/
+ * import { objectSize, assert } from '@universalweb/acid';
+ * assert(objectSize({ 0: 'a', 1: 'b', 2: 'c' }), 3);
+ */
 function objectSize(source) {
 	if (!source) {
 		return;
+	}
+	if (isPlainObject$1(source)) {
+		return keys(source).length;
+	}
+	const objectLengthProperty = source.length;
+	if (hasValue$1(objectLengthProperty)) {
+		return objectLengthProperty;
+	}
+	const objectSizeProperty = source.size;
+	if (hasValue$1(objectLengthProperty)) {
+		return objectSizeProperty;
 	}
 	return keys(source).length;
 }
@@ -5223,25 +5314,6 @@ function isArguments(source) {
 }
 
 /**
- * Checks if an object is null or undefined.
- *
- * @function noValue
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { noValue, assert } from '@universalweb/acid';
- * assert(noValue(null), true);
- * assert(noValue(undefined), true);
- * assert(noValue(1), false);
- * assert(noValue(0), false);
- */
-function noValue(source) {
-	return !hasValue(source);
-}
-
-/**
  * Checks if an object or objects are a Map.
  *
  * @function isMap
@@ -5280,6 +5352,25 @@ function isTypedArray(source) {
 		}
 	}
 	return false;
+}
+
+/**
+ * Checks if an object is null or undefined.
+ *
+ * @function noValue
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { noValue, assert } from '@universalweb/acid';
+ * assert(noValue(null), true);
+ * assert(noValue(undefined), true);
+ * assert(noValue(1), false);
+ * assert(noValue(0), false);
+ */
+function noValue(source) {
+	return !hasValue(source);
 }
 
 /**
@@ -5539,8 +5630,9 @@ const isI16 = isTypeFactory(isI16Call);
  * @param {*} source - Object to be checked.
  * @returns {Boolean} - Returns true or false.
  *
+ * @example
  * import { isI32, assert } from '@universalweb/acid';
- * assert(isI32(new Int32Array()), true);.
+ * assert(isI32(new Int32Array()), true);
  */
 const isI32Call = isConstructorNameFactory('Int32Array');
 const isI32 = isTypeFactory(isI32Call);
@@ -5873,7 +5965,7 @@ function isFalsy(source, returnIfTrue = true) {
  * @param {Function|Object} target - The target which is either a function or object.
  * @param {*|String} optional - If target is a plain object then it must be a string and is used to assign the property name. Else it's used as the this for the provided function (target).
  * @param {Array} args - The args that would be used if the target is a function and is the params that is applied to the function.
- * @returns {source} The source object if it passes the hasValue check.
+ * @returns {source|undefined} The source object if it passes the hasValue check.
  *
  * @example
  * import { ifValue, assert } from '@universalweb/acid';
@@ -5920,7 +6012,7 @@ const jsonNative = JSON;
  * @type {Function}
  * @param {String} source - String to be parsed.
  * @param {Function} reviver - A function that prescribes how each value originally produced by parsing is transformed before being returned.
- * @returns {Object} - Returns the parsed object.
+ * @returns {Object|undefined} - Returns the parsed object.
  *
  * @example
  * import { jsonParse, assert } from '@universalweb/acid';
@@ -6491,7 +6583,7 @@ function arraysToObject(source, properties) {
  * @category utility
  * @param {Array|String|Object} source - Object to be checked.
  * @param {String|Array|Function|RegExp} search - Object that is being searched for.
- * @param {Number} fromIndex - Index at which to start searching.
+ * @param {Number} position - Index at which to start searching.
  * @returns {Boolean} - Returns true or false.
  *
  * @example
@@ -6681,40 +6773,101 @@ function merge(target, ...sources) {
 }
 
 /**
+ * Checks to see of the browser agent has a string.
+ *
+ * @function isAgent
+ * @category browser
+ * @type {Function}
+ * @param {String} source - The string to search for.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isAgent, assert } from '@universalweb/acid';
+ * assert(isAgent('NotThere'), false);
+ */
+function isAgent(source) {
+	return (hasValue$1(source)) ? isAgent[source] : keys(isAgent);
+}
+const userAgent = globalThis.navigator?.userAgentData;
+if (userAgent) {
+	eachObject(userAgent, (value, key) => {
+		if (isBoolean(value) && value) {
+			isAgent[key] = value;
+		}
+	});
+	eachArray(userAgent.brands, (value) => {
+		isAgent[value.brand] = value.version;
+	});
+} else if (navigator.userAgent) {
+	let userAgentNormalized = navigator.userAgent.toLowerCase();
+	userAgentNormalized = userAgentNormalized.replace(/_/g, '.');
+	userAgentNormalized = userAgentNormalized.replace(/[#_,;()]/g, '');
+	const userAgentSplit = userAgentNormalized.split(/ |\//);
+	eachArray(userAgentSplit, (item) => {
+		isAgent[item] = true;
+	});
+}
+
+/**
+ * Returns the model with the given name.
+ *
+ * @function Model
+ * @type {Class}
+ * @category utility
+ * @param {String} modelName - The name of the model to return.
+ * @param {*} modelSource - The value of the model to return.
+ * @returns {Model} - The model with the given name.
+ *
+ * @example
+ * import { Model, model, assert } from '@universalweb/acid';
+ * const test = new Model('test', {a: 1});
+ * assert(model('test'), {a: 1});
+ */
+class Model {
+	static models = new Map();
+	constructor(modelName, modelSource) {
+		if (hasValue(modelSource)) {
+			assign(this, modelSource);
+			this.modelName = modelName;
+			Model.models.set(modelName, modelSource);
+		} else {
+			assign(this, modelName);
+		}
+	}
+	delete(modelName) {
+		Model.models.delete(modelName || this.modelName);
+	}
+	set(modelName) {
+		if (modelName) {
+			this.modelName = modelName;
+		}
+		Model.models.set(modelName || this.modelName, this);
+	}
+	has(modelName) {
+		return Model.models.has(modelName || this.modelName);
+	}
+	get(modelName) {
+		return Model.models.get(modelName || this.modelName);
+	}
+}
+/**
  * Set & Get a model.
  *
  * @function model
  * @type {Function}
  * @category utility
  * @param {String} modelName - Name of the model.
- * @param {Object} modelValue - The model object.
- * @returns {*} - Returns the associated model.
- * @example
- * model('test', {a: 1}) && model('test');
- * // => {a: 1}
- */
-class Model {
-	static models = {};
-	constructor(modelName, modelValue) {
-		if (hasValue(modelValue)) {
-			assign(this, modelValue);
-			this.modelName = modelName;
-			Model.models.set(modelName, modelValue);
-		} else {
-			assign(this, modelName);
-		}
-	}
-}
-/**
- * Returns the model with the given name.
+ * @param {Object} modelSource - The model object.
+ * @returns {Model} - Returns the associated model.
  *
- * @param {String} modelName - The name of the model to return.
- * @param {any} [modelValue] - The value of the model to return.
- * @returns {Model} - The model with the given name.
+ * @example
+ * import { model, assert } from '@universalweb/acid';
+ * model('test', {a: 1});
+ * assert(model('test'), {a: 1});
  */
-function model(modelName, modelValue) {
-	if (hasValue(modelValue)) {
-		return construct(Model, [modelName, modelValue]);
+function model(modelName, modelSource) {
+	if (hasValue(modelSource)) {
+		return construct(Model, [modelName, modelSource]);
 	}
 	return get(modelName, Model.models);
 }
@@ -6724,8 +6877,8 @@ function model(modelName, modelValue) {
  *
  * @function pair
  * @category utility
- * @param {*} source - The source object.
- * @param {*} source - The source object.
+ * @param {*} argument1 - The source object.
+ * @param {*} argument2 - The source object.
  * @returns {Array} The array which holds the pair.
  *
  * @example
@@ -6799,14 +6952,8 @@ function concurrentStatus(source, iteratee, thisBind) {
  * @type {Function}
  * @category utility
  * @param {Function} callback - Function to be called back.
- * @returns {Promise} - A constructor with a callback function.
- * @test
- * (async () => {
- *   const result = await promise((accept) => {
- *     accept(true);
- *   });
- *   return assert(result, true);
- * });
+ * @returns {Promise} - A constructor with a callback function.).
+ *
  * @example
  * promise((a) => {});
  * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
@@ -6897,56 +7044,6 @@ class Store {
 }
 
 /**
- * This method returns a new empty array.
- *
- * @function stubArray
- * @category utility
- * @type {Function}
- * @returns {Array} - Returns the new empty array.
- * @example
- * import { stubArray } from '@universalweb/acid';
- * stubArray();
- * // => []
- */
-const stubArray = () => {
-	return [];
-};
-
-/**
- * This method returns a new empty object.
- *
- * @function stubObject
- * @category utility
- * @type {Function}
- * @returns {Object} - Returns the new empty object.
- *
- * @example
- * import { stubObject } from '@universalweb/acid';
- * stubObject();
- * // => {}
- */
-const stubObject = () => {
-	return {};
-};
-
-/**
- * This method returns a new empty string.
- *
- * @function stubString
- * @category utility
- * @type {Function}
- * @returns {String} - Returns the new empty string.
- *
- * @example
- * import { stubString } from '@universalweb/acid';
- * stubString();
- * // => ''
- */
-const stubString = () => {
-	return '';
-};
-
-/**
  * Asynchronously iterates based on the amount given awaiting on the iteratee with the current index as an argument.
  *
  * @async
@@ -7019,11 +7116,6 @@ function toggle(value, on = true, off = false) {
 	return (isEqual(on, value)) ? off : on;
 }
 
-/**
- * Unique ID Generator Module.
- *
- * @module utility/uid
- */
 /**
  * Creates a unique numerical recyclable ID generator. The IDs are numerically ascending however freed ids are recycled when available.
  *
@@ -7116,20 +7208,20 @@ class UniqID {
 const uniqID = construct(UniqID);
 
 /**
- * Class representing a virtual storage. A drop in replacement for localStorage.
- * The virtualStorage function is a factory which wraps the VirtualStorage constructor & returns it.
- * Direct class/constructor access is named VirtualStorage.
+ * Class representing a virtual storage interface over a provided object the default being a Map. A temporary storage shim for localStorage if not available.
  *
+ * @function VirtualStorage
  * @category utility
+ * @param {*} initialObject - Initial object to be used as the storage object the default being a Map.
  * @returns {*} - Returns a new VirtualStorage Object.
  *
  * @example
- * import { virtualStorage } from '@universalweb/acid';
- * const myVirtualStorage = virtualStorage();
- * // => New Crate Object
+ * import { VirtualStorage } from '@universalweb/acid';
+ * const myVirtualStorage = new VirtualStorage();
+ * // => New VirtualStorage Object
  */
 class VirtualStorage {
-	constructor(initialObject = {}) {
+	constructor(initialObject = new Map()) {
 		this.items = initialObject;
 	}
 	/**
@@ -7146,7 +7238,24 @@ class VirtualStorage {
 	 * // => 'value'
 	 */
 	getItem(key) {
-		return this.items[key];
+		if (this.isMap) {
+			return this.items.get(key);
+		} else {
+			return this.items[key];
+		}
+	}
+	get(...args) {
+		return this.getItem(...args);
+	}
+	hasItem(key) {
+		if (this.isMap) {
+			return this.items.has(key);
+		} else {
+			return hasValue$1(this.items[key]);
+		}
+	}
+	has(...args) {
+		return this.hasItem(...args);
 	}
 	/**
 	 * Save an item to a virtual storage object.
@@ -7162,12 +7271,19 @@ class VirtualStorage {
 	 * assert(vStorage.getItem('title'), 'value');
 	 */
 	setItem(key, value) {
-		this.items[key] = value;
+		if (this.isMap) {
+			this.items.set(key, value);
+		} else {
+			this.items[key] = value;
+		}
+		return this;
+	}
+	set(...args) {
+		return this.setItem(...args);
 	}
 	/**
 	 * Clears all data from the virtual storage object by replacing with a new object.
 	 *
-	 * @param {String} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
@@ -7179,7 +7295,12 @@ class VirtualStorage {
 	 * // => undefined
 	 */
 	clear() {
-		this.items = {};
+		if (this.isMap) {
+			this.items.clear();
+		} else {
+			this.items = cloneType(this.items);
+		}
+		return this;
 	}
 	/**
 	 * Remove an item from a virtual storage object.
@@ -7196,15 +7317,24 @@ class VirtualStorage {
 	 * // => undefined
 	 */
 	removeItem(key) {
-		this.items[key] = null;
+		if (this.isMap) {
+			this.items.delete(key);
+		} else {
+			this.items[key] = null;
+		}
+		return this;
+	}
+	remove(...args) {
+		return this.removeItem(...args);
 	}
 }
 /**
- *  The virtualStorage function is a factory which wraps the VirtualStorage class constructor.
+ * Returns an instance of VirtualStorage which represents a standard virtual storage interface over a provided object the default being a Map. A temporary storage shim for localStorage if not available.
  *
  * @function virtualStorage
  * @category browser
  * @type {Function}
+ * @param {*} initialObject - Initial object to be used as the storage object the default being a Map.
  * @returns {*} - Returns a new VirtualStorage Object.
  *
  * @example
@@ -7253,5 +7383,5 @@ function currentPath(importMeta) {
 	return path.dirname(fileURLToPath(importMeta.url));
 }
 
-export { Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, apply, arrayToRegex, arraysToObject, ary, assert, assertAsync, assign, before, bindAll, cacheNativeMethod, calcProgress, camelCase, chain, chunk, chunkString, clear, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, copyFolder, countBy, countKey, countWithoutKey, currentFile, currentPath, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, escapeRegex, escapeRegexRegex, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getEntries, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invokeArray, invokeCollection, invokeCollectionAsync, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDeno, isEmpty, isEqual, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodejs, isNotArray, isNotNumber, isNotString, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, noop, notEqual, nthArg, objectAssign, objectEntries, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, apply, arrayToRegex, arraysToObject, ary, assert, assertAsync, assign, assignToClass, assignToObject, before, bindAll, cacheNativeMethod, calcProgress, camelCase, chain, chunk, chunkString, clear, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, copyFolder, countBy, countKey, countWithoutKey, currentFile, currentPath, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, escapeRegex, escapeRegexRegex, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, extendClass, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getEntries, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invokeArray, invokeCollection, invokeCollectionAsync, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDeno, isEmpty, isEqual, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodejs, isNotArray, isNotNumber, isNotString, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, noop, notEqual, nthArg, objectAssign, objectEntries, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

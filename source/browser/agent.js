@@ -1,7 +1,9 @@
 import { eachArray } from '../arrays/each.js';
 import { eachObject } from '../objects/each.js';
+import { hasValue } from 'types/hasValue.js';
 import { isBoolean } from '../types/isBoolean.js';
 import { keys } from '../objects/keys.js';
+import { noop } from '../utilities/noop';
 /**
  * Checks to see of the browser agent has a string.
  *
@@ -10,12 +12,13 @@ import { keys } from '../objects/keys.js';
  * @type {Function}
  * @param {String} source - The string to search for.
  * @returns {Boolean} - Returns true or false.
+ *
  * @example
- * isAgent('mobile');
- * // => false
+ * import { isAgent, assert } from '@universalweb/acid';
+ * assert(isAgent('NotThere'), false);
  */
 export function isAgent(source) {
-	return (source) ? isAgent[source] : keys(isAgent);
+	return (hasValue(source)) ? isAgent[source] : keys(isAgent);
 }
 const userAgent = globalThis.navigator?.userAgentData;
 if (userAgent) {

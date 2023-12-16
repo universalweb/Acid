@@ -4,8 +4,8 @@
  * @function subtractReverse
  * @category math
  * @type {Function}
- * @param {Number} minuend - The minuend.
  * @param {Number} subtrahend - The subtrahend.
+ * @param {Number} minuend - The minuend.
  * @returns {Number} - Returns the difference.
  *
  * @example

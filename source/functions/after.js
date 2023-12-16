@@ -8,12 +8,6 @@
  * @param {Function} callable - The function to be called.
  * @returns {Function} - Returns the new pass-thru function.
  *
- * @test
- * (async () => {
- *   const onlyAfter = after(2, (item) => { return item;});
- *   return await assert(onlyAfter(1), undefined) && await assert(onlyAfter(2), 2);
- * });
- *
  * @example
  * import { after, assert } from '@universalweb/acid';
  * const onlyAfter = after(1, (item) => { return item;});

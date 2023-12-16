@@ -1,6 +1,6 @@
 import { append } from './append.js';
-import { hasDot } from '../utilities/hasDot.js';
 import { eventAdd } from './event.js';
+import { hasDot } from '../utilities/hasDot.js';
 import { nodeAttribute } from './attribute.js';
 import { promise } from '../utilities/promise.js';
 import { querySelector } from './selector.js';

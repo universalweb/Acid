@@ -1,21 +1,21 @@
-import { truth } from '../utilities/stubTrue.js';
-import { falsy } from '../utilities/stubFalse.js';
 import { timer, timers } from '../utilities/timer.js';
+import { falsy } from '../utilities/stubFalse.js';
+import { truth } from '../utilities/stubTrue.js';
 /**
-  * Creates a throttled function that only invokes callable at most once per every milliseconds. The throttle function has a clear method to cancel the timer.
-  *
-  * @function throttle
-  * @category function
-  * @type {Function}
-  * @param {Function} callable - The function to be invoked.
-  * @param {Number} time - The time in milliseconds.
-  * @returns {Function} - The throttled function.
-  *
-  * @example
-  * const throttled = throttle(() => { console.log('throttle'); }, 0)();
-  * throttled();
-  * // 'throttle'
-*/
+ * Creates a throttled function that only invokes callable at most once per every milliseconds. The throttle function has a clear method to cancel the timer.
+ *
+ * @function throttle
+ * @category function
+ * @type {Function}
+ * @param {Function} callable - The function to be invoked.
+ * @param {Number} time - The time in milliseconds.
+ * @returns {Function|undefined} - The throttled function.
+ *
+ * @example
+ * const throttled = throttle(() => { console.log('throttle'); }, 0)();
+ * throttled();
+ * // 'throttle'
+ */
 export function throttle(callable, time) {
 	function throttled(...args) {
 		if (throttled.id) {

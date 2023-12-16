@@ -1,16 +1,15 @@
-import { eachArray } from './each.js';
-import { forEach } from '../utilities/forEach.js';
-import { flattenDeep } from './flattenDeep.js';
 import { construct } from '../classes/construct.js';
+import { eachArray } from './each.js';
+import { flattenDeep } from './flattenDeep.js';
+import { forEach } from '../utilities/forEach.js';
 /**
  * Checks for primitive differences between a source array to other arrays, then returns a new array containing those differences.
  *
  * @function difference
  * @category array
  * @type {Function}
- * @param {Array} sources - Source array.
- * @param {...Array} compare - Array(s) source array is compared against.
- * @returns {Array} - An array which contains the differences between the source and compare array.
+ * @param {...Array} sources - List of arrays to be compared.
+ * @returns {Array|undefined} - An array which contains the differences between the source and compare array.
  *
  * @example
  * import { difference, assert } from '@universalweb/acid';

@@ -9,12 +9,6 @@ import { shuffle } from './shuffle.js';
  * @param {Number} amount - The amount of samples to take.
  * @returns {Array} - An array of randomly pulled samples.
  *
- * @test
- * (async () => {
- *   const tempResult = sample([1, 2] , 2);
- *   return assert(tempResult.includes(1) && tempResult.includes(2), true);
- * });
- *
  * @example
  * sample([1, 2, 3, 4] , 2);
  * // => [1, 3]

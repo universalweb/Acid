@@ -10,7 +10,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
  * @param {*} thisCall - Iteratee called with thisCall as this.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Array} - The originally given array.
+ * @returns {Array|undefined} - The originally given array.
  *
  * @example
  * import { eachArray, assert } from '@universalweb/acid';

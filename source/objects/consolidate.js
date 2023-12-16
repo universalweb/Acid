@@ -5,7 +5,6 @@ const objectAssign = Object.assign;
  *
  * @function consolidate
  * @category object
- * @param {Object} target - The target object.
  * @param {...Object} sources - The source object(s).
  * @returns {Object} - Returns the target object.
  *

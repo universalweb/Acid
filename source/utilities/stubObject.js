@@ -1,3 +1,4 @@
+import { stubFalse } from './stubFalse';
 /**
  * This method returns a new empty object.
  *
@@ -7,9 +8,8 @@
  * @returns {Object} - Returns the new empty object.
  *
  * @example
- * import { stubObject } from '@universalweb/acid';
- * stubObject();
- * // => {}
+ * import { stubObject, assert } from '@universalweb/acid';
+ * assert(stubObject(), {});
  */
 export const stubObject = () => {
 	return {};

@@ -7,7 +7,7 @@ const jsonNative = JSON;
  * @type {Function}
  * @param {String} source - String to be parsed.
  * @param {Function} reviver - A function that prescribes how each value originally produced by parsing is transformed before being returned.
- * @returns {Object} - Returns the parsed object.
+ * @returns {Object|undefined} - Returns the parsed object.
  *
  * @example
  * import { jsonParse, assert } from '@universalweb/acid';

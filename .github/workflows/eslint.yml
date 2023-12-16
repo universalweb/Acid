@@ -28,7 +28,7 @@ jobs:
           npm install eslint-plugin-jsdoc
 
       - name: Run ESLint
-        run: npx eslint --config eslint.config.js --ext .js --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif ./source/
+        run: npx eslint --config eslint.config.js --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif ./source/
         continue-on-error: true
 
       - name: Upload analysis results to GitHub

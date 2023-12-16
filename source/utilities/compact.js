@@ -1,6 +1,6 @@
 import { isPlainObject } from '../types/isPlainObject.js';
-import { keys } from '../objects/keys.js';
 import { isTruthy } from '../types/isTruthy.js';
+import { keys } from '../objects/keys.js';
 /**
  * Creates an array with all isFalsy values removed. The values false, null, 0, "", undefined, and NaN are isFalsy.
  *

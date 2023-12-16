@@ -1,9 +1,9 @@
-import { isArray } from '../types/isArray.js';
-import { isPlainObject } from '../types/isPlainObject.js';
-import { isFunction } from '../types/isFunction.js';
 import { hasValue } from '../types/hasValue.js';
+import { isArray } from '../types/isArray.js';
 import { isAsync } from '../types/isAsync.js';
+import { isFunction } from '../types/isFunction.js';
 import { isGenerator } from '../types/isGenerator.js';
+import { isPlainObject } from '../types/isPlainObject.js';
 export function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
 	return (source, iteratee, argument1, argument2, argument3) => {
 		let returned;

@@ -1,6 +1,6 @@
+import babelParser from '@babel/eslint-parser';
 import globals from 'globals';
 import jsdoc from 'eslint-plugin-jsdoc';
-import babelParser from '@babel/eslint-parser';
 const globalsObject = {};
 const customGlobals = {
 	globalThis: 'readonly',
@@ -34,7 +34,7 @@ export default [{
 		globals: globalsObject,
 	},
 	plugins: {
-		jsdoc
+		jsdoc,
 	},
 	rules: {
 		'no-setter-return': 'error',
@@ -473,7 +473,13 @@ export default [{
 		'prefer-template': 'error',
 		'require-yield': 'error',
 		'sort-keys': 'off',
-		'sort-imports': 'off',
+		'sort-imports': ['error', {
+			ignoreCase: false,
+			ignoreDeclarationSort: false,
+			ignoreMemberSort: false,
+			memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+			allowSeparatedGroups: false
+		}],
 		'template-curly-spacing': [
 			'error',
 			'never'

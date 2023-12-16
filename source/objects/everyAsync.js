@@ -1,6 +1,6 @@
+import { each } from '../utilities/each.js';
 import { everyAsyncArray } from '../arrays/everyAsync.js';
 import { keys } from './keys.js';
-import { each } from '../utilities/each.js';
 /**
  * Iterates through the given object while the iteratee returns true.
  *
@@ -9,7 +9,7 @@ import { each } from '../utilities/each.js';
  * @type {Function}
  * @param {Object} source - Object that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
+ * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
  * import { everyAsyncObject, assert } from '@universalweb/acid';

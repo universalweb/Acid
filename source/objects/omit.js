@@ -1,10 +1,11 @@
+import { arrayToRegex } from '../regexps/arrayToRegex.js';
 import { filterObject } from './filter.js';
 import { isArray } from '../types/isArray.js';
-import { isString } from '../types/isString.js';
-import { isNumber } from '../types/isNumber.js';
 import { isFunction } from '../types/isFunction.js';
+import { isNumber } from '../types/isNumber.js';
 import { isRegex } from '../types/isRegex.js';
-import { arrayToRegex } from '../regexps/arrayToRegex.js';
+import { isString } from '../types/isString.js';
+import { objectAssign } from './assign.js';
 /**
  * Returns a clone of the given object without the given properties.
  *
@@ -13,7 +14,7 @@ import { arrayToRegex } from '../regexps/arrayToRegex.js';
  * @type {Function}
  * @param {Object} source - Object from which keys are extracted.
  * @param {Array|RegExp|String} blacklist - List of property keys to omit from the returned object.
- * @returns {Object} - A new object with the removed.
+ * @returns {Object|undefined} - A new object with the removed.
  *
  * @example
  * import { omit, assert } from '@universalweb/acid';
@@ -23,7 +24,7 @@ import { arrayToRegex } from '../regexps/arrayToRegex.js';
  */
 export function omit(source, blacklist) {
 	if (!source) {
-		return;
+		return {};
 	}
 	if (isArray(blacklist)) {
 		const blacklistRegex = arrayToRegex(blacklist);
@@ -52,5 +53,6 @@ export function omit(source, blacklist) {
 			return !blacklist(item, key);
 		});
 	}
+	return objectAssign({}, source);
 }
 

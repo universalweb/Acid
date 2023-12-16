@@ -1,6 +1,6 @@
 import { eachAsyncArray } from '../arrays/eachAsync.js';
-import { keys } from './keys.js';
 import { hasValue } from '../types/hasValue.js';
+import { keys } from './keys.js';
 /**
  * Asynchronously iterates through the given object.
  *
@@ -11,7 +11,7 @@ import { hasValue } from '../types/hasValue.js';
  * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, array of keys, and additionalArg.
  * @param {*} thisCall - Iteratee called with thisCall as this.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function} - Returns source.
+ * @returns {Object|Function|undefined} - Returns source.
  *
  * @example
  * import { eachAsyncObject, assert } from '@universalweb/acid';

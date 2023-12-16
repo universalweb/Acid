@@ -4,8 +4,8 @@ import { eachRight } from '../arrays/eachRight.js';
  *
  * @function pair
  * @category utility
- * @param {*} source - The source object.
- * @param {*} source - The source object.
+ * @param {*} argument1 - The source object.
+ * @param {*} argument2 - The source object.
  * @returns {Array} The array which holds the pair.
  *
  * @example

@@ -1,11 +1,11 @@
 import { cloneType } from '../types/cloneType.js';
-import { hasValue } from '../types/hasValue.js';
-import { returnValue } from './returnValue.js';
 import { forOfCompactMapAsync } from './forOfCompactMapAsync.js';
+import { hasValue } from '../types/hasValue.js';
+import { isArray } from '../types/isArray.js';
 import { isFunction } from '../types/isFunction.js';
 import { isPlainObject } from '../types/isPlainObject.js';
 import { isSet } from '../types/isSet.js';
-import { isArray } from '../types/isArray.js';
+import { returnValue } from './returnValue.js';
 /**
  * Iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
  *

@@ -1,7 +1,7 @@
-import { truth } from '../utilities/stubTrue.js';
-import { falsy } from '../utilities/stubFalse.js';
 import { timer, timers } from '../utilities/timer.js';
 import { apply } from '../internal/apply.js';
+import { falsy } from '../utilities/stubFalse.js';
+import { truth } from '../utilities/stubTrue.js';
 /**
  * Creates a debounced function that delays invoking callable until after milliseconds have elapsed since the last time the debounced function was invoked. The debounce function has a clear method to cancel the timer.
  *

@@ -8,7 +8,7 @@ import { keys } from './keys.js';
  * @type {Function}
  * @param {Object} source - Object that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
+ * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
  * import { everyObject, assert } from '@universalweb/acid';

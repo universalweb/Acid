@@ -1,8 +1,11 @@
 import {
-	readdir, copyFile, mkdir, stat
+	copyFile,
+	mkdir,
+	readdir,
+	stat
 } from 'fs/promises';
-import path from 'path';
 import { eachAsyncArray } from '../arrays/eachAsync.js';
+import path from 'path';
 async function copyToPath(sourceFolder, destinationFolder, file) {
 	const sourcePath = path.join(sourceFolder, file);
 	const destinationPath = path.join(destinationFolder, file);

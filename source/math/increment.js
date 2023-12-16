@@ -1,10 +1,10 @@
 /**
- *  Increments a number.
+ * Increments a number.
  *
  * @function increment
  * @category math
  * @type {Function}
- * @param {Number} number - First number.
+ * @param {Number} source - First number.
  * @returns {Number} - Returns an incremented version of the number.
  *
  * @example

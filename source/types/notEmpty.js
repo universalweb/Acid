@@ -1,9 +1,9 @@
-import { isString } from './isString.js';
+import { hasLength } from '../utilities/hasLength.js';
+import { hasValue } from './hasValue.js';
 import { isArray } from './isArray.js';
 import { isPlainObject } from './isPlainObject.js';
-import { hasLength } from '../utilities/hasLength.js';
+import { isString } from './isString.js';
 import { objectSize } from '../objects/size.js';
-import { hasValue } from './hasValue.js';
 /**
  * Checks if the value is empty.
  *

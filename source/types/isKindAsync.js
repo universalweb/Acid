@@ -1,6 +1,6 @@
-import { isPromise } from './isPromise.js';
-import { isGenerator } from './isGenerator.js';
 import { isAsync } from './isAsync.js';
+import { isGenerator } from './isGenerator.js';
+import { isPromise } from './isPromise.js';
 /**
  * Checks if an object is a kind of async object such as async function, promise, or generator.
  *

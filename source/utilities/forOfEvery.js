@@ -1,7 +1,7 @@
-import { isSet } from '../types/isSet.js';
-import { isArray } from '../types/isArray.js';
 import { cloneType } from '../types/cloneType.js';
 import { hasValue } from '../types/hasValue.js';
+import { isArray } from '../types/isArray.js';
+import { isSet } from '../types/isSet.js';
 import { returnValue } from './returnValue.js';
 /**
  * Iterates (for of) through the given object while the iteratee returns true using a for of loop.

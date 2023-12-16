@@ -1,6 +1,6 @@
+import { eachAsyncArray } from './eachAsync.js';
 import { hasValue } from '../types/hasValue.js';
 import { returnValue } from '../utilities/returnValue.js';
-import { eachAsyncArray } from './eachAsync.js';
 /**
  * Iterates through the calling array and creates an array with all elements that pass the test implemented by the iteratee.
  *

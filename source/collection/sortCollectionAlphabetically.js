@@ -1,3 +1,11 @@
+export function sortObjectsAlphabetically(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	return previousKey.localeCompare(nextKey);
+}
 /**
  * Perform alphabetical A-Z sort on a collection with the provided key name. Mutates the array.
  *
@@ -24,14 +32,6 @@
  * }
  * assert(sortCollectionAlphabetically(collect, prop, ifMatchSort), result);
  */
-export function sortObjectsAlphabetically(previous, next, propertyName, ifMatch) {
-	const previousKey = previous[propertyName];
-	const nextKey = next[propertyName];
-	if (previousKey === nextKey && ifMatch) {
-		return ifMatch(previous, next, propertyName);
-	}
-	return previousKey.localeCompare(nextKey);
-}
 export function sortCollectionAlphabetically(collection, propertyName = 'id', ifMatch) {
 	return collection.sort((previous, next) => {
 		return sortObjectsAlphabetically(previous, next, propertyName, ifMatch);

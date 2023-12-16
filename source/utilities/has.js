@@ -1,9 +1,9 @@
 import { every } from './every.js';
+import { isArray } from '../types/isArray.js';
 import { isFunction } from '../types/isFunction.js';
 import { isRegex } from '../types/isRegex.js';
 import { isString } from '../types/isString.js';
 import { noValue } from '../types/noValue.js';
-import { isArray } from '../types/isArray.js';
 /**
  * Checks if an object contains something.
  *
@@ -11,7 +11,7 @@ import { isArray } from '../types/isArray.js';
  * @category utility
  * @param {Array|String|Object} source - Object to be checked.
  * @param {String|Array|Function|RegExp} search - Object that is being searched for.
- * @param {Number} fromIndex - Index at which to start searching.
+ * @param {Number} position - Index at which to start searching.
  * @returns {Boolean} - Returns true or false.
  *
  * @example

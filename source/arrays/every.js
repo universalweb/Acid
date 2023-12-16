@@ -9,7 +9,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
  * @param {*} thisBind - An object to be given each time to the iteratee.
- * @returns {Array} - Returns true if all returns are true or false if one value returns false.
+ * @returns {Array|undefined} - Returns true if all returns are true or false if one value returns false.
  *
  * @example
  * import { everyArray, assert } from '@universalweb/acid';

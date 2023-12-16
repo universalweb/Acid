@@ -1,3 +1,20 @@
+export function sortCollectionAscendingFilter(previous, next, propertyName, ifMatch) {
+	const previousKey = previous[propertyName];
+	const nextKey = next[propertyName];
+	if (previousKey === nextKey && ifMatch) {
+		return ifMatch(previous, next, propertyName);
+	}
+	if (!nextKey) {
+		return 1;
+	} else if (!previousKey) {
+		return -1;
+	} else if (previousKey < nextKey) {
+		return -1;
+	} else if (previousKey > nextKey) {
+		return 1;
+	}
+	return 0;
+}
 /**
  * Sorts an array in place using a key in ascending order.
  *
@@ -16,23 +33,6 @@
  * const prop = 'id';
  * assert(sortCollectionAscending(collect, prop), result);
  */
-export function sortCollectionAscendingFilter(previous, next, propertyName, ifMatch) {
-	const previousKey = previous[propertyName];
-	const nextKey = next[propertyName];
-	if (previousKey === nextKey && ifMatch) {
-		return ifMatch(previous, next, propertyName);
-	}
-	if (!nextKey) {
-		return 1;
-	} else if (!previousKey) {
-		return -1;
-	} else if (previousKey < nextKey) {
-		return -1;
-	} else if (previousKey > nextKey) {
-		return 1;
-	}
-	return 0;
-}
 export function sortCollectionAscending(collection, propertyName = 'id', ifMatch) {
 	return collection.sort((previous, next) => {
 		return sortCollectionAscendingFilter(previous, next, propertyName, ifMatch);

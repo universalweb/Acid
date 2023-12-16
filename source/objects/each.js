@@ -1,6 +1,6 @@
-import { keys } from './keys.js';
 import { eachArray } from '../arrays/each.js';
 import { hasValue } from '../types/hasValue.js';
+import { keys } from './keys.js';
 /**
  * Iterates through the given object.
  *
@@ -11,7 +11,7 @@ import { hasValue } from '../types/hasValue.js';
  * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
  * @param {*} thisCall - An object to be given each time to the iteratee.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function} - Returns the calling object.
+ * @returns {Object|Function|undefined} - Returns the calling object.
  *
  * @example
  * import { eachObject, assert } from '@universalweb/acid';

@@ -1,5 +1,5 @@
-import { hasValue } from '../types/hasValue.js';
 import { difference } from '../arrays/difference.js';
+import { hasValue } from '../types/hasValue.js';
 /**
  * Checks if value is a plain DOM Node.
  *

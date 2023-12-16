@@ -1,10 +1,10 @@
+import { construct } from '../classes/construct.js';
 /**
  * Unique ID Generator Module.
  *
  * @module utility/uid
  */
 import { hasValue } from '../types/hasValue.js';
-import { construct } from '../classes/construct.js';
 /**
  * Creates a unique numerical recyclable ID generator. The IDs are numerically ascending however freed ids are recycled when available.
  *

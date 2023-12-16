@@ -1,10 +1,10 @@
 /**
- *  Decrements a number.
+ * Decrements a number.
  *
  * @function deduct
  * @category math
  * @type {Function}
- * @param {Number} number - First number.
+ * @param {Number} source - First number.
  * @returns {Number} - Returns a decremented version of the number.
  *
  * @example

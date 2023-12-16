@@ -9,13 +9,6 @@ import { each } from '../utilities/each.js';
  * @param {*} value - The object passed as an argument to each method.
  * @returns {undefined} - Returns undefined.
  *
- * @test
- * (() => {
- *   const tempList = [];
- *   inSync([() => {tempList.push(1);}, () => {tempList.push(2);}]);
- *   return assert(tempList, [1, 2]);
- * });
- *
  * @example
  * inSync([() => {console.log(1);}, () => {console.log(2);}]);
  * // 1

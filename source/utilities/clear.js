@@ -1,7 +1,7 @@
-import { isBuffer } from '../types/isBuffer.js';
-import { isArray } from '../types/isArray.js';
-import { clearBuffer } from '../buffers/clear.js';
 import { clearArray } from '../arrays/clear.js';
+import { clearBuffer } from '../buffers/clear.js';
+import { isArray } from '../types/isArray.js';
+import { isBuffer } from '../types/isBuffer.js';
 /**
  * Clears the values out of an array, buffer, and objects like Map that have a clear method.
  *

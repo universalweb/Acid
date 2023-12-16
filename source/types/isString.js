@@ -1,5 +1,4 @@
 import { isConstructorFactory } from './isConstructor.js';
-import { isNumber } from './isNumber';
 /**
  * Checks if the value is a string.
  *

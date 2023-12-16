@@ -1,6 +1,6 @@
+import { each } from './each.js';
 import { isArray } from '../types/isArray.js';
 import { isPlainObject } from '../types/isPlainObject.js';
-import { each } from './each.js';
 /**
  * Recursively deep assign a target object with a source object. The source objects values are assigned onto the target object's matching properties.
  *

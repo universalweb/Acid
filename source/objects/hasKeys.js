@@ -1,7 +1,7 @@
 import { everyArray } from '../arrays/every.js';
+import { get } from '../utilities/get.js';
 import { keys } from './keys.js';
 import { toPath } from '../utilities/toPath.js';
-import { get } from '../utilities/get.js';
 const hasOwn = Object.hasOwn;
 /**
  * Checks to see if an object has all of the given property names.
@@ -11,7 +11,7 @@ const hasOwn = Object.hasOwn;
  * @type {Function}
  * @param {Object} source - Source object to check for keys.
  * @param {...String} properties - List of strings to check.
- * @returns {Boolean} - Returns true or false.
+ * @returns {Boolean|undefined} - Returns true or false.
  *
  * @example
  * import { hasKeys, assert } from '@universalweb/acid';
@@ -43,7 +43,7 @@ export function hasKeys(source, ...properties) {
  * @type {Function}
  * @param {Object} source - Source object to check for keys.
  * @param {Array} properties - List of strings to check.
- * @returns {Boolean} - Returns true or false.
+ * @returns {Boolean|undefined} - Returns true or false.
  *
  * @example
  * import { hasAnyKeys, assert } from '@universalweb/acid';

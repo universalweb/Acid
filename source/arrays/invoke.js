@@ -6,10 +6,9 @@ import { hasValue } from '../types/hasValue.js';
  * @category array
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
+ * @param {Function} additionalArg - An object to be given each time to the iteratee.
  * @param {*} thisCall - Iteratee called with thisCall as this.
- * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Array} - The originally given array.
+ * @returns {Array|undefined} - The originally given array.
  *
  * @example
  * import { invokeArray, assert } from '@universalweb/acid';
@@ -19,18 +18,18 @@ import { hasValue } from '../types/hasValue.js';
  * const results = invokeArray([test], 1, test);
  * assert(results, [test, 1]);
  */
-export function invokeArray(source, arg, thisCall) {
+export function invokeArray(source, additionalArg, thisCall) {
 	if (!source) {
 		return;
 	}
 	const arrayLength = source.length;
 	if (hasValue(thisCall)) {
 		for (let index = 0; index < arrayLength; index++) {
-			source[index].call(thisCall, arg);
+			source[index].call(thisCall, additionalArg);
 		}
 	} else {
 		for (let index = 0; index < arrayLength; index++) {
-			source[index](arg);
+			source[index](additionalArg);
 		}
 	}
 	return source;

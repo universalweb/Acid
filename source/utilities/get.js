@@ -1,7 +1,7 @@
+import { everyArray } from '../arrays/every.js';
 import { hasValue } from '../types/hasValue.js';
 import { isArray } from '../types/isArray.js';
 import { toPath } from './toPath.js';
-import { everyArray } from '../arrays/every.js';
 /**
  * Returns property on an object.
  *

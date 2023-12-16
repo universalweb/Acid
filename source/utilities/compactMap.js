@@ -1,10 +1,10 @@
 import { compactMapArray } from '../arrays/compactMap.js';
 import { compactMapAsyncArray } from '../arrays/compactMapAsync.js';
-import { compactMapObject } from '../objects/compactMap.js';
 import { compactMapAsyncObject } from '../objects/compactMapAsync.js';
-import { generateLoop } from './generateLoop.js';
+import { compactMapObject } from '../objects/compactMap.js';
 import { forOfCompactMap } from './forOfCompactMap.js';
 import { forOfCompactMapAsync } from './forOfCompactMapAsync.js';
+import { generateLoop } from './generateLoop.js';
 /**
  * Iterates through the calling object and creates a new object based on the calling object's type with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
  *

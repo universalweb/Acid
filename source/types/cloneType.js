@@ -1,5 +1,5 @@
-import { getType } from './getType.js';
 import { construct } from '../classes/construct.js';
+import { getType } from './getType.js';
 /**
  * Returns a new empty object of the same type.
  *

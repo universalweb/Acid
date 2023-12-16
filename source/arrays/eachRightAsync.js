@@ -7,7 +7,7 @@
  * @async
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @returns {Object} - The originally given array.
+ * @returns {Object|undefined} - The originally given array.
  *
  * @example
  * import { eachRightAsync, assert } from '@universalweb/acid';

@@ -1,6 +1,6 @@
+import { eachArray } from './each.js';
 import { hasValue } from '../types/hasValue.js';
 import { returnValue } from '../utilities/returnValue.js';
-import { eachArray } from './each.js';
 /**
  * Iterates through the given and creates an object with all elements that pass the test implemented by the iteratee.
  *

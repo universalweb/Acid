@@ -1,5 +1,5 @@
-import { isMatchArray } from '../arrays/isMatch.js';
 import { everyArray } from '../arrays/every.js';
+import { isMatchArray } from '../arrays/isMatch.js';
 import { keys } from './keys.js';
 /**
  * Performs a shallow strict comparison between two objects.
