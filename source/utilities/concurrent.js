@@ -12,7 +12,7 @@ import { isArray } from '../types/isArray.js';
  * @returns {Promise|Array|undefined} - The array from Promise.all.
  *
  * @example
- * import { concurrent, assert } from '@universalweb/acid';
+ * import { concurrent, has, assert } from '@universalweb/acid';
  * const results = await concurrent([1, 2, 3], async (item) => {
  *   return item * 2;
  * });

@@ -1191,7 +1191,7 @@
 	 * @returns {Promise|Array|undefined} - An array of the same calling array's type.
 	 *
 	 * @example
-	 * import { concurrentArray, assert } from '@universalweb/acid';
+	 * import { concurrentArray, has, assert } from '@universalweb/acid';
 	 * const results = await concurrentArray([1, 2, 3], async (item) => {
 	 *   return item * 2;
 	 * });
@@ -6973,7 +6973,7 @@
 	 * @returns {Promise|Array|undefined} - The array from Promise.all.
 	 *
 	 * @example
-	 * import { concurrent, assert } from '@universalweb/acid';
+	 * import { concurrent, has, assert } from '@universalweb/acid';
 	 * const results = await concurrent([1, 2, 3], async (item) => {
 	 *   return item * 2;
 	 * });

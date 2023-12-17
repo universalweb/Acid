@@ -6,8 +6,16 @@
 </pre>
 ---
 
-### [v3.0.68](https://github.com/universalweb/Acid/compare/v3.0.68...v3.0.68) 
+### [v3.0.69](https://github.com/universalweb/Acid/compare/v3.0.69...v3.0.69) 
 DATE: 2023-12-17
+
+---
+### [v3.0.69](https://github.com/universalweb/Acid/compare/v3.0.68...v3.0.69) 
+DATE: 2023-12-17
+
+### Commits
+
+- Broken Dir Fixed types [`09d53d5`](https://github.com/universalweb/Acid/commit/09d53d58712c89e3a7814bb00503ca09837721c2)
 
 ---
 ### [v3.0.68](https://github.com/universalweb/Acid/compare/v3.0.67...v3.0.68) 
