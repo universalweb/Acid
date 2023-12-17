@@ -1174,560 +1174,6 @@ function mapArray(source, iteratee, results = [], thisCall, additionalArg) {
 }
 
 /**
- * Asynchronously iterates through the given object.
- *
- * @function eachAsyncObject
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, array of keys, and additionalArg.
- * @param {*} thisCall - Iteratee called with thisCall as this.
- * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function|undefined} - Returns source.
- *
- * @example
- * import { eachAsyncObject, assert } from '@universalweb/acid';
- * const tempList = [];
- * await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
- *     tempList[key] = item;
- *   });
- * assert(tempList, {a: 1, b: 2, c: 3});
- */
-const eachAsyncObject = async (source, iteratee, thisCall, additionalArg) => {
-	if (!source) {
-		return;
-	}
-	const objectKeys = keys(source);
-	if (hasValue(thisCall)) {
-		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
-			return iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeys, additionalArg);
-		});
-	} else {
-		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
-			return iteratee(source[key], key, source, propertyCount, objectKeys, additionalArg);
-		});
-	}
-	return source;
-};
-
-/**
- * Iterates through the given object.
- *
- * @function eachObject
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
- * @param {*} thisCall - An object to be given each time to the iteratee.
- * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function|undefined} - Returns the calling object.
- *
- * @example
- * import { eachObject, assert } from '@universalweb/acid';
- * assert(eachObject({a: 1, b: 2, c: 3}, (item) => {
- *   console.log(item);
- * }), {a: 1, b: 2, c: 3});
- */
-function eachObject(source, iteratee, thisCall, additionalArg) {
-	if (!source) {
-		return;
-	}
-	const objectKeys = keys(source);
-	if (hasValue(thisCall)) {
-		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
-			iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeysArray, additionalArg);
-		});
-	} else {
-		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
-			iteratee(source[key], key, source, propertyCount, objectKeysArray, additionalArg);
-		});
-	}
-	return source;
-}
-
-async function forEachAsync(source, callback) {
-	const values = [];
-	const properties = [];
-	let valuesLength = 0;
-	source.forEach((item, key) => {
-		values[valuesLength] = item;
-		properties[valuesLength] = item;
-		valuesLength++;
-	});
-	for (let index = 0; index < valuesLength; index++) {
-		await callback(values[index], properties[index]);
-	}
-	return source;
-}
-
-/**
- * Checks if an object(s) is a Set.
- *
- * @function isSet
- * @category type
- * @param {...*} sources - Objects to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isSet, assert } from '@universalweb/acid';
- * assert(isSet(new Set()), true);
- */
-const isSetCall = isConstructorNameFactory('Set');
-const isSet = isTypeFactory(isSetCall);
-
-function forOf(source, iteratee) {
-	if (isSet(source)) {
-		for (const value of source) {
-			iteratee(value, source);
-		}
-		return source;
-	}
-	for (const [key, value] of source) {
-		iteratee(value, key, source);
-	}
-	return source;
-}
-
-/**
- * Checks if an object or objects are a Int16Array.
- *
- * @function isGenerator
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isGenerator } from '@universalweb/acid';
- * isGenerator(function* (){});
- * // => true
- */
-const isGeneratorCall = isConstructorNameFactory('GeneratorFunction');
-const isGenerator = isTypeFactory(isGeneratorCall);
-
-async function forOfAsync(source, iteratee, generatorArgs) {
-	if (isSet(source)) {
-		for (const value of source) {
-			await iteratee(value, source);
-		}
-		return source;
-	}
-	if (isGenerator(source)) {
-		for await (const item of source(...generatorArgs)) {
-			await iteratee(item, source);
-		}
-	}
-	for (const [key, value] of source) {
-		await iteratee(value, key, source);
-	}
-	return source;
-}
-
-/**
- * Checks if an object is an async function.
- *
- * @function isAsync
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - True or false.
- *
- * @example
- * import { isAsync, assert } from '@universalweb/acid';
- * assert(isAsync(async() => {}), true);
- */
-const isAsyncCall = isConstructorNameFactory('AsyncFunction');
-const isAsync = isTypeFactory(isAsyncCall);
-
-/**
- * Checks if an object or objects are a plain object.
- *
- * @function isFunction
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isFunction } from '@universalweb/acid';
- * isFunction(() => {});
- * // => true
- */
-const isFunction = (source) => {
-	return (hasValue(source)) ? source instanceof Function : false;
-};
-
-function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
-	return (source, iteratee, argument1, argument2, argument3) => {
-		let returned;
-		const isIterateeAsync = isAsync(iteratee);
-		if (!hasValue(source) || !iteratee) {
-			return;
-		} else if (isArray(source)) {
-			returned = (isIterateeAsync) ? arrayLoopAsync : arrayLoop;
-		} else if (isPlainObject(source) || isFunction(source)) {
-			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
-		} else if (forOfLoop) {
-			returned = (isIterateeAsync) ? forOfLoopAsync : forOfLoop;
-		} else if (isGenerator(source)) {
-			returned = forOfLoopAsync;
-		} else {
-			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
-		}
-		return returned(source, iteratee, argument1, argument2, argument3);
-	};
-}
-
-/**
- * Iterates through the given object.
- *
- * @function each
- * @category utility
- * @type {Function}
- * @param {Array | object | Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
- * @param {*} thisCall - An object to be given each time to the iteratee.
- * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Array | object | Function} - The originally given object.
- *
- * @example
- * import { each, assert } from '@universalweb/acid';
- * const list = {};
- * each({a: 1, b: 2, c: 3}, (item, key) => {
- *   list[key] = item;
- * });
- * assert(list, {a: 1, b: 2, c: 3});
- */
-const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
-
-/**
- * Iterates through the given object while the iteratee returns true.
- *
- * @function everyAsyncObject
- * @category object
- * @type {Function}
- * @param {Object} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { everyAsyncObject, assert } from '@universalweb/acid';
- * const result =  await everyAsyncObject({a: true, b: true, c: true}, (item) => {
- *   return item;
- * });
- * assert(result, true);
- */
-async function everyAsyncObject(source, iteratee) {
-	if (!source) {
-		return;
-	}
-	const objectKeys = keys(source);
-	return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
-		return iteratee(source[key], key, source, propertyCount, original);
-	});
-}
-
-/**
- * Iterates through the given object while the iteratee returns true.
- *
- * @function everyObject
- * @category object
- * @type {Function}
- * @param {Object} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { everyObject, assert } from '@universalweb/acid';
- * const result =  everyObject({a: true, b: true, c: true}, (item) => {
- *   return item;
- * });
- * assert(result, true);
- */
-function everyObject(source, iteratee) {
-	if (!source) {
-		return;
-	}
-	const objectKeys = keys(source);
-	return everyArray(objectKeys, (key, index, original, propertyCount) => {
-		return iteratee(source[key], key, source, propertyCount, original);
-	});
-}
-
-/**
- * Returns the constructor of an object.
- *
- * @function getType
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { getType, assert } from '@universalweb/acid';
- * assert(getType(1), true);
- */
-function getType(source) {
-	return source?.constructor;
-}
-
-/**
- * Returns a new empty object of the same type.
- *
- * @function cloneType
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { cloneType, assert } from '@universalweb/acid';
- * assert(cloneType([1]), []);
- */
-function cloneType(source, args = []) {
-	const sourceType = getType(source);
-	if (sourceType === Function) {
-		if (sourceType.name === 'function') {
-			return function() {};
-		}
-	}
-	return construct(sourceType, args);
-}
-
-/**
- * Iterates (for of) through the given object while the iteratee returns true using a for of loop.
- *
- * @function forOfEvery
- * @category utility
- * @type {Function}
- * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { every, assert } from '@universalweb/acid';
- * assert(forOfEvery({a: false, b: true, c: true}, (item) => {
- *  return item;
- * }), false);
- */
-function forOfEvery(source, iteratee = returnValue) {
-	if (isArray(source) || isSet(source)) {
-		for (const value of source) {
-			const result = iteratee(value, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	} else {
-		for (const [key, value] of source) {
-			const result = iteratee(value, key, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-/**
- * Asynchronously iterates (for of) through the given object while the iteratee returns true using a for of loop.
- *
- * @function forOfEveryAsync
- * @category utility
- * @type {Function}
- * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { every, assert } from '@universalweb/acid';
- * assert(forOfEveryAsync({a: false, b: true, c: true}, (item) => {
- *  return item;
- * }), false);
- */
-async function forOfEveryAsync(source, iteratee = returnValue, generatorArgs) {
-	if (isGenerator(source)) {
-		for await (const item of source(...generatorArgs)) {
-			const result = await iteratee(item, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	} else if (isArray(source) || isSet(source)) {
-		for (const value of source) {
-			const result = await iteratee(value, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	} else {
-		for (const [key, value] of source) {
-			const result = await iteratee(value, key, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-/**
- * Iterates through the given object while the iteratee returns true.
- *
- * @function every
- * @category utility
- * @type {Function}
- * @param {Object | Array | Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { every, assert } from '@universalweb/acid';
- * assert(every({a: false, b: true, c: true}, (item) => {
- *  return item;
- * }), false);
- */
-const every = generateLoop(everyArray, everyAsyncArray, everyObject, everyAsyncObject, forOfEvery, forOfEveryAsync);
-
-/**
- * Checks if the value is a RegExp.
- *
- * @function isRegex
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isRegex, assert } from '@universalweb/acid';
- * assert(isRegex(/test/), true);
- */
-const isRegexCall = isConstructorNameFactory('RegExp');
-const isRegex = isTypeFactory(isRegexCall);
-
-/**
- * Checks if the value is a string.
- *
- * @function isString
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isString, assert } from '@universalweb/acid';
- * assert(isString('hello'), true);
- * assert(isString(1), false);
- */
-const isString = isConstructorFactory(String);
-/**
- * Checks if the value is not a string.
- *
- * @function isNotString
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isNotString, assert } from '@universalweb/acid';
- * assert(isNotString(1), true);
- * assert(isNotString('hello'), false);
- */
-function isNotString(source) {
-	return !isString(source);
-}
-
-/**
- * Checks if an object is null or undefined.
- *
- * @function noValue
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { noValue, assert } from '@universalweb/acid';
- * assert(noValue(null), true);
- * assert(noValue(undefined), true);
- * assert(noValue(1), false);
- * assert(noValue(0), false);
- */
-function noValue(source) {
-	return !hasValue(source);
-}
-
-/**
- * Checks if an object contains something. For basic searches.
- *
- * @function has
- * @category utility
- * @param {Array|String|Object} source - Object to be checked.
- * @param {String|Array|Function|RegExp} search - Object that is being searched for.
- * @param {Number} position - Index at which to start searching.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { has, assert } from '@universalweb/acid';
- * assert(has('Hello World', 'Hello'), true);
- * assert(has(['Hello', 'World'], 'hello'), true);
- */
-function has(source, search, position) {
-	if (noValue(source) || noValue(search)) {
-		return false;
-	}
-	if (source === search) {
-		return true;
-	}
-	if (isString(source)) {
-		if (isString(search)) {
-			return source.includes(search, position);
-		}
-		if (isRegex(search)) {
-			return search.test(source);
-		}
-		if (isFunction(search)) {
-			return search(source);
-		}
-		if (isArray(search)) {
-			return everyArray(search, (item) => {
-				return has(source, item);
-			});
-		}
-		return every(search, (item) => {
-			return has(source, item);
-		});
-	}
-	if (isArray(source)) {
-		if (isRegex(search)) {
-			return everyArray(source, (item) => {
-				return item.test(search);
-			});
-		}
-		if (isFunction(search)) {
-			return everyArray(source, search);
-		}
-		if (isArray(search)) {
-			return everyArray(search, (item) => {
-				return has(source, item);
-			});
-		}
-		return source.includes(search, position);
-	}
-	if (isPlainObject(source)) {
-		if (isRegex(search)) {
-			return everyObject(source, (item) => {
-				return item.test(search);
-			});
-		}
-		if (isFunction(search)) {
-			return everyObject(source, search);
-		}
-		if (isPlainObject(search)) {
-			return everyObject(source, (item, key) => {
-				return item === search[key];
-			});
-		}
-		return everyObject(source, (item) => {
-			return has(item, search);
-		});
-	}
-	return false;
-}
-
-/**
  * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
  *
  * @function concurrentArray
@@ -1736,7 +1182,7 @@ function has(source, search, position) {
  * @async
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
- * @returns {Array} - An array of the same calling array's type.
+ * @returns {Promise|Array|undefined} - An array of the same calling array's type.
  *
  * @example
  * import { concurrentArray, assert } from '@universalweb/acid';
@@ -1746,10 +1192,14 @@ function has(source, search, position) {
  * assert(has(results, [2, 4, 6]), true);
  */
 async function concurrentArray(source, iteratee) {
+	if (!source) {
+		return;
+	}
 	const results = [];
-	await eachAsyncArray(source, async (item, index, arrayLength) => {
-		results[index] = iteratee(item, index, results, arrayLength);
-	});
+	const arrayLength = source.length;
+	for (let index = 0; index < arrayLength; index++) {
+		results[index] = iteratee(source[index], index, results, arrayLength);
+	}
 	return Promise.all(results);
 }
 
@@ -2583,6 +2033,23 @@ function clearBuffer(source) {
 }
 
 /**
+ * Checks if an object or objects are a plain object.
+ *
+ * @function isFunction
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isFunction } from '@universalweb/acid';
+ * isFunction(() => {});
+ * // => true
+ */
+const isFunction = (source) => {
+	return (hasValue(source)) ? source instanceof Function : false;
+};
+
+/**
  * Checks if the value is a number.
  *
  * @function isNumber
@@ -2610,6 +2077,37 @@ const isNumber = isTypeFactory(isNumberCall);
  */
 function isNotNumber(source) {
 	return !isNumber(source);
+}
+
+/**
+ * Checks if the value is a string.
+ *
+ * @function isString
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isString, assert } from '@universalweb/acid';
+ * assert(isString('hello'), true);
+ * assert(isString(1), false);
+ */
+const isString = isConstructorFactory(String);
+/**
+ * Checks if the value is not a string.
+ *
+ * @function isNotString
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isNotString, assert } from '@universalweb/acid';
+ * assert(isNotString(1), true);
+ * assert(isNotString('hello'), false);
+ */
+function isNotString(source) {
+	return !isString(source);
 }
 
 const objectAssign = Object.assign;
@@ -3343,6 +2841,213 @@ function before(amount, callable) {
 	return onlyBefore;
 }
 
+/**
+ * Asynchronously iterates through the given object.
+ *
+ * @function eachAsyncObject
+ * @category object
+ * @type {Function}
+ * @param {Object|Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, array of keys, and additionalArg.
+ * @param {*} thisCall - Iteratee called with thisCall as this.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
+ * @returns {Object|Function|undefined} - Returns source.
+ *
+ * @example
+ * import { eachAsyncObject, assert } from '@universalweb/acid';
+ * const tempList = [];
+ * await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
+ *     tempList[key] = item;
+ *   });
+ * assert(tempList, {a: 1, b: 2, c: 3});
+ */
+const eachAsyncObject = async (source, iteratee, thisCall, additionalArg) => {
+	if (!source) {
+		return;
+	}
+	const objectKeys = keys(source);
+	if (hasValue(thisCall)) {
+		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
+			return iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeys, additionalArg);
+		});
+	} else {
+		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
+			return iteratee(source[key], key, source, propertyCount, objectKeys, additionalArg);
+		});
+	}
+	return source;
+};
+
+/**
+ * Iterates through the given object.
+ *
+ * @function eachObject
+ * @category object
+ * @type {Function}
+ * @param {Object|Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
+ * @param {*} thisCall - An object to be given each time to the iteratee.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
+ * @returns {Object|Function|undefined} - Returns the calling object.
+ *
+ * @example
+ * import { eachObject, assert } from '@universalweb/acid';
+ * assert(eachObject({a: 1, b: 2, c: 3}, (item) => {
+ *   console.log(item);
+ * }), {a: 1, b: 2, c: 3});
+ */
+function eachObject(source, iteratee, thisCall, additionalArg) {
+	if (!source) {
+		return;
+	}
+	const objectKeys = keys(source);
+	if (hasValue(thisCall)) {
+		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
+			iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeysArray, additionalArg);
+		});
+	} else {
+		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
+			iteratee(source[key], key, source, propertyCount, objectKeysArray, additionalArg);
+		});
+	}
+	return source;
+}
+
+async function forEachAsync(source, callback) {
+	const values = [];
+	const properties = [];
+	let valuesLength = 0;
+	source.forEach((item, key) => {
+		values[valuesLength] = item;
+		properties[valuesLength] = item;
+		valuesLength++;
+	});
+	for (let index = 0; index < valuesLength; index++) {
+		await callback(values[index], properties[index]);
+	}
+	return source;
+}
+
+/**
+ * Checks if an object(s) is a Set.
+ *
+ * @function isSet
+ * @category type
+ * @param {...*} sources - Objects to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isSet, assert } from '@universalweb/acid';
+ * assert(isSet(new Set()), true);
+ */
+const isSetCall = isConstructorNameFactory('Set');
+const isSet = isTypeFactory(isSetCall);
+
+function forOf(source, iteratee) {
+	if (isSet(source)) {
+		for (const value of source) {
+			iteratee(value, source);
+		}
+		return source;
+	}
+	for (const [key, value] of source) {
+		iteratee(value, key, source);
+	}
+	return source;
+}
+
+/**
+ * Checks if an object or objects are a Int16Array.
+ *
+ * @function isGenerator
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isGenerator } from '@universalweb/acid';
+ * isGenerator(function* (){});
+ * // => true
+ */
+const isGeneratorCall = isConstructorNameFactory('GeneratorFunction');
+const isGenerator = isTypeFactory(isGeneratorCall);
+
+async function forOfAsync(source, iteratee, generatorArgs) {
+	if (isSet(source)) {
+		for (const value of source) {
+			await iteratee(value, source);
+		}
+		return source;
+	}
+	if (isGenerator(source)) {
+		for await (const item of source(...generatorArgs)) {
+			await iteratee(item, source);
+		}
+	}
+	for (const [key, value] of source) {
+		await iteratee(value, key, source);
+	}
+	return source;
+}
+
+/**
+ * Checks if an object is an async function.
+ *
+ * @function isAsync
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - True or false.
+ *
+ * @example
+ * import { isAsync, assert } from '@universalweb/acid';
+ * assert(isAsync(async() => {}), true);
+ */
+const isAsyncCall = isConstructorNameFactory('AsyncFunction');
+const isAsync = isTypeFactory(isAsyncCall);
+
+function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
+	return (source, iteratee, argument1, argument2, argument3) => {
+		let returned;
+		const isIterateeAsync = isAsync(iteratee);
+		if (!hasValue(source) || !iteratee) {
+			return;
+		} else if (isArray(source)) {
+			returned = (isIterateeAsync) ? arrayLoopAsync : arrayLoop;
+		} else if (isPlainObject(source) || isFunction(source)) {
+			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
+		} else if (forOfLoop) {
+			returned = (isIterateeAsync) ? forOfLoopAsync : forOfLoop;
+		} else if (isGenerator(source)) {
+			returned = forOfLoopAsync;
+		} else {
+			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
+		}
+		return returned(source, iteratee, argument1, argument2, argument3);
+	};
+}
+
+/**
+ * Iterates through the given object.
+ *
+ * @function each
+ * @category utility
+ * @type {Function}
+ * @param {Array | object | Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+ * @param {*} thisCall - An object to be given each time to the iteratee.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
+ * @returns {Array | object | Function} - The originally given object.
+ *
+ * @example
+ * import { each, assert } from '@universalweb/acid';
+ * const list = {};
+ * each({a: 1, b: 2, c: 3}, (item, key) => {
+ *   list[key] = item;
+ * });
+ * assert(list, {a: 1, b: 2, c: 3});
+ */
+const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
+
 class Chain {
 	constructor(methods) {
 		this.addChainMethod(methods);
@@ -3448,6 +3153,33 @@ function curryRight(callable, arity = callable.length) {
 		return curried;
 	};
 	return curried;
+}
+
+/**
+ * Iterates through the given object while the iteratee returns true.
+ *
+ * @function everyObject
+ * @category object
+ * @type {Function}
+ * @param {Object} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { everyObject, assert } from '@universalweb/acid';
+ * const result =  everyObject({a: true, b: true, c: true}, (item) => {
+ *   return item;
+ * });
+ * assert(result, true);
+ */
+function everyObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
+	const objectKeys = keys(source);
+	return everyArray(objectKeys, (key, index, original, propertyCount) => {
+		return iteratee(source[key], key, source, propertyCount, original);
+	});
 }
 
 /**
@@ -3897,6 +3629,44 @@ const once = (callable) => {
 };
 
 /**
+ * Returns the constructor of an object.
+ *
+ * @function getType
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { getType, assert } from '@universalweb/acid';
+ * assert(getType(1), true);
+ */
+function getType(source) {
+	return source?.constructor;
+}
+
+/**
+ * Returns a new empty object of the same type.
+ *
+ * @function cloneType
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { cloneType, assert } from '@universalweb/acid';
+ * assert(cloneType([1]), []);
+ */
+function cloneType(source, args = []) {
+	const sourceType = getType(source);
+	if (sourceType === Function) {
+		if (sourceType.name === 'function') {
+			return function() {};
+		}
+	}
+	return construct(sourceType, args);
+}
+
+/**
  * Iterates through (using for of) the calling object and creates an object with the results of the iteratee on every element in the calling object.
  *
  * @function forOfCompactMap
@@ -4086,6 +3856,128 @@ function over(iteratees) {
 		});
 	};
 }
+
+/**
+ * Iterates through the given object while the iteratee returns true.
+ *
+ * @function everyAsyncObject
+ * @category object
+ * @type {Function}
+ * @param {Object} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { everyAsyncObject, assert } from '@universalweb/acid';
+ * const result =  await everyAsyncObject({a: true, b: true, c: true}, (item) => {
+ *   return item;
+ * });
+ * assert(result, true);
+ */
+async function everyAsyncObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
+	const objectKeys = keys(source);
+	return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
+		return iteratee(source[key], key, source, propertyCount, original);
+	});
+}
+
+/**
+ * Iterates (for of) through the given object while the iteratee returns true using a for of loop.
+ *
+ * @function forOfEvery
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { every, assert } from '@universalweb/acid';
+ * assert(forOfEvery({a: false, b: true, c: true}, (item) => {
+ *  return item;
+ * }), false);
+ */
+function forOfEvery(source, iteratee = returnValue) {
+	if (isArray(source) || isSet(source)) {
+		for (const value of source) {
+			const result = iteratee(value, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	} else {
+		for (const [key, value] of source) {
+			const result = iteratee(value, key, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+/**
+ * Asynchronously iterates (for of) through the given object while the iteratee returns true using a for of loop.
+ *
+ * @function forOfEveryAsync
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { every, assert } from '@universalweb/acid';
+ * assert(forOfEveryAsync({a: false, b: true, c: true}, (item) => {
+ *  return item;
+ * }), false);
+ */
+async function forOfEveryAsync(source, iteratee = returnValue, generatorArgs) {
+	if (isGenerator(source)) {
+		for await (const item of source(...generatorArgs)) {
+			const result = await iteratee(item, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	} else if (isArray(source) || isSet(source)) {
+		for (const value of source) {
+			const result = await iteratee(value, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	} else {
+		for (const [key, value] of source) {
+			const result = await iteratee(value, key, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+/**
+ * Iterates through the given object while the iteratee returns true.
+ *
+ * @function every
+ * @category utility
+ * @type {Function}
+ * @param {Object | Array | Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { every, assert } from '@universalweb/acid';
+ * assert(every({a: false, b: true, c: true}, (item) => {
+ *  return item;
+ * }), false);
+ */
+const every = generateLoop(everyArray, everyAsyncArray, everyObject, everyAsyncObject, forOfEvery, forOfEveryAsync);
 
 /**
  * Creates a function that checks if all of the predicates return truthy when invoked with the arguments it receives.
@@ -4782,6 +4674,21 @@ function arrayToRegex(source, makeSafe) {
 }
 
 /**
+ * Checks if the value is a RegExp.
+ *
+ * @function isRegex
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isRegex, assert } from '@universalweb/acid';
+ * assert(isRegex(/test/), true);
+ */
+const isRegexCall = isConstructorNameFactory('RegExp');
+const isRegex = isTypeFactory(isRegexCall);
+
+/**
  * Returns a clone of the given object without the given properties.
  *
  * @function omit
@@ -5473,6 +5380,25 @@ function isTypedArray(source) {
 		}
 	}
 	return false;
+}
+
+/**
+ * Checks if an object is null or undefined.
+ *
+ * @function noValue
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { noValue, assert } from '@universalweb/acid';
+ * assert(noValue(null), true);
+ * assert(noValue(undefined), true);
+ * assert(noValue(1), false);
+ * assert(noValue(0), false);
+ */
+function noValue(source) {
+	return !hasValue(source);
 }
 
 /**
@@ -6679,6 +6605,84 @@ function arraysToObject(source, properties) {
 }
 
 /**
+ * Checks if an object contains something. For basic searches.
+ *
+ * @function has
+ * @category utility
+ * @param {Array|String|Object} source - Object to be checked.
+ * @param {String|Array|Function|RegExp} search - Object that is being searched for.
+ * @param {Number} position - Index at which to start searching.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { has, assert } from '@universalweb/acid';
+ * assert(has('Hello World', 'Hello'), true);
+ * assert(has(['Hello', 'World'], 'hello'), true);
+ */
+function has(source, search, position) {
+	if (noValue(source) || noValue(search)) {
+		return false;
+	}
+	if (source === search) {
+		return true;
+	}
+	if (isString(source)) {
+		if (isString(search)) {
+			return source.includes(search, position);
+		}
+		if (isRegex(search)) {
+			return search.test(source);
+		}
+		if (isFunction(search)) {
+			return search(source);
+		}
+		if (isArray(search)) {
+			return everyArray(search, (item) => {
+				return has(source, item);
+			});
+		}
+		return every(search, (item) => {
+			return has(source, item);
+		});
+	}
+	if (isArray(source)) {
+		if (isRegex(search)) {
+			return everyArray(source, (item) => {
+				return item.test(search);
+			});
+		}
+		if (isFunction(search)) {
+			return everyArray(source, search);
+		}
+		if (isArray(search)) {
+			return everyArray(search, (item) => {
+				return has(source, item);
+			});
+		}
+		return source.includes(search, position);
+	}
+	if (isPlainObject(source)) {
+		if (isRegex(search)) {
+			return everyObject(source, (item) => {
+				return item.test(search);
+			});
+		}
+		if (isFunction(search)) {
+			return everyObject(source, search);
+		}
+		if (isPlainObject(search)) {
+			return everyObject(source, (item, key) => {
+				return item === search[key];
+			});
+		}
+		return everyObject(source, (item) => {
+			return has(item, search);
+		});
+	}
+	return false;
+}
+
+/**
  * Checks if the string has a '.'.
  *
  * @function hasDot
@@ -6949,7 +6953,7 @@ function pair(argument1, argument2) {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
  * @param {*} additionalArgument - An object to be given each time to the iteratee.
- * @returns {Array} - The array from Promise.all.
+ * @returns {Promise|Array|undefined} - The array from Promise.all.
  *
  * @example
  * import { concurrent, assert } from '@universalweb/acid';
@@ -6958,10 +6962,14 @@ function pair(argument1, argument2) {
  * });
  * assert(has(results, [2, 4, 6]), true);
  */
-function concurrent(source, iteratee, additionalArgument) {
+async function concurrent(source, iteratee, additionalArgument) {
+	if (!source) {
+		return;
+	}
 	if (isArray(source)) {
 		return concurrentArray(source, iteratee);
 	}
+	return;
 }
 
 /**

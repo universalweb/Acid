@@ -9,7 +9,7 @@ import { isArray } from '../types/isArray.js';
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
  * @param {*} additionalArgument - An object to be given each time to the iteratee.
- * @returns {Array} - The array from Promise.all.
+ * @returns {Promise|Array|undefined} - The array from Promise.all.
  *
  * @example
  * import { concurrent, assert } from '@universalweb/acid';
@@ -18,9 +18,13 @@ import { isArray } from '../types/isArray.js';
  * });
  * assert(has(results, [2, 4, 6]), true);
  */
-export function concurrent(source, iteratee, additionalArgument) {
+export async function concurrent(source, iteratee, additionalArgument) {
+	if (!source) {
+		return;
+	}
 	if (isArray(source)) {
 		return concurrentArray(source, iteratee, additionalArgument);
 	}
+	return;
 }
 
