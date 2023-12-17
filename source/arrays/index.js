@@ -26,6 +26,7 @@ export * from './isMatch.js';
 export * from './largest.js';
 export * from './last.js';
 export * from './map.js';
+export * from './concurrent.js';
 export * from './mapAsync.js';
 export * from './mapRight.js';
 export * from './mapWhile.js';

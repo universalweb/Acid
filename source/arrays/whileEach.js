@@ -8,7 +8,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - The originally given array.
  *
  * @example
@@ -19,10 +19,10 @@ import { returnValue } from '../utilities/returnValue.js';
  * });
  * assert(list, [1, 2, 3]);
  */
-export function whileEachArray(source, iteratee, thisBind) {
+export function whileEachArray(source, iteratee, additionalArgument) {
 	let index = 0;
 	while (index < source.length) {
-		iteratee(source[index], index, source, source.length, thisBind);
+		iteratee(source[index], index, source, source.length, additionalArgument);
 		index++;
 	}
 	return source;

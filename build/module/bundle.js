@@ -533,7 +533,7 @@ const dropRight = (array, amount = 1, upTo = array.length) => {
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array|undefined} - The originally given array.
  *
  * @example
@@ -544,13 +544,13 @@ const dropRight = (array, amount = 1, upTo = array.length) => {
  * });
  * assert(tempList, [3, 2, 1]);
  */
-function eachRight(source, iteratee, thisBind) {
+function eachRight(source, iteratee, additionalArgument) {
 	if (!source) {
 		return;
 	}
 	const arrayLength = source.length;
 	for (let index = arrayLength - 1;index >= 0;index--) {
-		iteratee(source[index], index, source, arrayLength, thisBind);
+		iteratee(source[index], index, source, arrayLength, additionalArgument);
 	}
 	return source;
 }
@@ -593,25 +593,25 @@ async function eachRightAsync(source, iteratee) {
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array|undefined} - Returns true if all returns are true or false if one value returns false.
  *
  * @example
  * import { everyArray, assert } from '@universalweb/acid';
- * assert(everyArray([true, true, false], (item, index, source, sourceLength, thisBind) => {
+ * assert(everyArray([true, true, false], (item, index, source, sourceLength, additionalArgument) => {
  *   return item;
  * }), false);
- * assert(everyArray([true, true, true], (item, index, source, sourceLength, thisBind) => {
+ * assert(everyArray([true, true, true], (item, index, source, sourceLength, additionalArgument) => {
  *   return item;
  * }), true);
  */
-function everyArray(source, iteratee, thisBind) {
+function everyArray(source, iteratee, additionalArgument) {
 	if (!source) {
 		return;
 	}
 	const sourceLength = source.length;
 	for (let index = 0;index < sourceLength;index++) {
-		if (iteratee(source[index], index, source, sourceLength, thisBind) === false) {
+		if (iteratee(source[index], index, source, sourceLength, additionalArgument) === false) {
 			return false;
 		}
 	}
@@ -626,25 +626,25 @@ function everyArray(source, iteratee, thisBind) {
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array|undefined} - Returns true if all returns are true or false if one value returns false.
  *
  * @example
  * import { everyAsyncArray, assert } from '@universalweb/acid';
- * assert(everyAsyncArray([true, true, false], (item, index, source, sourceLength, thisBind) => {
+ * assert(everyAsyncArray([true, true, false], (item, index, source, sourceLength, additionalArgument) => {
  *   return item;
  * }), false);
- * assert(everyAsyncArray([true, true, true], (item, index, source, sourceLength, thisBind) => {
+ * assert(everyAsyncArray([true, true, true], (item, index, source, sourceLength, additionalArgument) => {
  *   return item;
  * }), true);
  */
-async function everyAsyncArray(source, iteratee, thisBind) {
+async function everyAsyncArray(source, iteratee, additionalArgument) {
 	if (!source) {
 		return;
 	}
 	const sourceLength = source.length;
 	for (let index = 0;index < sourceLength;index++) {
-		if (await iteratee(source[index], index, source, sourceLength, thisBind) === false) {
+		if (await iteratee(source[index], index, source, sourceLength, additionalArgument) === false) {
 			return false;
 		}
 	}
@@ -661,7 +661,7 @@ async function everyAsyncArray(source, iteratee, thisBind) {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - An array with properties that passed the test.
  *
  * @example
@@ -670,9 +670,9 @@ async function everyAsyncArray(source, iteratee, thisBind) {
  *   return item;
  * }), [true, true]);
  */
-function filterArray(source, iteratee, results = [], thisBind) {
+function filterArray(source, iteratee, results = [], additionalArgument) {
 	eachArray(source, (item, index, arrayOriginal, arrayLength) => {
-		if (iteratee(item, index, results, arrayOriginal, arrayLength, thisBind) === true) {
+		if (iteratee(item, index, results, arrayOriginal, arrayLength, additionalArgument) === true) {
 			results.push(item);
 		}
 	});
@@ -689,7 +689,7 @@ function filterArray(source, iteratee, results = [], thisBind) {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created object, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - An array with properties that passed the test.
  *
  * @example
@@ -698,9 +698,9 @@ function filterArray(source, iteratee, results = [], thisBind) {
  *   return item;
  * }), [true, true]);
  */
-async function filterAsyncArray(source, iteratee, results = [], thisBind) {
+async function filterAsyncArray(source, iteratee, results = [], additionalArgument) {
 	await eachAsyncArray(source, async (item, index, arrayOriginal, arrayLength) => {
-		if (await iteratee(item, index, results, arrayOriginal, arrayLength, thisBind) === true) {
+		if (await iteratee(item, index, results, arrayOriginal, arrayLength, additionalArgument) === true) {
 			results.push(item);
 		}
 	});
@@ -1176,7 +1176,587 @@ function mapArray(source, iteratee, results = [], thisCall, additionalArg) {
 }
 
 /**
- * Asynchronously iterates through the calling array and creates an object with the results of the iteratee on every element in the calling array.
+ * Asynchronously iterates through the given object.
+ *
+ * @function eachAsyncObject
+ * @category object
+ * @type {Function}
+ * @param {Object|Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, array of keys, and additionalArg.
+ * @param {*} thisCall - Iteratee called with thisCall as this.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
+ * @returns {Object|Function|undefined} - Returns source.
+ *
+ * @example
+ * import { eachAsyncObject, assert } from '@universalweb/acid';
+ * const tempList = [];
+ * await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
+ *     tempList[key] = item;
+ *   });
+ * assert(tempList, {a: 1, b: 2, c: 3});
+ */
+const eachAsyncObject = async (source, iteratee, thisCall, additionalArg) => {
+	if (!source) {
+		return;
+	}
+	const objectKeys = keys(source);
+	if (hasValue(thisCall)) {
+		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
+			return iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeys, additionalArg);
+		});
+	} else {
+		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
+			return iteratee(source[key], key, source, propertyCount, objectKeys, additionalArg);
+		});
+	}
+	return source;
+};
+
+/**
+ * Iterates through the given object.
+ *
+ * @function eachObject
+ * @category object
+ * @type {Function}
+ * @param {Object|Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
+ * @param {*} thisCall - An object to be given each time to the iteratee.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
+ * @returns {Object|Function|undefined} - Returns the calling object.
+ *
+ * @example
+ * import { eachObject, assert } from '@universalweb/acid';
+ * assert(eachObject({a: 1, b: 2, c: 3}, (item) => {
+ *   console.log(item);
+ * }), {a: 1, b: 2, c: 3});
+ */
+function eachObject(source, iteratee, thisCall, additionalArg) {
+	if (!source) {
+		return;
+	}
+	const objectKeys = keys(source);
+	if (hasValue(thisCall)) {
+		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
+			iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeysArray, additionalArg);
+		});
+	} else {
+		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
+			iteratee(source[key], key, source, propertyCount, objectKeysArray, additionalArg);
+		});
+	}
+	return source;
+}
+
+async function forEachAsync(source, callback) {
+	const values = [];
+	const properties = [];
+	let valuesLength = 0;
+	source.forEach((item, key) => {
+		values[valuesLength] = item;
+		properties[valuesLength] = item;
+		valuesLength++;
+	});
+	for (let index = 0; index < valuesLength; index++) {
+		await callback(values[index], properties[index]);
+	}
+	return source;
+}
+
+/**
+ * Checks if an object(s) is a Set.
+ *
+ * @function isSet
+ * @category type
+ * @param {...*} sources - Objects to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isSet, assert } from '@universalweb/acid';
+ * assert(isSet(new Set()), true);
+ */
+const isSetCall = isConstructorNameFactory('Set');
+const isSet = isTypeFactory(isSetCall);
+
+function forOf(source, iteratee) {
+	if (isSet(source)) {
+		for (const value of source) {
+			iteratee(value, source);
+		}
+		return source;
+	}
+	for (const [key, value] of source) {
+		iteratee(value, key, source);
+	}
+	return source;
+}
+
+/**
+ * Checks if an object or objects are a Int16Array.
+ *
+ * @function isGenerator
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isGenerator } from '@universalweb/acid';
+ * isGenerator(function* (){});
+ * // => true
+ */
+const isGeneratorCall = isConstructorNameFactory('GeneratorFunction');
+const isGenerator = isTypeFactory(isGeneratorCall);
+
+async function forOfAsync(source, iteratee, generatorArgs) {
+	if (isSet(source)) {
+		for (const value of source) {
+			await iteratee(value, source);
+		}
+		return source;
+	}
+	if (isGenerator(source)) {
+		for await (const item of source(...generatorArgs)) {
+			await iteratee(item, source);
+		}
+	}
+	for (const [key, value] of source) {
+		await iteratee(value, key, source);
+	}
+	return source;
+}
+
+/**
+ * Checks if an object is an async function.
+ *
+ * @function isAsync
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - True or false.
+ *
+ * @example
+ * import { isAsync, assert } from '@universalweb/acid';
+ * assert(isAsync(async() => {}), true);
+ */
+const isAsyncCall = isConstructorNameFactory('AsyncFunction');
+const isAsync = isTypeFactory(isAsyncCall);
+
+/**
+ * Checks if an object or objects are a plain object.
+ *
+ * @function isFunction
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isFunction } from '@universalweb/acid';
+ * isFunction(() => {});
+ * // => true
+ */
+const isFunction = (source) => {
+	return (hasValue(source)) ? source instanceof Function : false;
+};
+
+function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
+	return (source, iteratee, argument1, argument2, argument3) => {
+		let returned;
+		const isIterateeAsync = isAsync(iteratee);
+		if (!hasValue(source) || !iteratee) {
+			return;
+		} else if (isArray(source)) {
+			returned = (isIterateeAsync) ? arrayLoopAsync : arrayLoop;
+		} else if (isPlainObject(source) || isFunction(source)) {
+			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
+		} else if (forOfLoop) {
+			returned = (isIterateeAsync) ? forOfLoopAsync : forOfLoop;
+		} else if (isGenerator(source)) {
+			returned = forOfLoopAsync;
+		} else {
+			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
+		}
+		return returned(source, iteratee, argument1, argument2, argument3);
+	};
+}
+
+/**
+ * Iterates through the given object.
+ *
+ * @function each
+ * @category utility
+ * @type {Function}
+ * @param {Array | object | Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
+ * @param {*} thisCall - An object to be given each time to the iteratee.
+ * @param {*} additionalArg - An object to be given each time to the iteratee.
+ * @returns {Array | object | Function} - The originally given object.
+ *
+ * @example
+ * import { each, assert } from '@universalweb/acid';
+ * const list = {};
+ * each({a: 1, b: 2, c: 3}, (item, key) => {
+ *   list[key] = item;
+ * });
+ * assert(list, {a: 1, b: 2, c: 3});
+ */
+const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
+
+/**
+ * Iterates through the given object while the iteratee returns true.
+ *
+ * @function everyAsyncObject
+ * @category object
+ * @type {Function}
+ * @param {Object} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { everyAsyncObject, assert } from '@universalweb/acid';
+ * const result =  await everyAsyncObject({a: true, b: true, c: true}, (item) => {
+ *   return item;
+ * });
+ * assert(result, true);
+ */
+async function everyAsyncObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
+	const objectKeys = keys(source);
+	return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
+		return iteratee(source[key], key, source, propertyCount, original);
+	});
+}
+
+/**
+ * Iterates through the given object while the iteratee returns true.
+ *
+ * @function everyObject
+ * @category object
+ * @type {Function}
+ * @param {Object} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { everyObject, assert } from '@universalweb/acid';
+ * const result =  everyObject({a: true, b: true, c: true}, (item) => {
+ *   return item;
+ * });
+ * assert(result, true);
+ */
+function everyObject(source, iteratee) {
+	if (!source) {
+		return;
+	}
+	const objectKeys = keys(source);
+	return everyArray(objectKeys, (key, index, original, propertyCount) => {
+		return iteratee(source[key], key, source, propertyCount, original);
+	});
+}
+
+/**
+ * Returns the constructor of an object.
+ *
+ * @function getType
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { getType, assert } from '@universalweb/acid';
+ * assert(getType(1), true);
+ */
+function getType(source) {
+	return source?.constructor;
+}
+
+/**
+ * Returns a new empty object of the same type.
+ *
+ * @function cloneType
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { cloneType, assert } from '@universalweb/acid';
+ * assert(cloneType([1]), []);
+ */
+function cloneType(source, args = []) {
+	const sourceType = getType(source);
+	if (sourceType === Function) {
+		if (sourceType.name === 'function') {
+			return function() {};
+		}
+	}
+	return construct(sourceType, args);
+}
+
+/**
+ * Iterates (for of) through the given object while the iteratee returns true using a for of loop.
+ *
+ * @function forOfEvery
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { every, assert } from '@universalweb/acid';
+ * assert(forOfEvery({a: false, b: true, c: true}, (item) => {
+ *  return item;
+ * }), false);
+ */
+function forOfEvery(source, iteratee = returnValue) {
+	if (isArray(source) || isSet(source)) {
+		for (const value of source) {
+			const result = iteratee(value, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	} else {
+		for (const [key, value] of source) {
+			const result = iteratee(value, key, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+/**
+ * Asynchronously iterates (for of) through the given object while the iteratee returns true using a for of loop.
+ *
+ * @function forOfEveryAsync
+ * @category utility
+ * @type {Function}
+ * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
+ * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { every, assert } from '@universalweb/acid';
+ * assert(forOfEveryAsync({a: false, b: true, c: true}, (item) => {
+ *  return item;
+ * }), false);
+ */
+async function forOfEveryAsync(source, iteratee = returnValue, generatorArgs) {
+	if (isGenerator(source)) {
+		for await (const item of source(...generatorArgs)) {
+			const result = await iteratee(item, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	} else if (isArray(source) || isSet(source)) {
+		for (const value of source) {
+			const result = await iteratee(value, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	} else {
+		for (const [key, value] of source) {
+			const result = await iteratee(value, key, source);
+			if (result === false) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+/**
+ * Iterates through the given object while the iteratee returns true.
+ *
+ * @function every
+ * @category utility
+ * @type {Function}
+ * @param {Object | Array | Function} source - Object that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
+ *
+ * @example
+ * import { every, assert } from '@universalweb/acid';
+ * assert(every({a: false, b: true, c: true}, (item) => {
+ *  return item;
+ * }), false);
+ */
+const every = generateLoop(everyArray, everyAsyncArray, everyObject, everyAsyncObject, forOfEvery, forOfEveryAsync);
+
+/**
+ * Checks if the value is a RegExp.
+ *
+ * @function isRegex
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isRegex, assert } from '@universalweb/acid';
+ * assert(isRegex(/test/), true);
+ */
+const isRegexCall = isConstructorNameFactory('RegExp');
+const isRegex = isTypeFactory(isRegexCall);
+
+/**
+ * Checks if the value is a string.
+ *
+ * @function isString
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isString, assert } from '@universalweb/acid';
+ * assert(isString('hello'), true);
+ * assert(isString(1), false);
+ */
+const isString = isConstructorFactory(String);
+/**
+ * Checks if the value is not a string.
+ *
+ * @function isNotString
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { isNotString, assert } from '@universalweb/acid';
+ * assert(isNotString(1), true);
+ * assert(isNotString('hello'), false);
+ */
+function isNotString(source) {
+	return !isString(source);
+}
+
+/**
+ * Checks if an object is null or undefined.
+ *
+ * @function noValue
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { noValue, assert } from '@universalweb/acid';
+ * assert(noValue(null), true);
+ * assert(noValue(undefined), true);
+ * assert(noValue(1), false);
+ * assert(noValue(0), false);
+ */
+function noValue(source) {
+	return !hasValue(source);
+}
+
+/**
+ * Checks if an object contains something. For basic searches.
+ *
+ * @function has
+ * @category utility
+ * @param {Array|String|Object} source - Object to be checked.
+ * @param {String|Array|Function|RegExp} search - Object that is being searched for.
+ * @param {Number} position - Index at which to start searching.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { has, assert } from '@universalweb/acid';
+ * assert(has('Hello World', 'Hello'), true);
+ * assert(has(['Hello', 'World'], 'hello'), true);
+ */
+function has(source, search, position) {
+	if (noValue(source) || noValue(search)) {
+		return false;
+	}
+	if (source === search) {
+		return true;
+	}
+	if (isString(source)) {
+		if (isString(search)) {
+			return source.includes(search, position);
+		}
+		if (isRegex(search)) {
+			return search.test(source);
+		}
+		if (isFunction(search)) {
+			return search(source);
+		}
+		if (isArray(search)) {
+			return everyArray(search, (item) => {
+				return has(source, item);
+			});
+		}
+		return every(search, (item) => {
+			return has(source, item);
+		});
+	}
+	if (isArray(source)) {
+		if (isRegex(search)) {
+			return everyArray(source, (item) => {
+				return item.test(search);
+			});
+		}
+		if (isFunction(search)) {
+			return everyArray(source, search);
+		}
+		if (isArray(search)) {
+			return everyArray(search, (item) => {
+				return has(source, item);
+			});
+		}
+		return source.includes(search, position);
+	}
+	if (isPlainObject(source)) {
+		if (isRegex(search)) {
+			return everyObject(source, (item) => {
+				return item.test(search);
+			});
+		}
+		if (isFunction(search)) {
+			return everyObject(source, search);
+		}
+		if (isPlainObject(search)) {
+			return everyObject(source, (item, key) => {
+				return item === search[key];
+			});
+		}
+		return everyObject(source, (item) => {
+			return has(item, search);
+		});
+	}
+	return false;
+}
+
+/**
+ * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
+ *
+ * @function concurrentArray
+ * @category array
+ * @type {Function}
+ * @async
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+ * @returns {Array} - An array of the same calling array's type.
+ *
+ * @example
+ * import { concurrentArray, assert } from '@universalweb/acid';
+ * const results = await concurrentArray([1, 2, 3], async (item) => {
+ *   return item * 2;
+ * });
+ * assert(has(results, [2, 4, 6]), true);
+ */
+async function concurrentArray(source, iteratee) {
+	const results = [];
+	await eachAsyncArray(source, async (item, index, arrayLength) => {
+		results[index] = iteratee(item, index, results, arrayLength);
+	});
+	return Promise.all(results);
+}
+
+/**
+ * Asynchronously iterates through the calling array and creates an array with the results of the iteratee (invoked and awaited one at a time) on every element in the calling array. If you want things happenign in parallel, use mapAllAsyncArray.
  *
  * @function mapAsyncArray
  * @category array
@@ -1195,7 +1775,7 @@ function mapArray(source, iteratee, results = [], thisCall, additionalArg) {
 async function mapAsyncArray(source, iteratee) {
 	const results = [];
 	await eachAsyncArray(source, async (item, index, arrayLength) => {
-		results[index] = await iteratee(item, index, arrayLength);
+		results[index] = await iteratee(item, index, results, arrayLength);
 	});
 	return results;
 }
@@ -1209,7 +1789,7 @@ async function mapAsyncArray(source, iteratee) {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - An array of the same calling array's type.
  *
  * @example
@@ -1218,11 +1798,11 @@ async function mapAsyncArray(source, iteratee) {
  *   return item * 2;
  * }), [6, 4, 2]);
  */
-function mapRightArray(source, iteratee, results = [], thisBind) {
+function mapRightArray(source, iteratee, results = [], additionalArgument) {
 	let trueIndex = 0;
 	const arrayLength = source.length;
 	for (let index = arrayLength - 1;index >= 0;index--) {
-		results[trueIndex] = iteratee(source[index], index, source, arrayLength, thisBind);
+		results[trueIndex] = iteratee(source[index], index, source, arrayLength, additionalArgument);
 		trueIndex++;
 	}
 	return results;
@@ -1237,7 +1817,7 @@ function mapRightArray(source, iteratee, results = [], thisBind) {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - An array with properties that passed the test.
  *
  * @example
@@ -1246,11 +1826,11 @@ function mapRightArray(source, iteratee, results = [], thisBind) {
  *   return Boolean(item);
  * }), [1, 2]);
  */
-function mapWhile(source, iteratee, results = [], thisBind) {
+function mapWhile(source, iteratee, results = [], additionalArgument) {
 	const arrayLength = source.length;
 	for (let index = 0;index < arrayLength;index++) {
 		const item = source[index];
-		const returned = iteratee(item, index, results, source, arrayLength, thisBind);
+		const returned = iteratee(item, index, results, source, arrayLength, additionalArgument);
 		if (returned === false) {
 			break;
 		}
@@ -1779,7 +2359,7 @@ function untilTrueArray(source, iteratee) {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - The originally given array.
  *
  * @example
@@ -1788,10 +2368,10 @@ function untilTrueArray(source, iteratee) {
  *   return item;
  * }), [1, 2, 3, false]);
  */
-function whileCompactMap(source, iteratee, results = [], thisBind) {
+function whileCompactMap(source, iteratee, results = [], additionalArgument) {
 	let index = 0;
 	while (index < source.length) {
-		const result = results.push(iteratee(source[index], index, source, source.length, thisBind));
+		const result = results.push(iteratee(source[index], index, source, source.length, additionalArgument));
 		index++;
 		if (hasValue(result)) {
 			results.push(result);
@@ -1808,7 +2388,7 @@ function whileCompactMap(source, iteratee, results = [], thisBind) {
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - The originally given array.
  *
  * @example
@@ -1819,10 +2399,10 @@ function whileCompactMap(source, iteratee, results = [], thisBind) {
  * });
  * assert(list, [1, 2, 3]);
  */
-function whileEachArray(source, iteratee, thisBind) {
+function whileEachArray(source, iteratee, additionalArgument) {
 	let index = 0;
 	while (index < source.length) {
-		iteratee(source[index], index, source, source.length, thisBind);
+		iteratee(source[index], index, source, source.length, additionalArgument);
 		index++;
 	}
 	return source;
@@ -1838,7 +2418,7 @@ function whileEachArray(source, iteratee, thisBind) {
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - The originally given array.
  *
  * @example
@@ -1850,10 +2430,10 @@ function whileEachArray(source, iteratee, thisBind) {
  *   return item;
  * }), [1, 2, 3, 4]);
  */
-function whileMapArray(source, iteratee, results = [], thisBind) {
+function whileMapArray(source, iteratee, results = [], additionalArgument) {
 	let index = 0;
 	while (index < source.length) {
-		results.push(iteratee(source[index], index, source, source.length, thisBind));
+		results.push(iteratee(source[index], index, source, source.length, additionalArgument));
 		index++;
 	}
 	return source;
@@ -2005,23 +2585,6 @@ function clearBuffer(source) {
 }
 
 /**
- * Checks if an object or objects are a plain object.
- *
- * @function isFunction
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isFunction } from '@universalweb/acid';
- * isFunction(() => {});
- * // => true
- */
-const isFunction = (source) => {
-	return (hasValue(source)) ? source instanceof Function : false;
-};
-
-/**
  * Checks if the value is a number.
  *
  * @function isNumber
@@ -2049,37 +2612,6 @@ const isNumber = isTypeFactory(isNumberCall);
  */
 function isNotNumber(source) {
 	return !isNumber(source);
-}
-
-/**
- * Checks if the value is a string.
- *
- * @function isString
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isString, assert } from '@universalweb/acid';
- * assert(isString('hello'), true);
- * assert(isString(1), false);
- */
-const isString = isConstructorFactory(String);
-/**
- * Checks if the value is not a string.
- *
- * @function isNotString
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isNotString, assert } from '@universalweb/acid';
- * assert(isNotString(1), true);
- * assert(isNotString('hello'), false);
- */
-function isNotString(source) {
-	return !isString(source);
 }
 
 const objectAssign = Object.assign;
@@ -2813,213 +3345,6 @@ function before(amount, callable) {
 	return onlyBefore;
 }
 
-/**
- * Asynchronously iterates through the given object.
- *
- * @function eachAsyncObject
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, array of keys, and additionalArg.
- * @param {*} thisCall - Iteratee called with thisCall as this.
- * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function|undefined} - Returns source.
- *
- * @example
- * import { eachAsyncObject, assert } from '@universalweb/acid';
- * const tempList = [];
- * await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
- *     tempList[key] = item;
- *   });
- * assert(tempList, {a: 1, b: 2, c: 3});
- */
-const eachAsyncObject = async (source, iteratee, thisCall, additionalArg) => {
-	if (!source) {
-		return;
-	}
-	const objectKeys = keys(source);
-	if (hasValue(thisCall)) {
-		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
-			return iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeys, additionalArg);
-		});
-	} else {
-		await eachAsyncArray(objectKeys, (key, index, array, propertyCount) => {
-			return iteratee(source[key], key, source, propertyCount, objectKeys, additionalArg);
-		});
-	}
-	return source;
-};
-
-/**
- * Iterates through the given object.
- *
- * @function eachObject
- * @category object
- * @type {Function}
- * @param {Object|Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling object, key count, and array of keys.
- * @param {*} thisCall - An object to be given each time to the iteratee.
- * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Object|Function|undefined} - Returns the calling object.
- *
- * @example
- * import { eachObject, assert } from '@universalweb/acid';
- * assert(eachObject({a: 1, b: 2, c: 3}, (item) => {
- *   console.log(item);
- * }), {a: 1, b: 2, c: 3});
- */
-function eachObject(source, iteratee, thisCall, additionalArg) {
-	if (!source) {
-		return;
-	}
-	const objectKeys = keys(source);
-	if (hasValue(thisCall)) {
-		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
-			iteratee.call(thisCall, source[key], key, source, propertyCount, objectKeysArray, additionalArg);
-		});
-	} else {
-		eachArray(objectKeys, (key, index, objectKeysArray, propertyCount) => {
-			iteratee(source[key], key, source, propertyCount, objectKeysArray, additionalArg);
-		});
-	}
-	return source;
-}
-
-async function forEachAsync(source, callback) {
-	const values = [];
-	const properties = [];
-	let valuesLength = 0;
-	source.forEach((item, key) => {
-		values[valuesLength] = item;
-		properties[valuesLength] = item;
-		valuesLength++;
-	});
-	for (let index = 0; index < valuesLength; index++) {
-		await callback(values[index], properties[index]);
-	}
-	return source;
-}
-
-/**
- * Checks if an object(s) is a Set.
- *
- * @function isSet
- * @category type
- * @param {...*} sources - Objects to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isSet, assert } from '@universalweb/acid';
- * assert(isSet(new Set()), true);
- */
-const isSetCall = isConstructorNameFactory('Set');
-const isSet = isTypeFactory(isSetCall);
-
-function forOf(source, iteratee) {
-	if (isSet(source)) {
-		for (const value of source) {
-			iteratee(value, source);
-		}
-		return source;
-	}
-	for (const [key, value] of source) {
-		iteratee(value, key, source);
-	}
-	return source;
-}
-
-/**
- * Checks if an object or objects are a Int16Array.
- *
- * @function isGenerator
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isGenerator } from '@universalweb/acid';
- * isGenerator(function* (){});
- * // => true
- */
-const isGeneratorCall = isConstructorNameFactory('GeneratorFunction');
-const isGenerator = isTypeFactory(isGeneratorCall);
-
-async function forOfAsync(source, iteratee, generatorArgs) {
-	if (isSet(source)) {
-		for (const value of source) {
-			await iteratee(value, source);
-		}
-		return source;
-	}
-	if (isGenerator(source)) {
-		for await (const item of source(...generatorArgs)) {
-			await iteratee(item, source);
-		}
-	}
-	for (const [key, value] of source) {
-		await iteratee(value, key, source);
-	}
-	return source;
-}
-
-/**
- * Checks if an object is an async function.
- *
- * @function isAsync
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - True or false.
- *
- * @example
- * import { isAsync, assert } from '@universalweb/acid';
- * assert(isAsync(async() => {}), true);
- */
-const isAsyncCall = isConstructorNameFactory('AsyncFunction');
-const isAsync = isTypeFactory(isAsyncCall);
-
-function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
-	return (source, iteratee, argument1, argument2, argument3) => {
-		let returned;
-		const isIterateeAsync = isAsync(iteratee);
-		if (!hasValue(source) || !iteratee) {
-			return;
-		} else if (isArray(source)) {
-			returned = (isIterateeAsync) ? arrayLoopAsync : arrayLoop;
-		} else if (isPlainObject(source) || isFunction(source)) {
-			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
-		} else if (forOfLoop) {
-			returned = (isIterateeAsync) ? forOfLoopAsync : forOfLoop;
-		} else if (isGenerator(source)) {
-			returned = forOfLoopAsync;
-		} else {
-			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
-		}
-		return returned(source, iteratee, argument1, argument2, argument3);
-	};
-}
-
-/**
- * Iterates through the given object.
- *
- * @function each
- * @category utility
- * @type {Function}
- * @param {Array | object | Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created map object and arguments unique to mapArray or mapObject depending on the object type.
- * @param {*} thisCall - An object to be given each time to the iteratee.
- * @param {*} additionalArg - An object to be given each time to the iteratee.
- * @returns {Array | object | Function} - The originally given object.
- *
- * @example
- * import { each, assert } from '@universalweb/acid';
- * const list = {};
- * each({a: 1, b: 2, c: 3}, (item, key) => {
- *   list[key] = item;
- * });
- * assert(list, {a: 1, b: 2, c: 3});
- */
-const each = generateLoop(eachArray, eachAsyncArray, eachObject, eachAsyncObject, forOf, forOfAsync);
-
 class Chain {
 	constructor(methods) {
 		this.addChainMethod(methods);
@@ -3125,33 +3450,6 @@ function curryRight(callable, arity = callable.length) {
 		return curried;
 	};
 	return curried;
-}
-
-/**
- * Iterates through the given object while the iteratee returns true.
- *
- * @function everyObject
- * @category object
- * @type {Function}
- * @param {Object} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { everyObject, assert } from '@universalweb/acid';
- * const result =  everyObject({a: true, b: true, c: true}, (item) => {
- *   return item;
- * });
- * assert(result, true);
- */
-function everyObject(source, iteratee) {
-	if (!source) {
-		return;
-	}
-	const objectKeys = keys(source);
-	return everyArray(objectKeys, (key, index, original, propertyCount) => {
-		return iteratee(source[key], key, source, propertyCount, original);
-	});
 }
 
 /**
@@ -3601,44 +3899,6 @@ const once = (callable) => {
 };
 
 /**
- * Returns the constructor of an object.
- *
- * @function getType
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { getType, assert } from '@universalweb/acid';
- * assert(getType(1), true);
- */
-function getType(source) {
-	return source?.constructor;
-}
-
-/**
- * Returns a new empty object of the same type.
- *
- * @function cloneType
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { cloneType, assert } from '@universalweb/acid';
- * assert(cloneType([1]), []);
- */
-function cloneType(source, args = []) {
-	const sourceType = getType(source);
-	if (sourceType === Function) {
-		if (sourceType.name === 'function') {
-			return function() {};
-		}
-	}
-	return construct(sourceType, args);
-}
-
-/**
  * Iterates through (using for of) the calling object and creates an object with the results of the iteratee on every element in the calling object.
  *
  * @function forOfCompactMap
@@ -3828,128 +4088,6 @@ function over(iteratees) {
 		});
 	};
 }
-
-/**
- * Iterates through the given object while the iteratee returns true.
- *
- * @function everyAsyncObject
- * @category object
- * @type {Function}
- * @param {Object} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { everyAsyncObject, assert } from '@universalweb/acid';
- * const result =  await everyAsyncObject({a: true, b: true, c: true}, (item) => {
- *   return item;
- * });
- * assert(result, true);
- */
-async function everyAsyncObject(source, iteratee) {
-	if (!source) {
-		return;
-	}
-	const objectKeys = keys(source);
-	return everyAsyncArray(objectKeys, (key, index, original, propertyCount) => {
-		return iteratee(source[key], key, source, propertyCount, original);
-	});
-}
-
-/**
- * Iterates (for of) through the given object while the iteratee returns true using a for of loop.
- *
- * @function forOfEvery
- * @category utility
- * @type {Function}
- * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { every, assert } from '@universalweb/acid';
- * assert(forOfEvery({a: false, b: true, c: true}, (item) => {
- *  return item;
- * }), false);
- */
-function forOfEvery(source, iteratee = returnValue) {
-	if (isArray(source) || isSet(source)) {
-		for (const value of source) {
-			const result = iteratee(value, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	} else {
-		for (const [key, value] of source) {
-			const result = iteratee(value, key, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-/**
- * Asynchronously iterates (for of) through the given object while the iteratee returns true using a for of loop.
- *
- * @function forOfEveryAsync
- * @category utility
- * @type {Function}
- * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { every, assert } from '@universalweb/acid';
- * assert(forOfEveryAsync({a: false, b: true, c: true}, (item) => {
- *  return item;
- * }), false);
- */
-async function forOfEveryAsync(source, iteratee = returnValue, generatorArgs) {
-	if (isGenerator(source)) {
-		for await (const item of source(...generatorArgs)) {
-			const result = await iteratee(item, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	} else if (isArray(source) || isSet(source)) {
-		for (const value of source) {
-			const result = await iteratee(value, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	} else {
-		for (const [key, value] of source) {
-			const result = await iteratee(value, key, source);
-			if (result === false) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-/**
- * Iterates through the given object while the iteratee returns true.
- *
- * @function every
- * @category utility
- * @type {Function}
- * @param {Object | Array | Function} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
- *
- * @example
- * import { every, assert } from '@universalweb/acid';
- * assert(every({a: false, b: true, c: true}, (item) => {
- *  return item;
- * }), false);
- */
-const every = generateLoop(everyArray, everyAsyncArray, everyObject, everyAsyncObject, forOfEvery, forOfEveryAsync);
 
 /**
  * Creates a function that checks if all of the predicates return truthy when invoked with the arguments it receives.
@@ -4646,21 +4784,6 @@ function arrayToRegex(source, makeSafe) {
 }
 
 /**
- * Checks if the value is a RegExp.
- *
- * @function isRegex
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { isRegex, assert } from '@universalweb/acid';
- * assert(isRegex(/test/), true);
- */
-const isRegexCall = isConstructorNameFactory('RegExp');
-const isRegex = isTypeFactory(isRegexCall);
-
-/**
  * Returns a clone of the given object without the given properties.
  *
  * @function omit
@@ -5352,25 +5475,6 @@ function isTypedArray(source) {
 		}
 	}
 	return false;
-}
-
-/**
- * Checks if an object is null or undefined.
- *
- * @function noValue
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { noValue, assert } from '@universalweb/acid';
- * assert(noValue(null), true);
- * assert(noValue(undefined), true);
- * assert(noValue(1), false);
- * assert(noValue(0), false);
- */
-function noValue(source) {
-	return !hasValue(source);
 }
 
 /**
@@ -6577,57 +6681,6 @@ function arraysToObject(source, properties) {
 }
 
 /**
- * Checks if an object contains something.
- *
- * @function has
- * @category utility
- * @param {Array|String|Object} source - Object to be checked.
- * @param {String|Array|Function|RegExp} search - Object that is being searched for.
- * @param {Number} position - Index at which to start searching.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { has, assert } from '@universalweb/acid';
- * assert(has('Hello World', 'Hello'), true);
- * assert(has(['Hello', 'World'], 'hello'), true);
- */
-function has(source, search, position) {
-	if (noValue(source) || noValue(search)) {
-		return false;
-	}
-	if (isString(source)) {
-		if (isString(search)) {
-			return source.includes(search, position);
-		}
-		if (isRegex(search)) {
-			return search.test(source);
-		}
-		if (isFunction(search)) {
-			return Boolean(search(source));
-		}
-		return every(search, (item) => {
-			return Boolean(has(source, item));
-		});
-	}
-	if (isArray(source)) {
-		if (isString(search)) {
-			return source.includes(search, position);
-		}
-		if (isRegex(search)) {
-			return every(source, (item) => {
-				return item.test(search);
-			});
-		}
-		if (isArray(search)) {
-			return every(search, (item) => {
-				return Boolean(has(source, item));
-			});
-		}
-	}
-	return false;
-}
-
-/**
  * Checks if the string has a '.'.
  *
  * @function hasDot
@@ -6897,24 +6950,20 @@ function pair(argument1, argument2) {
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - The array from Promise.all.
  *
  * @example
  * import { concurrent, assert } from '@universalweb/acid';
- * const tempList = [];
- * await concurrent([1, 2], async (item) => {
- *   return item;
+ * const results = await concurrent([1, 2, 3], async (item) => {
+ *   return item * 2;
  * });
- * assert(tempList,  [1, 2]);
+ * assert(has(results, [2, 4, 6]), true);
  */
-function concurrent(source, iteratee, thisBind) {
-	const arrayLength = source.length;
-	const queue = [];
-	for (let index = 0;index < arrayLength; index++) {
-		queue[index] = iteratee(source[index], index, source, arrayLength, thisBind);
+function concurrent(source, iteratee, additionalArgument) {
+	if (isArray(source)) {
+		return concurrentArray(source, iteratee);
 	}
-	return Promise.all(queue);
 }
 
 /**
@@ -6925,7 +6974,7 @@ function concurrent(source, iteratee, thisBind) {
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - The array from Promise.allSettled.
  *
  * @example
@@ -6936,11 +6985,11 @@ function concurrent(source, iteratee, thisBind) {
  * });
  * assert(tempList,  [{status: 'fulfilled', value: 1}, {status: 'fulfilled', value: 2}]);
  */
-function concurrentStatus(source, iteratee, thisBind) {
+function concurrentStatus(source, iteratee, additionalArgument) {
 	const arrayLength = source.length;
 	const queue = [];
 	for (let index = 0;index < arrayLength; index++) {
-		queue[index] = iteratee(source[index], index, source, arrayLength, thisBind);
+		queue[index] = iteratee(source[index], index, source, arrayLength, additionalArgument);
 	}
 	return Promise.allSettled(queue);
 }
@@ -7383,5 +7432,5 @@ function currentPath(importMeta) {
 	return path.dirname(fileURLToPath(importMeta.url));
 }
 
-export { Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, apply, arrayToRegex, arraysToObject, ary, assert, assertAsync, assign, assignToClass, assignToObject, before, bindAll, cacheNativeMethod, calcProgress, camelCase, chain, chunk, chunkString, clear, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentStatus, construct, constructorName, copyFolder, countBy, countKey, countWithoutKey, currentFile, currentPath, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, escapeRegex, escapeRegexRegex, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, extendClass, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getEntries, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invokeArray, invokeCollection, invokeCollectionAsync, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDeno, isEmpty, isEqual, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodejs, isNotArray, isNotNumber, isNotString, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, noop, notEqual, nthArg, objectAssign, objectEntries, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, apply, arrayToRegex, arraysToObject, ary, assert, assertAsync, assign, assignToClass, assignToObject, before, bindAll, cacheNativeMethod, calcProgress, camelCase, chain, chunk, chunkString, clear, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentArray, concurrentStatus, construct, constructorName, copyFolder, countBy, countKey, countWithoutKey, currentFile, currentPath, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, escapeRegex, escapeRegexRegex, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, extendClass, falsy, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getEntries, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, inAsync, inSync, increment, indexBy, initial, initialString, insertInRange, intersection, interval, intervals, invert, invokeArray, invokeCollection, invokeCollectionAsync, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDeno, isEmpty, isEqual, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodejs, isNotArray, isNotNumber, isNotString, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, noop, notEqual, nthArg, objectAssign, objectEntries, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, truth, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

@@ -10,7 +10,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
  * @param {Array} results - Array that will be used to assign results. Default value is a new empty array.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - An array with properties that passed the test.
  *
  * @example
@@ -19,11 +19,11 @@ import { returnValue } from '../utilities/returnValue.js';
  *   return Boolean(item);
  * }), [1, 2]);
  */
-export function mapWhile(source, iteratee, results = [], thisBind) {
+export function mapWhile(source, iteratee, results = [], additionalArgument) {
 	const arrayLength = source.length;
 	for (let index = 0;index < arrayLength;index++) {
 		const item = source[index];
-		const returned = iteratee(item, index, results, source, arrayLength, thisBind);
+		const returned = iteratee(item, index, results, source, arrayLength, additionalArgument);
 		if (returned === false) {
 			break;
 		}

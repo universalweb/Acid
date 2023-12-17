@@ -8,7 +8,7 @@ import { returnValue } from './returnValue.js';
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array} - The array from Promise.allSettled.
  *
  * @example
@@ -19,11 +19,11 @@ import { returnValue } from './returnValue.js';
  * });
  * assert(tempList,  [{status: 'fulfilled', value: 1}, {status: 'fulfilled', value: 2}]);
  */
-export function concurrentStatus(source, iteratee, thisBind) {
+export function concurrentStatus(source, iteratee, additionalArgument) {
 	const arrayLength = source.length;
 	const queue = [];
 	for (let index = 0;index < arrayLength; index++) {
-		queue[index] = iteratee(source[index], index, source, arrayLength, thisBind);
+		queue[index] = iteratee(source[index], index, source, arrayLength, additionalArgument);
 	}
 	return Promise.allSettled(queue);
 }

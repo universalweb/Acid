@@ -8,7 +8,7 @@ import { returnValue } from '../utilities/returnValue.js';
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} thisBind - An object to be given each time to the iteratee.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
  * @returns {Array|undefined} - The originally given array.
  *
  * @example
@@ -19,13 +19,13 @@ import { returnValue } from '../utilities/returnValue.js';
  * });
  * assert(tempList, [3, 2, 1]);
  */
-export function eachRight(source, iteratee, thisBind) {
+export function eachRight(source, iteratee, additionalArgument) {
 	if (!source) {
 		return;
 	}
 	const arrayLength = source.length;
 	for (let index = arrayLength - 1;index >= 0;index--) {
-		iteratee(source[index], index, source, arrayLength, thisBind);
+		iteratee(source[index], index, source, arrayLength, additionalArgument);
 	}
 	return source;
 }
