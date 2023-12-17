@@ -1,28 +1,28 @@
 import { buildJson } from '@universalweb/docredux';
-import path from 'path';
+import { copyFolder } from './source/filesystem/copyFolder.js';
+import eslintConfigRaw from './eslint.config.js';
+import express from 'express';
 import { fileURLToPath } from 'url';
-const currentDirname = path.dirname(fileURLToPath(import.meta.url));
+import format from 'prettier-eslint';
+import fs from 'fs';
+import liveReload from 'connect-livereload';
+import nodeExternals from 'rollup-plugin-node-externals';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import path from 'path';
+import { rollup } from 'rollup';
+import terser from '@rollup/plugin-terser';
+import tinyLR from 'tiny-lr';
+import watch from 'node-watch';
+const currentDirname = path.dirname(fileURLToPath(import.meta.url));
 const buildDocs = () => {
 	return buildJson({
 		destination: `${currentDirname}/docs/`,
 		source: `${currentDirname}/docs/browser.bundle.js`,
 	});
 };
-import { rollup } from 'rollup';
-import terser from '@rollup/plugin-terser';
-import format from 'prettier-eslint';
-import tinyLR from 'tiny-lr';
-import liveReload from 'connect-livereload';
-import fs from 'fs';
-import watch from 'node-watch';
-import express from 'express';
-import { copyFolder } from './source/filesystem/copyFolder.js';
 const app = express();
 const expressRoot = '/';
 const expressPort = 8890;
-import nodeExternals from 'rollup-plugin-node-externals';
-import eslintConfigRaw from './eslint.config.js';
 const eslintConfig = eslintConfigRaw[0];
 async function liveServer() {
 	const port = 35729;

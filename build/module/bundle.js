@@ -1,5 +1,3 @@
-import { hasValue as hasValue$1 } from 'types/hasValue.js';
-import { isPlainObject as isPlainObject$1 } from 'types/isPlainObject.js';
 import { readdir, stat, mkdir, copyFile } from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -4874,15 +4872,15 @@ function objectSize(source) {
 	if (!source) {
 		return;
 	}
-	if (isPlainObject$1(source)) {
+	if (isPlainObject(source)) {
 		return keys(source).length;
 	}
 	const objectLengthProperty = source.length;
-	if (hasValue$1(objectLengthProperty)) {
+	if (hasValue(objectLengthProperty)) {
 		return objectLengthProperty;
 	}
 	const objectSizeProperty = source.size;
-	if (hasValue$1(objectLengthProperty)) {
+	if (hasValue(objectLengthProperty)) {
 		return objectSizeProperty;
 	}
 	return keys(source).length;
@@ -6839,7 +6837,7 @@ function merge(target, ...sources) {
  * assert(isAgent('NotThere'), false);
  */
 function isAgent(source) {
-	return (hasValue$1(source)) ? isAgent[source] : keys(isAgent);
+	return (hasValue(source)) ? isAgent[source] : keys(isAgent);
 }
 const userAgent = globalThis.navigator?.userAgentData;
 if (userAgent) {
@@ -7300,7 +7298,7 @@ class VirtualStorage {
 		if (this.isMap) {
 			return this.items.has(key);
 		} else {
-			return hasValue$1(this.items[key]);
+			return hasValue(this.items[key]);
 		}
 	}
 	has(...args) {

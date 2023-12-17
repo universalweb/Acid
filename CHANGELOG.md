@@ -6,8 +6,20 @@
 </pre>
 ---
 
-### [v3.0.66](https://github.com/universalweb/Acid/compare/v3.0.66...v3.0.66) 
-DATE: 2023-12-16
+### [v3.0.68](https://github.com/universalweb/Acid/compare/v3.0.68...v3.0.68) 
+DATE: 2023-12-17
+
+---
+### [v3.0.68](https://github.com/universalweb/Acid/compare/v3.0.67...v3.0.68) 
+DATE: 2023-12-17
+
+---
+### [v3.0.67](https://github.com/universalweb/Acid/compare/v3.0.66...v3.0.67) 
+DATE: 2023-12-17
+
+### Commits
+
+- New class functions [`63fd7a6`](https://github.com/universalweb/Acid/commit/63fd7a65d170dfbff932c3a23cb7e5622f512a3a)
 
 ---
 ### [v3.0.66](https://github.com/universalweb/Acid/compare/v3.0.65...v3.0.66) 

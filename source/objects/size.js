@@ -1,5 +1,5 @@
-import { hasValue } from 'types/hasValue.js';
-import { isPlainObject } from 'types/isPlainObject.js';
+import { hasValue } from '../types/hasValue.js';
+import { isPlainObject } from '../types/isPlainObject.js';
 import { keys } from './keys.js';
 import { pluckObject } from './pluckObject';
 /**

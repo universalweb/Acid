@@ -1,6 +1,6 @@
 import { eachArray } from '../arrays/each.js';
 import { eachObject } from '../objects/each.js';
-import { hasValue } from 'types/hasValue.js';
+import { hasValue } from '../types/hasValue.js';
 import { isBoolean } from '../types/isBoolean.js';
 import { keys } from '../objects/keys.js';
 import { noop } from '../utilities/noop';

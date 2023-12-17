@@ -1,11 +1,10 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined'
-		? factory(exports, require('types/hasValue.js'), require('types/isPlainObject.js'))
+		? factory(exports)
 		: typeof define === 'function' && define.amd
-			? define(['exports', 'types/hasValue.js', 'types/isPlainObject.js'], factory)
-			: ((global = typeof globalThis !== 'undefined' ? globalThis : global || self),
-				factory((global.$ = {}), global.hasValue_js, global.isPlainObject_js));
-})(this, function (exports, hasValue_js, isPlainObject_js) {
+			? define(['exports'], factory)
+			: ((global = typeof globalThis !== 'undefined' ? globalThis : global || self), factory((global.$ = {})));
+})(this, function (exports) {
 	'use strict';
 
 	/**
@@ -4877,15 +4876,15 @@
 		if (!source) {
 			return;
 		}
-		if (isPlainObject_js.isPlainObject(source)) {
+		if (isPlainObject(source)) {
 			return keys(source).length;
 		}
 		const objectLengthProperty = source.length;
-		if (hasValue_js.hasValue(objectLengthProperty)) {
+		if (hasValue(objectLengthProperty)) {
 			return objectLengthProperty;
 		}
 		const objectSizeProperty = source.size;
-		if (hasValue_js.hasValue(objectLengthProperty)) {
+		if (hasValue(objectLengthProperty)) {
 			return objectSizeProperty;
 		}
 		return keys(source).length;
@@ -6855,7 +6854,7 @@
 	 * assert(isAgent('NotThere'), false);
 	 */
 	function isAgent(source) {
-		return hasValue_js.hasValue(source) ? isAgent[source] : keys(isAgent);
+		return hasValue(source) ? isAgent[source] : keys(isAgent);
 	}
 	const userAgent = globalThis.navigator?.userAgentData;
 	if (userAgent) {
@@ -7316,7 +7315,7 @@
 			if (this.isMap) {
 				return this.items.has(key);
 			} else {
-				return hasValue_js.hasValue(this.items[key]);
+				return hasValue(this.items[key]);
 			}
 		}
 		has(...args) {
