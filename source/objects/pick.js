@@ -1,5 +1,4 @@
 import { eachArray } from '../arrays/each.js';
-import { mapAsyncObject } from './mapAsync';
 /**
  * Returns a clone of the source object with the plucked properties.
  *

@@ -1,4 +1,3 @@
-import { sortCollectionAlphabetically } from './sortCollectionAlphabetically';
 import { sortCollectionAscending } from './sortCollectionAscending.js';
 /**
  * Sorts an array in place using a key from oldest to newest and returns the oldest. Does not mutate the array.

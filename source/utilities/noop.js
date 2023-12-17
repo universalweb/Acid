@@ -1,4 +1,3 @@
-import { everyObject } from '../objects/every';
 /**
  * This method returns undefined.
  *

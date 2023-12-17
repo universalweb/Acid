@@ -1,4 +1,3 @@
-import { truncateRight } from './truncate';
 const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
 const andRegex = /&/g;
 const lessThanRegex = /</g;

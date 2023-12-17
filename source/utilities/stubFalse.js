@@ -1,4 +1,3 @@
-import { stubArray } from './stubArray';
 /**
  * This method returns false.
  *
@@ -11,7 +10,6 @@ import { stubArray } from './stubArray';
  * import { stubFalse, assert } from '@universalweb/acid';
  * assert(stubFalse(), false);
  */
-export const falsy = false;
-export const stubFalse = () => {
-	return falsy;
-};
+export function stubFalse() {
+	return false;
+}

@@ -2315,44 +2315,63 @@
 		return result === -1 ? false : result;
 	}
 
-	function sortObjectsAlphabetically(previous, next, propertyName, ifMatch) {
+	function sortCollectionDescendingFilter(previous, next, propertyName, ifMatch) {
 		const previousKey = previous[propertyName];
 		const nextKey = next[propertyName];
 		if (previousKey === nextKey && ifMatch) {
 			return ifMatch(previous, next, propertyName);
 		}
-		return previousKey.localeCompare(nextKey);
+		if (!nextKey) {
+			return -1;
+		} else if (!previousKey) {
+			return 1;
+		} else if (previousKey < nextKey) {
+			return 1;
+		} else if (previousKey > nextKey) {
+			return -1;
+		}
+		return 0;
 	}
 	/**
-	 * Perform alphabetical A-Z sort on a collection with the provided key name. Mutates the array.
+	 * Sorts an array in place using a key in descending order.
 	 *
-	 * @function sortCollectionAlphabetically
+	 * @function sortCollectionDescending
 	 * @category collection
 	 * @type {Function}
 	 * @param {Array} collection - Collection to be sorted.
-	 * @param {String} propertyName - Name of property to compare.
+	 * @param {String} propertyName - The property name to sort by based on it's value.
 	 * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
-	 * @returns {Array} - The sorted array.
+	 * @returns {Array} - The sorted array and or a clone of the array sorted.
 	 *
 	 * @example
-	 * import { sortCollectionAlphabetically, assert } from '@universalweb/acid';
-	 * const result = [{"letter":"a"},{"letter":"c", g: 0},{"letter":"c", g: 2}, {letter:'f'}];
-	 * const collect = [{letter:'a'}, {letter:'f'}, {"letter":"c", g: 2}, {letter:'c', g: 0}];
-	 * const prop = 'letter';
-	 * function ifMatchSort(c, n) {
-	 * if (c.g < n.g) {
-	 * return -1;
-	 * }
-	 * if (c.g > n.g) {
-	 * return 1;
-	 * }
-	 * }
-	 * assert(sortCollectionAlphabetically(collect, prop, ifMatchSort), result);
+	 * import { sortCollectionDescending, assert } from '@universalweb/acid';
+	 * const result = [{id: 1}, {id: 0}];
+	 * const collect = [{id: 0}, {id: 1}];
+	 * const prop = 'id';
+	 * assert(sortCollectionDescending(collect, prop), result);
 	 */
-	function sortCollectionAlphabetically(collection, propertyName = 'id', ifMatch) {
+	function sortCollectionDescending(collection, propertyName = 'id', ifMatch) {
 		return collection.sort((previous, next) => {
-			return sortObjectsAlphabetically(previous, next, propertyName, ifMatch);
+			return sortCollectionDescendingFilter(previous, next, propertyName, ifMatch);
 		});
+	}
+
+	/**
+	 * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
+	 *
+	 * @function getLowest
+	 * @category collection
+	 * @type {Function}
+	 * @param {Array} collection - Collection to be sorted.
+	 * @param {String} propertyName - The property name to sort by based on it's value.
+	 * @returns {Object} - The newest object in the collection.
+	 *
+	 * @example
+	 * import { getLowest, assert } from '@universalweb/acid';
+	 * assert(getLowest([{id: 1}, {id: 0}], 'id'), {id: 1});
+	 */
+	function getLowest(collection, propertyName) {
+		return sortCollectionDescending(collection, propertyName, false)[0];
 	}
 
 	function sortCollectionAscendingFilter(previous, next, propertyName, ifMatch) {
@@ -2412,65 +2431,6 @@
 	 */
 	function getHighest(collection, propertyName = 'id') {
 		return sortCollectionAscending(collection, propertyName)[0];
-	}
-
-	function sortCollectionDescendingFilter(previous, next, propertyName, ifMatch) {
-		const previousKey = previous[propertyName];
-		const nextKey = next[propertyName];
-		if (previousKey === nextKey && ifMatch) {
-			return ifMatch(previous, next, propertyName);
-		}
-		if (!nextKey) {
-			return -1;
-		} else if (!previousKey) {
-			return 1;
-		} else if (previousKey < nextKey) {
-			return 1;
-		} else if (previousKey > nextKey) {
-			return -1;
-		}
-		return 0;
-	}
-	/**
-	 * Sorts an array in place using a key in descending order.
-	 *
-	 * @function sortCollectionDescending
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Collection to be sorted.
-	 * @param {String} propertyName - The property name to sort by based on it's value.
-	 * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
-	 * @returns {Array} - The sorted array and or a clone of the array sorted.
-	 *
-	 * @example
-	 * import { sortCollectionDescending, assert } from '@universalweb/acid';
-	 * const result = [{id: 1}, {id: 0}];
-	 * const collect = [{id: 0}, {id: 1}];
-	 * const prop = 'id';
-	 * assert(sortCollectionDescending(collect, prop), result);
-	 */
-	function sortCollectionDescending(collection, propertyName = 'id', ifMatch) {
-		return collection.sort((previous, next) => {
-			return sortCollectionDescendingFilter(previous, next, propertyName, ifMatch);
-		});
-	}
-
-	/**
-	 * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.
-	 *
-	 * @function getLowest
-	 * @category collection
-	 * @type {Function}
-	 * @param {Array} collection - Collection to be sorted.
-	 * @param {String} propertyName - The property name to sort by based on it's value.
-	 * @returns {Object} - The newest object in the collection.
-	 *
-	 * @example
-	 * import { getLowest, assert } from '@universalweb/acid';
-	 * assert(getLowest([{id: 1}, {id: 0}], 'id'), {id: 1});
-	 */
-	function getLowest(collection, propertyName) {
-		return sortCollectionDescending(collection, propertyName, false)[0];
 	}
 
 	/**
@@ -2627,6 +2587,46 @@
 	function pluck(collection, targets) {
 		return mapArray(collection, (item) => {
 			return pluckObject(item, targets);
+		});
+	}
+
+	function sortObjectsAlphabetically(previous, next, propertyName, ifMatch) {
+		const previousKey = previous[propertyName];
+		const nextKey = next[propertyName];
+		if (previousKey === nextKey && ifMatch) {
+			return ifMatch(previous, next, propertyName);
+		}
+		return previousKey.localeCompare(nextKey);
+	}
+	/**
+	 * Perform alphabetical A-Z sort on a collection with the provided key name. Mutates the array.
+	 *
+	 * @function sortCollectionAlphabetically
+	 * @category collection
+	 * @type {Function}
+	 * @param {Array} collection - Collection to be sorted.
+	 * @param {String} propertyName - Name of property to compare.
+	 * @param {Function} ifMatch - A function which returns a number for the sort function if two object properties match.
+	 * @returns {Array} - The sorted array.
+	 *
+	 * @example
+	 * import { sortCollectionAlphabetically, assert } from '@universalweb/acid';
+	 * const result = [{"letter":"a"},{"letter":"c", g: 0},{"letter":"c", g: 2}, {letter:'f'}];
+	 * const collect = [{letter:'a'}, {letter:'f'}, {"letter":"c", g: 2}, {letter:'c', g: 0}];
+	 * const prop = 'letter';
+	 * function ifMatchSort(c, n) {
+	 * if (c.g < n.g) {
+	 * return -1;
+	 * }
+	 * if (c.g > n.g) {
+	 * return 1;
+	 * }
+	 * }
+	 * assert(sortCollectionAlphabetically(collect, prop, ifMatchSort), result);
+	 */
+	function sortCollectionAlphabetically(collection, propertyName = 'id', ifMatch) {
+		return collection.sort((previous, next) => {
+			return sortObjectsAlphabetically(previous, next, propertyName, ifMatch);
 		});
 	}
 
@@ -3159,33 +3159,6 @@
 	}
 
 	/**
-	 * Iterates through the given object while the iteratee returns true.
-	 *
-	 * @function everyObject
-	 * @category object
-	 * @type {Function}
-	 * @param {Object} source - Object that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
-	 * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
-	 *
-	 * @example
-	 * import { everyObject, assert } from '@universalweb/acid';
-	 * const result =  everyObject({a: true, b: true, c: true}, (item) => {
-	 *   return item;
-	 * });
-	 * assert(result, true);
-	 */
-	function everyObject(source, iteratee) {
-		if (!source) {
-			return;
-		}
-		const objectKeys = keys(source);
-		return everyArray(objectKeys, (key, index, original, propertyCount) => {
-			return iteratee(source[key], key, source, propertyCount, original);
-		});
-	}
-
-	/**
 	 * This method returns undefined.
 	 *
 	 * @function noop
@@ -3200,39 +3173,6 @@
 	function noop() {
 		return;
 	}
-
-	/**
-	 * This method returns a new empty array.
-	 *
-	 * @function stubArray
-	 * @category utility
-	 * @type {Function}
-	 * @returns {Array} - Returns the new empty array.
-	 *
-	 * @example
-	 * import { stubArray, assert } from '@universalweb/acid';
-	 * assert(stubArray(), []);
-	 */
-	const stubArray = () => {
-		return [];
-	};
-
-	/**
-	 * This method returns false.
-	 *
-	 * @function stubFalse
-	 * @category utility
-	 * @type {Function}
-	 * @returns {Boolean} - Returns false.
-	 *
-	 * @example
-	 * import { stubFalse, assert } from '@universalweb/acid';
-	 * assert(stubFalse(), false);
-	 */
-	const falsy = false;
-	const stubFalse = () => {
-		return falsy;
-	};
 
 	/**
 	 * Iterates based on the amount given invoking the iteratee with the current index as an argument.
@@ -3284,55 +3224,6 @@
 		return results;
 	}
 
-	/**
-	 * This method returns a new empty object.
-	 *
-	 * @function stubObject
-	 * @category utility
-	 * @type {Function}
-	 * @returns {Object} - Returns the new empty object.
-	 *
-	 * @example
-	 * import { stubObject, assert } from '@universalweb/acid';
-	 * assert(stubObject(), {});
-	 */
-	const stubObject = () => {
-		return {};
-	};
-
-	/**
-	 * This method returns a new empty string.
-	 *
-	 * @function stubString
-	 * @category utility
-	 * @type {Function}
-	 * @returns {String} - Returns the new empty string.
-	 *
-	 * @example
-	 * import { stubString, assert } from '@universalweb/acid';
-	 * assert(stubString(), '');
-	 */
-	const stubString = () => {
-		return '';
-	};
-
-	/**
-	 * This method returns true.
-	 *
-	 * @function stubTrue
-	 * @category utility
-	 * @type {Function}
-	 * @returns {Boolean} - Returns true.
-	 *
-	 * @example
-	 * import { stubTrue, assert } from '@universalweb/acid';
-	 * assert(stubString(), true);
-	 */
-	const truth = true;
-	const stubTrue = () => {
-		return truth;
-	};
-
 	class Timers {
 		list = construct(Map);
 		construct() {}
@@ -3376,7 +3267,7 @@
 				callable();
 				currentThis.remove(id);
 			}, time);
-			this.list.set(id, truth);
+			this.list.set(id, true);
 			return id;
 		}
 		/**
@@ -3474,20 +3365,20 @@
 	 */
 	function debounce(callable, time) {
 		function debounced(...args) {
-			if (debounced.id !== falsy) {
+			if (debounced.id !== false) {
 				timers.remove(debounced.id);
 			}
 			debounced.id = timer(() => {
 				debounced.callable(...args);
-				debounced.id = falsy;
+				debounced.id = false;
 			}, time);
 		}
-		debounced.id = falsy;
+		debounced.id = false;
 		debounced.callable = callable.bind(debounced);
 		debounced.clear = () => {
-			if (debounced.id !== falsy) {
+			if (debounced.id !== false) {
 				timers.remove(debounced.id);
-				debounced.id = falsy;
+				debounced.id = false;
 			}
 		};
 		return debounced;
@@ -3887,6 +3778,33 @@
 	}
 
 	/**
+	 * Iterates through the given object while the iteratee returns true.
+	 *
+	 * @function everyObject
+	 * @category object
+	 * @type {Function}
+	 * @param {Object} source - Object that will be looped through.
+	 * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+	 * @returns {Boolean|undefined} - Returns true if all values returned are true or false if one value returns false.
+	 *
+	 * @example
+	 * import { everyObject, assert } from '@universalweb/acid';
+	 * const result =  everyObject({a: true, b: true, c: true}, (item) => {
+	 *   return item;
+	 * });
+	 * assert(result, true);
+	 */
+	function everyObject(source, iteratee) {
+		if (!source) {
+			return;
+		}
+		const objectKeys = keys(source);
+		return everyArray(objectKeys, (key, index, original, propertyCount) => {
+			return iteratee(source[key], key, source, propertyCount, original);
+		});
+	}
+
+	/**
 	 * Iterates (for of) through the given object while the iteratee returns true using a for of loop.
 	 *
 	 * @function forOfEvery
@@ -4046,7 +3964,7 @@
 	function throttle(callable, time) {
 		function throttled(...args) {
 			if (throttled.id) {
-				throttled.shouldThrottle = truth;
+				throttled.shouldThrottle = true;
 				return;
 			}
 			throttled.callable(...args);
@@ -4054,14 +3972,14 @@
 				if (throttled.shouldThrottle) {
 					throttled.callable(...args);
 				}
-				throttled.id = falsy;
+				throttled.id = false;
 			}, time);
 		}
-		throttled.id = falsy;
+		throttled.id = false;
 		throttled.callable = callable.bind(throttled);
 		throttled.clear = () => {
 			timers.remove(throttled.id);
-			throttled.id = falsy;
+			throttled.id = false;
 		};
 		return throttled;
 	}
@@ -5071,69 +4989,6 @@
 		return string.replace(new RegExp(`\\b${words.join('|')}\\b`, 'gi'), value);
 	}
 
-	const truncateDown = (string, maxLength, stringLength) => {
-		const breakAll = string.split('');
-		const breakAllLength = breakAll.length;
-		let item;
-		let index = stringLength - maxLength;
-		for (; index < breakAllLength && index >= 0; index--) {
-			item = breakAll[index];
-			if (item === ' ') {
-				break;
-			}
-		}
-		return string.slice(0, index).trim();
-	};
-	const truncateUp = (string, maxLength, stringLength) => {
-		const breakAll = string.split('');
-		const breakAllLength = breakAll.length;
-		let item;
-		let index = maxLength;
-		for (; index < breakAllLength && index > 0; index++) {
-			item = breakAll[index];
-			if (item === ' ') {
-				break;
-			}
-		}
-		return string.substring(index, stringLength).trim();
-	};
-	/**
-	 * Truncates the string, accounting for word placement and character count.
-	 *
-	 * @function truncate
-	 * @type {Function}
-	 * @category string
-	 * @param {String} string - String to be truncated.
-	 * @param {Number} maxLength - The desired max length of the string.
-	 * @returns {String} - The mutated string.
-	 *
-	 * @example
-	 * import { truncate, assert } from '@universalweb/acid';
-	 * assert(truncate('Where is Lucy?', 2), 'Where is');
-	 */
-	function truncate(string, maxLength) {
-		const stringLength = string.length;
-		return stringLength > maxLength ? truncateDown(string, maxLength, stringLength) : string;
-	}
-	/**
-	 * Truncates the string, accounting for word placement and character count from the right.
-	 *
-	 * @function truncateRight
-	 * @type {Function}
-	 * @category string
-	 * @param {String} string - String to be truncated.
-	 * @param {Number} maxLength - The desired max length of the string.
-	 * @returns {String} - The mutated string.
-	 *
-	 * @example
-	 * import { truncateRight, assert } from '@universalweb/acid';
-	 * assert(truncateRight('Where is Lucy?', 6), 'Lucy?');
-	 */
-	function truncateRight(string, maxLength) {
-		const stringLength = string.length;
-		return stringLength > maxLength ? truncateUp(string, maxLength, stringLength) : string;
-	}
-
 	const rawURLDecodeRegex = /%(?![\da-f]{2})/gi;
 	const andRegex = /&/g;
 	const lessThanRegex = /</g;
@@ -5224,6 +5079,69 @@
 	 */
 	function words(string) {
 		return string.match(wordsRegEx) || [];
+	}
+
+	const truncateDown = (string, maxLength, stringLength) => {
+		const breakAll = string.split('');
+		const breakAllLength = breakAll.length;
+		let item;
+		let index = stringLength - maxLength;
+		for (; index < breakAllLength && index >= 0; index--) {
+			item = breakAll[index];
+			if (item === ' ') {
+				break;
+			}
+		}
+		return string.slice(0, index).trim();
+	};
+	const truncateUp = (string, maxLength, stringLength) => {
+		const breakAll = string.split('');
+		const breakAllLength = breakAll.length;
+		let item;
+		let index = maxLength;
+		for (; index < breakAllLength && index > 0; index++) {
+			item = breakAll[index];
+			if (item === ' ') {
+				break;
+			}
+		}
+		return string.substring(index, stringLength).trim();
+	};
+	/**
+	 * Truncates the string, accounting for word placement and character count.
+	 *
+	 * @function truncate
+	 * @type {Function}
+	 * @category string
+	 * @param {String} string - String to be truncated.
+	 * @param {Number} maxLength - The desired max length of the string.
+	 * @returns {String} - The mutated string.
+	 *
+	 * @example
+	 * import { truncate, assert } from '@universalweb/acid';
+	 * assert(truncate('Where is Lucy?', 2), 'Where is');
+	 */
+	function truncate(string, maxLength) {
+		const stringLength = string.length;
+		return stringLength > maxLength ? truncateDown(string, maxLength, stringLength) : string;
+	}
+	/**
+	 * Truncates the string, accounting for word placement and character count from the right.
+	 *
+	 * @function truncateRight
+	 * @type {Function}
+	 * @category string
+	 * @param {String} string - String to be truncated.
+	 * @param {Number} maxLength - The desired max length of the string.
+	 * @returns {String} - The mutated string.
+	 *
+	 * @example
+	 * import { truncateRight, assert } from '@universalweb/acid';
+	 * assert(truncateRight('Where is Lucy?', 6), 'Lucy?');
+	 */
+	function truncateRight(string, maxLength) {
+		const stringLength = string.length;
+		return stringLength > maxLength ? truncateUp(string, maxLength, stringLength) : string;
 	}
 
 	const getWords = /\w+/g;
@@ -6775,7 +6693,7 @@
 			const id = setInterval(() => {
 				callable();
 			}, time);
-			this.list.set(id, truth);
+			this.list.set(id, true);
 			return id;
 		}
 		/**
@@ -6842,42 +6760,6 @@
 			});
 		});
 		return target;
-	}
-
-	/**
-	 * Checks to see of the browser agent has a string.
-	 *
-	 * @function isAgent
-	 * @category browser
-	 * @type {Function}
-	 * @param {String} source - The string to search for.
-	 * @returns {Boolean} - Returns true or false.
-	 *
-	 * @example
-	 * import { isAgent, assert } from '@universalweb/acid';
-	 * assert(isAgent('NotThere'), false);
-	 */
-	function isAgent(source) {
-		return hasValue(source) ? isAgent[source] : keys(isAgent);
-	}
-	const userAgent = globalThis.navigator?.userAgentData;
-	if (userAgent) {
-		eachObject(userAgent, (value, key) => {
-			if (isBoolean(value) && value) {
-				isAgent[key] = value;
-			}
-		});
-		eachArray(userAgent.brands, (value) => {
-			isAgent[value.brand] = value.version;
-		});
-	} else if (navigator.userAgent) {
-		let userAgentNormalized = navigator.userAgent.toLowerCase();
-		userAgentNormalized = userAgentNormalized.replace(/_/g, '.');
-		userAgentNormalized = userAgentNormalized.replace(/[#_,;()]/g, '');
-		const userAgentSplit = userAgentNormalized.split(/ |\//);
-		eachArray(userAgentSplit, (item) => {
-			isAgent[item] = true;
-		});
 	}
 
 	/**
@@ -7114,6 +6996,86 @@
 			});
 		}
 	}
+
+	/**
+	 * This method returns a new empty array.
+	 *
+	 * @function stubArray
+	 * @category utility
+	 * @type {Function}
+	 * @returns {Array} - Returns the new empty array.
+	 *
+	 * @example
+	 * import { stubArray, assert } from '@universalweb/acid';
+	 * assert(stubArray(), []);
+	 */
+	function stubArray() {
+		return [];
+	}
+
+	/**
+	 * This method returns false.
+	 *
+	 * @function stubFalse
+	 * @category utility
+	 * @type {Function}
+	 * @returns {Boolean} - Returns false.
+	 *
+	 * @example
+	 * import { stubFalse, assert } from '@universalweb/acid';
+	 * assert(stubFalse(), false);
+	 */
+	function stubFalse() {
+		return false;
+	}
+
+	/**
+	 * This method returns a new empty object.
+	 *
+	 * @function stubObject
+	 * @category utility
+	 * @type {Function}
+	 * @returns {Object} - Returns the new empty object.
+	 *
+	 * @example
+	 * import { stubObject, assert } from '@universalweb/acid';
+	 * assert(stubObject(), {});
+	 */
+	const stubObject = () => {
+		return {};
+	};
+
+	/**
+	 * This method returns a new empty string.
+	 *
+	 * @function stubString
+	 * @category utility
+	 * @type {Function}
+	 * @returns {String} - Returns the new empty string.
+	 *
+	 * @example
+	 * import { stubString, assert } from '@universalweb/acid';
+	 * assert(stubString(), '');
+	 */
+	const stubString = () => {
+		return '';
+	};
+
+	/**
+	 * This method returns true.
+	 *
+	 * @function stubTrue
+	 * @category utility
+	 * @type {Function}
+	 * @returns {Boolean} - Returns true.
+	 *
+	 * @example
+	 * import { stubTrue, assert } from '@universalweb/acid';
+	 * assert(stubTrue(), true);
+	 */
+	const stubTrue = () => {
+		return true;
+	};
 
 	/**
 	 * Asynchronously iterates based on the amount given awaiting on the iteratee with the current index as an argument.
@@ -7417,6 +7379,42 @@
 	 */
 	function virtualStorage(initialObject) {
 		return new VirtualStorage(initialObject);
+	}
+
+	/**
+	 * Checks to see of the browser agent has a string.
+	 *
+	 * @function isAgent
+	 * @category browser
+	 * @type {Function}
+	 * @param {String} source - The string to search for.
+	 * @returns {Boolean} - Returns true or false.
+	 *
+	 * @example
+	 * import { isAgent, assert } from '@universalweb/acid';
+	 * assert(isAgent('NotThere'), false);
+	 */
+	function isAgent(source) {
+		return hasValue(source) ? isAgent[source] : keys(isAgent);
+	}
+	const userAgent = globalThis.navigator?.userAgentData;
+	if (userAgent) {
+		eachObject(userAgent, (value, key) => {
+			if (isBoolean(value) && value) {
+				isAgent[key] = value;
+			}
+		});
+		eachArray(userAgent.brands, (value) => {
+			isAgent[value.brand] = value.version;
+		});
+	} else if (navigator.userAgent) {
+		let userAgentNormalized = navigator.userAgent.toLowerCase();
+		userAgentNormalized = userAgentNormalized.replace(/_/g, '.');
+		userAgentNormalized = userAgentNormalized.replace(/[#_,;()]/g, '');
+		const userAgentSplit = userAgentNormalized.split(/ |\//);
+		eachArray(userAgentSplit, (item) => {
+			isAgent[item] = true;
+		});
 	}
 
 	/**
@@ -8069,7 +8067,6 @@
 	exports.everyAsyncObject = everyAsyncObject;
 	exports.everyObject = everyObject;
 	exports.extendClass = extendClass;
-	exports.falsy = falsy;
 	exports.filter = filter;
 	exports.filterArray = filterArray;
 	exports.filterAsyncArray = filterAsyncArray;
@@ -8339,7 +8336,6 @@
 	exports.tokenize = tokenize;
 	exports.truncate = truncate;
 	exports.truncateRight = truncateRight;
-	exports.truth = truth;
 	exports.unZip = unZip;
 	exports.unZipObject = unZipObject;
 	exports.union = union;

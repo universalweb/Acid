@@ -1,8 +1,6 @@
 import { construct } from '../classes/construct.js';
-import { falsy } from './stubFalse.js';
 import { noop } from './noop.js';
 import { times } from './times.js';
-import { truth } from './stubTrue.js';
 export class Intervals {
 	list = construct(Map);
 	construct() {
@@ -44,7 +42,7 @@ export class Intervals {
 		const id = setInterval(() => {
 			callable();
 		}, time);
-		this.list.set(id, truth);
+		this.list.set(id, true);
 		return id;
 	}
 	/**

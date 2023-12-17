@@ -1,6 +1,4 @@
 import { timer, timers } from '../utilities/timer.js';
-import { falsy } from '../utilities/stubFalse.js';
-import { truth } from '../utilities/stubTrue.js';
 /**
  * Creates a throttled function that only invokes callable at most once per every milliseconds. The throttle function has a clear method to cancel the timer.
  *
@@ -19,7 +17,7 @@ import { truth } from '../utilities/stubTrue.js';
 export function throttle(callable, time) {
 	function throttled(...args) {
 		if (throttled.id) {
-			throttled.shouldThrottle = truth;
+			throttled.shouldThrottle = true;
 			return;
 		}
 		throttled.callable(...args);
@@ -27,14 +25,14 @@ export function throttle(callable, time) {
 			if (throttled.shouldThrottle) {
 				throttled.callable(...args);
 			}
-			throttled.id = falsy;
+			throttled.id = false;
 		}, time);
 	}
-	throttled.id = falsy;
+	throttled.id = false;
 	throttled.callable = callable.bind(throttled);
 	throttled.clear = () => {
 		timers.remove(throttled.id);
-		throttled.id = falsy;
+		throttled.id = false;
 	};
 	return throttled;
 }

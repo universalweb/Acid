@@ -1,4 +1,3 @@
-import { stubObject } from './stubObject';
 /**
  * This method returns a new empty string.
  *

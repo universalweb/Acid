@@ -1,7 +1,6 @@
 import { hasValue } from '../types/hasValue.js';
 import { isPlainObject } from '../types/isPlainObject.js';
 import { keys } from './keys.js';
-import { pluckObject } from './pluckObject';
 /**
  * Returns the amount of keys on an object or if the length or size property of an object is present it will return it else it will default to returning the amount of keys on an object.
  *

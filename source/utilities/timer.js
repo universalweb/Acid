@@ -1,8 +1,6 @@
 import { construct } from '../classes/construct.js';
-import { falsy } from './stubFalse.js';
 import { noop } from './noop.js';
 import { times } from './times.js';
-import { truth } from './stubTrue.js';
 export class Timers {
 	list = construct(Map);
 	construct() {
@@ -47,7 +45,7 @@ export class Timers {
 			callable();
 			currentThis.remove(id);
 		}, time);
-		this.list.set(id, truth);
+		this.list.set(id, true);
 		return id;
 	}
 	/**

@@ -1,4 +1,4 @@
-import { cloneType } from '../types/cloneType';
+import { cloneType } from '../types/cloneType.js';
 import { hasValue } from '../types/hasValue.js';
 /**
  * Class representing a virtual storage interface over a provided object the default being a Map. A temporary storage shim for localStorage if not available.

@@ -1,7 +1,5 @@
 import { timer, timers } from '../utilities/timer.js';
 import { apply } from '../internal/apply.js';
-import { falsy } from '../utilities/stubFalse.js';
-import { truth } from '../utilities/stubTrue.js';
 /**
  * Creates a debounced function that delays invoking callable until after milliseconds have elapsed since the last time the debounced function was invoked. The debounce function has a clear method to cancel the timer.
  *
@@ -21,20 +19,20 @@ import { truth } from '../utilities/stubTrue.js';
  */
 export function debounce(callable, time) {
 	function debounced(...args) {
-		if (debounced.id !== falsy) {
+		if (debounced.id !== false) {
 			timers.remove(debounced.id);
 		}
 		debounced.id = timer(() => {
 			debounced.callable(...args);
-			debounced.id = falsy;
+			debounced.id = false;
 		}, time);
 	}
-	debounced.id = falsy;
+	debounced.id = false;
 	debounced.callable = callable.bind(debounced);
 	debounced.clear = () => {
-		if (debounced.id !== falsy) {
+		if (debounced.id !== false) {
 			timers.remove(debounced.id);
-			debounced.id = falsy;
+			debounced.id = false;
 		}
 	};
 	return debounced;

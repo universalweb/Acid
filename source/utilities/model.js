@@ -2,7 +2,6 @@ import { assign } from '../objects/assign.js';
 import { construct } from '../classes/construct.js';
 import { get } from './get.js';
 import { hasValue } from '../types/hasValue.js';
-import { isAgent } from '../browser/agent';
 /**
  * Returns the model with the given name.
  *

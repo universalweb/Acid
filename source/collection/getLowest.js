@@ -1,5 +1,3 @@
-import { getHighest } from './getHighest';
-import { sortCollectionAlphabetically } from './sortCollectionAlphabetically';
 import { sortCollectionDescending } from './sortCollectionDescending.js';
 /**
  * Sorts an array in place using a key from newest to oldest and returns the latest. Does not mutate the array.

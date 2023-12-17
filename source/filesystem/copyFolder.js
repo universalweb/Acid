@@ -3,9 +3,9 @@ import {
 	mkdir,
 	readdir,
 	stat
-} from 'fs/promises';
+} from 'node:fs/promises';
 import { eachAsyncArray } from '../arrays/eachAsync.js';
-import path from 'path';
+import path from 'node:path';
 async function copyToPath(sourceFolder, destinationFolder, file) {
 	const sourcePath = path.join(sourceFolder, file);
 	const destinationPath = path.join(destinationFolder, file);

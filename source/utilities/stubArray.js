@@ -1,4 +1,3 @@
-import { noop } from './noop';
 /**
  * This method returns a new empty array.
  *
@@ -11,7 +10,7 @@ import { noop } from './noop';
  * import { stubArray, assert } from '@universalweb/acid';
  * assert(stubArray(), []);
  */
-export const stubArray = () => {
+export function stubArray() {
 	return [];
-};
+}
 
