@@ -7488,6 +7488,7 @@
 	exports.eachRightAsync = eachRightAsync;
 	exports.ensureArray = ensureArray;
 	exports.ensureBuffer = ensureBuffer;
+	exports.equalsZero = isZero;
 	exports.escapeRegex = escapeRegex;
 	exports.escapeRegexRegex = escapeRegexRegex;
 	exports.every = every;

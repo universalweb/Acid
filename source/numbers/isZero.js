@@ -14,3 +14,4 @@
 export function isZero(source) {
 	return source === 0;
 }
+export { isZero as equalsZero };

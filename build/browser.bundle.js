@@ -7600,20 +7600,23 @@
 	function selector(select) {
 		const firstLetter = select[0];
 		switch (firstLetter) {
-			case poundString:
+			case poundString: {
 				if (!regexSpace.test(select)) {
 					return getById(restString(select));
 				}
 				break;
-			case dotString:
+			}
+			case dotString: {
 				if (classTest.test(select)) {
 					return getByClass(restString(select));
 				}
 				break;
-			default:
+			}
+			default: {
 				if (tagTest.test(select)) {
 					return getByTag(select);
 				}
+			}
 		}
 		return querySelectorAll(select);
 	}
@@ -8056,6 +8059,7 @@
 	exports.eachRightAsync = eachRightAsync;
 	exports.ensureArray = ensureArray;
 	exports.ensureBuffer = ensureBuffer;
+	exports.equalsZero = isZero;
 	exports.escapeRegex = escapeRegex;
 	exports.escapeRegexRegex = escapeRegexRegex;
 	exports.eventAdd = eventAdd;

@@ -6,8 +6,17 @@
 </pre>
 ---
 
-### [v3.0.70](https://github.com/universalweb/Acid/compare/v3.0.70...v3.0.70) 
-DATE: 2023-12-17
+### [v3.0.71](https://github.com/universalweb/Acid/compare/v3.0.71...v3.0.71) 
+DATE: 2023-12-21
+
+---
+### [v3.0.71](https://github.com/universalweb/Acid/compare/v3.0.70...v3.0.71) 
+DATE: 2023-12-21
+
+### Commits
+
+- Switch statement Scoped [`5207130`](https://github.com/universalweb/Acid/commit/52071305068a2e8a1bb9aa28a4eebb7ec6e94b2a)
+- Fixed Imports [`23e3dde`](https://github.com/universalweb/Acid/commit/23e3ddee78edf866e89f4458c919da95b39b4239)
 
 ---
 ### [v3.0.70](https://github.com/universalweb/Acid/compare/v3.0.69...v3.0.70) 
