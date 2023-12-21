@@ -22,7 +22,7 @@ const globalsArray = [globals.browser, globals.commonjs, globals.node, globals.s
 globalsArray.forEach(addGlobals);
 Object.assign(globalsObject, customGlobals);
 export default [{
-	ignores: ['acid.js', 'bundle.js', '/build/**', '**.min.js', 'node_modules/*', '.eslintignore', '**/*.mjs'],
+	ignores: ['node_modules/*', '.eslintignore', '**/*.mjs'],
 	files: ['**/*.js'],
 	languageOptions: {
 		parser: babelParser,
@@ -34,7 +34,7 @@ export default [{
 		globals: globalsObject,
 	},
 	plugins: {
-		jsdoc,
+		jsdoc
 	},
 	rules: {
 		'no-setter-return': 'error',
@@ -253,11 +253,16 @@ export default [{
 				ImportDeclaration: 1
 			}
 		],
+		'switch-colon-spacing': ['error', {
+			after: true,
+			before: false
+		}],
 		'key-spacing': [
 			'error',
 			{
 				beforeColon: false,
-				afterColon: true
+				afterColon: true,
+				mode: 'strict'
 			}
 		],
 		'keyword-spacing': [

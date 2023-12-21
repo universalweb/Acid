@@ -66,20 +66,23 @@ export const querySelectorAll = document.querySelectorAll.bind(document);
 export function selector(select) {
 	const firstLetter = select[0];
 	switch (firstLetter) {
-		case poundString:
+		case poundString: {
 			if (!regexSpace.test(select)) {
 				return getById(restString(select));
 			}
 			break;
-		case dotString:
+		}
+		case dotString: {
 			if (classTest.test(select)) {
 				return getByClass(restString(select));
 			}
 			break;
-		default:
+		}
+		default: {
 			if (tagTest.test(select)) {
 				return getByTag(select);
 			}
+		}
 	}
 	return querySelectorAll(select);
 }
