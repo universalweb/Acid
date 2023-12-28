@@ -65,13 +65,13 @@
         "connect-livereload": "0.6.1",
         "daisyui": "^2.51.3",
         "eslint": "^8.35.0",
-        "eslint-plugin-import": "^2.27.5",
-        "eslint-plugin-jsdoc": "*",
-        "eslint-plugin-simple-import-sort": "^10.0.0",
+        "eslint-plugin-jsdoc": "^46.9.1",
         "express": "^4.18.2",
         "magic-string": "*",
         "node-watch": "*",
+        "prettier-eslint": "^16.2.0",
         "rollup": "*",
+        "rollup-plugin-node-externals": "^6.1.2",
         "stylelint": "^15.2.0",
         "stylelint-config-standard": "^30.0.1",
         "tailwindcss": "*",
@@ -86,8 +86,5 @@
     },
     "imports": {
         "#type/*": "./source/type/*.js"
-    },
-    "devDependencies": {
-        "rollup-plugin-node-externals": "^6.1.1"
     }
 }
