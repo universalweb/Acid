@@ -6,8 +6,18 @@
 </pre>
 ---
 
-### [v3.0.71](https://github.com/universalweb/Acid/compare/v3.0.71...v3.0.71) 
-DATE: 2023-12-21
+### [v3.0.72](https://github.com/universalweb/Acid/compare/v3.0.72...v3.0.72) 
+DATE: 2024-01-09
+
+---
+### [v3.0.72](https://github.com/universalweb/Acid/compare/v3.0.71...v3.0.72) 
+DATE: 2024-01-09
+
+### Commits
+
+- concurrentEach added [`8793a2d`](https://github.com/universalweb/Acid/commit/8793a2dc79fbed6b62a15e11a2eece5ecc1956c2)
+- Dependency Cleanup [`d24f0c7`](https://github.com/universalweb/Acid/commit/d24f0c7c231f458ebbf67568c2bcc0bce1680fa4)
+- equalsZero alias added [`047506d`](https://github.com/universalweb/Acid/commit/047506d588d887d051cfc1f7223c78f54769d373)
 
 ---
 ### [v3.0.71](https://github.com/universalweb/Acid/compare/v3.0.70...v3.0.71) 
