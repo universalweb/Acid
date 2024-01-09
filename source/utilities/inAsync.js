@@ -3,11 +3,11 @@
  *
  * @function inAsync
  * @type {Function}
- * @category Array
+ * @category Utility
  * @async
  * @param {Array} source - Array of async functions that will be looped through.
- * Functions are given the supplied object, index, the calling array, and the array length.
- * @param {*} firstArgument - The first argument given to each function.
+ * @param {*} thisBind - Object to use as the "this" within the function.
+ * @param {...*} args - Arguments to pass to each function. Every argument after the first (thisBind) is passed to each function.
  * @returns {Object} - The originally given array.
  *
  * @example
@@ -20,12 +20,19 @@
  * }], {a:1});
  * assert(list, [1, 1]);
  */
-export async function inAsync(source, firstArgument) {
+export async function inAsync(source, thisBind, ...args) {
 	const arrayLength = source.length;
-	for (let index = 0; index < arrayLength; index++) {
-		const method = source[index];
-		await method(firstArgument, index, source, arrayLength);
+	const results = [];
+	if (thisBind) {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = await source[index].call(thisBind, ...args, index, callable);
+		}
+	} else {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = await source[index](...args, index, callable);
+		}
 	}
-	return source;
+	return results;
 }
-

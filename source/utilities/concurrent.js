@@ -1,30 +1,38 @@
-import { concurrentArray } from '../arrays/concurrent.js';
-import { isArray } from '../types/isArray.js';
 /**
- * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
+ * Iterates through the given array of async function(s) adding each call to a queue. Then uses Promise.all on the queue returning the values from each promise. Does not await on each async iteratee before the next.
  *
  * @function concurrent
- * @category utility
  * @type {Function}
- * @param {Array} source - Array that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} additionalArgument - An object to be given each time to the iteratee.
- * @returns {Promise|Array|undefined} - The array from Promise.all.
+ * @category Utility
+ * @async
+ * @param {Array} source - Array of async functions that will be looped through.
+ * @param {*} thisBind - Object to use as the "this" within the function.
+ * @param {...*} args - Arguments to pass to each function. Every argument after the first (thisBind) is passed to each function.
+ * @returns {Object} - The originally given array.
  *
  * @example
- * import { concurrent, has, assert } from '@universalweb/acid';
- * const results = await concurrent([1, 2, 3], async (item) => {
- *   return item * 2;
- * });
- * assert(has(results, [2, 4, 6]), true);
+ * import { concurrent, assert } from '@universalweb/acid';
+ * const list = [];
+ * await concurrent([async (item) => {
+ *   return item;
+ * }, async (item) => {
+ *   return item;
+ * }], null, 1);
+ * assert(list, [1, 1]);
  */
-export async function concurrent(source, iteratee, additionalArgument) {
-	if (!source) {
-		return;
+export async function concurrent(source, thisBind, ...args) {
+	const arrayLength = source.length;
+	const results = [];
+	if (thisBind) {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = source[index].call(thisBind, ...args, index, results, callable);
+		}
+	} else {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = source[index](...args, index, results, callable);
+		}
 	}
-	if (isArray(source)) {
-		return concurrentArray(source, iteratee, additionalArgument);
-	}
-	return;
+	return Promise.all(results);
 }
-
