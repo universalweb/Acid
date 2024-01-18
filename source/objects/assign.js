@@ -1,4 +1,3 @@
-import { extendClass } from '../classes/extendClass.js';
 import { hasValue } from '../types/hasValue.js';
 import { isFunction } from '../types/isFunction.js';
 import { isNumber } from '../types/isNumber.js';

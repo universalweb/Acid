@@ -6,8 +6,6 @@ export * from './curry.js';
 export * from './curryRight.js';
 export * from './debounce.js';
 export * from './ifInvoke.js';
-export * from './inAsync.js';
-export * from './inSync.js';
 export * from './negate.js';
 export * from './nthArg.js';
 export * from './once.js';

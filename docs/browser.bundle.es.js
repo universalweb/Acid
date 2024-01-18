@@ -145,7 +145,7 @@ function returnValue(source) {
  * @type {Function}
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
- * @param {*} thisCall - Iteratee called with thisCall as this.
+ * @param {*} thisBind - Iteratee called with thisBind as this.
  * @param {*} additionalArg - An object to be given each time to the iteratee.
  * @returns {Array|undefined} - The originally given array.
  *
@@ -157,14 +157,14 @@ function returnValue(source) {
  * });
  * assert(list, [1, 2, 3]);
  */
-function eachArray(source, iteratee, thisCall, additionalArg) {
+function eachArray(source, iteratee, thisBind, additionalArg) {
 	if (!source) {
 		return;
 	}
 	const arrayLength = source.length;
-	if (hasValue(thisCall)) {
+	if (hasValue(thisBind)) {
 		for (let index = 0; index < arrayLength; index++) {
-			iteratee.call(thisCall, source[index], index, source, arrayLength, additionalArg);
+			iteratee.call(thisBind, source[index], index, source, arrayLength, additionalArg);
 		}
 	} else {
 		for (let index = 0; index < arrayLength; index++) {
@@ -1172,29 +1172,36 @@ function mapArray(source, iteratee, results = [], thisCall, additionalArg) {
 /**
  * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
  *
- * @function concurrentArray
+ * @function concurrentEachArray
  * @category array
  * @type {Function}
  * @async
  * @param {Array} source - Array that will be looped through.
  * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+ * @param {*} thisBind - Object to use as the "this" within the function.
  * @returns {Promise|Array|undefined} - An array of the same calling array's type.
  *
  * @example
- * import { concurrentArray, has, assert } from '@universalweb/acid';
- * const results = await concurrentArray([1, 2, 3], async (item) => {
+ * import { concurrentEachArray, has, assert } from '@universalweb/acid';
+ * const results = await concurrentEachArray([1, 2, 3], async (item) => {
  *   return item * 2;
  * });
  * assert(has(results, [2, 4, 6]), true);
  */
-async function concurrentArray(source, iteratee) {
+async function concurrentEachArray(source, iteratee, thisBind) {
 	if (!source) {
 		return;
 	}
 	const results = [];
 	const arrayLength = source.length;
-	for (let index = 0; index < arrayLength; index++) {
-		results[index] = iteratee(source[index], index, results, arrayLength);
+	if (thisBind) {
+		for (let index = 0; index < arrayLength; index++) {
+			results[index] = iteratee.call(thisBind, source[index], index, results, arrayLength);
+		}
+	} else {
+		for (let index = 0; index < arrayLength; index++) {
+			results[index] = iteratee(source[index], index, results, arrayLength);
+		}
 	}
 	return Promise.all(results);
 }
@@ -3385,71 +3392,22 @@ function debounce(callable, time) {
  * @category function
  * @type {Function}
  * @param {Function} callable - The function to be invoked if possible.
- * @param {...Array} args - Arguments to pass to the method.
+ * @param {*} thisBind - Object to use as the "this" within the function.
+ * @param {...*} args - Arguments to pass to the function.
  * @returns {*} - Returns the method invoked or undefined.
  *
  * @example
  * import { ifInvoke, assert } from '@universalweb/acid';
  * assert(ifInvoke((...args) => { return args;}, 1, 2), [1, 2]);
  */
-function ifInvoke(callable, ...args) {
+function ifInvoke(callable, thisBind, ...args) {
 	if (isFunction(callable)) {
+		if (thisBind) {
+			return callable.call(thisBind, ...args);
+		}
 		return callable(...args);
 	}
 }
-
-/**
- * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
- *
- * @function inAsync
- * @type {Function}
- * @category Array
- * @async
- * @param {Array} source - Array of async functions that will be looped through.
- * Functions are given the supplied object, index, the calling array, and the array length.
- * @param {*} firstArgument - The first argument given to each function.
- * @returns {Object} - The originally given array.
- *
- * @example
- * import { inAsync, assert } from '@universalweb/acid';
- * const list = [];
- * await inAsync([async (firstArgument, item, index) => {
- *   list.push(index + firstArgument.a);
- * }, async (firstArgument, item, index) => {
- *   list.push(index);
- * }], {a:1});
- * assert(list, [1, 1]);
- */
-async function inAsync(source, firstArgument) {
-	const arrayLength = source.length;
-	for (let index = 0; index < arrayLength; index++) {
-		const method = source[index];
-		await method(firstArgument, index, source, arrayLength);
-	}
-	return source;
-}
-
-/**
- * Invoke an array of functions.
- *
- * @function inSync
- * @category function
- * @type {Function}
- * @param {Array|Object|Function} collection - The functions to be invoked.
- * @param {*} value - The object passed as an argument to each method.
- * @returns {undefined} - Returns undefined.
- *
- * @example
- * inSync([() => {console.log(1);}, () => {console.log(2);}]);
- * // 1
- * // 2
- * // => undefined
- */
-const inSync = (collection, value) => {
-	return each(collection, (item) => {
-		item(value);
-	});
-};
 
 /**
  * Creates a function that negates the result of the predicate callable.
@@ -6098,6 +6056,45 @@ function clone(source) {
 }
 
 /**
+ * Iterates through the given array of async function(s) adding each call to a queue. Then uses Promise.all on the queue returning the values from each promise. Does not await on each async iteratee before the next.
+ *
+ * @function concurrent
+ * @type {Function}
+ * @category Utility
+ * @async
+ * @param {Array} source - Array of async functions that will be looped through.
+ * @param {*} thisBind - Object to use as the "this" within the function.
+ * @param {...*} args - Arguments to pass to each function. Every argument after the first (thisBind) is passed to each function.
+ * @returns {Object} - The originally given array.
+ *
+ * @example
+ * import { concurrent, assert } from '@universalweb/acid';
+ * const list = [];
+ * await concurrent([async (item) => {
+ *   return item;
+ * }, async (item) => {
+ *   return item;
+ * }], null, 1);
+ * assert(list, [1, 1]);
+ */
+async function concurrent(source, thisBind, ...args) {
+	const arrayLength = source.length;
+	const results = [];
+	if (thisBind) {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = source[index].call(thisBind, ...args, index, results, callable);
+		}
+	} else {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = source[index](...args, index, results, callable);
+		}
+	}
+	return Promise.all(results);
+}
+
+/**
  * Creates an array with all isFalsy values removed. The values false, null, 0, "", undefined, and NaN are isFalsy.
  *
  * @function compact
@@ -6823,34 +6820,6 @@ function pair(argument1, argument2) {
 }
 
 /**
- * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
- *
- * @function concurrent
- * @category utility
- * @type {Function}
- * @param {Array} source - Array that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
- * @param {*} additionalArgument - An object to be given each time to the iteratee.
- * @returns {Promise|Array|undefined} - The array from Promise.all.
- *
- * @example
- * import { concurrent, has, assert } from '@universalweb/acid';
- * const results = await concurrent([1, 2, 3], async (item) => {
- *   return item * 2;
- * });
- * assert(has(results, [2, 4, 6]), true);
- */
-async function concurrent(source, iteratee, additionalArgument) {
-	if (!source) {
-		return;
-	}
-	if (isArray(source)) {
-		return concurrentArray(source, iteratee);
-	}
-	return;
-}
-
-/**
  * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.allSettled on the queue returning the values from each promise. Does not await on the async iteratee.
  *
  * @function concurrentStatus
@@ -7358,6 +7327,79 @@ class VirtualStorage {
  */
 function virtualStorage(initialObject) {
 	return new VirtualStorage(initialObject);
+}
+
+/**
+ * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
+ *
+ * @function inAsync
+ * @type {Function}
+ * @category Utility
+ * @async
+ * @param {Array} source - Array of async functions that will be looped through.
+ * @param {*} thisBind - Object to use as the "this" within the function.
+ * @param {...*} args - Arguments to pass to each function. Every argument after the first (thisBind) is passed to each function.
+ * @returns {Object} - The originally given array.
+ *
+ * @example
+ * import { inAsync, assert } from '@universalweb/acid';
+ * const list = [];
+ * await inAsync([async (firstArgument, item, index) => {
+ *   list.push(index + firstArgument.a);
+ * }, async (firstArgument, item, index) => {
+ *   list.push(index);
+ * }], {a:1});
+ * assert(list, [1, 1]);
+ */
+async function inAsync(source, thisBind, ...args) {
+	const arrayLength = source.length;
+	const results = [];
+	if (thisBind) {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = await source[index].call(thisBind, ...args, index, callable);
+		}
+	} else {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = await source[index](...args, index, callable);
+		}
+	}
+	return results;
+}
+
+/**
+ * Invoke an array of functions.
+ *
+ * @function inSync
+ * @category Utility
+ * @type {Function}
+ * @param {Array} source - Array of functions that will be looped through.
+ * @param {*} thisBind - Object to use as the "this" within the function.
+ * @param {...*} args -The arguments passed to each function. Every argument after the first (thisBind) is passed to each function.
+ * @returns {undefined} - Returns undefined.
+ *
+ * @example
+ * inSync([() => {console.log(1);}, () => {console.log(2);}]);
+ * // 1
+ * // 2
+ * // => undefined
+ */
+function inSync(source, thisBind, ...args) {
+	const arrayLength = source.length;
+	const results = [];
+	if (thisBind) {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = callable.call(thisBind, ...args, index, callable);
+		}
+	} else {
+		for (let index = 0; index < arrayLength; index++) {
+			const callable = source[index];
+			results[index] = callable(...args, index, callable);
+		}
+	}
+	return results;
 }
 
 /**
@@ -7962,5 +8004,5 @@ function isNodeList(source) {
 	return (hasValue(source)) ? source.toString() === objectNodeList : false;
 }
 
-export { BrowserStorage, Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToRegex, arraysToObject, ary, assert, assertAsync, assign, assignToClass, assignToObject, before, bindAll, browserStorage, cacheNativeMethod, calcProgress, camelCase, chain, chunk, chunkString, clear, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentArray, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, isZero as equalsZero, escapeRegex, escapeRegexRegex, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, extendClass, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getEntries, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invokeArray, invokeCollection, invokeCollectionAsync, isAgent, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDeno, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodeList, isNodejs, isNotArray, isNotNumber, isNotString, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, objectAssign, objectEntries, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, querySelector, querySelectorAll, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { BrowserStorage, Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToRegex, arraysToObject, ary, assert, assertAsync, assign, assignToClass, assignToObject, before, bindAll, browserStorage, cacheNativeMethod, calcProgress, camelCase, chain, chunk, chunkString, clear, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentEachArray, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, isZero as equalsZero, escapeRegex, escapeRegexRegex, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, extendClass, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getEntries, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invokeArray, invokeCollection, invokeCollectionAsync, isAgent, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDeno, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodeList, isNodejs, isNotArray, isNotNumber, isNotString, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, objectAssign, objectEntries, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, querySelector, querySelectorAll, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

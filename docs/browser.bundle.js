@@ -154,7 +154,7 @@
 	 * @type {Function}
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, array length, and additionalArg.
-	 * @param {*} thisCall - Iteratee called with thisCall as this.
+	 * @param {*} thisBind - Iteratee called with thisBind as this.
 	 * @param {*} additionalArg - An object to be given each time to the iteratee.
 	 * @returns {Array|undefined} - The originally given array.
 	 *
@@ -166,14 +166,14 @@
 	 * });
 	 * assert(list, [1, 2, 3]);
 	 */
-	function eachArray(source, iteratee, thisCall, additionalArg) {
+	function eachArray(source, iteratee, thisBind, additionalArg) {
 		if (!source) {
 			return;
 		}
 		const arrayLength = source.length;
-		if (hasValue(thisCall)) {
+		if (hasValue(thisBind)) {
 			for (let index = 0; index < arrayLength; index++) {
-				iteratee.call(thisCall, source[index], index, source, arrayLength, additionalArg);
+				iteratee.call(thisBind, source[index], index, source, arrayLength, additionalArg);
 			}
 		} else {
 			for (let index = 0; index < arrayLength; index++) {
@@ -1182,29 +1182,36 @@
 	/**
 	 * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
 	 *
-	 * @function concurrentArray
+	 * @function concurrentEachArray
 	 * @category array
 	 * @type {Function}
 	 * @async
 	 * @param {Array} source - Array that will be looped through.
 	 * @param {Function} iteratee - Transformation function which is passed item, index, the newly created array, calling array, and array length.
+	 * @param {*} thisBind - Object to use as the "this" within the function.
 	 * @returns {Promise|Array|undefined} - An array of the same calling array's type.
 	 *
 	 * @example
-	 * import { concurrentArray, has, assert } from '@universalweb/acid';
-	 * const results = await concurrentArray([1, 2, 3], async (item) => {
+	 * import { concurrentEachArray, has, assert } from '@universalweb/acid';
+	 * const results = await concurrentEachArray([1, 2, 3], async (item) => {
 	 *   return item * 2;
 	 * });
 	 * assert(has(results, [2, 4, 6]), true);
 	 */
-	async function concurrentArray(source, iteratee) {
+	async function concurrentEachArray(source, iteratee, thisBind) {
 		if (!source) {
 			return;
 		}
 		const results = [];
 		const arrayLength = source.length;
-		for (let index = 0; index < arrayLength; index++) {
-			results[index] = iteratee(source[index], index, results, arrayLength);
+		if (thisBind) {
+			for (let index = 0; index < arrayLength; index++) {
+				results[index] = iteratee.call(thisBind, source[index], index, results, arrayLength);
+			}
+		} else {
+			for (let index = 0; index < arrayLength; index++) {
+				results[index] = iteratee(source[index], index, results, arrayLength);
+			}
 		}
 		return Promise.all(results);
 	}
@@ -3391,71 +3398,22 @@
 	 * @category function
 	 * @type {Function}
 	 * @param {Function} callable - The function to be invoked if possible.
-	 * @param {...Array} args - Arguments to pass to the method.
+	 * @param {*} thisBind - Object to use as the "this" within the function.
+	 * @param {...*} args - Arguments to pass to the function.
 	 * @returns {*} - Returns the method invoked or undefined.
 	 *
 	 * @example
 	 * import { ifInvoke, assert } from '@universalweb/acid';
 	 * assert(ifInvoke((...args) => { return args;}, 1, 2), [1, 2]);
 	 */
-	function ifInvoke(callable, ...args) {
+	function ifInvoke(callable, thisBind, ...args) {
 		if (isFunction(callable)) {
+			if (thisBind) {
+				return callable.call(thisBind, ...args);
+			}
 			return callable(...args);
 		}
 	}
-
-	/**
-	 * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
-	 *
-	 * @function inAsync
-	 * @type {Function}
-	 * @category Array
-	 * @async
-	 * @param {Array} source - Array of async functions that will be looped through.
-	 * Functions are given the supplied object, index, the calling array, and the array length.
-	 * @param {*} firstArgument - The first argument given to each function.
-	 * @returns {Object} - The originally given array.
-	 *
-	 * @example
-	 * import { inAsync, assert } from '@universalweb/acid';
-	 * const list = [];
-	 * await inAsync([async (firstArgument, item, index) => {
-	 *   list.push(index + firstArgument.a);
-	 * }, async (firstArgument, item, index) => {
-	 *   list.push(index);
-	 * }], {a:1});
-	 * assert(list, [1, 1]);
-	 */
-	async function inAsync(source, firstArgument) {
-		const arrayLength = source.length;
-		for (let index = 0; index < arrayLength; index++) {
-			const method = source[index];
-			await method(firstArgument, index, source, arrayLength);
-		}
-		return source;
-	}
-
-	/**
-	 * Invoke an array of functions.
-	 *
-	 * @function inSync
-	 * @category function
-	 * @type {Function}
-	 * @param {Array|Object|Function} collection - The functions to be invoked.
-	 * @param {*} value - The object passed as an argument to each method.
-	 * @returns {undefined} - Returns undefined.
-	 *
-	 * @example
-	 * inSync([() => {console.log(1);}, () => {console.log(2);}]);
-	 * // 1
-	 * // 2
-	 * // => undefined
-	 */
-	const inSync = (collection, value) => {
-		return each(collection, (item) => {
-			item(value);
-		});
-	};
 
 	/**
 	 * Creates a function that negates the result of the predicate callable.
@@ -6114,6 +6072,45 @@
 	}
 
 	/**
+	 * Iterates through the given array of async function(s) adding each call to a queue. Then uses Promise.all on the queue returning the values from each promise. Does not await on each async iteratee before the next.
+	 *
+	 * @function concurrent
+	 * @type {Function}
+	 * @category Utility
+	 * @async
+	 * @param {Array} source - Array of async functions that will be looped through.
+	 * @param {*} thisBind - Object to use as the "this" within the function.
+	 * @param {...*} args - Arguments to pass to each function. Every argument after the first (thisBind) is passed to each function.
+	 * @returns {Object} - The originally given array.
+	 *
+	 * @example
+	 * import { concurrent, assert } from '@universalweb/acid';
+	 * const list = [];
+	 * await concurrent([async (item) => {
+	 *   return item;
+	 * }, async (item) => {
+	 *   return item;
+	 * }], null, 1);
+	 * assert(list, [1, 1]);
+	 */
+	async function concurrent(source, thisBind, ...args) {
+		const arrayLength = source.length;
+		const results = [];
+		if (thisBind) {
+			for (let index = 0; index < arrayLength; index++) {
+				const callable = source[index];
+				results[index] = source[index].call(thisBind, ...args, index, results, callable);
+			}
+		} else {
+			for (let index = 0; index < arrayLength; index++) {
+				const callable = source[index];
+				results[index] = source[index](...args, index, results, callable);
+			}
+		}
+		return Promise.all(results);
+	}
+
+	/**
 	 * Creates an array with all isFalsy values removed. The values false, null, 0, "", undefined, and NaN are isFalsy.
 	 *
 	 * @function compact
@@ -6844,34 +6841,6 @@
 	}
 
 	/**
-	 * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.all on the queue returning the values from each promise. Does not await on the async iteratee.
-	 *
-	 * @function concurrent
-	 * @category utility
-	 * @type {Function}
-	 * @param {Array} source - Array that will be looped through.
-	 * @param {Function} iteratee - Transformation function which is passed item, index, calling array, and array length.
-	 * @param {*} additionalArgument - An object to be given each time to the iteratee.
-	 * @returns {Promise|Array|undefined} - The array from Promise.all.
-	 *
-	 * @example
-	 * import { concurrent, has, assert } from '@universalweb/acid';
-	 * const results = await concurrent([1, 2, 3], async (item) => {
-	 *   return item * 2;
-	 * });
-	 * assert(has(results, [2, 4, 6]), true);
-	 */
-	async function concurrent(source, iteratee, additionalArgument) {
-		if (!source) {
-			return;
-		}
-		if (isArray(source)) {
-			return concurrentArray(source, iteratee);
-		}
-		return;
-	}
-
-	/**
 	 * Iterates through an array, invokes the async iteratee, and adds the promises to a queue. Then uses & returns the Promise.allSettled on the queue returning the values from each promise. Does not await on the async iteratee.
 	 *
 	 * @function concurrentStatus
@@ -7379,6 +7348,79 @@
 	 */
 	function virtualStorage(initialObject) {
 		return new VirtualStorage(initialObject);
+	}
+
+	/**
+	 * Iterates through the given array of async function(s). Each async function is awaited as to ensure synchronous order and is given the supplied object.
+	 *
+	 * @function inAsync
+	 * @type {Function}
+	 * @category Utility
+	 * @async
+	 * @param {Array} source - Array of async functions that will be looped through.
+	 * @param {*} thisBind - Object to use as the "this" within the function.
+	 * @param {...*} args - Arguments to pass to each function. Every argument after the first (thisBind) is passed to each function.
+	 * @returns {Object} - The originally given array.
+	 *
+	 * @example
+	 * import { inAsync, assert } from '@universalweb/acid';
+	 * const list = [];
+	 * await inAsync([async (firstArgument, item, index) => {
+	 *   list.push(index + firstArgument.a);
+	 * }, async (firstArgument, item, index) => {
+	 *   list.push(index);
+	 * }], {a:1});
+	 * assert(list, [1, 1]);
+	 */
+	async function inAsync(source, thisBind, ...args) {
+		const arrayLength = source.length;
+		const results = [];
+		if (thisBind) {
+			for (let index = 0; index < arrayLength; index++) {
+				const callable = source[index];
+				results[index] = await source[index].call(thisBind, ...args, index, callable);
+			}
+		} else {
+			for (let index = 0; index < arrayLength; index++) {
+				const callable = source[index];
+				results[index] = await source[index](...args, index, callable);
+			}
+		}
+		return results;
+	}
+
+	/**
+	 * Invoke an array of functions.
+	 *
+	 * @function inSync
+	 * @category Utility
+	 * @type {Function}
+	 * @param {Array} source - Array of functions that will be looped through.
+	 * @param {*} thisBind - Object to use as the "this" within the function.
+	 * @param {...*} args -The arguments passed to each function. Every argument after the first (thisBind) is passed to each function.
+	 * @returns {undefined} - Returns undefined.
+	 *
+	 * @example
+	 * inSync([() => {console.log(1);}, () => {console.log(2);}]);
+	 * // 1
+	 * // 2
+	 * // => undefined
+	 */
+	function inSync(source, thisBind, ...args) {
+		const arrayLength = source.length;
+		const results = [];
+		if (thisBind) {
+			for (let index = 0; index < arrayLength; index++) {
+				const callable = source[index];
+				results[index] = callable.call(thisBind, ...args, index, callable);
+			}
+		} else {
+			for (let index = 0; index < arrayLength; index++) {
+				const callable = source[index];
+				results[index] = callable(...args, index, callable);
+			}
+		}
+		return results;
 	}
 
 	/**
@@ -8033,7 +8075,7 @@
 	exports.compactMapAsyncObject = compactMapAsyncObject;
 	exports.compactMapObject = compactMapObject;
 	exports.concurrent = concurrent;
-	exports.concurrentArray = concurrentArray;
+	exports.concurrentEachArray = concurrentEachArray;
 	exports.concurrentStatus = concurrentStatus;
 	exports.construct = construct;
 	exports.constructorName = constructorName;
