@@ -6,8 +6,18 @@
 </pre>
 ---
 
-### [v3.0.73](https://github.com/universalweb/Acid/compare/v3.0.73...v3.0.73) 
-DATE: 2024-01-09
+### [v3.0.74](https://github.com/universalweb/Acid/compare/v3.0.74...v3.0.74) 
+DATE: 2024-04-23
+
+---
+### [v3.0.74](https://github.com/universalweb/Acid/compare/v3.0.73...v3.0.74) 
+DATE: 2024-04-23
+
+### Commits
+
+- Add new number checking functions and update utility functions [`f8e59b7`](https://github.com/universalweb/Acid/commit/f8e59b7a374fc3f7ddd9215f471c78b93d32c630)
+- Previous commit description [`6aef673`](https://github.com/universalweb/Acid/commit/6aef673c09ad67ebebf1cba61a9f561365e51c65)
+- Method updates [`5dad8f3`](https://github.com/universalweb/Acid/commit/5dad8f3a5c4b39a60a328b41259887630308b23c)
 
 ---
 ### [v3.0.73](https://github.com/universalweb/Acid/compare/v3.0.72...v3.0.73) 
