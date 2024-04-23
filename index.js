@@ -26,9 +26,9 @@ const expressPort = 8890;
 const eslintConfig = eslintConfigRaw[0];
 async function liveServer() {
 	const port = 35729;
-	const server = await (new tinyLR.Server({
+	const server = await new tinyLR.Server({
 		port,
-	}));
+	});
 	server.listen();
 	app.use(liveReload({
 		port,
@@ -66,10 +66,7 @@ const build = async () => {
 	});
 	const browserBundleProduction = await rollup({
 		input: './source/browser.js',
-		plugins: [
-			nodeResolve(),
-			terser()
-		]
+		plugins: [nodeResolve(), terser()]
 	});
 	await browserBundle.write({
 		file: './build/browser.bundle.js',
@@ -103,9 +100,12 @@ const build = async () => {
 	console.log('Build Server START');
 	const index = await rollup({
 		input: './source/index.js',
-		plugins: [nodeExternals({
-			builtinsPrefix: 'ignore'
-		}), nodeResolve()],
+		plugins: [
+			nodeExternals({
+				builtinsPrefix: 'ignore'
+			}),
+			nodeResolve()
+		],
 	});
 	const indexProduction = await rollup({
 		input: './source/index.js',

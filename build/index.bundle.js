@@ -7877,11 +7877,16 @@
     }
     return node_url.fileURLToPath(importMeta.url);
   }
-  function currentPath(importMeta) {
+  function currentPath(importMeta, joinPath) {
     if (globalThis.__dirname) {
       return __dirname;
     }
-    return path$1.dirname(node_url.fileURLToPath(importMeta.url));
+    const currentPathString = path$1.dirname(
+      node_url.fileURLToPath(importMeta.url),
+    );
+    return joinPath
+      ? path$1.join(currentPathString, joinPath)
+      : currentPathString;
   }
 
   exports.Chain = Chain;
