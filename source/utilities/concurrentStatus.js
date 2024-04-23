@@ -22,7 +22,7 @@ import { returnValue } from './returnValue.js';
 export function concurrentStatus(source, iteratee, additionalArgument) {
 	const arrayLength = source.length;
 	const queue = [];
-	for (let index = 0;index < arrayLength; index++) {
+	for (let index = 0; index < arrayLength; index++) {
 		queue[index] = iteratee(source[index], index, source, arrayLength, additionalArgument);
 	}
 	return Promise.allSettled(queue);

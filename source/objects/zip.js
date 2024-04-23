@@ -15,11 +15,11 @@ import { eachObject } from './each.js';
  * // => { 'a': 1, 'b': 2 }
  */
 export const zipObject = (properties, values) => {
-	const zipedObject = {};
+	const source = {};
 	eachArray(properties, (item, key) => {
-		zipedObject[item] = values[key];
+		source[item] = values[key];
 	});
-	return zipedObject;
+	return source;
 };
 /**
  * Takes an array of grouped elements and creates an array regrouping the elements to their pre-zip object configuration.
@@ -35,12 +35,15 @@ export const zipObject = (properties, values) => {
  * // => [['a', 'b'], [1, 2]]
  */
 export const unZipObject = (object) => {
-	const unZippedKeys = [];
-	const values = [];
+	const objectKeys = [];
+	const objectValues = [];
 	eachObject(object, (item, key) => {
-		unZippedKeys.push(key);
-		values.push(item);
+		objectKeys.push(key);
+		objectValues.push(item);
 	});
-	return [unZippedKeys, values];
+	return [
+		objectKeys,
+		objectValues,
+	];
 };
 

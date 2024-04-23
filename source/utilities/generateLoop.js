@@ -11,15 +11,15 @@ export function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAs
 		if (!hasValue(source) || !iteratee) {
 			return;
 		} else if (isArray(source)) {
-			returned = (isIterateeAsync) ? arrayLoopAsync : arrayLoop;
+			returned = isIterateeAsync ? arrayLoopAsync : arrayLoop;
 		} else if (isPlainObject(source) || isFunction(source)) {
-			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
+			returned = isIterateeAsync ? objectLoopAsync : objectLoop;
 		} else if (forOfLoop) {
-			returned = (isIterateeAsync) ? forOfLoopAsync : forOfLoop;
+			returned = isIterateeAsync ? forOfLoopAsync : forOfLoop;
 		} else if (isGenerator(source)) {
 			returned = forOfLoopAsync;
 		} else {
-			returned = (isIterateeAsync) ? objectLoopAsync : objectLoop;
+			returned = isIterateeAsync ? objectLoopAsync : objectLoop;
 		}
 		return returned(source, iteratee, argument1, argument2, argument3);
 	};

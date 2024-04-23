@@ -22,5 +22,11 @@ import { generateLoop } from './generateLoop.js';
  *   return item;
  * }), {b: 2, c: 3});
  */
-export const compactMap = generateLoop(compactMapArray, compactMapAsyncArray,
-	compactMapObject, compactMapAsyncObject, forOfCompactMap, forOfCompactMapAsync);
+export const compactMap = generateLoop(
+	compactMapArray,
+	compactMapAsyncArray,
+	compactMapObject,
+	compactMapAsyncObject,
+	forOfCompactMap,
+	forOfCompactMapAsync
+);

@@ -54,28 +54,19 @@ export default [
 				'error',
 				{
 					multiline: true,
-					minItems: 2
+					minItems: 3
 				}
 			],
-			'@stylistic/array-bracket-spacing': [
-				'error',
-				'never'
-			],
+			'@stylistic/array-bracket-spacing': ['error', 'never'],
 			'@stylistic/array-element-newline': [
 				'error',
 				{
 					multiline: true,
-					minItems: 2
+					minItems: 3
 				}
 			],
-			'@stylistic/arrow-parens': [
-				'error',
-				'always'
-			],
-			'@stylistic/block-spacing': [
-				'error',
-				'always'
-			],
+			'@stylistic/arrow-parens': ['error', 'always'],
+			'@stylistic/block-spacing': ['error', 'always'],
 			'@stylistic/brace-style': 'error',
 			'@stylistic/comma-dangle': [
 				'error',
@@ -94,20 +85,11 @@ export default [
 					before: false
 				}
 			],
-			'@stylistic/comma-style': [
-				'error',
-				'last'
-			],
+			'@stylistic/comma-style': ['error', 'last'],
 			'@stylistic/computed-property-spacing': 'error',
-			'@stylistic/dot-location': [
-				'error',
-				'property'
-			],
+			'@stylistic/dot-location': ['error', 'property'],
 			'@stylistic/eol-last': 'error',
-			'@stylistic/function-call-argument-newline': [
-				'error',
-				'consistent'
-			],
+			'@stylistic/function-call-argument-newline': ['error', 'consistent'],
 			'@stylistic/function-call-spacing': 'error',
 			'@stylistic/function-paren-newline': 'error',
 			'@stylistic/generator-star-spacing': [
@@ -117,10 +99,7 @@ export default [
 					before: false
 				}
 			],
-			'@stylistic/implicit-arrow-linebreak': [
-				'error',
-				'beside'
-			],
+			'@stylistic/implicit-arrow-linebreak': ['error', 'beside'],
 			'@stylistic/indent': [
 				'error',
 				'tab',
@@ -130,10 +109,7 @@ export default [
 					SwitchCase: 1
 				}
 			],
-			'@stylistic/jsx-quotes': [
-				'error',
-				'prefer-double'
-			],
+			'@stylistic/jsx-quotes': ['error', 'prefer-double'],
 			'@stylistic/key-spacing': [
 				'error',
 				{
@@ -149,10 +125,7 @@ export default [
 					before: true
 				}
 			],
-			'@stylistic/linebreak-style': [
-				'error',
-				'unix'
-			],
+			'@stylistic/linebreak-style': ['error', 'unix'],
 			'@stylistic/lines-around-comment': [
 				'error',
 				{
@@ -162,10 +135,7 @@ export default [
 					beforeLineComment: false
 				}
 			],
-			'@stylistic/lines-between-class-members': [
-				'error',
-				'never'
-			],
+			'@stylistic/lines-between-class-members': ['error', 'never'],
 			'@stylistic/max-len': [
 				'error',
 				{
@@ -185,10 +155,7 @@ export default [
 					max: 1
 				}
 			],
-			'@stylistic/multiline-ternary': [
-				'error',
-				'never'
-			],
+			'@stylistic/multiline-ternary': ['error', 'never'],
 			'@stylistic/new-parens': 'error',
 			'@stylistic/newline-per-chained-call': [
 				'error',
@@ -205,7 +172,8 @@ export default [
 					enforceForSequenceExpressions: false,
 					nestedBinaryExpressions: false,
 					returnAssign: false,
-					ternaryOperandBinaryExpressions: false
+					ternaryOperandBinaryExpressions: false,
+					enforceForFunctionPrototypeMethods: false,
 				}
 			],
 			'@stylistic/no-extra-semi': 'error',
@@ -244,10 +212,7 @@ export default [
 					}
 				}
 			],
-			'@stylistic/object-curly-spacing': [
-				'error',
-				'always'
-			],
+			'@stylistic/object-curly-spacing': ['error', 'always'],
 			'@stylistic/object-property-newline': [
 				'error',
 				{
@@ -255,23 +220,11 @@ export default [
 					allowMultiplePropertiesPerLine: false
 				}
 			],
-			'@stylistic/one-var-declaration-per-line': [
-				'error',
-				'always'
-			],
-			'@stylistic/operator-linebreak': [
-				'error',
-				'after'
-			],
-			'@stylistic/padded-blocks': [
-				'error',
-				'never'
-			],
+			'@stylistic/one-var-declaration-per-line': ['error', 'always'],
+			'@stylistic/operator-linebreak': ['error', 'after'],
+			'@stylistic/padded-blocks': ['error', 'never'],
 			'@stylistic/padding-line-between-statements': 'off',
-			'@stylistic/quote-props': [
-				'error',
-				'as-needed'
-			],
+			'@stylistic/quote-props': ['error', 'as-needed'],
 			'@stylistic/quotes': [
 				'error',
 				'single',
@@ -279,19 +232,10 @@ export default [
 					allowTemplateLiterals: true
 				}
 			],
-			'@stylistic/rest-spread-spacing': [
-				'error',
-				'never'
-			],
-			'@stylistic/semi': [
-				'error',
-				'always'
-			],
+			'@stylistic/rest-spread-spacing': ['error', 'never'],
+			'@stylistic/semi': ['error', 'always'],
 			'@stylistic/semi-spacing': 'error',
-			'@stylistic/space-before-blocks': [
-				'error',
-				'always'
-			],
+			'@stylistic/space-before-blocks': ['error', 'always'],
 			'@stylistic/space-before-function-paren': [
 				'error',
 				{
@@ -300,10 +244,7 @@ export default [
 					named: 'never'
 				}
 			],
-			'@stylistic/space-in-parens': [
-				'error',
-				'never'
-			],
+			'@stylistic/space-in-parens': ['error', 'never'],
 			'@stylistic/space-infix-ops': [
 				'error',
 				{
@@ -327,10 +268,7 @@ export default [
 						markers: ['!']
 					},
 					line: {
-						exceptions: [
-							'-',
-							'+'
-						],
+						exceptions: ['-', '+'],
 						markers: ['/']
 					}
 				}
@@ -342,29 +280,14 @@ export default [
 					before: false
 				}
 			],
-			'@stylistic/template-curly-spacing': [
-				'error',
-				'never'
-			],
-			'@stylistic/template-tag-spacing': [
-				'error',
-				'always'
-			],
-			'@stylistic/wrap-iife': [
-				'error',
-				'any'
-			],
+			'@stylistic/template-curly-spacing': ['error', 'never'],
+			'@stylistic/template-tag-spacing': ['error', 'always'],
+			'@stylistic/wrap-iife': ['error', 'any'],
 			'@stylistic/wrap-regex': 'error',
-			'@stylistic/yield-star-spacing': [
-				'error',
-				'after'
-			],
+			'@stylistic/yield-star-spacing': ['error', 'after'],
 			'accessor-pairs': 'error',
 			'array-callback-return': 'error',
-			'arrow-body-style': [
-				'error',
-				'always'
-			],
+			'arrow-body-style': ['error', 'always'],
 			'arrow-spacing': [
 				'error',
 				{
@@ -379,16 +302,10 @@ export default [
 			'consistent-return': 'off',
 			'consistent-this': 'off',
 			'constructor-super': 'error',
-			curly: [
-				'error',
-				'all'
-			],
+			curly: ['error', 'all'],
 			'default-case': 'error',
 			'dot-notation': 'error',
-			eqeqeq: [
-				'error',
-				'smart'
-			],
+			eqeqeq: ['error', 'smart'],
 			'func-names': 'off',
 			'func-style': 'off',
 			'global-require': 'off',
@@ -456,10 +373,7 @@ export default [
 				}
 			],
 			'max-depth': 'off',
-			'max-nested-callbacks': [
-				'error',
-				3
-			],
+			'max-nested-callbacks': ['error', 3],
 			'max-params': 'off',
 			'max-statements': 'off',
 			'multiline-comment-style': 'off',
@@ -468,15 +382,12 @@ export default [
 			'no-alert': 'error',
 			'no-array-constructor': 'error',
 			'no-await-in-loop': 'off',
-			'no-bitwise': 'error',
+			'no-bitwise': 'off',
 			'no-caller': 'error',
 			'no-case-declarations': 'error',
 			'no-catch-shadow': 'error',
 			'no-class-assign': 'error',
-			'no-cond-assign': [
-				'error',
-				'always'
-			],
+			'no-cond-assign': ['error', 'always'],
 			'no-console': 'off',
 			'no-const-assign': 'error',
 			'no-constant-binary-expression': 'error',
@@ -512,10 +423,7 @@ export default [
 			'no-implied-eval': 'error',
 			'no-import-assign': 'error',
 			'no-inline-comments': 'error',
-			'no-inner-declarations': [
-				'error',
-				'functions'
-			],
+			'no-inner-declarations': ['error', 'functions'],
 			'no-invalid-regexp': 'error',
 			'no-invalid-this': 'off',
 			'no-irregular-whitespace': 'error',
@@ -564,10 +472,7 @@ export default [
 			'no-restricted-imports': 'off',
 			'no-restricted-modules': 'off',
 			'no-restricted-syntax': 'off',
-			'no-return-assign': [
-				'error',
-				'always'
-			],
+			'no-return-assign': ['error', 'always'],
 			'no-return-await': 'error',
 			'no-script-url': 'error',
 			'no-self-compare': 'error',
@@ -594,10 +499,7 @@ export default [
 			'no-underscore-dangle': [
 				'error',
 				{
-					allow: [
-						'__dirname',
-						'__filename'
-					]
+					allow: ['__dirname', '__filename']
 				}
 			],
 			'no-unexpected-multiline': 'error',
@@ -624,10 +526,7 @@ export default [
 			'no-void': 'error',
 			'no-with': 'error',
 			'object-shorthand': 'error',
-			'one-var': [
-				'error',
-				'never'
-			],
+			'one-var': ['error', 'never'],
 			'operator-assignment': 'off',
 			'prefer-arrow-callback': 'error',
 			'prefer-const': 'error',
@@ -637,10 +536,7 @@ export default [
 			'prefer-template': 'error',
 			radix: 'error',
 			'require-yield': 'error',
-			semi: [
-				'error',
-				'always'
-			],
+			semi: ['error', 'always'],
 			'sort-imports': [
 				'error',
 				{

@@ -21,7 +21,7 @@ import { returnValue } from '../utilities/returnValue.js';
  */
 export function mapWhile(source, iteratee, results = [], additionalArgument) {
 	const arrayLength = source.length;
-	for (let index = 0;index < arrayLength;index++) {
+	for (let index = 0; index < arrayLength; index++) {
 		const item = source[index];
 		const returned = iteratee(item, index, results, source, arrayLength, additionalArgument);
 		if (returned === false) {

@@ -26,7 +26,7 @@ export function get(propertyString, target) {
 		return false;
 	}
 	let link = target;
-	const pathArray = (isArray(propertyString)) ? propertyString : toPath(propertyString);
+	const pathArray = isArray(propertyString) ? propertyString : toPath(propertyString);
 	everyArray(pathArray, (item) => {
 		link = link[item];
 		return hasValue(link);

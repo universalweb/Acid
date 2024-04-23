@@ -17,6 +17,6 @@ import { isEqual } from './isEqual.js';
  * // => false
  */
 export function toggle(value, on = true, off = false) {
-	return (isEqual(on, value)) ? off : on;
+	return ((isEqual(on, value)) ? off : on);
 }
 
