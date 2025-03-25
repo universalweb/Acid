@@ -22,7 +22,7 @@ import { returnValue } from '../utilities/returnValue.js';
  */
 export function untilFalseArray(source, iteratee) {
 	const sourceLength = source.length;
-	for (let index = 0;index < sourceLength;index++) {
+	for (let index = 0; index < sourceLength; index++) {
 		if (iteratee(source[index], index) === false) {
 			return false;
 		}

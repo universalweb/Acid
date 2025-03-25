@@ -35,7 +35,11 @@ export default [
 			'.eslintignore',
 			'**/*.mjs'
 		],
-		files: ['**/*.js'],
+		files: [
+			'**/*.js',
+			'**/*.umm',
+			'**/*.uml'
+		],
 		languageOptions: {
 			parser: babelParser,
 			parserOptions: {
@@ -61,8 +65,10 @@ export default [
 			'@stylistic/array-element-newline': [
 				'error',
 				{
-					multiline: true,
-					minItems: 3
+					ArrayExpression: 'consistent',
+					ArrayPattern: {
+						minItems: 2
+					}
 				}
 			],
 			'@stylistic/arrow-parens': ['error', 'always'],
@@ -164,18 +170,7 @@ export default [
 				}
 			],
 			'@stylistic/no-confusing-arrow': 'error',
-			'@stylistic/no-extra-parens': [
-				'error',
-				'all',
-				{
-					conditionalAssign: false,
-					enforceForSequenceExpressions: false,
-					nestedBinaryExpressions: false,
-					returnAssign: false,
-					ternaryOperandBinaryExpressions: false,
-					enforceForFunctionPrototypeMethods: false,
-				}
-			],
+			'@stylistic/no-extra-parens': 'off',
 			'@stylistic/no-extra-semi': 'error',
 			'@stylistic/no-floating-decimal': 'error',
 			'@stylistic/no-mixed-operators': 'error',

@@ -6,10 +6,5 @@
         "isnan",
         "paren"
     ],
-    "docwriter.style": "JSDoc",
-    "workbench.colorCustomizations": {
-        "editor.lineHighlightBackground": "#1073cf2d",
-        "editor.lineHighlightBorder": "#9fced11f"
-    },
-    "sarif-viewer.connectToGithubCodeScanning": "on"
+	"docwriter.style": "JSDoc"
 }

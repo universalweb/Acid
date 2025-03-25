@@ -1,4 +1,6 @@
 {
-  "plugins": ["jsDocPlugins/category"],
-  "categoryfile" : "jsDocPlugins/category.json"
+	"plugins": [
+		"jsDocPlugins/category"
+	],
+	"categoryfile": "jsDocPlugins/category.json"
 }

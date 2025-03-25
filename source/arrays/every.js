@@ -20,7 +20,10 @@ import { returnValue } from '../utilities/returnValue.js';
  *   return item;
  * }), true);
  */
-export function everyArray(source, iteratee, additionalArgument) {
+function returnBoolean(value) {
+	return value;
+}
+export function everyArray(source, iteratee = returnBoolean, additionalArgument) {
 	if (!source) {
 		return;
 	}

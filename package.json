@@ -45,39 +45,40 @@
         "source": "source"
     },
     "scripts": {
+        "preinstall": "npx only-allow pnpm",
         "build": "node index.js",
         "changelog": "npx auto-changelog -p --sort-commits date-desc && git add CHANGELOG.md",
         "buildProduction": "production=true node index.js",
-        "bumpVersion": "npm version patch --force && cd ./package/ && npm version patch --force",
-        "publishAll": "npm publish ./npm/ && cd ./github/ && npm publish && cd ../",
-        "publish": "npm update && npm run bumpVersion && npm run buildProduction && npm run changelog && npm run publishAll"
+        "bumpVersion": "pnpm version patch --force && cd ./package/ && pnpm version patch --force",
+        "publishAll": "pnpm publish ./npm/ && cd ./github/ && pnpm publish && cd ../",
+        "publish": "pnpm update && pnpm run bumpVersion && pnpm run buildProduction && pnpm run changelog && pnpm run publishAll"
     },
     "dependencies": {
-        "@babel/core": "^7.21.0",
-        "@babel/eslint-parser": "^7.19.1",
-        "@babel/preset-env": "^7.20.2",
-        "@microsoft/eslint-formatter-sarif": "^3.0.0",
-        "@rollup/plugin-node-resolve": "^15.0.2",
-        "@rollup/plugin-terser": "*",
-        "@stylistic/eslint-plugin": "^1.5.4",
-        "@universalweb/docredux": "^3.0.9",
-        "auto-changelog": "^2.4.0",
-        "body-parser": "1.20.2",
+        "@babel/core": "^7.26.10",
+        "@babel/eslint-parser": "^7.27.0",
+        "@babel/preset-env": "^7.26.9",
+        "@rollup/plugin-node-resolve": "^16.0.1",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@stylistic/eslint-plugin": "^4.2.0",
+        "@universalweb/docredux": "^3.2.7",
+        "auto-changelog": "^2.5.0",
+        "body-parser": "1.20.3",
         "connect-livereload": "0.6.1",
-        "daisyui": "^2.51.3",
-        "eslint": "^8.35.0",
-        "eslint-plugin-jsdoc": "^46.9.1",
-        "express": "^4.18.2",
-        "magic-string": "*",
-        "node-watch": "*",
-        "prettier-eslint": "^16.2.0",
-        "rollup": "*",
-        "rollup-plugin-node-externals": "^6.1.2",
-        "stylelint": "^15.2.0",
-        "stylelint-config-standard": "^30.0.1",
-        "tailwindcss": "*",
-        "testatron": "*",
-        "tiny-lr": "*"
+        "daisyui": "^5.0.9",
+        "eslint": "^9.23.0",
+        "eslint-plugin-jsdoc": "^50.6.9",
+        "express": "^4.21.2",
+        "globals": "^16.0.0",
+        "magic-string": "^0.30.17",
+        "node-watch": "^0.7.4",
+        "prettier-eslint": "^16.3.0",
+        "rollup": "^4.37.0",
+        "rollup-plugin-node-externals": "^8.0.0",
+        "stylelint": "^16.16.0",
+        "stylelint-config-standard": "^37.0.0",
+        "tailwindcss": "^4.0.15",
+        "testatron": "^2.1.0",
+        "tiny-lr": "^2.0.0"
     },
     "auto-changelog": {
         "commitLimit": false,
@@ -87,5 +88,11 @@
     },
     "imports": {
         "#type/*": "./source/type/*.js"
-    }
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "core-js"
+        ]
+    },
+    "packageManager": "pnpm@10.6.5"
 }
