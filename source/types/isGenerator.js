@@ -1,5 +1,5 @@
-import { isConstructorFactory, isConstructorNameFactory } from './isConstructor.js';
 import { isTypeFactory } from './isTypeFactory.js';
+import { isTypeNameFactory } from './isType.js';
 /**
  * Checks if an object or objects are a Int16Array.
  *
@@ -13,5 +13,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * isGenerator(function* (){});
  * // => true
  */
-export const isGeneratorCall = isConstructorNameFactory('GeneratorFunction');
+export const isGeneratorCall = isTypeNameFactory('GeneratorFunction');
 export const isGenerator = isTypeFactory(isGeneratorCall);

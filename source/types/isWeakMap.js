@@ -1,5 +1,4 @@
-import { hasValue } from './hasValue.js';
-import { isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a WeakMap.
@@ -13,5 +12,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isWeakMap } from '@universalweb/acid';
  * assert(isWeakMap(new WeakMap()), true);
  */
-export const isWeakMapCall = isConstructorNameFactory('WeakMap');
+export const isWeakMapCall = isConstructorFactory(WeakMap);
 export const isWeakMap = isTypeFactory(isWeakMapCall);

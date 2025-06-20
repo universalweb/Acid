@@ -1,4 +1,4 @@
-import { isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a Date.
@@ -12,5 +12,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isDate, assert } from '@universalweb/acid';
  * assert(isDate(new Date()), true);
  */
-export const isDateCall = isConstructorNameFactory('Date');
+export const isDateCall = isConstructorFactory(Date);
 export const isDate = isTypeFactory(isDateCall);

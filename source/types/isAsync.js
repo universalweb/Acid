@@ -1,5 +1,5 @@
-import { isConstructorNameFactory } from './isConstructor.js';
 import { isTypeFactory } from './isTypeFactory.js';
+import { isTypeNameFactory } from './isType.js';
 /**
  * Checks if an object is an async function.
  *
@@ -12,6 +12,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isAsync, assert } from '@universalweb/acid';
  * assert(isAsync(async() => {}), true);
  */
-export const isAsyncCall = isConstructorNameFactory('AsyncFunction');
+export const isAsyncCall = isTypeNameFactory('AsyncFunction');
 export const isAsync = isTypeFactory(isAsyncCall);
-

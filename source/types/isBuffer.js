@@ -1,4 +1,4 @@
-import { isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a Buffer.
@@ -12,5 +12,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isBuffer, assert } from '@universalweb/acid';
  * assert(isBuffer(Buffer.from('test')), true);
  */
-export const isBufferCall = isConstructorNameFactory('Buffer');
+export const isBufferCall = isConstructorFactory(Buffer);
 export const isBuffer = isTypeFactory(isBufferCall);

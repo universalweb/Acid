@@ -1,4 +1,4 @@
-import { isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a Boolean.
@@ -13,5 +13,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * isBoolean(true);
  * // => true
  */
-export const isBooleanCall = isConstructorNameFactory('Boolean');
+export const isBooleanCall = isConstructorFactory(Boolean);
 export const isBoolean = isTypeFactory(isBooleanCall);

@@ -1,4 +1,4 @@
-import { isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a number.
@@ -12,7 +12,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isNumber, assert } from '@universalweb/acid';
  * assert(isNumber(1), true);
  */
-export const isNumberCall = isConstructorNameFactory('Number');
+export const isNumberCall = isConstructorFactory(Number);
 export const isNumber = isTypeFactory(isNumberCall);
 /**
  * Checks if the value is not a number.

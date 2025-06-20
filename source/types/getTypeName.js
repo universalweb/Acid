@@ -14,3 +14,4 @@ import { getType } from './getType.js';
 export function getTypeName(source) {
 	return getType(source)?.name;
 }
+export { getTypeName as getConstructorName };

@@ -1,4 +1,6 @@
-import { isConstructorFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
+import { isTypeFactory } from './isTypeFactory.js';
+const isStringCall = isConstructorFactory(String);
 /**
  * Checks if the value is a string.
  *
@@ -12,7 +14,7 @@ import { isConstructorFactory } from './isConstructor.js';
  * assert(isString('hello'), true);
  * assert(isString(1), false);
  */
-export const isString = isConstructorFactory(String);
+export const isString = isTypeFactory(isStringCall);
 /**
  * Checks if the value is not a string.
  *

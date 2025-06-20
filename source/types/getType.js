@@ -13,3 +13,4 @@
 export function getType(source) {
 	return source?.constructor;
 }
+export { getType as getConstructor };

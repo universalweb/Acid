@@ -25,7 +25,7 @@ export async function everyAsyncArray(source, iteratee, additionalArgument) {
 		return;
 	}
 	const sourceLength = source.length;
-	for (let index = 0;index < sourceLength;index++) {
+	for (let index = 0; index < sourceLength; index++) {
 		if (await iteratee(source[index], index, source, sourceLength, additionalArgument) === false) {
 			return false;
 		}

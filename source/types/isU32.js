@@ -1,4 +1,4 @@
-import { isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a Uint32Array.
@@ -13,5 +13,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * isU32(new Uint32Array());
  * // => true
  */
-export const isU32Call = isConstructorNameFactory('Uint32Array');
+export const isU32Call = isConstructorFactory(Uint32Array);
 export const isU32 = isTypeFactory(isU32Call);

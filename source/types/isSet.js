@@ -1,5 +1,4 @@
-import { hasValue } from './hasValue.js';
-import { isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object(s) is a Set.
@@ -13,5 +12,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isSet, assert } from '@universalweb/acid';
  * assert(isSet(new Set()), true);
  */
-export const isSetCall = isConstructorNameFactory('Set');
+export const isSetCall = isConstructorFactory(Set);
 export const isSet = isTypeFactory(isSetCall);

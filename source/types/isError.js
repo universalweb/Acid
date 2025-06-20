@@ -1,4 +1,4 @@
-import { isConstructorFactory, isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are an Error object.
@@ -13,5 +13,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * isError(new Error());
  * // => true
  */
-export const isErrorCall = isConstructorNameFactory('Error');
+export const isErrorCall = isConstructorFactory(Error);
 export const isError = isTypeFactory(isErrorCall);

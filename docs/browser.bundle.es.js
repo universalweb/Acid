@@ -339,6 +339,52 @@ function range(start, end, step = 1, sourceArray = []) {
 }
 
 /**
+ * Iterates through the given array while the iteratee returns true else the loop exits & returns false.
+ *
+ * @function everyArray
+ * @category array
+ * @type {Function}
+ * @param {Array} source - Array that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
+ * @param {*} additionalArgument - An object to be given each time to the iteratee.
+ * @returns {Array|undefined} - Returns true if all returns are true or false if one value returns false.
+ *
+ * @example
+ * import { everyArray, assert } from '@universalweb/acid';
+ * assert(everyArray([true, true, false], (item, index, source, sourceLength, additionalArgument) => {
+ *   return item;
+ * }), false);
+ * assert(everyArray([true, true, true], (item, index, source, sourceLength, additionalArgument) => {
+ *   return item;
+ * }), true);
+ */
+function returnBoolean(value) {
+	return value;
+}
+function everyArray(source, iteratee = returnBoolean, additionalArgument) {
+	if (!source) {
+		return;
+	}
+	const sourceLength = source.length;
+	for (let index = 0; index < sourceLength; index++) {
+		if (iteratee(source[index], index, source, sourceLength, additionalArgument) === false) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function isTypeFactory(method) {
+	return function(primarySource, ...otherSources) {
+		if (otherSources?.length) {
+			return method(primarySource) && everyArray(otherSources, method);
+		}
+		return method(primarySource);
+	};
+}
+
+const isArrayNative = Array.isArray;
+/**
  * Checks if the value is an array. This references Array.isArray.
  *
  * @function isArray
@@ -351,7 +397,7 @@ function range(start, end, step = 1, sourceArray = []) {
  * assert(isArray([]), true);
  * assert(isArray(2), false);
  */
-const isArray = Array.isArray;
+const isArray = isTypeFactory(isArrayNative);
 /**
  * Checks if the value is not an array. This references Array.isArray.
  *
@@ -365,8 +411,8 @@ const isArray = Array.isArray;
  * assert(isNotArray([]), false);
  * assert(isNotArray(2), true);
  */
-function isNotArray(source) {
-	return !isArray(source);
+function isNotArray(source, ...args) {
+	return !isArray(source, ...args);
 }
 
 /**
@@ -582,39 +628,6 @@ async function eachRightAsync(source, iteratee) {
 /**
  * Iterates through the given array while the iteratee returns true else the loop exits & returns false.
  *
- * @function everyArray
- * @category array
- * @type {Function}
- * @param {Array} source - Array that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, calling array, and array length.
- * @param {*} additionalArgument - An object to be given each time to the iteratee.
- * @returns {Array|undefined} - Returns true if all returns are true or false if one value returns false.
- *
- * @example
- * import { everyArray, assert } from '@universalweb/acid';
- * assert(everyArray([true, true, false], (item, index, source, sourceLength, additionalArgument) => {
- *   return item;
- * }), false);
- * assert(everyArray([true, true, true], (item, index, source, sourceLength, additionalArgument) => {
- *   return item;
- * }), true);
- */
-function everyArray(source, iteratee, additionalArgument) {
-	if (!source) {
-		return;
-	}
-	const sourceLength = source.length;
-	for (let index = 0;index < sourceLength;index++) {
-		if (iteratee(source[index], index, source, sourceLength, additionalArgument) === false) {
-			return false;
-		}
-	}
-	return true;
-}
-
-/**
- * Iterates through the given array while the iteratee returns true else the loop exits & returns false.
- *
  * @function everyAsyncArray
  * @category array
  * @type {Function}
@@ -637,7 +650,7 @@ async function everyAsyncArray(source, iteratee, additionalArgument) {
 		return;
 	}
 	const sourceLength = source.length;
-	for (let index = 0;index < sourceLength;index++) {
+	for (let index = 0; index < sourceLength; index++) {
 		if (await iteratee(source[index], index, source, sourceLength, additionalArgument) === false) {
 			return false;
 		}
@@ -862,7 +875,7 @@ function toPath(source) {
  *     like: ['a','b','c']
  *   }
  * };
- * assert(get('post.like[2]', objectTarget), 'c');
+ * assert(get('post.like[2]', objectTarget), 'g');
  */
 function get(propertyString, target) {
 	if (!target) {
@@ -964,41 +977,67 @@ function hasAnyKeys(source, ...properties) {
 }
 
 /**
+ * Returns the constructor of an object.
+ *
+ * @function getType
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { getType, assert } from '@universalweb/acid';
+ * assert(getType(1), true);
+ */
+function getType(source) {
+	return source?.constructor;
+}
+
+/**
+ * Returns the constructor name of an object.
+ *
+ * @function getTypeName
+ * @category type
+ * @param {*} source - Object to be checked.
+ * @returns {Boolean} - Returns true or false.
+ *
+ * @example
+ * import { getTypeName, assert } from '@universalweb/acid';
+ * assert(getTypeName(1), true);
+ */
+function getTypeName(source) {
+	return getType(source)?.name;
+}
+
+/**
  * Checks to see if the constructor is that of a native object.
  *
- * @function isConstructor
+ * @function isType
  * @category type
  * @param {Object} target - The object to be checked.
  * @param {Object} source - The source constructor object.
  * @returns {Object} - Returns the target object.
  *
  * @example
- * import { isConstructor, assert } from '@universalweb/acid';
- * assert(isConstructor(2, Number), true);
+ * import { isType, assert } from '@universalweb/acid';
+ * assert(isType(2, Number), true);
  */
-function isConstructor(target, source) {
-	return target?.constructor === source || false;
+function isType(target, source) {
+	const constructorObject = getType(target);
+	return (constructorObject && constructorObject === source) || false;
 }
-function isConstructorFactory(source) {
+function isTypeNameFactory(source) {
 	return (target) => {
-		return isConstructor(target, source);
-	};
-}
-function constructorName(source) {
-	return source?.constructor?.name;
-}
-function isConstructorNameFactory(source) {
-	return (target) => {
-		return constructorName(target) === source || false;
+		const constructorNameString = getTypeName(target);
+		return (constructorNameString && constructorNameString === source) || false;
 	};
 }
 
-function isTypeFactory(method) {
-	return function(primarySource, ...otherSources) {
-		if (otherSources) {
-			return method(primarySource) && everyArray(otherSources, method);
+function isConstructorFactory(source) {
+	return (target) => {
+		if (target?.constructor) {
+			return isType(target, source);
 		}
-		return method(primarySource);
+		return false;
 	};
 }
 
@@ -1014,7 +1053,7 @@ function isTypeFactory(method) {
  * import { isBuffer, assert } from '@universalweb/acid';
  * assert(isBuffer(Buffer.from('test')), true);
  */
-const isBufferCall = isConstructorNameFactory('Buffer');
+const isBufferCall = isConstructorFactory(Buffer);
 const isBuffer = isTypeFactory(isBufferCall);
 
 /**
@@ -1761,7 +1800,7 @@ function union(...arrays) {
  */
 function untilFalseArray(source, iteratee) {
 	const sourceLength = source.length;
-	for (let index = 0;index < sourceLength;index++) {
+	for (let index = 0; index < sourceLength; index++) {
 		if (iteratee(source[index], index) === false) {
 			return false;
 		}
@@ -1791,7 +1830,7 @@ function untilFalseArray(source, iteratee) {
  */
 function untilTrueArray(source, iteratee) {
 	const sourceLength = source.length;
-	for (let index = 0;index < sourceLength;index++) {
+	for (let index = 0; index < sourceLength; index++) {
 		if (iteratee(source[index], index) === true) {
 			return false;
 		}
@@ -2030,9 +2069,15 @@ function ensureBuffer(source) {
  * import { clearBuffer, assert } from '@universalweb/acid';
  * assert(clearBuffer(Buffer.from([1,'B', 'Cat'])), Buffer.from([]));
  */
-function clearBuffer(source) {
-	source.fill(0);
-	return source;
+function clearBuffer(...sources) {
+	if (sources.length === 1) {
+		if (isBuffer(sources) || sources?.fill) {
+			sources.fill(0);
+		}
+		return sources;
+	}
+	sources.forEach(clearBuffer);
+	return sources;
 }
 
 /**
@@ -2064,7 +2109,7 @@ const isFunction = (source) => {
  * import { isNumber, assert } from '@universalweb/acid';
  * assert(isNumber(1), true);
  */
-const isNumberCall = isConstructorNameFactory('Number');
+const isNumberCall = isConstructorFactory(Number);
 const isNumber = isTypeFactory(isNumberCall);
 /**
  * Checks if the value is not a number.
@@ -2082,6 +2127,7 @@ function isNotNumber(source) {
 	return !isNumber(source);
 }
 
+const isStringCall = isConstructorFactory(String);
 /**
  * Checks if the value is a string.
  *
@@ -2095,7 +2141,7 @@ function isNotNumber(source) {
  * assert(isString('hello'), true);
  * assert(isString(1), false);
  */
-const isString = isConstructorFactory(String);
+const isString = isTypeFactory(isStringCall);
 /**
  * Checks if the value is not a string.
  *
@@ -2158,7 +2204,7 @@ function assignToClass(target, source) {
 		if (key) {
 			target.prototype[key] = source;
 		}
-	} else if (isConstructor(source)) {
+	} else if (isType(source)) {
 		const key = source.constructor?.name;
 		if (key) {
 			target.prototype[key] = source;
@@ -2943,7 +2989,7 @@ async function forEachAsync(source, callback) {
  * import { isSet, assert } from '@universalweb/acid';
  * assert(isSet(new Set()), true);
  */
-const isSetCall = isConstructorNameFactory('Set');
+const isSetCall = isConstructorFactory(Set);
 const isSet = isTypeFactory(isSetCall);
 
 function forOf(source, iteratee) {
@@ -2972,7 +3018,7 @@ function forOf(source, iteratee) {
  * isGenerator(function* (){});
  * // => true
  */
-const isGeneratorCall = isConstructorNameFactory('GeneratorFunction');
+const isGeneratorCall = isTypeNameFactory('GeneratorFunction');
 const isGenerator = isTypeFactory(isGeneratorCall);
 
 async function forOfAsync(source, iteratee, generatorArgs) {
@@ -3005,7 +3051,7 @@ async function forOfAsync(source, iteratee, generatorArgs) {
  * import { isAsync, assert } from '@universalweb/acid';
  * assert(isAsync(async() => {}), true);
  */
-const isAsyncCall = isConstructorNameFactory('AsyncFunction');
+const isAsyncCall = isTypeNameFactory('AsyncFunction');
 const isAsync = isTypeFactory(isAsyncCall);
 
 function generateLoop(arrayLoop, arrayLoopAsync, objectLoop, objectLoopAsync, forOfLoop, forOfLoopAsync) {
@@ -3472,22 +3518,6 @@ const once = (callable) => {
 	};
 	return onlyOnce;
 };
-
-/**
- * Returns the constructor of an object.
- *
- * @function getType
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { getType, assert } from '@universalweb/acid';
- * assert(getType(1), true);
- */
-function getType(source) {
-	return source?.constructor;
-}
 
 /**
  * Returns a new empty object of the same type.
@@ -4591,7 +4621,7 @@ function arrayToRegex(source, makeSafe) {
  * import { isRegex, assert } from '@universalweb/acid';
  * assert(isRegex(/test/), true);
  */
-const isRegexCall = isConstructorNameFactory('RegExp');
+const isRegexCall = isConstructorFactory(RegExp);
 const isRegex = isTypeFactory(isRegexCall);
 
 /**
@@ -5217,22 +5247,6 @@ function upperFirstOnlyAll(string) {
 }
 
 /**
- * Returns the constructor name of an object.
- *
- * @function getTypeName
- * @category type
- * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
- *
- * @example
- * import { getTypeName, assert } from '@universalweb/acid';
- * assert(getTypeName(1), true);
- */
-function getTypeName(source) {
-	return getType(source)?.name;
-}
-
-/**
  * Checks if the value is an Arguments object.
  *
  * @function isArguments
@@ -5263,7 +5277,7 @@ function isArguments(source) {
  * isMap(new Map());
  * // => true
  */
-const isMapCall = isConstructorNameFactory('Map');
+const isMapCall = isConstructorFactory(Map);
 const isMap = isTypeFactory(isMapCall);
 
 /**
@@ -5359,7 +5373,7 @@ function isArrayLike(source, strictFlag) {
  * import { isBigInt, assert } from '@universalweb/acid';
  * assert(isBigInt(BigInt(123)), true);
  */
-const isBigIntCall = isConstructorNameFactory('BigInt');
+const isBigIntCall = isConstructorFactory(BigInt);
 const isBigInt = isTypeFactory(isBigIntCall);
 
 /**
@@ -5375,7 +5389,7 @@ const isBigInt = isTypeFactory(isBigIntCall);
  * isBoolean(true);
  * // => true
  */
-const isBooleanCall = isConstructorNameFactory('Boolean');
+const isBooleanCall = isConstructorFactory(Boolean);
 const isBoolean = isTypeFactory(isBooleanCall);
 
 /**
@@ -5390,7 +5404,7 @@ const isBoolean = isTypeFactory(isBooleanCall);
  * import { isArrayBuffer, assert } from '@universalweb/acid';
  * assert(isArrayBuffer(new ArrayBuffer()), true);
  */
-const isArrayBufferCall = isConstructorNameFactory('ArrayBuffer');
+const isArrayBufferCall = isConstructorFactory(ArrayBuffer);
 const isArrayBuffer = isTypeFactory(isArrayBufferCall);
 
 /**
@@ -5453,7 +5467,7 @@ function isCloneable(source) {
  * import { isDate, assert } from '@universalweb/acid';
  * assert(isDate(new Date()), true);
  */
-const isDateCall = isConstructorNameFactory('Date');
+const isDateCall = isConstructorFactory(Date);
 const isDate = isTypeFactory(isDateCall);
 
 /**
@@ -5508,7 +5522,7 @@ function isFalse(source) {
  * import { isF32, assert } from '@universalweb/acid';
  * assert(isF32(new Float32Array()), true);
  */
-const isF32Call = isConstructorNameFactory('Float32Array');
+const isF32Call = isConstructorFactory(Float32Array);
 const isF32 = isTypeFactory(isF32Call);
 
 /**
@@ -5524,7 +5538,7 @@ const isF32 = isTypeFactory(isF32Call);
  * isF64(new Float64Array());
  * // => true
  */
-const isF64Call = isConstructorNameFactory('Float64Array');
+const isF64Call = isConstructorFactory(Float64Array);
 const isF64 = isTypeFactory(isF64Call);
 
 const { isInteger } = Number;
@@ -5556,7 +5570,7 @@ const isFloat = isInteger;
  * isI16(new Int16Array());
  * // => true
  */
-const isI16Call = isConstructorNameFactory('Int16Array');
+const isI16Call = isConstructorFactory(Int16Array);
 const isI16 = isTypeFactory(isI16Call);
 
 /**
@@ -5571,7 +5585,7 @@ const isI16 = isTypeFactory(isI16Call);
  * import { isI32, assert } from '@universalweb/acid';
  * assert(isI32(new Int32Array()), true);
  */
-const isI32Call = isConstructorNameFactory('Int32Array');
+const isI32Call = isConstructorFactory(Int32Array);
 const isI32 = isTypeFactory(isI32Call);
 
 /**
@@ -5587,7 +5601,7 @@ const isI32 = isTypeFactory(isI32Call);
  * isInt8(new Int8Array());
  * // => true
  */
-const isI8Call = isConstructorNameFactory('Int8Array');
+const isI8Call = isConstructorFactory(Int8Array);
 const isI8 = isTypeFactory(isI8Call);
 
 /**
@@ -5785,7 +5799,7 @@ function isTrue(source) {
  * isU16(new Uint16Array());
  * // => true
  */
-const isU16Call = isConstructorNameFactory('Uint16Array');
+const isU16Call = isConstructorFactory(Uint16Array);
 const isU16 = isTypeFactory(isU16Call);
 
 /**
@@ -5801,7 +5815,7 @@ const isU16 = isTypeFactory(isU16Call);
  * isU32(new Uint32Array());
  * // => true
  */
-const isU32Call = isConstructorNameFactory('Uint32Array');
+const isU32Call = isConstructorFactory(Uint32Array);
 const isU32 = isTypeFactory(isU32Call);
 
 /**
@@ -5817,7 +5831,7 @@ const isU32 = isTypeFactory(isU32Call);
  * isU8(new Uint8Array());
  * // => true
  */
-const isU8Call = isConstructorNameFactory('Uint8Array');
+const isU8Call = isConstructorFactory(Uint8Array);
 const isU8 = isTypeFactory(isU8Call);
 
 /**
@@ -5833,7 +5847,7 @@ const isU8 = isTypeFactory(isU8Call);
  * isU8C(new Uint8ClampedArray());
  * // => true
  */
-const isU8CCall = isConstructorNameFactory('Uint8ClampedArray');
+const isU8CCall = isConstructorFactory(Uint8ClampedArray);
 const isU8C = isTypeFactory(isU8CCall);
 
 /**
@@ -5848,7 +5862,7 @@ const isU8C = isTypeFactory(isU8CCall);
  * import { isWeakMap } from '@universalweb/acid';
  * assert(isWeakMap(new WeakMap()), true);
  */
-const isWeakMapCall = isConstructorNameFactory('WeakMap');
+const isWeakMapCall = isConstructorFactory(WeakMap);
 const isWeakMap = isTypeFactory(isWeakMapCall);
 
 const isDeno = typeof globalThis.Deno !== 'undefined';
@@ -5941,6 +5955,7 @@ function notEqual(source, target) {
 }
 
 const jsonNative = JSON;
+const jsonParseNative = jsonNative.parse;
 /**
  * Parses JSON string with safety check for undefined.
  *
@@ -5948,7 +5963,8 @@ const jsonNative = JSON;
  * @category utility
  * @type {Function}
  * @param {String} source - String to be parsed.
- * @param {Function} reviver - A function that prescribes how each value originally produced by parsing is transformed before being returned.
+ * @param {Function} reviver - A function that transforms the results. This function is called for each member of the object.
+ * If a member contains nested objects, the nested objects are transformed before the parent object is.
  * @returns {Object|undefined} - Returns the parsed object.
  *
  * @example
@@ -5956,8 +5972,32 @@ const jsonNative = JSON;
  * assert(jsonParse('{a:1}'), {a:1});
  */
 function jsonParse(source, reviver) {
+	if (isString(source)) {
+		return jsonParseNative(source, reviver);
+	}
+}
+/**
+ * Parses JSON string with safety check for undefined.
+ *
+ * @function jsonParseTry
+ * @category utility
+ * @type {Function}
+ * @param {String} source - String to be parsed.
+ * @param {Function} reviver - A function that transforms the results. This function is called for each member of the object.
+ * If a member contains nested objects, the nested objects are transformed before the parent object is.
+ * @returns {Object|undefined} - Returns the parsed object.
+ *
+ * @example
+ * import { jsonParse, assert } from '@universalweb/acid';
+ * assert(jsonParse('{a:1}'), {a:1});
+ */
+function jsonParseTry(source, reviver) {
 	if (source) {
-		return jsonNative.parse(source, reviver);
+		try {
+			return jsonParse(source, reviver);
+		} catch (error) {
+			return;
+		}
 	}
 }
 /**
@@ -8047,5 +8087,5 @@ function isNodeList(source) {
 	return (hasValue(source)) ? source.toString() === objectNodeList : false;
 }
 
-export { BrowserStorage, Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToRegex, arraysToObject, ary, assert, assertAsync, assign, assignToClass, assignToObject, before, bindAll, browserStorage, cacheNativeMethod, calcProgress, camelCase, chain, chunk, chunkString, clear, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentEachArray, concurrentStatus, construct, constructorName, countBy, countKey, countWithoutKey, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, isZero as equalsZero, escapeRegex, escapeRegexRegex, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, extendClass, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getEntries, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invokeArray, invokeCollection, invokeCollectionAsync, isAgent, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isConstructor, isConstructorFactory, isConstructorNameFactory, isDate, isDateCall, isDeno, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isEven, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodeList, isNodejs, isNotArray, isNotNumber, isNotString, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isOdd, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isTypeFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, objectAssign, objectEntries, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, querySelector, querySelectorAll, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
+export { BrowserStorage, Chain, Intervals, Model, Store, Timers, UniqID, VirtualStorage, add, after, append, apply, arrayToRegex, arraysToObject, ary, assert, assertAsync, assign, assignToClass, assignToObject, before, bindAll, browserStorage, cacheNativeMethod, calcProgress, camelCase, chain, chunk, chunkString, clear, clearArray, clearBuffer, clearIntervals, clearTimers, clone, cloneArray, cloneType, cnsl, cnslTheme, compact, compactKeys, compactMap, compactMapArray, compactMapAsyncArray, compactMapAsyncObject, compactMapObject, concurrent, concurrentEachArray, concurrentStatus, construct, countBy, countKey, countWithoutKey, createFragment, curry, curryRight, debounce, deduct, defProp, difference, divide, drop, dropRight, each, eachArray, eachAsyncArray, eachAsyncObject, eachObject, eachRight, eachRightAsync, ensureArray, ensureBuffer, isZero as equalsZero, escapeRegex, escapeRegexRegex, eventAdd, eventRemove, every, everyArg, everyArray, everyAsyncArray, everyAsyncObject, everyObject, extendClass, filter, filterArray, filterAsyncArray, filterAsyncObject, filterObject, findIndex, findIndexCache, findItem, first, flatten, flattenDeep, flow, flowAsync, flowAsyncRight, flowRight, forEach, forEachAsync, forMap, forOf, forOfAsync, forOfCompactMap, forOfCompactMapAsync, forOfEvery, forOfEveryAsync, forOfFilter, forOfFilterAsync, forOfMap, forOfMapAsync, generateLoop, get, getByClass, getById, getByTag, getType as getConstructor, getTypeName as getConstructorName, getEntries, getFileExtension, getFilename, getHighest, getLowest, getNumberInsertIndex, getPropDesc, getPropNames, getType, getTypeName, groupBy, has, hasAnyKeys, hasDot, hasKeys, hasLength, hasLocal, hasProp, hasValue, htmlEntities, ifInvoke, ifNotAssign, ifValue, importjs, inAsync, inSync, increment, indexBy, info, initial, initialString, insertInRange, intersection, interval, intervals, invert, invokeArray, invokeCollection, invokeCollectionAsync, isAgent, isArguments, isArray, isArrayBuffer, isArrayBufferCall, isArrayLike, isAsync, isAsyncCall, isBigInt, isBigIntCall, isBoolean, isBooleanCall, isBuffer, isBufferCall, isChild, isCloneable, isType as isConstructor, isDate, isDateCall, isDeno, isDocumentReady, isDom, isEmpty, isEnter, isEqual, isEven, isF32, isF32Call, isF64, isF64Call, isFalse, isFalsy, isFileCSS, isFileHTML, isFileJS, isFileJSON, isFloat, isFunction, isGenerator, isGeneratorCall, isHTMLCollection, isI16, isI16Call, isI32, isI32Call, isI8, isI8Call, isIterable, isKindAsync, isMap, isMapCall, isMatchArray, isMatchObject, isNegative, isNodeList, isNodejs, isNotArray, isNotNumber, isNotString, isNull, isNumber, isNumberCall, isNumberEqual, isNumberInRange, isNumberNotInRange, isOdd, isParent, isPlainObject, isPositive, isPrimitive, isPromise, isRegex, isRegexCall, isRelated, isSafeInt, isSame, isSameType, isSet, isSetCall, isString, isTrue, isTruthy, isType, isTypeFactory, isTypeNameFactory, isTypedArray, isU16, isU16Call, isU32, isU32Call, isU8, isU8C, isU8CCall, isU8Call, isUndefined, isWeakMap, isWeakMapCall, isZero, jsonParse, jsonParseNative, jsonParseTry, kebabCase, keys, largest, last, lowerCase, map, mapArray, mapAsyncArray, mapAsyncObject, mapObject, mapRightArray, mapWhile, merge, model, multiply, negate, noValue, nodeAttribute, noop, notEqual, nthArg, objectAssign, objectEntries, objectSize, omit, once, onlyUnique, over, overEvery, pair, partition, pick, pluck, pluckObject, promise, propertyMatch, querySelector, querySelectorAll, randomFloat, randomInt, range, rangeDown, rangeUp, rawURLDecode, reArg, regexTestFactory, remainder, remove, removeBy, replaceList, rest, restString, returnValue, right, rightString, sample, sanitize, saveDimensions, selector, setKey, setValue, shuffle, smallest, snakeCase, sortCollectionAlphabetically, sortCollectionAlphabeticallyReverse, sortCollectionAscending, sortCollectionAscendingFilter, sortCollectionDescending, sortCollectionDescendingFilter, sortNumberAscending, sortNumberDescening, sortObjectsAlphabetically, sortObjectsAlphabeticallyReverse, sortUnique, stringify, stubArray, stubFalse, stubObject, stubString, stubTrue, subtract, subtractAll, subtractReverse, sumAll, take, takeRight, themes, throttle, timer, timers, times, timesAsync, timesMap, timesMapAsync, toArray, toPath, toggle, tokenize, truncate, truncateRight, unZip, unZipObject, union, uniqID, unique, untilFalseArray, untilTrueArray, updateDimensions, upperCase, upperFirst, upperFirstAll, upperFirstLetter, upperFirstOnly, upperFirstOnlyAll, virtualStorage, whileCompactMap, whileEachArray, whileMapArray, without, words, wrap, xor, zip, zipObject };
 //# sourceMappingURL=bundle.js.map

@@ -28,7 +28,7 @@ export function everyArray(source, iteratee = returnBoolean, additionalArgument)
 		return;
 	}
 	const sourceLength = source.length;
-	for (let index = 0;index < sourceLength;index++) {
+	for (let index = 0; index < sourceLength; index++) {
 		if (iteratee(source[index], index, source, sourceLength, additionalArgument) === false) {
 			return false;
 		}

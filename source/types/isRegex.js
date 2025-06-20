@@ -1,4 +1,4 @@
-import { isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a RegExp.
@@ -12,5 +12,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isRegex, assert } from '@universalweb/acid';
  * assert(isRegex(/test/), true);
  */
-export const isRegexCall = isConstructorNameFactory('RegExp');
+export const isRegexCall = isConstructorFactory(RegExp);
 export const isRegex = isTypeFactory(isRegexCall);

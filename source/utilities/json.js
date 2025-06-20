@@ -1,4 +1,6 @@
+import { isString } from '../types/isString.js';
 const jsonNative = JSON;
+export const jsonParseNative = jsonNative.parse;
 /**
  * Parses JSON string with safety check for undefined.
  *
@@ -6,7 +8,8 @@ const jsonNative = JSON;
  * @category utility
  * @type {Function}
  * @param {String} source - String to be parsed.
- * @param {Function} reviver - A function that prescribes how each value originally produced by parsing is transformed before being returned.
+ * @param {Function} reviver - A function that transforms the results. This function is called for each member of the object.
+ * If a member contains nested objects, the nested objects are transformed before the parent object is.
  * @returns {Object|undefined} - Returns the parsed object.
  *
  * @example
@@ -14,8 +17,32 @@ const jsonNative = JSON;
  * assert(jsonParse('{a:1}'), {a:1});
  */
 export function jsonParse(source, reviver) {
+	if (isString(source)) {
+		return jsonParseNative(source, reviver);
+	}
+}
+/**
+ * Parses JSON string with safety check for undefined.
+ *
+ * @function jsonParseTry
+ * @category utility
+ * @type {Function}
+ * @param {String} source - String to be parsed.
+ * @param {Function} reviver - A function that transforms the results. This function is called for each member of the object.
+ * If a member contains nested objects, the nested objects are transformed before the parent object is.
+ * @returns {Object|undefined} - Returns the parsed object.
+ *
+ * @example
+ * import { jsonParse, assert } from '@universalweb/acid';
+ * assert(jsonParse('{a:1}'), {a:1});
+ */
+export function jsonParseTry(source, reviver) {
 	if (source) {
-		return jsonNative.parse(source, reviver);
+		try {
+			return jsonParse(source, reviver);
+		} catch (error) {
+			return;
+		}
 	}
 }
 /**

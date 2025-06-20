@@ -1,4 +1,4 @@
-import { isConstructorFactory, isConstructorNameFactory } from './isConstructor.js';
+import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a Int8Array.
@@ -13,5 +13,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * isInt8(new Int8Array());
  * // => true
  */
-export const isI8Call = isConstructorNameFactory('Int8Array');
+export const isI8Call = isConstructorFactory(Int8Array);
 export const isI8 = isTypeFactory(isI8Call);
