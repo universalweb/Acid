@@ -1,6 +1,6 @@
 {
     "name": "@universalweb/acid",
-    "version": "3.0.75",
+    "version": "3.0.76",
     "description": "Acidjs is a robust, modern, modular, & async focused Javascript utility library. Acidjs includes utilities for all environments: Web Browser, Nodejs, Deno, Web Workers, & Electron.",
     "keywords": [
         "Acid",
@@ -51,32 +51,33 @@
         "buildProduction": "production=true node index.js",
         "bumpVersion": "pnpm version patch --force && cd ./package/ && pnpm version patch --force",
         "publishAll": "pnpm publish ./npm/ && cd ./github/ && pnpm publish && cd ../",
-        "publish": "pnpm update && pnpm run bumpVersion && pnpm run buildProduction && pnpm run changelog && pnpm run publishAll"
+        "publish": "pnpm update && pnpm run bumpVersion && pnpm run buildProduction && pnpm run changelog && pnpm run publishAll",
+        "publishGitHub": "cd ./github/ && pnpm publish && cd ../"
     },
     "dependencies": {
-		"@babel/core": "^7.27.4",
-		"@babel/eslint-parser": "^7.27.5",
-		"@babel/preset-env": "^7.27.2",
+        "@babel/core": "^7.27.4",
+        "@babel/eslint-parser": "^7.27.5",
+        "@babel/preset-env": "^7.27.2",
         "@rollup/plugin-node-resolve": "^16.0.1",
         "@rollup/plugin-terser": "^0.4.4",
-		"@stylistic/eslint-plugin": "^4.4.1",
+        "@stylistic/eslint-plugin": "^4.4.1",
         "@universalweb/docredux": "^3.2.7",
         "auto-changelog": "^2.5.0",
-		"body-parser": "2.2.0",
+        "body-parser": "2.2.0",
         "connect-livereload": "0.6.1",
-		"daisyui": "^5.0.43",
-		"eslint": "^9.29.0",
-		"eslint-plugin-jsdoc": "^51.0.3",
-		"express": "^5.1.0",
-		"globals": "^16.2.0",
+        "daisyui": "^5.0.43",
+        "eslint": "^9.29.0",
+        "eslint-plugin-jsdoc": "^51.0.3",
+        "express": "^5.1.0",
+        "globals": "^16.2.0",
         "magic-string": "^0.30.17",
         "node-watch": "^0.7.4",
-		"prettier-eslint": "^16.4.2",
-		"rollup": "^4.44.0",
-		"rollup-plugin-node-externals": "^8.0.1",
-		"stylelint": "^16.21.0",
-		"stylelint-config-standard": "^38.0.0",
-		"tailwindcss": "^4.1.10",
+        "prettier-eslint": "^16.4.2",
+        "rollup": "^4.44.0",
+        "rollup-plugin-node-externals": "^8.0.1",
+        "stylelint": "^16.21.0",
+        "stylelint-config-standard": "^38.0.0",
+        "tailwindcss": "^4.1.10",
         "testatron": "^2.1.0",
         "tiny-lr": "^2.0.0"
     },
@@ -91,9 +92,9 @@
     },
     "pnpm": {
         "onlyBuiltDependencies": [
-			"core-js",
-			"rollup"
+            "core-js",
+            "rollup"
         ]
     },
-	"packageManager": "pnpm@10.12.1"
+    "packageManager": "pnpm@10.12.1"
 }
