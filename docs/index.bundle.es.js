@@ -1040,7 +1040,9 @@ function isTypeNameFactory(source) {
 function isConstructorFactory(source) {
 	return (target) => {
 		if (target?.constructor) {
-			return isType(target, source);
+			if (source) {
+				return isType(target, source);
+			}
 		}
 		return false;
 	};
@@ -1058,7 +1060,7 @@ function isConstructorFactory(source) {
  * import { isBuffer, assert } from '@universalweb/acid';
  * assert(isBuffer(Buffer.from('test')), true);
  */
-const isBufferCall = isConstructorFactory(Buffer);
+const isBufferCall = isConstructorFactory(globalThis.Buffer);
 const isBuffer = isTypeFactory(isBufferCall);
 
 /**
@@ -2058,6 +2060,9 @@ function unZip(source) {
  * assert(isBuffer(ensureBuffer('test')), true);
  */
 function ensureBuffer(source) {
+	if (!globalThis.Buffer) {
+		return Error('Buffer is not available in this environment');
+	}
 	return (isBuffer(source) && source) || (hasValue(source) && Buffer.from(source)) || Buffer.alloc(0);
 }
 
@@ -7490,7 +7495,6 @@ function inSync(source, thisBind, ...args) {
 	return results;
 }
 
-// TODO: CHANGE TO SOURCEFILEPATH TO DESTINATION FOLDER WITH OPTION FOR NEW FILENAME?
 async function copyToPath(sourceFolder, destinationFolder, file) {
 	const sourcePath = path.join(sourceFolder, file);
 	const destinationPath = path.join(destinationFolder, file);

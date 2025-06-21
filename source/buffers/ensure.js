@@ -14,5 +14,8 @@ import { isBuffer } from '../types/isBuffer.js';
  * assert(isBuffer(ensureBuffer('test')), true);
  */
 export function ensureBuffer(source) {
+	if (!globalThis.Buffer) {
+		return Error('Buffer is not available in this environment');
+	}
 	return (isBuffer(source) && source) || (hasValue(source) && Buffer.from(source)) || Buffer.alloc(0);
 }

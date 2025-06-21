@@ -12,5 +12,5 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isBuffer, assert } from '@universalweb/acid';
  * assert(isBuffer(Buffer.from('test')), true);
  */
-export const isBufferCall = isConstructorFactory(Buffer);
+export const isBufferCall = isConstructorFactory(globalThis.Buffer);
 export const isBuffer = isTypeFactory(isBufferCall);
