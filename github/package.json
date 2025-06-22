@@ -42,11 +42,12 @@
         "@universalweb/acid": "./index.js"
     },
     "publishConfig": {
-        "access": "public"
+		"access": "public",
+		"registry": "https://npm.pkg.github.com/"
     },
     "scripts": {
         "start": "node index.js"
     },
     "company": "Universal Web",
-    "readme": "README.md"
+	"readme": "README.md"
 }
