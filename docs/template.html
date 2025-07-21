@@ -43,7 +43,8 @@
     </div>
     <div class="uk-position-right scroll uk-overflow-auto uk-width-3-4 uk-container uk-position-absolute uk-height-1-1 uk-background-muted">
       <div class="uk-container-xsmall uk-margin-auto uk-padding">
-        <code class="uk-width-1-1 uk-text-center uk-margin-bottom">npm install {{npmName}}</code>
+		<code class="uk-width-1-1 uk-text-center uk-margin-bottom">.npmrc - @universalweb:registry=https://npm.pkg.github.com</code>
+		<code class="uk-width-1-1 uk-text-center uk-margin-bottom">pnpm install {{npmName}}</code>
         {{#categories}}
           {{#this.items}}
             {{#getDocItem(this)}}
