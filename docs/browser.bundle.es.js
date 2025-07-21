@@ -3004,7 +3004,10 @@ function forOf(source, iteratee) {
 		}
 		return source;
 	}
-	for (const [key, value] of source) {
+	for (const [
+		key,
+		value
+	] of source) {
 		iteratee(value, key, source);
 	}
 	return source;
@@ -6816,7 +6819,7 @@ function merge(target, ...sources) {
 	each(sources, (currentSource) => {
 		each(currentSource, (sourceItem, sourceKey) => {
 			if (target[sourceKey]) {
-				if (isPlainObject(sourceItem) || isArray(sourceItem) || sourceItem.forEach) {
+				if (isPlainObject(sourceItem) || isArray(sourceItem)) {
 					return merge(target[sourceKey], sourceItem);
 				}
 			}

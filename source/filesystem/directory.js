@@ -6,10 +6,10 @@ export function currentFile(importMeta) {
 	}
 	return fileURLToPath(importMeta.url);
 }
-export function currentPath(importMeta, joinPath) {
+export function currentPath(importMeta, ...joinPaths) {
 	if (globalThis.__dirname) {
 		return __dirname;
 	}
 	const currentPathString = path.dirname(fileURLToPath(importMeta.url));
-	return joinPath ? path.join(currentPathString, joinPath) : currentPathString;
+	return joinPaths.length > 0 ? path.join(currentPathString, ...joinPaths) : currentPathString;
 }

@@ -6,7 +6,10 @@ export function forOf(source, iteratee) {
 		}
 		return source;
 	}
-	for (const [key, value] of source) {
+	for (const [
+		key,
+		value
+	] of source) {
 		iteratee(value, key, source);
 	}
 	return source;

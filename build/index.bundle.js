@@ -7203,11 +7203,7 @@
     each(sources, (currentSource) => {
       each(currentSource, (sourceItem, sourceKey) => {
         if (target[sourceKey]) {
-          if (
-            isPlainObject(sourceItem) ||
-            isArray(sourceItem) ||
-            sourceItem.forEach
-          ) {
+          if (isPlainObject(sourceItem) || isArray(sourceItem)) {
             return merge(target[sourceKey], sourceItem);
           }
         }
@@ -7924,15 +7920,15 @@
     }
     return node_url.fileURLToPath(importMeta.url);
   }
-  function currentPath(importMeta, joinPath) {
+  function currentPath(importMeta, ...joinPaths) {
     if (globalThis.__dirname) {
       return __dirname;
     }
     const currentPathString = path$1.dirname(
       node_url.fileURLToPath(importMeta.url),
     );
-    return joinPath
-      ? path$1.join(currentPathString, joinPath)
+    return joinPaths.length > 0
+      ? path$1.join(currentPathString, ...joinPaths)
       : currentPathString;
   }
 

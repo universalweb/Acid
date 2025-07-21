@@ -7188,11 +7188,7 @@
     each(sources, (currentSource) => {
       each(currentSource, (sourceItem, sourceKey) => {
         if (target[sourceKey]) {
-          if (
-            isPlainObject(sourceItem) ||
-            isArray(sourceItem) ||
-            sourceItem.forEach
-          ) {
+          if (isPlainObject(sourceItem) || isArray(sourceItem)) {
             return merge(target[sourceKey], sourceItem);
           }
         }
