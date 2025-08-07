@@ -5,7 +5,7 @@
 
 ### INSTALL Acidjs
 
-`npm i @universalweb/acid` (Case sensitive)
+THEN RUN `pnpm i github:universalweb/utilitylib` (Case sensitive)
 
 ### ES Module Import Syntax
 

@@ -52,7 +52,7 @@
         "bumpVersion": "pnpm version patch --force && cd ./package/ && pnpm version patch --force",
         "publishAll": "pnpm publish ./npm/ && cd ./github/ && pnpm publish && cd ../",
         "publish": "pnpm update && pnpm run bumpVersion && pnpm run buildProduction && pnpm run changelog && pnpm run publishAll",
-        "publishGitHub": "cd ./github/ && pnpm publish && cd ../"
+        "publishGitHub": "cd ./github/ && pnpm publish --access public && cd ../"
     },
     "dependencies": {
         "@babel/core": "^7.27.4",
