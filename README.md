@@ -5,17 +5,17 @@
 
 ### INSTALL Acidjs
 
-THEN RUN `pnpm i github:universalweb/utilitylib` (Case sensitive)
+THEN RUN `pnpm i github:@universalweb/utilitylib` (Case sensitive)
 
 ### ES Module Import Syntax
 
-`import { isArray } from '@universalweb/acid';`  
-`import * as utility from '@universalweb/acid';`
+`import { isArray } from 'universalweb/utilitylib';`  
+`import * as utility from 'universalweb/utilitylib';`
 
 ### Require Syntax
 
-`const { isArray } = require('@universalweb/acid');`  
-`const utility = require('@universalweb/acid');`
+`const { isArray } = require('@universalweb/utilitylib');`  
+`const utility = require('@universalweb/utilitylib');`
 
 ### ES Browser Module Import Syntax
 
