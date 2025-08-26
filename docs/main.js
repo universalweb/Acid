@@ -64,9 +64,11 @@
 			item.examples = map(item.examples, (exampleCode) => {
 				exampleCode.sourceOld = exampleCode.source;
 				// console.log(exampleCode);
-				exampleCode.source = window.hljs.highlight(window.js_beautify(exampleCode.source), {
-					language: 'javascript',
-				}).value;
+				if (window.js_beautify) {
+					exampleCode.source = window.hljs.highlight(window.js_beautify(exampleCode.source), {
+						language: 'javascript',
+					}).value;
+				}
 				return exampleCode;
 			});
 		}
