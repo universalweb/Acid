@@ -1,3 +1,4 @@
+import { everyArray } from '../arrays/every.js';
 import { isConstructorFactory } from './isConstructorFactory.js';
 import { isTypeFactory } from './isTypeFactory.js';
 /**
@@ -13,4 +14,13 @@ import { isTypeFactory } from './isTypeFactory.js';
  * assert(isBuffer(Buffer.from('test')), true);
  */
 export const isBufferCall = isConstructorFactory(globalThis.Buffer);
-export const isBuffer = isTypeFactory(isBufferCall);
+const isBufferFunc = isTypeFactory(isBufferCall);
+export function isBuffer(source, ...otherSources) {
+	if (!globalThis.Buffer) {
+		return Error('Buffer is not available in this environment');
+	}
+	if (Buffer.isBuffer) {
+		return Buffer.isBuffer(source) && (!otherSources?.length || everyArray(otherSources, Buffer.isBuffer));
+	}
+	return isBufferFunc(source, ...otherSources);
+}

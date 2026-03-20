@@ -19,9 +19,9 @@
  * // 2
  * // => undefined
  */
-export async function timesAsync(amount, iteratee) {
+export async function timesAsync(amount, iteratee, contextThis) {
 	for (let index = 0; index < amount; index++) {
-		await iteratee(amount);
+		(contextThis && await (iteratee.call(contextThis, index))) || await iteratee(index);
 	}
 }
 /**

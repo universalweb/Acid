@@ -42,8 +42,7 @@
         "@universalweb/acid": "./index.js"
     },
     "publishConfig": {
-		"access": "public",
-		"registry": "https://npm.pkg.github.com"
+        "access": "public"
     },
     "scripts": {
         "start": "node index.js"

@@ -1,3 +1,4 @@
+// TODO: REDO ENTIRE BUILD SYSTEM Rollup vite turbopack
 import { buildJson } from '@universalweb/docredux';
 import { copyFolder } from './source/filesystem/copyFolder.js';
 import eslintConfigRaw from './eslint.config.js';
@@ -62,35 +63,35 @@ const build = async () => {
 	console.log('Build Client START');
 	const browserBundle = await rollup({
 		input: './source/browser.js',
-		plugins: [nodeResolve()]
+		plugins: [nodeResolve()],
 	});
 	const browserBundleProduction = await rollup({
 		input: './source/browser.js',
-		plugins: [nodeResolve(), terser()]
+		plugins: [nodeResolve(), terser()],
 	});
 	await browserBundle.write({
 		file: './build/browser.bundle.js',
 		format: 'umd',
 		name: '$',
-		sourcemap: true
+		sourcemap: true,
 	});
 	await browserBundle.write({
 		file: './build/module/browser/bundle.js',
 		format: 'es',
 		name: '$',
-		sourcemap: true
+		sourcemap: true,
 	});
 	await browserBundleProduction.write({
 		file: './build/browser.js',
 		format: 'umd',
 		name: '$',
-		sourcemap: true
+		sourcemap: true,
 	});
 	await browserBundleProduction.write({
 		file: './build/module/browser/index.js',
 		format: 'es',
 		name: '$',
-		sourcemap: true
+		sourcemap: true,
 	});
 	await beautify('./build/browser.bundle.js');
 	copyFile('./build/browser.bundle.js', './docs/browser.bundle.js');
@@ -102,29 +103,29 @@ const build = async () => {
 		input: './source/index.js',
 		plugins: [
 			nodeExternals({
-				builtinsPrefix: 'ignore'
+				builtinsPrefix: 'ignore',
 			}),
-			nodeResolve()
+			nodeResolve(),
 		],
 	});
 	const indexProduction = await rollup({
 		input: './source/index.js',
 		plugins: [
 			nodeExternals({
-				builtinsPrefix: 'ignore'
+				builtinsPrefix: 'ignore',
 			}),
 			nodeResolve(),
-			terser()
+			terser(),
 		],
 	});
 	const basicProduction = await rollup({
 		input: './source/basic.js',
 		plugins: [
 			nodeExternals({
-				builtinsPrefix: 'ignore'
+				builtinsPrefix: 'ignore',
 			}),
 			nodeResolve(),
-			terser()
+			terser(),
 		],
 	});
 	await index.write({
@@ -200,13 +201,13 @@ if (!process.env.production) {
 		});
 	};
 	watch('./source/', {
-		recursive: true
+		recursive: true,
 	}, async (evt, filename) => {
 		await build();
 		notifyLiveReload(evt, filename);
 	});
 	watch('./docs/', {
-		recursive: true
+		recursive: true,
 	}, async (evt, filename) => {
 		notifyLiveReload(evt, filename);
 	});

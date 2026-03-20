@@ -21,13 +21,16 @@ import { returnValue } from '../utilities/returnValue.js';
  * }), true);
  */
 function returnBoolean(value) {
-	return value;
+	return Boolean(value);
 }
 export function everyArray(source, iteratee = returnBoolean, additionalArgument) {
 	if (!source) {
 		return;
 	}
 	const sourceLength = source.length;
+	if (!sourceLength) {
+		return;
+	}
 	for (let index = 0; index < sourceLength; index++) {
 		if (iteratee(source[index], index, source, sourceLength, additionalArgument) === false) {
 			return false;

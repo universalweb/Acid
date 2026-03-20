@@ -18,9 +18,9 @@
  * // 2
  * // => undefined
  */
-export function times(amount, iteratee) {
+export function times(amount, iteratee, contextThis) {
 	for (let index = 0; index < amount; index++) {
-		iteratee(index);
+		(contextThis && iteratee.call(contextThis, index)) || iteratee(index);
 	}
 }
 /**

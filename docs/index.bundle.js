@@ -3495,9 +3495,9 @@
    * // 2
    * // => undefined
    */
-  function times(amount, iteratee) {
+  function times(amount, iteratee, contextThis) {
     for (let index = 0; index < amount; index++) {
-      iteratee(index);
+      (contextThis && iteratee.call(contextThis, index)) || iteratee(index);
     }
   }
   /**
@@ -7527,9 +7527,10 @@
    * // 2
    * // => undefined
    */
-  async function timesAsync(amount, iteratee) {
+  async function timesAsync(amount, iteratee, contextThis) {
     for (let index = 0; index < amount; index++) {
-      await iteratee(amount);
+      (contextThis && (await iteratee.call(contextThis, index))) ||
+        (await iteratee(index));
     }
   }
   /**
