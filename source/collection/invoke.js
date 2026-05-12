@@ -13,9 +13,9 @@ import { mapArray } from '../arrays/map.js';
  * @example
  * import { invokeCollection, assert } from '@universalweb/acid';
  * const results = invokeCollection([{
- *	test(item, index) { return [item, index];}
- * }], 'test', ['EXAMPLE']);
- * assert(results, [['EXAMPLE', 0]]);
+ *   test(arg) { return [arg]; }
+ * }], 'test', 'EXAMPLE');
+ * assert(results, [['EXAMPLE']]);
  */
 export function invokeCollection(collection, property, value, thisBind) {
 	if (thisBind) {

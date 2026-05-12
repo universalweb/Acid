@@ -10,9 +10,11 @@ import { timer, timers } from '../utilities/timer.js';
  * @returns {Function|undefined} - The throttled function.
  *
  * @example
- * const throttled = throttle(() => { console.log('throttle'); }, 0)();
- * throttled();
- * // 'throttle'
+ * import { throttle, assert } from '@universalweb/acid';
+ * let calls = 0;
+ * const throttled = throttle(() => { calls++; }, 50);
+ * throttled(); throttled(); throttled();
+ * assert(calls, 1);
  */
 export function throttle(callable, time) {
 	function throttled(...args) {

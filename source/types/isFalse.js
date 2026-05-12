@@ -2,7 +2,7 @@
  * Check if a value equals false using strict comparison.
  *
  * @function isFalse
- * @category Utility
+ * @category utility
  * @type {Function}
  * @param {Boolean} source - Item to compare.
  * @returns {Boolean} - Returns true if the item equals false.

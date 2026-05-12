@@ -8,19 +8,17 @@ import { returnValue } from './returnValue.js';
 /**
  * Iterates through (using for of) the calling object and creates an object with the results of the iteratee on every element in the calling object.
  *
- * @function forOfCompactMap
+ * @function forOfMap
  * @category utility
  * @type {Function}
- * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @param {Object|Function|Class|Map|Set|Array} resultsObject - Object that will be used to assign results else source is type cloned.
- * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
+ * @param {Map|Set|Array} source - Iterable that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, and calling object.
+ * @param {Map|Set|Array} resultsObject - Object that will be used to assign results else source is type cloned.
+ * @returns {Map|Set|Array} - An object with mapped values.
  *
  * @example
- * forOfCompactMap({a: undefined, b: 2, c: 3}, (item) => {
- *   return item;
- * });
- * // => {b: 2, c: 3}
+ * import { forOfMap, assert } from '@universalweb/acid';
+ * assert(forOfMap([1, 2, 3], (item) => item * 2), [2, 4, 6]);
  */
 export function forOfMap(source, iteratee = returnValue, resultsObject) {
 	const results = resultsObject || cloneType(source);

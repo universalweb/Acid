@@ -9,10 +9,10 @@ import { hasValue } from '../types/hasValue.js';
  * @returns {Function} - Returns the new pass-thru function.
  *
  * @example
- * const onceOnly = once((item) => { return item;});
+ * import { once, assert } from '@universalweb/acid';
+ * const onceOnly = once((item) => item);
  * onceOnly(5);
- * onceOnly(3);
- * // => 5
+ * assert(onceOnly(3), 5);
  */
 export const once = (callable) => {
 	let value;

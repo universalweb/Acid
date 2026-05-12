@@ -11,7 +11,8 @@ import { hasValue } from './hasValue.js';
  * import { isIterable, assert } from '@universalweb/acid';
  * assert(isIterable([]), true);
  * assert(isIterable(new Int8Array()), true);
- * assert(isIterable('test'), false);
+ * assert(isIterable('test'), true);
+ * assert(isIterable({}), false);
  */
 export function isIterable(source) {
 	return hasValue(source) && typeof source[Symbol.iterator] === 'function';

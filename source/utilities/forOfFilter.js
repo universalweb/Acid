@@ -17,12 +17,8 @@ import { returnValue } from './returnValue.js';
  * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties.
  *
  * @example
- * import { assert, forOfFilter } from '@universalweb/acid';
- * const source = {a: undefined, b: 2, c: 3};
- * const temp = forOfFilter(source, (item) => {
- *   return Boolean(item);
- * });
- * assert(temp, {b: 2, c: 3});
+ * import { forOfFilter, assert } from '@universalweb/acid';
+ * assert(forOfFilter([1, 2, 3, 4], (item) => item % 2 === 0), [2, 4]);
  */
 export function forOfFilter(source, iteratee = returnValue, resultsObject) {
 	const results = resultsObject || cloneType(source);

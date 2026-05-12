@@ -9,7 +9,8 @@
  *
  * @example
  * import { isEven, assert } from '@universalweb/acid';
- * assert(isEven(1), true);
+ * assert(isEven(2), true);
+ * assert(isEven(1), false);
  */
 export function isEven(source) {
 	return (source & 1) === 0;

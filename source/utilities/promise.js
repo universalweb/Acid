@@ -8,8 +8,8 @@
  * @returns {Promise} - A constructor with a callback function.).
  *
  * @example
- * promise((a) => {});
- * // => Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
+ * import { promise, assert } from '@universalweb/acid';
+ * assert(await promise((resolve) => resolve(42)), 42);
  */
 export function promise(callback) {
 	return new Promise(callback);

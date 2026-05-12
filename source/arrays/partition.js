@@ -14,11 +14,12 @@ import { compactMapArray } from './compactMap.js';
  * const result = partition([
  *  {user: 'barney', age: 36, active: false},
  *  {user: 'fred', age: 40, active: true},
- *  {user: 'pebbles', age: 1,  active: false}
- * ], (item) => { return item.active; });
- * assert(result, [{"user":"fred","age":40,"active":true}],
- *   [{"user":"barney","age":36,"active":false},
- *   {"user":"pebbles","age":1,"active":false}]);
+ *  {user: 'pebbles', age: 1, active: false}
+ * ], (item) => item.active);
+ * assert(result, [
+ *   [{user: 'fred', age: 40, active: true}],
+ *   [{user: 'barney', age: 36, active: false}, {user: 'pebbles', age: 1, active: false}]
+ * ]);
  */
 export function partition(array, predicate) {
 	const rejected = [];

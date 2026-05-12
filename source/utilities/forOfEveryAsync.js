@@ -15,10 +15,9 @@ import { returnValue } from './returnValue.js';
  * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
- * import { every, assert } from '@universalweb/acid';
- * assert(forOfEveryAsync({a: false, b: true, c: true}, (item) => {
- *  return item;
- * }), false);
+ * import { forOfEveryAsync, assert } from '@universalweb/acid';
+ * assert(await forOfEveryAsync([true, true, true], async (item) => item), true);
+ * assert(await forOfEveryAsync([true, false, true], async (item) => item), false);
  */
 export async function forOfEveryAsync(source, iteratee = returnValue, generatorArgs) {
 	if (isGenerator(source)) {

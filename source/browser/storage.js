@@ -27,6 +27,7 @@ hasStorage(() => {
  *
  * @class BrowserStorage
  * @category browser
+ * @ignoreTest
  * @returns {BrowserStorage} - Returns a new instance of BrowserStorage.
  *
  * @example
@@ -49,6 +50,7 @@ export class BrowserStorage {
 	 * @function setItem
 	 * @class BrowserStorage
 	 * @category browser
+ * @ignoreTest
 	 * @param {String} key - The key used to store the data.
 	 * @param {*} value - If saving to localStorage, & the object isn't a string it will be converted to a string using JSON.stringify.
 	 * @returns {undefined} - Returns undefined.
@@ -71,6 +73,7 @@ export class BrowserStorage {
 	 * @function getItem
 	 * @class BrowserStorage
 	 * @category browser
+ * @ignoreTest
 	 * @param {String} key - The key used to store the data.
 	 * @returns {undefined} - Returns undefined.
 	 *
@@ -95,6 +98,7 @@ export class BrowserStorage {
 	 * @function clear
 	 * @class BrowserStorage
 	 * @category browser
+ * @ignoreTest
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
@@ -116,6 +120,7 @@ export class BrowserStorage {
 	 *
 	 * @class BrowserStorage
 	 * @category browser
+ * @ignoreTest
 	 * @function removeItem
 	 * @param {String} key - The key used to remove data.
 	 * @returns {undefined} - Returns undefined.
@@ -140,6 +145,7 @@ export class BrowserStorage {
  *
  * @function browserStorage
  * @category browser
+ * @ignoreTest
  * @type {Function}
  * @returns {*} - Returns a new BrowserStorage Object.
  *

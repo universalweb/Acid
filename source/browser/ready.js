@@ -16,6 +16,9 @@ import { importjs } from './importScript.js';
  * // => 1
  */
 export function isDocumentReady(callable) {
+	if (typeof document === 'undefined') {
+		return false;
+	}
 	const state = document.readyState;
 	const checkStatus = state === 'interactive' || state === 'completed' || state === 'complete';
 	if (checkStatus) {
@@ -26,8 +29,3 @@ export function isDocumentReady(callable) {
 	}
 	return false;
 }
-isDocumentReady(() => {
-	const scriptTag = getById('AcidLib');
-	const scriptName = (scriptTag && scriptTag.getAttribute('data-index')) || '/index';
-	importjs(scriptName);
-});

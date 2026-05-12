@@ -15,11 +15,11 @@ import { keys } from './keys.js';
  *
  * @example
  * import { eachAsyncObject, assert } from '@universalweb/acid';
- * const tempList = [];
+ * const collected = {};
  * await eachAsyncObject({a: 1, b: 2, c: 3}, async (item, key) => {
- *     tempList[key] = item;
- *   });
- * assert(tempList, {a: 1, b: 2, c: 3});
+ *   collected[key] = item;
+ * });
+ * assert(collected, {a: 1, b: 2, c: 3});
  */
 export const eachAsyncObject = async (source, iteratee, thisCall, additionalArg) => {
 	if (!source) {

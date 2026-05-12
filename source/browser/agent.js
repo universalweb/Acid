@@ -3,12 +3,12 @@ import { eachObject } from '../objects/each.js';
 import { hasValue } from '../types/hasValue.js';
 import { isBoolean } from '../types/isBoolean.js';
 import { keys } from '../objects/keys.js';
-import { noop } from '../utilities/noop';
 /**
  * Checks to see of the browser agent has a string.
  *
  * @function isAgent
  * @category browser
+ * @ignoreTest
  * @type {Function}
  * @param {String} source - The string to search for.
  * @returns {Boolean} - Returns true or false.
@@ -30,8 +30,8 @@ if (userAgent) {
 	eachArray(userAgent.brands, (value) => {
 		isAgent[value.brand] = value.version;
 	});
-} else if (navigator.userAgent) {
-	let userAgentNormalized = navigator.userAgent.toLowerCase();
+} else if (globalThis.navigator?.userAgent) {
+	let userAgentNormalized = globalThis.navigator.userAgent.toLowerCase();
 	userAgentNormalized = userAgentNormalized.replace(/_/g, '.');
 	userAgentNormalized = userAgentNormalized.replace(/[#_,;()]/g, '');
 	const userAgentSplit = userAgentNormalized.split(/ |\//);

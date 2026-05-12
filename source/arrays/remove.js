@@ -8,11 +8,11 @@
  * @returns {Array} - The array this method was called on.
  *
  * @example
- * remove([1, 2, 3, 3, 4, 3, 5], 1);
- * // => [2, 3, 3, 4, 3, 5]
+ * import { remove, assert } from '@universalweb/acid';
+ * assert(remove([1, 2, 3, 3, 4, 3, 5], [1]), [2, 3, 3, 4, 3, 5]);
  * @example
- * remove([3, 3, 4, 5], 3, 4);
- * // => [5]
+ * import { remove, assert } from '@universalweb/acid';
+ * assert(remove([3, 3, 4, 5], [3, 4]), [5]);
  */
 export function remove(array, removeThese) {
 	let arrayLength = array.length;
@@ -36,8 +36,8 @@ export function remove(array, removeThese) {
  * @returns {Array} - The array this method was called on.
  *
  * @example
- * removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2);});
- * // => [2, 4]
+ * import { removeBy, assert } from '@universalweb/acid';
+ * assert(removeBy([1, 2, 3, 3, 4, 3, 5], (item) => { return Boolean(item % 2); }), [2, 4]);
  */
 export function removeBy(source, iteratee) {
 	let arrayLength = source.length;

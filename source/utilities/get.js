@@ -19,7 +19,7 @@ import { toPath } from './toPath.js';
  *     like: ['a','b','c']
  *   }
  * };
- * assert(get('post.like[2]', objectTarget), 'g');
+ * assert(get('post.like[2]', objectTarget), 'c');
  */
 export function get(propertyString, target) {
 	if (!target) {

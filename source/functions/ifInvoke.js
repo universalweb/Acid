@@ -12,7 +12,7 @@ import { isFunction } from '../types/isFunction.js';
  *
  * @example
  * import { ifInvoke, assert } from '@universalweb/acid';
- * assert(ifInvoke((...args) => { return args;}, 1, 2), [1, 2]);
+ * assert(ifInvoke((...args) => args, null, 1, 2), [1, 2]);
  */
 export function ifInvoke(callable, thisBind, ...args) {
 	if (isFunction(callable)) {

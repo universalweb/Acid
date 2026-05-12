@@ -9,10 +9,9 @@
  * @returns {Function} - The new function.
  *
  * @example
- * wrap('Lucy', (firstName, lastName) => {
- *  return `My name is ${firstName} ${lastName}.`;
- * })('Diamonds');
- * // => 'My name is Lucy Diamonds.'
+ * import { wrap, assert } from '@universalweb/acid';
+ * const greet = wrap('Lucy', (firstName, lastName) => `My name is ${firstName} ${lastName}.`);
+ * assert(greet('Diamonds'), 'My name is Lucy Diamonds.');
  */
 export function wrap(value, wrapper) {
 	return (...arg) => {

@@ -1,17 +1,17 @@
+export const escapeRegexRegex = /[()[\]{}*+?^$|#.,/\\\s-]/g;
 /**
- * Returns a regex safe special characters escaped version of a string.
+ * Returns a regex-safe version of a string with special characters escaped.
  *
- * @function regexSafe
+ * @function escapeRegex
  * @category regex
  * @type {Function}
- * @param {Object} source - String to make safe.
- * @returns {Object} - Returns a regex safe version of the string.
+ * @param {String} source - String to make regex-safe.
+ * @returns {String} - Regex-safe version of the string.
  *
  * @example
- * import { regexSafe, assert } from '@universalweb/acid';
- * assert(regexSafe(/.+/), '\/\.\+\/');
+ * import { escapeRegex, assert } from '@universalweb/acid';
+ * assert(escapeRegex('.+'), '\\.\\+');
  */
-export const escapeRegexRegex = /[()[\]{}*+?^$|#.,/\\\s-]/g;
 export function escapeRegex(source) {
 	return source.replace(escapeRegexRegex, '\\$&');
 }

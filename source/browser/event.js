@@ -3,6 +3,7 @@
  *
  * @function eventAdd
  * @category browser
+ * @ignoreTest
  * @type {Function}
  * @param {Node} node - Given node.
  * @param {String} eventName - A string representing the event type.
@@ -23,6 +24,7 @@ export function eventAdd(node, eventName, callback, useCapture) {
  *
  * @function eventRemove
  * @category browser
+ * @ignoreTest
  * @type {Function}
  * @param {Node} node - Given node.
  * @param {String} eventName - A string representing the event type.

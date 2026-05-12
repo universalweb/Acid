@@ -10,7 +10,7 @@ import { eachRight } from '../arrays/eachRight.js';
  *
  * @example
  * import { pair, assert } from '@universalweb/acid';
- * assert(air(1, 2), [1, 2]);
+ * assert(pair(1, 2), [1, 2]);
  */
 export function pair(argument1, argument2) {
 	return [argument1, argument2];

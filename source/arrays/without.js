@@ -17,7 +17,7 @@ export function without(target, sources) {
 	if (!sources) {
 		return target;
 	}
-	const sourcesSet = construct(Set, sources);
+	const sourcesSet = construct(Set, [sources]);
 	return target.filter((item) => {
 		return !sourcesSet.has(item);
 	});

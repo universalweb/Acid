@@ -9,7 +9,7 @@
  *
  * @example
  * import { sumAll, assert } from '@universalweb/acid';
- * assert(sumAll([10, 1, 2, 3]), 5);
+ * assert(sumAll([10, 1, 2, 3]), 16);
  */
 export function sumAll(source) {
 	return source.reduce((a, b) => {

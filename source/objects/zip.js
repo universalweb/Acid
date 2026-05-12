@@ -11,8 +11,8 @@ import { eachObject } from './each.js';
  * @returns {Object} - Returns the new object.
  *
  * @example
- * zipObject(['a', 'b'], [1, 2]);
- * // => { 'a': 1, 'b': 2 }
+ * import { zipObject, assert } from '@universalweb/acid';
+ * assert(zipObject(['a', 'b'], [1, 2]), { a: 1, b: 2 });
  */
 export const zipObject = (properties, values) => {
 	const source = {};
@@ -31,8 +31,8 @@ export const zipObject = (properties, values) => {
  * @returns {Array} - Returns two arrays one of keys and the other of values inside a single array.
  *
  * @example
- * unZipObject({ 'a': 1, 'b': 2 });
- * // => [['a', 'b'], [1, 2]]
+ * import { unZipObject, assert } from '@universalweb/acid';
+ * assert(unZipObject({ a: 1, b: 2 }), [['a', 'b'], [1, 2]]);
  */
 export const unZipObject = (object) => {
 	const objectKeys = [];

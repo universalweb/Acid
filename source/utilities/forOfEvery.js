@@ -14,10 +14,9 @@ import { returnValue } from './returnValue.js';
  * @returns {Boolean} - Returns true if all values returned are true or false if one value returns false.
  *
  * @example
- * import { every, assert } from '@universalweb/acid';
- * assert(forOfEvery({a: false, b: true, c: true}, (item) => {
- *  return item;
- * }), false);
+ * import { forOfEvery, assert } from '@universalweb/acid';
+ * assert(forOfEvery([true, true, true], (item) => item), true);
+ * assert(forOfEvery([true, false, true], (item) => item), false);
  */
 export function forOfEvery(source, iteratee = returnValue) {
 	if (isArray(source) || isSet(source)) {

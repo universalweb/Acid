@@ -11,11 +11,12 @@ import { apply } from '../internal/apply.js';
  * @returns {Function} - The debounced function.
  *
  * @example
- * import { debounce, promise, assert } from '@universalweb/acid';
- * const promised = promise((a) => {
- * 		const debounced = debounce(() => { debounced.clear(); a('debounced'); }, 0);
+ * import { debounce, assert } from '@universalweb/acid';
+ * const result = await new Promise((resolve) => {
+ *   const debounced = debounce(() => resolve('debounced'), 0);
+ *   debounced();
  * });
- * assert(await promised(), 'debounced');
+ * assert(result, 'debounced');
  */
 export function debounce(callable, time) {
 	function debounced(...args) {

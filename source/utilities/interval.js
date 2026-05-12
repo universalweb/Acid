@@ -1,10 +1,6 @@
 import { construct } from '../classes/construct.js';
-import { noop } from './noop.js';
-import { times } from './times.js';
 export class Intervals {
 	list = construct(Map);
-	construct() {
-	}
 	/**
 	 * Remove a setInterval that was created using the intervals function.
 	 *
@@ -12,8 +8,9 @@ export class Intervals {
 	 * @returns {undefined} - Returns nothing.
 	 *
 	 * @example
-	 * timer(() => {}, 100);
-	 * // => 0
+	 * import { intervals } from '@universalweb/acid';
+	 * const id = intervals.set(() => {}, 100);
+	 * intervals.remove(id);
 	 */
 	remove(id) {
 		clearInterval(id);
@@ -34,8 +31,9 @@ export class Intervals {
 	 * @returns {Object} - Returns setTimeoutId ID.
 	 *
 	 * @example
-	 * timers.set(() => {}, 100);
-	 * // => 0
+	 * import { intervals } from '@universalweb/acid';
+	 * const id = intervals.set(() => {}, 100);
+	 * intervals.remove(id);
 	 */
 	set(callable, time) {
 		const currentThis = this;
@@ -51,8 +49,8 @@ export class Intervals {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
+	 * import { intervals } from '@universalweb/acid';
 	 * intervals.clear();
-	 * // => undefined
 	 */
 	clear() {
 		const currentThis = this;
@@ -73,26 +71,24 @@ export const intervals = construct(Intervals);
  * @returns {Object} - Returns setInterval ID.
  *
  * @example
- * interval(() => {}, 100);
- * // => 0
+ * import { interval, clearIntervals } from '@universalweb/acid';
+ * const id = interval(() => {}, 100);
+ * clearIntervals();
  */
 export function interval(callable, time) {
 	return intervals.set(callable, time);
 }
 /**
- * Clear all active interval timers.
+ * Clears all intervals tracked by the Intervals registry.
  *
  * @function clearIntervals
- * @category function
+ * @category utility
  * @returns {undefined} - Returns undefined.
  *
  * @example
+ * import { clearIntervals } from '@universalweb/acid';
  * clearIntervals();
- * // => undefined
  */
 export function clearIntervals() {
-	const id = setTimeout(noop, 0);
-	times(id, (index) => {
-		intervals.remove(index);
-	});
+	intervals.clear();
 }

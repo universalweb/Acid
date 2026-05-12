@@ -8,8 +8,8 @@
  * @returns {Array} - Returns the aggregated array.
  *
  * @example
- * rest([1, 2, 3, 4, 5]);
- * // => [2, 3, 4, 5]
+ * import { rest, assert } from '@universalweb/acid';
+ * assert(rest([1, 2, 3, 4, 5]), [2, 3, 4, 5]);
  */
 export function rest(array) {
 	return array.slice(1, array.length);

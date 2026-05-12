@@ -9,9 +9,8 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isInt8 } from '@universalweb/acid';
- * isInt8(new Int8Array());
- * // => true
+ * import { isI8, assert } from '@universalweb/acid';
+ * assert(isI8(new Int8Array()), true);
  */
 export const isI8Call = isConstructorFactory(Int8Array);
 export const isI8 = isTypeFactory(isI8Call);

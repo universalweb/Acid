@@ -14,7 +14,7 @@ export const jsonParseNative = jsonNative.parse;
  *
  * @example
  * import { jsonParse, assert } from '@universalweb/acid';
- * assert(jsonParse('{a:1}'), {a:1});
+ * assert(jsonParse('{"a":1}'), {a: 1});
  */
 export function jsonParse(source, reviver) {
 	if (isString(source)) {
@@ -33,8 +33,9 @@ export function jsonParse(source, reviver) {
  * @returns {Object|undefined} - Returns the parsed object.
  *
  * @example
- * import { jsonParse, assert } from '@universalweb/acid';
- * assert(jsonParse('{a:1}'), {a:1});
+ * import { jsonParseTry, assert } from '@universalweb/acid';
+ * assert(jsonParseTry('not json'), undefined);
+ * assert(jsonParseTry('{"a":1}'), {a: 1});
  */
 export function jsonParseTry(source, reviver) {
 	if (source) {
@@ -56,7 +57,7 @@ export function jsonParseTry(source, reviver) {
  *
  * @example
  * import { stringify, assert } from '@universalweb/acid';
- * assert(stringify({a:1}), '{a:1}');
+ * assert(stringify({a: 1}), '{"a":1}');
  */
 export const stringify = jsonNative.stringify;
 

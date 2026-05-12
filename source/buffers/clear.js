@@ -1,25 +1,21 @@
 import { isBuffer } from '../types/isBuffer.js';
 /**
- * Clears the values out of a buffer.
+ * Zero-fills a Buffer in place and returns it.
  *
  * @function clearBuffer
  * @category buffer
  * @type {Function}
- * @param {Array} source - Takes an array to be emptied.
- * @returns {Array} - The originally given array.
+ * @param {Buffer} source - Buffer to be zero-filled.
+ * @returns {Buffer} - The originally given buffer, now filled with zeros.
  *
  * @example
  * import { clearBuffer, assert } from '@universalweb/acid';
- * assert(clearBuffer(Buffer.from([1,'B', 'Cat'])), Buffer.from([]));
+ * assert(clearBuffer(Buffer.from([1, 2, 3])), Buffer.from([0, 0, 0]));
  */
-export function clearBuffer(...sources) {
-	if (sources.length === 1) {
-		if (isBuffer(sources) || sources?.fill) {
-			sources.fill(0);
-		}
-		return sources;
+export function clearBuffer(source) {
+	if (isBuffer(source) || source?.fill) {
+		source.fill(0);
 	}
-	sources.forEach(clearBuffer);
-	return sources;
+	return source;
 }
 

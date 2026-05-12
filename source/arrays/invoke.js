@@ -12,11 +12,10 @@ import { hasValue } from '../types/hasValue.js';
  *
  * @example
  * import { invokeArray, assert } from '@universalweb/acid';
- * function test(arg){
- * 	return [this, arg];
- * }
- * const results = invokeArray([test], 1, test);
- * assert(results, [test, 1]);
+ * const collected = [];
+ * function test(arg) { collected.push([this, arg]); }
+ * invokeArray([test], 1, 'thisValue');
+ * assert(collected, [['thisValue', 1]]);
  */
 export function invokeArray(source, additionalArg, thisCall) {
 	if (!source) {

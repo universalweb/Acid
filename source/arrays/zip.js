@@ -8,8 +8,8 @@
  * @returns {Array} - Returns the new array of regrouped elements.
  *
  * @example
- * zip(['a', 'b'], [1, 2], [true, false]);
- * // => [['a', 1, true], ['b', 2, false]]
+ * import { zip, assert } from '@universalweb/acid';
+ * assert(zip(['a', 'b'], [1, 2], [true, false]), [['a', 1, true], ['b', 2, false]]);
  */
 export function zip(...arrays) {
 	return arrays[0].map((item, index) => {
@@ -28,8 +28,8 @@ export function zip(...arrays) {
  * @returns {Array} - Returns the new array of regrouped elements.
  *
  * @example
- * unZip([['a', 1, true], ['b', 2, false]]);
- * // => [['a', 'b'], [1, 2], [true, false]]
+ * import { unZip, assert } from '@universalweb/acid';
+ * assert(unZip([['a', 1, true], ['b', 2, false]]), [['a', 'b'], [1, 2], [true, false]]);
  */
 export function unZip(source) {
 	return source[0].map((item, index) => {

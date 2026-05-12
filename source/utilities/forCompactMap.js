@@ -1,6 +1,20 @@
-import { cloneType } from '../type/cloneType';
+import { cloneType } from '../types/cloneType.js';
 import { hasValue } from '../types/hasValue.js';
 import { isFunction } from '../types/isFunction.js';
+/**
+ * Iterates source via forEach, cloning the source's type, and pushes/sets each non-null/undefined returned value onto the clone.
+ *
+ * @function forCompactMap
+ * @category utility
+ * @type {Function}
+ * @param {Array|Object|Map|Set} source - Object that will be looped through.
+ * @param {Function} callback - Transformation function returning the new value.
+ * @returns {Array|Object|Map|Set} - A new collection of the same type containing the mapped values.
+ *
+ * @example
+ * import { forCompactMap, assert } from '@universalweb/acid';
+ * assert(forCompactMap([1, 2, null, 3], (item) => item), [1, 2, 3]);
+ */
 export function forCompactMap(source, callback) {
 	const cloned = cloneType(source);
 	const method = cloned.push || cloned.add;

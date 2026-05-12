@@ -10,7 +10,7 @@
  *
  * @example
  * import { after, assert } from '@universalweb/acid';
- * const onlyAfter = after(1, (item) => { return item;});
+ * const onlyAfter = after(2, (item) => item);
  * assert(onlyAfter(1), undefined);
  * assert(onlyAfter(2), 2);
  */

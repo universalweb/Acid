@@ -12,7 +12,7 @@ import { toArray } from '../internal/array.js';
  *
  * @example
  * import { shuffle, assert } from '@universalweb/acid';
- * assert(shuffle([1, 2, 3, 4]), [3, 4, 2, 1]);
+ * assert(shuffle([1, 2, 3, 4]), (result) => result.length === 4 && result.every((n) => [1, 2, 3, 4].includes(n)));
  */
 export function shuffle(target, amount = target.length) {
 	if (target.length <= 1) {

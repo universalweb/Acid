@@ -30,7 +30,8 @@ export function assignToObject(target, source) {
  *
  * @example
  * import { assign, assert } from '@universalweb/acid';
- * assert(assign({a: 1}, {b: 2}, function c() { return 3; }, 'd', 5), {a: 1, b: 2, c, d: 'd', 5: 5});
+ * function c() { return 3; }
+ * assert(assign({a: 1}, {b: 2}, c, 'd', 5), {a: 1, b: 2, c, d: 'd', 5: 5});
  */
 export function assign(target = {}, ...sources) {
 	const sourceLength = sources.length;

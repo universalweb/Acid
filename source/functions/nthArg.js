@@ -8,8 +8,8 @@
  * @returns {Function} - Returns the new pass-thru function.
  *
  * @example
- * nthArg(1)('a', 'b');
- * // => 'b'
+ * import { nthArg, assert } from '@universalweb/acid';
+ * assert(nthArg(1)('a', 'b'), 'b');
  */
 export function nthArg(index = 0) {
 	return (...args) => {

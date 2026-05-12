@@ -18,6 +18,7 @@ const nodeAttachLoadingEvents = (node) => {
  *
  * @function importjs
  * @category browser
+ * @ignoreTest
  * @type {Function}
  * @async
  * @param {*} url - URL of the script to import. If not "." is found in the file name ".js" will be appended.

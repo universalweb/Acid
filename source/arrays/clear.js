@@ -2,7 +2,7 @@
  * Clears the values out of an array.
  *
  * @function clearArray
- * @category Array
+ * @category array
  * @type {Function}
  * @param {Array} source - Takes an array to be emptied.
  * @returns {Array} - The originally given array.

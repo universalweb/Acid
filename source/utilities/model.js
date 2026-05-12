@@ -63,6 +63,6 @@ export function model(modelName, modelSource) {
 	if (hasValue(modelSource)) {
 		return construct(Model, [modelName, modelSource]);
 	}
-	return get(modelName, Model.models);
+	return Model.models.get(modelName);
 }
 

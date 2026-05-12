@@ -11,10 +11,8 @@ import { eachAsyncObject } from './eachAsync.js';
  * @returns {Object|Function} - An object with properties that passed the test.
  *
  * @example
- * filterAsyncObject({a: false, b: true, c: true}, (item) => {
- *   return item;
- * });
- * // => {b: true, c: true}
+ * import { filterAsyncObject, assert } from '@universalweb/acid';
+ * assert(await filterAsyncObject({a: false, b: true, c: true}, async (item) => item), {b: true, c: true});
  */
 export async function filterAsyncObject(source, iteratee, results = {}) {
 	await eachAsyncObject(source, async (item, key, original, propertyCount, objectKeys) => {

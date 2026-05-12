@@ -22,8 +22,8 @@ function returnFlow(callable) {
  * @returns {Function} - Returns the new composite function.
  *
  * @example
- * flowAsync(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
- * // => 2
+ * import { flowAsync, increment, assert } from '@universalweb/acid';
+ * assert(await flowAsync(async (item) => increment(item), async (item) => increment(item))(0), 2);
  */
 export const flowAsync = returnFlow(eachAsyncArray);
 /**
@@ -37,8 +37,8 @@ export const flowAsync = returnFlow(eachAsyncArray);
  * @returns {Function} - Returns the new composite function.
  *
  * @example
- * flowAsyncRight(async (item) => {return increment(item);}, async (item) => {return increment(item);})(0);
- * // => 2
+ * import { flowAsyncRight, increment, assert } from '@universalweb/acid';
+ * assert(await flowAsyncRight(async (item) => increment(item), async (item) => increment(item))(0), 2);
  */
 export const flowAsyncRight = returnFlow(eachRightAsync);
 

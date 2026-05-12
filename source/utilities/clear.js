@@ -13,7 +13,7 @@ import { isBuffer } from '../types/isBuffer.js';
  *
  * @example
  * import { clear, assert } from '@universalweb/acid';
- * assert(clear(Buffer.from([1,'B', 'Cat'])), []);
+ * assert(clear([1, 2, 3]), []);
  */
 export function clear(source) {
 	if (source) {

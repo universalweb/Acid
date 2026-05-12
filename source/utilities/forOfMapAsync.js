@@ -8,19 +8,17 @@ import { returnValue } from './returnValue.js';
 /**
  * Asynchronously iterates (for of) through the calling object and creates an object with the results, (excludes results which are null or undefined), of the iteratee on every element in the calling object.
  *
- * @function forOfCompactMapAsync
+ * @function forOfMapAsync
  * @category utility
  * @type {Function}
- * @param {Object|Function|Class|Map|Set|Array} source - Object that will be looped through.
- * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, calling object, key count, and array of keys.
- * @param {Object|Function|Class|Map|Set|Array} resultsObject - Object that will be used to assign results.
- * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
+ * @param {Map|Set|Array} source - Iterable that will be looped through.
+ * @param {Function} iteratee - Transformation function which is passed item, key, the newly created object, and calling object.
+ * @param {Map|Set|Array} resultsObject - Object that will be used to assign results.
+ * @returns {Map|Set|Array} - An object with the mapped values.
  *
  * @example
- * import { forOfCompactMapAsync, assert } from '@universalweb/acid';
- * assert(forOfCompactMapAsync({a: undefined, b: 2, c: 3}, (item) => {
- *   return item;
- * }), {b: 2, c: 3});
+ * import { forOfMapAsync, assert } from '@universalweb/acid';
+ * assert(await forOfMapAsync([1, 2, 3], async (item) => item * 2), [2, 4, 6]);
  */
 export async function forOfMapAsync(source, iteratee = returnValue, resultsObject, generatorArgs) {
 	if (isGenerator(source)) {

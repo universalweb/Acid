@@ -13,10 +13,8 @@ import { returnValue } from '../utilities/returnValue.js';
  * @returns {Array} - Array values after being put through an iterator.
  *
  * @example
- * import { compactMapAsync, assert } from '@universalweb/acid';
- * assert(await compactMapAsync([1, 2, 3, null], async (item) => {
- *   return item;
- * }), [1, 2, 3]);
+ * import { compactMapAsyncArray, assert } from '@universalweb/acid';
+ * assert(await compactMapAsyncArray([1, 2, 3, null], async (item) => item), [1, 2, 3]);
  */
 export async function compactMapAsyncArray(source, iteratee = returnValue) {
 	const results = [];

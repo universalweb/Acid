@@ -29,7 +29,7 @@ export function isArrayLike(source, strictFlag) {
 		return true;
 	}
 	const sourceLength = source.length;
-	if (!noValue(sourceLength) || !isNumber(sourceLength) || sourceLength < 0) {
+	if (noValue(sourceLength) || !isNumber(sourceLength) || sourceLength < 0) {
 		return false;
 	}
 	if (strictFlag) {

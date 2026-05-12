@@ -11,13 +11,13 @@
  *
  * @example
  * import { construct, assert } from '@universalweb/acid';
- * class test {
- * 	constructor(a) {
- * 		return 1;
- * 	}
+ * class Greeter {
+ *   constructor(name) {
+ *     this.name = name;
+ *   }
  * }
- * const newClass = construct(test, [1]);
- * assert(test, 1);
+ * const greeter = construct(Greeter, ['world']);
+ * assert(greeter.name, 'world');
  */
 const reflectConstruct = Reflect.construct;
 import { isArray } from '../types/isArray.js';

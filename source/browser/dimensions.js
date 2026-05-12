@@ -25,7 +25,9 @@ export function saveDimensions() {
 export function updateDimensions() {
 	saveDimensions();
 }
-isDocumentReady(updateDimensions);
-eventAdd(window, 'load', updateDimensions, true);
-eventAdd(window, 'resize', updateDimensions, true);
+if (typeof window !== 'undefined') {
+	isDocumentReady(updateDimensions);
+	eventAdd(window, 'load', updateDimensions, true);
+	eventAdd(window, 'resize', updateDimensions, true);
+}
 

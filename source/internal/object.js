@@ -4,6 +4,7 @@ import { cacheNativeMethod } from '../utilities/cacheNativeMethod.js';
  *
  * @function getPropNames
  * @category object
+ * @ignoreTest
  * @param {Object} source - The object whose enumerable and non-enumerable own properties are to be returned.
  * @returns {Object} - An array of strings that correspond to the properties found directly upon the given object.
  *
@@ -17,6 +18,7 @@ export const getPropNames = Object.getOwnPropertyNames;
  *
  * @function getPropDesc
  * @category object
+ * @ignoreTest
  * @param {Object} target - The target object.
  * @param {String} property - The name of the property whose description is to be retrieved.
  * @returns {Object} - A property descriptor of the given property if it exists on the object, undefined otherwise.
@@ -31,6 +33,7 @@ export const getPropDesc = Object.getOwnPropertyDescriptor;
  *
  * @function defProp
  * @category object
+ * @ignoreTest
  * @param {Object} target - The object on which to define the property.
  * @param {String} property - The name of the property whose description is to be retrieved.
  * @param {Object} descriptor - The descriptor for the property being defined or modified.

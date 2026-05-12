@@ -12,8 +12,8 @@ import { eachArray } from '../arrays/each.js';
  * @returns {Object} - Returns the composed aggregate object.
  *
  * @example
- * groupBy([6.1, 4.2, 6.3], Math.floor);
- * // => { '4': [4.2], '6': [6.1, 6.3] }
+ * import { groupBy, assert } from '@universalweb/acid';
+ * assert(groupBy([6.1, 4.2, 6.3], Math.floor), { '4': [4.2], '6': [6.1, 6.3] });
  */
 export function groupBy(collection, iteratee) {
 	const sortedObject = {};

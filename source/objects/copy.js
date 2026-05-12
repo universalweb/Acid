@@ -9,7 +9,7 @@ const objectAssign = Object.assign;
  *
  * @example
  * import { copy, assert } from '@universalweb/acid';
- * assert(copy({a: 1}, {b: 2}, function c() { return 3; }, 'd', 5), {a: 1, b: 2, c, d: 'd', 5: 5});
+ * assert(copy({a: 1, b: 2}), {a: 1, b: 2});
  */
 export function copy(target) {
 	if (!target) {
@@ -17,4 +17,3 @@ export function copy(target) {
 	}
 	return objectAssign({}, target);
 }
-// console.log(copy({}));

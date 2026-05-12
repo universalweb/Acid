@@ -9,14 +9,13 @@
  *
  * @example
  * import { isParent, construct, assert } from '@universalweb/acid';
- * class parentClass{}
- * class otherClass{}
- * const child1 = construct(parentClass);
- * const child2 = construct(otherClass);
- * assert(isParent(child1, parentClass), true);
- * assert(isParent(child3, parentClass), false);
- * assert(isParent(parentClass, child1), false);
- * assert(isParent(child1, child3), false);
+ * class ParentClass {}
+ * class OtherClass {}
+ * const child1 = construct(ParentClass);
+ * const other = construct(OtherClass);
+ * assert(isParent(child1, ParentClass), true);
+ * assert(isParent(other, ParentClass), false);
+ * assert(isParent(ParentClass, child1), false);
  */
 export function isParent(sourceParent, targetChild) {
 	if (!sourceParent || !targetChild || !targetChild.call) {

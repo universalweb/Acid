@@ -13,11 +13,8 @@ import { returnValue } from './returnValue.js';
  *
  * @example
  * import { concurrentStatus, assert } from '@universalweb/acid';
- * const tempList = [];
- * await concurrentStatus([1, 2], async (item) => {
- *   return item;
- * });
- * assert(tempList,  [{status: 'fulfilled', value: 1}, {status: 'fulfilled', value: 2}]);
+ * const results = await concurrentStatus([1, 2], async (item) => item);
+ * assert(results, [{status: 'fulfilled', value: 1}, {status: 'fulfilled', value: 2}]);
  */
 export function concurrentStatus(source, iteratee, additionalArgument) {
 	const arrayLength = source.length;

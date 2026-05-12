@@ -13,12 +13,8 @@ import { returnValue } from '../utilities/returnValue.js';
  *
  * @example
  * import { untilTrueArray, assert } from '@universalweb/acid';
- * assert(untilTrueArray([true], (item) => {
- *   return item;
- * }), false);
- * assert(untilTrueArray([true, true, true], (item) => {
- *   return item;
- * }), true);
+ * assert(untilTrueArray([true], (item) => item), false);
+ * assert(untilTrueArray([false, false, false], (item) => item), true);
  */
 export function untilTrueArray(source, iteratee) {
 	const sourceLength = source.length;

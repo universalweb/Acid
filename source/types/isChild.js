@@ -9,14 +9,14 @@
  *
  * @example
  * import { isChild, construct, assert } from '@universalweb/acid';
- * class Grandparent{}
- * class Parent extends Grandparent{}
- * class Child extends Parent{}
+ * class Grandparent {}
+ * class Parent extends Grandparent {}
+ * class Child extends Parent {}
  * const child = construct(Child);
- * assert(isChild(Child, Grandparent), true);
- * assert(isChild(Child, Parent), false);
- * assert(isChild(Parent, Grandparent), false);
- * assert(isChild(child1, child3), false);
+ * assert(isChild(child, Grandparent), true);
+ * assert(isChild(child, Parent), true);
+ * assert(isChild(child, Child), true);
+ * assert(isChild(child, Map), false);
  */
 export function isChild(sourceChild, targetParent) {
 	if (!sourceChild || !targetParent) {

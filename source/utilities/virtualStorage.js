@@ -16,6 +16,7 @@ import { hasValue } from '../types/hasValue.js';
 export class VirtualStorage {
 	constructor(initialObject = new Map()) {
 		this.items = initialObject;
+		this.isMap = initialObject instanceof Map;
 	}
 	/**
 	 * Get an item from a virtual storage object.
@@ -24,11 +25,10 @@ export class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { VirtualStorage } from '@universalweb/acid';
+	 * import { virtualStorage, assert } from '@universalweb/acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
-	 * myVirtualStorage.getItem('key');
-	 * // => 'value'
+	 * assert(myVirtualStorage.getItem('key'), 'value');
 	 */
 	getItem(key) {
 		if (this.isMap) {
@@ -80,12 +80,11 @@ export class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { virtualStorage } from '@universalweb/acid';
+	 * import { virtualStorage, assert } from '@universalweb/acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
 	 * myVirtualStorage.clear();
-	 * myVirtualStorage.getItem('key');
-	 * // => undefined
+	 * assert(myVirtualStorage.getItem('key'), undefined);
 	 */
 	clear() {
 		if (this.isMap) {
@@ -102,12 +101,11 @@ export class VirtualStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { virtualStorage } from '@universalweb/acid';
+	 * import { virtualStorage, assert } from '@universalweb/acid';
 	 * const myVirtualStorage = virtualStorage();
 	 * myVirtualStorage.setItem('key', 'value');
 	 * myVirtualStorage.removeItem('key');
-	 * myVirtualStorage.getItem('key');
-	 * // => undefined
+	 * assert(myVirtualStorage.getItem('key'), undefined);
 	 */
 	removeItem(key) {
 		if (this.isMap) {

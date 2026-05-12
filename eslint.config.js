@@ -1,6 +1,9 @@
 import * as ts_api_utils from 'ts-api-utils';
+import { LanguageVariant } from 'typescript';
 import globals from 'globals';
 import jsdoc from 'eslint-plugin-jsdoc';
+import json from '@eslint/json';
+import markdown from '@eslint/markdown';
 import security from 'eslint-plugin-security';
 import sonarjs from 'eslint-plugin-sonarjs';
 import stylisticJs from '@stylistic/eslint-plugin';
@@ -16,7 +19,7 @@ const customGlobals = {
 	status: 'off',
 	VIAT: 'off',
 	crypto: 'off',
-	Bun: 'off',
+	Bun: 'readonly',
 };
 function addGlobals(keysObject) {
 	const keys = Object.keys(keysObject);
@@ -35,6 +38,41 @@ globalsArray.forEach(addGlobals);
 Object.assign(globalsObject, customGlobals);
 export default [
 	{
+		files: ['**/*.json'],
+		language: 'json/json',
+		plugins: {
+			json,
+		},
+		rules: {
+			'json/no-duplicate-keys': 'error',
+		},
+	},
+	{
+		files: ['**/*.{ts,tsx}'],
+		ignores: [
+			'node_modules/*',
+			'.eslintignore',
+			'**/*.mjs',
+		],
+		languageOptions: {
+			parser: '@typescript-eslint/parser',
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+			},
+		},
+		plugins: {
+			'@typescript-eslint': ts_api_utils,
+		},
+	},
+	{
+		files: ['**/*.md'],
+		language: 'markdown/markdown',
+		plugins: {
+			markdown,
+		},
+	},
+	{
 		ignores: [
 			'node_modules/*',
 			'.eslintignore',
@@ -44,7 +82,6 @@ export default [
 			'**/*.js',
 			'**/*.umm',
 			'**/*.uml',
-			'**/*.json',
 		],
 		languageOptions: {
 			parserOptions: {
@@ -59,7 +96,6 @@ export default [
 			'@stylistic': stylisticJs,
 			sonarjs,
 			security,
-			ts_api_utils,
 		},
 		rules: {
 			'sonarjs/cognitive-complexity': 'warn',

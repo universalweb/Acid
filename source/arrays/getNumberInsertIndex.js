@@ -11,7 +11,7 @@ import { everyArray } from './every.js';
  *
  * @example
  * import { getNumberInsertIndex, assert } from '@universalweb/acid';
- * assert(getNumberInsertIndex([30, 39, 50], 40), 1);
+ * assert(getNumberInsertIndex([30, 39, 50], 40), 2);
  */
 export function getNumberInsertIndex(source, target) {
 	let insertIndex = 0;

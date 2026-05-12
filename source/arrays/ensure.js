@@ -10,8 +10,8 @@ import { isArray } from '../types/isArray.js';
  * @returns {Array} - Returns an array.
  *
  * @example
- * import { isArray, ensureArray, assert } from '@universalweb/acid';
- * assert(isArray(ensureArray('test')), ['test']);
+ * import { ensureArray, assert } from '@universalweb/acid';
+ * assert(ensureArray('test'), ['test']);
  */
 export function ensureArray(source) {
 	return (isArray(source) && source) || (hasValue(source) && [source]) || [];

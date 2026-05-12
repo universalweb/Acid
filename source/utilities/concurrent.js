@@ -3,7 +3,7 @@
  *
  * @function concurrent
  * @type {Function}
- * @category Utility
+ * @category utility
  * @async
  * @param {Array} source - Array of async functions that will be looped through.
  * @param {*} thisBind - Object to use as the "this" within the function.
@@ -12,13 +12,11 @@
  *
  * @example
  * import { concurrent, assert } from '@universalweb/acid';
- * const list = [];
- * await concurrent([async (item) => {
- *   return item;
- * }, async (item) => {
- *   return item;
- * }], null, 1);
- * assert(list, [1, 1]);
+ * const results = await concurrent([
+ *   async (item) => item,
+ *   async (item) => item,
+ * ], null, 1);
+ * assert(results, [1, 1]);
  */
 export async function concurrent(source, thisBind, ...args) {
 	const arrayLength = source.length;

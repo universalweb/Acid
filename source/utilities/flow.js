@@ -21,8 +21,8 @@ function returnFlow(callable) {
  * @returns {Function} - Returns the new composite function.
  *
  * @example
- * flow(increment, increment, deduct)(0);
- * // => 1
+ * import { flow, increment, deduct, assert } from '@universalweb/acid';
+ * assert(flow(increment, increment, deduct)(0), 1);
  */
 export const flow = returnFlow(eachArray);
 /**
@@ -35,8 +35,8 @@ export const flow = returnFlow(eachArray);
  * @returns {Function} - Returns the new composite function.
  *
  * @example
- * flowRight(increment, increment, deduct)(0);
- * // => 1
+ * import { flowRight, increment, deduct, assert } from '@universalweb/acid';
+ * assert(flowRight(increment, increment, deduct)(0), 1);
  */
 export const flowRight = returnFlow(eachRight);
 

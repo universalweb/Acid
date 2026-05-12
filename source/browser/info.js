@@ -1,6 +1,6 @@
-const protocol = location.protocol;
+const protocol = globalThis.location?.protocol;
 const protocolSocket = (protocol === 'http:') ? 'ws' : 'wss';
-const hostname = location.hostname;
+const hostname = globalThis.location?.hostname;
 /**
  * Holds client hardware, browser, and host info.
  *
@@ -12,7 +12,7 @@ const hostname = location.hostname;
  */
 export const info = {
 	hardware: {
-		cores: navigator.hardwareConcurrency
+		cores: globalThis.navigator?.hardwareConcurrency
 	},
 	host: {
 		name: hostname,

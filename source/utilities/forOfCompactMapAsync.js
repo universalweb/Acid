@@ -18,12 +18,8 @@ import { returnValue } from './returnValue.js';
  * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties that are not null or undefined.
  *
  * @example
- * import { assert,forOfCompactMapAsync } from '@universalweb/acid';
- * const source = {a: undefined, b: 2, c: 3};
- * const temp = await forOfCompactMapAsync(source, async (item) => {
- *   return item;
- * });
- * assert(temp, {b: 2, c: 3});
+ * import { forOfCompactMapAsync, assert } from '@universalweb/acid';
+ * assert(await forOfCompactMapAsync([1, null, 2, undefined, 3], async (item) => item), [1, 2, 3]);
  */
 export async function forOfCompactMapAsync(source, iteratee = returnValue, resultsObject, generatorArgs) {
 	if (isGenerator(source)) {

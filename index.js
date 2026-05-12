@@ -1,5 +1,4 @@
 // TODO: REDO ENTIRE BUILD SYSTEM Rollup vite turbopack
-import { buildJson } from '@universalweb/docredux';
 import { copyFolder } from './source/filesystem/copyFolder.js';
 import eslintConfigRaw from './eslint.config.js';
 import express from 'express';
@@ -15,12 +14,6 @@ import terser from '@rollup/plugin-terser';
 import tinyLR from 'tiny-lr';
 import watch from 'node-watch';
 const currentDirname = path.dirname(fileURLToPath(import.meta.url));
-const buildDocs = () => {
-	return buildJson({
-		destination: `${currentDirname}/docs/`,
-		source: `${currentDirname}/docs/browser.bundle.js`,
-	});
-};
 const app = express();
 const expressRoot = '/';
 const expressPort = 8890;

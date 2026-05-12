@@ -12,8 +12,8 @@ import { forEach } from '../utilities/forEach.js';
  * @returns {Array|undefined} - The filtered array.
  *
  * @example
- * xor([2, 1], [2, 3, 5], [6]);
- * // => [1, 3, 5, 6]
+ * import { xor, assert } from '@universalweb/acid';
+ * assert(xor([2, 1], [2, 3, 5], [6]), [1, 3, 5, 6]);
  */
 export function xor(...sources) {
 	const xorMap = construct(Map);

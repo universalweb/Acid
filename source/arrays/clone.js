@@ -2,7 +2,7 @@
  * Clone an array (uses .slice()) and assign the source arrays values to the new array.
  *
  * @function cloneArray
- * @category Array
+ * @category array
  * @type {Function}
  * @param {Array} source - The array to be quick cloned.
  * @returns {Array} - The newly cloned array with assigned items.

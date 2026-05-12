@@ -2,7 +2,7 @@
  * Chunks an array according to a user defined number.
  *
  * @function chunk
- * @category Array
+ * @category array
  * @type {Function}
  * @param {Array} array - Array to be chunked.
  * @param {Number} size - Number which determines the size of each chunk.

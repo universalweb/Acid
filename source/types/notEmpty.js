@@ -13,7 +13,7 @@ import { objectSize } from '../objects/size.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { notEmpty assert } from '@universalweb/acid';
+ * import { notEmpty, assert } from '@universalweb/acid';
  * assert(notEmpty([1]), true);
  */
 export function notEmpty(source) {

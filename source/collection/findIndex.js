@@ -11,8 +11,8 @@ import { findIndexCache } from './findIndexCache.js';
  * @returns {Number} - The index of the object.
  *
  * @example
- * findIndex([{id: 1}, {id: 2}], 1);
- * // => 0
+ * import { findIndex, assert } from '@universalweb/acid';
+ * assert(findIndex([{id: 1}, {id: 2}], 1), 0);
  */
 export function findIndex(collection, id, propertyName = 'id') {
 	const result = collection.findIndex((element, index) => {

@@ -9,7 +9,7 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isWeakMap } from '@universalweb/acid';
+ * import { isWeakMap, assert } from '@universalweb/acid';
  * assert(isWeakMap(new WeakMap()), true);
  */
 export const isWeakMapCall = isConstructorFactory(WeakMap);

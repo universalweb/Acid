@@ -32,7 +32,7 @@ export * from './mapRight.js';
 export * from './mapWhile.js';
 export * from './sortNumberAscending.js';
 export * from './partition.js';
-export * from './sortNumberDescening.js';
+export * from './sortNumberDescending.js';
 export * from './remove.js';
 export * from './rest.js';
 export * from './right.js';

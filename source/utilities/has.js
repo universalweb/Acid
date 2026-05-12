@@ -20,7 +20,7 @@ import { noValue } from '../types/noValue.js';
  * @example
  * import { has, assert } from '@universalweb/acid';
  * assert(has('Hello World', 'Hello'), true);
- * assert(has(['Hello', 'World'], 'hello'), true);
+ * assert(has(['Hello', 'World'], 'Hello'), true);
  */
 export function has(source, search, position) {
 	if (noValue(source) || noValue(search)) {
@@ -50,12 +50,12 @@ export function has(source, search, position) {
 	}
 	if (isArray(source)) {
 		if (isRegex(search)) {
-			return everyArray(source, (item) => {
-				return item.test(search);
+			return source.some((item) => {
+				return search.test(item);
 			});
 		}
 		if (isFunction(search)) {
-			return everyArray(source, search);
+			return source.some(search);
 		}
 		if (isArray(search)) {
 			return everyArray(search, (item) => {
@@ -65,22 +65,36 @@ export function has(source, search, position) {
 		return source.includes(search, position);
 	}
 	if (isPlainObject(source)) {
+		const keys = Object.keys(source);
+		const keysLength = keys.length;
 		if (isRegex(search)) {
-			return everyObject(source, (item) => {
-				return item.test(search);
-			});
+			for (let index = 0; index < keysLength; index++) {
+				if (search.test(source[keys[index]])) {
+					return true;
+				}
+			}
+			return false;
 		}
 		if (isFunction(search)) {
-			return everyObject(source, search);
+			for (let index = 0; index < keysLength; index++) {
+				const key = keys[index];
+				if (search(source[key], key, source)) {
+					return true;
+				}
+			}
+			return false;
 		}
 		if (isPlainObject(search)) {
-			return everyObject(source, (item, key) => {
-				return item === search[key];
+			return everyObject(search, (item, key) => {
+				return source[key] === item;
 			});
 		}
-		return everyObject(source, (item) => {
-			return has(item, search);
-		});
+		for (let index = 0; index < keysLength; index++) {
+			if (source[keys[index]] === search) {
+				return true;
+			}
+		}
+		return false;
 	}
 	return false;
 }

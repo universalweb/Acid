@@ -11,10 +11,8 @@ import { eachObject } from './each.js';
  * @returns {Object|Function} - An object with properties that passed the test.
  *
  * @example
- * filterObject({a: false, b: true, c: true}, (item) => {
- *   return item;
- * });
- * // => {b: true, c: true}
+ * import { filterObject, assert } from '@universalweb/acid';
+ * assert(filterObject({a: false, b: true, c: true}, (item) => item), {b: true, c: true});
  */
 export function filterObject(source, iteratee, results = {}) {
 	eachObject(source, (item, key, original, propertyCount, objectKeys) => {

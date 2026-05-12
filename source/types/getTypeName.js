@@ -5,11 +5,11 @@ import { getType } from './getType.js';
  * @function getTypeName
  * @category type
  * @param {*} source - Object to be checked.
- * @returns {Boolean} - Returns true or false.
+ * @returns {String|undefined} - Returns the constructor name or undefined for null/undefined.
  *
  * @example
  * import { getTypeName, assert } from '@universalweb/acid';
- * assert(getTypeName(1), true);
+ * assert(getTypeName(1), 'Number');
  */
 export function getTypeName(source) {
 	return getType(source)?.name;

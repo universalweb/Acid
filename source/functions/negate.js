@@ -8,8 +8,8 @@
  * @returns {*} - Returns the given methods result.
  *
  * @example
- * negate(() => { return false;})();
- * // => true
+ * import { negate, assert } from '@universalweb/acid';
+ * assert(negate(() => false)(), true);
  */
 export function negate(callable) {
 	return (...args) => {

@@ -11,8 +11,8 @@ import { findIndexCache } from './findIndexCache.js';
  * @returns {Object} - The found object.
  *
  * @example
- * findItem([{id: 1}, {id: 2}], 1);
- * // => {id: 1}
+ * import { findItem, assert } from '@universalweb/acid';
+ * assert(findItem([{id: 1}, {id: 2}], 1), {id: 1});
  */
 export function findItem(collection, id, propertyName = 'id') {
 	const result = collection.find((element, index) => {

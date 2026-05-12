@@ -10,8 +10,8 @@ import { unique } from './unique.js';
  * @returns {Array} - The aggregated array.
  *
  * @example
- * union([1,2,4], [1,2,3]);
- * // => [1, 2, 4, 3]
+ * import { union, assert } from '@universalweb/acid';
+ * assert(union([1, 2, 4], [1, 2, 3]), [1, 2, 4, 3]);
  */
 export function union(...arrays) {
 	return unique(flattenDeep(arrays));

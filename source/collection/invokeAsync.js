@@ -14,9 +14,9 @@ import { mapAsyncArray } from '../arrays/mapAsync.js';
  * @example
  * import { invokeCollectionAsync, assert } from '@universalweb/acid';
  * const results = await invokeCollectionAsync([{
- *	async test(item, index) { return [item, index];}
- * }], 'test', ['EXAMPLE']);
- * assert(results, [['EXAMPLE', 0]]);
+ *   async test(arg) { return [arg]; }
+ * }], 'test', 'EXAMPLE');
+ * assert(results, [['EXAMPLE']]);
  */
 export function invokeCollectionAsync(collection, property, value, thisBind) {
 	if (thisBind) {

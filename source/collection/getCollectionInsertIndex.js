@@ -11,7 +11,7 @@ import { everyArray } from '../arrays/every.js';
  *
  * @example
  * import { getCollectionInsertIndex, assert } from '@universalweb/acid';
- * assert(getCollectionInsertIndex([{a:1},{a:3},{a:4}], {a:2}), 1);
+ * assert(getCollectionInsertIndex([{a:1},{a:3},{a:4}], {a:2}, 'a'), 1);
  */
 export function getCollectionInsertIndex(source, target, propertyName) {
 	let insertIndex = 0;

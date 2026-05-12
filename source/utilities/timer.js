@@ -1,10 +1,6 @@
 import { construct } from '../classes/construct.js';
-import { noop } from './noop.js';
-import { times } from './times.js';
 export class Timers {
 	list = construct(Map);
-	construct() {
-	}
 	/**
 	 * Remove a timer that was created using the timer function.
 	 *
@@ -85,20 +81,16 @@ export function timer(callable, time) {
 	return timers.set(callable, time);
 }
 /**
- * Clear all active timers.
+ * Clears all timers tracked by the Timers registry.
  *
  * @function clearTimers
- * @category function
+ * @category utility
  * @returns {undefined} - Returns undefined.
  *
  * @example
- * import { clearTimers, assert } from '@universalweb/acid';
+ * import { clearTimers } from '@universalweb/acid';
  * clearTimers();
- * // => undefined
  */
 export function clearTimers() {
-	const id = setTimeout(noop, 0);
-	times(id, (index) => {
-		timers.remove(index);
-	});
+	timers.clear();
 }

@@ -27,9 +27,7 @@ export function upperFirstLetter(string) {
  *
  * @example
  * import { upperFirst, assert } from '@universalweb/acid';
- * assert(upperFirstLetter('upper'), 'U');
- * upperFirst('upper');
- * // => 'Upper'
+ * assert(upperFirst('upper'), 'Upper');
  */
 export function upperFirst(string) {
 	return upperFirstLetter(string) + restString(string);

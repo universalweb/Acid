@@ -9,8 +9,8 @@
  * @returns {*} - Returns the object at the evaluated position.
  *
  * @example
- * right([1, 2, 3, 4, 5] , 1);
- * // => 4
+ * import { right, assert } from '@universalweb/acid';
+ * assert(right([1, 2, 3, 4, 5], 1), 4);
  */
 export function right(source, amount) {
 	return source[source.length - 1 - amount];

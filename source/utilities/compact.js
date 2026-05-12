@@ -5,7 +5,7 @@ import { keys } from '../objects/keys.js';
  * Creates an array with all isFalsy values removed. The values false, null, 0, "", undefined, and NaN are isFalsy.
  *
  * @function compact
- * @category Utility
+ * @category utility
  * @type {Function}
  * @param {Array|Object} source - Array or Object to be compacted.
  * @returns {Array|Object} - A new object or array containing the filtered values.

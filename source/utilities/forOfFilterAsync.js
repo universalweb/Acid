@@ -18,12 +18,8 @@ import { returnValue } from './returnValue.js';
  * @returns {Object|Function|Class|Map|Set|Array} - An object with mapped properties.
  *
  * @example
- * import { assert, forOfFilterAsync } from '@universalweb/acid';
- * const source = {a: undefined, b: 2, c: 3};
- * const temp = forOfFilterAsync(source, (item) => {
- *   return Boolean(item);
- * });
- * assert(temp, {b: 2, c: 3});
+ * import { forOfFilterAsync, assert } from '@universalweb/acid';
+ * assert(await forOfFilterAsync([1, 2, 3, 4], async (item) => item % 2 === 0), [2, 4]);
  */
 export async function forOfFilterAsync(source, iteratee = returnValue, resultsObject, generatorArgs) {
 	if (isGenerator(source)) {

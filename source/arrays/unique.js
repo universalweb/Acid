@@ -15,8 +15,8 @@ export function sortUnique(item, index, array) {
  * @returns {Array} - The filtered array.
  *
  * @example
- * unique([1, 2, 2, 4]);
- * // => [1, 2, 4]
+ * import { unique, assert } from '@universalweb/acid';
+ * assert(unique([1, 2, 2, 4]), [1, 2, 4]);
  */
 export function unique(source, isSorted) {
 	if (isSorted) {

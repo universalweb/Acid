@@ -9,10 +9,8 @@
  * @returns {Function} - Returns the new function.
  *
  * @example
- * reArg((a, b, c) => {
- *   return [a, b, c];
- * }, [1,2,0])(1,2,3);
- * // => [2, 3, 1]
+ * import { reArg, assert } from '@universalweb/acid';
+ * assert(reArg((a, b, c) => [a, b, c], [1, 2, 0])(1, 2, 3), [2, 3, 1]);
  */
 export function reArg(callable, indexes) {
 	return (...args) => {

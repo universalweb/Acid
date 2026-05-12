@@ -10,7 +10,7 @@ import { map } from '../utilities/map.js';
  *
  * @example
  * import { overAsync, assert } from '@universalweb/acid';
- * assert(overAsync([async(...items) => {return Math.max(item);}])(1, 2, 3, 4), [4]);
+ * assert(await overAsync([async (...items) => Math.max(...items)])(1, 2, 3, 4), [4]);
  */
 export function overAsync(iteratees) {
 	return async (...args) => {

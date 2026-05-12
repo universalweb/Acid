@@ -10,8 +10,8 @@ import { shuffle } from './shuffle.js';
  * @returns {Array} - An array of randomly pulled samples.
  *
  * @example
- * sample([1, 2, 3, 4] , 2);
- * // => [1, 3]
+ * import { sample, assert } from '@universalweb/acid';
+ * assert(sample([1, 2, 3, 4], 2), (result) => Array.isArray(result) && result.length === 2);
  */
 export function sample(source, amount) {
 	if (!source) {

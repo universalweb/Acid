@@ -8,10 +8,8 @@
  * @returns {Number} - Returns a decremented version of the number.
  *
  * @example
- * import { multiply, assert } from '@universalweb/acid';
- * assert(multiply(10, 5), 50);
- * deduct(10);
- * // => 9
+ * import { deduct, assert } from '@universalweb/acid';
+ * assert(deduct(10), 9);
  */
 export function deduct(source) {
 	return source - 1;

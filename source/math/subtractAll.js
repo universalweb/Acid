@@ -9,11 +9,9 @@
  *
  * @example
  * import { subtractAll, assert } from '@universalweb/acid';
- * assert(subtractAll([10, 1, 2, 3]), 5);
+ * assert(subtractAll([10, 1, 2, 3]), 4);
  */
 export function subtractAll(source) {
-	return source.reduce((a, b) => {
-		return a - b;
-	}, 0);
+	return source.reduce((a, b) => a - b);
 }
 

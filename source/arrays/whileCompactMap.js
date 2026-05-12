@@ -23,12 +23,12 @@ import { returnValue } from '../utilities/returnValue.js';
 export function whileCompactMap(source, iteratee, results = [], additionalArgument) {
 	let index = 0;
 	while (index < source.length) {
-		const result = results.push(iteratee(source[index], index, source, source.length, additionalArgument));
-		index++;
+		const result = iteratee(source[index], index, source, source.length, additionalArgument);
 		if (hasValue(result)) {
 			results.push(result);
 		}
+		index++;
 	}
-	return source;
+	return results;
 }
 

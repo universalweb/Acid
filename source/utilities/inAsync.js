@@ -3,7 +3,7 @@
  *
  * @function inAsync
  * @type {Function}
- * @category Utility
+ * @category utility
  * @async
  * @param {Array} source - Array of async functions that will be looped through.
  * @param {*} thisBind - Object to use as the "this" within the function.
@@ -13,11 +13,10 @@
  * @example
  * import { inAsync, assert } from '@universalweb/acid';
  * const list = [];
- * await inAsync([async (firstArgument, item, index) => {
- *   list.push(index + firstArgument.a);
- * }, async (firstArgument, item, index) => {
- *   list.push(index);
- * }], {a:1});
+ * await inAsync([
+ *   async (firstArgument, index) => { list.push(index + firstArgument.a); },
+ *   async (firstArgument, index) => { list.push(index); },
+ * ], null, {a: 1});
  * assert(list, [1, 1]);
  */
 export async function inAsync(source, thisBind, ...args) {

@@ -9,8 +9,8 @@ const mathNativeMin = Math.min;
  * @returns {Number} - The smallest number.
  *
  * @example
- * smallest([1,2,3]);
- * // => 1
+ * import { smallest, assert } from '@universalweb/acid';
+ * assert(smallest([1, 2, 3]), 1);
  */
 export function smallest(array) {
 	return mathNativeMin(...array);
