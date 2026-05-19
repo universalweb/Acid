@@ -1,5 +1,5 @@
 import { difference } from '../arrays/difference.js';
-import { hasValue } from '../types/hasValue.js';
+import {hasValue} from '../types/hasValue.js';
 /**
  * Checks if value is a plain DOM Node.
  *
@@ -30,9 +30,8 @@ export function isDom(source) {
  * document.body.innerHTML = '<div class="test"></div>';
  * assert(isHTMLCollection(document.getElementsByClassName('test')), true);
  */
-const objectHTMLCollection = '[object HTMLCollection]';
 export function isHTMLCollection(source) {
-	return (hasValue(source)) ? source.toString() === objectHTMLCollection : false;
+	return source?.constructor === HTMLCollection;
 }
 /**
  * Checks if the value is a NodeList.
@@ -48,7 +47,6 @@ export function isHTMLCollection(source) {
  * document.body.innerHTML = '<div class="test"></div>';
  * assert(isNodeList(document.querySelectorAll('.test')), true);
  */
-const objectNodeList = '[object NodeList]';
 export function isNodeList(source) {
-	return (hasValue(source)) ? source.toString() === objectNodeList : false;
+	return source?.constructor === NodeList;
 }
