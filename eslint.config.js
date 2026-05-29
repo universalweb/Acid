@@ -500,7 +500,7 @@ export default [
 			'no-process-env': 'off',
 			'no-process-exit': 'error',
 			'no-proto': 'error',
-			'no-prototype-builtins': 'error',
+			'no-prototype-builtins': 'off',
 			'no-redeclare': [
 				'error',
 				{

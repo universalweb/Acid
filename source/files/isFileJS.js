@@ -1,4 +1,4 @@
-import { regexTestFactory } from '../internal/regexTestFactory.js';
+const jsRegex = /\.js$/;
 /**
  * Checks if the string has a .js extension.
  *
@@ -11,4 +11,6 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  * import { isFileJS, assert } from '@universalweb/acid';
  * assert(isFileJS('test.js'), true);
  */
-export const isFileJS = regexTestFactory(/\.js$/);
+export function isFileJS(source) {
+	return source !== undefined && source !== null && jsRegex.test(source);
+}

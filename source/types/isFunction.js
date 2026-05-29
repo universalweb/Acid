@@ -8,10 +8,9 @@ import { hasValue } from './hasValue.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isFunction } from '@universalweb/acid';
- * isFunction(() => {});
- * // => true
+ * import { isFunction, assert } from '@universalweb/acid';
+ * assert(isFunction(() => {}), true)
  */
-export const isFunction = (source) => {
+export function isFunction(source) {
 	return (hasValue(source)) ? source instanceof Function : false;
-};
+}

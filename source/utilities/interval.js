@@ -1,6 +1,8 @@
-import { construct } from '../classes/construct.js';
 export class Intervals {
-	list = construct(Map);
+	static create() {
+		return new Intervals();
+	}
+	list = new Map();
 	/**
 	 * Remove a setInterval that was created using the intervals function.
 	 *
@@ -36,10 +38,7 @@ export class Intervals {
 	 * intervals.remove(id);
 	 */
 	set(callable, time) {
-		const currentThis = this;
-		const id = setInterval(() => {
-			callable();
-		}, time);
+		const id = setInterval(callable, time);
 		this.list.set(id, true);
 		return id;
 	}
@@ -53,13 +52,12 @@ export class Intervals {
 	 * intervals.clear();
 	 */
 	clear() {
-		const currentThis = this;
-		currentThis.list.forEach((id) => {
-			currentThis.remove(id);
-		});
+		for (const id of this.list.keys()) {
+			this.remove(id);
+		}
 	}
 }
-export const intervals = construct(Intervals);
+export const intervals = Intervals.create();
 /**
  * Create an interval timer.
  *

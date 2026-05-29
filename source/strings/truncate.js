@@ -1,4 +1,4 @@
-const truncateDown = (string, maxLength, stringLength) => {
+function truncateDown(string, maxLength, stringLength) {
 	const breakAll = string.split('');
 	const breakAllLength = breakAll.length;
 	let item;
@@ -10,8 +10,8 @@ const truncateDown = (string, maxLength, stringLength) => {
 		}
 	}
 	return string.slice(0, index).trim();
-};
-const truncateUp = (string, maxLength, stringLength) => {
+}
+function truncateUp(string, maxLength, stringLength) {
 	const breakAll = string.split('');
 	const breakAllLength = breakAll.length;
 	let item;
@@ -23,7 +23,7 @@ const truncateUp = (string, maxLength, stringLength) => {
 		}
 	}
 	return string.substring(index, stringLength).trim();
-};
+}
 /**
  * Truncates the string, accounting for word placement and character count.
  *

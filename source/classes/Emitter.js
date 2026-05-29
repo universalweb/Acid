@@ -6,11 +6,25 @@
  *
  * @example
  * import { Emitter } from '@universalweb/acid';
- * const bus = new Emitter();
+ * const bus = Emitter.create();
  * bus.on('greet', (recipient) => console.log(`hello ${recipient}`));
  * bus.emit('greet', 'world');
  */
+class OnceHandler {
+	constructor(emitter, eventName, handler) {
+		this.emitter = emitter;
+		this.eventName = eventName;
+		this.handler = handler;
+	}
+	invoke(...handlerArgs) {
+		this.emitter.off(this.eventName, this);
+		this.handler(...handlerArgs);
+	}
+}
 export class Emitter {
+	static create() {
+		return new Emitter();
+	}
 	constructor() {
 		this.listeners = new Map();
 	}
@@ -24,11 +38,8 @@ export class Emitter {
 		return this;
 	}
 	once(eventName, handler) {
-		const wrappedHandler = (...handlerArgs) => {
-			this.off(eventName, wrappedHandler);
-			handler(...handlerArgs);
-		};
-		return this.on(eventName, wrappedHandler);
+		const wrapper = new OnceHandler(this, eventName, handler);
+		return this.on(eventName, wrapper);
 	}
 	off(eventName, handler) {
 		const handlers = this.listeners.get(eventName);
@@ -52,8 +63,15 @@ export class Emitter {
 		if (!handlers) {
 			return false;
 		}
-		for (const handler of [...handlers]) {
-			handler(...handlerArgs);
+		const snapshot = [...handlers];
+		const snapshotLength = snapshot.length;
+		for (let handlerIndex = 0; handlerIndex < snapshotLength; handlerIndex++) {
+			const registered = snapshot[handlerIndex];
+			if (registered instanceof OnceHandler) {
+				registered.invoke(...handlerArgs);
+			} else {
+				registered(...handlerArgs);
+			}
 		}
 		return true;
 	}

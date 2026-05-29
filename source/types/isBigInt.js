@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a BigInt.
  *
@@ -12,5 +10,21 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isBigInt, assert } from '@universalweb/acid';
  * assert(isBigInt(BigInt(123)), true);
  */
-export const isBigIntCall = isConstructorFactory(BigInt);
-export const isBigInt = isTypeFactory(isBigIntCall);
+export function isBigIntCall(target) {
+	return target?.constructor === BigInt || false;
+}
+export function isBigInt(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isBigIntCall(primarySource);
+	}
+	if (!isBigIntCall(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isBigIntCall(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

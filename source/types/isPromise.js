@@ -7,9 +7,8 @@
  * @returns {Boolean} - True or false.
  *
  * @example
- * import { isPromise } from '@universalweb/acid';
- * isPromise(new Promise(() => {}));
- * // => true
+ * import { isPromise, assert } from '@universalweb/acid';
+ * assert(isPromise(new Promise(() => {})), true)
  */
 export function isPromise(source) {
 	if (source) {

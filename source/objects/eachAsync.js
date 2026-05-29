@@ -21,7 +21,7 @@ import { keys } from './keys.js';
  * });
  * assert(collected, {a: 1, b: 2, c: 3});
  */
-export const eachAsyncObject = async (source, iteratee, thisCall, additionalArg) => {
+export async function eachAsyncObject(source, iteratee, thisCall, additionalArg) {
 	if (!source) {
 		return;
 	}
@@ -36,5 +36,5 @@ export const eachAsyncObject = async (source, iteratee, thisCall, additionalArg)
 		});
 	}
 	return source;
-};
+}
 

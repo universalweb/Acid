@@ -11,8 +11,8 @@ const { random } = Math;
  *
  * @example
  * import { randomFloat, assert } from '@universalweb/acid';
- * assert(randomFloat(10, 0), (value) => { return value > 0 && value < 10;});
- * // => 9.1
+ * const value = randomFloat(10, 0);
+ * assert(value >= 0 && value < 10, true);
  */
 export function randomFloat(max, min = 0) {
 	return random() * (max - min) + min;

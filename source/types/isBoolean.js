@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a Boolean.
  *
@@ -9,9 +7,24 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isBoolean } from '@universalweb/acid';
- * isBoolean(true);
- * // => true
+ * import { isBoolean, assert } from '@universalweb/acid';
+ * assert(isBoolean(true), true)
  */
-export const isBooleanCall = isConstructorFactory(Boolean);
-export const isBoolean = isTypeFactory(isBooleanCall);
+export function isBooleanCall(target) {
+	return target?.constructor === Boolean || false;
+}
+export function isBoolean(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isBooleanCall(primarySource);
+	}
+	if (!isBooleanCall(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isBooleanCall(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

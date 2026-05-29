@@ -17,7 +17,7 @@
 export function after(amount, callable) {
 	let point = amount;
 	let value;
-	const onlyAfter = (...args) => {
+	function onlyAfter(...args) {
 		if (point !== null) {
 			point--;
 		}
@@ -26,6 +26,6 @@ export function after(amount, callable) {
 			point = null;
 		}
 		return value;
-	};
+	}
 	return onlyAfter;
 }

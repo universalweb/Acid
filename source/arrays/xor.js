@@ -1,4 +1,3 @@
-import { construct } from '../classes/construct.js';
 import { difference } from './difference.js';
 import { eachArray } from './each.js';
 import { forEach } from '../utilities/forEach.js';
@@ -16,14 +15,14 @@ import { forEach } from '../utilities/forEach.js';
  * assert(xor([2, 1], [2, 3, 5], [6]), [1, 3, 5, 6]);
  */
 export function xor(...sources) {
-	const xorMap = construct(Map);
+	const xorMap = new Map();
 	const xored = [];
 	const sourcesLength = sources.length;
 	if (sourcesLength === 2) {
 		return difference(sources[0], sources[1]);
 	}
 	eachArray(sources, (currentArray, parentIndex) => {
-		eachArray(currentArray, (child, childIndex) => {
+		eachArray(currentArray, (child) => {
 			let childRoot = xorMap.get(child);
 			if (!childRoot) {
 				childRoot = {

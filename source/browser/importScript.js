@@ -4,14 +4,16 @@ import { hasDot } from '../utilities/hasDot.js';
 import { nodeAttribute } from './attribute.js';
 import { promise } from '../utilities/promise.js';
 import { querySelector } from './selector.js';
-const createElementCache = document.createElement.bind(document);
-const nodeAttachLoadingEvents = (node) => {
+function createScriptElement() {
+	return document.createElement('script');
+}
+function nodeAttachLoadingEvents(node) {
 	return promise((accept) => {
 		eventAdd(node, 'load', accept, true);
 		eventAdd(node, 'error', accept, true);
 		append(querySelector('head'), node);
 	});
-};
+}
 /**
  * Asynchronously import a js file and append it to the head node.
  * If a script fails to load importjs won't reject the promise rather it'll return the error event to limit further complications & reduce code complexity.
@@ -30,7 +32,7 @@ const nodeAttachLoadingEvents = (node) => {
  */
 export function importjs(url) {
 	const src = hasDot(url) && url || `${url}.js`;
-	const node = nodeAttribute(createElementCache('script'), {
+	const node = nodeAttribute(createScriptElement(), {
 		async: '',
 		src
 	});

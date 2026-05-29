@@ -1,29 +1,17 @@
-import { eachArray } from '../arrays/each.js';
 /**
- * Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
- * The order of grouped values is determined by the order they occur in collection.
- * The corresponding value of each key is an array of elements responsible for generating the key.
+ * Creates an object composed of keys generated from `iteratee(item)`, where each key maps to the array of items that produced it. Insertion order is preserved. Backed by native `Object.groupBy` (ES2024 / Node 21+ / Safari 17.4+).
  *
  * @function groupBy
  * @category collection
  * @type {Function}
- * @param {Array} collection - Array of objects.
- * @param {Function} iteratee - The iteratee to transform keys.
- * @returns {Object} - Returns the composed aggregate object.
+ * @param {Array} collection - Array of items.
+ * @param {Function} iteratee - Maps an item to its bucket key.
+ * @returns {Object} - The grouped buckets, keyed by iteratee output.
  *
  * @example
  * import { groupBy, assert } from '@universalweb/acid';
  * assert(groupBy([6.1, 4.2, 6.3], Math.floor), { '4': [4.2], '6': [6.1, 6.3] });
  */
 export function groupBy(collection, iteratee) {
-	const sortedObject = {};
-	eachArray(collection, (item) => {
-		const results = iteratee(item);
-		if (!sortedObject[results]) {
-			sortedObject[results] = [];
-		}
-		sortedObject[results].push(item);
-	});
-	return sortedObject;
+	return Object.groupBy(collection, iteratee);
 }
-

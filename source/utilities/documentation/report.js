@@ -25,9 +25,9 @@ async function runExamplesForFile(filePath, content, options) {
 	const results = [];
 	let passed = 0;
 	let capturedRejection = null;
-	const rejectionHandler = (reason) => {
+	function rejectionHandler(reason) {
 		capturedRejection = reason;
-	};
+	}
 	process.on('unhandledRejection', rejectionHandler);
 	try {
 		for (let exampleIndex = 0; exampleIndex < examplesLength; exampleIndex++) {

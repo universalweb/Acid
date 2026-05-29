@@ -1,13 +1,12 @@
-import { ensureArray } from './ensure.js';
 /**
- * Flattens an array up to the provided level.
+ * Flattens an array up to the provided level. Thin wrapper over native `Array.prototype.flat`.
  *
  * @function flatten
  * @type {Function}
  * @category array
  * @param {Array} source - Array to flatten.
- * @param {Number} [level = 1] - Number which determines how deep the array nest can be.
- * @returns {Array|undefined} - Returns an array.
+ * @param {Number} [level=1] - Depth limit.
+ * @returns {Array|undefined} - Flattened array, or undefined when `source` is falsy.
  *
  * @example
  * import { flatten, assert } from '@universalweb/acid';
@@ -17,12 +16,5 @@ export function flatten(source, level = 1) {
 	if (!source) {
 		return;
 	}
-	let sourceArray = source;
-	for (let i = 0; i < level; i++) {
-		sourceArray = sourceArray.reduce((previousValue, currentValue) => {
-			return previousValue.concat(ensureArray(currentValue));
-		}, []);
-	}
-	return sourceArray;
+	return source.flat(level);
 }
-

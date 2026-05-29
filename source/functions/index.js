@@ -2,6 +2,7 @@ export * from './after.js';
 export * from './ary.js';
 export * from './before.js';
 export * from './chain.js';
+export * from './clearRateLimiters.js';
 export * from './cond.js';
 export * from './constant.js';
 export * from './curry.js';

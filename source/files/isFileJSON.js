@@ -1,4 +1,4 @@
-import { regexTestFactory } from '../internal/regexTestFactory.js';
+const jsonRegex = /\.json$/;
 /**
  * Checks if the string has a .json extension.
  *
@@ -11,4 +11,6 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  * import { isFileJSON, assert } from '@universalweb/acid';
  * assert(isFileJSON('test.json'), true);
  */
-export const isFileJSON = regexTestFactory(/\.json$/);
+export function isFileJSON(source) {
+	return source !== undefined && source !== null && jsonRegex.test(source);
+}

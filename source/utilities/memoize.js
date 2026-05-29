@@ -1,33 +1,36 @@
 /**
- * Caches the result of a function based on its arguments. By default, the first argument is used as the cache key.
- * Pass a `resolver` to customize the cache key. The cache lives on `memoized.cache` (a Map).
+ * Caches the result of a function by argument key. The cache lives on `instance.cache` (a Map). By default the first argument is the cache key; pass a `resolver` to customize.
  *
- * @function memoize
+ * @class Memoizer
  * @category utility
- * @type {Function}
- * @param {Function} method - The function to memoize.
- * @param {Function} [resolver] - Optional resolver returning the cache key from arguments.
- * @returns {Function} - The memoized function.
  *
  * @example
- * import { memoize, assert } from '@universalweb/acid';
+ * import { Memoizer, assert } from '@universalweb/acid';
  * let count = 0;
- * const slow = (n) => { count++; return n * 2; };
- * const fast = memoize(slow);
- * fast(2); fast(2); fast(2);
+ * function slow(n) { count++; return n * 2; }
+ * const memo = Memoizer.create(slow);
+ * memo.run(2); memo.run(2); memo.run(2);
  * assert(count, 1);
  */
-export function memoize(method, resolver) {
-	const cache = new Map();
-	function memoized(...args) {
-		const key = resolver ? resolver(...args) : args[0];
-		if (cache.has(key)) {
-			return cache.get(key);
+export class Memoizer {
+	static create(method, resolver) {
+		return new Memoizer(method, resolver);
+	}
+	cache = new Map();
+	constructor(method, resolver) {
+		this.method = method;
+		this.resolver = resolver;
+	}
+	run(...args) {
+		const key = this.resolver ? this.resolver(...args) : args[0];
+		if (this.cache.has(key)) {
+			return this.cache.get(key);
 		}
-		const result = method.apply(this, args);
-		cache.set(key, result);
+		const result = this.method(...args);
+		this.cache.set(key, result);
 		return result;
 	}
-	memoized.cache = cache;
-	return memoized;
+	clear() {
+		this.cache.clear();
+	}
 }

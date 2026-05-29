@@ -1,6 +1,5 @@
-import { each } from './each.js';
 /**
- * Invoke an array of functions.
+ * Invoke an array of functions in order, optionally bound to `thisBind`. Returns the array of results.
  *
  * @function inSync
  * @category utility
@@ -8,7 +7,7 @@ import { each } from './each.js';
  * @param {Array} source - Array of functions that will be looped through.
  * @param {*} thisBind - Object to use as the "this" within the function.
  * @param {...*} args -The arguments passed to each function. Every argument after the first (thisBind) is passed to each function.
- * @returns {undefined} - Returns undefined.
+ * @returns {Array} - An array of the results in source order.
  *
  * @example
  * import { inSync, assert } from '@universalweb/acid';

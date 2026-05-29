@@ -5,22 +5,25 @@
  * @category utility
  * @type {Function}
  * @param {Number} amount - The amount of times to loop invoking the iteratee.
- * @param {Function} iteratee - Transformation function which is passed index and amount.
+ * @param {Function} iteratee - Transformation function which is passed index.
+ * @param {*} [contextThis] - Optional `this` binding for the iteratee.
  * @returns {undefined} - Nothing.
  *
  * @example
- * import { times } from '@universalweb/acid';
- * times(3, (item) => {
- *   console.log(item);
- * });
- * // 0
- * // 1
- * // 2
- * // => undefined
+ * import { times, assert } from '@universalweb/acid';
+ * const collected = [];
+ * times(3, (item) => { collected.push(item); });
+ * assert(collected, [0, 1, 2]);
  */
 export function times(amount, iteratee, contextThis) {
+	if (contextThis) {
+		for (let index = 0; index < amount; index++) {
+			iteratee.call(contextThis, index);
+		}
+		return;
+	}
 	for (let index = 0; index < amount; index++) {
-		(contextThis && iteratee.call(contextThis, index)) || iteratee(index);
+		iteratee(index);
 	}
 }
 /**
@@ -30,20 +33,17 @@ export function times(amount, iteratee, contextThis) {
  * @category utility
  * @type {Function}
  * @param {Number} amount - The amount of times to loop invoking the iteratee.
- * @param {Function} iteratee - Transformation function which is passed index and amount.
+ * @param {Function} iteratee - Transformation function which is passed index.
  * @param {Array} [results = []] - Array that will have iteratee return pushed to.
  * @returns {Array} - An array with iteratee's returned values.
  *
  * @example
- * import { timesMap } from '@universalweb/acid';
- * timesMap(3, (item) => {
- *   return item;
- * });
- * // => [0, 1, 2]
+ * import { timesMap, assert } from '@universalweb/acid';
+ * assert(timesMap(3, (item) => item), [0, 1, 2]);
  */
 export function timesMap(amount, iteratee, results = []) {
 	for (let index = 0; index < amount; index++) {
-		results[index] = iteratee(amount);
+		results[index] = iteratee(index);
 	}
 	return results;
 }

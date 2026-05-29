@@ -10,7 +10,7 @@
  * import { stubObject, assert } from '@universalweb/acid';
  * assert(stubObject(), {});
  */
-export const stubObject = () => {
+export function stubObject() {
 	return {};
-};
+}
 

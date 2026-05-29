@@ -1,6 +1,4 @@
 import { eventAdd } from './event.js';
-import { getById } from './selector.js';
-import { importjs } from './importScript.js';
 /**
  * Runs a function if the document has finished loading. If not, add an eventlistener.
  *
@@ -13,7 +11,6 @@ import { importjs } from './importScript.js';
  *
  * @example
  * isDocumentReady(() => {return 1});
- * // => 1
  */
 export function isDocumentReady(callable) {
 	if (typeof document === 'undefined') {

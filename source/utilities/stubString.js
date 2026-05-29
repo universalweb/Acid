@@ -10,6 +10,6 @@
  * import { stubString, assert } from '@universalweb/acid';
  * assert(stubString(), '');
  */
-export const stubString = () => {
+export function stubString() {
 	return '';
-};
+}

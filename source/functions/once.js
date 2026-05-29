@@ -14,13 +14,13 @@ import { hasValue } from '../types/hasValue.js';
  * onceOnly(5);
  * assert(onceOnly(3), 5);
  */
-export const once = (callable) => {
+export function once(callable) {
 	let value;
-	const onlyOnce = (...args) => {
+	function onlyOnce(...args) {
 		if (!hasValue(value)) {
 			value = callable(...args);
 		}
 		return value;
-	};
+	}
 	return onlyOnce;
-};
+}

@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a Uint16Array.
  *
@@ -9,9 +7,24 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isU16 } from '@universalweb/acid';
- * isU16(new Uint16Array());
- * // => true
+ * import { isU16, assert } from '@universalweb/acid';
+ * assert(isU16(new Uint16Array()), true)
  */
-export const isU16Call = isConstructorFactory(Uint16Array);
-export const isU16 = isTypeFactory(isU16Call);
+export function isU16Call(target) {
+	return target?.constructor === Uint16Array || false;
+}
+export function isU16(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isU16Call(primarySource);
+	}
+	if (!isU16Call(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isU16Call(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

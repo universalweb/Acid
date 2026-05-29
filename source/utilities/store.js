@@ -1,24 +1,40 @@
 import { eachObject } from '../objects/each.js';
+import { isPlainObject } from '../types/isPlainObject.js';
+const proxyHandler = {
+	get(proxySource, property) {
+		return proxySource[property];
+	},
+	set(proxySource, property, value) {
+		proxySource[property] = isPlainObject(value) ? Store.create(value) : value;
+		return true;
+	},
+};
+/**
+ * Reactive store backed by a Proxy. Nested plain-object branches are wrapped recursively so writes anywhere in the tree go through `proxyHandler`. Read `.data` to interact with the proxied tree; `.source` exposes the underlying object.
+ *
+ * @class Store
+ * @category utility
+ *
+ * @example
+ * import { Store, assert } from '@universalweb/acid';
+ * const store = Store.create({a: 1});
+ * store.data.a = 2;
+ * assert(store.source.a, 2);
+ */
 export class Store {
-	source;
+	static create(source = {}) {
+		return new Store(source);
+	}
 	constructor(source = {}) {
 		this.source = source;
-		if (source === null || typeof source !== 'object') {
-			return source;
+		if (!isPlainObject(source)) {
+			return;
 		}
-		eachObject(source, (property) => {
-			source[property] = new Store(source[property]);
+		eachObject(source, (value, key) => {
+			if (isPlainObject(value)) {
+				source[key] = Store.create(value);
+			}
 		});
-		this.data = new Proxy(source, {
-			get(proxySource, property) {
-				console.log(proxySource, property, proxySource[property]);
-				return proxySource[property];
-			},
-			set(proxySource, property, value) {
-				console.log(proxySource, property, proxySource[property]);
-				proxySource[property] = new Store(value);
-				return true;
-			},
-		});
+		this.data = new Proxy(source, proxyHandler);
 	}
 }

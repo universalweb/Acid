@@ -8,7 +8,7 @@
  * @param {Array} source - Array of async functions that will be looped through.
  * @param {*} thisBind - Object to use as the "this" within the function.
  * @param {...*} args - Arguments to pass to each function. Every argument after the first (thisBind) is passed to each function.
- * @returns {Object} - The originally given array.
+ * @returns {Array} - An array of the awaited results in source order.
  *
  * @example
  * import { inAsync, assert } from '@universalweb/acid';

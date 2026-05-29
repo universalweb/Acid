@@ -76,10 +76,10 @@ export async function readDocs(rootDir, options = {}) {
 		const blocksLength = blocks.length;
 		for (let blockIndex = 0; blockIndex < blocksLength; blockIndex++) {
 			const block = blocks[blockIndex];
-			const name = extractName(block);
-			if (!name) continue;
+			const blockName = extractName(block);
+			if (!blockName) continue;
 			docs.push({
-				name,
+				name: blockName,
 				category: extractCategory(block),
 				description: block.description,
 				tags: block.tags,

@@ -7,4 +7,6 @@
  * @ignore
  * @returns {Fragment} - Returns a new document fragment.
  */
-export const createFragment = document.createDocumentFragment.bind(document);
+export function createFragment() {
+	return document.createDocumentFragment();
+}

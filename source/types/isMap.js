@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a Map.
  *
@@ -9,9 +7,24 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isMap } from '@universalweb/acid';
- * isMap(new Map());
- * // => true
+ * import { isMap, assert } from '@universalweb/acid';
+ * assert(isMap(new Map()), true)
  */
-export const isMapCall = isConstructorFactory(Map);
-export const isMap = isTypeFactory(isMapCall);
+export function isMapCall(target) {
+	return target?.constructor === Map || false;
+}
+export function isMap(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isMapCall(primarySource);
+	}
+	if (!isMapCall(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isMapCall(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

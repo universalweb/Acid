@@ -11,10 +11,9 @@ import { isEqual } from './isEqual.js';
  * @returns {(string|number|Object|Array)} - The opposing value to the current.
  *
  * @example
- * import { toggle } from '@universalweb/acid';
- * let toggleMe = true;
- * toggleMe = toggle(toggleMe, true, false);
- * // => false
+ * import { toggle, assert } from '@universalweb/acid';
+ * assert(toggle(true, true, false), false);
+ * assert(toggle(false, true, false), true);
  */
 export function toggle(value, on = true, off = false) {
 	return ((isEqual(on, value)) ? off : on);

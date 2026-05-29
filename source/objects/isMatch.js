@@ -1,5 +1,4 @@
 import { everyArray } from '../arrays/every.js';
-import { isMatchArray } from '../arrays/isMatch.js';
 import { keys } from './keys.js';
 /**
  * Performs a shallow strict comparison between two objects.
@@ -15,7 +14,7 @@ import { keys } from './keys.js';
  * import { assert, isMatchObject } from '@universalweb/acid';
  * assert(isMatchObject({a: 1}, {a: 1}), true);
  */
-export const isMatchObject = (source, target) => {
+export function isMatchObject(source, target) {
 	if (source === target) {
 		return true;
 	}
@@ -27,5 +26,5 @@ export const isMatchObject = (source, target) => {
 		});
 	}
 	return false;
-};
+}
 

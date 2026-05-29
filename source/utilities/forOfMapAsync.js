@@ -2,7 +2,6 @@ import { cloneType } from '../types/cloneType.js';
 import { isArray } from '../types/isArray.js';
 import { isFunction } from '../types/isFunction.js';
 import { isGenerator } from '../types/isGenerator.js';
-import { isPlainObject } from '../types/isPlainObject.js';
 import { isSet } from '../types/isSet.js';
 import { returnValue } from './returnValue.js';
 /**
@@ -30,18 +29,21 @@ export async function forOfMapAsync(source, iteratee = returnValue, resultsObjec
 	}
 	const results = resultsObject || cloneType(source);
 	if (isArray(source) || isSet(source)) {
-		const methodPush = results.push || results.add;
-		const methodPushBound = methodPush && methodPush.bind(results);
+		const isSetResults = isSet(results);
 		for (const value of source) {
 			const result = await iteratee(value, results, source);
-			methodPushBound(result);
+			if (isSetResults) {
+				results.add(result);
+			} else {
+				results.push(result);
+			}
 		}
 		return results;
 	}
-	const methodSet = isFunction(results.set);
+	const hasSetMethod = isFunction(results.set);
 	for await (const [key, value] of source) {
 		const result = await iteratee(value, key, results, source);
-		if (methodSet) {
+		if (hasSetMethod) {
 			results.set(key, result);
 		} else {
 			results[key] = result;

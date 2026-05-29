@@ -19,8 +19,8 @@ export function compact(source) {
 		const sourceKeys = keys(source);
 		const sourceKeysLength = sourceKeys.length;
 		const targetObject = {};
-		for (let i = 0; i < sourceKeysLength; i++) {
-			const keyName = sourceKeys[i];
+		for (let index = 0; index < sourceKeysLength; index++) {
+			const keyName = sourceKeys[index];
 			const item = source[keyName];
 			const isisTruthy = isTruthy(item);
 			if (isisTruthy) {

@@ -22,9 +22,9 @@ import { keys } from '../objects/keys.js';
  *   b: 2
  * }, ['a', 'b']), true);
  */
-export const propertyMatch = (source, compared, properties = keys(source)) => {
+export function propertyMatch(source, compared, properties = keys(source)) {
 	return everyArray(properties, (property) => {
 		return isEqual(source[property], compared[property]);
 	});
-};
+}
 

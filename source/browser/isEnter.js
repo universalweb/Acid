@@ -9,8 +9,9 @@
  * @returns {Boolean} - Returns true if the keycode property of the object equals 13.
  *
  * @example
- * isEnter('click');
- * // => false
+ * import { isEnter, assert } from '@universalweb/acid';
+ * assert(isEnter({ keyCode: 13 }), true);
+ * assert(isEnter({ keyCode: 27 }), false);
  */
 export function isEnter(eventObject) {
 	return eventObject.keyCode === 13;

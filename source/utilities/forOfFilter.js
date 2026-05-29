@@ -1,8 +1,6 @@
 import { cloneType } from '../types/cloneType.js';
-import { hasValue } from '../types/hasValue.js';
 import { isArray } from '../types/isArray.js';
 import { isFunction } from '../types/isFunction.js';
-import { isPlainObject } from '../types/isPlainObject.js';
 import { isSet } from '../types/isSet.js';
 import { returnValue } from './returnValue.js';
 /**
@@ -23,20 +21,23 @@ import { returnValue } from './returnValue.js';
 export function forOfFilter(source, iteratee = returnValue, resultsObject) {
 	const results = resultsObject || cloneType(source);
 	if (isArray(source) || isSet(source)) {
-		const methodPush = results.push || results.add;
-		const methodPushBound = methodPush && methodPush.bind(results);
+		const isSetResults = isSet(results);
 		for (const value of source) {
 			const result = iteratee(value, results, source);
 			if (result === true) {
-				methodPushBound(value);
+				if (isSetResults) {
+					results.add(value);
+				} else {
+					results.push(value);
+				}
 			}
 		}
 	} else {
-		const methodSet = isFunction(results.set);
+		const hasSetMethod = isFunction(results.set);
 		for (const [key, value] of source) {
 			const result = iteratee(value, key, results, source);
 			if (result === true) {
-				if (methodSet) {
+				if (hasSetMethod) {
 					results.set(key, value);
 				} else {
 					results[key] = value;

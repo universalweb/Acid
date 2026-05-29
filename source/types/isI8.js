@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a Int8Array.
  *
@@ -12,5 +10,21 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isI8, assert } from '@universalweb/acid';
  * assert(isI8(new Int8Array()), true);
  */
-export const isI8Call = isConstructorFactory(Int8Array);
-export const isI8 = isTypeFactory(isI8Call);
+export function isI8Call(target) {
+	return target?.constructor === Int8Array || false;
+}
+export function isI8(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isI8Call(primarySource);
+	}
+	if (!isI8Call(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isI8Call(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

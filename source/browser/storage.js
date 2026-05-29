@@ -6,7 +6,7 @@
 import { hasValue } from '../types/hasValue.js';
 import { isString } from '../types/isString.js';
 import { stringify } from '../utilities/json.js';
-import { virtualStorage } from '../utilities/virtualStorage.js';
+import { VirtualStorage } from '../utilities/virtualStorage.js';
 export let hasLocal;
 function hasStorage(storeCheck) {
 	try {
@@ -31,17 +31,20 @@ hasStorage(() => {
  * @returns {BrowserStorage} - Returns a new instance of BrowserStorage.
  *
  * @example
- * import { BrowserStorage, construct, assert } from '@universalweb/acid';
- * const storageBrowserStorage = construct(BrowserStorage);
+ * import { BrowserStorage, assert } from '@universalweb/acid';
+ * const storageBrowserStorage = BrowserStorage.create();
  * storageBrowserStorage.setItem('key', 'value');
  * assert(storageBrowserStorage.getItem('key'), 'value');
  */
 export class BrowserStorage {
+	static create(initialObject) {
+		return new BrowserStorage(initialObject);
+	}
 	constructor(initialObject) {
 		if (this.hasLocal) {
 			this.local = localStorage;
 		}
-		this.storage = virtualStorage(initialObject);
+		this.storage = VirtualStorage.create(initialObject);
 	}
 	hasLocal = hasLocal;
 	/**
@@ -56,8 +59,8 @@ export class BrowserStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { BrowserStorage, construct, assert } from '@universalweb/acid';
-	 * const storageBrowserStorage = construct(BrowserStorage);
+	 * import { BrowserStorage, assert } from '@universalweb/acid';
+	 * const storageBrowserStorage = BrowserStorage.create();
 	 * storageBrowserStorage.setItem('key', 'value');
 	 * assert(storageBrowserStorage.getItem('key'), 'value');
 	 */
@@ -78,8 +81,8 @@ export class BrowserStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { BrowserStorage, construct, assert } from '@universalweb/acid';
-	 * const storageBrowserStorage = construct(BrowserStorage);
+	 * import { BrowserStorage, assert } from '@universalweb/acid';
+	 * const storageBrowserStorage = BrowserStorage.create();
 	 * storageBrowserStorage.setItem('key', 'value');
 	 * assert(storageBrowserStorage.getItem('key'), 'value');
 	 */
@@ -102,8 +105,8 @@ export class BrowserStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { BrowserStorage, construct, assert } from '@universalweb/acid';
-	 * const storageBrowserStorage = construct(BrowserStorage);
+	 * import { BrowserStorage, assert } from '@universalweb/acid';
+	 * const storageBrowserStorage = BrowserStorage.create();
 	 * storageBrowserStorage.setItem('key', 'value');
 	 * assert(storageBrowserStorage.getItem('key'), 'value');
 	 * storageBrowserStorage.clear();
@@ -126,8 +129,8 @@ export class BrowserStorage {
 	 * @returns {undefined} - Returns undefined.
 	 *
 	 * @example
-	 * import { BrowserStorage, construct, assert } from '@universalweb/acid';
-	 * const storageBrowserStorage = construct(BrowserStorage);
+	 * import { BrowserStorage, assert } from '@universalweb/acid';
+	 * const storageBrowserStorage = BrowserStorage.create();
 	 * storageBrowserStorage.setItem('key', 'value');
 	 * assert(storageBrowserStorage.getItem('key'), 'value');
 	 * storageBrowserStorage.removeItem('key');
@@ -139,21 +142,5 @@ export class BrowserStorage {
 		}
 		this.storage.removeItem(key);
 	}
-}
-/**
- * The browserStorage function is a factory which wraps the BrowserStorage class constructor.
- *
- * @function browserStorage
- * @category browser
- * @ignoreTest
- * @type {Function}
- * @returns {*} - Returns a new BrowserStorage Object.
- *
- * @example
- * const storageBrowserStorage = browserStorage();
- * // => New BrowserStorage Object
- */
-export function browserStorage(virtualFlag) {
-	return new BrowserStorage(virtualFlag);
 }
 

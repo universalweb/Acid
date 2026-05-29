@@ -14,7 +14,7 @@ import { eachArray } from '../arrays/each.js';
  * import { pick, assert } from '@universalweb/acid';
  * assert(pick({a:1, b:2, c:3}, ['a','b']), {a:1, b:2});
  */
-export const pick = (source, whitelist, target = {}) => {
+export function pick(source, whitelist, target = {}) {
 	if (!source) {
 		return;
 	}
@@ -22,5 +22,5 @@ export const pick = (source, whitelist, target = {}) => {
 		target[item] = source[item];
 	});
 	return target;
-};
+}
 

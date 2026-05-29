@@ -1,7 +1,6 @@
-import { isTypeFactory } from './isTypeFactory.js';
-import { isTypeNameFactory } from './isType.js';
+import { getTypeName } from './getTypeName.js';
 /**
- * Checks if an object or objects are a Int16Array.
+ * Checks if a value is a GeneratorFunction.
  *
  * @function isGenerator
  * @category type
@@ -9,9 +8,24 @@ import { isTypeNameFactory } from './isType.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isGenerator } from '@universalweb/acid';
- * isGenerator(function* (){});
- * // => true
+ * import { isGenerator, assert } from '@universalweb/acid';
+ * assert(isGenerator(function* (){}), true);
  */
-export const isGeneratorCall = isTypeNameFactory('GeneratorFunction');
-export const isGenerator = isTypeFactory(isGeneratorCall);
+export function isGeneratorCall(target) {
+	return getTypeName(target) === 'GeneratorFunction';
+}
+export function isGenerator(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isGeneratorCall(primarySource);
+	}
+	if (!isGeneratorCall(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isGeneratorCall(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

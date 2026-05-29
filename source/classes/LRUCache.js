@@ -8,13 +8,16 @@
  *
  * @example
  * import { LRUCache, assert } from '@universalweb/acid';
- * const cache = new LRUCache(2);
+ * const cache = LRUCache.create(2);
  * cache.set('a', 1);
  * cache.set('b', 2);
  * cache.set('c', 3);
  * assert(cache.has('a'), false);
  */
 export class LRUCache {
+	static create(capacity = 100) {
+		return new LRUCache(capacity);
+	}
 	constructor(capacity = 100) {
 		this.capacity = capacity;
 		this.store = new Map();

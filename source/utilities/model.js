@@ -1,12 +1,9 @@
 import { assign } from '../objects/assign.js';
-import { construct } from '../classes/construct.js';
-import { get } from './get.js';
 import { hasValue } from '../types/hasValue.js';
 /**
- * Returns the model with the given name.
+ * Named model registry. `Model.create(name, source)` registers and returns a model; `model(name)` looks one up.
  *
- * @function Model
- * @type {Class}
+ * @class Model
  * @category utility
  * @param {String} modelName - The name of the model to return.
  * @param {*} modelSource - The value of the model to return.
@@ -14,11 +11,14 @@ import { hasValue } from '../types/hasValue.js';
  *
  * @example
  * import { Model, model, assert } from '@universalweb/acid';
- * const test = new Model('test', {a: 1});
+ * Model.create('test', {a: 1});
  * assert(model('test'), {a: 1});
  */
 export class Model {
 	static models = new Map();
+	static create(modelName, modelSource) {
+		return new Model(modelName, modelSource);
+	}
 	constructor(modelName, modelSource) {
 		if (hasValue(modelSource)) {
 			assign(this, modelSource);
@@ -45,14 +45,14 @@ export class Model {
 	}
 }
 /**
- * Set & Get a model.
+ * Set & Get a model. With both args registers a new model; with only `modelName` returns the registered source.
  *
  * @function model
  * @type {Function}
  * @category utility
  * @param {String} modelName - Name of the model.
  * @param {Object} modelSource - The model object.
- * @returns {Model} - Returns the associated model.
+ * @returns {*} - The model source or the existing registration.
  *
  * @example
  * import { model, assert } from '@universalweb/acid';
@@ -61,8 +61,8 @@ export class Model {
  */
 export function model(modelName, modelSource) {
 	if (hasValue(modelSource)) {
-		return construct(Model, [modelName, modelSource]);
+		Model.create(modelName, modelSource);
+		return modelSource;
 	}
 	return Model.models.get(modelName);
 }
-

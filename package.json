@@ -32,7 +32,7 @@
         },
         {
             "name": "UniversalWeb",
-			"email": "info@viat.network"
+            "email": "info@viat.network"
         }
     ],
     "type": "module",
@@ -55,29 +55,31 @@
         "publishGitHub": "cd ./github/ && pnpm publish --access public && cd ../"
     },
     "dependencies": {
+        "@eslint/json": "^2.0.0",
+        "@eslint/markdown": "^8.0.2",
         "@rollup/plugin-node-resolve": "^16.0.3",
         "@rollup/plugin-terser": "^1.0.0",
-        "@rollup/rollup-darwin-arm64": "^4.59.0",
+        "@rollup/rollup-darwin-arm64": "^4.60.4",
         "@stylistic/eslint-plugin": "^5.10.0",
-        "auto-changelog": "^2.5.0",
+        "auto-changelog": "^2.5.1",
         "body-parser": "2.2.2",
         "connect-livereload": "0.6.1",
-        "daisyui": "^5.5.19",
-        "eslint": "^10.0.3",
-        "eslint-plugin-jsdoc": "^62.8.0",
+        "eslint": "^10.4.0",
+        "eslint-plugin-jsdoc": "^63.0.0",
         "eslint-plugin-security": "^4.0.0",
-        "eslint-plugin-sonarjs": "^4.0.2",
+        "eslint-plugin-sonarjs": "^4.0.3",
         "express": "^5.2.1",
-        "globals": "^17.4.0",
+        "globals": "^17.6.0",
         "magic-string": "^0.30.21",
         "node-watch": "^0.7.4",
         "prettier-eslint": "^16.4.2",
-        "rollup": "^4.59.0",
-        "rollup-plugin-node-externals": "^8.1.2",
-        "stylelint": "^17.5.0",
+        "rollup": "^4.60.4",
+        "rollup-plugin-node-externals": "^9.0.1",
+        "stylelint": "^17.12.0",
         "stylelint-config-standard": "^40.0.0",
         "tiny-lr": "^2.0.0",
-        "ts-api-utils": "^2.5.0"
+        "ts-api-utils": "^2.5.0",
+        "typescript": "^6.0.3"
     },
     "auto-changelog": {
         "commitLimit": false,

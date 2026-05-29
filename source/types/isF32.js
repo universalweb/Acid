@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a Float32Array.
  *
@@ -12,5 +10,21 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isF32, assert } from '@universalweb/acid';
  * assert(isF32(new Float32Array()), true);
  */
-export const isF32Call = isConstructorFactory(Float32Array);
-export const isF32 = isTypeFactory(isF32Call);
+export function isF32Call(target) {
+	return target?.constructor === Float32Array || false;
+}
+export function isF32(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isF32Call(primarySource);
+	}
+	if (!isF32Call(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isF32Call(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

@@ -1,4 +1,4 @@
-import { regexTestFactory } from '../internal/regexTestFactory.js';
+const cssRegex = /\.css$/;
 /**
  * Checks if the string has a .css extension.
  *
@@ -11,4 +11,6 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  * import { isFileCSS, assert } from '@universalweb/acid';
  * assert(isFileCSS('test.css'), true);
  */
-export const isFileCSS = regexTestFactory(/\.css$/);
+export function isFileCSS(source) {
+	return source !== undefined && source !== null && cssRegex.test(source);
+}

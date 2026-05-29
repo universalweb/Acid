@@ -1,7 +1,5 @@
-import { flattenDeep } from './flattenDeep.js';
-import { unique } from './unique.js';
 /**
- * Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
+ * Computes the union of the passed-in arrays: unique items, in first-seen order, from any of the inputs. Backed by native `.flat(Infinity)` + `Set`.
  *
  * @function union
  * @category array
@@ -14,6 +12,5 @@ import { unique } from './unique.js';
  * assert(union([1, 2, 4], [1, 2, 3]), [1, 2, 4, 3]);
  */
 export function union(...arrays) {
-	return unique(flattenDeep(arrays));
+	return [...new Set(arrays.flat(Infinity))];
 }
-

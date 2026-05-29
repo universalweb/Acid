@@ -1,6 +1,4 @@
-import { construct } from '../classes/construct.js';
 import { eachArray } from './each.js';
-import { flattenDeep } from './flattenDeep.js';
 import { forEach } from '../utilities/forEach.js';
 /**
  * Checks for primitive differences between a source array to other arrays, then returns a new array containing those differences.
@@ -16,10 +14,10 @@ import { forEach } from '../utilities/forEach.js';
  * assert(difference([1, 2, 3], [1, 2]), [3]);
  */
 export function difference(...sources) {
-	const differencesMap = construct(Map);
+	const differencesMap = new Map();
 	const differences = [];
 	eachArray(sources, (currentArray, parentIndex) => {
-		eachArray(currentArray, (child, childIndex) => {
+		eachArray(currentArray, (child) => {
 			let childRoot = differencesMap.get(child);
 			if (!childRoot) {
 				childRoot = {

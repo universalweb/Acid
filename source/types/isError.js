@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are an Error object.
  *
@@ -9,9 +7,24 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isError } from '@universalweb/acid';
- * isError(new Error());
- * // => true
+ * import { isError, assert } from '@universalweb/acid';
+ * assert(isError(new Error()), true);
  */
-export const isErrorCall = isConstructorFactory(Error);
-export const isError = isTypeFactory(isErrorCall);
+export function isErrorCall(target) {
+	return target?.constructor === Error || false;
+}
+export function isError(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isErrorCall(primarySource);
+	}
+	if (!isErrorCall(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isErrorCall(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

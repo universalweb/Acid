@@ -1,6 +1,5 @@
-import { hasValue } from './hasValue.js';
 /**
- * Checks if the value is a plain object.
+ * Checks if the value is a plain object — either `{}` (Object.prototype-backed) or a null-prototype object (e.g. from `Object.create(null)`, `Object.groupBy`, `Map.groupBy`). Class instances, arrays, dates, etc. all return false.
  *
  * @function isPlainObject
  * @category type
@@ -8,14 +7,15 @@ import { hasValue } from './hasValue.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isPlainObject } from '@universalweb/acid';
- * isPlainObject({});
- * // => true
+ * import { isPlainObject, assert } from '@universalweb/acid';
+ * assert(isPlainObject({}), true);
+ * assert(isPlainObject(Object.create(null)), true);
+ * assert(isPlainObject([]), false);
  */
-export const isPlainObject = (source) => {
-	if (hasValue(source)) {
-		return source.constructor.toString().trim()
-			.slice(9, 16) === 'Object(';
+export function isPlainObject(source) {
+	if (source === null || typeof source !== 'object') {
+		return false;
 	}
-	return false;
-};
+	const prototype = Object.getPrototypeOf(source);
+	return prototype === null || prototype === Object.prototype;
+}

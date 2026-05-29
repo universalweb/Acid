@@ -14,13 +14,13 @@ import { eachObject } from './each.js';
  * import { zipObject, assert } from '@universalweb/acid';
  * assert(zipObject(['a', 'b'], [1, 2]), { a: 1, b: 2 });
  */
-export const zipObject = (properties, values) => {
+export function zipObject(properties, values) {
 	const source = {};
 	eachArray(properties, (item, key) => {
 		source[item] = values[key];
 	});
 	return source;
-};
+}
 /**
  * Takes an array of grouped elements and creates an array regrouping the elements to their pre-zip object configuration.
  *
@@ -34,7 +34,7 @@ export const zipObject = (properties, values) => {
  * import { unZipObject, assert } from '@universalweb/acid';
  * assert(unZipObject({ a: 1, b: 2 }), [['a', 'b'], [1, 2]]);
  */
-export const unZipObject = (object) => {
+export function unZipObject(object) {
 	const objectKeys = [];
 	const objectValues = [];
 	eachObject(object, (item, key) => {
@@ -45,5 +45,5 @@ export const unZipObject = (object) => {
 		objectKeys,
 		objectValues,
 	];
-};
+}
 

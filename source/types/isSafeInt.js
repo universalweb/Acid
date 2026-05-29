@@ -1,6 +1,5 @@
-const { isSafeInteger } = Number;
 /**
- * Checks if the value (typically a number) as a string has a decimal point. Alias of Number.isInteger.
+ * Checks if the value is a safe integer (within `Number.MIN_SAFE_INTEGER` and `Number.MAX_SAFE_INTEGER`). Alias of `Number.isSafeInteger`.
  *
  * @function isSafeInt
  * @category type
@@ -8,8 +7,8 @@ const { isSafeInteger } = Number;
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isSafeInt } from '@universalweb/acid';
- * isSafeInt(1.01);
- * // => true
+ * import { isSafeInt, assert } from '@universalweb/acid';
+ * assert(isSafeInt(1), true);
+ * assert(isSafeInt(Number.MAX_SAFE_INTEGER + 1), false);
  */
-export const isSafeInt = isSafeInteger;
+export const isSafeInt = Number.isSafeInteger;

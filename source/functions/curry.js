@@ -18,7 +18,7 @@ import { clearArray } from '../arrays/clear.js';
  */
 export function curry(callable, arity = callable.length) {
 	const curries = [];
-	const curried = (...curryArgs) => {
+	function curried(...curryArgs) {
 		curries.push(...curryArgs);
 		if (curries.length === arity) {
 			const result = callable(...curries);
@@ -26,7 +26,7 @@ export function curry(callable, arity = callable.length) {
 			return result;
 		}
 		return curried;
-	};
+	}
 	return curried;
 }
 

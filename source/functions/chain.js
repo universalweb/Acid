@@ -1,18 +1,31 @@
-import { assign } from '../objects/assign.js';
-import { construct } from '../classes/construct.js';
 import { each } from '../utilities/each.js';
-import { isArray } from '../types/isArray.js';
-import { isFunction } from '../types/isFunction.js';
-import { isPlainObject } from '../types/isPlainObject.js';
+/**
+ * Creates a chainable set of functions over a shared `value`. Each registered method is invoked with the current `value` as the first argument, followed by user args. Returns the chain so calls compose, ending with `done()`.
+ *
+ * @class Chain
+ * @category function
+ *
+ * @example
+ * import { Chain, assert } from '@universalweb/acid';
+ * const chained = Chain.create({
+ * 	a(value, c) {
+ * 		return value + c;
+ * 	}
+ * }).setValue(2).a(1).done();
+ * assert(chained, 3);
+ */
 export class Chain {
+	static create(methods) {
+		return new Chain(methods);
+	}
 	constructor(methods) {
 		this.addChainMethod(methods);
 	}
 	addChainMethod(methods) {
 		const thisChain = this;
 		each(methods, (method, methodName) => {
-			thisChain[methodName] = function(...args) {
-				this.value = method.call(thisChain, thisChain.value, ...args);
+			thisChain[methodName] = function chainStep(...args) {
+				thisChain.value = method(thisChain.value, ...args);
 				return thisChain;
 			};
 		});
@@ -27,26 +40,5 @@ export class Chain {
 		return value;
 	}
 	value = null;
-}
-/**
- * Creates a chainable set of functions.
- *
- * @function chain
- * @category function
- * @type {Function}
- * @param {Array|Object} config - The object to take methods from.
- * @returns {*} - Returns a function which has value, methods, add, and done. When invoking the function the argument is saved as the value property for further chaining.
- *
- * @example
- * import { chain, assert } from '@universalweb/acid';
- * const chained = chain({
- * 	a(value, c) {
- * 		return value + c;
- * 	}
- * }).setValue(2).a(1).done();
- * assert(chained, 3);
- */
-export function chain(config) {
-	return construct(Chain, [config]);
 }
 

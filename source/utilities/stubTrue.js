@@ -10,6 +10,6 @@
  * import { stubTrue, assert } from '@universalweb/acid';
  * assert(stubTrue(), true);
  */
-export const stubTrue = () => {
+export function stubTrue() {
 	return true;
-};
+}

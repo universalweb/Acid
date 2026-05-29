@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a RegExp.
  *
@@ -12,5 +10,21 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isRegex, assert } from '@universalweb/acid';
  * assert(isRegex(/test/), true);
  */
-export const isRegexCall = isConstructorFactory(RegExp);
-export const isRegex = isTypeFactory(isRegexCall);
+export function isRegexCall(target) {
+	return target?.constructor === RegExp || false;
+}
+export function isRegex(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isRegexCall(primarySource);
+	}
+	if (!isRegexCall(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isRegexCall(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

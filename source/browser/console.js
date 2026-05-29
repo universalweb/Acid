@@ -1,8 +1,8 @@
 import { isString } from '../types/isString.js';
 import { stringify } from '../utilities/json.js';
-const generateTheme = (color, bg) => {
+function generateTheme(color, bg) {
 	return `color:${color};background:${bg};`;
-};
+}
 export const themes = {
 	alert: generateTheme('#fff', '#f44336'),
 	important: generateTheme('#fff', '#E91E63'),
@@ -24,13 +24,13 @@ export const themes = {
  * cnsl('Lucy', 'notify');
  * // 'Lucy'
  */
-export const cnsl = (value, themeName) => {
+export function cnsl(value, themeName) {
 	const data = isString(value) ? value : stringify(value);
 	if (themeName === 'alert' || themeName === 'warning') {
 		return console.trace(`%c${data}`, `${themes[themeName]}font-size:13px;padding:2px 5px;border-radius:2px;`);
 	}
 	console.log(`%c${data}`, `${themes[themeName]}font-size:13px;padding:2px 5px;border-radius:2px;`);
-};
+}
 /**
  * Create color themes for cnsl method.
  *
@@ -46,7 +46,7 @@ export const cnsl = (value, themeName) => {
  * @example
  * cnslTheme('BlackNWhite', '#fff', '#000');
  */
-export const cnslTheme = (themeName, color, background) => {
+export function cnslTheme(themeName, color, background) {
 	themes[themeName] = generateTheme(color, background);
-};
+}
 

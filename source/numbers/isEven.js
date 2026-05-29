@@ -1,5 +1,5 @@
 /**
- * Checks if a number is even & returns true or false.
+ * Checks if `source` is an even integer. Non-integers, NaN, and Infinity all return false.
  *
  * @function isEven
  * @category number
@@ -11,8 +11,9 @@
  * import { isEven, assert } from '@universalweb/acid';
  * assert(isEven(2), true);
  * assert(isEven(1), false);
+ * assert(isEven(1.5), false);
  */
 export function isEven(source) {
-	return (source & 1) === 0;
+	return Number.isInteger(source) && (source & 1) === 0;
 }
 

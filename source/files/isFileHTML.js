@@ -1,4 +1,4 @@
-import { regexTestFactory } from '../internal/regexTestFactory.js';
+const htmlRegex = /\.html$/;
 /**
  * Checks if the string has a .html extension.
  *
@@ -11,4 +11,6 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  * import { isFileHTML, assert } from '@universalweb/acid';
  * assert(isFileHTML('test.html'), true);
  */
-export const isFileHTML = regexTestFactory(/\.html$/);
+export function isFileHTML(source) {
+	return source !== undefined && source !== null && htmlRegex.test(source);
+}

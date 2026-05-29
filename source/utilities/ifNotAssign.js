@@ -14,10 +14,10 @@ import { hasValue } from '../types/hasValue.js';
  * import { ifNotAssign, assert } from '@universalweb/acid';
  * assert(ifNotAssign({}, 'a', 1), {a:1});
  */
-export const ifNotAssign = (rootObject, property, equalThis) => {
+export function ifNotAssign(rootObject, property, equalThis) {
 	if (property && !hasValue(rootObject[property])) {
 		rootObject[property] = equalThis;
 	}
 	return rootObject;
-};
+}
 

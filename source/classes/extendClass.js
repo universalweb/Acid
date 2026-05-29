@@ -23,17 +23,20 @@ export function assignToClass(target, source) {
 	return target;
 }
 /**
- * The function adds a new method to a class.
- * @param {Class} target - The target parameter refers to the Class or constructor function to which you want
- * to add a new method.
- * @param {Function|Object|String|Number} sources - What you want to add to the class.
- * @returns {Class} - Returns the Class provided in the target parameter.
+ * Adds methods, plain-object property bags, named functions, or strings/numbers to a class prototype.
+ *
+ * @function extendClass
+ * @category class
+ * @type {Function}
+ * @param {Class} target - The Class or constructor to extend.
+ * @param {...(Function|Object|String|Number)} sources - Sources to merge onto the prototype.
+ * @returns {Class} - The provided target class.
  *
  * @example
  * import { extendClass, assert } from '@universalweb/acid';
  * class Test {}
  * function a(){return 1;}
- * extendClass(Test, a)
+ * extendClass(Test, a);
  * assert((new Test()).a(), 1);
  */
 export function extendClass(target, ...sources) {

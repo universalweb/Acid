@@ -1,4 +1,3 @@
-import { cacheNativeMethod } from '../utilities/cacheNativeMethod.js';
 /**
  * Returns an array of all properties (enumerable or not) found directly upon a given object.
  *
@@ -49,4 +48,16 @@ export const getPropDesc = Object.getOwnPropertyDescriptor;
  * // => 'static'
  */
 export const defProp = Object.defineProperty;
-export const hasProp = cacheNativeMethod(Object.hasOwnProperty);
+/**
+ * Returns true when `source` has its own (non-inherited) property `property`. Backed by `Object.hasOwn` — safe on null-prototype objects and on objects whose own `hasOwnProperty` has been shadowed.
+ *
+ * @function hasProp
+ * @category object
+ * @ignoreTest
+ * @param {Object} source - The target object.
+ * @param {String|Symbol} property - The property key to check.
+ * @returns {Boolean} - True when `property` exists as an own key.
+ */
+export function hasProp(source, property) {
+	return Object.hasOwn(source, property);
+}

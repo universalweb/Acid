@@ -8,6 +8,7 @@ export * from './dimensions.js';
 export * from './download.js';
 export * from './event.js';
 export * from './frag.js';
+export * from './importMap.js';
 export * from './importScript.js';
 export * from './info.js';
 export * from './is.js';

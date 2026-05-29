@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if the value is a number.
  *
@@ -12,8 +10,24 @@ import { isTypeFactory } from './isTypeFactory.js';
  * import { isNumber, assert } from '@universalweb/acid';
  * assert(isNumber(1), true);
  */
-export const isNumberCall = isConstructorFactory(Number);
-export const isNumber = isTypeFactory(isNumberCall);
+export function isNumberCall(target) {
+	return target?.constructor === Number || false;
+}
+export function isNumber(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isNumberCall(primarySource);
+	}
+	if (!isNumberCall(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isNumberCall(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}
 /**
  * Checks if the value is not a number.
  *

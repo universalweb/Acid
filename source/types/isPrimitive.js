@@ -12,6 +12,6 @@
  * assert(isPrimitive(() => {}), false);
  */
 export function isPrimitive(source) {
-	const type = typeof source;
-	return source === null || source === undefined || (type !== 'object' && type !== 'function');
+	const sourceType = typeof source;
+	return source === null || source === undefined || (sourceType !== 'object' && sourceType !== 'function');
 }

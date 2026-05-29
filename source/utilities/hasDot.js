@@ -1,4 +1,4 @@
-import { regexTestFactory } from '../internal/regexTestFactory.js';
+const dotRegex = /\./;
 /**
  * Checks if the string has a '.'.
  *
@@ -11,4 +11,6 @@ import { regexTestFactory } from '../internal/regexTestFactory.js';
  * import { hasDot, assert } from '@universalweb/acid';
  * assert(hasDot('test.js'), true);
  */
-export const hasDot = regexTestFactory(/\./);
+export function hasDot(source) {
+	return source !== undefined && source !== null && dotRegex.test(source);
+}

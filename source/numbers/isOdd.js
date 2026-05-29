@@ -1,5 +1,5 @@
 /**
- * Checks if a number is odd & returns true or false.
+ * Checks if `source` is an odd integer. Non-integers, NaN, and Infinity all return false.
  *
  * @function isOdd
  * @category number
@@ -10,7 +10,9 @@
  * @example
  * import { isOdd, assert } from '@universalweb/acid';
  * assert(isOdd(1), true);
+ * assert(isOdd(2), false);
+ * assert(isOdd(1.5), false);
  */
 export function isOdd(source) {
-	return (source & 1) === 1;
+	return Number.isInteger(source) && (source & 1) === 1;
 }

@@ -12,7 +12,9 @@ const regexSpace = /\s/;
  * @ignoreTest
  * @type {Function}
  */
-export const getByClass = document.getElementsByClassName.bind(document);
+export function getByClass(className, context = document) {
+	return context.getElementsByClassName(className);
+}
 /**
  * Wrapper around getElementsByTagName.
  *
@@ -21,7 +23,9 @@ export const getByClass = document.getElementsByClassName.bind(document);
  * @ignoreTest
  * @type {Function}
  */
-export const getByTag = document.getElementsByTagName.bind(document);
+export function getByTag(tagName, context = document) {
+	return context.getElementsByTagName(tagName);
+}
 /**
  * Wrapper around getElementsByIdName.
  *
@@ -30,7 +34,9 @@ export const getByTag = document.getElementsByTagName.bind(document);
  * @ignoreTest
  * @type {Function}
  */
-export const getById = document.getElementById.bind(document);
+export function getById(id, context = document) {
+	return context.getElementById(id);
+}
 /**
  * Wrapper around querySelector.
  *
@@ -39,7 +45,9 @@ export const getById = document.getElementById.bind(document);
  * @ignoreTest
  * @type {Function}
  */
-export const querySelector = document.querySelector.bind(document);
+export function querySelector(selectors, context = document) {
+	return context.querySelector(selectors);
+}
 /**
  * Wrapper around querySelectorAll.
  *
@@ -48,7 +56,9 @@ export const querySelector = document.querySelector.bind(document);
  * @ignoreTest
  * @type {Function}
  */
-export const querySelectorAll = document.querySelectorAll.bind(document);
+export function querySelectorAll(selectors, context = document) {
+	return context.querySelectorAll(selectors);
+}
 /**
  * Returns relevant DOM node.
  *
@@ -63,27 +73,27 @@ export const querySelectorAll = document.querySelectorAll.bind(document);
  * selector('#node');
  * // => <div id="node"></div>
  */
-export function selector(select) {
+export function selector(select, context = document) {
 	const firstLetter = select[0];
 	switch (firstLetter) {
 		case poundString: {
 			if (!regexSpace.test(select)) {
-				return getById(restString(select));
+				return getById(restString(select), context);
 			}
 			break;
 		}
 		case dotString: {
 			if (classTest.test(select)) {
-				return getByClass(restString(select));
+				return getByClass(restString(select), context);
 			}
 			break;
 		}
 		default: {
 			if (tagTest.test(select)) {
-				return getByTag(select);
+				return getByTag(select, context);
 			}
 		}
 	}
-	return querySelectorAll(select);
+	return querySelectorAll(select, context);
 }
 

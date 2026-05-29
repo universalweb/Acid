@@ -1,4 +1,3 @@
-import { getPropNames } from './object.js';
 /**
  * Determines whether two values are the same value.
  *

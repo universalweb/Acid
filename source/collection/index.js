@@ -4,6 +4,8 @@ export * from './countWithoutKey.js';
 export * from './findIndex.js';
 export * from './findIndexCache.js';
 export * from './findItem.js';
+export * from './findLastIndex.js';
+export * from './findLastItem.js';
 export * from './getCollectionInsertIndex.js';
 export * from './getLowest.js';
 export * from './getHighest.js';

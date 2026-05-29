@@ -1,5 +1,3 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
 /**
  * Checks if an object or objects are a Uint8ClampedArray.
  *
@@ -9,9 +7,24 @@ import { isTypeFactory } from './isTypeFactory.js';
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isU8C } from '@universalweb/acid';
- * isU8C(new Uint8ClampedArray());
- * // => true
+ * import { isU8C, assert } from '@universalweb/acid';
+ * assert(isU8C(new Uint8ClampedArray()), true)
  */
-export const isU8CCall = isConstructorFactory(Uint8ClampedArray);
-export const isU8C = isTypeFactory(isU8CCall);
+export function isU8CCall(target) {
+	return target?.constructor === Uint8ClampedArray || false;
+}
+export function isU8C(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isU8CCall(primarySource);
+	}
+	if (!isU8CCall(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isU8CCall(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}

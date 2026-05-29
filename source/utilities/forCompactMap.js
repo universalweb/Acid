@@ -1,6 +1,7 @@
 import { cloneType } from '../types/cloneType.js';
 import { hasValue } from '../types/hasValue.js';
 import { isFunction } from '../types/isFunction.js';
+import { isSet } from '../types/isSet.js';
 /**
  * Iterates source via forEach, cloning the source's type, and pushes/sets each non-null/undefined returned value onto the clone.
  *
@@ -17,13 +18,16 @@ import { isFunction } from '../types/isFunction.js';
  */
 export function forCompactMap(source, callback) {
 	const cloned = cloneType(source);
-	const method = cloned.push || cloned.add;
-	if (method && isFunction(method)) {
-		const methodBound = method.bind(cloned);
+	if (isFunction(cloned.push) || isFunction(cloned.add)) {
+		const isSetCloned = isSet(cloned);
 		source.forEach((item) => {
 			const result = callback(item, cloned);
 			if (hasValue(result)) {
-				methodBound(result);
+				if (isSetCloned) {
+					cloned.add(result);
+				} else {
+					cloned.push(result);
+				}
 			}
 		});
 	} else if (isFunction(cloned.set)) {

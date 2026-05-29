@@ -1,6 +1,8 @@
-import { construct } from '../classes/construct.js';
 export class Timers {
-	list = construct(Map);
+	static create() {
+		return new Timers();
+	}
+	list = new Map();
 	/**
 	 * Remove a timer that was created using the timer function.
 	 *
@@ -8,9 +10,8 @@ export class Timers {
 	 * @returns {undefined} - Returns nothing.
 	 *
 	 * @example
-	 * import { timer, assert } from '@universalweb/acid';
-	 * timer(() => {}, 100);
-	 * // => 0
+	 * import { timer, hasValue, assert } from '@universalweb/acid';
+	 * assert(hasValue(timer(() => {}, 100)), true);
 	 */
 	remove(id) {
 		clearTimeout(id);
@@ -31,15 +32,13 @@ export class Timers {
 	 * @returns {Object} - Returns setTimeoutId ID.
 	 *
 	 * @example
-	 * import { timers, assert } from '@universalweb/acid';
-	 * timers.set(() => {}, 100);
-	 * // => 0
+	 * import { timers, hasValue, assert } from '@universalweb/acid';
+	 * assert(hasValue(timers.set(() => {}, 100)), true);
 	 */
 	set(callable, time) {
-		const currentThis = this;
 		const id = setTimeout(() => {
 			callable();
-			currentThis.remove(id);
+			this.remove(id);
 		}, time);
 		this.list.set(id, true);
 		return id;
@@ -52,16 +51,15 @@ export class Timers {
 	 * @example
 	 * import { timers, assert } from '@universalweb/acid';
 	 * timers.clear();
-	 * // => undefined
+	 * assert(timers.list.size, 0);
 	 */
 	clear() {
-		const currentThis = this;
-		currentThis.list.forEach((id) => {
-			currentThis.remove(id);
-		});
+		for (const id of this.list.keys()) {
+			this.remove(id);
+		}
 	}
 }
-export const timers = construct(Timers);
+export const timers = Timers.create();
 /**
  * Timer wrapper.
  *
@@ -73,9 +71,8 @@ export const timers = construct(Timers);
  * @returns {Object} - Returns setTimeoutId ID.
  *
  * @example
- * import { timer, assert } from '@universalweb/acid';
- * timer(() => {}, 100);
- * // => 0
+ * import { timer, hasValue, assert } from '@universalweb/acid';
+ * assert(hasValue(timer(() => {}, 100)), true);
  */
 export function timer(callable, time) {
 	return timers.set(callable, time);

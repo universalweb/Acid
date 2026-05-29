@@ -1,7 +1,6 @@
-import { isTypeFactory } from './isTypeFactory.js';
 const isArrayNative = Array.isArray;
 /**
- * Checks if the value is an array. This references Array.isArray.
+ * Checks if the value is an array. References Array.isArray.
  *
  * @function isArray
  * @category type
@@ -13,9 +12,23 @@ const isArrayNative = Array.isArray;
  * assert(isArray([]), true);
  * assert(isArray(2), false);
  */
-export const isArray = isTypeFactory(isArrayNative);
+export function isArray(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isArrayNative(primarySource);
+	}
+	if (!isArrayNative(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isArrayNative(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}
 /**
- * Checks if the value is not an array. This references Array.isArray.
+ * Checks if the value is not an array.
  *
  * @function isNotArray
  * @category type

@@ -1,6 +1,5 @@
-const { isInteger } = Number;
 /**
- * Checks if the value (typically a number) as a string has a decimal point. Alias of Number.isInteger.
+ * Checks if the value is a finite, non-integer number (i.e. Has a fractional component)..
  *
  * @function isFloat
  * @category type
@@ -8,8 +7,10 @@ const { isInteger } = Number;
  * @returns {Boolean} - Returns true or false.
  *
  * @example
- * import { isFloat } from '@universalweb/acid';
- * isFloat(1.01);
- * // => true
+ * import { isFloat, assert } from '@universalweb/acid';
+ * assert(isFloat(1.01), true);
+ * assert(isFloat(1), false);
  */
-export const isFloat = isInteger;
+export function isFloat(source) {
+	return Number.isFinite(source) && !Number.isInteger(source);
+}

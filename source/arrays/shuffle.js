@@ -1,4 +1,3 @@
-import { isNumberEqual } from '../numbers/isNumberEqual.js';
 import { randomInt } from '../math/randomInt.js';
 import { toArray } from '../internal/array.js';
 /**

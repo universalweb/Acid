@@ -16,7 +16,7 @@
 export function before(amount, callable) {
 	let point = amount;
 	let value;
-	const onlyBefore = (...args) => {
+	function onlyBefore(...args) {
 		if (point !== null) {
 			point--;
 		}
@@ -26,6 +26,6 @@ export function before(amount, callable) {
 			point = null;
 		}
 		return value;
-	};
+	}
 	return onlyBefore;
 }

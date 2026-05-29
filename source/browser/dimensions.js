@@ -6,8 +6,8 @@ export function saveDimensions() {
 	assign(info, {
 		bodyHeight: document.body.offsetHeight,
 		bodyWidth: document.body.offsetWidth,
-		windowHeight: window.innerHeight,
-		windowWidth: window.innerWidth,
+		windowHeight: globalThis.innerHeight,
+		windowWidth: globalThis.innerWidth,
 	});
 }
 /**
@@ -25,9 +25,9 @@ export function saveDimensions() {
 export function updateDimensions() {
 	saveDimensions();
 }
-if (typeof window !== 'undefined') {
+if (typeof globalThis.window !== 'undefined') {
 	isDocumentReady(updateDimensions);
-	eventAdd(window, 'load', updateDimensions, true);
-	eventAdd(window, 'resize', updateDimensions, true);
+	eventAdd(globalThis, 'load', updateDimensions, true);
+	eventAdd(globalThis, 'resize', updateDimensions, true);
 }
 

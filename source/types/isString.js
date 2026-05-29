@@ -1,6 +1,6 @@
-import { isConstructorFactory } from './isConstructorFactory.js';
-import { isTypeFactory } from './isTypeFactory.js';
-const isStringCall = isConstructorFactory(String);
+function isStringCall(target) {
+	return target?.constructor === String || false;
+}
 /**
  * Checks if the value is a string.
  *
@@ -14,7 +14,21 @@ const isStringCall = isConstructorFactory(String);
  * assert(isString('hello'), true);
  * assert(isString(1), false);
  */
-export const isString = isTypeFactory(isStringCall);
+export function isString(primarySource, ...otherSources) {
+	if (otherSources.length === 0) {
+		return isStringCall(primarySource);
+	}
+	if (!isStringCall(primarySource)) {
+		return false;
+	}
+	const otherLength = otherSources.length;
+	for (let otherIndex = 0; otherIndex < otherLength; otherIndex++) {
+		if (!isStringCall(otherSources[otherIndex])) {
+			return false;
+		}
+	}
+	return true;
+}
 /**
  * Checks if the value is not a string.
  *

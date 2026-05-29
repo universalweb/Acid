@@ -14,13 +14,17 @@
  * const wrapped = overArgs(sum, [(n) => n * 2, (n) => n * 10]);
  * assert(wrapped(1, 2), 22);
  */
+function applyTransforms(method, transforms, transformsLength, args) {
+	const argsLength = args.length;
+	const transformed = new Array(argsLength);
+	for (let argIndex = 0; argIndex < argsLength; argIndex++) {
+		transformed[argIndex] = argIndex < transformsLength ? transforms[argIndex](args[argIndex]) : args[argIndex];
+	}
+	return method(...transformed);
+}
 export function overArgs(method, transforms) {
-	const length = transforms.length;
-	return function(...args) {
-		const transformed = new Array(args.length);
-		for (let index = 0; index < args.length; index++) {
-			transformed[index] = index < length ? transforms[index](args[index]) : args[index];
-		}
-		return method.apply(this, transformed);
+	const transformsLength = transforms.length;
+	return function overArgsWrapper(...args) {
+		return applyTransforms(method, transforms, transformsLength, args);
 	};
 }

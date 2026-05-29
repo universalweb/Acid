@@ -1,4 +1,3 @@
-import { construct } from '../classes/construct.js';
 /**
  * Unique ID Generator Module.
  *
@@ -14,14 +13,17 @@ import { hasValue } from '../types/hasValue.js';
  * @returns {UniqID} - Returns a new instance of UniqID.
  *
  * @example
- * import { UniqID, construct, assert } from '@universalweb/acid';
- * const gen = construct(UniqID);
+ * import { UniqID, assert } from '@universalweb/acid';
+ * const gen = UniqID.create();
  * assert(gen.get(), 0);
  * assert(gen.get(), 1);
  * gen.free(0);
  * assert(gen.get(), 0);
  */
 export class UniqID {
+	static create() {
+		return new UniqID();
+	}
 	totalActive = 0;
 	freed = [];
 	totalFree = 0;
@@ -35,8 +37,8 @@ export class UniqID {
 	 * @returns {Number} - Returns a unique id.
 	 *
 	 * @example
-	 * import { UniqID, construct, assert } from '@universalweb/acid';
-	 * const gen = construct(UniqID);
+	 * import { UniqID, assert } from '@universalweb/acid';
+	 * const gen = UniqID.create();
 	 * assert(gen.get(), 0);
 	 */
 	get() {
@@ -60,8 +62,8 @@ export class UniqID {
 	 * @returns {undefined} - Nothing is returned.
 	 *
 	 * @example
-	 * import { UniqID, construct, assert } from '@universalweb/acid';
-	 * const gen = construct(UniqID);
+	 * import { UniqID, assert } from '@universalweb/acid';
+	 * const gen = UniqID.create();
 	 * assert(gen.get(), 0);
 	 * gen.free(0);
 	 * assert(gen.get(), 0);
@@ -94,4 +96,4 @@ export class UniqID {
  * uniqID.free(0);
  * assert(uniqID.get(), 0);
  */
-export const uniqID = construct(UniqID);
+export const uniqID = UniqID.create();
