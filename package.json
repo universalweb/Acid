@@ -62,7 +62,7 @@
         "@rollup/rollup-darwin-arm64": "^4.60.4",
         "@stylistic/eslint-plugin": "^5.10.0",
         "auto-changelog": "^2.5.1",
-        "body-parser": "2.2.2",
+        "body-parser": "2.3.0",
         "connect-livereload": "0.6.1",
         "eslint": "^10.4.0",
         "eslint-plugin-jsdoc": "^63.0.0",
